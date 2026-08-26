@@ -1456,7 +1456,7 @@ langBtn.addEventListener('click',()=>{
 });
 // Restore language
 if(localStorage.getItem('sm_lang')==='en'){showCN=false;}
-applyLang();
+// applyLang() called in Init section after all const declarations
 
 // ════════════════════════════════════════
 // NAV + SCROLL
@@ -2015,6 +2015,7 @@ function updateRecs(){
 // ════════════════════════════════════════
 // Init
 // ════════════════════════════════════════
+applyLang();
 renderMasteryGrid();
 updateRecs();
 renderProgressBars();

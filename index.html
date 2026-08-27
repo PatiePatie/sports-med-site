@@ -413,9 +413,17 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   .chat-window{height:400px}
 }
 </style>
+/* ── Chapter grid (index) ── */
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1rem 0}
+.ch-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;flex-direction:column;gap:.5rem;color:var(--text);text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s}
+.ch-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent);text-decoration:none}
+.ch-num{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:1.05rem;display:flex;align-items:center;justify-content:center}
+.ch-card h4{font-size:1rem;margin:0}
+.ch-card p{font-size:.82rem;color:var(--text2);margin:0;line-height:1.4;flex:1}
+.ch-go{font-size:.8rem;font-weight:700;color:var(--accent)}
+</style>
 </head>
 <body>
-
 <!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
@@ -424,28 +432,28 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   <div class="sidebar-logo">Sports Med <span>Guide</span></div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
-    <a class="sidebar-link" href="#hero" data-en="Home" data-zh="首页">Home</a>
+    <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
-    <a class="sidebar-link sub" href="#ch1" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
-    <a class="sidebar-link sub" href="#ch2" data-en="Ch 2 · Training Principles" data-zh="第二章 · 训练原则">Ch 2 · Training Principles</a>
-    <a class="sidebar-link sub" href="#ch3" data-en="Ch 3 · Soft Tissue &amp; Injury" data-zh="第三章 · 软组织与损伤">Ch 3 · Soft Tissue &amp; Injury</a>
-    <a class="sidebar-link sub" href="#ch4" data-en="Ch 4 · Inflammation &amp; Recovery" data-zh="第四章 · 炎症与恢复">Ch 4 · Inflammation &amp; Recovery</a>
-    <a class="sidebar-link sub" href="#ch5" data-en="Ch 5 · Nutrition" data-zh="第五章 · 营养">Ch 5 · Nutrition</a>
-    <a class="sidebar-link sub" href="#ch6" data-en="Ch 6 · Supplements" data-zh="第六章 · 补剂">Ch 6 · Supplements</a>
-    <a class="sidebar-link sub" href="#ch7" data-en="Ch 7 · Rehab &amp; Career" data-zh="第七章 · 康复与职业">Ch 7 · Rehab &amp; Career</a>
+    <a class="sidebar-link sub" href="ch1.html" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
+    <a class="sidebar-link sub" href="ch2.html" data-en="Ch 2 · Training Principles" data-zh="第二章 · 训练原则">Ch 2 · Training Principles</a>
+    <a class="sidebar-link sub" href="ch3.html" data-en="Ch 3 · Soft Tissue &amp; Injury" data-zh="第三章 · 软组织与损伤">Ch 3 · Soft Tissue &amp; Injury</a>
+    <a class="sidebar-link sub" href="ch4.html" data-en="Ch 4 · Inflammation &amp; Recovery" data-zh="第四章 · 炎症与恢复">Ch 4 · Inflammation &amp; Recovery</a>
+    <a class="sidebar-link sub" href="ch5.html" data-en="Ch 5 · Nutrition" data-zh="第五章 · 营养">Ch 5 · Nutrition</a>
+    <a class="sidebar-link sub" href="ch6.html" data-en="Ch 6 · Supplements" data-zh="第六章 · 补剂">Ch 6 · Supplements</a>
+    <a class="sidebar-link sub" href="ch7.html" data-en="Ch 7 · Rehab &amp; Career" data-zh="第七章 · 康复与职业">Ch 7 · Rehab &amp; Career</a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
-    <a class="sidebar-link" href="#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
-    <a class="sidebar-link" href="#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
-    <a class="sidebar-link" href="#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
-    <a class="sidebar-link" href="#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+    <a class="sidebar-link" href="index.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
+    <a class="sidebar-link" href="index.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="index.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
-    <a class="sidebar-link" href="#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+    <a class="sidebar-link" href="index.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
   </div>
 </nav>
 
@@ -461,23 +469,22 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   </div>
 </div>
 </header>
-
 <nav>
 <div class="container">
 <ul id="navList">
-  <li><a href="#hero" class="active" data-en="Home" data-zh="首页">Home</a></li>
-  <li><a href="#ch1" data-en="Ch 1" data-zh="第一章">Ch 1</a></li>
-  <li><a href="#ch2" data-en="Ch 2" data-zh="第二章">Ch 2</a></li>
-  <li><a href="#ch3" data-en="Ch 3" data-zh="第三章">Ch 3</a></li>
-  <li><a href="#ch4" data-en="Ch 4" data-zh="第四章">Ch 4</a></li>
-  <li><a href="#ch5" data-en="Ch 5" data-zh="第五章">Ch 5</a></li>
-  <li><a href="#ch6" data-en="Ch 6" data-zh="第六章">Ch 6</a></li>
-  <li><a href="#ch7" data-en="Ch 7" data-zh="第七章">Ch 7</a></li>
-  <li><a href="#practice" data-en="Practice" data-zh="刷题">Practice</a></li>
-  <li><a href="#resources" data-en="Resources" data-zh="资源">Resources</a></li>
-  <li><a href="#qa" data-en="Q&amp;A" data-zh="问答">Q&amp;A</a></li>
-  <li><a href="#progress" data-en="Progress" data-zh="进度">Progress</a></li>
-  <li><a href="#refs" data-en="Refs" data-zh="参考">Refs</a></li>
+<li><a href="index.html" class="active" data-en="Home" data-zh="首页">Home</a></li>
+<li><a href="ch1.html" data-en="Ch 1" data-zh="第一章">Ch 1</a></li>
+<li><a href="ch2.html" data-en="Ch 2" data-zh="第二章">Ch 2</a></li>
+<li><a href="ch3.html" data-en="Ch 3" data-zh="第三章">Ch 3</a></li>
+<li><a href="ch4.html" data-en="Ch 4" data-zh="第四章">Ch 4</a></li>
+<li><a href="ch5.html" data-en="Ch 5" data-zh="第五章">Ch 5</a></li>
+<li><a href="ch6.html" data-en="Ch 6" data-zh="第六章">Ch 6</a></li>
+<li><a href="ch7.html" data-en="Ch 7" data-zh="第七章">Ch 7</a></li>
+<li><a href="index.html#practice" data-en="Practice" data-zh="刷题">Practice</a></li>
+<li><a href="index.html#resources" data-en="Resources" data-zh="资源">Resources</a></li>
+<li><a href="index.html#qa" data-en="Q&amp;A" data-zh="问答">Q&amp;A</a></li>
+<li><a href="index.html#progress" data-en="Progress" data-zh="进度">Progress</a></li>
+<li><a href="index.html#refs" data-en="Refs" data-zh="参考">Refs</a></li>
 </ul>
 </div>
 </nav>
@@ -495,593 +502,66 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 </div>
 </section>
 
-<!-- Chapter 1 -->
-<section id="ch1">
+<!-- Chapter Grid -->
+<section id="chapters">
 <div class="container">
-  <span class="section-label" data-en="Chapter 1" data-zh="第一章">Chapter 1</span>
-  <h2 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h2>
-  <h3 data-en="机器即身体，身体即机器" data-zh="机器即身体，身体即机器">机器即身体，身体即机器</h3>
-
-  <div class="accordion" id="acc-ch1">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.1 Five Thinking Patterns" data-zh="1.1 五大思维模式">1.1 Five Thinking Patterns</div>
-      <div class="acc-body" style="max-height:600px"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Pattern" data-zh="模式">Pattern</th><th data-en="Core idea" data-zh="核心观点">Core idea</th></tr>
-          <tr><td data-en="Pattern 1 — Stress → Recovery → Adaptation" data-zh="模式1 — 压力 → 恢复 → 适应"><strong>Pattern 1</strong> — Stress → Recovery → Adaptation</td><td data-en="Training is the stress; rest is when you actually get stronger." data-zh="训练是压力，恢复时才真正变强。">Training is the stress; rest is when you actually get stronger. <span class="cn">训练是压力，恢复时才真正变强。</span></td></tr>
-          <tr><td data-en="Pattern 2 — Structure = Function" data-zh="模式2 — 结构 = 功能"><strong>Pattern 2</strong> — Structure = Function</td><td data-en="Collagen's wavy design lets tendons spring; flat cells line blood vessels." data-zh="结构决定功能。">Collagen's wavy design lets tendons spring; flat cells line blood vessels. <span class="cn">结构决定功能。</span></td></tr>
-          <tr><td data-en="Pattern 3 — Energy systems are specialized" data-zh="模式3 — 供能系统各司其职"><strong>Pattern 3</strong> — Energy systems are分工</td><td data-en="Three energy pathways cover every activity from a sneeze to a marathon." data-zh="三大供能系统各司其职。">Three energy pathways cover every activity from a sneeze to a marathon. <span class="cn">三大供能系统各司其职。</span></td></tr>
-          <tr><td data-en="Pattern 4 — SAID principle" data-zh="模式4 — SAID原则"><strong>Pattern 4</strong> — SAID principle</td><td data-en="Specific Adaptation to Imposed Demands — the body remodels exactly along the lines you train." data-zh="用进废退，按需适应。">Specific Adaptation to Imposed Demands — the body remodels exactly along the lines you train. <span class="cn">用进废退，按需适应。</span></td></tr>
-          <tr><td data-en="Pattern 5 — Dose-response / Individuality" data-zh="模式5 — 剂量反应 / 个体差异"><strong>Pattern 5</strong> — Dose-response / Individuality</td><td data-en="Genetics set a range; training, nutrition, sleep, and age determine where in that range you land." data-zh="基因定范围，训练定位置。">Genetics set a range; training, nutrition, sleep, and age determine where in that range you land. <span class="cn">基因定范围，训练定位置。</span></td></tr>
-        </table>
-      </div></div>
+  <span class="section-label" data-en="Chapters" data-zh="章节">Chapters</span>
+  <h2 data-en="Explore the 7 Chapters" data-zh="浏览七大章节">Explore the 7 Chapters</h2>
+  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Each chapter opens on its own page with videos &amp; photos at the bottom." data-zh="每个章节独立成页，视频与图片位于页面底部。">Each chapter opens on its own page with videos &amp; photos at the bottom.</p>
+  <div class="ch-grid">  <a class="ch-card" href="ch1.html">
+    <div class="ch-num">1</div>
+    <div class="ch-card-body">
+      <h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4>
+      <p data-en="Energy systems · Muscle fibers · SAID principle · 5 thinking patterns" data-zh="Energy systems · Muscle fibers · SAID principle · 5 thinking patterns">Energy systems · Muscle fibers · SAID principle · 5 thinking patterns</p>
     </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.2 Systems Check" data-zh="1.2 人体系统速览">1.2 Systems Check</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="stats">
-          <div class="stat-card"><div class="stat-num">~600</div><div class="stat-label" data-en="Skeletal muscles" data-zh="骨骼肌">Skeletal muscles</div></div>
-          <div class="stat-card"><div class="stat-num">3</div><div class="stat-label" data-en="Energy systems" data-zh="供能系统">Energy systems</div></div>
-          <div class="stat-card"><div class="stat-num">~206</div><div class="stat-label" data-en="Bones" data-zh="骨骼">Bones</div></div>
-          <div class="stat-card"><div class="stat-num">~37°C</div><div class="stat-label" data-en="Core temp" data-zh="核心温度">Core temp</div></div>
-        </div>
-      </div></div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch2.html">
+    <div class="ch-num">2</div>
+    <div class="ch-card-body">
+      <h4 data-en="Training Principles" data-zh="训练原则">Training Principles</h4>
+      <p data-en="Progressive overload · Eccentric training · Stretching dose" data-zh="Progressive overload · Eccentric training · Stretching dose">Progressive overload · Eccentric training · Stretching dose</p>
     </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.3 Energy Systems" data-zh="1.3 三大供能系统">1.3 Energy Systems</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="System" data-zh="系统">System</th><th data-en="Fuel" data-zh="燃料">Fuel</th><th data-en="Speed" data-zh="速度">Speed</th><th data-en="Duration" data-zh="持续时间">Duration</th><th data-en="Example" data-zh="示例">Example</th></tr>
-          <tr><td data-en="Phosphagen" data-zh="磷酸肌酸">Phosphagen</td><td>ATP + CP</td><td data-en="Instant" data-zh="即时">Instant</td><td>≤ 10 s</td><td data-en="100 m sprint" data-zh="100米冲刺">100 m sprint</td></tr>
-          <tr><td data-en="Glycolytic" data-zh="糖酵解">Glycolytic</td><td data-en="Glycogen → pyruvate" data-zh="糖原 → 丙酮酸">Glycogen → pyruvate</td><td data-en="Fast" data-zh="快">Fast</td><td>~10 s – 2 min</td><td data-en="400 m run" data-zh="400米跑">400 m run</td></tr>
-          <tr><td data-en="Oxidative" data-zh="氧化">Oxidative</td><td data-en="Carbs + fats + O₂" data-zh="碳水 + 脂肪 + O₂">Carbs + fats + O₂</td><td data-en="Slower but vast" data-zh="较慢但持久">Slower but vast</td><td>&gt; 2 min</td><td data-en="Marathon" data-zh="马拉松">Marathon</td></tr>
-        </table>
-      </div></div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch3.html">
+    <div class="ch-num">3</div>
+    <div class="ch-card-body">
+      <h4 data-en="Soft Tissue & Injury" data-zh="软组织与损伤">Soft Tissue & Injury</h4>
+      <p data-en="Sprain vs strain · Healing phases · PEACE & LOVE" data-zh="Sprain vs strain · Healing phases · PEACE & LOVE">Sprain vs strain · Healing phases · PEACE & LOVE</p>
     </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.4 Muscle Fibers" data-zh="1.4 肌纤维类型">1.4 Muscle Fibers</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="two-col">
-          <div><strong>Type I (Slow-Twitch)</strong><br>High mitochondria, rich blood supply, fatigue-resistant. <span class="cn">线粒体多，耐疲劳。</span></div>
-          <div><strong>Type II (Fast-Twitch)</strong><br>Powerful but fatigue quickly. <span class="cn">力量大但易疲劳。</span></div>
-        </div>
-      </div></div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch4.html">
+    <div class="ch-num">4</div>
+    <div class="ch-card-body">
+      <h4 data-en="Inflammation & Recovery" data-zh="炎症与恢复">Inflammation & Recovery</h4>
+      <p data-en="DOMS · Sleep & injury · Cold water immersion debate" data-zh="DOMS · Sleep & injury · Cold water immersion debate">DOMS · Sleep & injury · Cold water immersion debate</p>
     </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.5 Adaptation (SAID)" data-zh="1.5 按需适应">1.5 Adaptation (SAID)</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Endurance training → more mitochondria. Resistance training → bigger, stronger fibers. The adaptation is specific to the demand you impose." data-zh="耐力训练 → 更多线粒体。力量训练 → 更大、更强的纤维。适应是针对你施加的特定需求。">Endurance training → more mitochondria. Resistance training → bigger, stronger fibers. <strong>The adaptation is specific to the demand you impose.</strong></p>
-        <p class="cn">耐力训练 → 线粒体增加。力量训练 → 肌纤维变大。适应具有高度针对性。</p>
-      </div></div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch5.html">
+    <div class="ch-num">5</div>
+    <div class="ch-card-body">
+      <h4 data-en="Nutrition" data-zh="营养">Nutrition</h4>
+      <p data-en="Macros · RED-S · Hydration · Anabolic window" data-zh="Macros · RED-S · Hydration · Anabolic window">Macros · RED-S · Hydration · Anabolic window</p>
     </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="1.6 Myths Debunked" data-zh="1.6 常见迷思">1.6 Myths Debunked</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Myth" data-zh="迷思">Myth</th><th data-en="Reality" data-zh="事实">Reality</th></tr>
-          <tr><td data-en="&quot;Energy drinks go straight into muscles&quot;" data-zh="&quot;能量饮料直接进入肌肉&quot;">"Energy drinks go straight into muscles"</td><td data-en="Cells need ATP via transporters — you can't drink ATP." data-zh="细胞需要通过转运体获取ATP — 你不能喝ATP。">Cells need ATP via transporters — you can't drink ATP.</td></tr>
-          <tr><td data-en="&quot;Loading phase is mandatory for creatine&quot;" data-zh="&quot;肌酸必须先做冲击期&quot;">"Loading phase is mandatory for creatine"</td><td data-en="Optional: 3–5 g/day reaches saturation in ~3–4 weeks." data-zh="可选：每天3–5g约3–4周达到饱和。">Optional: 3–5 g/day reaches saturation in ~3–4 weeks.</td></tr>
-        </table>
-      </div></div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch6.html">
+    <div class="ch-num">6</div>
+    <div class="ch-card-body">
+      <h4 data-en="Supplements" data-zh="补剂">Supplements</h4>
+      <p data-en="Evidence pyramid · Creatine · BCAAs · Fat burners" data-zh="Evidence pyramid · Creatine · BCAAs · Fat burners">Evidence pyramid · Creatine · BCAAs · Fat burners</p>
     </div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>  <a class="ch-card" href="ch7.html">
+    <div class="ch-num">7</div>
+    <div class="ch-card-body">
+      <h4 data-en="Rehab & Career" data-zh="康复与职业">Rehab & Career</h4>
+      <p data-en="DPT pathway · PT salary · NPTE · Specialization" data-zh="DPT pathway · PT salary · NPTE · Specialization">DPT pathway · PT salary · NPTE · Specialization</p>
+    </div>
+    <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
+  </a>
   </div>
-
-  <div class="quiz" data-chapter="1">
-    <div class="quiz-title" data-en="📝 Quiz 1 — Chapter 1 Test" data-zh="📝 第一章 测验">📝 Quiz 1 — Chapter 1 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism" data-en="MECHANISM" data-zh="原理">MECHANISM</span>
-      <p data-en="Q1: Why is training 7 days/week counterproductive for a beginner?" data-zh="Q1：为什么每周训练7天对初学者适得其反？"><strong>Q1:</strong> Why is training 7 days/week counterproductive for a beginner?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Training is stress; adaptation happens during recovery when ribosomes rebuild contractile proteins and mitochondria multiply. Seven days/week means no rebuilding window — performance stalls (overtraining), injury risk climbs." data-zh="训练是压力；适应发生在恢复期间，核糖体重建收缩蛋白、线粒体增殖。每周7天训练意味着没有重建窗口 — 表现停滞（过度训练），受伤风险上升。">Training is stress; adaptation happens during recovery when ribosomes rebuild contractile proteins and mitochondria multiply. Seven days/week means no rebuilding window — performance stalls (overtraining), injury risk climbs.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-transfer" data-en="TRANSFER" data-zh="迁移">TRANSFER</span>
-      <p data-en="Q2: Why does a bone fracture heal better than cartilage?" data-zh="Q2：为什么骨折比软骨损伤恢复得更好？"><strong>Q2:</strong> Why does a bone fracture heal better than cartilage?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Blood supply delivers immune cells, growth factors and building materials; cartilage's near-absent vascularity starves its few cells of supplies." data-zh="血液供应输送免疫细胞、生长因子和建筑材料；软骨几乎无血管，其少量细胞缺乏供应。">Blood supply delivers immune cells, growth factors and building materials; cartilage's near-absent vascularity starves its few cells of supplies.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-flaw" data-en="SPOT-THE-FLAW" data-zh="找漏洞">SPOT-THE-FLAW</span>
-      <p data-en='Q3: "Energy drinks go straight into muscles without digestion." Find the errors.' data-zh='Q3："能量饮料不经消化直接进入肌肉。"找出错误。'><strong>Q3:</strong> "Energy drinks go straight into muscles without digestion." Find the errors.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en='(1) "Energy" isn't a molecule that can be drunk — cells need ATP, which cannot survive digestion; (2) anything useful must cross membranes via specific transporters — "straight into muscles" violates membrane selectivity.' data-zh='(1)"能量"不是可以喝的分子 — 细胞需要ATP，ATP无法经消化存活；(2)有用的物质必须通过特定转运体穿过细胞膜 — "直接进入肌肉"违反了膜选择性。'>(1) "Energy" isn't a molecule that can be drunk — cells need ATP, which cannot survive digestion; (2) anything useful must cross membranes via specific transporters — "straight into muscles" violates membrane selectivity.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-transfer" data-en="TRANSFER" data-zh="迁移">TRANSFER</span>
-      <p data-en="Q4: A marathoner and a sprinter take creatine. Who benefits more?" data-zh="Q4：马拉松运动员和短跑运动员都服用肌酸，谁获益更大？"><strong>Q4:</strong> A marathoner and a sprinter take creatine. Who benefits more?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="The sprinter. SAID: sprinting demands phosphagen power for ≤10-s bursts — creatine enlarges the phosphagen tank. The marathon is overwhelmingly oxidative (>2 min)." data-zh="短跑运动员。SAID原则：短跑需要≤10秒的磷酸肌酸爆发力 — 肌酸扩大磷酸肌酸储备。马拉松以氧化供能为主（>2分钟）。">The sprinter. SAID: sprinting demands phosphagen power for ≤10-s bursts — creatine enlarges the phosphagen tank. The marathon is overwhelmingly oxidative (>2 min).</div>
-    </div>
-  </div>
-
 </div>
 </section>
 
-<!-- Chapter 2 -->
-<section id="ch2">
-<div class="container">
-  <span class="section-label" data-en="Chapter 2" data-zh="第二章">Chapter 2</span>
-  <h2 data-en="Training Principles" data-zh="训练原则">Training Principles</h2>
-  <h3 data-en="训练原则" data-zh="训练原则">训练原则</h3>
-
-  <div class="accordion" id="acc-ch2">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="2.1 Resistance Training Variables" data-zh="2.1 抗阻训练变量">2.1 Resistance Training Variables</div>
-      <div class="acc-body" style="max-height:400px"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Variable" data-zh="变量">Variable</th><th data-en="Range" data-zh="范围">Range</th><th data-en="Effect" data-zh="效果">Effect</th></tr>
-          <tr><td data-en="Intensity" data-zh="强度">Intensity</td><td>% of 1RM</td><td data-en="Heavier → strength. Lighter → endurance." data-zh="越重 → 力量。越轻 → 耐力。">Heavier → strength. Lighter → endurance.</td></tr>
-          <tr><td data-en="Volume" data-zh="容量">Volume</td><td data-en="Sets × Reps × Load" data-zh="组数 × 次数 × 负荷">Sets × Reps × Load</td><td data-en="Higher volume drives hypertrophy up to a point." data-zh="更高容量可促进肌肥大（有上限）。">Higher volume drives hypertrophy up to a point.</td></tr>
-          <tr><td data-en="Frequency" data-zh="频率">Frequency</td><td>2–6×/week</td><td data-en="More frequent moderate sessions > one massive session." data-zh="高频中等训练 > 单次大容量训练。">More frequent moderate sessions > one massive session.</td></tr>
-          <tr><td data-en="Rest" data-zh="休息">Rest</td><td>30 s – 5 min</td><td data-en="Short rest = metabolic stress; long rest = force output." data-zh="短休息 = 代谢压力；长休息 = 力量输出。">Short rest = metabolic stress; long rest = force output.</td></tr>
-        </table>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="2.2 Progressive Overload" data-zh="2.2 渐进超负荷">2.2 Progressive Overload</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt." data-zh="随时间系统性地增加需求 — 增加重量、次数、组数或减少休息。没有渐进超负荷，身体没有适应的理由。">Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt. <span class="cn">没有渐进超负荷，身体没有适应的理由。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="2.3 Eccentric Training" data-zh="2.3 离心训练">2.3 Eccentric Training</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy." data-zh="肌肉离心收缩产生更大力量。这导致更多微损伤但也提供更大的力量和增肌刺激 — 用于肌腱病变康复。">Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy. <span class="cn">离心收缩力量更大，增肌刺激更强。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="2.4 Stretching & Warm-Up" data-zh="2.4 拉伸与热身">2.4 Stretching & Warm-Up</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone." data-zh="静态拉伸剂量很重要。保持<45秒无害；≥60秒可使力量下降约7.5%。动态热身应是基础。">Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone.</p>
-        <p class="cn">拉伸关键看剂量：&lt;45秒基本无害；≥60秒可使力量下降约7.5%。</p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="2.5 Strength Gain Timeline" data-zh="2.5 力量增长时间线">2.5 Strength Gain Timeline</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Weeks 1–4: Neural adaptations — better motor-unit recruitment, firing rate, coordination." data-zh="第1–4周：神经适应 — 更好的运动单元招募、放电频率、协调性。"><strong>Weeks 1–4:</strong> Neural adaptations — better motor-unit recruitment, firing rate, coordination. <span class="cn">最初1–4周是神经适应。</span></p>
-        <p data-en="Weeks 4+: Structural changes — muscle hypertrophy becomes the main driver." data-zh="第4周后：结构性变化 — 肌肉肥大逐渐成为主要驱动力。"><strong>Weeks 4+:</strong> Structural changes — muscle hypertrophy becomes the main driver. <span class="cn">之后肌肥大逐渐成为主要驱动力。</span></p>
-      </div></div>
-    </div>
-  </div>
-
-  <!-- Debate with tabs -->
-  <div class="tabs">
-    <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab(this,'debate2-a')" data-en="🟢 Side A" data-zh="🟢 正方">🟢 Side A</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate2-b')" data-en="🔴 Side B" data-zh="🔴 反方">🔴 Side B</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate2-v')" data-en="✅ Verdict" data-zh="✅ 结论">✅ Verdict</button>
-    </div>
-    <div class="tab-panel side-a-tab active" id="debate2-a">
-      <strong data-en='"The ban is justified"' data-zh='"禁令是合理的"'>"The ban is justified"</strong><br>
-      <span data-en="Meta-analysis of 104 studies: pre-exercise static stretching acutely reduces maximal strength by ~5.4% and power by ~1.9% in a dose-dependent manner. Long holds (≥60 s) can cut strength up to 7.5%." data-zh="104项研究的荟萃分析：运动前静态拉伸会以剂量依赖方式使最大力量降低约5.4%，爆发力降低约1.9%。长时间保持（≥60秒）可使力量下降高达7.5%。">Meta-analysis of 104 studies: pre-exercise static stretching acutely reduces maximal strength by ~5.4% and power by ~1.9% in a dose-dependent manner. Long holds (≥60 s) can cut strength up to 7.5%.</span>
-    </div>
-    <div class="tab-panel side-b-tab" id="debate2-b">
-      <strong data-en='"The ban is overblown"' data-zh='"禁令被夸大了"'>"The ban is overblown"</strong><br>
-      <span data-en="2024 meta-analysis of 83 studies: overall effect on isolated strength is small (ES −0.21); complex tasks like jumping and sprinting showed no significant reduction. Short static stretches may even help reduce injury risk." data-zh="2024年83项研究的荟萃分析：对孤立力量的总体影响较小（效应量 −0.21）；跳跃和冲刺等复杂任务未见显著下降。短时间静态拉伸甚至可能有助于降低受伤风险。">2024 meta-analysis of 83 studies: overall effect on isolated strength is small (ES −0.21); complex tasks like jumping and sprinting showed no significant reduction. Short static stretches may even help reduce injury risk.</span>
-    </div>
-    <div class="tab-panel verdict-tab" id="debate2-v">
-      <strong data-en="Where the evidence lands" data-zh="证据共识">Where the evidence lands</strong><br>
-      <span data-en="Both sides agree: (1) long holds ≥60 s before max-effort lifting are a bad idea; (2) dynamic warm-up should be the backbone; (3) short stretches ≤45–60 s are essentially harmless." data-zh="双方共识：(1) 最大力量训练前长时间保持（≥60秒）不可取；(2) 应以动态热身为主；(3) 短时间拉伸（≤45–60秒）基本无害。">Both sides agree: (1) long holds ≥60 s before max-effort lifting are a bad idea; (2) dynamic warm-up should be the backbone; (3) short stretches ≤45–60 s are essentially harmless.</span>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="2">
-    <div class="quiz-title" data-en="📝 Quiz 2 — Chapter 2 Test" data-zh="📝 第二章 测验">📝 Quiz 2 — Chapter 2 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism" data-en="MECHANISM" data-zh="原理">MECHANISM</span>
-      <p data-en="Q1: Explain strength gains in weeks 1–4 when muscle size hasn't changed." data-zh="Q1：解释第1–4周力量增长的原因，此时肌肉围度尚未变化。"><strong>Q1:</strong> Explain strength gains in weeks 1–4 when muscle size hasn't changed.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Neural adaptations: better motor-unit recruitment (size principle), improved firing rate and coordination. Strength skill precedes muscle growth." data-zh="神经适应：更好的运动单元招募（大小原则）、提高的放电频率和协调性。力量技巧先于肌肉生长。">Neural adaptations: better motor-unit recruitment (size principle), improved firing rate and coordination. Strength skill precedes muscle growth.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-data" data-en="DATA" data-zh="数据分析">DATA</span>
-      <p data-en='Q2: Coach says: "Stretching before practice makes you weak." Evidence-based reply?' data-zh='Q2：教练说："训练前拉伸会让你变弱。"基于证据如何回应？'><strong>Q2:</strong> Coach says: "Stretching before practice makes you weak." Evidence-based reply?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en='"The data show a dose effect — holds under ~45 s barely move strength (−1 to −2%), while 60-s-plus holds cost up to ~7%. Keep short stretches for flexibility, put dynamic drills before lifting, save long holds for after."' data-zh='"数据显示剂量效应 — 保持不到45秒几乎不影响力量（−1至−2%），而60秒以上可使力量下降约7%。短时间拉伸保持灵活性，力量训练前做动态热身，长时间拉伸放在训练后。"'>"The data show a dose effect — holds under ~45 s barely move strength (−1 to −2%), while 60-s-plus holds cost up to ~7%. Keep short stretches for flexibility, put dynamic drills before lifting, save long holds for after."</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-transfer" data-en="TRANSFER" data-zh="迁移">TRANSFER</span>
-      <p data-en="Q3: Design the logic of an eccentric-loading plan for a calf strain using SAID." data-zh="Q3：运用SAID原则设计小腿拉伤的离心负荷训练方案。"><strong>Q3:</strong> Design the logic of an eccentric-loading plan for a calf strain using SAID.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Identify the overloaded tissue → apply SAID by loading it eccentrically in controlled doses → progress load gradually as tissue remodels → avoid spikes exceeding remodeling capacity." data-zh="识别受损组织 → 通过控制剂量的离心负荷应用SAID → 随组织重塑逐渐增加负荷 → 避免超过重塑能力的负荷峰值。">Identify the overloaded tissue → apply SAID by loading it eccentrically in controlled doses → progress load gradually as tissue remodels → avoid spikes exceeding remodeling capacity.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-flaw" data-en="SPOT-THE-FLAW" data-zh="找漏洞">SPOT-THE-FLAW</span>
-      <p data-en='Q4: "I train biceps with 100-rep light sets because slow fibers are fatigue resistant, so this builds max strength." Two errors?' data-zh='Q4："我用100次轻重量训练二头肌，因为慢肌纤维抗疲劳，所以这能建立最大力量。"找出两个错误。'><strong>Q4:</strong> "I train biceps with 100-rep light sets because slow fibers are fatigue resistant, so this builds max strength." Two errors?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="(1) Max strength comes from high-threshold motor units and heavy loads — 100 reps trains endurance; (2) fiber-type fatigue resistance doesn't convert light sets into strength stimulus." data-zh="(1) 最大力量来自高阈值运动单元和大重量 — 100次训练的是耐力；(2) 纤维类型的抗疲劳性不会将轻重量转变为力量刺激。">(1) Max strength comes from high-threshold motor units and heavy loads — 100 reps trains endurance; (2) fiber-type fatigue resistance doesn't convert light sets into strength stimulus.</div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- Chapter 3 -->
-<section id="ch3">
-<div class="container">
-  <span class="section-label" data-en="Chapter 3" data-zh="第三章">Chapter 3</span>
-  <h2 data-en="Injury &amp; Healing" data-zh="损伤与愈合">Injury &amp; Healing</h2>
-  <h3 data-en="损伤与愈合" data-zh="损伤与愈合">损伤与愈合</h3>
-
-  <div class="accordion" id="acc-ch3">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.1 Injury Vocabulary" data-zh="3.1 损伤名词表">3.1 Injury Vocabulary</div>
-      <div class="acc-body" style="max-height:500px"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Term" data-zh="术语">Term</th><th data-en="What is damaged" data-zh="损伤部位">What is damaged</th><th data-en="Example" data-zh="示例">Example</th></tr>
-          <tr><td><strong data-en="Sprain" data-zh="扭伤">Sprain</strong></td><td data-en="Ligament" data-zh="韧带">Ligament</td><td data-en="Ankle rolls inward" data-zh="踝关节内翻">Ankle rolls inward</td></tr>
-          <tr><td><strong data-en="Strain" data-zh="拉伤">Strain</strong></td><td data-en="Muscle/tendon" data-zh="肌肉/肌腱">Muscle/tendon</td><td data-en="Hamstring grab sprinting" data-zh="冲刺时腘绳肌拉伤">Hamstring grab sprinting</td></tr>
-          <tr><td><strong data-en="Fracture" data-zh="骨折">Fracture</strong></td><td data-en="Bone cortex" data-zh="骨皮质">Bone cortex</td><td data-en="Fall on outstretched arm" data-zh="摔倒时手臂撑地">Fall on outstretched arm</td></tr>
-          <tr><td><strong data-en="Stress fracture" data-zh="应力性骨折">Stress fracture</strong></td><td data-en="Bone, repeated overload" data-zh="骨骼，反复过载">Bone, repeated overload</td><td data-en="Tibia pain in runners" data-zh="跑步者胫骨疼痛">Tibia pain in runners</td></tr>
-          <tr><td><strong data-en="Tendinopathy" data-zh="肌腱病变">Tendinopathy</strong></td><td data-en="Tendon (degenerative)" data-zh="肌腱（退行性）">Tendon (degenerative)</td><td data-en="Jumper's knee" data-zh="跳跃膝">Jumper's knee</td></tr>
-          <tr><td><strong data-en="Concussion" data-zh="脑震荡">Concussion</strong></td><td data-en="Nervous tissue function" data-zh="神经组织功能">Nervous tissue function</td><td data-en="Head impact (functional injury)" data-zh="头部撞击（功能性损伤）">Head impact (functional injury)</td></tr>
-        </table>
-        <p style="margin-top:.75rem"><strong data-en="Sprain grades:" data-zh="扭伤分级：">Sprain grades:</strong> <span data-en="I = overstretched. II = partial tear. III = complete rupture." data-zh="I = 过度拉伸。II = 部分撕裂。III = 完全断裂。">I = overstretched. II = partial tear. III = complete rupture.</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.2 Three Healing Phases" data-zh="3.2 愈合三阶段">3.2 Three Healing Phases</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="stats">
-          <div class="stat-card"><div class="stat-num">~0–7d</div><div class="stat-label" data-en="Inflammatory" data-zh="炎症期">Inflammatory</div></div>
-          <div class="stat-card"><div class="stat-num">~4–21d</div><div class="stat-label" data-en="Proliferative" data-zh="增生期">Proliferative</div></div>
-          <div class="stat-card"><div class="stat-num">3w–2yr</div><div class="stat-label" data-en="Remodeling" data-zh="重塑期">Remodeling</div></div>
-        </div>
-        <p data-en="Inflammatory: Immune cells clear debris. Starts repair — not the enemy." data-zh="炎症期：免疫细胞清除碎片。启动修复 — 不是敌人。"><strong>Inflammatory:</strong> Immune cells clear debris. Starts repair — not the enemy. <span class="cn">炎症期是修复的启动键。</span></p>
-        <p data-en="Proliferative: Fibroblasts lay down type III collagen; capillaries sprout." data-zh="增殖期：成纤维细胞铺出III型胶原；毛细血管萌芽。"><strong>Proliferative:</strong> Fibroblasts lay down type III collagen; capillaries sprout. <span class="cn">成纤维细胞铺出III型胶原。</span></p>
-        <p data-en="Remodeling: Collagen reorganizes into type I along stress lines. Load directs alignment." data-zh="重塑期：胶原沿应力线重组为I型。负荷指导排列。"><strong>Remodeling:</strong> Collagen reorganizes into type I along stress lines. Load directs alignment. <span class="cn">负荷指导排列。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.3 PEACE &amp; LOVE Framework" data-zh="3.3 PEACE 与 LOVE 框架">3.3 PEACE &amp; LOVE Framework</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="two-col">
-          <div><strong data-en="PEACE (1–3 days)" data-zh="PEACE（1–3天）">PEACE (1–3 days)</strong><br><span data-en="P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate" data-zh="P 保护 · E 抬高 · A 避免抗炎药 · C 加压 · E 教育">P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate</span></div>
-          <div><strong data-en="LOVE (after)" data-zh="LOVE（之后）">LOVE (after)</strong><br><span data-en="L Optimal Load · O Optimism · V Vascularisation · E Exercise" data-zh="L 最佳负荷 · O 乐观 · V 血管化 · E 运动">L Optimal Load · O Optimism · V Vascularisation · E Exercise</span></div>
-        </div>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="3">
-    <div class="quiz-title" data-en="📝 Quiz 3 — Chapter 3 Test" data-zh="📝 第三章 测验">📝 Quiz 3 — Chapter 3 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-explain" data-en="EXPLAIN" data-zh="解释">EXPLAIN</span>
-      <p data-en="Q1: What question distinguishes a sprain from a strain — and why?" data-zh="Q1：什么问题可以区分扭伤和拉伤？为什么？"><strong>Q1:</strong> What question distinguishes a sprain from a strain — and why?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en='"Pop + instability on ankle's side = ligament (sprain)"; "muscle belly pain during sprint = muscle/tendon (strain)". Determines healing cells, timelines and rehab loading.' data-zh='"踝关节外侧弹响 + 不稳定 = 韧带（扭伤）"；"冲刺时肌肉腹部疼痛 = 肌肉/肌腱（拉伤）"。这决定了愈合细胞、时间线和康复负荷。'>"Pop + instability on ankle's side = ligament (sprain)"; "muscle belly pain during sprint = muscle/tendon (strain)". Determines healing cells, timelines and rehab loading.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-scenario" data-en="SCENARIO" data-zh="情景分析">SCENARIO</span>
-      <p data-en="Q2: Grade II ankle sprain yesterday. Player wants aggressive stretching + daily NSAIDs for 2 weeks. Evaluate." data-zh="Q2：昨天发生II度踝关节扭伤。球员想做剧烈拉伸 + 每天服用NSAIDs 2周。评估。"><strong>Q2:</strong> Grade II ankle sprain yesterday. Player wants aggressive stretching + daily NSAIDs for 2 weeks. Evaluate.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Both conflict with PEACE & LOVE: aggressive stretching during inflammation disturbs repair; NSAIDs suppress healing signals (letter A). Better: relative rest 1–3 days, progressive loading pain-guided." data-zh="两者都与PEACE & LOVE冲突：炎症期间剧烈拉伸干扰修复；NSAIDs抑制愈合信号（字母A）。更好的方案：相对休息1–3天，渐进式负荷（疼痛引导）。">Both conflict with PEACE & LOVE: aggressive stretching during inflammation disturbs repair; NSAIDs suppress healing signals (letter A). Better: relative rest 1–3 days, progressive loading pain-guided.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-explain" data-en="EXPLAIN" data-zh="解释">EXPLAIN</span>
-      <p data-en="Q3: Why apply load during remodeling instead of total rest?" data-zh="Q3：为什么在重塑期施加负荷而不是完全休息？"><strong>Q3:</strong> Why apply load during remodeling instead of total rest?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers." data-zh="重塑中的胶原沿施加应力方向排列（力学转导）；完全休息导致随机排列、较弱的基质。渐进负荷引导新纤维定向排列。">Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers.</div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- Chapter 4 -->
-<section id="ch4">
-<div class="container">
-  <span class="section-label" data-en="Chapter 4" data-zh="第四章">Chapter 4</span>
-  <h2 data-en="Recovery Science" data-zh="恢复科学（含冰敷之辩）">Recovery Science</h2>
-  <h3 data-en="恢复科学（含冰敷之辩）" data-zh="恢复科学（含冰敷之辩）">恢复科学（含冰敷之辩）</h3>
-
-  <div class="accordion" id="acc-ch4">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="4.1 Sleep: The Most Powerful Enhancer" data-zh="4.1 睡眠：最强恢复手段">4.1 Sleep: The Most Powerful Enhancer</div>
-      <div class="acc-body" style="max-height:400px"><div class="acc-body-inner">
-        <div class="stats">
-          <div class="stat-card"><div class="stat-num">1.7×</div><div class="stat-label" data-en="Injury risk if &lt;8h sleep" data-zh="睡眠不足8h的受伤风险">Injury risk if &lt;8h sleep</div></div>
-          <div class="stat-card"><div class="stat-num">65%</div><div class="stat-label" data-en="Injured among short sleepers" data-zh="短睡眠者受伤率">Injured among short sleepers</div></div>
-          <div class="stat-card"><div class="stat-num">31%</div><div class="stat-label" data-en="Injured with ≥8h sleep" data-zh="充足睡眠者受伤率">Injured with ≥8h sleep</div></div>
-        </div>
-        <p data-en="Chronic short sleep is the strongest independent predictor of injury in adolescent athletes. Deep sleep pulses growth hormone and consolidates motor learning." data-zh="长期睡眠不足是青少年运动员受伤的最强独立预测因子。深度睡眠释放生长激素并巩固运动学习。">Chronic short sleep is the strongest independent predictor of injury in adolescent athletes. Deep sleep pulses growth hormone and consolidates motor learning.</p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="4.2 DOMS: Delayed Onset Muscle Soreness" data-zh="4.2 延迟性肌肉酸痛（DOMS）">4.2 DOMS: Delayed Onset Muscle Soreness</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days. Soreness reflects remodeling — not workout quality." data-zh="不熟悉的运动后12–24小时出现，24–72小时达峰，5–7天消退。酸痛反映重塑过程 — 而非训练质量。">Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days. Soreness reflects remodeling — <strong>not</strong> workout quality.</p>
-        <p><strong data-en="Repeated-bout effect:" data-zh="重复训练效应：">Repeated-bout effect:</strong> <span data-en="Second session of same exercise causes dramatically less damage." data-zh="第二次相同训练造成的损伤大幅减少。">Second session of same exercise causes dramatically less damage.</span> <span class="cn">重复训练后酸痛大幅减少。</span></p>
-        <p><strong data-en="Myth:" data-zh="迷思：">Myth:</strong> <span data-en="&quot;No pain, no gain&quot; — soreness correlates poorly with gains." data-zh="&quot;没有疼痛就没有收获&quot; — 酸痛与增肌相关性很弱。">"No pain, no gain" — soreness correlates poorly with gains.</span> <span class="cn">酸痛与增肌相关性很弱。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="4.3 Recovery Toolbox Evidence" data-zh="4.3 恢复手段排序">4.3 Recovery Toolbox Evidence</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Method" data-zh="方法">Method</th><th data-en="Evidence" data-zh="证据">Evidence</th><th data-en="Finding" data-zh="结论">Finding</th></tr>
-          <tr><td data-en="Sleep 8–10h" data-zh="睡眠8–10小时">Sleep 8–10h</td><td><span class="evidence-badge ev-strong" data-en="Strong" data-zh="强">Strong</span></td><td data-en="Lower injury risk; hormones, learning, repair" data-zh="降低受伤风险；促进激素、学习、修复">Lower injury risk; hormones, learning, repair</td></tr>
-          <tr><td data-en="Nutrition" data-zh="营养">Nutrition</td><td><span class="evidence-badge ev-strong" data-en="Strong" data-zh="强">Strong</span></td><td data-en="Protein + carbs restore muscle &amp; glycogen" data-zh="蛋白质 + 碳水恢复肌肉与糖原">Protein + carbs restore muscle &amp; glycogen</td></tr>
-          <tr><td data-en="Active recovery" data-zh="主动恢复">Active recovery</td><td><span class="evidence-badge ev-moderate" data-en="Moderate" data-zh="中等">Moderate</span></td><td data-en="Light aerobic eases soreness temporarily" data-zh="轻度有氧暂时缓解酸痛">Light aerobic eases soreness temporarily</td></tr>
-          <tr><td data-en="Massage/foam roll" data-zh="按摩/泡沫轴">Massage/foam roll</td><td><span class="evidence-badge ev-mixed" data-en="Mixed" data-zh="混合">Mixed</span></td><td data-en="Modest short-term soreness relief" data-zh="短期轻度缓解酸痛">Modest short-term soreness relief</td></tr>
-          <tr><td data-en="Compression" data-zh="加压">Compression</td><td><span class="evidence-badge ev-weak" data-en="Weak" data-zh="弱">Weak</span></td><td data-en="Small soreness reduction; debated" data-zh="轻微减少酸痛；仍有争议">Small soreness reduction; debated</td></tr>
-          <tr><td data-en="Cold water immersion" data-zh="冷水浸泡">Cold water immersion</td><td><span class="evidence-badge ev-mixed" data-en="Mixed" data-zh="混合">Mixed</span></td><td data-en="Reduces soreness BUT may blunt adaptation" data-zh="减轻酸痛但可能抑制适应">Reduces soreness BUT may blunt adaptation</td></tr>
-        </table>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab(this,'debate4-a')" data-en="🟢 Side A: Ice helps" data-zh="🟢 正方：冰敷有效">🟢 Side A: Ice helps</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate4-b')" data-en="🔴 Side B: Ice blocks gains" data-zh="🔴 反方：冰敷阻碍恢复">🔴 Side B: Ice blocks gains</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate4-v')" data-en="✅ Verdict" data-zh="✅ 结论">✅ Verdict</button>
-    </div>
-    <div class="tab-panel side-a-tab active" id="debate4-a">
-      <strong data-en="Cold water immersion (10–15°C, 10–15 min)" data-zh="冷水浸泡（10–15°C，10–15分钟）">Cold water immersion (10–15°C, 10–15 min)</strong>
-      <span data-en=" reliably reduces perceived soreness; allows more quality work in multi-session days. Cold constricts vessels, limiting swelling after acute injury." data-zh="可靠地减轻主观酸痛感；在多场次训练日中允许更多高质量训练。冷使血管收缩，限制急性损伤后的肿胀。"> reliably reduces perceived soreness; allows more quality work in multi-session days. Cold constricts vessels, limiting swelling after acute injury.</span>
-    </div>
-    <div class="tab-panel side-b-tab" id="debate4-b">
-      <strong data-en="12-week trial:" data-zh="12周试验：">12-week trial:</strong>
-      <span data-en="Post-strength-session CWI group gained less muscle — type II fiber CSA +17% and myonuclei +26% in active recovery vs blunted satellite-cell activation and mTOR signalling in CWI group." data-zh="力量训练后冷水浸泡组肌肉增长较少 — 主动恢复组II型肌纤维横截面积+17%、肌核+26%，而冷水浸泡组卫星细胞激活和mTOR信号传导受到抑制。">Post-strength-session CWI group gained less muscle — type II fiber CSA +17% and myonuclei +26% in active recovery vs blunted satellite-cell activation and mTOR signalling in CWI group.</span>
-    </div>
-    <div class="tab-panel verdict-tab" id="debate4-v">
-      <span data-en="Use ice as " data-zh="冰敷作为">Use ice as </span><strong data-en="pain medicine" data-zh="止痛手段">pain medicine</strong><span data-en=" (first 48h, short sessions), not an automatic ritual. For long-term adaptation, skip routine ice baths. For tomorrow's tournament, CWI's trade-off can be worth it." data-zh="（前48小时，短时），而非固定仪式。长期适应方面，避免常规冰浴。若明天有比赛，冷水浸泡的权衡可能值得。"> (first 48h, short sessions), not an automatic ritual. For long-term adaptation, skip routine ice baths. For tomorrow's tournament, CWI's trade-off can be worth it.</span>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="4">
-    <div class="quiz-title" data-en="📝 Quiz 4 — Chapter 4 Test" data-zh="📝 第四章 测验">📝 Quiz 4 — Chapter 4 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-data" data-en="DATA" data-zh="数据分析">DATA</span>
-      <p data-en="Q1: 65% short sleepers injured vs 31% — but &quot;association, not proof.&quot; What confounders to rule out?" data-zh="Q1：短睡眠者65%受伤 vs 31% — 但这是"相关性，非因果"。需要排除哪些混杂因素？"><strong>Q1:</strong> 65% short sleepers injured vs 31% — but "association, not proof." What confounders to rule out?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Training load differences, sport/grade differences, self-report bias, reverse causation (injury pain disrupting sleep), socioeconomic factors." data-zh="训练负荷差异、运动/年级差异、自我报告偏倚、反向因果（伤痛影响睡眠）、社会经济因素。">Training load differences, sport/grade differences, self-report bias, reverse causation (injury pain disrupting sleep), socioeconomic factors.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-scenario" data-en="SCENARIO" data-zh="情景分析">SCENARIO</span>
-      <p data-en="Q2: Basketball semifinals today, finals tomorrow. Star center wants ice bath after Game 1. Decision?" data-zh="Q2：今天篮球半决赛，明天决赛。明星中锋想在第一场比赛后冰浴。如何决定？"><strong>Q2:</strong> Basketball semifinals today, finals tomorrow. Star center wants ice bath after Game 1. Decision?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Approve short, supervised cold immersion — tomorrow's finals is priority, so blunting 24h adaptation is an acceptable trade for soreness relief; resume no-ice recovery after season." data-zh="批准短时、有监督的冷水浸泡 — 明天决赛是优先事项，抑制24小时适应是为了缓解酸痛的可接受权衡；赛季结束后恢复无冰恢复方案。">Approve short, supervised cold immersion — tomorrow's finals is priority, so blunting 24h adaptation is an acceptable trade for soreness relief; resume no-ice recovery after season.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism" data-en="MECHANISM" data-zh="原理">MECHANISM</span>
-      <p data-en='Q3: Explain the repeated-bout effect using a "construction crew" analogy.' data-zh='Q3：用"建筑队"类比解释重复训练效应。'><strong>Q3:</strong> Explain the repeated-bout effect using a "construction crew" analogy.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="First job wrecks the site; crew returns with better tools and plans, so second job causes far less damage. Neural: smoother motor unit recruitment. Cellular: extra sarcomeres in series." data-zh="第一次工作破坏现场；团队带着更好的工具和计划回来，所以第二次工作造成的损伤大大减少。神经层面：更流畅的运动单元招募。细胞层面：串联的额外肌节。">First job wrecks the site; crew returns with better tools and plans, so second job causes far less damage. Neural: smoother motor unit recruitment. Cellular: extra sarcomeres in series.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-flaw" data-en="SPOT-THE-FLAW" data-zh="找漏洞">SPOT-THE-FLAW</span>
-      <p data-en='Q4: "I never get sore anymore, so my workouts are useless." Two wrong assumptions?' data-zh='Q4："我现在不再酸痛了，所以我的训练没用了。"两个错误假设是什么？'><strong>Q4:</strong> "I never get sore anymore, so my workouts are useless." Two wrong assumptions?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="(1) Soreness → effectiveness (correlate weakly); (2) No soreness → no stimulus (repeated-bout reduces DOMS while gains continue)." data-zh="(1) 酸痛 → 有效性（相关性很弱）；(2) 不酸痛 → 无刺激（重复训练减少DOMS但增肌仍在继续）。">(1) Soreness → effectiveness (correlate weakly); (2) No soreness → no stimulus (repeated-bout reduces DOMS while gains continue).</div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- Chapter 5 -->
-<section id="ch5">
-<div class="container">
-  <span class="section-label" data-en="Chapter 5" data-zh="第五章">Chapter 5</span>
-  <h2 data-en="Sports Nutrition" data-zh="运动营养学（含合成代谢窗口之争）">Sports Nutrition</h2>
-  <h3 data-en="运动营养学（含合成代谢窗口之争）" data-zh="运动营养学（含合成代谢窗口之争）">运动营养学（含合成代谢窗口之争）</h3>
-
-  <div class="accordion" id="acc-ch5">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="5.1 Macronutrients" data-zh="5.1 三大宏量营养素">5.1 Macronutrients</div>
-      <div class="acc-body" style="max-height:500px"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Macro" data-zh="营养素">Macro</th><th>kcal/g</th><th data-en="Function" data-zh="功能">Function</th><th data-en="Athlete target" data-zh="运动员目标">Athlete target</th></tr>
-          <tr><td><strong data-en="Carb" data-zh="碳水">Carb</strong></td><td>~4</td><td data-en="Fuels high-intensity; fills glycogen" data-zh="高强度供能；补充糖原">Fuels high-intensity; fills glycogen</td><td>3–10 g/kg <span data-en="depending on load" data-zh="视训练量而定">depending on load</span></td></tr>
-          <tr><td><strong data-en="Protein" data-zh="蛋白">Protein</strong></td><td>~4</td><td data-en="Builds/repairs tissue" data-zh="构建/修复组织">Builds/repairs tissue</td><td>1.2–2.0 g/kg/day; 0.25–0.40 g/kg/meal</td></tr>
-          <tr><td><strong data-en="Fat" data-zh="脂肪">Fat</strong></td><td>~9</td><td data-en="Hormones; absorbs vitamins" data-zh="激素合成；吸收维生素">Hormones; absorbs vitamins</td><td>~20–35% <span data-en="of calories" data-zh="热量占比">of calories</span></td></tr>
-        </table>
-        <p data-en="Glycogen re-fill: ~5%/hour — early carbs matter between sessions." data-zh="糖原回充：约每小时5% — 训练间隔的早期碳水补充很重要。"><strong>Glycogen re-fill:</strong> ~5%/hour — early carbs matter between sessions. <span class="cn">糖原回充约每小时5%。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="5.2 Energy Availability: RED-S" data-zh="5.2 能量可用性：RED-S">5.2 Energy Availability: RED-S</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted)." data-zh="能量可用性 = (摄入 − 运动消耗) / FFM。最佳约45 kcal/kg FFM/天；低于约30 = RED-S（激素、骨骼、免疫紊乱）。">EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted). <span class="cn">低于30会扰乱激素、骨骼和免疫。</span></p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="5.3 Micronutrients &amp; Hydration" data-zh="5.3 微量营养素与水合">5.3 Micronutrients &amp; Hydration</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="two-col">
-          <div>
-            <p><strong data-en="Iron:" data-zh="铁：">Iron:</strong> <span data-en="Carries O₂. Deficiency → fatigue." data-zh="运输氧气。缺乏 → 疲劳。">Carries O₂. Deficiency → fatigue.</span></p>
-            <p><strong data-en="Vit D + Ca:" data-zh="维生素D + 钙：">Vit D + Ca:</strong> <span data-en="Bone building." data-zh="骨骼构建。">Bone building.</span></p>
-            <p><strong data-en="B-vitamins:" data-zh="B族维生素：">B-vitamins:</strong> <span data-en="Energy metabolism." data-zh="能量代谢。">Energy metabolism.</span></p>
-          </div>
-          <div>
-            <p><strong data-en="Hydration:" data-zh="水合：">Hydration:</strong> <span data-en="Sweat 0.5–4 L/h. Performance drops at ~2% body-mass loss." data-zh="出汗0.5–4升/小时。体重下降约2%时运动表现下降。">Sweat 0.5–4 L/h. Performance drops at ~2% body-mass loss.</span></p>
-            <p><span data-en="Start 500ml 2h before; replace 100–150% lost mass after." data-zh="运动前2小时开始喝500ml；运动后补充丢失量的100–150%。">Start 500ml 2h before; replace 100–150% lost mass after.</span></p>
-            <p><strong data-en="Warning:" data-zh="注意：">Warning:</strong> <span data-en="Excess water → hyponatremia." data-zh="大量饮水 → 低钠血症。">Excess water → hyponatremia.</span> <span class="cn">大量清水可致低钠血症。</span></p>
-          </div>
-        </div>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab(this,'debate5-a')" data-en="🟢 Side A: Eat immediately" data-zh="🟢 正方：立刻进食">🟢 Side A: Eat immediately</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate5-b')" data-en="🔴 Side B: Total protein matters" data-zh="🔴 反方：总蛋白质更重要">🔴 Side B: Total protein matters</button>
-      <button class="tab-btn" onclick="switchTab(this,'debate5-v')" data-en="✅ Verdict" data-zh="✅ 结论">✅ Verdict</button>
-    </div>
-    <div class="tab-panel side-a-tab active" id="debate5-a">
-      <span data-en="Muscle protein synthesis is elevated after training; classic bodybuilding treats a 30–60 min post-workout shake as non-negotiable, especially training fasted." data-zh="训练后肌肉蛋白质合成升高；经典健美理念将训练后30–60分钟内的蛋白奶昔视为必须，尤其是空腹训练后。">Muscle protein synthesis is elevated after training; classic bodybuilding treats a 30–60 min post-workout shake as non-negotiable, especially training fasted.</span>
-    </div>
-    <div class="tab-panel side-b-tab" id="debate5-b">
-      <span data-en="Meta-analysis of 23 RCTs: after controlling for total protein, the "window" effect vanished. Pre- vs post-workout shakes (25g whey) produced identical hypertrophy. Muscles stay sensitive for 24h." data-zh="23项随机对照试验的荟萃分析：控制总蛋白质后，"窗口"效应消失。训练前vs训练后的蛋白奶昔（25g乳清蛋白）产生相同的肌肥大效果。肌肉敏感期可持续24小时。">Meta-analysis of 23 RCTs: after controlling for total protein, the "window" effect vanished. Pre- vs post-workout shakes (25g whey) produced identical hypertrophy. Muscles stay sensitive for 24h.</span>
-    </div>
-    <div class="tab-panel verdict-tab" id="debate5-v">
-      <span data-en="Total daily protein (~1.6 g/kg/day plateau) is king; timing is a minor tiebreaker. Per-meal 0.25–0.40 g/kg over 3–5 meals beats any single magic shake." data-zh="每日总蛋白质摄入量（~1.6 g/kg/天为平台期）是王道；时机只是次要因素。每餐0.25–0.40 g/kg，分3–5餐，胜过任何单一神奇奶昔。">Total daily protein (~1.6 g/kg/day plateau) is king; timing is a minor tiebreaker. Per-meal 0.25–0.40 g/kg over 3–5 meals beats any single magic shake.</span>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="5">
-    <div class="quiz-title" data-en="📝 Quiz 5 — Chapter 5 Test" data-zh="📝 第五章 测验">📝 Quiz 5 — Chapter 5 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-calculate" data-en="CALCULATE" data-zh="计算">CALCULATE</span>
-      <p data-en="Q1: 60-kg soccer player, 90 min/day high intensity. Daily carb + protein targets?" data-zh="Q1：60公斤足球运动员，每天90分钟高强度训练。每日碳水和蛋白质目标？"><strong>Q1:</strong> 60-kg soccer player, 90 min/day high intensity. Daily carb + protein targets?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Carbs: 6–10 g/kg × 60 = 360–600 g/day. Protein: 1.2–2.0 × 60 = 72–120 g/day." data-zh="碳水：6–10 g/kg × 60 = 360–600 g/天。蛋白质：1.2–2.0 × 60 = 72–120 g/天。">Carbs: 6–10 g/kg × 60 = 360–600 g/day. Protein: 1.2–2.0 × 60 = 72–120 g/day.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-debate" data-en="DEBATE" data-zh="辩论">DEBATE</span>
-      <p data-en='Q2: Friend panics: "40 min post-workout, no protein — window closed!" Reassure him.' data-zh='Q2：朋友恐慌："训练后40分钟了，没吃蛋白 — 窗口关闭了！"安慰他。'><strong>Q2:</strong> Friend panics: "40 min post-workout, no protein — window closed!" Reassure him.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en='"Window is hours, not minutes: muscle stays sensitive ~24h. Total daily protein (~1.6 g/kg plateau) drives results."' data-zh='"窗口是小时级别，不是分钟：肌肉敏感期约24小时。每日总蛋白质摄入量（~1.6 g/kg平台期）决定效果。"'>"Window is hours, not minutes: muscle stays sensitive ~24h. Total daily protein (~1.6 g/kg plateau) drives results."</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-clinical" data-en="CLINICAL" data-zh="临床">CLINICAL</span>
-      <p data-en="Q3: Runner with stress fractures eats 1,600 kcal/day, burns 700 in training. Why?" data-zh="Q3：有应力性骨折的跑步者每天吃1600千卡，训练消耗700千卡。为什么有问题？"><strong>Q3:</strong> Runner with stress fractures eats 1,600 kcal/day, burns 700 in training. Why?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="EA = (1600−700)/FFM ≈ 20 kcal/kg FFM/day — below ~30 threshold. Hormones and bone shut down." data-zh="能量可用性 = (1600−700)/FFM ≈ 20 kcal/kg FFM/天 — 低于约30的阈值。激素和骨骼功能关闭。">EA = (1600−700)/FFM ≈ 20 kcal/kg FFM/day — below ~30 threshold. Hormones and bone shut down.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-hydration" data-en="HYDRATION" data-zh="水合">HYDRATION</span>
-      <p data-en="Q4: Wrestler lost 1.4kg fluid. Plans to chug 4L water in 30 min. Evaluate." data-zh="Q4：摔跤手丢失1.4公斤体液。计划30分钟内猛喝4升水。评估。"><strong>Q4:</strong> Wrestler lost 1.4kg fluid. Plans to chug 4L water in 30 min. Evaluate.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="1.4kg = ~2.2% loss (past threshold). Replace 100–150% over hours, not 4L in 30 min — risk of hyponatremia." data-zh="1.4公斤 = 约2.2%丢失（超过阈值）。数小时内补充丢失量的100–150%，而非30分钟内4升 — 有低钠血症风险。">1.4kg = ~2.2% loss (past threshold). Replace 100–150% over hours, not 4L in 30 min — risk of hyponatremia.</div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- Chapter 6 -->
-<section id="ch6">
-<div class="container">
-  <span class="section-label" data-en="Chapter 6" data-zh="第六章">Chapter 6</span>
-  <h2 data-en="Supplements &amp; Evidence Grading" data-zh="补剂与证据分级">Supplements &amp; Evidence Grading</h2>
-  <h3 data-en="补剂与证据分级" data-zh="补剂与证据分级">补剂与证据分级</h3>
-
-  <div class="accordion" id="acc-ch6">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="6.1 The Evidence Pyramid" data-zh="6.1 证据金字塔">6.1 The Evidence Pyramid</div>
-      <div class="acc-body" style="max-height:400px"><div class="acc-body-inner">
-        <p style="text-align:center;line-height:2.2">
-          <span class="evidence-badge ev-strong" style="font-size:.9rem" data-en="Meta-analyses" data-zh="系统综述">Meta-analyses</span><br>↓<br>
-          <span class="evidence-badge ev-mixed" style="font-size:.9rem" data-en="RCTs" data-zh="随机对照试验">RCTs</span><br>↓<br>
-          <span class="evidence-badge ev-moderate" style="font-size:.9rem" data-en="Cohort studies" data-zh="队列研究">Cohort studies</span><br>↓<br>
-          <span class="evidence-badge ev-weak" style="font-size:.9rem" data-en="Lab/animal &amp; case reports" data-zh="实验室/动物及个案报告">Lab/animal &amp; case reports</span><br>↓<br>
-          <span class="evidence-badge" style="font-size:.9rem;background:#6b7280;color:#fff" data-en="Anecdotes &amp; ads" data-zh="轶事与广告">Anecdotes &amp; ads</span>
-        </p>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="6.2 Popular Supplements Graded" data-zh="6.2 热门补剂评级">6.2 Popular Supplements Graded</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <table>
-          <tr><th data-en="Supplement" data-zh="补剂">Supplement</th><th data-en="Grade" data-zh="等级">Grade</th><th data-en="Summary" data-zh="总结">Summary</th></tr>
-          <tr><td><strong data-en="Creatine" data-zh="肌酸">Creatine</strong></td><td><span class="grade-pill grade-a">A</span></td><td data-en="Most effective legal ergogenic; 3–5 g/day" data-zh="最有效的合法增效剂；3–5 g/天">Most effective legal ergogenic; 3–5 g/day</td></tr>
-          <tr><td><strong data-en="Protein powder" data-zh="蛋白粉">Protein powder</strong></td><td><span class="grade-pill grade-a">A</span></td><td data-en="Helps hit daily target; not magic" data-zh="帮助达到每日蛋白质目标；非神药">Helps hit daily target; not magic</td></tr>
-          <tr><td><strong data-en="Caffeine" data-zh="咖啡因">Caffeine</strong></td><td><span class="grade-pill grade-ab">A-/B+</span></td><td data-en="3–6 mg/kg pre-exercise; individual response" data-zh="运动前3–6 mg/kg；个体差异大">3–6 mg/kg pre-exercise; individual response</td></tr>
-          <tr><td><strong data-en="Vitamin D / iron" data-zh="维生素D / 铁">Vitamin D / iron</strong></td><td><span class="grade-pill grade-b">B</span></td><td data-en="Only if deficient; bloodwork first" data-zh="仅在缺乏时使用；先查血">Only if deficient; bloodwork first</td></tr>
-          <tr><td><strong data-en="BCAAs" data-zh="支链氨基酸">BCAAs</strong></td><td><span class="grade-pill grade-d">D</span></td><td data-en="Redundant if total protein adequate" data-zh="总蛋白充足时多余">Redundant if total protein adequate</td></tr>
-          <tr><td><strong data-en="Fat burners / boosters" data-zh="燃脂剂 / 增效剂">Fat burners / boosters</strong></td><td><span class="grade-pill grade-f">F</span></td><td data-en="No credible support; doping risk" data-zh="无可靠证据；有兴奋剂风险">No credible support; doping risk</td></tr>
-        </table>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="Safety Checklist" data-zh="安全清单">Safety Checklist</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p><span data-en="1. Third-party tested? (NSF / Informed Sport)" data-zh="1. 第三方认证？（NSF / Informed Sport）">1. Third-party tested? (NSF / Informed Sport)</span><br><span data-en="2. Adolescents: food first." data-zh="2. 青少年：优先食补。">2. Adolescents: food first.</span><br><span data-en="3. If it sounds magical → marketing." data-zh="3. 如果听起来很神奇 → 营销手段。">3. If it sounds magical → marketing.</span></p>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="6">
-    <div class="quiz-title" data-en="📝 Quiz 6 — Chapter 6 Test" data-zh="📝 第六章 测验">📝 Quiz 6 — Chapter 6 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-pyramid" data-en="PYRAMID" data-zh="金字塔">PYRAMID</span>
-      <p data-en="Q1: Rank by evidence: (a) Uncle swears fat burners. (b) Meta-analysis: creatine +2kg lean mass. (c) 8-mouse study. (d) 5000-runner cohort: vitamin D = lower injuries." data-zh="Q1：按证据等级排序：(a)叔叔说燃脂剂有效。(b)荟萃分析：肌酸+2公斤瘦体重。(c)8只小鼠研究。(d)5000人队列：维生素D=减少受伤。"><strong>Q1:</strong> Rank by evidence: (a) Uncle swears fat burners. (b) Meta-analysis: creatine +2kg lean mass. (c) 8-mouse study. (d) 5000-runner cohort: vitamin D = lower injuries.</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="(b) > (d) > (c) > (a). Meta-analysis tops; cohort next; mouse study is hypothesis-generating; anecdote weakest." data-zh="(b) > (d) > (c) > (a)。荟萃分析最高；队列研究次之；小鼠研究仅产生假说；轶事证据最弱。">(b) > (d) > (c) > (a). Meta-analysis tops; cohort next; mouse study is hypothesis-generating; anecdote weakest.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-application" data-en="APPLICATION" data-zh="应用">APPLICATION</span>
-      <p data-en="Q2: 16-year-old wrestler wants a supplement stack. What do you approve/refuse?" data-zh="Q2：16岁摔跤手想用补剂组合。你会批准/拒绝什么？"><strong>Q2:</strong> 16-year-old wrestler wants a supplement stack. What do you approve/refuse?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Approve: food-first only; creatine with physician oversight. Oversight: vit D/iron after bloodwork. Refuse: fat burners/test-boosters." data-zh="批准：仅食补优先；肌酸需医生监督。监督：查血后补充维D/铁。拒绝：燃脂剂/睾酮促进剂。">Approve: food-first only; creatine with physician oversight. Oversight: vit D/iron after bloodwork. Refuse: fat burners/test-boosters.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-flaw" data-en="SPOT-THE-FLAW" data-zh="找漏洞">SPOT-THE-FLAW</span>
-      <p data-en='Q3: "BCAAs are essential, so extra BCAAs must build more muscle than whey." Errors?' data-zh='Q3："BCAAs是必需氨基酸，所以额外的BCAAs一定比乳清蛋白更能增肌。"错误在哪里？'><strong>Q3:</strong> "BCAAs are essential, so extra BCAAs must build more muscle than whey." Errors?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en='(1) "Essential" ≠ "more effective"; whey already contains BCAAs + all aminos. (2) Muscle needs full amino profile + total daily protein.' data-zh='(1)"必需"≠"更有效"；乳清蛋白已含BCAAs+所有氨基酸。(2)肌肉需要完整氨基酸谱+每日总蛋白质。'>(1) "Essential" ≠ "more effective"; whey already contains BCAAs + all aminos. (2) Muscle needs full amino profile + total daily protein.</div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- Chapter 7 -->
-<section id="ch7">
-<div class="container">
-  <span class="section-label" data-en="Chapter 7" data-zh="第七章">Chapter 7</span>
-  <h2 data-en="Becoming a Physical Therapist" data-zh="成为物理治疗师">Becoming a Physical Therapist</h2>
-  <h3 data-en="成为物理治疗师" data-zh="成为物理治疗师">成为物理治疗师</h3>
-
-  <div class="accordion" id="acc-ch7">
-    <div class="acc-item open">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="7.1 The Pathway (USA)" data-zh="7.1 成长路径">7.1 The Pathway (USA)</div>
-      <div class="acc-body" style="max-height:600px"><div class="acc-body-inner">
-        <div class="pathway">
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 1 · Now – Grade 12" data-zh="第一步 · 现在 – 高三">Step 1 · Now – Grade 12</strong><span data-en="Bio, chem, physics, anatomy. Volunteer/shadow clinics." data-zh="生物、化学、物理、解剖。志愿者/跟诊。">Bio, chem, physics, anatomy. Volunteer/shadow clinics.</span></div></div>
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 2 · Bachelor's (4 yrs)" data-zh="第二步 · 本科（4年）">Step 2 · Bachelor's (4 yrs)</strong><span data-en="Complete prerequisites: anatomy, physiology, chem, physics, psych, stats." data-zh="完成先修课程：解剖、生理、化学、物理、心理、统计。">Complete prerequisites: anatomy, physiology, chem, physics, psych, stats.</span></div></div>
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 3 · DPT (3 yrs)" data-zh="第三步 · DPT（3年）">Step 3 · DPT (3 yrs)</strong><span data-en="CAPTE-accredited program — labs ~77%, clinical rotations ~23%." data-zh="CAPTE认证项目 — 实验课约77%，临床实习约23%。">CAPTE-accredited program — labs ~77%, clinical rotations ~23%.</span></div></div>
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 4 · License" data-zh="第四步 · 执照">Step 4 · License</strong><span data-en="Pass NPTE in your state." data-zh="通过所在州的NPTE考试。">Pass NPTE in your state.</span></div></div>
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div></div><div class="pathway-content"><strong data-en="Step 5 · Optional" data-zh="第五步 · 可选">Step 5 · Optional</strong><span data-en="Residency/fellowship → board-certified specialist." data-zh="住院/专科训练 → 获得委员会认证专家资格。">Residency/fellowship → board-certified specialist.</span></div></div>
-        </div>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="7.2 Job Numbers" data-zh="7.2 职业数据">7.2 Job Numbers</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="stats">
-          <div class="stat-card"><div class="stat-num">$101K</div><div class="stat-label" data-en="Median pay" data-zh="中位薪资">Median pay</div></div>
-          <div class="stat-card"><div class="stat-num">+11%</div><div class="stat-label" data-en="Growth 2024–34" data-zh="增长率 2024–34">Growth 2024–34</div></div>
-          <div class="stat-card"><div class="stat-num">~267K</div><div class="stat-label" data-en="Jobs" data-zh="就业岗位">Jobs</div></div>
-          <div class="stat-card"><div class="stat-num">$74–132K</div><div class="stat-label" data-en="Salary range" data-zh="薪资范围">Salary range</div></div>
-        </div>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)" data-en="7.3 What PTs Do" data-zh="7.3 日常工作">7.3 What PTs Do</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <div class="two-col">
-          <div><strong data-en="Evaluate:" data-zh="评估：">Evaluate:</strong> <span data-en="Histories, strength/ROM testing, differential hypotheses." data-zh="病史采集、力量/关节活动度测试、鉴别诊断。">Histories, strength/ROM testing, differential hypotheses.</span><br><strong data-en="Treat:" data-zh="治疗：">Treat:</strong> <span data-en="Progressive exercise, manual therapy, load management." data-zh="渐进式运动、手法治疗、负荷管理。">Progressive exercise, manual therapy, load management.</span></div>
-          <div><strong data-en="Educate:" data-zh="教育：">Educate:</strong> <span data-en="Patients who understand their injury recover better." data-zh="了解自身伤情的患者恢复更快。">Patients who understand their injury recover better.</span><br><strong data-en="Start today:" data-zh="今天就开始：">Start today:</strong> <span data-en="Training log, read 1 study abstract/week, volunteer." data-zh="训练日志、每周读一篇论文摘要、做志愿者。">Training log, read 1 study abstract/week, volunteer.</span></div>
-        </div>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="quiz" data-chapter="7">
-    <div class="quiz-title" data-en="📝 Quiz 7 — Chapter 7 Test" data-zh="📝 第七章 测验">📝 Quiz 7 — Chapter 7 Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-plan" data-en="PLAN" data-zh="规划">PLAN</span>
-      <p data-en="Q1: Write your 8-year timeline to licensed PT with measurable goals. Most fragile stage?" data-zh="Q1：写出你成为持证物理治疗师的8年时间线，包含可衡量目标。最脆弱的阶段是哪个？"><strong>Q1:</strong> Write your 8-year timeline to licensed PT with measurable goals. Most fragile stage?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Measurable checkpoints per stage; most fragile = DPT admissions → backup schools + gap-year clinical work." data-zh="每个阶段的可衡量检查点；最脆弱 = DPT录取 → 备选学校 + 间隔年临床工作。">Measurable checkpoints per stage; most fragile = DPT admissions → backup schools + gap-year clinical work.</div>
-    </div>
-    <div class="quiz-item">
-      <span class="q-tag q-career" data-en="CAREER" data-zh="职业">CAREER</span>
-      <p data-en='Q2: "PTs barely earn more than personal trainers — why 7 years of school?"' data-zh='Q2："物理治疗师挣的比私教多不了多少 — 为什么要读7年书？"'><strong>Q2:</strong> "PTs barely earn more than personal trainers — why 7 years of school?"</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Median $101k vs trainer wages; +11% growth vs 3% avg; doctoral licensure creates scarcity. Non-financial: clinical autonomy, healthcare impact." data-zh="中位数10.1万美元 vs 私教工资；+11%增长率 vs 3%平均；博士学位执照造成稀缺性。非财务方面：临床自主权、医疗影响力。">Median $101k vs trainer wages; +11% growth vs 3% avg; doctoral licensure creates scarcity. Non-financial: clinical autonomy, healthcare impact.</div>
-    </div>
-  </div>
-
-</div>
-</section>
 
 <!-- Practice & Diagnose -->
 <section id="practice">
@@ -1214,9 +694,7 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking "how do we know?"" data-zh="科学因争论而前进，而非因命令 — 永远追问"我们是怎么知道的？"">Science moves by debate, not decree — keep asking "how do we know?"</p>
 </div>
 </footer>
-
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
-
 <!-- Flashcard Panel -->
 <div class="flashcard-panel" id="flashPanel">
   <div class="flashcard-box">
@@ -1268,6 +746,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   </div>
   <div class="aq-body" id="diagBody"></div>
 </div>
+
+
+
 
 <script>
 // ════════════════════════════════════════
@@ -1462,13 +943,16 @@ const _origOpen = openQuizMode;
 
 function renderProgressBars(){
   for(let i=1;i<=7;i++){
+    const el=document.getElementById('prog-'+i), p=document.getElementById('pct-'+i);
+    if(!el||!p) continue;
     const v = quizProgress[i]||0;
-    document.getElementById('prog-'+i).style.width = v+'%';
-    document.getElementById('pct-'+i).textContent = v+'%';
+    el.style.width = v+'%';
+    p.textContent = v+'%';
   }
+  const fcEl=document.getElementById('prog-fc'), fcP=document.getElementById('pct-fc');
   const fcPct = Math.min(100, Math.round(fcReviewed.size/flashcards.length*100));
-  document.getElementById('prog-fc').style.width = fcPct+'%';
-  document.getElementById('pct-fc').textContent = fcPct+'%';
+  if(fcEl) fcEl.style.width = fcPct+'%';
+  if(fcP) fcP.textContent = fcPct+'%';
 }
 function updateProgress(){renderProgressBars();}
 
@@ -2389,7 +1873,6 @@ document.querySelectorAll('.ai-modal .chat-sug-btn').forEach(b=>b.addEventListen
 }));
 </script>
 </div><!-- /page-wrapper -->
-
 <!-- Floating AI button -->
 <button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
   <span>🤖</span>
@@ -2422,6 +1905,7 @@ document.querySelectorAll('.ai-modal .chat-sug-btn').forEach(b=>b.addEventListen
     </div>
   </div>
 </div>
+
 
 </body>
 </html>

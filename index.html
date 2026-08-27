@@ -1174,36 +1174,36 @@ function closeFlashcards(){document.getElementById('flashPanel').classList.remov
 // ════════════════════════════════════════
 const quizQuestions = [
   // Ch 1
-  {ch:1,q:"Why is training 7 days/week counterproductive for a beginner?",opts:["Muscles need daily stress to grow","Adaptation happens during recovery — no rest = no rebuilding","Cardiovascular system overloads","Flexibility decreases"],correct:1,explain:"Training is stress; adaptation happens during recovery. 7 days/week = no rebuilding window → overtraining."},
-  {ch:1,q:"Why does bone heal better than cartilage?",opts:["Bone has more calcium","Cartilage is too flexible","Bone has rich blood supply; cartilage is nearly avascular","Bones are bigger structures"],correct:2,explain:"Blood supply delivers immune cells, growth factors and building materials; cartilage's near-absent vascularity starves its cells."},
-  {ch:1,q:"Which energy system powers a 100m sprint?",opts:["Oxidative system","Glycolytic system","Phosphagen system","All three equally"],correct:2,explain:"Phosphagen system provides immediate ATP+CP for ≤10s bursts."},
-  {ch:1,q:"Which fiber type do marathoners predominantly use?",opts:["Type II (fast-twitch)","Type I (slow-twitch)","Equal distribution","Type IIx"],correct:1,explain:"Type I fibers are fatigue-resistant with high mitochondrial density — ideal for prolonged endurance."},
+  {ch:1,q:"Why is training 7 days/week counterproductive for a beginner?",qCn:"为什么每周训练7天对初学者适得其反？",opts:["Muscles need daily stress to grow","Adaptation happens during recovery — no rest = no rebuilding","Cardiovascular system overloads","Flexibility decreases"],optsCn:["肌肉需要每日压力才能生长","适应发生在恢复期间 — 无休息 = 无重建","心血管系统过载","柔韧性下降"],correct:1,explain:"Training is stress; adaptation happens during recovery. 7 days/week = no rebuilding window → overtraining.",explainCn:"训练是压力；适应发生在恢复期间。每周7天 = 无重建窗口 → 过度训练。"},
+  {ch:1,q:"Why does bone heal better than cartilage?",qCn:"为什么骨骼比软骨恢复得更好？",opts:["Bone has more calcium","Cartilage is too flexible","Bone has rich blood supply; cartilage is nearly avascular","Bones are bigger structures"],optsCn:["骨骼含更多钙","软骨太柔韧","骨骼血供丰富；软骨几乎无血管","骨骼结构更大"],correct:2,explain:"Blood supply delivers immune cells, growth factors and building materials; cartilage's near-absent vascularity starves its cells.",explainCn:"血液供应输送免疫细胞、生长因子和建筑材料；软骨几乎无血管，其细胞缺乏供应。"},
+  {ch:1,q:"Which energy system powers a 100m sprint?",qCn:"100米短跑由哪个供能系统驱动？",opts:["Oxidative system","Glycolytic system","Phosphagen system","All three equally"],optsCn:["氧化系统","糖酵解系统","磷酸肌酸系统","三个系统等量"],correct:2,explain:"Phosphagen system provides immediate ATP+CP for ≤10s bursts.",explainCn:"磷酸肌酸系统提供即时ATP+CP，支持≤10秒的爆发力。"},
+  {ch:1,q:"Which fiber type do marathoners predominantly use?",qCn:"马拉松运动员主要使用哪种肌纤维？",opts:["Type II (fast-twitch)","Type I (slow-twitch)","Equal distribution","Type IIx"],optsCn:["II型（快肌）","I型（慢肌）","均匀分布","IIx型"],correct:1,explain:"Type I fibers are fatigue-resistant with high mitochondrial density — ideal for prolonged endurance.",explainCn:"I型纤维抗疲劳，线粒体密度高 — 理想的耐力纤维。"},
   // Ch 2
-  {ch:2,q:"Strength gains in weeks 1–4 (before size changes) come from:",opts:["Muscle hypertrophy","Neural adaptations","Glycogen storage increase","Fat loss"],correct:1,explain:"Neural adaptations: better motor-unit recruitment, firing rate, coordination precede muscle growth."},
-  {ch:2,q:"At what hold duration does static stretching begin to significantly reduce strength?",opts:["<30 seconds","30–45 seconds","≥60 seconds per muscle","2 minutes"],correct:2,explain:"≥60s per muscle can cut strength by ~7.5%. <45s is essentially harmless."},
-  {ch:2,q:"Progressive overload means:",opts:["Training to failure every session","Systematically increasing demand over time","Using maximum weight always","Training 7 days per week"],correct:1,explain:"Progressive overload = systematically adding weight, reps, sets, or decreasing rest."},
+  {ch:2,q:"Strength gains in weeks 1–4 (before size changes) come from:",qCn:"第1–4周的力量增长（在肌肉围度变化之前）来自：",opts:["Muscle hypertrophy","Neural adaptations","Glycogen storage increase","Fat loss"],optsCn:["肌肉肥大","神经适应","糖原储存增加","脂肪减少"],correct:1,explain:"Neural adaptations: better motor-unit recruitment, firing rate, coordination precede muscle growth.",explainCn:"神经适应：更好的运动单元招募、放电频率和协调性先于肌肉生长。"},
+  {ch:2,q:"At what hold duration does static stretching begin to significantly reduce strength?",qCn:"静态拉伸保持多久开始显著降低力量？",opts:["<30 seconds","30–45 seconds","≥60 seconds per muscle","2 minutes"],optsCn:["<30秒","30–45秒","每块肌肉≥60秒","2分钟"],correct:2,explain:"≥60s per muscle can cut strength by ~7.5%. <45s is essentially harmless.",explainCn:"每块肌肉≥60秒可使力量下降约7.5%。<45秒基本无害。"},
+  {ch:2,q:"Progressive overload means:",qCn:"渐进超负荷意味着：",opts:["Training to failure every session","Systematically increasing demand over time","Using maximum weight always","Training 7 days per week"],optsCn:["每次训练到力竭","随时间系统性增加需求","始终使用最大重量","每周训练7天"],correct:1,explain:"Progressive overload = systematically adding weight, reps, sets, or decreasing rest.",explainCn:"渐进超负荷 = 系统性地增加重量、次数、组数或减少休息。"},
   // Ch 3
-  {ch:3,q:"A sprain damages which structure?",opts:["Muscle fibers","Ligaments","Bone cortex","Tendons"],correct:1,explain:"Sprain = ligament (bone-to-bone) injury. Strain = muscle/tendon injury."},
-  {ch:3,q:"During which healing phase do fibroblasts lay down type III collagen?",opts:["Inflammatory phase","Proliferative phase","Remodeling phase","Resolution phase"],correct:1,explain:"Proliferative phase (~day 4–21): fibroblasts produce quick type III collagen; capillaries sprout."},
-  {ch:3,q:"PEACE & LOVE replaced which older framework?",opts:["PRICE","POLICE","RICE","MEAT"],correct:2,explain:"PEACE & LOVE (2020) replaced RICE (1978) after Mirkin himself revised his advice."},
+  {ch:3,q:"A sprain damages which structure?",qCn:"扭伤损伤的是哪个结构？",opts:["Muscle fibers","Ligaments","Bone cortex","Tendons"],optsCn:["肌纤维","韧带","骨皮质","肌腱"],correct:1,explain:"Sprain = ligament (bone-to-bone) injury. Strain = muscle/tendon injury.",explainCn:"扭伤 = 韧带（骨到骨）损伤。拉伤 = 肌肉/肌腱损伤。"},
+  {ch:3,q:"During which healing phase do fibroblasts lay down type III collagen?",qCn:"成纤维细胞在哪个愈合阶段铺设III型胶原？",opts:["Inflammatory phase","Proliferative phase","Remodeling phase","Resolution phase"],optsCn:["炎症期","增殖期","重塑期","消退期"],correct:1,explain:"Proliferative phase (~day 4–21): fibroblasts produce quick type III collagen; capillaries sprout.",explainCn:"增殖期（约第4–21天）：成纤维细胞产生快速的III型胶原；毛细血管萌芽。"},
+  {ch:3,q:"PEACE & LOVE replaced which older framework?",qCn:"PEACE & LOVE替代了哪个旧框架？",opts:["PRICE","POLICE","RICE","MEAT"],optsCn:["PRICE","POLICE","RICE","MEAT"],correct:2,explain:"PEACE & LOVE (2020) replaced RICE (1978) after Mirkin himself revised his advice.",explainCn:"PEACE & LOVE（2020）替代了RICE（1978），Mirkin本人修正了自己的建议。"},
   // Ch 4
-  {ch:4,q:"Chronic sleep <8h increases injury risk by approximately:",opts:["1.2×","1.7×","2.5×","3.0×"],correct:1,explain:"Milewski 2014: athletes averaging <8h sleep were 1.7× more likely to be injured."},
-  {ch:4,q:"DOMS peaks at approximately:",opts:["6–12 hours","24–72 hours","7–14 days","Immediately"],correct:1,explain:"DOMS appears 12–24h post-exercise, peaks 24–72h, fades by 5–7 days."},
-  {ch:4,q:"The repeated-bout effect means:",opts:["First workout causes no soreness","Subsequent identical workouts cause less damage","Soreness always increases","Rest eliminates all DOMS"],correct:1,explain:"After one bout of new eccentric exercise, same workout next week causes dramatically less damage."},
-  {ch:4,q:"Cold water immersion after strength training may:",opts:["Always improve gains","Blunt satellite-cell activation and mTOR signalling","Have no effect on adaptation","Increase muscle protein synthesis"],correct:1,explain:"CWI blunts satellite-cell activation and mTOR, reducing long-term strength/muscle gains."},
+  {ch:4,q:"Chronic sleep <8h increases injury risk by approximately:",qCn:"长期睡眠不足8小时，受伤风险大约增加：",opts:["1.2×","1.7×","2.5×","3.0×"],optsCn:["1.2倍","1.7倍","2.5倍","3.0倍"],correct:1,explain:"Milewski 2014: athletes averaging <8h sleep were 1.7× more likely to be injured.",explainCn:"Milewski 2014：平均睡眠不足8小时的运动员受伤风险高1.7倍。"},
+  {ch:4,q:"DOMS peaks at approximately:",qCn:"延迟性肌肉酸痛（DOMS）大约在何时达峰？",opts:["6–12 hours","24–72 hours","7–14 days","Immediately"],optsCn:["6–12小时","24–72小时","7–14天","立即"],correct:1,explain:"DOMS appears 12–24h post-exercise, peaks 24–72h, fades by 5–7 days.",explainCn:"DOMS在运动后12–24小时出现，24–72小时达峰，5–7天消退。"},
+  {ch:4,q:"The repeated-bout effect means:",qCn:"重复训练效应意味着：",opts:["First workout causes no soreness","Subsequent identical workouts cause less damage","Soreness always increases","Rest eliminates all DOMS"],optsCn:["第一次训练不酸痛","后续相同训练造成更少损伤","酸痛总是增加","休息消除所有DOMS"],correct:1,explain:"After one bout of new eccentric exercise, same workout next week causes dramatically less damage.",explainCn:"首次接触新的离心训练后，下次相同训练造成的损伤大幅减少。"},
+  {ch:4,q:"Cold water immersion after strength training may:",qCn:"力量训练后冷水浸泡可能会：",opts:["Always improve gains","Blunt satellite-cell activation and mTOR signalling","Have no effect on adaptation","Increase muscle protein synthesis"],optsCn:["总是提高增益","抑制卫星细胞激活和mTOR信号","对适应无影响","增加肌肉蛋白合成"],correct:1,explain:"CWI blunts satellite-cell activation and mTOR, reducing long-term strength/muscle gains.",explainCn:"冷水浸泡抑制卫星细胞激活和mTOR，降低长期力量/肌肉增长。"},
   // Ch 5
-  {ch:5,q:"The muscle protein synthesis plateau occurs at approximately:",opts:["0.8 g/kg/day","1.2 g/kg/day","1.6 g/kg/day","2.5 g/kg/day"],correct:2,explain:"Morton 2018 meta-analysis: ~1.6 g/kg/day is the plateau for muscle gain from protein."},
-  {ch:5,q:"RED-S danger threshold is below approximately:",opts:["45 kcal/kg FFM/day","30 kcal/kg FFM/day","20 kcal/kg FFM/day","60 kcal/kg FFM/day"],correct:1,explain:"Below ~30 kcal/kg FFM/day perturbs hormones, bone, immunity — RED-S syndrome."},
-  {ch:5,q:"At what body-mass loss does performance consistently suffer?",opts:["0.5%","1%","2%","5%"],correct:2,explain:"Performance in prolonged hot-weather exercise drops once body-mass loss reaches ~2%."},
-  {ch:5,q:"The anabolic window is measured in:",opts:["Minutes","Hours (up to 24h)","Days","Seconds"],correct:1,explain:"Muscles stay sensitive to protein for ~24h post-training; the practical window is hours, not minutes."},
+  {ch:5,q:"The muscle protein synthesis plateau occurs at approximately:",qCn:"肌肉蛋白合成平台期大约出现在：",opts:["0.8 g/kg/day","1.2 g/kg/day","1.6 g/kg/day","2.5 g/kg/day"],optsCn:["0.8克/公斤/天","1.2克/公斤/天","1.6克/公斤/天","2.5克/公斤/天"],correct:2,explain:"Morton 2018 meta-analysis: ~1.6 g/kg/day is the plateau for muscle gain from protein.",explainCn:"Morton 2018荟萃分析：约1.6克/公斤/天是蛋白质增肌的平台期。"},
+  {ch:5,q:"RED-S danger threshold is below approximately:",qCn:"RED-S危险阈值大约在以下哪个水平以下：",opts:["45 kcal/kg FFM/day","30 kcal/kg FFM/day","20 kcal/kg FFM/day","60 kcal/kg FFM/day"],optsCn:["45千卡/公斤FFM/天","30千卡/公斤FFM/天","20千卡/公斤FFM/天","60千卡/公斤FFM/天"],correct:1,explain:"Below ~30 kcal/kg FFM/day perturbs hormones, bone, immunity — RED-S syndrome.",explainCn:"低于约30千卡/公斤FFM/天会扰乱激素、骨骼、免疫 — RED-S综合征。"},
+  {ch:5,q:"At what body-mass loss does performance consistently suffer?",qCn:"体重大约丢失多少时运动表现持续下降？",opts:["0.5%","1%","2%","5%"],optsCn:["0.5%","1%","2%","5%"],correct:2,explain:"Performance in prolonged hot-weather exercise drops once body-mass loss reaches ~2%.",explainCn:"炎热天气下长时间运动的表现，在体重丢失约2%时开始下降。"},
+  {ch:5,q:"The anabolic window is measured in:",qCn:"合成窗口的时间单位是：",opts:["Minutes","Hours (up to 24h)","Days","Seconds"],optsCn:["分钟","小时（最长24小时）","天","秒"],correct:1,explain:"Muscles stay sensitive to protein for ~24h post-training; the practical window is hours, not minutes.",explainCn:"肌肉在训练后约24小时内保持蛋白质敏感性；实际窗口是小时，不是分钟。"},
   // Ch 6
-  {ch:6,q:"Which supplement has Grade A evidence for high-intensity performance?",opts:["BCAAs","Fat burners","Creatine monohydrate","Testosterone boosters"],correct:2,explain:"Creatine is the most effective legal ergogenic aid with A-grade evidence."},
-  {ch:6,q:"The highest level of evidence on the evidence pyramid is:",opts:["Case reports","Cohort studies","Randomized controlled trials","Meta-analyses"],correct:3,explain:"Meta-analyses of RCTs sit at the top of the evidence pyramid."},
-  {ch:6,q:"Why are BCAAs graded D (ineffective)?",opts:["They are toxic","Redundant if total protein is adequate — whey already contains them","They cause fatigue","They are too expensive"],correct:1,explain:"Whey protein already contains BCAAs plus all 9 essential aminos. Isolated BCAAs add nothing if protein is adequate."},
+  {ch:6,q:"Which supplement has Grade A evidence for high-intensity performance?",qCn:"哪种补剂有A级证据支持高强度运动表现？",opts:["BCAAs","Fat burners","Creatine monohydrate","Testosterone boosters"],optsCn:["BCAAs","燃脂剂","肌酸一水合物","睾酮促进剂"],correct:2,explain:"Creatine is the most effective legal ergogenic aid with A-grade evidence.",explainCn:"肌酸是最有效的合法增效补剂，有A级证据支持。"},
+  {ch:6,q:"The highest level of evidence on the evidence pyramid is:",qCn:"证据金字塔最高级别的证据是：",opts:["Case reports","Cohort studies","Randomized controlled trials","Meta-analyses"],optsCn:["病例报告","队列研究","随机对照试验","荟萃分析"],correct:3,explain:"Meta-analyses of RCTs sit at the top of the evidence pyramid.",explainCn:"随机对照试验的荟萃分析位于证据金字塔最顶端。"},
+  {ch:6,q:"Why are BCAAs graded D (ineffective)?",qCn:"支链氨基酸（BCAAs）为什么被评为D级（无效）？",opts:["They are toxic","Redundant if total protein is adequate — whey already contains them","They cause fatigue","They are too expensive"],optsCn:["它们有毒","如果总蛋白质充足则多余 — 乳清蛋白已含","它们导致疲劳","它们太贵"],correct:1,explain:"Whey protein already contains BCAAs plus all 9 essential aminos. Isolated BCAAs add nothing if protein is adequate.",explainCn:"乳清蛋白已含BCAAs及全部9种必需氨基酸。总蛋白质充足时，分离的BCAAs无额外作用。"},
   // Ch 7
-  {ch:7,q:"The DPT program typically takes:",opts:["2 years","3 years","4 years","5 years"],correct:1,explain:"Doctor of Physical Therapy is a 3-year doctoral program after a 4-year bachelor's."},
-  {ch:7,q:"PT median salary (2024 data) is approximately:",opts:["$65,000","$85,000","$101,000","$132,000"],correct:2,explain:"U.S. BLS May 2024: median pay $101,020/year."},
-  {ch:7,q:"Projected job growth for PTs (2024–34) is:",opts:["3% (average)","7% (average)","11% (much faster than average)","20%"],correct:2,explain:"+11% growth projected — 'much faster than average' (all-occupation average is 3%)."},
+  {ch:7,q:"The DPT program typically takes:",qCn:"物理治疗博士（DPT）项目通常需要：",opts:["2 years","3 years","4 years","5 years"],optsCn:["2年","3年","4年","5年"],correct:1,explain:"Doctor of Physical Therapy is a 3-year doctoral program after a 4-year bachelor's.",explainCn:"物理治疗博士是4年本科后的3年博士项目。"},
+  {ch:7,q:"PT median salary (2024 data) is approximately:",qCn:"物理治疗师中位薪资（2024年数据）约为：",opts:["$65,000","$85,000","$101,000","$132,000"],optsCn:["$65,000","$85,000","$101,000","$132,000"],correct:2,explain:"U.S. BLS May 2024: median pay $101,020/year.",explainCn:"美国劳工统计局2024年5月数据：中位年薪$101,020。"},
+  {ch:7,q:"Projected job growth for PTs (2024–34) is:",qCn:"物理治疗师预计就业增长（2024–34）为：",opts:["3% (average)","7% (average)","11% (much faster than average)","20%"],optsCn:["3%（平均）","7%（平均）","11%（远高于平均）","20%"],correct:2,explain:"+11% growth projected — 'much faster than average' (all-occupation average is 3%).",explainCn:"+11%增长预期 — '远高于平均'（所有职业平均为3%）。"},
 ];
 
 let qoCurrent = 0;
@@ -1221,24 +1221,24 @@ function renderQO(){
   const body = document.getElementById('qoBody');
   const isZH = showCN;
   if(qoCurrent >= quizQuestions.length){
-    // Show results
     const pct = Math.round(qoScore/quizQuestions.length*100);
     let dots = qoResults.map(r=>`<div class="qo-score-dot ${r?'hit':'miss'}"></div>`).join('');
     body.innerHTML = `<div class="qo-score-card">
       <div class="qo-score-num">${pct}%</div>
-      <div class="qo-score-label">${qoScore} / ${quizQuestions.length} correct</div>
+      <div class="qo-score-label">${qoScore} / ${quizQuestions.length} ${isZH?'正确':'correct'}</div>
       <div class="qo-score-bar">${dots}</div>
-      <button class="qo-btn next" onclick="qoCurrent=0;qoScore=0;qoResults=[];renderQO()">🔄 Try Again</button>
-      <button class="qo-btn next" onclick="closeQuizMode()" style="background:var(--text3);margin-left:.5rem">Close</button>
+      <button class="qo-btn next" onclick="qoCurrent=0;qoScore=0;qoResults=[];renderQO()">${isZH?'🔄 重新开始':'🔄 Try Again'}</button>
+      <button class="qo-btn next" onclick="closeQuizMode()" style="background:var(--text3);margin-left:.5rem">${isZH?'关闭':'Close'}</button>
     </div>`;
     updateQuizProgress(pct);
     return;
   }
   const q = quizQuestions[qoCurrent];
   const pct = Math.round(qoCurrent/quizQuestions.length*100);
+  const chNames=['','一','二','三','四','五','六','七'];
   body.innerHTML = `
     <div class="qo-progress"><div class="qo-progress-bar" style="width:${pct}%"></div></div>
-    <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+quizQuestions.length+'题':'Question '+(qoCurrent+1)+' of '+quizQuestions.length} · ${isZH?'第'+['','一','二','三','四','五','六','七'][q.ch]+'章':'Chapter '+q.ch}</div>
+    <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+quizQuestions.length+'题':'Question '+(qoCurrent+1)+' of '+quizQuestions.length} · ${isZH?'第'+chNames[q.ch]+'章':'Chapter '+q.ch}</div>
     <div class="qo-question">${isZH?(q.qCn||q.q):q.q}</div>
     <div class="qo-options" id="qoOpts">
       ${(isZH?(q.optsCn||q.opts):q.opts).map((o,i)=>`<div class="qo-opt" onclick="qoSelect(${i})">${o}</div>`).join('')}
@@ -1246,7 +1246,7 @@ function renderQO(){
     <div class="qo-explain" id="qoExplain"><strong>${isZH?'解析：':'Explanation:'}</strong> ${isZH?(q.explainCn||q.explain):q.explain}</div>
     <div class="qo-footer">
       <span style="font-size:.85rem;color:var(--text3)">${isZH?'得分':'Score'}: ${qoScore}/${qoCurrent}</span>
-      <button class="qo-btn next" id="qoNextBtn" onclick="qoNext()" disabled>Next →</button>
+      <button class="qo-btn next" id="qoNextBtn" onclick="qoNext()" disabled>${isZH?'下一题 →':'Next →'}</button>
     </div>`;
   qoAnswered = false;
 }

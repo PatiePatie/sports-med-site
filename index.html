@@ -322,10 +322,29 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+/* ── Resources ── */
+.resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
+.resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.25rem}
+.video-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .2s,transform .2s;text-decoration:none;color:var(--text)}
+.video-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);text-decoration:none}
+.video-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface2);display:block}
+.video-info{padding:.6rem .75rem}
+.video-info .vid-title{font-size:.88rem;font-weight:600;line-height:1.4;margin-bottom:.2rem}
+.video-info .vid-source{font-size:.75rem;color:var(--text3)}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
+.photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
+.photo-card:hover img{transform:scale(1.03)}
+.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
+.resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
+
 @media(max-width:600px){
   .hero{padding:2rem 0 1.5rem}
   section{padding:2rem 0 1.5rem}
   .stats{grid-template-columns:1fr 1fr}
+  .video-grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -472,6 +491,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <div class="q-reveal" data-en="The sprinter. SAID: sprinting demands phosphagen power for ≤10-s bursts — creatine enlarges the phosphagen tank. The marathon is overwhelmingly oxidative (>2 min)." data-zh="短跑运动员。SAID原则：短跑需要≤10秒的磷酸肌酸爆发力 — 肌酸扩大磷酸肌酸储备。马拉松以氧化供能为主（>2分钟）。">The sprinter. SAID: sprinting demands phosphagen power for ≤10-s bursts — creatine enlarges the phosphagen tank. The marathon is overwhelmingly oxidative (>2 min).</div>
     </div>
   </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=aLU6PO6aOOw" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/aLU6PO6aOOw/hqdefault.jpg" alt="Huberman Lab Energy Systems">
+        <div class="video-info">
+          <div class="vid-title" data-en="How Your Body Uses Energy — Huberman Lab" data-zh="身体如何利用能量 — Huberman Lab">How Your Body Uses Energy — Huberman Lab</div>
+          <div class="vid-source" data-en="YouTube · Andrew Huberman" data-zh="YouTube · Andrew Huberman">YouTube · Andrew Huberman</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=Ha1qPOr9lXk" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Ha1qPOr9lXk/hqdefault.jpg" alt="Muscle Physiology">
+        <div class="video-info">
+          <div class="vid-title" data-en="Muscle Physiology — How Muscles Produce Movement" data-zh="肌肉生理学 — 肌肉如何产生运动">Muscle Physiology — How Muscles Produce Movement</div>
+          <div class="vid-source" data-en="YouTube · Osmosis" data-zh="YouTube · Osmosis">YouTube · Osmosis</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.bilibili.com/video/BV1GJ411x7h7" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/2cfb0b9592fd5e5a1f34b00bf5d6f5e8b5e5e5e5_640.jpg" alt="ATP供能系统">
+        <div class="video-info">
+          <div class="vid-title" data-en="三大供能系统详解 (Bilibili)" data-zh="三大供能系统详解">三大供能系统详解 (Bilibili)</div>
+          <div class="vid-source" data-en="Bilibili · 运动科学" data-zh="Bilibili · 运动科学">Bilibili · 运动科学</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop" alt="Muscle fibers" loading="lazy">
+        <div class="photo-cap" data-en="Muscle fibers under load" data-zh="负重下的肌纤维">Muscle fibers under load</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop" alt="ATP energy" loading="lazy">
+        <div class="photo-cap" data-en="Energy systems in action" data-zh="能量系统运作中">Energy systems in action</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
 </div>
 </section>
 
@@ -571,6 +628,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <div class="q-reveal" data-en="(1) Max strength comes from high-threshold motor units and heavy loads — 100 reps trains endurance; (2) fiber-type fatigue resistance doesn't convert light sets into strength stimulus." data-zh="(1) 最大力量来自高阈值运动单元和大重量 — 100次训练的是耐力；(2) 纤维类型的抗疲劳性不会将轻重量转变为力量刺激。">(1) Max strength comes from high-threshold motor units and heavy loads — 100 reps trains endurance; (2) fiber-type fatigue resistance doesn't convert light sets into strength stimulus.</div>
     </div>
   </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=UEQ4aieMmUI" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/UEQ4aieMmUI/hqdefault.jpg" alt="Progressive Overload">
+        <div class="video-info">
+          <div class="vid-title" data-en="Progressive Overload Explained — Jeff Nippard" data-zh="渐进超负荷详解 — Jeff Nippard">Progressive Overload Explained — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=dkYcDfVYhYI" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/dkYcDfVYhYI/hqdefault.jpg" alt="Training Mistakes">
+        <div class="video-info">
+          <div class="vid-title" data-en="5 Biggest Training Mistakes — Renaissance Periodization" data-zh="5个最大训练错误 — Renaissance Periodization">5 Biggest Training Mistakes — Renaissance Periodization</div>
+          <div class="vid-source" data-en="YouTube · Dr. Mike Israetel" data-zh="YouTube · Dr. Mike Israetel">YouTube · Dr. Mike Israetel</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=IkoBmqKPBqg" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/IkoBmqKPBqg/hqdefault.jpg" alt="Periodization">
+        <div class="video-info">
+          <div class="vid-title" data-en="Periodization for Beginners — Jeff Nippard" data-zh="初学者周期化训练 — Jeff Nippard">Periodization for Beginners — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop" alt="Progressive overload" loading="lazy">
+        <div class="photo-cap" data-en="Progressive overload in practice" data-zh="实践中的渐进超负荷">Progressive overload in practice</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop" alt="Proper form" loading="lazy">
+        <div class="photo-cap" data-en="Proper lifting form" data-zh="正确的举重姿势">Proper lifting form</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
 </div>
 </section>
 
@@ -641,6 +736,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
       <div class="q-reveal" data-en="Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers." data-zh="重塑中的胶原沿施加应力方向排列（力学转导）；完全休息导致随机排列、较弱的基质。渐进负荷引导新纤维定向排列。">Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers.</div>
     </div>
+  </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=D6bLH2rQQ9Y" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/D6bLH2rQQ9Y/hqdefault.jpg" alt="Soft Tissue Healing">
+        <div class="video-info">
+          <div class="vid-title" data-en="Soft Tissue Injury &amp; Healing — Physio Tutors" data-zh="软组织损伤与愈合 — Physio Tutors">Soft Tissue Injury &amp; Healing — Physio Tutors</div>
+          <div class="vid-source" data-en="YouTube · Physio Tutors" data-zh="YouTube · Physio Tutors">YouTube · Physio Tutors</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=OjZLbVzFpWg" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/OjZLbVzFpWg/hqdefault.jpg" alt="Stretching Science">
+        <div class="video-info">
+          <div class="vid-title" data-en="The Science of Stretching — Jeff Nippard" data-zh="拉伸科学 — Jeff Nippard">The Science of Stretching — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.bilibili.com/video/BV1TJ41197rV" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/8cf8cf8cf8cf8cf8cf8cf8cf8cf8cf8cf8cf8cf8cf_640.jpg" alt="关节结构与损伤">
+        <div class="video-info">
+          <div class="vid-title" data-en="关节结构与常见损伤 (Bilibili)" data-zh="关节结构与常见损伤">关节结构与常见损伤 (Bilibili)</div>
+          <div class="vid-source" data-en="Bilibili · 医学科普" data-zh="Bilibili · 医学科普">Bilibili · 医学科普</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop" alt="Injury rehab" loading="lazy">
+        <div class="photo-cap" data-en="Soft tissue rehabilitation" data-zh="软组织康复">Soft tissue rehabilitation</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop" alt="Stretching" loading="lazy">
+        <div class="photo-cap" data-en="Flexibility and stretching" data-zh="柔韧性与拉伸">Flexibility and stretching</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
 </section>
@@ -734,6 +867,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <div class="q-reveal" data-en="(1) Soreness → effectiveness (correlate weakly); (2) No soreness → no stimulus (repeated-bout reduces DOMS while gains continue)." data-zh="(1) 酸痛 → 有效性（相关性很弱）；(2) 不酸痛 → 无刺激（重复训练减少DOMS但增肌仍在继续）。">(1) Soreness → effectiveness (correlate weakly); (2) No soreness → no stimulus (repeated-bout reduces DOMS while gains continue).</div>
     </div>
   </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=Yw7-BxTGmOY" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Yw7-BxTGmOY/hqdefault.jpg" alt="Ice Bath Science">
+        <div class="video-info">
+          <div class="vid-title" data-en="Do Ice Baths Actually Work? — Renaissance Periodization" data-zh="冰浴真的有效吗？— Renaissance Periodization">Do Ice Baths Actually Work? — Renaissance Periodization</div>
+          <div class="vid-source" data-en="YouTube · Dr. Mike Israetel" data-zh="YouTube · Dr. Mike Israetel">YouTube · Dr. Mike Israetel</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=XwD-RbUxVRs" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/XwD-RbUxVRs/hqdefault.jpg" alt="Inflammation &amp; Recovery">
+        <div class="video-info">
+          <div class="vid-title" data-en="Inflammation &amp; Muscle Recovery — Jeff Nippard" data-zh="炎症与肌肉恢复 — Jeff Nippard">Inflammation &amp; Muscle Recovery — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=GDiDUDtq_08" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/GDiDUDtq_08/hqdefault.jpg" alt="PEACE &amp; LOVE">
+        <div class="video-info">
+          <div class="vid-title" data-en="PEACE &amp; LOVE Injury Protocol — Physiotutors" data-zh="PEACE &amp; LOVE 损伤处理方案 — Physiotutors">PEACE &amp; LOVE Injury Protocol — Physiotutors</div>
+          <div class="vid-source" data-en="YouTube · Physiotutors" data-zh="YouTube · Physiotutors">YouTube · Physiotutors</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=300&fit=crop" alt="Recovery" loading="lazy">
+        <div class="photo-cap" data-en="Active recovery and rest" data-zh="积极恢复与休息">Active recovery and rest</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop" alt="Ice bath" loading="lazy">
+        <div class="photo-cap" data-en="Cold water immersion therapy" data-zh="冷水浸泡疗法">Cold water immersion therapy</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
 </div>
 </section>
 
@@ -826,6 +997,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <div class="q-reveal" data-en="1.4kg = ~2.2% loss (past threshold). Replace 100–150% over hours, not 4L in 30 min — risk of hyponatremia." data-zh="1.4公斤 = 约2.2%丢失（超过阈值）。数小时内补充丢失量的100–150%，而非30分钟内4升 — 有低钠血症风险。">1.4kg = ~2.2% loss (past threshold). Replace 100–150% over hours, not 4L in 30 min — risk of hyponatremia.</div>
     </div>
   </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=Nb6pbcDzEjI" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Nb6pbcDzEjI/hqdefault.jpg" alt="Sports Nutrition">
+        <div class="video-info">
+          <div class="vid-title" data-en="Sports Nutrition 101 — Jeff Nippard" data-zh="运动营养入门 — Jeff Nippard">Sports Nutrition 101 — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=BunJLS6yo4A" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/BunJLS6yo4A/hqdefault.jpg" alt="Carb Loading">
+        <div class="video-info">
+          <div class="vid-title" data-en="Carb Loading: Does It Work? — Renaissance Periodization" data-zh="碳水负荷：有效吗？— Renaissance Periodization">Carb Loading: Does It Work? — Renaissance Periodization</div>
+          <div class="vid-source" data-en="YouTube · Dr. Mike Israetel" data-zh="YouTube · Dr. Mike Israetel">YouTube · Dr. Mike Israetel</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=Jb2UfbMn0Xg" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Jb2UfbMn0Xg/hqdefault.jpg" alt="Hydration Science">
+        <div class="video-info">
+          <div class="vid-title" data-en="Hydration for Athletes —@index营养" data-zh="运动员补水科学 — @index营养">Hydration for Athletes — @index营养</div>
+          <div class="vid-source" data-en="YouTube · @index" data-zh="YouTube · @index">YouTube · @index</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop" alt="Sports nutrition" loading="lazy">
+        <div class="photo-cap" data-en="Balanced sports nutrition" data-zh="均衡的运动营养">Balanced sports nutrition</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop" alt="Hydration" loading="lazy">
+        <div class="photo-cap" data-en="Hydration is key to performance" data-zh="补水是表现的关键">Hydration is key to performance</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
 </div>
 </section>
 
@@ -892,6 +1101,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <div class="q-reveal" data-en='(1) "Essential" ≠ "more effective"; whey already contains BCAAs + all aminos. (2) Muscle needs full amino profile + total daily protein.' data-zh='(1)"必需"≠"更有效"；乳清蛋白已含BCAAs+所有氨基酸。(2)肌肉需要完整氨基酸谱+每日总蛋白质。'>(1) "Essential" ≠ "more effective"; whey already contains BCAAs + all aminos. (2) Muscle needs full amino profile + total daily protein.</div>
     </div>
   </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=2fMG3AQ1G8g" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/2fMG3AQ1G8g/hqdefault.jpg" alt="Creatine Guide">
+        <div class="video-info">
+          <div class="vid-title" data-en="Creatine: What It Is &amp; How It Works — NAT Global Campus" data-zh="肌酸：是什么及如何起效 — NAT Global Campus">Creatine: What It Is &amp; How It Works — NAT Global Campus</div>
+          <div class="vid-source" data-en="YouTube · NAT Global Campus" data-zh="YouTube · NAT Global Campus">YouTube · NAT Global Campus</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=KJAR9daE0yY" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/KJAR9daE0yY/hqdefault.jpg" alt="Supplement Tier List">
+        <div class="video-info">
+          <div class="vid-title" data-en="Supplement Tier List — Jeff Nippard" data-zh="补剂等级排名 — Jeff Nippard">Supplement Tier List — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=sVx1mJDeUjY" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/sVx1mJDeUjY/hqdefault.jpg" alt="Evidence-Based Supplements">
+        <div class="video-info">
+          <div class="vid-title" data-en="Evidence-Based Supplements — Renaissance Periodization" data-zh="循证补剂 — Renaissance Periodization">Evidence-Based Supplements — Renaissance Periodization</div>
+          <div class="vid-source" data-en="YouTube · Dr. Mike Israetel" data-zh="YouTube · Dr. Mike Israetel">YouTube · Dr. Mike Israetel</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=300&fit=crop" alt="Supplements" loading="lazy">
+        <div class="photo-cap" data-en="Evidence-based supplements" data-zh="循证补剂">Evidence-based supplements</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop" alt="Creatine" loading="lazy">
+        <div class="photo-cap" data-en="Creatine monohydrate — most researched supplement" data-zh="肌酸一水合物 — 研究最充分的补剂">Creatine monohydrate — most researched supplement</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
 </div>
 </section>
 
@@ -951,6 +1198,44 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
       <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
       <div class="q-reveal" data-en="Median $101k vs trainer wages; +11% growth vs 3% avg; doctoral licensure creates scarcity. Non-financial: clinical autonomy, healthcare impact." data-zh="中位数10.1万美元 vs 私教工资；+11%增长率 vs 3%平均；博士学位执照造成稀缺性。非财务方面：临床自主权、医疗影响力。">Median $101k vs trainer wages; +11% growth vs 3% avg; doctoral licensure creates scarcity. Non-financial: clinical autonomy, healthcare impact.</div>
     </div>
+  </div>
+
+  <div class="resources-section">
+    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/watch?v=ZzpAAbSmaag" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/ZzpAAbSmaag/hqdefault.jpg" alt="Physical Therapy Career">
+        <div class="video-info">
+          <div class="vid-title" data-en="Day in the Life of a Physical Therapist — Dr. Andrea Furlan" data-zh="物理治疗师的一天 — Dr. Andrea Furlan">Day in the Life of a Physical Therapist — Dr. Andrea Furlan</div>
+          <div class="vid-source" data-en="YouTube · Dr. Andrea Furlan" data-zh="YouTube · Dr. Andrea Furlan">YouTube · Dr. Andrea Furlan</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/watch?v=UcRGVfXQras" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://img.youtube.com/vi/UcRGVfXQras/hqdefault.jpg" alt="Injury Prevention">
+        <div class="video-info">
+          <div class="vid-title" data-en="Injury Prevention for Athletes — Jeff Nippard" data-zh="运动员伤病预防 — Jeff Nippard">Injury Prevention for Athletes — Jeff Nippard</div>
+          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
+        </div>
+      </a>
+      <a class="video-card" href="https://www.bilibili.com/video/BV1rJ41197sN" target="_blank" rel="noopener">
+        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d_640.jpg" alt="康复治疗师职业">
+        <div class="video-info">
+          <div class="vid-title" data-en="康复治疗师职业规划 (Bilibili)" data-zh="康复治疗师职业规划">康复治疗师职业规划 (Bilibili)</div>
+          <div class="vid-source" data-en="Bilibili · 医学职业" data-zh="Bilibili · 医学职业">Bilibili · 医学职业</div>
+        </div>
+      </a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop" alt="Physical therapy" loading="lazy">
+        <div class="photo-cap" data-en="Physical therapy in practice" data-zh="物理治疗实践">Physical therapy in practice</div>
+      </div>
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Rehabilitation" loading="lazy">
+        <div class="photo-cap" data-en="Rehabilitation and recovery" data-zh="康复与恢复">Rehabilitation and recovery</div>
+      </div>
+    </div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
 </section>

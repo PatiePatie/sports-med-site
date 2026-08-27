@@ -339,17 +339,95 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
+/* ── Sidebar ── */
+.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:var(--surface);border-right:1px solid var(--border);z-index:150;overflow-y:auto;padding:1rem 0;transition:transform .3s}
+.sidebar-logo{padding:0 1rem .75rem;font-size:1rem;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.sidebar-logo span{color:var(--accent)}
+.sidebar-group{margin-bottom:.5rem}
+.sidebar-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:.5rem 1rem .25rem}
+.sidebar-link{display:block;padding:.4rem 1rem .4rem 1.5rem;font-size:.85rem;color:var(--text2);text-decoration:none;transition:all .15s;border-left:3px solid transparent}
+.sidebar-link:hover,.sidebar-link.active{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent);text-decoration:none}
+.sidebar-link.sub{padding-left:2rem;font-size:.8rem}
+.sidebar-toggle{display:none;position:fixed;top:.75rem;left:.75rem;z-index:160;width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.2rem;cursor:pointer;align-items:center;justify-content:center}
+.page-wrapper{margin-left:240px;transition:margin-left .3s}
+
+/* ── Resources Hub ── */
+.res-hub-chapter{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.res-hub-chapter:last-child{border-bottom:none}
+.res-hub-chapter h4{margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+
+/* ── Q&A Chat ── */
+.chat-panel{max-width:680px;margin:0 auto}
+.chat-window{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:480px}
+.chat-header{padding:.75rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+.chat-header .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.chat-msg{max-width:85%;padding:.65rem .9rem;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.55;animation:msgIn .3s ease}
+.chat-msg.bot{background:var(--accent-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
+.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-msg .msg-label{font-size:.7rem;font-weight:600;color:var(--text3);margin-bottom:.2rem;display:block}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1rem;border-top:1px solid var(--border);background:var(--surface2)}
+.chat-sug-btn{padding:.35rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.chat-sug-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chat-input-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--border);background:var(--surface)}
+.chat-input{flex:1;padding:.55rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--accent)}
+.chat-input::placeholder{color:var(--text3)}
+.chat-send{padding:.55rem 1rem;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s}
+.chat-send:hover{background:var(--accent2)}
+.chat-disclaimer{font-size:.75rem;color:var(--text3);text-align:center;padding:.5rem;font-style:italic}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
 @media(max-width:600px){
   .hero{padding:2rem 0 1.5rem}
   section{padding:2rem 0 1.5rem}
   .stats{grid-template-columns:1fr 1fr}
   .video-grid{grid-template-columns:1fr}
   .photo-grid{grid-template-columns:1fr 1fr}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-toggle{display:flex}
+  .page-wrapper{margin-left:0}
+  .chat-window{height:400px}
 }
 </style>
 </head>
 <body>
 
+<!-- Sidebar Toggle (mobile) -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
+    <a class="sidebar-link" href="#hero" data-en="Home" data-zh="首页">Home</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
+    <a class="sidebar-link sub" href="#ch1" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
+    <a class="sidebar-link sub" href="#ch2" data-en="Ch 2 · Training Principles" data-zh="第二章 · 训练原则">Ch 2 · Training Principles</a>
+    <a class="sidebar-link sub" href="#ch3" data-en="Ch 3 · Soft Tissue &amp; Injury" data-zh="第三章 · 软组织与损伤">Ch 3 · Soft Tissue &amp; Injury</a>
+    <a class="sidebar-link sub" href="#ch4" data-en="Ch 4 · Inflammation &amp; Recovery" data-zh="第四章 · 炎症与恢复">Ch 4 · Inflammation &amp; Recovery</a>
+    <a class="sidebar-link sub" href="#ch5" data-en="Ch 5 · Nutrition" data-zh="第五章 · 营养">Ch 5 · Nutrition</a>
+    <a class="sidebar-link sub" href="#ch6" data-en="Ch 6 · Supplements" data-zh="第六章 · 补剂">Ch 6 · Supplements</a>
+    <a class="sidebar-link sub" href="#ch7" data-en="Ch 7 · Rehab &amp; Career" data-zh="第七章 · 康复与职业">Ch 7 · Rehab &amp; Career</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
+    <a class="sidebar-link" href="#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
+    <a class="sidebar-link" href="#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
+    <a class="sidebar-link" href="#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+  </div>
+</nav>
+
+<div class="page-wrapper">
 <header>
 <div class="container header-inner">
   <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
@@ -374,6 +452,8 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   <li><a href="#ch6" data-en="Ch 6" data-zh="第六章">Ch 6</a></li>
   <li><a href="#ch7" data-en="Ch 7" data-zh="第七章">Ch 7</a></li>
   <li><a href="#practice" data-en="Practice" data-zh="刷题">Practice</a></li>
+  <li><a href="#resources" data-en="Resources" data-zh="资源">Resources</a></li>
+  <li><a href="#qa" data-en="Q&amp;A" data-zh="问答">Q&amp;A</a></li>
   <li><a href="#progress" data-en="Progress" data-zh="进度">Progress</a></li>
   <li><a href="#refs" data-en="Refs" data-zh="参考">Refs</a></li>
 </ul>
@@ -492,43 +572,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=5Ro6FxC9S84" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/5Ro6FxC9S84/hqdefault.jpg" alt="Energy Systems in Motion">
-        <div class="video-info">
-          <div class="vid-title" data-en="Energy Systems in Motion — How Muscles Produce Endurance" data-zh="运动中的能量系统 — 肌肉如何产生耐力">Energy Systems in Motion — How Muscles Produce Endurance</div>
-          <div class="vid-source" data-en="YouTube · Anatomy in Motion" data-zh="YouTube · Anatomy in Motion">YouTube · Anatomy in Motion</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=L6okWmDtGfE" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/L6okWmDtGfE/hqdefault.jpg" alt="NASM Energy Systems">
-        <div class="video-info">
-          <div class="vid-title" data-en="NASM Energy Systems Explained + Mnemonic &amp; Quiz" data-zh="NASM三大供能系统详解 + 记忆口诀">NASM Energy Systems Explained + Mnemonic &amp; Quiz</div>
-          <div class="vid-source" data-en="YouTube · PTPioneer" data-zh="YouTube · PTPioneer">YouTube · PTPioneer</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.bilibili.com/video/BV1vh411x7Ei/" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/bv1vh411x7Ei.jpg" alt="三大供能系统" onerror="this.style.display='none'">
-        <div class="video-info">
-          <div class="vid-title" data-en="详解三大供能系统 (Bilibili)" data-zh="详解三大供能系统">详解三大供能系统 (Bilibili)</div>
-          <div class="vid-source" data-en="Bilibili · 德意的健身笔记" data-zh="Bilibili · 德意的健身笔记">Bilibili · 德意的健身笔记</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop" alt="Muscle fibers" loading="lazy">
-        <div class="photo-cap" data-en="Muscle fibers under load" data-zh="负重下的肌纤维">Muscle fibers under load</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop" alt="ATP energy" loading="lazy">
-        <div class="photo-cap" data-en="Energy systems in action" data-zh="能量系统运作中">Energy systems in action</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -629,43 +672,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=fD4OyUDfL3U" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/fD4OyUDfL3U/hqdefault.jpg" alt="Progressive Overload">
-        <div class="video-info">
-          <div class="vid-title" data-en="Progressive Overload for Strength vs Hypertrophy" data-zh="力量与肌肥大的渐进超负荷">Progressive Overload for Strength vs Hypertrophy</div>
-          <div class="vid-source" data-en="YouTube · Flow High Performance" data-zh="YouTube · Flow High Performance">YouTube · Flow High Performance</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=TQxMvpe2lQ8" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/TQxMvpe2lQ8/hqdefault.jpg" alt="Lifting Tempo">
-        <div class="video-info">
-          <div class="vid-title" data-en="Fast or Slow Reps for Muscle Growth? — Jeff Nippard" data-zh="快节奏还是慢节奏？— Jeff Nippard">Fast or Slow Reps for Muscle Growth? — Jeff Nippard</div>
-          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=DzjWEn2BS_k" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/DzjWEn2BS_k/hqdefault.jpg" alt="Training Volume">
-        <div class="video-info">
-          <div class="vid-title" data-en="I Cut My Training Volume In Half — Jeff Nippard" data-zh="我把训练量砍了一半 — Jeff Nippard">I Cut My Training Volume In Half — Jeff Nippard</div>
-          <div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop" alt="Progressive overload" loading="lazy">
-        <div class="photo-cap" data-en="Progressive overload in practice" data-zh="实践中的渐进超负荷">Progressive overload in practice</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop" alt="Proper form" loading="lazy">
-        <div class="photo-cap" data-en="Proper lifting form" data-zh="正确的举重姿势">Proper lifting form</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -738,43 +744,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=HGTabgG7GIU" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/HGTabgG7GIU/hqdefault.jpg" alt="PEACE &amp; LOVE Protocol">
-        <div class="video-info">
-          <div class="vid-title" data-en="PEACE &amp; LOVE — New Injury Treatment Acronym" data-zh="PEACE &amp; LOVE — 全新损伤处理方案">PEACE &amp; LOVE — New Injury Treatment Acronym</div>
-          <div class="vid-source" data-en="YouTube · La Clinique Du Coureur" data-zh="YouTube · La Clinique Du Coureur">YouTube · La Clinique Du Coureur</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.bilibili.com/video/BV1ztHme1Eef/" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/bv1ztHme1Eef.jpg" alt="踝扭伤康复" onerror="this.style.display='none'">
-        <div class="video-info">
-          <div class="vid-title" data-en="最全面的踝扭伤自我康复教程 (Bilibili)" data-zh="最全面的踝扭伤自我康复教程">最全面的踝扭伤自我康复教程 (Bilibili)</div>
-          <div class="vid-source" data-en="Bilibili · PhysioDu物理治疗师" data-zh="Bilibili · PhysioDu物理治疗师">Bilibili · PhysioDu物理治疗师</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=U_9gjff7ICU" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/U_9gjff7ICU/hqdefault.jpg" alt="Ice vs Heat">
-        <div class="video-info">
-          <div class="vid-title" data-en="When to Use Ice or Heat for a Sports Injury" data-zh="运动损伤何时用冰敷或热敷">When to Use Ice or Heat for a Sports Injury</div>
-          <div class="vid-source" data-en="YouTube · Sports Injury Physio" data-zh="YouTube · Sports Injury Physio">YouTube · Sports Injury Physio</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop" alt="Injury rehab" loading="lazy">
-        <div class="photo-cap" data-en="Soft tissue rehabilitation" data-zh="软组织康复">Soft tissue rehabilitation</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop" alt="Stretching" loading="lazy">
-        <div class="photo-cap" data-en="Flexibility and stretching" data-zh="柔韧性与拉伸">Flexibility and stretching</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -868,43 +837,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=uhwvH6pVDOw" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/uhwvH6pVDOw/hqdefault.jpg" alt="Cold Immersion">
-        <div class="video-info">
-          <div class="vid-title" data-en="Cold Immersion Is Even More Worthless Than We Thought? — RP" data-zh="冷水浸泡比想象中更没用？— RP">Cold Immersion Is Even More Worthless Than We Thought? — RP</div>
-          <div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=pUC_UCEQKrk" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/pUC_UCEQKrk/hqdefault.jpg" alt="Sleep &amp; Muscle Growth">
-        <div class="video-info">
-          <div class="vid-title" data-en="Sleep Loss Kills Muscle Growth — Renaissance Periodization" data-zh="睡眠不足杀死肌肉增长 — RP">Sleep Loss Kills Muscle Growth — Renaissance Periodization</div>
-          <div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=2S_gG63w020" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/2S_gG63w020/hqdefault.jpg" alt="Ice vs Heat">
-        <div class="video-info">
-          <div class="vid-title" data-en="Should You Ice or Heat an Injury? — AMR Physiotherapy" data-zh="损伤应该冰敷还是热敷？— AMR Physiotherapy">Should You Ice or Heat an Injury? — AMR Physiotherapy</div>
-          <div class="vid-source" data-en="YouTube · AMR Physiotherapy" data-zh="YouTube · AMR Physiotherapy">YouTube · AMR Physiotherapy</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=300&fit=crop" alt="Recovery" loading="lazy">
-        <div class="photo-cap" data-en="Active recovery and rest" data-zh="积极恢复与休息">Active recovery and rest</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop" alt="Ice bath" loading="lazy">
-        <div class="photo-cap" data-en="Cold water immersion therapy" data-zh="冷水浸泡疗法">Cold water immersion therapy</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -998,43 +930,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=Nb6pbcDzEjI" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/Nb6pbcDzEjI/hqdefault.jpg" alt="Sports Nutrition">
-        <div class="video-info">
-          <div class="vid-title" data-en="Science-Backed Nutrition Plan for Cyclists — TrainerRoad" data-zh="基于科学的骑行营养计划 — TrainerRoad">Science-Backed Nutrition Plan for Cyclists — TrainerRoad</div>
-          <div class="vid-source" data-en="YouTube · TrainerRoad" data-zh="YouTube · TrainerRoad">YouTube · TrainerRoad</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.bilibili.com/video/BV1rQ64YWECw/" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/bv1rQ64YWECw.jpg" alt="碳水前置后置" onerror="this.style.display='none'">
-        <div class="video-info">
-          <div class="vid-title" data-en="碳水前置 &amp; 碳水后置 (Bilibili)" data-zh="碳水前置 &amp; 碳水后置">碳水前置 &amp; 碳水后置 (Bilibili)</div>
-          <div class="vid-source" data-en="Bilibili · 吕一Heyimlvyi" data-zh="Bilibili · 吕一Heyimlvyi">Bilibili · 吕一Heyimlvyi</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=IakmfcgPVM0" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/IakmfcgPVM0/hqdefault.jpg" alt="Hydration">
-        <div class="video-info">
-          <div class="vid-title" data-en="Sweat Rate &amp; Hydration for Endurance Athletes — Fast Talk Labs" data-zh="耐力运动员的出汗率与补水 — Fast Talk Labs">Sweat Rate &amp; Hydration for Endurance Athletes — Fast Talk Labs</div>
-          <div class="vid-source" data-en="YouTube · Fast Talk Laboratories" data-zh="YouTube · Fast Talk Laboratories">YouTube · Fast Talk Laboratories</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop" alt="Sports nutrition" loading="lazy">
-        <div class="photo-cap" data-en="Balanced sports nutrition" data-zh="均衡的运动营养">Balanced sports nutrition</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop" alt="Hydration" loading="lazy">
-        <div class="photo-cap" data-en="Hydration is key to performance" data-zh="补水是表现的关键">Hydration is key to performance</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -1102,43 +997,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=kMO0vfTIRok" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/kMO0vfTIRok/hqdefault.jpg" alt="Creatine for Muscle Growth">
-        <div class="video-info">
-          <div class="vid-title" data-en="Does Creatine Work for Muscle Growth? — Renaissance Periodization" data-zh="肌酸对肌肉增长有效吗？— RP">Does Creatine Work for Muscle Growth? — Renaissance Periodization</div>
-          <div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=efTDRqPka3Y" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/efTDRqPka3Y/hqdefault.jpg" alt="Only Supplements Worth Taking">
-        <div class="video-info">
-          <div class="vid-title" data-en="The Only Supplements Worth Taking — Renaissance Periodization" data-zh="唯一值得吃的补剂 — RP">The Only Supplements Worth Taking — Renaissance Periodization</div>
-          <div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.bilibili.com/video/BV1x4FNzgEkE/" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/bv1x4FNzgEkE.jpg" alt="肌酸" onerror="this.style.display='none'">
-        <div class="video-info">
-          <div class="vid-title" data-en="普通人练薄肌真的需要喝肌酸吗？(Bilibili)" data-zh="普通人练薄肌真的需要喝肌酸吗？">普通人练薄肌真的需要喝肌酸吗？(Bilibili)</div>
-          <div class="vid-source" data-en="Bilibili · 院长贝贝教练培训" data-zh="Bilibili · 院长贝贝教练培训">Bilibili · 院长贝贝教练培训</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=300&fit=crop" alt="Supplements" loading="lazy">
-        <div class="photo-cap" data-en="Evidence-based supplements" data-zh="循证补剂">Evidence-based supplements</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop" alt="Creatine" loading="lazy">
-        <div class="photo-cap" data-en="Creatine monohydrate — most researched supplement" data-zh="肌酸一水合物 — 研究最充分的补剂">Creatine monohydrate — most researched supplement</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -1200,43 +1058,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     </div>
   </div>
 
-  <div class="resources-section">
-    <div class="resources-title" data-en="🎬 Recommended Videos &amp; Photos" data-zh="🎬 推荐视频与图片">🎬 Recommended Videos &amp; Photos</div>
-    <div class="video-grid">
-      <a class="video-card" href="https://www.youtube.com/watch?v=1Z2Ib4Meul4" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/1Z2Ib4Meul4/hqdefault.jpg" alt="PT Careers">
-        <div class="video-info">
-          <div class="vid-title" data-en="Physical Therapist Careers — American Physical Therapy Association" data-zh="物理治疗师职业 — 美国物理治疗协会">Physical Therapist Careers — American Physical Therapy Association</div>
-          <div class="vid-source" data-en="YouTube · APTA" data-zh="YouTube · APTA">YouTube · APTA</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.youtube.com/watch?v=JdNXlQXzSyk" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://img.youtube.com/vi/JdNXlQXzSyk/hqdefault.jpg" alt="Reality of PT">
-        <div class="video-info">
-          <div class="vid-title" data-en="What They Don't Tell You About Becoming a Physical Therapist — Reddy Care" data-zh="成为物理治疗师的真相 — Reddy Care">What They Don't Tell You About Becoming a Physical Therapist — Reddy Care</div>
-          <div class="vid-source" data-en="YouTube · Reddy Care Physical Therapy" data-zh="YouTube · Reddy Care Physical Therapy">YouTube · Reddy Care Physical Therapy</div>
-        </div>
-      </a>
-      <a class="video-card" href="https://www.bilibili.com/video/BV1bp421D78m/" target="_blank" rel="noopener">
-        <img class="video-thumb" src="https://i0.hdslb.com/bfs/archive/bv1bp421D78m.jpg" alt="运动康复" onerror="this.style.display='none'">
-        <div class="video-info">
-          <div class="vid-title" data-en="运动疗法 — 上肢肌力训练 (Bilibili)" data-zh="运动疗法 — 上肢肌力训练">运动疗法 — 上肢肌力训练 (Bilibili)</div>
-          <div class="vid-source" data-en="Bilibili · 运动康复小树老师" data-zh="Bilibili · 运动康复小树老师">Bilibili · 运动康复小树老师</div>
-        </div>
-      </a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop" alt="Physical therapy" loading="lazy">
-        <div class="photo-cap" data-en="Physical therapy in practice" data-zh="物理治疗实践">Physical therapy in practice</div>
-      </div>
-      <div class="photo-card">
-        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Rehabilitation" loading="lazy">
-        <div class="photo-cap" data-en="Rehabilitation and recovery" data-zh="康复与恢复">Rehabilitation and recovery</div>
-      </div>
-    </div>
-    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
-  </div>
 </div>
 </section>
 
@@ -1286,6 +1107,52 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
     <div class="progress-item"><label data-en="Flashcards" data-zh="闪卡">Flashcards</label><div class="prog-track"><div class="prog-fill" id="prog-fc" style="width:0%"></div></div><span class="prog-pct" id="pct-fc">0%</span></div>
   </div>
   <p style="font-size:.85rem;color:var(--text3)" data-en="Progress updates automatically as you use Quiz Mode and review flashcards." data-zh="使用答题模式和闪卡时，进度会自动更新。">Progress updates automatically as you use Quiz Mode and review flashcards.</p>
+</div>
+</section>
+
+<!-- Resources & Learning Hub -->
+<section id="resources">
+<div class="container">
+  <span class="section-label" data-en="Resources &amp; Learning" data-zh="资源与学习">Resources &amp; Learning</span>
+  <h2 data-en="Videos &amp; Photos by Chapter" data-zh="各章节视频与图片">Videos &amp; Photos by Chapter</h2>
+  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Curated YouTube &amp; Bilibili videos and Unsplash photos for every chapter. Videos open in a new tab." data-zh="为每个章节精选的 YouTube 和 Bilibili 视频以及 Unsplash 图片。视频将在新标签页打开。">Curated YouTube &amp; Bilibili videos and Unsplash photos for every chapter. Videos open in a new tab.</p>
+  <div id="resourcesHub"></div>
+</div>
+</section>
+
+<!-- Q&A Helper -->
+<section id="qa">
+<div class="container">
+  <span class="section-label" data-en="Q&amp;A Helper" data-zh="问答助手">Q&amp;A Helper</span>
+  <h2 data-en="Ask Your Health &amp; Injury Questions" data-zh="咨询你的健康与损伤问题">Ask Your Health &amp; Injury Questions</h2>
+  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Not sure about an ache, a strain, or recovery? Describe your issue below — an AI assistant will help you with guidance (not a medical diagnosis)." data-zh="对酸痛、拉伤或恢复有疑问？在下方描述你的问题 — AI 助手将为你提供指导（非医疗诊断）。">Not sure about an ache, a strain, or recovery? Describe your issue below — an AI assistant will help you with guidance (not a medical diagnosis).</p>
+
+  <div class="chat-panel">
+    <div class="chat-window">
+      <div class="chat-header">
+        <span class="status-dot"></span>
+        <span data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <span class="msg-label" data-en="ASSISTANT" data-zh="助手">ASSISTANT</span>
+          <span class="chat-msg-text" data-en="Hi! I'm here to help with sports injuries and recovery questions. For example: “I have 落枕 (stiff neck), what should I do?” Describe your issue and I'll give you guidance." data-zh="你好！我可以帮你解答运动损伤和恢复方面的问题。例如：&quot;我落枕了，该怎么办？&quot;描述你的问题，我会给你指导建议。">Hi! I'm here to help with sports injuries and recovery questions. For example: "I have 落枕 (stiff neck), what should I do?" Describe your issue and I'll give you guidance.</span>
+        </div>
+      </div>
+      <div class="chat-suggestions" id="chatSuggestions">
+        <button class="chat-sug-btn" data-en="😴 I have 落枕 / stiff neck" data-zh="😴 我落枕了 / 脖子僵硬">😴 I have 落枕 / stiff neck</button>
+        <button class="chat-sug-btn" data-en="🦵 Sprained my ankle" data-zh="🦵 脚踝扭伤了">🦵 Sprained my ankle</button>
+        <button class="chat-sug-btn" data-en="💪 Muscle soreness after workout" data-zh="💪 练后肌肉酸痛">💪 Muscle soreness after workout</button>
+        <button class="chat-sug-btn" data-en="🖐 Wrist/elbow pain" data-zh="🖐 手腕/肘部疼痛">🖐 Wrist/elbow pain</button>
+        <button class="chat-sug-btn" data-en="🦿 Knee pain when running" data-zh="🦿 跑步时膝盖疼">🦿 Knee pain when running</button>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Type your question… 请输入你的问题" data-en="Type your question…" data-zh="请输入你的问题…">
+        <button class="chat-send" id="chatSend" data-en="Send" data-zh="发送">Send</button>
+      </div>
+    </div>
+    <div class="chat-disclaimer" data-en="⚠️ For educational purposes only. Not a substitute for professional medical advice — see a doctor for serious injuries." data-zh="⚠️ 仅供学习参考。不能替代专业医疗建议 — 严重受伤请及时就医。">⚠️ For educational purposes only. Not a substitute for professional medical advice — see a doctor for serious injuries.</div>
+  </div>
 </div>
 </section>
 
@@ -2298,12 +2165,167 @@ function updateRecs(){
 }
 
 // ════════════════════════════════════════
+// Resources Hub
+// ════════════════════════════════════════
+const RESOURCES_BY_CHAPTER = [
+  {
+    id:1, ch:'Ch 1', name:'The Body as a Machine', nameCn:'身体如机器',
+    videos:[
+      {src:'YouTube · Anatomy in Motion', vid:'5Ro6FxC9S84', title:'Energy Systems in Motion — How Muscles Produce Endurance', titleCn:'运动中的能量系统 — 肌肉如何产生耐力', url:'https://www.youtube.com/watch?v=5Ro6FxC9S84'},
+      {src:'YouTube · PTPioneer', vid:'L6okWmDtGfE', title:'NASM Energy Systems Explained + Mnemonic & Quiz', titleCn:'NASM三大供能系统详解 + 记忆口诀', url:'https://www.youtube.com/watch?v=L6okWmDtGfE'},
+      {src:'Bilibili · 德意的健身笔记', vid:'', title:'详解三大供能系统', titleCn:'详解三大供能系统', url:'https://www.bilibili.com/video/BV1vh411x7Ei/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop', cap:'Muscle fibers under load', capCn:'负重下的肌纤维'},
+      {src:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop', cap:'Energy systems in action', capCn:'能量系统运作中'}
+    ]
+  },
+  {
+    id:2, ch:'Ch 2', name:'Training Principles', nameCn:'训练原则',
+    videos:[
+      {src:'YouTube · Flow High Performance', vid:'fD4OyUDfL3U', title:'Progressive Overload for Strength vs Hypertrophy', titleCn:'力量与肌肥大的渐进超负荷', url:'https://www.youtube.com/watch?v=fD4OyUDfL3U'},
+      {src:'YouTube · Jeff Nippard', vid:'TQxMvpe2lQ8', title:'Fast or Slow Reps for Muscle Growth?', titleCn:'快节奏还是慢节奏？', url:'https://www.youtube.com/watch?v=TQxMvpe2lQ8'},
+      {src:'YouTube · Jeff Nippard', vid:'DzjWEn2BS_k', title:'I Cut My Training Volume In Half', titleCn:'我把训练量砍了一半', url:'https://www.youtube.com/watch?v=DzjWEn2BS_k'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop', cap:'Progressive overload in practice', capCn:'实践中的渐进超负荷'},
+      {src:'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop', cap:'Proper lifting form', capCn:'正确的举重姿势'}
+    ]
+  },
+  {
+    id:3, ch:'Ch 3', name:'Soft Tissue & Injury', nameCn:'软组织与损伤',
+    videos:[
+      {src:'YouTube · La Clinique Du Coureur', vid:'HGTabgG7GIU', title:'PEACE & LOVE — New Injury Treatment Acronym', titleCn:'PEACE & LOVE — 全新损伤处理方案', url:'https://www.youtube.com/watch?v=HGTabgG7GIU'},
+      {src:'Bilibili · PhysioDu物理治疗师', vid:'', title:'最全面的踝扭伤自我康复教程', titleCn:'最全面的踝扭伤自我康复教程', url:'https://www.bilibili.com/video/BV1ztHme1Eef/'},
+      {src:'YouTube · Sports Injury Physio', vid:'U_9gjff7ICU', title:'When to Use Ice or Heat for a Sports Injury', titleCn:'运动损伤何时用冰敷或热敷', url:'https://www.youtube.com/watch?v=U_9gjff7ICU'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop', cap:'Soft tissue rehabilitation', capCn:'软组织康复'},
+      {src:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop', cap:'Flexibility and stretching', capCn:'柔韧性与拉伸'}
+    ]
+  },
+  {
+    id:4, ch:'Ch 4', name:'Inflammation & Recovery', nameCn:'炎症与恢复',
+    videos:[
+      {src:'YouTube · Renaissance Periodization', vid:'uhwvH6pVDOw', title:'Cold Immersion Is Even More Worthless Than We Thought?', titleCn:'冷水浸泡比想象中更没用？', url:'https://www.youtube.com/watch?v=uhwvH6pVDOw'},
+      {src:'YouTube · Renaissance Periodization', vid:'pUC_UCEQKrk', title:'Sleep Loss Kills Muscle Growth', titleCn:'睡眠不足杀死肌肉增长', url:'https://www.youtube.com/watch?v=pUC_UCEQKrk'},
+      {src:'YouTube · AMR Physiotherapy', vid:'2S_gG63w020', title:'Should You Ice or Heat an Injury?', titleCn:'损伤应该冰敷还是热敷？', url:'https://www.youtube.com/watch?v=2S_gG63w020'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=300&fit=crop', cap:'Active recovery and rest', capCn:'积极恢复与休息'},
+      {src:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop', cap:'Cold water immersion therapy', capCn:'冷水浸泡疗法'}
+    ]
+  },
+  {
+    id:5, ch:'Ch 5', name:'Nutrition', nameCn:'营养',
+    videos:[
+      {src:'YouTube · TrainerRoad', vid:'Nb6pbcDzEjI', title:'Science-Backed Nutrition Plan for Cyclists', titleCn:'基于科学的骑行营养计划', url:'https://www.youtube.com/watch?v=Nb6pbcDzEjI'},
+      {src:'Bilibili · 吕一Heyimlvyi', vid:'', title:'碳水前置 & 碳水后置', titleCn:'碳水前置 & 碳水后置', url:'https://www.bilibili.com/video/BV1rQ64YWECw/'},
+      {src:'YouTube · Fast Talk Laboratories', vid:'IakmfcgPVM0', title:'Sweat Rate & Hydration for Endurance Athletes', titleCn:'耐力运动员的出汗率与补水', url:'https://www.youtube.com/watch?v=IakmfcgPVM0'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
+      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+    ]
+  },
+  {
+    id:6, ch:'Ch 6', name:'Supplements', nameCn:'补剂',
+    videos:[
+      {src:'YouTube · Renaissance Periodization', vid:'kMO0vfTIRok', title:'Does Creatine Work for Muscle Growth?', titleCn:'肌酸对肌肉增长有效吗？', url:'https://www.youtube.com/watch?v=kMO0vfTIRok'},
+      {src:'YouTube · Renaissance Periodization', vid:'efTDRqPka3Y', title:'The Only Supplements Worth Taking', titleCn:'唯一值得吃的补剂', url:'https://www.youtube.com/watch?v=efTDRqPka3Y'},
+      {src:'Bilibili · 院长贝贝教练培训', vid:'', title:'普通人练薄肌真的需要喝肌酸吗？', titleCn:'普通人练薄肌真的需要喝肌酸吗？', url:'https://www.bilibili.com/video/BV1x4FNzgEkE/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=300&fit=crop', cap:'Evidence-based supplements', capCn:'循证补剂'},
+      {src:'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop', cap:'Creatine — most researched supplement', capCn:'肌酸 — 研究最充分的补剂'}
+    ]
+  },
+  {
+    id:7, ch:'Ch 7', name:'Rehab & Career', nameCn:'康复与职业',
+    videos:[
+      {src:'YouTube · APTA', vid:'1Z2Ib4Meul4', title:'Physical Therapist Careers — APTA', titleCn:'物理治疗师职业 — 美国物理治疗协会', url:'https://www.youtube.com/watch?v=1Z2Ib4Meul4'},
+      {src:'YouTube · Reddy Care Physical Therapy', vid:'JdNXlQXzSyk', title:"What They Don't Tell You About Becoming a Physical Therapist", titleCn:'成为物理治疗师的真相', url:'https://www.youtube.com/watch?v=JdNXlQXzSyk'},
+      {src:'Bilibili · 运动康复小树老师', vid:'', title:'运动疗法 — 上肢肌力训练', titleCn:'运动疗法 — 上肢肌力训练', url:'https://www.bilibili.com/video/BV1bp421D78m/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop', cap:'Physical therapy in practice', capCn:'物理治疗实践'},
+      {src:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', cap:'Rehabilitation and recovery', capCn:'康复与恢复'}
+    ]
+  }
+];
+
+function renderResourcesHub(){
+  const el=document.getElementById('resourcesHub');
+  if(!el) return;
+  el.innerHTML = RESOURCES_BY_CHAPTER.map(c=>{
+    const vids = c.videos.map(v=>{
+      const thumb = v.vid ? `https://img.youtube.com/vi/${v.vid}/hqdefault.jpg` : '';
+      return `<a class="video-card" href="${v.url}" target="_blank" rel="noopener">
+        ${thumb?`<img class="video-thumb" src="${thumb}" loading="lazy" alt="${v.title}">`:''}
+        <div class="video-info">
+          <div class="vid-title" data-en="${v.title}" data-zh="${v.titleCn}">${v.title}</div>
+          <div class="vid-source" data-en="${v.src}" data-zh="${v.src}">${v.src}</div>
+        </div>
+      </a>`;
+    }).join('');
+    const pics = c.photos.map(p=>`<div class="photo-card">
+      <img src="${p.src}" loading="lazy" alt="${p.cap}">
+      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+    </div>`).join('');
+    return `<div class="res-hub-chapter">
+      <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>
+      <div class="video-grid">${vids}</div>
+      <div class="photo-grid">${pics}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// Q&A Chat (UI only — no AI linked yet)
+// ════════════════════════════════════════
+function addChatMessage(text, isUser, textZh){
+  const box=document.getElementById('chatMessages');
+  if(!box) return;
+  const div=document.createElement('div');
+  div.className='chat-msg '+(isUser?'user':'bot');
+  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'ASSISTANT'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+  applyLang();
+}
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const q=(input.value||'').trim();
+  if(!q) return;
+  addChatMessage(q, true, q);
+  input.value='';
+  const thinking='Thinking… 思考中…';
+  addChatMessage(thinking, false, '思考中…');
+  setTimeout(()=>{
+    const last=document.getElementById('chatMessages');
+    if(last) last.lastChild?.remove();
+    const replyZh='收到！我暂时还不能自主回答这个问题（AI 尚未接入）。请先描述你的具体症状，例如有没有肿胀、是否影响活动、疼了多久等。稍后接入 AI 后，我会结合运动医学知识为你给出个性化指导。⚠️ 本回复仅供学习参考，不能替代专业医疗建议。';
+    const replyEn='Got it! For now this assistant is not yet linked to an AI model. Please describe your symptoms in more detail (swelling? does it limit movement? how long?) and once AI is connected I will give you personalized guidance from sports-medicine knowledge. ⚠️ Educational only — not medical advice.';
+    addChatMessage(replyEn, false, replyZh);
+  }, 800);
+}
+
+// ════════════════════════════════════════
 // Init
 // ════════════════════════════════════════
 applyLang();
 renderMasteryGrid();
 updateRecs();
 renderProgressBars();
+renderResourcesHub();
+document.getElementById('chatSend')?.addEventListener('click', sendChat);
+document.getElementById('chatInput')?.addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+document.querySelectorAll('.chat-sug-btn').forEach(b=>b.addEventListener('click', ()=>{
+  const input=document.getElementById('chatInput');
+  input.value=b.dataset.zh || b.textContent;
+  sendChat();
+}));
 </script>
+</div><!-- /page-wrapper -->
 </body>
 </html>

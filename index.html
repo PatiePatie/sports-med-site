@@ -7,14 +7,17 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f8f9fa;--surface:#fff;--surface2:#f0f2f5;--surface3:#e8eaed;
-  --text:#1a1a2e;--text2:#555;--text3:#888;
-  --accent:#2563eb;--accent2:#1d4ed8;--accent-bg:#eff6ff;
-  --green:#16a34a;--red:#dc2626;--amber:#d97706;
-  --border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.08);
-  --radius:10px;--radius-sm:6px;
+  --bg:#f6f7fb;--surface:#ffffff;--surface2:#eef1f6;--surface3:#e1e5ee;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#4f46e5;--accent2:#4338ca;--accent-bg:#eef2ff;
+  --green:#0e9f6e;--red:#e11d48;--amber:#d97706;
+  --border:#e8eaf0;--border2:#d8dce6;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
+  --shadow:0 4px 14px rgba(15,23,42,.08),0 1px 3px rgba(15,23,42,.04);
+  --shadow-lg:0 16px 40px rgba(15,23,42,.13),0 4px 10px rgba(15,23,42,.05);
+  --radius:16px;--radius-sm:10px;--radius-lg:22px;
   --font:"Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
-  --max-w:860px;
+  --max-w:820px;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
@@ -30,10 +33,14 @@ tr:nth-child(even){background:var(--surface2)}
 
 /* ── Dark ── */
 body.dark{
-  --bg:#0f172a;--surface:#1e293b;--surface2:#273548;--surface3:#334155;
-  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
-  --accent:#60a5fa;--accent2:#93c5fd;--accent-bg:#1e3a5f;
-  --border:#334155;--shadow:0 1px 3px rgba(0,0,0,.3);
+  --bg:#0a101f;--surface:#131a2c;--surface2:#1b2337;--surface3:#263049;
+  --text:#e6e9f2;--text2:#9aa4bd;--text3:#6b7591;
+  --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1d2145;
+  --border:#232c44;--border2:#2f3a57;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 4px 16px rgba(0,0,0,.42);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.55);
+  --accent-glow:rgba(129,140,248,.25);
 }
 
 /* ── Layout ── */
@@ -434,6 +441,88 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .ch-go{display:flex;align-items:center;gap:.2rem;font-size:.8rem;font-weight:700;color:var(--accent);white-space:nowrap;transition:gap .18s}
 .ch-card:hover .ch-go{gap:.5rem}
 .ch-card-body{flex:1;min-width:0}
+
+/* ══════════════════════════════════════════
+   DESIGN POLISH (2026 refresh) — editorial, typography-led
+   ══════════════════════════════════════════ */
+html{scroll-behavior:smooth}
+body{letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+
+/* Typography scale */
+h1,h2,h3{letter-spacing:-.015em;line-height:1.15;font-weight:800;text-wrap:balance}
+h2{font-size:clamp(1.7rem,3.4vw,2.4rem)}
+h3{letter-spacing:-.01em}
+p{text-wrap:pretty}
+
+/* Header */
+header{background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(14px) saturate(160%);box-shadow:var(--shadow-sm)}
+.logo{font-size:1.12rem;font-weight:800;letter-spacing:-.01em}
+.btn-icon{box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,background .18s,border-color .18s}
+.btn-icon:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+
+/* Sections + labels */
+section{padding:4rem 0 3rem}
+.section-label{background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);font-weight:700}
+
+/* Cards — premium resting state */
+.stat-card,.mastery-card,.diag-topic,.video-card,.debate,.quiz,.acc-item,.rec-box,.chat-window{
+  border-radius:var(--radius);border-color:var(--border);box-shadow:var(--shadow-sm);transition:box-shadow .22s,transform .22s,border-color .22s}
+.stat-card:hover,.mastery-card:hover,.video-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+
+/* Buttons */
+.qo-btn,.aq-btn,.ai-send-btn,.chat-send,.fc-nav button{box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,background .18s}
+.qo-btn:hover,.aq-btn:hover,.ai-send-btn:hover,.chat-send:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.qo-btn.next,.aq-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+/* Quizzes & accordions */
+.quiz{border:2px solid var(--border)}
+.acc-header{border-left:2px solid transparent;transition:background .2s,border-color .2s}
+.acc-item.open>.acc-header{border-left:2px solid var(--accent)}
+
+/* Q&A / flashcard option pills */
+.qo-opt,.aq-opt{transition:border-color .15s,background .15s,transform .12s}
+.qo-opt:not(.disabled):hover,.aq-opt:not(.disabled):hover{transform:translateX(3px)}
+
+/* Resources video thumbnails */
+.video-thumb{border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+
+/* ------------------------------------------------
+   SIDEBAR — refined
+   ------------------------------------------------ */
+.sidebar-logo{font-weight:800;letter-spacing:-.01em}
+.sidebar-label{letter-spacing:.09em}
+.sidebar-link{border-left:3px solid transparent;transition:all .15s}
+.sidebar-link:hover{transform:translateX(2px)}
+
+/* ------------------------------------------------
+   INDEX — Hero (only used on index.html)
+   ------------------------------------------------ */
+.hero{
+  background:
+    radial-gradient(1200px 500px at 50% -10%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 60%),
+    linear-gradient(180deg,color-mix(in srgb,var(--accent-bg) 70%,var(--bg)),var(--bg));
+  border-bottom:1px solid var(--border);
+  padding:4.5rem 0 3.5rem;text-align:center}
+.hero h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800;letter-spacing:-.025em;max-width:760px;margin:0 auto 1rem}
+.hero-badge{font-weight:700;box-shadow:var(--shadow-sm)}
+.hero-actions{margin-top:2rem}
+
+/* INDEX — TOC cards (only on index.html) */
+.toc-intro h2{font-size:clamp(2rem,4.5vw,3rem)}
+.toc-intro .toc-sub{font-size:1.05rem}
+.ch-card{border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .2s,box-shadow .2s,border-color .2s}
+.ch-card:hover{box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+.ch-num{box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 35%,transparent)}
+
+/* AI floating button */
+.ai-fab{box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 45%,transparent)}
+
+/* Back to top */
+.back-top{box-shadow:var(--shadow-lg)}
+
+/* Focus visibility */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>

@@ -482,25 +482,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   </div>
 </div>
 </header>
-<nav>
-<div class="container">
-<ul id="navList">
-<li><a href="index.html" class="active" data-en="Home" data-zh="首页">Home</a></li>
-<li><a href="ch1.html" data-en="Ch 1" data-zh="第一章">Ch 1</a></li>
-<li><a href="ch2.html" data-en="Ch 2" data-zh="第二章">Ch 2</a></li>
-<li><a href="ch3.html" data-en="Ch 3" data-zh="第三章">Ch 3</a></li>
-<li><a href="ch4.html" data-en="Ch 4" data-zh="第四章">Ch 4</a></li>
-<li><a href="ch5.html" data-en="Ch 5" data-zh="第五章">Ch 5</a></li>
-<li><a href="ch6.html" data-en="Ch 6" data-zh="第六章">Ch 6</a></li>
-<li><a href="ch7.html" data-en="Ch 7" data-zh="第七章">Ch 7</a></li>
-<li><a href="index.html#practice" data-en="Practice" data-zh="刷题">Practice</a></li>
-<li><a href="index.html#resources" data-en="Resources" data-zh="资源">Resources</a></li>
-<li><a href="index.html#qa" data-en="Q&amp;A" data-zh="问答">Q&amp;A</a></li>
-<li><a href="index.html#progress" data-en="Progress" data-zh="进度">Progress</a></li>
-<li><a href="index.html#refs" data-en="Refs" data-zh="参考">Refs</a></li>
-</ul>
-</div>
-</nav>
 
 <!-- Hero -->
 <section id="hero" class="hero">
@@ -1141,19 +1122,6 @@ if(localStorage.getItem('sm_lang')==='en'){showCN=false;}
 // ════════════════════════════════════════
 // NAV + SCROLL
 // ════════════════════════════════════════
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('#navList a');
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      navLinks.forEach(a=>a.classList.remove('active'));
-      const link = document.querySelector(`#navList a[href="#${entry.target.id}"]`);
-      if(link) link.classList.add('active');
-    }
-  });
-},{rootMargin:'-40% 0px -55% 0px'});
-sections.forEach(s=>observer.observe(s));
-
 const backBtn = document.getElementById('backTop');
 window.addEventListener('scroll',()=>{backBtn.classList.toggle('show', window.scrollY>500);});
 

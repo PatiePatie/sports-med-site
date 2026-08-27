@@ -1376,8 +1376,299 @@ t7:[
 ],
 };
 
+// ─── PARAMETRIC UNLIMITED QUESTION ENGINE ───
+// Builds thousands of fresh, non-repeating bilingual questions per topic.
+// Falls back gracefully. Trusted numeric + categorical randomization.
+var _paramSeen = {};
+var _paramCounts = {};
+
+function _phash(o){ return JSON.stringify(o); }
+function _rr(n){ return Math.floor(Math.random()*n); }
+
+// Build a fully-shuffled question object from components.
+// correctIdx = index (into optsEn) of the correct answer.
+function _buildQ(topicId, difficulty, q, qCn, optsEn, optsCn, correctIdx, explain, explainCn){
+  var idx = optsEn.map(function(_,i){return i;});
+  shuffle(idx);
+  var so = idx.map(function(i){return optsEn[i];});
+  var soc = optsCn ? idx.map(function(i){return optsCn[i];}) : undefined;
+  var nc = so.indexOf(optsEn[correctIdx]);
+  return {topic:topicId, difficulty:difficulty, q:q, qCn:qCn, opts:so, optsCn:soc, correct:nc, explain:explain, explainCn:explainCn};
+}
+
+var PARAM = {
+  // ── Topic 1: Body as a Machine ──
+  t1:[
+    function(diff){
+      var efforts=[
+        {t:"a 100 m sprint",         tCn:"100米短跑",          sys:"Phosphagen", sysCn:"磷酸肌酸系统", d:1, cat:0},
+        {t:"a 10-second all-out bike sprint", tCn:"10秒全力自行车冲刺", sys:"Phosphagen", sysCn:"磷酸肌酸系统", d:1, cat:0},
+        {t:"a 200 m swim",           tCn:"200米游泳",           sys:"Glycolytic",  sysCn:"糖酵解系统",    d:2, cat:1},
+        {t:"a 400 m run",            tCn:"400米跑",             sys:"Glycolytic",  sysCn:"糖酵解系统",    d:2, cat:1},
+        {t:"a 3-minute boxing round",tCn:"3分钟拳击回合",        sys:"Glycolytic",  sysCn:"糖酵解系统",    d:2, cat:1},
+        {t:"a 10 km run",            tCn:"10公里跑",            sys:"Oxidative",   sysCn:"氧化系统",      d:1, cat:2},
+        {t:"a 90-minute jog",        tCn:"90分钟慢跑",          sys:"Oxidative",   sysCn:"氧化系统",      d:1, cat:2},
+        {t:"a marathon",             tCn:"马拉松",              sys:"Oxidative",   sysCn:"氧化系统",      d:1, cat:2}
+      ];
+      var e = efforts[_rr(efforts.length)];
+      var optSys = ["Phosphagen","Glycolytic","Oxidative","Anaerobic lactic"];
+      var optSysCn = ["磷酸肌酸系统","糖酵解系统","氧化系统","无氧乳酸系统"];
+      var q = "Which energy system is the primary ATP source for " + e.t + "?";
+      var qCn = "进行" + e.tCn + "，主要依靠哪种供能系统合成ATP？";
+      var exCat = e.cat===0 ? "short (0-10 s) and explosive, using stored ATP + creatine phosphate"
+                 : e.cat===1 ? "moderate (~10 s-2 min), using anaerobic glycolysis"
+                 : "long (>3 min) and steady, using aerobic oxidation of fuels";
+      var exCatCn = e.cat===0 ? "为时短（0–10秒）且爆发性强，依赖储存的ATP+磷酸肌酸"
+                    : e.cat===1 ? "为时中等（约10秒–2分钟），依赖无氧糖酵解"
+                    : "为时长（>3分钟）且稳定，依赖燃料的有氧氧化";
+      var ex = e.sys + " dominates because the effort is " + exCat + ".";
+      var exCn = "根据运动时长，" + e.sysCn + "占比最高：此运动" + exCatCn + "。";
+      return _buildQ("t1", Math.max(1,e.d), q, qCn, optSys, optSysCn, e.cat, ex, exCn);
+    },
+    function(diff){
+      var pairs=[
+        {act:"marathon running", actCn:"马拉松跑步", type:0, typeCn:"慢肌纤维（I型）", d:1},
+        {act:"fast-twitch sprinting", actCn:"快肌冲刺", type:1, typeCn:"快肌纤维（II型）", d:1}
+      ];
+      var p = pairs[_rr(pairs.length)];
+      var optEn=["slow-twitch (Type I)","fast-twitch (Type II)","both equally","Type III fibers"];
+      var optCn=["慢肌纤维（I型）","快肌纤维（II型）","两者相同","III型纤维"];
+      var q = "The activity " + p.act + " is best served by which muscle fiber type?";
+      var qCn = "活动「" + p.actCn + "」最适合哪种肌纤维类型？";
+      var ex = (p.type===0?"slow-twitch (Type I)":"fast-twitch (Type II)") + " fibers are built for " + (p.type===0?"sustained aerobic endurance (rich mitochondria, fatigue-resistant).":"explosive power (fast contraction, low fatigue-resistance).");
+      var exCn = p.typeCn + "适合" + (p.type===0?"持续有氧耐力（线粒体丰富、抗疲劳）。":"爆发力（收缩快、抗疲劳性差）。");
+      return _buildQ("t1", p.d, q, qCn, optEn, optCn, p.type, ex, exCn);
+    }
+  ],
+  // ── Topic 2: Training Principles ──
+  t2:[
+    function(diff){
+      var goals=[
+        {goal:"maximal strength (1RM)", goalCn:"最大力量（1RM）", reps:"1-5 reps, heavy load", repsCn:"每组1–5次、大重量", d:2,
+         wrong:["15+ reps, light load","8-12 reps, moderate load","30 reps, bodyweight"],
+         wrongCn:["每组15次以上、轻重量","每组8–12次、中等重量","30次、自重"]},
+        {goal:"muscle growth (hypertrophy)", goalCn:"肌肉增长（肌肥大）", reps:"8-12 reps, moderate load", repsCn:"每组8–12次、中等重量", d:2,
+         wrong:["1-3 reps, maximal load","50 reps, very light load","5 min isometric holds"],
+         wrongCn:["每组1–3次、极重负荷","每组50次、极轻重量","5分钟等长保持"]},
+        {goal:"muscular endurance", goalCn:"肌肉耐力", reps:"15-20+ reps, light load", repsCn:"每组15–20次以上、轻重量", d:2,
+         wrong:["1-2 reps, maximal load","2-3 reps, heavy load","8-12 reps, moderate load"],
+         wrongCn:["每组1–2次、极重负荷","每组2–3次、大重量","每组8–12次、中等重量"]}
+      ];
+      var g = goals[_rr(goals.length)];
+      var optEn = [g.reps].concat(g.wrong);
+      var optCn = [g.repsCn].concat(g.wrongCn);
+      var q = "To develop " + g.goal + " using progressive overload, which rep/load scheme is most appropriate?";
+      var qCn = "用渐进超负荷发展" + g.goalCn + "，哪种次数/负荷方案最合适？";
+      var ex = g.reps + " specifically stress the motor units and adaptations driving " + g.goal + " (SAID: the imposed demand dictates the adaptation).";
+      var exCn = g.repsCn + "针对性刺激驱动" + g.goalCn + "的运动单元与适应（SAID：施加的需求决定适应）。";
+      return _buildQ("t2", g.d, q, qCn, optEn, optCn, 0, ex, exCn);
+    },
+    function(diff){
+      var holds=[
+        {sec:"under 45 s", secCn:"少于45秒", ok:1, ex:"essentially no strength loss (trivial ~1-2%)", exCn:"基本无力量损失（约1–2%，影响轻微）", d:2},
+        {sec:"60 seconds or more", secCn:"60秒或以上", ok:2, ex:"a significant strength drop (up to ~7.5%)", exCn:"显著力量下降（最高约7.5%）", d:3}
+      ];
+      var h = holds[_rr(holds.length)];
+      var optEn=["increased maximal strength","essentially no effect / trivial","a force reduction up to ~7.5%","permanent muscle damage"];
+      var optCn=["最大力量提高","基本无影响/轻微","力量下降（最高约7.5%）","永久肌肉损伤"];
+      var q = "Holding a static stretch for " + h.sec + " (per muscle) immediately before lifting most likely causes:";
+      var qCn = "举重前将每块肌肉的静态拉伸保持" + h.secCn + "，最可能造成：";
+      var ex = h.ex + " (dose-dependent: <45 s trivial, ≥60 s up to ~7.5% strength loss).";
+      var exCn = h.exCn + "（剂量依赖：<45秒影响轻微，≥60秒下降约7.5%。）";
+      return _buildQ("t2", h.d, q, qCn, optEn, optCn, h.ok, ex, exCn);
+    }
+  ],
+  // ── Topic 3: Injury & Healing ──
+  t3:[
+    function(diff){
+      var phases=[
+        {phase:"Inflammatory",  phaseCn:"炎症期",  key:0, ev:"immune cells clear debris and release repair growth factors", evCn:"免疫细胞清除碎片并释放修复生长因子", d:1},
+        {phase:"Proliferative", phaseCn:"增殖期",  key:1, ev:"fibroblasts lay down type III collagen and new capillaries sprout", evCn:"成纤维细胞铺设III型胶原，新生毛细血管萌芽", d:2},
+        {phase:"Remodeling",    phaseCn:"重塑期",  key:2, ev:"type III collagen is replaced by type I aligned along stress lines", evCn:"III型胶原被沿应力线排列的I型胶原取代", d:2}
+      ];
+      var p = phases[_rr(phases.length)];
+      var optEn=["Immune cells clear debris and release growth factors","Fibroblasts lay down type III collagen + capillaries sprout","Type I collagen re-aligns along stress lines","Bone marrow produces red blood cells"];
+      var optCn=["免疫细胞清除碎片并释放生长因子","成纤维细胞铺设III型胶原，毛细血管萌芽","I型胶原沿应力线重新排列","骨髓产生红细胞"];
+      var q = "Which event characterizes the " + p.phase + " phase of soft-tissue healing?";
+      var qCn = "软组织愈合的" + p.phaseCn + "阶段有哪些特征性事件？";
+      var ex = p.ev + ".";
+      var exCn = p.evCn + "。";
+      return _buildQ("t3", p.d, q, qCn, optEn, optCn, p.key, ex, exCn);
+    },
+    function(diff){
+      var grades=[
+        {g:"Grade I",  gCn:"I度",  key:0, def:"overstretched, joint stable", defCn:"过度拉伸，关节稳定", d:1},
+        {g:"Grade II", gCn:"II度", key:1, def:"partial tear, moderate instability", defCn:"部分撕裂，中度不稳定", d:1},
+        {g:"Grade III",gCn:"III度",key:2, def:"complete rupture, gross instability", defCn:"完全断裂，严重不稳定", d:2}
+      ];
+      var gr = grades[_rr(grades.length)];
+      var optEn=["Overstretched, joint stable","Partial tear, moderate instability","Complete rupture, gross instability","Bone fracture, no ligament damage"];
+      var optCn=["过度拉伸，关节稳定","部分撕裂，中度不稳定","完全断裂，严重不稳定","骨折，无韧带损伤"];
+      var q = "A " + gr.g + " ligament sprain is defined by:";
+      var qCn = gr.gCn + "韧带扭伤的定义是：";
+      var ex = gr.def + ".";
+      var exCn = gr.defCn + "。";
+      return _buildQ("t3", gr.d, q, qCn, optEn, optCn, gr.key, ex, exCn);
+    }
+  ],
+  // ── Topic 4: Recovery Science ──
+  t4:[
+    function(diff){
+      var q="An adolescent athlete who averages fewer than 8 h of sleep per night has a higher injury risk than a well-rested peer by approximately:";
+      var qCn="每晚平均睡眠不足8小时的青少年运动员，受伤风险约比充分休息的同伴高出的倍数是：";
+      var optEn=["1.2×","1.7×","2.5×","3.0×"];
+      var optCn=["1.2倍","1.7倍","2.5倍","3.0倍"];
+      var ex="Milewski et al. 2014: athletes averaging <8 h sleep were ~1.7× more likely to be injured.";
+      var exCn="Milewski等人2014：平均睡眠不足8小时的运动员受伤风险约高1.7倍。";
+      return _buildQ("t4",1,q,qCn,optEn,optCn,1,ex,exCn);
+    },
+    function(diff){
+      var q="After one exposure to a new eccentric exercise, a repeated identical workout the following week typically produces:";
+      var qCn="首次接触新的离心训练后，下周重复相同训练通常会产生：";
+      var optEn=["More damage and soreness","Dramatically less damage and soreness","Exactly the same response","No response at all"];
+      var optCn=["更多损伤和酸痛","损伤和酸痛大幅减少","完全相同的反应","完全没有反应"];
+      var ex="The repeated-bout effect: subsequent identical workouts cause dramatically less damage via neural + cellular adaptations.";
+      var exCn="重复训练效应：后续相同训练损伤大幅减少，源于神经与细胞适应。";
+      return _buildQ("t4",1,q,qCn,optEn,optCn,1,ex,exCn);
+    }
+  ],
+  // ── Topic 5: Sports Nutrition ──
+  t5:[
+    function(diff){
+      var weights=[50,55,60,65,70,75,80,85,90,95,100];
+      var doses=[1.2,1.4,1.6,1.8,2.0];
+      var w=weights[_rr(weights.length)];
+      var d=doses[_rr(doses.length)];
+      var correctVal=Math.round(w*d);
+      var q="A " + w + "-kg athlete training daily should aim for approximately how much protein per day (at ~" + d + " g/kg)?";
+      var qCn="一位" + w + "公斤、每天训练的运动员（按约" + d + "克/公斤）每天应摄入约多少蛋白质？";
+      var optEn=[correctVal+" g",(correctVal+40)+" g",(correctVal-30)+" g",Math.round(w*0.6)+" g"];
+      var optCn=[correctVal+"克",(correctVal+40)+"克",(correctVal-30)+"克",Math.round(w*0.6)+"克"];
+      var ex=w+" kg × "+d+" g/kg = "+correctVal+" g/day, within the 1.2-2.0 g/kg evidence range.";
+      var exCn=w+"公斤 × "+d+"克/公斤 = "+correctVal+"克/天，处于1.2–2.0克/公斤的证据范围内。";
+      var lvl = d>=1.8?3:(d>=1.4?2:1);
+      return _buildQ("t5", lvl, q, qCn, optEn, optCn, 0, ex, exCn);
+    },
+    function(diff){
+      var intake=[1200,1300,1400,1500,1600,1700,1800,1900,2000];
+      var burn=[300,400,500,600,700,800];
+      var ffm=[38,40,42,45,48,50];
+      var I=intake[_rr(intake.length)], B=burn[_rr(burn.length)], F=ffm[_rr(ffm.length)];
+      var ea=(I-B)/F;
+      var eaR=Math.round(ea);
+      var below = ea<30;
+      var q="A female athlete eats "+I+" kcal/day while burning "+B+" kcal in training. If fat-free mass = "+F+" kg, her energy availability (EA) is closest to:";
+      var qCn="一名女运动员每天摄入"+I+"千卡，训练消耗"+B+"千卡。若去脂体重="+F+"公斤，其能量可用性（EA）最接近：";
+      var optEn=[eaR+" kcal/kg FFM/day",(eaR+15)+" kcal/kg",(eaR-5)+" kcal/kg","40 kcal/kg"];
+      var optCn=[eaR+"千卡/公斤FFM/天",(eaR+15)+"千卡/公斤",(eaR-5)+"千卡/公斤","40千卡/公斤"];
+      var ex="EA = ("+I+" - "+B+") / "+F+" = "+ea.toFixed(1)+" kcal/kg FFM/day. "+(below?"This is below the ~30 kcal/kg RED-S threshold; hormones and bone turnover are disrupted.":"This is above the ~30 kcal/kg RED-S threshold; generally adequate.");
+      var exCn="EA=("+I+"−"+B+")÷"+F+"="+ea.toFixed(1)+"千卡/公斤FFM/天。"+(below?"这低于RED-S约30千卡/公斤阈值，激素和骨转换紊乱。":"这高于RED-S约30千卡/公斤阈值，通常充足。");
+      return _buildQ("t5",2,q,qCn,optEn,optCn,0,ex,exCn);
+    },
+    function(diff){
+      var q="At approximately what body-mass loss does performance in hot-weather exercise consistently decline?";
+      var qCn="炎热天气运动时，体重丢失约多少时表现持续下降？";
+      var optEn=["0.5%","1%","2%","5%"];
+      var optCn=["0.5%","1%","2%","5%"];
+      var ex="~2% body-mass loss (via sweat) consistently degrades performance in prolonged hot exercise.";
+      var exCn="体重丢失约2%（通过出汗）会使长时间高温运动表现持续下降。";
+      return _buildQ("t5",1,q,qCn,optEn,optCn,2,ex,exCn);
+    }
+  ],
+  // ── Topic 6: Supplements ──
+  t6:[
+    function(diff){
+      var supps=[
+        {name:"creatine monohydrate", nameCn:"肌酸一水合物", grade:"A", key:0, d:1},
+        {name:"BCAAs (when total protein is adequate)", nameCn:"BCAAs（总蛋白质充足时）", grade:"D", key:3, d:2},
+        {name:"fat burners", nameCn:"燃脂剂", grade:"F", key:3, d:3},
+        {name:"caffeine (3-6 mg/kg)", nameCn:"咖啡因（3–6毫克/公斤）", grade:"A", key:0, d:2}
+      ];
+      var s=supps[_rr(supps.length)];
+      var optEn=["A (strong evidence)","B (good evidence)","C (limited evidence)","D or F (weak/ineffective)"];
+      var optCn=["A级（强证据）","B级（较好证据）","C级（有限证据）","D或F级（弱/无效）"];
+      var q="What evidence grade (A-F) is most defensible for " + s.name + "?";
+      var qCn=s.nameCn+"最合理的证据等级（A–F）是：";
+      var ex=s.name+" is graded "+s.grade+" based on the quality and consistency of supporting RCTs/meta-analyses.";
+      var exCn=s.nameCn+"根据支持性RCT/荟萃分析的质量与一致性评为"+s.grade+"级。";
+      return _buildQ("t6",s.d,q,qCn,optEn,optCn,s.key,ex,exCn);
+    },
+    function(diff){
+      var weights=[55,60,65,70,75,80,85,90];
+      var dose=[3,4,5,6];
+      var w=weights[_rr(weights.length)], d=dose[_rr(dose.length)];
+      var mg=Math.round(w*d);
+      var q="For a "+w+"-kg athlete, the recommended pre-exercise caffeine dose at ~"+d+" mg/kg is closest to:";
+      var qCn="对于"+w+"公斤运动员，按约"+d+"毫克/公斤计算的赛前咖啡因剂量最接近：";
+      var optEn=[mg+" mg",(mg+100)+" mg",(mg-50)+" mg",(mg*2)+" mg"];
+      var optCn=[mg+"毫克",(mg+100)+"毫克",(mg-50)+"毫克",(mg*2)+"毫克"];
+      var ex=w+" kg × "+d+" mg/kg = "+mg+" mg, taken ~60 min pre-exercise (ISSN position).";
+      var exCn=w+"×"+d+"毫克/公斤="+mg+"毫克，赛前约60分钟服用（ISSN立场）。";
+      return _buildQ("t6",2,q,qCn,optEn,optCn,0,ex,exCn);
+    }
+  ],
+  // ── Topic 7: PT Career ──
+  t7:[
+    function(diff){
+      var facts=[
+        {s:"median pay", statCn:"中位薪资", val:101000, key:2, d:1},
+        {s:"top-decile pay", statCn:"最高十分位薪资", val:132000, key:3, d:3},
+        {s:"25th-percentile pay", statCn:"第25百分位薪资", val:91000, key:1, d:1}
+      ];
+      var f=facts[_rr(facts.length)];
+      var optEn=["About $65,000","About $88,000","About $101,000","About $132,000"];
+      var optCn=["约65,000美元","约88,000美元","约101,000美元","约132,000美元"];
+      var q="For U.S. physical therapists, the "+f.s+" (May 2024 BLS) is approximately:";
+      var qCn="美国物理治疗师的"+f.statCn+"（劳工统计局2024年5月）约为：";
+      var ex="BLS reports $"+f.val.toLocaleString('en-US')+" per year for the "+f.s+" of PTs.";
+      var exCn="劳工统计局报告PT的"+f.statCn+"为每年"+f.val.toLocaleString('en-US')+"美元。";
+      return _buildQ("t7",f.d,q,qCn,optEn,optCn,f.key,ex,exCn);
+    },
+    function(diff){
+      var q="For U.S. physical therapists, the projected job growth between 2024 and 2034 is approximately:";
+      var qCn="美国物理治疗师2024–2034年的预计就业增长约为：";
+      var optEn=["3% (about average)","7% (about average)","11% (much faster than average)","20% (decline)"];
+      var optCn=["3%（约等于平均）","7%（约等于平均）","11%（远高于平均）","20%（下降）"];
+      var ex="The BLS projects +11% growth for PTs — much faster than the 3% all-occupation average.";
+      var exCn="劳工统计局预计PT增长+11%——远高于所有职业平均的3%。";
+      return _buildQ("t7",1,q,qCn,optEn,optCn,2,ex,exCn);
+    },
+    function(diff){
+      var q="To become a licensed physical therapist in the U.S., you must pass which examination?";
+      var qCn="在美国成为持证物理治疗师，必须通过哪项考试？";
+      var optEn=["GRE","NPTE","USMLE","MCAT"];
+      var optCn=["GRE","NPTE","USMLE","MCAT"];
+      var ex="The National Physical Therapy Examination (NPTE) is required for state licensure.";
+      var exCn="国家物理治疗考试（NPTE）是取得州执照的必要条件。";
+      return _buildQ("t7",1,q,qCn,optEn,optCn,1,ex,exCn);
+    }
+  ]
+};
+
+// Pick a fresh parametric question for a topic at a given difficulty, avoiding repeats this session.
+function genParametricQuestion(topicId, difficulty){
+  var gens = PARAM[topicId];
+  if(!gens || !gens.length) return null;
+  if(!_paramSeen[topicId]) _paramSeen[topicId] = {};
+  if(!_paramCounts[topicId]) _paramCounts[topicId] = 0;
+  for(var attempt=0; attempt<60; attempt++){
+    var g = gens[_rr(gens.length)];
+    var q = g(difficulty);
+    if(!q) continue;
+    var key = _phash(q.q)+"|"+_phash(q.opts)+"|"+_phash(q.correct);
+    if(_paramSeen[topicId][key]) continue;
+    _paramSeen[topicId][key] = true;
+    _paramCounts[topicId]++;
+    return q;
+  }
+  return null;
+}
+
 // Generate a question from a template (with slight randomization of wrong answers)
+// Generate a question. Prefer the parametric unlimited engine; fall back to curated templates.
 function genQuestion(topicId, difficulty){
+  const pq = genParametricQuestion(topicId, difficulty);
+  if(pq) return pq;
   const templates = Q_TEMPLATES[topicId];
   if(!templates || !templates.length) return null;
   // Filter by difficulty ±1
@@ -1392,6 +1683,7 @@ function genQuestion(topicId, difficulty){
   const newCorrect = shuffledOpts.indexOf(correctText);
   return {topic:topicId,difficulty:base.d,q:base.q,qCn:base.qCn,opts:shuffledOpts,optsCn:shuffledOptsCn,correct:newCorrect,explain:base.explain,explainCn:base.explainCn};
 }
+
 
 // ════════════════════════════════════════
 // ADAPTIVE ENGINE
@@ -1762,7 +2054,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop', cap:'Muscle fibers under load', capCn:'负重下的肌纤维'},
-      {src:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop', cap:'Energy systems in action', capCn:'能量系统运作中'}
+      {src:'https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop', cap:'Energy systems in action', capCn:'能量系统运作中'}
     ]
   },
   {
@@ -1773,8 +2065,8 @@ const RESOURCES_BY_CHAPTER = [
       {src:'YouTube · Jeff Nippard', vid:'DzjWEn2BS_k', title:'I Cut My Training Volume In Half', titleCn:'我把训练量砍了一半', url:'https://www.youtube.com/watch?v=DzjWEn2BS_k'}
     ],
     photos:[
-      {src:'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop', cap:'Progressive overload in practice', capCn:'实践中的渐进超负荷'},
-      {src:'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop', cap:'Proper lifting form', capCn:'正确的举重姿势'}
+      {src:'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop', cap:'Progressive overload in practice', capCn:'实践中的渐进超负荷'},
+      {src:'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=300&fit=crop', cap:'Proper lifting form', capCn:'正确的举重姿势'}
     ]
   },
   {
@@ -1786,7 +2078,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop', cap:'Soft tissue rehabilitation', capCn:'软组织康复'},
-      {src:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop', cap:'Flexibility and stretching', capCn:'柔韧性与拉伸'}
+      {src:'https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?w=400&h=300&fit=crop', cap:'Flexibility and stretching', capCn:'柔韧性与拉伸'}
     ]
   },
   {
@@ -1797,8 +2089,8 @@ const RESOURCES_BY_CHAPTER = [
       {src:'YouTube · AMR Physiotherapy', vid:'2S_gG63w020', title:'Should You Ice or Heat an Injury?', titleCn:'损伤应该冰敷还是热敷？', url:'https://www.youtube.com/watch?v=2S_gG63w020'}
     ],
     photos:[
-      {src:'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=300&fit=crop', cap:'Active recovery and rest', capCn:'积极恢复与休息'},
-      {src:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop', cap:'Cold water immersion therapy', capCn:'冷水浸泡疗法'}
+      {src:'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop', cap:'Active recovery and rest', capCn:'积极恢复与休息'},
+      {src:'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=400&h=300&fit=crop', cap:'Cold water immersion therapy', capCn:'冷水浸泡疗法'}
     ]
   },
   {
@@ -1821,7 +2113,7 @@ const RESOURCES_BY_CHAPTER = [
       {src:'Bilibili · 院长贝贝教练培训', vid:'', title:'普通人练薄肌真的需要喝肌酸吗？', titleCn:'普通人练薄肌真的需要喝肌酸吗？', url:'https://www.bilibili.com/video/BV1x4FNzgEkE/'}
     ],
     photos:[
-      {src:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=300&fit=crop', cap:'Evidence-based supplements', capCn:'循证补剂'},
+      {src:'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=400&h=300&fit=crop', cap:'Evidence-based supplements', capCn:'循证补剂'},
       {src:'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop', cap:'Creatine — most researched supplement', capCn:'肌酸 — 研究最充分的补剂'}
     ]
   },

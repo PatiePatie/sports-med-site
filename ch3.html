@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fa;--surface:#fff;--surface2:#f0f2f5;--surface3:#e8eaed;
+  --text:#1a1a2e;--text2:#555;--text3:#888;
+  --accent:#2563eb;--accent2:#1d4ed8;--accent-bg:#eff6ff;
+  --green:#16a34a;--red:#dc2626;--amber:#d97706;
+  --border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.08);
+  --radius:10px;--radius-sm:6px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --max-w:860px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body.lang-en .cn{display:none!important}
+body.lang-zh .en-text{display:none!important}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+th,td{padding:.55rem .75rem;border:1px solid var(--border);text-align:left}
+th{background:var(--surface2);font-weight:600}
+tr:nth-child(even){background:var(--surface2)}
+
+/* ── Dark ── */
+body.dark{
+  --bg:#0f172a;--surface:#1e293b;--surface2:#273548;--surface3:#334155;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --accent:#60a5fa;--accent2:#93c5fd;--accent-bg:#1e3a5f;
+  --border:#334155;--shadow:0 1px 3px rgba(0,0,0,.3);
+}
+
+/* ── Layout ── */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.logo{font-size:1.05rem;font-weight:700;color:var(--text)}
+.logo span{color:var(--accent)}
+.header-actions{display:flex;gap:.5rem;align-items:center}
+.btn-icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
+.btn-icon:hover{background:var(--accent-bg);border-color:var(--accent)}
+nav{background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav ul{display:flex;gap:0;list-style:none;min-width:max-content}
+nav a{display:block;padding:.65rem 1rem;font-size:.88rem;font-weight:500;color:var(--text2);transition:all .2s;border-bottom:2px solid transparent;white-space:nowrap}
+nav a:hover,nav a.active{color:var(--accent);border-bottom-color:var(--accent);text-decoration:none}
+
+/* ── Hero ── */
+.hero{padding:3.5rem 0 2.5rem;text-align:center}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.75rem}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:580px;margin:0 auto}
+
+/* ── Sections ── */
+section{padding:3rem 0 2rem;border-bottom:1px solid var(--border)}
+section:last-of-type{border-bottom:none}
+.section-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-bg);padding:.25rem .7rem;border-radius:20px;margin-bottom:.75rem}
+h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem}
+h3{font-size:1.2rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--text)}
+h4{font-size:1.05rem;font-weight:600;margin:1.2rem 0 .4rem}
+p{margin-bottom:.85rem}
+.cn{color:var(--text2);font-size:.93rem;margin-bottom:.85rem}
+.quote{border-left:3px solid var(--accent);padding:.75rem 1rem;margin:1rem 0;background:var(--accent-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-style:italic}
+
+/* ── Accordion ── */
+.accordion{margin:1rem 0}
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:.5rem;overflow:hidden}
+.acc-header{padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.95rem;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:background .2s}
+.acc-header:hover{background:var(--surface2)}
+.acc-header::after{content:"▸";font-size:1.1rem;transition:transform .25s;color:var(--text3)}
+.acc-item.open .acc-header::after{transform:rotate(90deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc-body-inner{padding:.5rem 1rem 1rem;font-size:.93rem;line-height:1.7}
+
+/* ── Tabs for debates ── */
+.tabs{margin:1.25rem 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.tab-nav{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab-btn{flex:1;padding:.65rem .75rem;font-size:.85rem;font-weight:600;border:none;background:none;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{background:var(--surface2)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-bg)}
+.tab-panel{display:none;padding:1rem 1.25rem;font-size:.93rem;line-height:1.7}
+.tab-panel.active{display:block}
+.tab-panel.side-a-tab{border-left:3px solid var(--green)}
+.tab-panel.side-b-tab{border-left:3px solid var(--red)}
+.tab-panel.verdict-tab{border-left:3px solid var(--accent);background:var(--accent-bg)}
+
+/* ── Quiz ── */
+.quiz{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.quiz-title{font-weight:700;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.quiz-item{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.quiz-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-tag{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.15rem .5rem;border-radius:4px;margin-bottom:.3rem}
+.q-mechanism{background:#dbeafe;color:#1d4ed8}
+.q-data{background:#fef3c7;color:#92400e}
+.q-transfer{background:#d1fae5;color:#065f46}
+.q-flaw{background:#ffe4e6;color:#9f1239}
+.q-scenario{background:#e0e7ff;color:#3730a3}
+.q-explain{background:#f0fdf4;color:#166534}
+.q-calculate{background:#fef9c3;color:#854d0e}
+.q-debate{background:#fce7f3;color:#9d174d}
+.q-clinical{background:#ecfeff;color:#155e75}
+.q-hydration{background:#dbeafe;color:#1e40af}
+.q-plan{background:#f3e8ff;color:#6b21a8}
+.q-career{background:#fff7ed;color:#9a3412}
+.q-pyramid{background:#fefce8;color:#854d0e}
+.q-application{background:#f0fdf4;color:#166534}
+.q-reveal{display:none;margin-top:.5rem;padding:.75rem 1rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.93rem;line-height:1.6}
+.q-reveal.show{display:block}
+.reveal-btn{font-size:.82rem;color:var(--accent);cursor:pointer;border:none;background:none;font-weight:600;padding:.2rem 0}
+.reveal-btn:hover{text-decoration:underline}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.25rem 0}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center}
+.stat-num{font-size:2rem;font-weight:800;color:var(--accent)}
+.stat-label{font-size:.85rem;color:var(--text2);margin-top:.25rem}
+
+/* ── Pathway ── */
+.pathway{display:flex;flex-direction:column;gap:0;margin:1.25rem 0}
+.pathway-step{display:flex;gap:1rem;position:relative}
+.pathway-line{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.pathway-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--accent-bg);flex-shrink:0;z-index:1}
+.pathway-bar{width:2px;flex:1;background:var(--border)}
+.pathway-step:last-child .pathway-bar{display:none}
+.pathway-content{padding-bottom:1.5rem}
+.pathway-content strong{display:block;margin-bottom:.15rem}
+
+/* ── Badges ── */
+.evidence-badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.78rem;font-weight:700}
+.ev-strong{background:#dcfce7;color:#166534}
+.ev-moderate{background:#fef3c7;color:#92400e}
+.ev-mixed{background:#e0e7ff;color:#3730a3}
+.ev-weak{background:#fee2e2;color:#991b1b}
+.grade-pill{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-weight:700;font-size:.82rem}
+.grade-a{background:#dcfce7;color:#166534}
+.grade-ab{background:#d1fae5;color:#065f46}
+.grade-b{background:#fef3c7;color:#92400e}
+.grade-d{background:#fee2e2;color:#991b1b}
+.grade-f{background:#991b1b;color:#fff}
+
+/* ── Two col ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+
+/* ── References ── */
+.ref-list{counter-reset:ref}
+.ref-list li{counter-increment:ref;font-size:.88rem;color:var(--text2);margin-bottom:.5rem;padding-left:2rem;position:relative;list-style:none}
+.ref-list li::before{content:"["counter(ref)"]";position:absolute;left:0;font-weight:600;color:var(--accent)}
+
+/* ── Flashcard panel ── */
+.flashcard-panel{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.flashcard-panel.open{display:flex}
+.flashcard-box{background:var(--surface);border-radius:var(--radius);max-width:520px;width:90%;max-height:85vh;overflow:auto;padding:2rem;position:relative}
+.flashcard-close{position:absolute;top:.75rem;right:.75rem;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.flashcard-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.fc-counter{text-align:center;font-size:.85rem;color:var(--text3);margin-bottom:1rem}
+.fc-card{min-height:180px;perspective:800px;cursor:pointer;margin-bottom:1.5rem}
+.fc-inner{position:relative;width:100%;min-height:180px;transition:transform .5s;transform-style:preserve-3d}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius-sm);padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.fc-front{background:linear-gradient(135deg,var(--accent-bg),#e0e7ff);border:2px solid var(--accent)}
+.fc-front .fc-term{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}
+.fc-front .fc-hint{font-size:.85rem;color:var(--text3);margin-top:auto}
+.fc-back{background:linear-gradient(135deg,#dcfce7,#d1fae5);border:2px solid var(--green);transform:rotateY(180deg)}
+.fc-back .fc-def{font-size:1.05rem;line-height:1.6}
+.fc-nav{display:flex;gap:.75rem;justify-content:center}
+.fc-nav button{padding:.5rem 1.2rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;cursor:pointer;transition:all .2s}
+.fc-nav button:hover{background:var(--accent-bg);border-color:var(--accent)}
+.fc-nav button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fc-nav button.primary:hover{background:var(--accent2)}
+.fc-chapter-select{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem}
+.fc-chip{padding:.3rem .7rem;border-radius:20px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .2s}
+.fc-chip:hover,.fc-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── Quiz mode overlay ── */
+.quiz-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.quiz-overlay.open{display:flex}
+.qo-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1}
+.qo-header h3{font-size:1rem;margin:0}
+.qo-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.qo-body{flex:1;padding:2rem 1.25rem;max-width:700px;margin:0 auto;width:100%}
+.qo-progress{height:6px;background:var(--surface3);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+.qo-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.qo-q-num{font-size:.85rem;color:var(--text3);margin-bottom:.3rem}
+.qo-question{font-size:1.15rem;font-weight:700;margin-bottom:1.25rem;line-height:1.5}
+.qo-options{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.qo-opt{padding:.85rem 1rem;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:.95rem;transition:all .2s;text-align:left;background:var(--surface)}
+.qo-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.qo-opt.selected{border-color:var(--accent);background:var(--accent-bg)}
+.qo-opt.correct{border-color:var(--green);background:#dcfce7}
+.qo-opt.wrong{border-color:var(--red);background:#fef2f2}
+.qo-opt.disabled{pointer-events:none;opacity:.7}
+.qo-explain{display:none;padding:1rem;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:1.25rem;font-size:.93rem;line-height:1.6}
+.qo-explain.show{display:block}
+.qo-footer{display:flex;justify-content:space-between;align-items:center;padding-top:.5rem}
+.qo-btn{padding:.6rem 1.5rem;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.9rem;transition:all .2s}
+.qo-btn.next{background:var(--accent);color:#fff}
+.qo-btn.next:hover{background:var(--accent2)}
+.qo-btn:disabled{opacity:.4;cursor:not-allowed}
+.qo-score-card{text-align:center;padding:3rem 1rem}
+.qo-score-num{font-size:4rem;font-weight:800;color:var(--accent)}
+.qo-score-label{font-size:1.1rem;color:var(--text2);margin-bottom:1.5rem}
+.qo-score-bar{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.qo-score-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border)}
+.qo-score-dot.hit{background:var(--green);border-color:var(--green)}
+.qo-score-dot.miss{background:var(--red);border-color:var(--red)}
+
+/* ── Progress tracker ── */
+.progress-bar-wrap{margin:1rem 0}
+.progress-item{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem}
+.progress-item label{font-size:.88rem;font-weight:500;min-width:120px}
+.prog-track{flex:1;height:8px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s}
+.prog-pct{font-size:.82rem;color:var(--text3);min-width:36px;text-align:right}
+
+/* ── Debate legacy (still used inline) ── */
+.debate{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin:1.25rem 0}
+.debate-title{font-weight:700;font-size:1.05rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.side{padding:.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:.75rem}
+.side-a{background:#dcfce7;border-left:3px solid var(--green)}
+.side-b{background:#fef2f2;border-left:3px solid var(--red)}
+.side-label{font-weight:700;font-size:.85rem;text-transform:uppercase;margin-bottom:.25rem}
+.side-a .side-label{color:var(--green)}
+.side-b .side-label{color:var(--red)}
+.verdict{background:var(--accent-bg);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:.85rem 1rem;margin-top:.5rem}
+.verdict-label{font-weight:700;color:var(--accent);font-size:.85rem;margin-bottom:.25rem}
+
+/* ── Footer ── */
+footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;border-top:1px solid var(--border);margin-top:2rem}
+
+/* ── Back to top ── */
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:1.2rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,99,235,.3);z-index:99;transition:opacity .3s}
+.back-top.show{display:flex}
+
+/* ── Adaptive Quiz overlay ── */
+.aq-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.aq-overlay.open{display:flex}
+.aq-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1}
+.aq-header h3{font-size:1rem;margin:0}
+.aq-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.aq-body{flex:1;padding:1.5rem 1.25rem;max-width:720px;margin:0 auto;width:100%}
+.aq-progress{height:6px;background:var(--surface3);border-radius:3px;margin-bottom:1rem;overflow:hidden}
+.aq-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.aq-q-num{font-size:.82rem;color:var(--text3);margin-bottom:.2rem}
+.aq-diff-badge{display:inline-block;font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;margin-left:.5rem}
+.aq-diff-1{background:#dcfce7;color:#166534}
+.aq-diff-2{background:#dbeafe;color:#1d4ed8}
+.aq-diff-3{background:#fef3c7;color:#92400e}
+.aq-diff-4{background:#fee2e2;color:#991b1b}
+.aq-question{font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;line-height:1.5}
+.aq-streak{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.aq-streak-bar{display:flex;gap:3px}
+.aq-streak-dot{width:10px;height:10px;border-radius:50%;background:var(--surface3);transition:background .2s}
+.aq-streak-dot.hit{background:var(--green)}
+.aq-streak-dot.miss{background:var(--red)}
+.aq-streak-label{font-size:.82rem;color:var(--text3)}
+.aq-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.25rem}
+.aq-opt{padding:.8rem 1rem;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:.93rem;transition:all .15s;text-align:left;background:var(--surface);line-height:1.5}
+.aq-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.aq-opt.correct{border-color:var(--green);background:#dcfce7}
+.aq-opt.wrong{border-color:var(--red);background:#fef2f2}
+.aq-opt.disabled{pointer-events:none;opacity:.7}
+.aq-explain{display:none;padding:.85rem 1rem;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:1rem;font-size:.9rem;line-height:1.6}
+.aq-explain.show{display:block}
+.aq-footer{display:flex;justify-content:space-between;align-items:center}
+.aq-btn{padding:.55rem 1.3rem;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.88rem;transition:all .2s}
+.aq-btn.primary{background:var(--accent);color:#fff}
+.aq-btn.primary:hover{background:var(--accent2)}
+.aq-btn:disabled{opacity:.35;cursor:not-allowed}
+.aq-btn.secondary{background:var(--surface2);color:var(--text)}
+.aq-btn.secondary:hover{background:var(--surface3)}
+
+/* ── Diagnostic overlay ── */
+.diag-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.diag-overlay.open{display:flex}
+
+/* ── Mastery dashboard ── */
+.mastery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.mastery-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;position:relative;overflow:hidden}
+.mastery-card-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:.75rem}
+.mastery-ch{font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--accent);letter-spacing:.05em}
+.mastery-level{font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:12px}
+.mastery-level.beginner{background:#fee2e2;color:#991b1b}
+.mastery-level.learning{background:#fef3c7;color:#92400e}
+.mastery-level.proficient{background:#dbeafe;color:#1d4ed8}
+.mastery-level.mastery{background:#dcfce7;color:#166534}
+.mastery-title{font-weight:700;font-size:.95rem;margin-bottom:.5rem;line-height:1.3}
+.mastery-bar{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;margin-bottom:.5rem}
+.mastery-fill{height:100%;border-radius:4px;transition:width .5s}
+.mastery-fill.beginner{background:var(--red)}
+.mastery-fill.learning{background:var(--amber)}
+.mastery-fill.proficient{background:var(--accent)}
+.mastery-fill.mastery{background:var(--green)}
+.mastery-stats{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text3)}
+.mastery-action{margin-top:.75rem;text-align:center}
+.mastery-action button{font-size:.82rem;padding:.4rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);cursor:pointer;font-weight:600;transition:all .2s}
+.mastery-action button:hover{background:var(--accent);color:#fff}
+
+/* ── Recommendation box ── */
+.rec-box{background:linear-gradient(135deg,var(--accent-bg),#e0e7ff);border:1px solid var(--accent);border-radius:var(--radius);padding:1.25rem;margin:1.5rem 0}
+.rec-title{font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.rec-items{display:flex;flex-direction:column;gap:.5rem}
+.rec-item{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:var(--surface);border-radius:var(--radius-sm);font-size:.9rem}
+.rec-item .rec-chip{font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;background:var(--accent);color:#fff;white-space:nowrap}
+.rec-item .rec-action{margin-left:auto;font-size:.8rem;color:var(--accent);cursor:pointer;font-weight:600;white-space:nowrap}
+.rec-item .rec-action:hover{text-decoration:underline}
+
+/* ── Diagnostic results ── */
+.diag-result{text-align:center;padding:2rem 1rem}
+.diag-score-big{font-size:3.5rem;font-weight:800;color:var(--accent)}
+.diag-label{font-size:1rem;color:var(--text2);margin-bottom:1.5rem}
+.diag-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;text-align:left;margin:1.5rem 0}
+@media(max-width:500px){.diag-topic-grid{grid-template-columns:1fr}}
+.diag-topic{padding:.75rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm)}
+.diag-topic-name{font-weight:700;font-size:.88rem;margin-bottom:.25rem}
+.diag-topic-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.diag-topic-fill{height:100%;border-radius:3px}
+.diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
+
+/* ── Resources ── */
+.resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
+.resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.25rem}
+.video-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .2s,transform .2s;text-decoration:none;color:var(--text)}
+.video-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);text-decoration:none}
+.video-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface2);display:block}
+.video-info{padding:.6rem .75rem}
+.video-info .vid-title{font-size:.88rem;font-weight:600;line-height:1.4;margin-bottom:.2rem}
+.video-info .vid-source{font-size:.75rem;color:var(--text3)}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
+.photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
+.photo-card:hover img{transform:scale(1.03)}
+.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
+.resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
+
+/* ── Sidebar ── */
+.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:var(--surface);border-right:1px solid var(--border);z-index:150;overflow-y:auto;padding:1rem 0;transition:transform .3s}
+.sidebar-logo{padding:0 1rem .75rem;font-size:1rem;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.sidebar-logo span{color:var(--accent)}
+.sidebar-group{margin-bottom:.5rem}
+.sidebar-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:.5rem 1rem .25rem}
+.sidebar-link{display:block;padding:.4rem 1rem .4rem 1.5rem;font-size:.85rem;color:var(--text2);text-decoration:none;transition:all .15s;border-left:3px solid transparent}
+.sidebar-link:hover,.sidebar-link.active{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent);text-decoration:none}
+.sidebar-link.sub{padding-left:2rem;font-size:.8rem}
+.sidebar-toggle{display:none;position:fixed;top:.75rem;left:.75rem;z-index:160;width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.2rem;cursor:pointer;align-items:center;justify-content:center}
+.page-wrapper{margin-left:240px;transition:margin-left .3s}
+
+/* ── Resources Hub ── */
+.res-hub-chapter{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.res-hub-chapter:last-child{border-bottom:none}
+.res-hub-chapter h4{margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+
+/* ── Q&A Chat ── */
+.chat-panel{max-width:680px;margin:0 auto}
+.chat-window{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:480px}
+.chat-header{padding:.75rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+.chat-header .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.chat-msg{max-width:85%;padding:.65rem .9rem;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.55;animation:msgIn .3s ease}
+.chat-msg.bot{background:var(--accent-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
+.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-msg .msg-label{font-size:.7rem;font-weight:600;color:var(--text3);margin-bottom:.2rem;display:block}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1rem;border-top:1px solid var(--border);background:var(--surface2)}
+.chat-sug-btn{padding:.35rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.chat-sug-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chat-input-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--border);background:var(--surface)}
+.chat-input{flex:1;padding:.55rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--accent)}
+.chat-input::placeholder{color:var(--text3)}
+.chat-send{padding:.55rem 1rem;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s}
+.chat-send:hover{background:var(--accent2)}
+.chat-disclaimer{font-size:.75rem;color:var(--text3);text-align:center;padding:.5rem;font-style:italic}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Floating AI button & full-screen modal ── */
+.ai-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
+.ai-fab:hover{transform:scale(1.08);box-shadow:0 8px 26px rgba(0,0,0,.3)}
+.ai-fab .fab-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--green);border:2px solid #fff}
+.ai-modal{position:fixed;inset:0;z-index:320;background:var(--bg);display:none;flex-direction:column;opacity:0;transition:opacity .25s}
+.ai-modal.open{display:flex;opacity:1}
+.ai-modal-header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--border)}
+.ai-modal-header .ai-title{font-size:1.05rem;font-weight:700}
+.ai-modal-header .ai-sub{font-size:.78rem;color:var(--text3)}
+.ai-close{margin-left:auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ai-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ai-modal-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
+.ai-modal-body .chat-msg{max-width:75%}
+.ai-modal-footer{padding:1rem 1.5rem;background:var(--surface);border-top:1px solid var(--border)}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 1.5rem .75rem;background:var(--surface)}
+.ai-input-row{display:flex;gap:.5rem}
+.ai-input{flex:1;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.ai-input:focus{border-color:var(--accent)}
+.ai-input::placeholder{color:var(--text3)}
+.ai-send-btn{padding:.7rem 1.3rem;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;transition:background .2s}
+.ai-send-btn:hover{background:var(--accent2)}
+
+@media(max-width:600px){
+  .hero{padding:2rem 0 1.5rem}
+  section{padding:2rem 0 1.5rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .video-grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:1fr 1fr}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-toggle{display:flex}
+  .page-wrapper{margin-left:0}
+  .chat-window{height:400px}
+}
+</style></style>
+</head>
+<body>
+<!-- Sidebar Toggle (mobile) -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
+    <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
+    <a class="sidebar-link sub" href="ch1.html" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
+    <a class="sidebar-link sub" href="ch2.html" data-en="Ch 2 · Training Principles" data-zh="第二章 · 训练原则">Ch 2 · Training Principles</a>
+    <a class="sidebar-link sub" href="ch3.html" data-en="Ch 3 · Soft Tissue &amp; Injury" data-zh="第三章 · 软组织与损伤">Ch 3 · Soft Tissue &amp; Injury</a>
+    <a class="sidebar-link sub" href="ch4.html" data-en="Ch 4 · Inflammation &amp; Recovery" data-zh="第四章 · 炎症与恢复">Ch 4 · Inflammation &amp; Recovery</a>
+    <a class="sidebar-link sub" href="ch5.html" data-en="Ch 5 · Nutrition" data-zh="第五章 · 营养">Ch 5 · Nutrition</a>
+    <a class="sidebar-link sub" href="ch6.html" data-en="Ch 6 · Supplements" data-zh="第六章 · 补剂">Ch 6 · Supplements</a>
+    <a class="sidebar-link sub" href="ch7.html" data-en="Ch 7 · Rehab &amp; Career" data-zh="第七章 · 康复与职业">Ch 7 · Rehab &amp; Career</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
+    <a class="sidebar-link" href="index.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
+    <a class="sidebar-link" href="index.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="index.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
+    <a class="sidebar-link" href="index.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<header>
+<div class="container header-inner">
+  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
+  <div class="header-actions">
+    <button class="btn-icon" id="flashBtn" title="Flashcards / 闪卡">🃏</button>
+    <button class="btn-icon" id="quizModeBtn" title="Quiz Mode / 刷题模式">📝</button>
+    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+  </div>
+</div>
+</header>
+<nav>
+<div class="container">
+<ul id="navList">
+<li><a href="index.html" data-en="Home" data-zh="首页">Home</a></li>
+<li><a href="ch1.html" data-en="Ch 1" data-zh="第一章">Ch 1</a></li>
+<li><a href="ch2.html" data-en="Ch 2" data-zh="第二章">Ch 2</a></li>
+<li><a href="ch3.html" class="active" data-en="Ch 3" data-zh="第三章">Ch 3</a></li>
+<li><a href="ch4.html" data-en="Ch 4" data-zh="第四章">Ch 4</a></li>
+<li><a href="ch5.html" data-en="Ch 5" data-zh="第五章">Ch 5</a></li>
+<li><a href="ch6.html" data-en="Ch 6" data-zh="第六章">Ch 6</a></li>
+<li><a href="ch7.html" data-en="Ch 7" data-zh="第七章">Ch 7</a></li>
+<li><a href="index.html#practice" data-en="Practice" data-zh="刷题">Practice</a></li>
+<li><a href="index.html#resources" data-en="Resources" data-zh="资源">Resources</a></li>
+<li><a href="index.html#qa" data-en="Q&amp;A" data-zh="问答">Q&amp;A</a></li>
+<li><a href="index.html#progress" data-en="Progress" data-zh="进度">Progress</a></li>
+<li><a href="index.html#refs" data-en="Refs" data-zh="参考">Refs</a></li>
+</ul>
+</div>
+</nav>
+<!-- Chapter 3 -->
+<section id="ch3">
+<div class="container">
+  <span class="section-label" data-en="Chapter 3" data-zh="第三章">Chapter 3</span>
+  <h2 data-en="Injury &amp; Healing" data-zh="损伤与愈合">Injury &amp; Healing</h2>
+  <h3 data-en="损伤与愈合" data-zh="损伤与愈合">损伤与愈合</h3>
+
+  <div class="accordion" id="acc-ch3">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.1 Injury Vocabulary" data-zh="3.1 损伤名词表">3.1 Injury Vocabulary</div>
+      <div class="acc-body" style="max-height:500px"><div class="acc-body-inner">
+        <table>
+          <tr><th data-en="Term" data-zh="术语">Term</th><th data-en="What is damaged" data-zh="损伤部位">What is damaged</th><th data-en="Example" data-zh="示例">Example</th></tr>
+          <tr><td><strong data-en="Sprain" data-zh="扭伤">Sprain</strong></td><td data-en="Ligament" data-zh="韧带">Ligament</td><td data-en="Ankle rolls inward" data-zh="踝关节内翻">Ankle rolls inward</td></tr>
+          <tr><td><strong data-en="Strain" data-zh="拉伤">Strain</strong></td><td data-en="Muscle/tendon" data-zh="肌肉/肌腱">Muscle/tendon</td><td data-en="Hamstring grab sprinting" data-zh="冲刺时腘绳肌拉伤">Hamstring grab sprinting</td></tr>
+          <tr><td><strong data-en="Fracture" data-zh="骨折">Fracture</strong></td><td data-en="Bone cortex" data-zh="骨皮质">Bone cortex</td><td data-en="Fall on outstretched arm" data-zh="摔倒时手臂撑地">Fall on outstretched arm</td></tr>
+          <tr><td><strong data-en="Stress fracture" data-zh="应力性骨折">Stress fracture</strong></td><td data-en="Bone, repeated overload" data-zh="骨骼，反复过载">Bone, repeated overload</td><td data-en="Tibia pain in runners" data-zh="跑步者胫骨疼痛">Tibia pain in runners</td></tr>
+          <tr><td><strong data-en="Tendinopathy" data-zh="肌腱病变">Tendinopathy</strong></td><td data-en="Tendon (degenerative)" data-zh="肌腱（退行性）">Tendon (degenerative)</td><td data-en="Jumper's knee" data-zh="跳跃膝">Jumper's knee</td></tr>
+          <tr><td><strong data-en="Concussion" data-zh="脑震荡">Concussion</strong></td><td data-en="Nervous tissue function" data-zh="神经组织功能">Nervous tissue function</td><td data-en="Head impact (functional injury)" data-zh="头部撞击（功能性损伤）">Head impact (functional injury)</td></tr>
+        </table>
+        <p style="margin-top:.75rem"><strong data-en="Sprain grades:" data-zh="扭伤分级：">Sprain grades:</strong> <span data-en="I = overstretched. II = partial tear. III = complete rupture." data-zh="I = 过度拉伸。II = 部分撕裂。III = 完全断裂。">I = overstretched. II = partial tear. III = complete rupture.</span></p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.2 Three Healing Phases" data-zh="3.2 愈合三阶段">3.2 Three Healing Phases</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="stats">
+          <div class="stat-card"><div class="stat-num">~0–7d</div><div class="stat-label" data-en="Inflammatory" data-zh="炎症期">Inflammatory</div></div>
+          <div class="stat-card"><div class="stat-num">~4–21d</div><div class="stat-label" data-en="Proliferative" data-zh="增生期">Proliferative</div></div>
+          <div class="stat-card"><div class="stat-num">3w–2yr</div><div class="stat-label" data-en="Remodeling" data-zh="重塑期">Remodeling</div></div>
+        </div>
+        <p data-en="Inflammatory: Immune cells clear debris. Starts repair — not the enemy." data-zh="炎症期：免疫细胞清除碎片。启动修复 — 不是敌人。"><strong>Inflammatory:</strong> Immune cells clear debris. Starts repair — not the enemy. <span class="cn">炎症期是修复的启动键。</span></p>
+        <p data-en="Proliferative: Fibroblasts lay down type III collagen; capillaries sprout." data-zh="增殖期：成纤维细胞铺出III型胶原；毛细血管萌芽。"><strong>Proliferative:</strong> Fibroblasts lay down type III collagen; capillaries sprout. <span class="cn">成纤维细胞铺出III型胶原。</span></p>
+        <p data-en="Remodeling: Collagen reorganizes into type I along stress lines. Load directs alignment." data-zh="重塑期：胶原沿应力线重组为I型。负荷指导排列。"><strong>Remodeling:</strong> Collagen reorganizes into type I along stress lines. Load directs alignment. <span class="cn">负荷指导排列。</span></p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)" data-en="3.3 PEACE &amp; LOVE Framework" data-zh="3.3 PEACE 与 LOVE 框架">3.3 PEACE &amp; LOVE Framework</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="two-col">
+          <div><strong data-en="PEACE (1–3 days)" data-zh="PEACE（1–3天）">PEACE (1–3 days)</strong><br><span data-en="P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate" data-zh="P 保护 · E 抬高 · A 避免抗炎药 · C 加压 · E 教育">P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate</span></div>
+          <div><strong data-en="LOVE (after)" data-zh="LOVE（之后）">LOVE (after)</strong><br><span data-en="L Optimal Load · O Optimism · V Vascularisation · E Exercise" data-zh="L 最佳负荷 · O 乐观 · V 血管化 · E 运动">L Optimal Load · O Optimism · V Vascularisation · E Exercise</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="quiz" data-chapter="3">
+    <div class="quiz-title" data-en="📝 Quiz 3 — Chapter 3 Test" data-zh="📝 第三章 测验">📝 Quiz 3 — Chapter 3 Test</div>
+    <div class="quiz-item">
+      <span class="q-tag q-explain" data-en="EXPLAIN" data-zh="解释">EXPLAIN</span>
+      <p data-en="Q1: What question distinguishes a sprain from a strain — and why?" data-zh="Q1：什么问题可以区分扭伤和拉伤？为什么？"><strong>Q1:</strong> What question distinguishes a sprain from a strain — and why?</p>
+      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
+      <div class="q-reveal" data-en='"Pop + instability on ankle's side = ligament (sprain)"; "muscle belly pain during sprint = muscle/tendon (strain)". Determines healing cells, timelines and rehab loading.' data-zh='"踝关节外侧弹响 + 不稳定 = 韧带（扭伤）"；"冲刺时肌肉腹部疼痛 = 肌肉/肌腱（拉伤）"。这决定了愈合细胞、时间线和康复负荷。'>"Pop + instability on ankle's side = ligament (sprain)"; "muscle belly pain during sprint = muscle/tendon (strain)". Determines healing cells, timelines and rehab loading.</div>
+    </div>
+    <div class="quiz-item">
+      <span class="q-tag q-scenario" data-en="SCENARIO" data-zh="情景分析">SCENARIO</span>
+      <p data-en="Q2: Grade II ankle sprain yesterday. Player wants aggressive stretching + daily NSAIDs for 2 weeks. Evaluate." data-zh="Q2：昨天发生II度踝关节扭伤。球员想做剧烈拉伸 + 每天服用NSAIDs 2周。评估。"><strong>Q2:</strong> Grade II ankle sprain yesterday. Player wants aggressive stretching + daily NSAIDs for 2 weeks. Evaluate.</p>
+      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
+      <div class="q-reveal" data-en="Both conflict with PEACE & LOVE: aggressive stretching during inflammation disturbs repair; NSAIDs suppress healing signals (letter A). Better: relative rest 1–3 days, progressive loading pain-guided." data-zh="两者都与PEACE & LOVE冲突：炎症期间剧烈拉伸干扰修复；NSAIDs抑制愈合信号（字母A）。更好的方案：相对休息1–3天，渐进式负荷（疼痛引导）。">Both conflict with PEACE & LOVE: aggressive stretching during inflammation disturbs repair; NSAIDs suppress healing signals (letter A). Better: relative rest 1–3 days, progressive loading pain-guided.</div>
+    </div>
+    <div class="quiz-item">
+      <span class="q-tag q-explain" data-en="EXPLAIN" data-zh="解释">EXPLAIN</span>
+      <p data-en="Q3: Why apply load during remodeling instead of total rest?" data-zh="Q3：为什么在重塑期施加负荷而不是完全休息？"><strong>Q3:</strong> Why apply load during remodeling instead of total rest?</p>
+      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
+      <div class="q-reveal" data-en="Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers." data-zh="重塑中的胶原沿施加应力方向排列（力学转导）；完全休息导致随机排列、较弱的基质。渐进负荷引导新纤维定向排列。">Remodeling collagen aligns along applied stress (mechanotransduction); total rest leaves randomly aligned, weaker matrix. Progressive load orients the new fibers.</div>
+    </div>
+  </div>
+
+  <div class="resources-section" id="videos">
+    <div class="resources-title" data-en="🎬 Chapter 3 · Videos &amp; Photos" data-zh="🎬 第3章 · 视频与图片">🎬 Videos &amp; Photos</div>
+    <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=HGTabgG7GIU" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/HGTabgG7GIU/hqdefault.jpg" loading="lazy" alt="PEACE &amp; LOVE — New Injury Treatment Acronym"><div class="video-info"><div class="vid-title" data-en="PEACE &amp; LOVE — New Injury Treatment Acronym" data-zh="PEACE &amp; LOVE — 全新损伤处理方案">PEACE & LOVE — New Injury Treatment Acronym</div><div class="vid-source" data-en="YouTube · La Clinique Du Coureur" data-zh="YouTube · La Clinique Du Coureur">YouTube · La Clinique Du Coureur</div></div></a><a class="video-card" href="https://www.bilibili.com/video/BV1ztHme1Eef/" target="_blank" rel="noopener"><div class="video-info"><div class="vid-title" data-en="最全面的踝扭伤自我康复教程" data-zh="最全面的踝扭伤自我康复教程">最全面的踝扭伤自我康复教程</div><div class="vid-source" data-en="Bilibili · PhysioDu物理治疗师" data-zh="Bilibili · PhysioDu物理治疗师">Bilibili · PhysioDu物理治疗师</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=U_9gjff7ICU" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/U_9gjff7ICU/hqdefault.jpg" loading="lazy" alt="When to Use Ice or Heat for a Sports Injury"><div class="video-info"><div class="vid-title" data-en="When to Use Ice or Heat for a Sports Injury" data-zh="运动损伤何时用冰敷或热敷">When to Use Ice or Heat for a Sports Injury</div><div class="vid-source" data-en="YouTube · Sports Injury Physio" data-zh="YouTube · Sports Injury Physio">YouTube · Sports Injury Physio</div></div></a></div>
+    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop" loading="lazy" alt="Soft tissue rehabilitation"><div class="photo-cap" data-en="Soft tissue rehabilitation" data-zh="软组织康复">Soft tissue rehabilitation</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop" loading="lazy" alt="Flexibility and stretching"><div class="photo-cap" data-en="Flexibility and stretching" data-zh="柔韧性与拉伸">Flexibility and stretching</div></div></div>
+    <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
+  </div>
+</div>
+</section>
+<footer>
+<div class="container">
+  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
+  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking "how do we know?"" data-zh="科学因争论而前进，而非因命令 — 永远追问"我们是怎么知道的？"">Science moves by debate, not decree — keep asking "how do we know?"</p>
+</div>
+</footer>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
+<!-- Flashcard Panel -->
+<div class="flashcard-panel" id="flashPanel">
+  <div class="flashcard-box">
+    <button class="flashcard-close" onclick="closeFlashcards()">✕</button>
+    <h3 style="text-align:center;margin-bottom:.75rem" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</h3>
+    <div class="fc-chapter-select" id="fcChips"></div>
+    <div class="fc-counter" id="fcCounter">1 / 10</div>
+    <div class="fc-card" id="fcCard" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <div class="fc-term" id="fcTerm">Loading...</div>
+          <div class="fc-hint" data-en="tap to flip" data-zh="点击翻转">tap to flip</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-def" id="fcDef"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="fcPrev()" data-en="← Prev" data-zh="← 上一张">← Prev</button>
+      <button class="primary" onclick="fcNext()" data-en="Next →" data-zh="下一张 →">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quiz Mode Overlay -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="qo-header">
+    <h3 data-en="📝 Quiz Mode" data-zh="📝 答题模式">📝 Quiz Mode</h3>
+    <button class="qo-close" onclick="closeQuizMode()">✕</button>
+  </div>
+  <div class="qo-body" id="qoBody"></div>
+</div>
+
+<!-- Adaptive Quiz Overlay -->
+<div class="aq-overlay" id="aqOverlay">
+  <div class="aq-header">
+    <h3 id="aqTitle" data-en="🎯 Adaptive Practice" data-zh="🎯 自适应刷题">🎯 Adaptive Practice</h3>
+    <button class="aq-close" onclick="closeAdaptive()">✕</button>
+  </div>
+  <div class="aq-body" id="aqBody"></div>
+</div>
+
+<!-- Diagnostic Overlay -->
+<div class="diag-overlay" id="diagOverlay">
+  <div class="aq-header">
+    <h3 data-en="🔬 Diagnostic Test" data-zh="🔬 诊断测试">🔬 Diagnostic Test</h3>
+    <button class="aq-close" onclick="closeDiagnostic()">✕</button>
+  </div>
+  <div class="aq-body" id="diagBody"></div>
+</div>
+
+
+
+
+<script>
+// ════════════════════════════════════════
+// FLASHCARD DATA
+// ════════════════════════════════════════
+const flashcards = [
+  {ch:1,term:"SAID Principle",cn:"SAID原则",def:"Specific Adaptation to Imposed Demands — the body remodels exactly along the lines you train.",cnDef:"特定适应于施加需求 — 身体按训练方向重塑。"},
+  {ch:1,term:"Phosphagen System",cn:"磷酸肌酸系统",def:"Immediate energy system using ATP+CP for ≤10s bursts (e.g., 100m sprint).",cnDef:"即时供能系统，用ATP+CP支持≤10秒爆发（如100米冲刺）。"},
+  {ch:1,term:"Type I vs Type II Fibers",cn:"I型 vs II型肌纤维",def:"Type I = slow-twitch, fatigue-resistant (endurance). Type II = fast-twitch, powerful but fatigue quickly (sprint/power).",cnDef:"I型 = 慢肌，抗疲劳（耐力）。II型 = 快肌，力量大但易疲劳（冲刺/爆发力）。"},
+  {ch:1,term:"Progressive Overload",cn:"渐进超负荷",def:"Systematically increase training demand over time. Without it, the body has no reason to adapt.",cnDef:"随时间系统性增加训练需求。没有它，身体没有适应的理由。"},
+  {ch:2,term:"Eccentric Training",cn:"离心训练",def:"Muscles lengthening under load produce more force and cause more micro-damage — greater strength/hypertrophy stimulus.",cnDef:"肌肉在负荷下拉长产生更大力量，造成更多微损伤 — 更大的力量/增肌刺激。"},
+  {ch:2,term:"Stretching Dose Effect",cn:"拉伸剂量效应",def:"Static stretch <45s/muscle = harmless. ≥60s/muscle can cut strength ~7.5%. Dynamic warm-up should be backbone.",cnDef:"静态拉伸<45秒/肌群=无害。≥60秒可使力量下降约7.5%。动态热身应是基础。"},
+  {ch:2,term:"Neural Adaptation (Weeks 1–4)",cn:"神经适应（第1–4周）",def:"Early strength gains from better motor-unit recruitment, firing rate, coordination — before muscle size changes.",cnDef:"早期力量增长来自更好的运动单元招募、放电频率、协调性 — 在肌肉围度变化之前。"},
+  {ch:3,term:"Sprain vs Strain",cn:"扭伤 vs 拉伤",def:"Sprain = ligament injury (bone-to-bone). Strain = muscle/tendon fiber injury. Determines healing cells and timeline.",cnDef:"扭伤 = 韧带损伤（骨到骨）。拉伤 = 肌肉/肌腱纤维损伤。决定愈合细胞和时间线。"},
+  {ch:3,term:"PEACE & LOVE",cn:"PEACE与LOVE框架",def:"Modern soft-tissue injury framework replacing RICE. PEACE: Protect, Elevate, Avoid anti-inflam, Compress, Educate. LOVE: Load, Optimism, Vascularisation, Exercise.",cnDef:"替代RICE的现代软组织损伤框架。PEACE：保护、抬高、避免抗炎药、加压、教育。LOVE：负荷、乐观、血管化、运动。"},
+  {ch:3,term:"Three Healing Phases",cn:"三个愈合阶段",def:"Inflammatory (0–7d): immune cleanup. Proliferative (4–21d): collagen III + capillaries. Remodeling (3w–2yr): collagen I alignment along stress lines.",cnDef:"炎症期（0–7天）：免疫清理。增殖期（4–21天）：III型胶原+毛细血管。重塑期（3周–2年）：I型胶原沿应力线排列。"},
+  {ch:4,term:"DOMS",cn:"延迟性肌肉酸痛",def:"Delayed Onset Muscle Soreness: peaks 24–72h post-exercise, fades 5–7d. Reflects remodeling, NOT workout quality.",cnDef:"延迟性肌肉酸痛：运动后24–72小时达峰，5–7天消退。反映重塑过程，而非训练质量。"},
+  {ch:4,term:"Repeated-Bout Effect",cn:"重复训练效应",def:"After first exposure to new eccentric exercise, subsequent sessions cause dramatically less damage and soreness.",cnDef:"首次接触新的离心训练后，后续训练造成的损伤和酸痛大幅减少。"},
+  {ch:4,term:"Cold Water Immersion Debate",cn:"冷水浸泡争议",def:"Reduces soreness acutely BUT may blunt long-term adaptation by suppressing inflammation (mTOR, satellite cells). Use as pain medicine, not ritual.",cnDef:"急性减轻酸痛但可能通过抑制炎症（mTOR、卫星细胞）削弱长期适应。作为止痛药使用，而非仪式。"},
+  {ch:4,term:"Sleep & Injury Risk",cn:"睡眠与受伤风险",def:"Chronic <8h sleep → 1.7× injury risk in adolescent athletes. Deep sleep = growth hormone + motor learning consolidation.",cnDef:"长期<8小时睡眠 → 青少年运动员受伤风险1.7倍。深度睡眠 = 生长激素 + 运动学习巩固。"},
+  {ch:5,term:"Protein Plateau",cn:"蛋白质平台期",def:"~1.6 g/kg/day is the muscle gain plateau. Per-meal dose ~0.25–0.40 g/kg. More = expensive urine, not extra muscle.",cnDef:"约1.6 g/kg/天是增肌平台期。每餐剂量约0.25–0.40 g/kg。更多 = 昂贵的尿液，而非额外肌肉。"},
+  {ch:5,term:"RED-S",cn:"运动相对能量不足",def:"Relative Energy Deficiency in Sport. EA <~30 kcal/kg FFM/day disrupts hormones, bone, immunity. Affects males too.",cnDef:"运动相对能量不足。能量可用性<约30 kcal/kg FFM/天扰乱激素、骨骼、免疫。男性也会受影响。"},
+  {ch:5,term:"Anabolic Window Myth",cn:"合成窗口迷思",def:"Total daily protein matters far more than timing. Muscles stay protein-sensitive ~24h post-training, not just 30 min.",cnDef:"每日总蛋白质远比时机重要。肌肉在训练后约24小时内保持蛋白质敏感性，而非仅30分钟。"},
+  {ch:5,term:"Hyponatremia Risk",cn:"低钠血症风险",def:"Excess plain water intake during/after exercise can dangerously dilute blood sodium. Replace ~100–150% of losses with electrolytes.",cnDef:"运动中/后过量饮水可危险地稀释血钠。用含电解质的液体补充丢失量的约100–150%。"},
+  {ch:6,term:"Evidence Pyramid",cn:"证据金字塔",def:"Top→bottom: Meta-analyses > RCTs > Cohort studies > Lab/animal/case reports > Anecdotes & ads.",cnDef:"从上到下：荟萃分析 > 随机对照试验 > 队列研究 > 实验室/动物/病例报告 > 轶事与广告。"},
+  {ch:6,term:"Creatine Grade: A",cn:"肌酸 评级：A",def:"Most effective legal ergogenic aid. 3–5 g/day. Safe up to 30g/day for 5 years in studies. Loading optional.",cnDef:"最有效的合法增效补剂。3–5 g/天。研究显示每天30克以内安全长达5年。冲击期可选。"},
+  {ch:6,term:"BCAAs Grade: D",cn:"支链氨基酸 评级：D",def:"Redundant if total protein adequate — whey already contains BCAAs plus all 9 essential amino acids.",cnDef:"如果总蛋白质充足则多余 — 乳清蛋白已含BCAAs及全部9种必需氨基酸。"},
+  {ch:6,term:"Fat Burners Grade: F",cn:"燃脂剂 评级：F",def:"No credible RCT support. Some contain banned stimulants. Any product promising rapid transformation = marketing.",cnDef:"无可靠RCT支持。部分含违禁兴奋剂。任何承诺快速蜕变的产品 = 营销。"},
+  {ch:7,term:"DPT Pathway",cn:"物理治疗博士路径",def:"4yr bachelor's (prereqs) → 3yr DPT program → pass NPTE → license. Optional: residency → board certification.",cnDef:"4年本科（先修课）→ 3年DPT项目 → 通过NPTE → 执照。可选：住院医 → 专科认证。"},
+  {ch:7,term:"PT Salary (2024)",cn:"物理治疗师薪资（2024）",def:"Median $101,020/yr. Growth +11% (vs 3% avg). Range: $74K–$132K+. Requires doctoral degree.",cnDef:"中位数$101,020/年。增长率+11%（vs 3%平均）。范围：$74K–$132K+。需博士学位。"},
+];
+
+let fcFiltered = [...flashcards];
+let fcIndex = 0;
+let fcReviewed = new Set();
+
+function renderFCChips(){
+  const c = document.getElementById('fcChips');
+  const chs = [...new Set(flashcards.map(f=>f.ch))].sort((a,b)=>a-b);
+  const isZH = showCN;
+  const allLabel = isZH?`全部 (${flashcards.length})`:`All (${flashcards.length})`;
+  c.innerHTML = `<div class="fc-chip active" onclick="filterFC(0,this)">${allLabel}</div>` +
+    chs.map(ch=>{
+      const label = isZH?`第${ch}章`:`Ch ${ch}`;
+      return `<div class="fc-chip" onclick="filterFC(${ch},this)">${label}</div>`;
+    }).join('');
+}
+function filterFC(ch,el){
+  fcFiltered = ch===0 ? [...flashcards] : flashcards.filter(f=>f.ch===ch);
+  fcIndex = 0;
+  document.querySelectorAll('.fc-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  showFC();
+}
+function showFC(){
+  const card = document.getElementById('fcCard');
+  card.classList.remove('flipped');
+  if(!fcFiltered.length){document.getElementById('fcTerm').textContent=showCN?'无卡片':'No cards';document.getElementById('fcDef').textContent='';document.getElementById('fcCounter').textContent='0 / 0';return;}
+  const f = fcFiltered[fcIndex];
+  const isZH = showCN;
+  const chLabel = isZH?`第${f.ch}章`:`Ch ${f.ch}`;
+  document.getElementById('fcTerm').textContent = isZH?(f.cn||f.term):f.term;
+  document.getElementById('fcDef').innerHTML = `<strong>${chLabel}</strong><br>${isZH?(f.cnDef||f.cn||''):f.def}`;
+  document.getElementById('fcCounter').textContent = `${fcIndex+1} / ${fcFiltered.length}`;
+  const key = f.term;
+  if(!fcReviewed.has(key)){
+    fcReviewed.add(key);
+    updateProgress();
+  }
+}
+function fcNext(){fcIndex = (fcIndex+1) % fcFiltered.length; showFC();}
+function fcPrev(){fcIndex = (fcIndex-1+fcFiltered.length) % fcFiltered.length; showFC();}
+function openFlashcards(){document.getElementById('flashPanel').classList.add('open'); renderFCChips(); showFC();}
+function closeFlashcards(){document.getElementById('flashPanel').classList.remove('open');}
+
+// ════════════════════════════════════════
+// QUIZ MODE DATA
+// ════════════════════════════════════════
+const quizQuestions = [
+  // Ch 1
+  {ch:1,q:"Why is training 7 days/week counterproductive for a beginner?",qCn:"为什么每周训练7天对初学者适得其反？",opts:["Muscles need daily stress to grow","Adaptation happens during recovery — no rest = no rebuilding","Cardiovascular system overloads","Flexibility decreases"],optsCn:["肌肉需要每日压力才能生长","适应发生在恢复期间 — 无休息 = 无重建","心血管系统过载","柔韧性下降"],correct:1,explain:"Training is stress; adaptation happens during recovery. 7 days/week = no rebuilding window → overtraining.",explainCn:"训练是压力；适应发生在恢复期间。每周7天 = 无重建窗口 → 过度训练。"},
+  {ch:1,q:"Why does bone heal better than cartilage?",qCn:"为什么骨骼比软骨恢复得更好？",opts:["Bone has more calcium","Cartilage is too flexible","Bone has rich blood supply; cartilage is nearly avascular","Bones are bigger structures"],optsCn:["骨骼含更多钙","软骨太柔韧","骨骼血供丰富；软骨几乎无血管","骨骼结构更大"],correct:2,explain:"Blood supply delivers immune cells, growth factors and building materials; cartilage's near-absent vascularity starves its cells.",explainCn:"血液供应输送免疫细胞、生长因子和建筑材料；软骨几乎无血管，其细胞缺乏供应。"},
+  {ch:1,q:"Which energy system powers a 100m sprint?",qCn:"100米短跑由哪个供能系统驱动？",opts:["Oxidative system","Glycolytic system","Phosphagen system","All three equally"],optsCn:["氧化系统","糖酵解系统","磷酸肌酸系统","三个系统等量"],correct:2,explain:"Phosphagen system provides immediate ATP+CP for ≤10s bursts.",explainCn:"磷酸肌酸系统提供即时ATP+CP，支持≤10秒的爆发力。"},
+  {ch:1,q:"Which fiber type do marathoners predominantly use?",qCn:"马拉松运动员主要使用哪种肌纤维？",opts:["Type II (fast-twitch)","Type I (slow-twitch)","Equal distribution","Type IIx"],optsCn:["II型（快肌）","I型（慢肌）","均匀分布","IIx型"],correct:1,explain:"Type I fibers are fatigue-resistant with high mitochondrial density — ideal for prolonged endurance.",explainCn:"I型纤维抗疲劳，线粒体密度高 — 理想的耐力纤维。"},
+  // Ch 2
+  {ch:2,q:"Strength gains in weeks 1–4 (before size changes) come from:",qCn:"第1–4周的力量增长（在肌肉围度变化之前）来自：",opts:["Muscle hypertrophy","Neural adaptations","Glycogen storage increase","Fat loss"],optsCn:["肌肉肥大","神经适应","糖原储存增加","脂肪减少"],correct:1,explain:"Neural adaptations: better motor-unit recruitment, firing rate, coordination precede muscle growth.",explainCn:"神经适应：更好的运动单元招募、放电频率和协调性先于肌肉生长。"},
+  {ch:2,q:"At what hold duration does static stretching begin to significantly reduce strength?",qCn:"静态拉伸保持多久开始显著降低力量？",opts:["<30 seconds","30–45 seconds","≥60 seconds per muscle","2 minutes"],optsCn:["<30秒","30–45秒","每块肌肉≥60秒","2分钟"],correct:2,explain:"≥60s per muscle can cut strength by ~7.5%. <45s is essentially harmless.",explainCn:"每块肌肉≥60秒可使力量下降约7.5%。<45秒基本无害。"},
+  {ch:2,q:"Progressive overload means:",qCn:"渐进超负荷意味着：",opts:["Training to failure every session","Systematically increasing demand over time","Using maximum weight always","Training 7 days per week"],optsCn:["每次训练到力竭","随时间系统性增加需求","始终使用最大重量","每周训练7天"],correct:1,explain:"Progressive overload = systematically adding weight, reps, sets, or decreasing rest.",explainCn:"渐进超负荷 = 系统性地增加重量、次数、组数或减少休息。"},
+  // Ch 3
+  {ch:3,q:"A sprain damages which structure?",qCn:"扭伤损伤的是哪个结构？",opts:["Muscle fibers","Ligaments","Bone cortex","Tendons"],optsCn:["肌纤维","韧带","骨皮质","肌腱"],correct:1,explain:"Sprain = ligament (bone-to-bone) injury. Strain = muscle/tendon injury.",explainCn:"扭伤 = 韧带（骨到骨）损伤。拉伤 = 肌肉/肌腱损伤。"},
+  {ch:3,q:"During which healing phase do fibroblasts lay down type III collagen?",qCn:"成纤维细胞在哪个愈合阶段铺设III型胶原？",opts:["Inflammatory phase","Proliferative phase","Remodeling phase","Resolution phase"],optsCn:["炎症期","增殖期","重塑期","消退期"],correct:1,explain:"Proliferative phase (~day 4–21): fibroblasts produce quick type III collagen; capillaries sprout.",explainCn:"增殖期（约第4–21天）：成纤维细胞产生快速的III型胶原；毛细血管萌芽。"},
+  {ch:3,q:"PEACE & LOVE replaced which older framework?",qCn:"PEACE & LOVE替代了哪个旧框架？",opts:["PRICE","POLICE","RICE","MEAT"],optsCn:["PRICE","POLICE","RICE","MEAT"],correct:2,explain:"PEACE & LOVE (2020) replaced RICE (1978) after Mirkin himself revised his advice.",explainCn:"PEACE & LOVE（2020）替代了RICE（1978），Mirkin本人修正了自己的建议。"},
+  // Ch 4
+  {ch:4,q:"Chronic sleep <8h increases injury risk by approximately:",qCn:"长期睡眠不足8小时，受伤风险大约增加：",opts:["1.2×","1.7×","2.5×","3.0×"],optsCn:["1.2倍","1.7倍","2.5倍","3.0倍"],correct:1,explain:"Milewski 2014: athletes averaging <8h sleep were 1.7× more likely to be injured.",explainCn:"Milewski 2014：平均睡眠不足8小时的运动员受伤风险高1.7倍。"},
+  {ch:4,q:"DOMS peaks at approximately:",qCn:"延迟性肌肉酸痛（DOMS）大约在何时达峰？",opts:["6–12 hours","24–72 hours","7–14 days","Immediately"],optsCn:["6–12小时","24–72小时","7–14天","立即"],correct:1,explain:"DOMS appears 12–24h post-exercise, peaks 24–72h, fades by 5–7 days.",explainCn:"DOMS在运动后12–24小时出现，24–72小时达峰，5–7天消退。"},
+  {ch:4,q:"The repeated-bout effect means:",qCn:"重复训练效应意味着：",opts:["First workout causes no soreness","Subsequent identical workouts cause less damage","Soreness always increases","Rest eliminates all DOMS"],optsCn:["第一次训练不酸痛","后续相同训练造成更少损伤","酸痛总是增加","休息消除所有DOMS"],correct:1,explain:"After one bout of new eccentric exercise, same workout next week causes dramatically less damage.",explainCn:"首次接触新的离心训练后，下次相同训练造成的损伤大幅减少。"},
+  {ch:4,q:"Cold water immersion after strength training may:",qCn:"力量训练后冷水浸泡可能会：",opts:["Always improve gains","Blunt satellite-cell activation and mTOR signalling","Have no effect on adaptation","Increase muscle protein synthesis"],optsCn:["总是提高增益","抑制卫星细胞激活和mTOR信号","对适应无影响","增加肌肉蛋白合成"],correct:1,explain:"CWI blunts satellite-cell activation and mTOR, reducing long-term strength/muscle gains.",explainCn:"冷水浸泡抑制卫星细胞激活和mTOR，降低长期力量/肌肉增长。"},
+  // Ch 5
+  {ch:5,q:"The muscle protein synthesis plateau occurs at approximately:",qCn:"肌肉蛋白合成平台期大约出现在：",opts:["0.8 g/kg/day","1.2 g/kg/day","1.6 g/kg/day","2.5 g/kg/day"],optsCn:["0.8克/公斤/天","1.2克/公斤/天","1.6克/公斤/天","2.5克/公斤/天"],correct:2,explain:"Morton 2018 meta-analysis: ~1.6 g/kg/day is the plateau for muscle gain from protein.",explainCn:"Morton 2018荟萃分析：约1.6克/公斤/天是蛋白质增肌的平台期。"},
+  {ch:5,q:"RED-S danger threshold is below approximately:",qCn:"RED-S危险阈值大约在以下哪个水平以下：",opts:["45 kcal/kg FFM/day","30 kcal/kg FFM/day","20 kcal/kg FFM/day","60 kcal/kg FFM/day"],optsCn:["45千卡/公斤FFM/天","30千卡/公斤FFM/天","20千卡/公斤FFM/天","60千卡/公斤FFM/天"],correct:1,explain:"Below ~30 kcal/kg FFM/day perturbs hormones, bone, immunity — RED-S syndrome.",explainCn:"低于约30千卡/公斤FFM/天会扰乱激素、骨骼、免疫 — RED-S综合征。"},
+  {ch:5,q:"At what body-mass loss does performance consistently suffer?",qCn:"体重大约丢失多少时运动表现持续下降？",opts:["0.5%","1%","2%","5%"],optsCn:["0.5%","1%","2%","5%"],correct:2,explain:"Performance in prolonged hot-weather exercise drops once body-mass loss reaches ~2%.",explainCn:"炎热天气下长时间运动的表现，在体重丢失约2%时开始下降。"},
+  {ch:5,q:"The anabolic window is measured in:",qCn:"合成窗口的时间单位是：",opts:["Minutes","Hours (up to 24h)","Days","Seconds"],optsCn:["分钟","小时（最长24小时）","天","秒"],correct:1,explain:"Muscles stay sensitive to protein for ~24h post-training; the practical window is hours, not minutes.",explainCn:"肌肉在训练后约24小时内保持蛋白质敏感性；实际窗口是小时，不是分钟。"},
+  // Ch 6
+  {ch:6,q:"Which supplement has Grade A evidence for high-intensity performance?",qCn:"哪种补剂有A级证据支持高强度运动表现？",opts:["BCAAs","Fat burners","Creatine monohydrate","Testosterone boosters"],optsCn:["BCAAs","燃脂剂","肌酸一水合物","睾酮促进剂"],correct:2,explain:"Creatine is the most effective legal ergogenic aid with A-grade evidence.",explainCn:"肌酸是最有效的合法增效补剂，有A级证据支持。"},
+  {ch:6,q:"The highest level of evidence on the evidence pyramid is:",qCn:"证据金字塔最高级别的证据是：",opts:["Case reports","Cohort studies","Randomized controlled trials","Meta-analyses"],optsCn:["病例报告","队列研究","随机对照试验","荟萃分析"],correct:3,explain:"Meta-analyses of RCTs sit at the top of the evidence pyramid.",explainCn:"随机对照试验的荟萃分析位于证据金字塔最顶端。"},
+  {ch:6,q:"Why are BCAAs graded D (ineffective)?",qCn:"支链氨基酸（BCAAs）为什么被评为D级（无效）？",opts:["They are toxic","Redundant if total protein is adequate — whey already contains them","They cause fatigue","They are too expensive"],optsCn:["它们有毒","如果总蛋白质充足则多余 — 乳清蛋白已含","它们导致疲劳","它们太贵"],correct:1,explain:"Whey protein already contains BCAAs plus all 9 essential aminos. Isolated BCAAs add nothing if protein is adequate.",explainCn:"乳清蛋白已含BCAAs及全部9种必需氨基酸。总蛋白质充足时，分离的BCAAs无额外作用。"},
+  // Ch 7
+  {ch:7,q:"The DPT program typically takes:",qCn:"物理治疗博士（DPT）项目通常需要：",opts:["2 years","3 years","4 years","5 years"],optsCn:["2年","3年","4年","5年"],correct:1,explain:"Doctor of Physical Therapy is a 3-year doctoral program after a 4-year bachelor's.",explainCn:"物理治疗博士是4年本科后的3年博士项目。"},
+  {ch:7,q:"PT median salary (2024 data) is approximately:",qCn:"物理治疗师中位薪资（2024年数据）约为：",opts:["$65,000","$85,000","$101,000","$132,000"],optsCn:["$65,000","$85,000","$101,000","$132,000"],correct:2,explain:"U.S. BLS May 2024: median pay $101,020/year.",explainCn:"美国劳工统计局2024年5月数据：中位年薪$101,020。"},
+  {ch:7,q:"Projected job growth for PTs (2024–34) is:",qCn:"物理治疗师预计就业增长（2024–34）为：",opts:["3% (average)","7% (average)","11% (much faster than average)","20%"],optsCn:["3%（平均）","7%（平均）","11%（远高于平均）","20%"],correct:2,explain:"+11% growth projected — 'much faster than average' (all-occupation average is 3%).",explainCn:"+11%增长预期 — '远高于平均'（所有职业平均为3%）。"},
+];
+
+let qoCurrent = 0;
+let qoScore = 0;
+let qoAnswered = false;
+let qoResults = [];
+
+function openQuizMode(){
+  qoCurrent = 0; qoScore = 0; qoAnswered = false; qoResults = [];
+  document.getElementById('quizOverlay').classList.add('open');
+  renderQO();
+}
+function closeQuizMode(){document.getElementById('quizOverlay').classList.remove('open');}
+function renderQO(){
+  const body = document.getElementById('qoBody');
+  const isZH = showCN;
+  if(qoCurrent >= quizQuestions.length){
+    const pct = Math.round(qoScore/quizQuestions.length*100);
+    let dots = qoResults.map(r=>`<div class="qo-score-dot ${r?'hit':'miss'}"></div>`).join('');
+    body.innerHTML = `<div class="qo-score-card">
+      <div class="qo-score-num">${pct}%</div>
+      <div class="qo-score-label">${qoScore} / ${quizQuestions.length} ${isZH?'正确':'correct'}</div>
+      <div class="qo-score-bar">${dots}</div>
+      <button class="qo-btn next" onclick="qoCurrent=0;qoScore=0;qoResults=[];renderQO()">${isZH?'🔄 重新开始':'🔄 Try Again'}</button>
+      <button class="qo-btn next" onclick="closeQuizMode()" style="background:var(--text3);margin-left:.5rem">${isZH?'关闭':'Close'}</button>
+    </div>`;
+    updateQuizProgress(pct);
+    return;
+  }
+  const q = quizQuestions[qoCurrent];
+  const pct = Math.round(qoCurrent/quizQuestions.length*100);
+  const chNames=['','一','二','三','四','五','六','七'];
+  body.innerHTML = `
+    <div class="qo-progress"><div class="qo-progress-bar" style="width:${pct}%"></div></div>
+    <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+quizQuestions.length+'题':'Question '+(qoCurrent+1)+' of '+quizQuestions.length} · ${isZH?'第'+chNames[q.ch]+'章':'Chapter '+q.ch}</div>
+    <div class="qo-question">${isZH?(q.qCn||q.q):q.q}</div>
+    <div class="qo-options" id="qoOpts">
+      ${(isZH?(q.optsCn||q.opts):q.opts).map((o,i)=>`<div class="qo-opt" onclick="qoSelect(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="qo-explain" id="qoExplain"><strong>${isZH?'解析：':'Explanation:'}</strong> ${isZH?(q.explainCn||q.explain):q.explain}</div>
+    <div class="qo-footer">
+      <span style="font-size:.85rem;color:var(--text3)">${isZH?'得分':'Score'}: ${qoScore}/${qoCurrent}</span>
+      <button class="qo-btn next" id="qoNextBtn" onclick="qoNext()" disabled>${isZH?'下一题 →':'Next →'}</button>
+    </div>`;
+  qoAnswered = false;
+}
+function qoSelect(i){
+  if(qoAnswered) return;
+  qoAnswered = true;
+  const q = quizQuestions[qoCurrent];
+  const opts = document.querySelectorAll('#qoOpts .qo-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct) o.classList.add('correct');
+    if(idx===i && i!==q.correct) o.classList.add('wrong');
+  });
+  const correct = i===q.correct;
+  if(correct) qoScore++;
+  qoResults.push(correct);
+  document.getElementById('qoExplain').classList.add('show');
+  document.getElementById('qoNextBtn').disabled = false;
+}
+function qoNext(){qoCurrent++; renderQO();}
+
+// ════════════════════════════════════════
+// PROGRESS TRACKING
+// ════════════════════════════════════════
+let quizProgress = JSON.parse(localStorage.getItem('sm_quizProgress')||'{}');
+let fcProgressCount = 0;
+
+function updateQuizProgress(pct){
+  quizProgress[qoCurrent_quiz_ch || 0] = Math.max(quizProgress[qoCurrent_quiz_ch||0]||0, pct);
+  localStorage.setItem('sm_quizProgress', JSON.stringify(quizProgress));
+  renderProgressBars();
+}
+let qoCurrent_quiz_ch = 0;
+
+// Override openQuizMode to track chapter
+const _origOpen = openQuizMode;
+// Actually let's track per-chapter from the quiz mode results
+// We'll simplify: mark a chapter as "done" if user finishes quiz mode
+
+function renderProgressBars(){
+  for(let i=1;i<=7;i++){
+    const el=document.getElementById('prog-'+i), p=document.getElementById('pct-'+i);
+    if(!el||!p) continue;
+    const v = quizProgress[i]||0;
+    el.style.width = v+'%';
+    p.textContent = v+'%';
+  }
+  const fcEl=document.getElementById('prog-fc'), fcP=document.getElementById('pct-fc');
+  const fcPct = Math.min(100, Math.round(fcReviewed.size/flashcards.length*100));
+  if(fcEl) fcEl.style.width = fcPct+'%';
+  if(fcP) fcP.textContent = fcPct+'%';
+}
+function updateProgress(){renderProgressBars();}
+
+// Track which chapter quiz was completed
+function trackQuizDone(ch, pct){
+  quizProgress[ch] = Math.max(quizProgress[ch]||0, pct);
+  localStorage.setItem('sm_quizProgress', JSON.stringify(quizProgress));
+  renderProgressBars();
+}
+
+// Intercept quiz completion to track by chapter
+const _origRenderQO = renderQO;
+// We need to know which chapter. Let's modify openQuizMode to accept chapter filter
+let activeQuizCh = 0;
+function openQuizModeForChapter(ch){
+  activeQuizCh = ch;
+  qoCurrent = 0; qoScore = 0; qoAnswered = false; qoResults = [];
+  document.getElementById('quizOverlay').classList.add('open');
+  renderQOChapter();
+}
+function renderQOChapter(){
+  const pool = activeQuizCh ? quizQuestions.filter(q=>q.ch===activeQuizCh) : quizQuestions;
+  const body = document.getElementById('qoBody');
+  const isZH = showCN;
+  if(qoCurrent >= pool.length){
+    const pct = Math.round(qoScore/pool.length*100);
+    let dots = qoResults.map(r=>`<div class="qo-score-dot ${r?'hit':'miss'}"></div>`).join('');
+    body.innerHTML = `<div class="qo-score-card">
+      <div class="qo-score-num">${pct}%</div>
+      <div class="qo-score-label">${qoScore} / ${pool.length} ${isZH?'正确':'correct'}</div>
+      <div class="qo-score-bar">${dots}</div>
+      <button class="qo-btn next" onclick="qoCurrent=0;qoScore=0;qoResults=[];renderQOChapter()">${isZH?'🔄 重新开始':'🔄 Try Again'}</button>
+      <button class="qo-btn next" onclick="closeQuizMode()" style="background:var(--text3);margin-left:.5rem">${isZH?'关闭':'Close'}</button>
+    </div>`;
+    if(activeQuizCh){trackQuizDone(activeQuizCh, pct);}
+    return;
+  }
+  const q = pool[qoCurrent];
+  const pct = Math.round(qoCurrent/pool.length*100);
+  const chNames=['','一','二','三','四','五','六','七'];
+  body.innerHTML = `
+    <div class="qo-progress"><div class="qo-progress-bar" style="width:${pct}%"></div></div>
+    <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+pool.length+'题':'Question '+(qoCurrent+1)+' of '+pool.length} · ${isZH?'第'+chNames[q.ch]+'章':'Chapter '+q.ch}</div>
+    <div class="qo-question">${isZH?(q.qCn||q.q):q.q}</div>
+    <div class="qo-options" id="qoOpts">
+      ${(isZH?(q.optsCn||q.opts):q.opts).map((o,i)=>`<div class="qo-opt" onclick="qoSelectCh(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="qo-explain" id="qoExplain"><strong>${isZH?'解析：':'Explanation:'}</strong> ${isZH?(q.explainCn||q.explain):q.explain}</div>
+    <div class="qo-footer">
+      <span style="font-size:.85rem;color:var(--text3)">${isZH?'得分':'Score'}: ${qoScore}/${qoCurrent}</span>
+      <button class="qo-btn next" id="qoNextBtn" onclick="qoNextCh()" disabled>${isZH?'下一题 →':'Next →'}</button>
+    </div>`;
+  qoAnswered = false;
+}
+function qoSelectCh(i){
+  if(qoAnswered) return;
+  qoAnswered = true;
+  const pool = activeQuizCh ? quizQuestions.filter(q=>q.ch===activeQuizCh) : quizQuestions;
+  const q = pool[qoCurrent];
+  const opts = document.querySelectorAll('#qoOpts .qo-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct) o.classList.add('correct');
+    if(idx===i && i!==q.correct) o.classList.add('wrong');
+  });
+  if(i===q.correct) qoScore++;
+  qoResults.push(i===q.correct);
+  document.getElementById('qoExplain').classList.add('show');
+  document.getElementById('qoNextBtn').disabled = false;
+}
+function qoNextCh(){qoCurrent++; renderQOChapter();}
+
+// Override openQuizMode to use all questions
+function openQuizMode(){
+  activeQuizCh = 0;
+  qoCurrent = 0; qoScore = 0; qoAnswered = false; qoResults = [];
+  document.getElementById('quizOverlay').classList.add('open');
+  renderQOChapter();
+}
+
+// ════════════════════════════════════════
+// ACCORDIONS
+// ════════════════════════════════════════
+function toggleAcc(header){
+  const item = header.parentElement;
+  const body = item.querySelector('.acc-body');
+  const isOpen = item.classList.contains('open');
+  if(isOpen){
+    body.style.maxHeight = '0';
+    item.classList.remove('open');
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    item.classList.add('open');
+  }
+}
+
+// ════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════
+function switchTab(btn, panelId){
+  const tabs = btn.closest('.tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  tabs.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ════════════════════════════════════════
+// DARK MODE
+// ════════════════════════════════════════
+const darkBtn = document.getElementById('darkToggle');
+darkBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  darkBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  localStorage.setItem('dark', document.body.classList.contains('dark'));
+});
+if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');darkBtn.textContent='☀️';}
+
+// ════════════════════════════════════════
+// LANGUAGE TOGGLE
+// ════════════════════════════════════════
+const langBtn = document.getElementById('langToggle');
+let showCN = true;
+function wrapInlineBilingual(){
+  document.querySelectorAll('.cn').forEach(cn=>{
+    const parent = cn.parentElement;
+    if(!parent || parent.classList.contains('en-text')) return;
+    const children = Array.from(parent.childNodes);
+    const wrapper = document.createElement('span');
+    wrapper.className = 'en-text';
+    children.forEach(node=>{
+      if(node === cn) return;
+      wrapper.appendChild(node.cloneNode(true));
+    });
+    parent.insertBefore(wrapper, cn);
+    children.forEach(node=>{
+      if(node !== cn) parent.removeChild(node);
+    });
+  });
+}
+wrapInlineBilingual();
+
+function applyLang(){
+  const lang = showCN ? 'zh' : 'en';
+  document.body.classList.toggle('lang-zh', showCN);
+  document.body.classList.toggle('lang-en', !showCN);
+  document.querySelectorAll('[data-en][data-zh]').forEach(el=>{
+    el.textContent = el.getAttribute('data-'+lang);
+  });
+  langBtn.textContent = showCN ? '中' : 'EN';
+  renderMasteryGrid();
+  renderFCChips();
+  updateRecs();
+}
+langBtn.addEventListener('click',()=>{
+  showCN = !showCN;
+  localStorage.setItem('sm_lang', showCN ? 'zh' : 'en');
+  applyLang();
+});
+// Restore language
+if(localStorage.getItem('sm_lang')==='en'){showCN=false;}
+// applyLang() called in Init section after all const declarations
+
+// ════════════════════════════════════════
+// NAV + SCROLL
+// ════════════════════════════════════════
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#navList a');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const link = document.querySelector(`#navList a[href="#${entry.target.id}"]`);
+      if(link) link.classList.add('active');
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s=>observer.observe(s));
+
+const backBtn = document.getElementById('backTop');
+window.addEventListener('scroll',()=>{backBtn.classList.toggle('show', window.scrollY>500);});
+
+// ════════════════════════════════════════
+// QUIZ REVEAL (inline)
+// ════════════════════════════════════════
+function toggle(btn){
+  const answer = btn.nextElementSibling;
+  answer.classList.toggle('show');
+  btn.textContent = answer.classList.contains('show')
+    ? (showCN ? '隐藏答案 ▴' : 'Hide answer ▴')
+    : (showCN ? '显示答案 ▾' : 'Show answer ▾');
+}
+
+// Add "Take Quiz" buttons to each chapter quiz
+document.querySelectorAll('.quiz[data-chapter]').forEach(quiz=>{
+  const ch = quiz.dataset.chapter;
+  const btn = document.createElement('button');
+  btn.className = 'qo-btn next';
+  btn.style.cssText = 'margin-top:1rem;font-size:.85rem;padding:.5rem 1rem;';
+  btn.textContent = showCN?`📝 开始第${ch}章测验`:`📝 Take Chapter ${ch} Quiz`;
+  btn.onclick = ()=>openQuizModeForChapter(parseInt(ch));
+  quiz.appendChild(btn);
+});
+
+// ════════════════════════════════════════
+// ADAPTIVE QUIZ ENGINE (IXL-style)
+// ════════════════════════════════════════
+const TOPICS = [
+  {id:"t1",ch:1,name:"Body as a Machine",nameCn:"人体如机器",sub:["Energy Systems","Muscle Fibers","SAID Principle","5 Thinking Patterns","Myths"],subCn:["供能系统","肌纤维","SAID原则","五大思维模式","迷思"]},
+  {id:"t2",ch:2,name:"Training Principles",nameCn:"训练原则",sub:["Progressive Overload","Resistance Variables","Eccentric Training","Stretching Dose","Neural vs Hypertrophy"],subCn:["渐进超负荷","阻力训练变量","离心训练","拉伸剂量","神经适应 vs 肌肥大"]},
+  {id:"t3",ch:3,name:"Injury & Healing",nameCn:"损伤与愈合",sub:["Sprain vs Strain","Healing Phases","PEACE & LOVE","Injury Vocabulary","Concussion"],subCn:["扭伤 vs 拉伤","愈合阶段","PEACE与LOVE框架","损伤词汇","脑震荡"]},
+  {id:"t4",ch:4,name:"Recovery Science",nameCn:"恢复科学",sub:["Sleep & Injury","DOMS","Repeated-Bout Effect","Ice Debate","Recovery Toolbox"],subCn:["睡眠与受伤","延迟性肌肉酸痛","重复训练效应","冰敷争议","恢复工具箱"]},
+  {id:"t5",ch:5,name:"Sports Nutrition",nameCn:"运动营养",sub:["Macros","RED-S","Hydration","Anabolic Window","Protein Plateau"],subCn:["宏量营养素","运动相对能量不足","水合","合成窗口","蛋白质平台期"]},
+  {id:"t6",ch:6,name:"Supplements",nameCn:"补剂",sub:["Evidence Pyramid","Creatine","Caffeine","BCAAs","Fat Burners","Safety Checklist"],subCn:["证据金字塔","肌酸","咖啡因","支链氨基酸","燃脂剂","安全清单"]},
+  {id:"t7",ch:7,name:"PT Career",nameCn:"物理治疗师职业",sub:["DPT Pathway","Salary & Growth","What PTs Do","NPTE","Specialization"],subCn:["DPT路径","薪资与增长","物理治疗师做什么","NPTE考试","专科方向"]}
+];
+
+// Mastery state (persisted)
+let mastery = JSON.parse(localStorage.getItem('sm_mastery')||'null') || {};
+TOPICS.forEach(t=>{
+  if(!mastery[t.id]) mastery[t.id] = {score:0,streak:0,totalQ:0,correctQ:0,difficulty:1,lastSub:{}};
+});
+
+function saveMastery(){localStorage.setItem('sm_mastery',JSON.stringify(mastery));}
+
+// ════════════════════════════════════════
+// QUESTION GENERATOR — Infinite questions
+// ════════════════════════════════════════
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function makeWrong(correct,all,count=3){
+  const pool=all.filter(x=>x!==correct);
+  return shuffle(pool).slice(0,count);
+}
+
+// QUESTION TEMPLATES per topic × difficulty
+// difficulty 1=beginner, 2=intermediate, 3=advanced, 4=expert
+const Q_TEMPLATES = {
+// ── Topic 1: Body as a Machine ──
+t1:[
+// Diff 1
+{d:1,q:"Which energy system is used for a 100-meter sprint?",qCn:"100米短跑主要使用哪种供能系统？",opts:["Oxidative","Glycolytic","Phosphagen","Anaerobic lactic"],optsCn:["氧化系统","糖酵解系统","磷酸肌酸系统","无氧乳酸系统"],correct:2,explain:"The phosphagen system provides immediate ATP+CP for ≤10s bursts like a 100m sprint.",explainCn:"磷酸肌酸系统为≤10秒的爆发力（如100米短跑）提供即时ATP+CP。"},
+{d:1,q:"Type I muscle fibers are best described as:",qCn:"I型肌纤维的最佳描述是：",opts:["Fast and powerful","Slow and fatigue-resistant","Large diameter","Low mitochondria"],optsCn:["快速有力","慢速且抗疲劳","直径大","线粒体少"],correct:1,explain:"Type I (slow-twitch) fibers have high mitochondrial density and are fatigue-resistant — ideal for endurance.",explainCn:"I型（慢肌）纤维线粒体密度高、血液供应丰富、抗疲劳 — 理想的耐力纤维。"},
+{d:1,q:"What does the SAID principle stand for?",qCn:"SAID原则代表什么？",opts:["Specific Adaptation to Imposed Demands","Systematic Analysis of Injury Data","Strength And Intensity Development","Sustained Adaptation in Daily training"],optsCn:["特定适应于施加需求","损伤数据系统分析","力量与强度发展","日常训练持续适应"],correct:0,explain:"SAID = Specific Adaptation to Imposed Demands — the body remodels along the lines you train.",explainCn:"SAID = Specific Adaptation to Imposed Demands — 身体按训练方向重塑。"},
+{d:1,q:"How many bones does the adult human body typically have?",qCn:"成年人体通常有多少块骨头？",opts:["~150","~206","~300","~400"],optsCn:["约150","约206","约300","约400"],correct:1,explain:"The adult human skeleton has approximately 206 bones.",explainCn:"成人骨骼约有206块骨头。"},
+// Diff 2
+{d:2,q:"The phosphagen system uses which two molecules for immediate energy?",qCn:"磷酸肌酸系统使用哪两种分子提供即时能量？",opts:["Glucose and oxygen","ATP and creatine phosphate","Glycogen and pyruvate","Fats and ketones"],optsCn:["葡萄糖和氧气","ATP和磷酸肌酸","糖原和丙酮酸","脂肪和酮体"],correct:1,explain:"The phosphagen system uses stored ATP and creatine phosphate (CP) for immediate energy release.",explainCn:"磷酸肌酸系统使用储存的ATP和磷酸肌酸（CP）释放即时能量。"},
+{d:2,q:"Which pattern explains why a marathoner's body adapts differently from a sprinter's?",qCn:"哪个思维模式解释了马拉松和短跑运动员适应不同的原因？",opts:["Pattern 1 — Stress/Recovery","Pattern 2 — Structure/Function","Pattern 4 — SAID","Pattern 5 — Individuality"],optsCn:["模式1 — 压力/恢复","模式2 — 结构/功能","模式4 — SAID","模式5 — 个体差异"],correct:2,explain:"Pattern 4 (SAID): the specific demands imposed determine the specific adaptations. Endurance → oxidative. Sprint → phosphagen.",explainCn:"模式4（SAID）：施加的特定需求决定特定适应。耐力→氧化。短跑→磷酸肌酸。"},
+{d:2,q:"Why can't you 'drink energy' directly into your muscles?",qCn:"为什么不能直接把'能量'喝进肌肉？",opts:["Stomach acid destroys it","Cells need ATP via membrane transporters","Energy drinks contain no calories","The small intestine blocks absorption"],optsCn:["胃酸会破坏","细胞需通过膜转运体获取ATP","能量饮料不含热量","小肠阻止吸收"],correct:1,explain:"ATP cannot survive digestion; useful components (carbs, caffeine) must cross membranes via specific transporters.",explainCn:"ATP无法经消化存活；有用成分必须通过特定转运体穿过细胞膜。"},
+// Diff 3
+{d:3,q:"A beginner lifter gains 15% more squat strength in 3 weeks with zero change in thigh circumference. Which adaptation is primarily responsible?",qCn:"初学者3周深蹲力量增长15%但大腿围度无变化。主要是什么适应导致？",opts:["Muscle fiber hypertrophy","Improved neural motor-unit recruitment","Increased glycogen storage","Greater tendon stiffness"],optsCn:["肌纤维肥大","神经运动单元招募改善","糖原储存增加","肌腱刚度增大"],correct:1,explain:"Early strength gains (weeks 1–4) are primarily neural: better recruitment, firing rate, coordination — before hypertrophy.",explainCn:"早期力量增长（第1–4周）主要是神经适应：更好的招募、放电频率、协调性。"},
+{d:3,q:"If a wrestler trains only with 100-rep light dumbbell curls claiming slow fibers build max strength, identify two errors.",qCn:"如果摔跤手只用100次轻重量哑铃弯举声称慢肌能建最大力量，找出两个错误。",opts:["Wrong fiber type targeted + wrong rep range for strength","Wrong exercise + insufficient volume","Too much volume + wrong time of day","Wrong muscle group + insufficient protein"],optsCn:["纤维类型错误+次数范围错误","练习错误+容量不足","容量过多+时间错误","肌群错误+蛋白质不足"],correct:0,explain:"(1) Max strength needs high-threshold motor units (heavy loads), not light endurance work. (2) 100 reps trains endurance, not strength — specificity violated.",explainCn:"①最大力量需高阈值运动单元（大重量），非轻量耐力训练。②100次训练耐力，非力量 — 违反专项性。"},
+{d:3,q:"Bone heals faster than cartilage primarily because:",qCn:"骨骼比软骨愈合更快主要是因为：",opts:["Bone cells divide faster","Bone has rich blood supply delivering immune cells and growth factors","Cartilage is too flexible to heal","Bones are under less mechanical stress"],optsCn:["骨细胞分裂更快","骨骼有丰富血供输送免疫细胞和生长因子","软骨太柔韧无法愈合","骨骼承受更小机械应力"],correct:1,explain:"Blood supply delivers immune cells, growth factors, and building materials; cartilage is nearly avascular.",explainCn:"血液供应输送免疫细胞、生长因子和建筑材料；软骨几乎无血管。"},
+// Diff 4
+{d:4,q:"A sprinter takes creatine and a marathoner takes the same dose. Using SAID and energy system principles, explain why only the sprinter benefits significantly.",qCn:"短跑和马拉松运动员服同剂量肌酸，用SAID解释为何仅短跑运动员显著获益。",opts:["Marathoner's oxidative system doesn't use phosphagen ATP","Creatine is only absorbed by fast-twitch fibers","Marathoners already have max creatine stores","Creatine causes weight gain that hurts endurance"],optsCn:["马拉松氧化系统不用磷酸肌酸ATP","肌酸只被快肌纤维吸收","马拉松者肌酸储备已满","肌酸增重损害耐力"],correct:0,explain:"Creatine enlarges the phosphagen tank (ATP+CP), used for ≤10s bursts. Marathon is >90% oxidative; the phosphagen system contributes negligibly.",explainCn:"肌酸扩大磷酸肌酸储备（ATP+CP），用于≤10秒爆发。马拉松>90%为氧化供能。"},
+{d:4,q:"Which thinking pattern best explains why identical training programs produce different results in two athletes?",qCn:"哪个思维模式解释了相同训练计划在两运动员身上产生不同结果？",opts:["Pattern 1 — Stress/Recovery","Pattern 2 — Structure/Function","Pattern 5 — Dose-response & Individuality","Pattern 3 — Energy systems"],optsCn:["模式1 — 压力/恢复","模式2 — 结构/功能","模式5 — 剂量反应与个体差异","模式3 — 供能系统"],correct:2,explain:"Pattern 5: genetics set a range; training, nutrition, sleep, and age determine where in that range you land.",explainCn:"模式5：基因设定范围；训练、营养、睡眠和年龄决定你在该范围的位置。"},
+{d:4,q:"If you suddenly switch from sedentary life to daily HIIT, which pattern predicts the likely outcome and why?",qCn:"从久坐突然转为每天HIIT，哪个模式预测结果？为什么？",opts:["Pattern 2 — joints will deform","Pattern 1 — no recovery window → overtraining/injury","Pattern 3 — energy systems will merge","Pattern 4 — all adaptations happen simultaneously"],optsCn:["模式2 — 关节变形","模式1 — 无恢复窗口→过度训练/受伤","模式3 — 供能系统合并","模式4 — 所有适应同时发生"],correct:1,explain:"Pattern 1: adaptation happens between workouts during recovery. Daily HIIT with no rest = no rebuilding window → overtraining, injury.",explainCn:"模式1：适应发生在训练间恢复期。每天HIIT无休息=无重建窗口→过度训练、受伤。"},
+],
+// ── Topic 2: Training Principles ──
+t2:[
+{d:1,q:"Progressive overload means:",qCn:"渐进超负荷意味着：",opts:["Training to failure daily","Systematically increasing demand over time","Using the heaviest weight possible","Taking more rest between sets"],optsCn:["每天练到力竭","系统性增加训练需求","用最重的重量","组间多休息"],correct:1,explain:"Progressive overload = systematically adding weight, reps, sets, or decreasing rest over time.",explainCn:"渐进超负荷=随时间系统性增加重量、次数、组数或减少休息。"},
+{d:1,q:"Eccentric muscle action refers to:",qCn:"离心肌肉收缩指的是：",opts:["Muscle shortening under load","Muscle lengthening under load","Isometric contraction","Explosive concentric movement"],optsCn:["负荷下肌肉缩短","负荷下肌肉拉长","等长收缩","爆发性向心运动"],correct:1,explain:"Eccentric = muscle lengthening while producing force (e.g., lowering phase of a bicep curl).",explainCn:"离心=肌肉在产生力量的同时被拉长（如二头弯举的下放阶段）。"},
+{d:1,q:"Static stretching a muscle for 30 seconds before lifting will:",qCn:"举重前静态拉伸30秒会：",opts:["Improve max strength by 5%","Cause serious strength loss","Have essentially no effect on strength","Double your power output"],optsCn:["提高最大力量5%","导致严重力量下降","对力量基本无影响","力量输出翻倍"],correct:2,explain:"Holds <45s per muscle are essentially harmless — strength loss is trivial (~1–2%).",explainCn:"每块肌肉保持<45秒基本无害 — 力量损失微乎其微（约1–2%）。"},
+{d:2,q:"A coach says 'stretching before practice makes you weak.' The best evidence-based reply is:",qCn:"教练说'训练前拉伸会让你变弱'，最佳循证回应是：",opts:["He's completely wrong — stretching helps","He's right — never stretch before exercise","The effect is dose-dependent: <45s harmless, ≥60s costs up to ~7.5% strength","Stretching only hurts if you're dehydrated"],optsCn:["他完全错了","他是对的，永远不要运动前拉伸","效果取决于剂量：<45秒无害，≥60秒可损失约7.5%力量","只有脱水时拉伸才有害"],correct:2,explain:"Meta-analyses show dose matters: <45s = trivial effect, ≥60s = up to ~7.5% strength reduction. Dynamic warm-up is the backbone.",explainCn:"荟萃分析显示剂量效应：<45秒=微小影响，≥60秒=最高约7.5%力量下降。动态热身是基础。"},
+{d:2,q:"In weeks 1–4 of a new strength program, the primary adaptation is:",qCn:"新力量训练计划第1–4周，主要适应是：",opts:["Increased muscle cross-sectional area","Neural: better motor-unit recruitment and coordination","Greater tendon thickness","Increased fat oxidation"],optsCn:["肌肉横截面积增加","神经：运动单元招募和协调改善","肌腱增厚","脂肪氧化增加"],correct:1,explain:"Neural adaptations (recruitment, firing rate, coordination) drive early strength gains before measurable hypertrophy.",explainCn:"神经适应（招募、放电频率、协调性）驱动早期力量增长，在可测量的肌肥大之前。"},
+{d:2,q:"Eccentric training is particularly useful in tendinopathy rehab because:",qCn:"离心训练在肌腱病变康复中特别有用，因为：",opts:["It causes maximum inflammation","It stimulates collagen alignment along stress lines","It eliminates all pain immediately","It only trains slow-twitch fibers"],optsCn:["引起最大炎症","刺激胶原沿应力线排列","立即消除所有疼痛","只训练慢肌纤维"],correct:1,explain:"Controlled eccentric loading applies SAID — collagen remodels along the lines of stress, strengthening the tendon.",explainCn:"控制性离心负荷应用SAID — 胶原沿应力线重塑，强化肌腱。"},
+{d:3,q:"At what per-muscle hold duration does static stretching begin to significantly reduce maximal strength (up to ~7.5%)?",qCn:"静态拉伸保持多久开始显著降低最大力量（约7.5%）？",opts:["≥30 seconds","≥45 seconds","≥60 seconds","≥120 seconds"],optsCn:["≥30秒","≥45秒","≥60秒","≥120秒"],correct:2,explain:"Kay & Blazevich 2012: ≥60s per muscle can cut strength by ~7.5%. Shorter holds are essentially harmless.",explainCn:"Kay & Blazevich 2012：每块肌肉≥60秒可使力量下降约7.5%。较短保持基本无害。"},
+{d:3,q:"Why does the debate about pre-workout stretching remain unresolved?",qCn:"为什么训练前拉伸的争论仍未解决？",opts:["Both sides show small but real effects depending on dose and task type","One side has no data at all","Stretching only affects flexibility, not strength","The studies used wrong populations"],optsCn:["双方都显示取决于剂量和任务类型的小但真实效应","一方完全没有数据","拉伸只影响柔韧性不影响力量","研究使用了错误人群"],correct:0,explain:"Side A shows strength loss with long holds; Side B shows minimal effect on complex tasks. Both are correct — the answer depends on duration and activity type.",explainCn:"A方显示长时间保持导致力量下降；B方显示对复杂任务影响最小。两者都正确。"},
+{d:3,q:"A runner's coach prescribes heavy squats 7 days/week for maximal strength. What principles does this violate?",qCn:"跑步教练开出了每周7天大重量深蹲方案，违反了什么原则？",opts:["SAID and progressive overload","Recovery principle (Pattern 1) and dose-response","Structure/function and energy systems","Only the frequency — volume is fine"],optsCn:["SAID和渐进超负荷","恢复原则（模式1）和剂量反应","结构/功能和供能系统","只是频率问题，容量没问题"],correct:1,explain:"Pattern 1: adaptation happens during recovery. 7 days/week means no rebuilding window. Also violates dose-response (Pattern 5).",explainCn:"模式1：适应发生在恢复期。每周7天=无重建窗口。也违反剂量反应（模式5）。"},
+{d:4,q:"Design an eccentric rehab plan for a basketball player with chronic calf strains. Describe the logic (not specific exercises).",qCn:"为慢性小腿拉伤的篮球运动员设计离心康复方案，描述逻辑。",opts:["Load the tissue eccentrically in controlled doses → progress gradually → avoid spikes exceeding remodeling capacity","Rest completely for 6 weeks then return to full activity","Stretch the calf aggressively 5x/day","Take NSAIDs to reduce inflammation"],optsCn:["控制剂量离心负荷→逐渐递增→避免超过重塑能力的峰值","完全休息6周后恢复全量活动","每天剧烈拉伸小腿5次","服用NSAIDs消炎"],correct:0,explain:"SAID: identify overloaded tissue → controlled eccentric loading → progressive increase as tissue remodels → avoid exceeding remodeling capacity.",explainCn:"SAID：识别受损组织→控制性离心负荷→随组织重塑渐进递增→避免超过重塑能力。"},
+{d:4,q:"If a powerlifter wants to maximize 1RM squat, what combination of variables and why?",qCn:"力量举运动员想最大化1RM深蹲，什么变量组合？为什么？",opts:["High reps (15+), light weight, short rest","Low reps (1–5), heavy weight, long rest (3–5 min), moderate frequency","High reps, heavy weight, no rest","Low reps, light weight, short rest"],optsCn:["高次数15+、轻重量、短休息","低次数1–5、大重量、长休息3–5分钟、中等频率","高次数、大重量、无休息","低次数、轻重量、短休息"],correct:1,explain:"Max strength: heavy load recruits high-threshold motor units; low reps maintain intensity; long rest allows full ATP recovery; 2–4x/week frequency allows recovery.",explainCn:"最大力量：大重量招募高阈值运动单元；低次数维持强度；长休息恢复ATP；每周2–4次允许恢复。"},
+],
+// ── Topic 3: Injury & Healing ──
+t3:[
+{d:1,q:"A sprain damages which structure?",qCn:"扭伤损伤的是哪个结构？",opts:["Muscle fibers","Ligaments","Bone cortex","Skin"],optsCn:["肌纤维","韧带","骨皮质","皮肤"],correct:1,explain:"Sprain = ligament (bone-to-bone strap) injury. Strain = muscle/tendon fiber injury.",explainCn:"扭伤=韧带（骨间连接带）损伤。拉伤=肌肉/肌腱纤维损伤。"},
+{d:1,q:"Grade III sprain means:",qCn:"III度扭伤意味着：",opts:["Mild swelling, joint stable","Partial tear, moderate instability","Complete rupture, gross instability","No damage, just pain"],optsCn:["轻度肿胀，关节稳定","部分撕裂，中度不稳定","完全断裂，严重不稳定","无损伤，只是疼痛"],correct:2,explain:"Grade I = overstretched. Grade II = partial tear. Grade III = complete rupture, often needing surgery.",explainCn:"I度=过度拉伸。II度=部分撕裂。III度=完全断裂，常需手术。"},
+{d:1,q:"Concussion is classified as:",qCn:"脑震荡属于：",opts:["A structural injury visible on MRI","A functional injury with normal imaging","A bone fracture","A ligament tear"],optsCn:["MRI可见的结构性损伤","影像正常的结构性功能损伤","骨折","韧带撕裂"],correct:1,explain:"Concussion is a functional injury — nervous tissue function is disrupted, but imaging may show 'normal.'",explainCn:"脑震荡是功能性损伤 — 神经组织功能受损，但影像可能显示'正常'。"},
+{d:2,q:"In which healing phase do fibroblasts lay down type III collagen?",qCn:"成纤维细胞在哪个愈合阶段铺设III型胶原？",opts:["Inflammatory (0–7d)","Proliferative (4–21d)","Remodeling (3w–2yr)","Resolution"],optsCn:["炎症期（0–7天）","增殖期（4–21天）","重塑期（3周–2年）","消退期"],correct:1,explain:"Proliferative phase: fibroblasts produce quick-and-dirty type III collagen; new capillaries sprout.",explainCn:"增殖期：成纤维细胞产生快速但粗糙的III型胶原；新毛细血管萌芽。"},
+{d:2,q:"The 'A' in PEACE stands for 'Avoid anti-inflammatories.' Why is this controversial?",qCn:"PEACE中的'A'代表避免抗炎药，为什么有争议？",opts:["Because inflammation causes cancer","Because inflammatory cells trigger repair — suppressing them may slow healing","Because NSAIDs are too expensive","Because ice is more effective"],optsCn:["因为炎症导致癌症","因为炎症细胞触发修复—抑制它们可能减缓愈合","因为NSAIDs太贵","因为冰敷更有效"],correct:1,explain:"Inflammatory cells (macrophages) coordinate tissue repair. Routine NSAIDs/ice may blunt this signaling and slow long-term healing.",explainCn:"炎症细胞（巨噬细胞）协调组织修复。常规NSAIDs/冰敷可能削弱信号传导，减缓长期愈合。"},
+{d:2,q:"During the remodeling phase, what directs collagen fiber alignment?",qCn:"重塑期中，什么引导胶原纤维排列？",opts:["Random chance","Applied mechanical load (mechanotransduction)","Blood temperature","Dietary protein"],optsCn:["随机","施加的机械负荷（力学转导）","血液温度","膳食蛋白"],correct:1,explain:"Collagen reorganizes along stress lines via mechanotransduction — load is the signal that directs alignment. Wolff/Davis law.",explainCn:"胶原通过力学转导沿应力线重组 — 负荷是引导排列的信号。Wolff/Davis定律。"},
+{d:3,q:"A Grade II ankle sprain happened yesterday. The player wants aggressive stretching + daily NSAIDs for 2 weeks. Using PEACE & LOVE, evaluate both choices.",qCn:"昨天发生II度踝关节扭伤，球员想剧烈拉伸+每天NSAIDs 2周。用PEACE & LOVE评估。",opts:["Both conflict: stretching disturbs fragile repair; NSAIDs suppress healing signals. Better: rest 1–3d, progressive loading pain-guided","Both are fine — more activity = faster healing","NSAIDs are good but stretching is bad","Stretching is good but NSAIDs are bad"],optsCn:["两者冲突：拉伸干扰脆弱修复；NSAIDs抑制愈合信号。应休息1–3天，渐进负荷","两者都好—活动越多愈合越快","NSAIDs好但拉伸不好","拉伸好但NSAIDs不好"],correct:0,explain:"PEACE: avoid anti-inflammatories (A); LOVE: optimal load, not aggressive stretching. Both choices conflict with evidence-based framework.",explainCn:"PEACE：避免抗炎药（A）；LOVE：最佳负荷，非剧烈拉伸。两者都与循证框架冲突。"},
+{d:3,q:"Why is the inflammatory phase considered 'not the enemy'?",qCn:"为什么炎症期被认为'不是敌人'？",opts:["It prevents all infection","Immune cells (neutrophils → macrophages) clear debris and initiate repair signaling","It makes the injury feel better","It strengthens the bone"],optsCn:["它预防所有感染","免疫细胞（中性粒细胞→巨噬细胞）清除碎片并启动修复信号","它让伤处感觉更好","它强化骨骼"],correct:1,explain:"Inflammatory cells flood in to clear debris and release growth factors that start the repair cascade. Suppressing it disrupts healing.",explainCn:"炎症细胞涌入清除碎片并释放启动修复级联的生长因子。抑制它会扰乱愈合。"},
+{d:3,q:"Match the healing phases with their key events: (1) Inflammatory, (2) Proliferative, (3) Remodeling.",qCn:"将愈合阶段与其关键事件配对：(1)炎症期(2)增殖期(3)重塑期",opts:["1=collagen III, 2=immune cleanup, 3=collagen I alignment","1=immune cleanup + debris clearing, 2=collagen III + capillaries, 3=collagen I alignment along stress","1=capillaries sprout, 2=collagen I, 3=immune cleanup","1=bone formation, 2=ligament repair, 3=full recovery"],optsCn:["1=III型胶原,2=免疫清理,3=I型胶原排列","1=免疫清理+碎片清除,2=III型胶原+毛细血管,3=I型胶原沿应力线排列","1=毛细血管萌芽,2=I型胶原,3=免疫清理","1=骨形成,2=韧带修复,3=完全恢复"],correct:1,explain:"Inflammatory: immune cleanup (0–7d). Proliferative: collagen III + capillary sprouting (4–21d). Remodeling: collagen I alignment (3w–2yr).",explainCn:"炎症期：免疫清理（0–7天）。增殖期：III型胶原+毛细血管萌芽（4–21天）。重塑期：I型胶原排列（3周–2年）。"},
+{d:4,q:"A soccer player has a chronic Achilles tendinopathy. Using SAID and collagen biology, design a rehabilitation approach.",qCn:"足球运动员慢性跟腱病变，用SAID和胶原生物学设计康复方案。",opts:["Complete rest for 3 months","Progressive eccentric loading → collagen remodels along tendon stress lines → avoid spikes exceeding remodeling capacity","Stretching only","Anti-inflammatory drugs"],optsCn:["完全休息3个月","渐进离心负荷→胶原沿肌腱应力线重塑→避免超过重塑能力的峰值","只做拉伸","抗炎药"],correct:1,explain:"SAID: apply controlled eccentric load → collagen aligns along stress via mechanotransduction → progressive increase. Total rest leaves weak, randomly aligned matrix.",explainCn:"SAID：施加控制性离心负荷→胶原通过力学转导沿应力排列→渐进递增。完全休息留下弱且随机排列的基质。"},
+{d:4,q:"Explain why the RICE protocol was abandoned, citing the specific scientific reasoning.",qCn:"解释RICE方案为何被弃用，引用具体科学依据。",opts:["RICE was too expensive to implement","Inflammatory cells trigger repair — suppressing them (ice, NSAIDs) may slow tissue healing. Mirkin himself revised his advice in 2015.","RICE only works for fractures","Athletes didn't like the cold"],optsCn:["RICE太贵无法实施","炎症细胞触发修复—抑制（冰敷、NSAIDs）可能减缓组织愈合。Mirkin本人2015年修正了建议","RICE只对骨折有效","运动员不喜欢冷"],correct:1,explain:"RICE (1978) was abandoned because inflammation is necessary for healing. Mirkin publicly revised in 2015. PEACE & LOVE (2020) now guides treatment.",explainCn:"RICE（1978）被弃用因为炎症是愈合所必需的。Mirkin 2015年公开修正。PEACE & LOVE（2020）现在指导治疗。"},
+],
+// ── Topic 4: Recovery Science ──
+t4:[
+{d:1,q:"Chronic sleep less than 8 hours increases injury risk by approximately:",qCn:"长期睡眠不足8小时，受伤风险大约增加：",opts:["1.2×","1.7×","2.5×","3.0×"],optsCn:["1.2倍","1.7倍","2.5倍","3.0倍"],correct:1,explain:"Milewski 2014: athletes averaging <8h sleep were 1.7× more likely to be injured.",explainCn:"Milewski 2014：平均<8小时睡眠的运动员受伤风险高1.7倍。"},
+{d:1,q:"DOMS stands for:",qCn:"DOMS代表：",opts:["Direct Onset Muscle Soreness","Delayed Onset Muscle Soreness","Daily Onset of Muscle Strain","Dynamic Output Maximum Strength"],optsCn:["直接发作肌肉酸痛","延迟性肌肉酸痛","每日肌肉劳损发作","动态输出最大力量"],correct:1,explain:"DOMS = Delayed Onset Muscle Soreness, peaks 24–72h post-exercise.",explainCn:"DOMS = Delayed Onset Muscle Soreness（延迟性肌肉酸痛），运动后24–72小时达峰。"},
+{d:1,q:"The repeated-bout effect means:",qCn:"重复训练效应意味着：",opts:["First workout is always the hardest","Subsequent identical workouts cause less damage and soreness","Soreness increases with each workout","Rest eliminates all DOMS"],optsCn:["第一次训练总是最难的","后续相同训练造成更少损伤和酸痛","酸痛随每次训练增加","休息消除所有DOMS"],correct:1,explain:"After one exposure to new eccentric exercise, the same workout next week causes dramatically less damage.",explainCn:"首次接触新的离心训练后，下次相同训练造成的损伤大幅减少。"},
+{d:2,q:"In the Milewski study, what percentage of short sleepers were injured?",qCn:"Milewski研究中，短睡眠者受伤比例是多少？",opts:["31%","45%","65%","80%"],optsCn:["31%","45%","65%","80%"],correct:2,explain:"65% of short sleepers (<8h) were injured vs 31% of well-slept athletes.",explainCn:"65%短睡眠者（<8小时）受伤 vs 31%充分睡眠运动员。"},
+{d:2,q:"Why is DOMS NOT a good indicator of workout quality?",qCn:"为什么DOMS不是训练质量的好指标？",opts:["DOMS only occurs in beginners","Soreness correlates poorly with hypertrophy and performance gains","All exercises cause equal DOMS","DOMS means you're injured"],optsCn:["DOMS只发生在初学者","酸痛与肌肥大和表现增长相关性很弱","所有运动造成相同DOMS","DOMS意味着你受伤了"],correct:1,explain:"Soreness reflects remodeling in progress, not workout quality. Best athletes often feel little DOMS because they're adapted.",explainCn:"酸痛反映正在进行的重塑，而非训练质量。顶尖运动员常很少DOMS因为他们已适应。"},
+{d:2,q:"Which recovery method has the strongest evidence for reducing injury risk?",qCn:"哪种恢复方法有最强的降低受伤风险证据？",opts:["Foam rolling","Compression garments","Sleep 8–10 hours","Cold water immersion"],optsCn:["泡沫轴滚压","加压衣","睡眠8–10小时","冷水浸泡"],correct:2,explain:"Sleep has 'Strong' evidence: lowers injury risk, supports hormones, learning, and tissue repair.",explainCn:"睡眠有'强'证据：降低受伤风险，支持激素、学习和组织修复。"},
+{d:3,q:"In the 12-week cold water immersion trial, what happened to the CWI group vs active recovery?",qCn:"12周冷水浸泡试验中，CWI组与主动恢复组相比如何？",opts:["CWI group gained more muscle","CWI group gained less — type II fiber CSA +17% and myonuclei +26% in active recovery only","No difference between groups","CWI group had higher injury rates"],optsCn:["CWI组增肌更多","CWI组增肌更少—主动恢复组II型纤维CSA+17%、肌核+26%","两组无差异","CWI组受伤率更高"],correct:1,explain:"CWI blunted satellite-cell activation and mTOR signalling. Active recovery group had +17% type II CSA and +26% myonuclei/fiber.",explainCn:"CWI抑制卫星细胞激活和mTOR信号。主动恢复组II型CSA+17%、肌核/纤维+26%。"},
+{d:3,q:"A basketball team has semifinals today and finals tomorrow. The star wants an ice bath after Game 1. Decision?",qCn:"篮球队今天半决赛明天决赛，明星想赛后冰浴。如何决定？",opts:["Deny it — ice is always bad","Approve — short CWI tonight is acceptable trade for soreness relief when tomorrow's performance is priority","Give NSAIDs instead","Tell them to do hot bath"],optsCn:["拒绝—冰敷总是不好","批准—今晚短时CWI是为缓解酸痛的可接受权衡","改用NSAIDs","让他们热水浴"],correct:1,explain:"Use ice as pain medicine when needed. Tournament priority = acute performance. Blunting 24h adaptation is an acceptable trade-off.",explainCn:"冰敷作为需要时的止痛药使用。锦标赛优先=急性表现。抑制24小时适应是可接受的权衡。"},
+{d:3,q:"Why does the repeated-bout effect occur? Name one neural and one cellular adaptation.",qCn:"重复训练效应为什么发生？列举一个神经适应和一个细胞适应。",opts:["Neural: smoother motor-unit recruitment. Cellular: extra sarcomeres in series + calmer inflammatory response","Neural: more pain tolerance. Cellular: bigger muscles","Neural: faster heart rate. Cellular: more fat burning","Neural: better vision. Cellular: stronger bones"],optsCn:["神经：更流畅的运动单元招募。细胞：串联额外肌节+更平静的炎症反应","神经：更高痛觉耐受。细胞：更大肌肉","神经：更快心率。细胞：更多燃脂","神经：更好视力。细胞：更强骨骼"],correct:0,explain:"Neural: smoother motor-unit recruitment. Cellular: extra sarcomeres in series, calmer inflammatory response, enhanced mechanical protection.",explainCn:"神经：更流畅的运动单元招募。细胞：串联额外肌节、更平静的炎症反应、增强的机械保护。"},
+{d:4,q:"Explain the cold water immersion debate using the concept of inflammation as a repair signal.",qCn:"用炎症作为修复信号的概念解释冷水浸泡争议。",opts:["Cold always helps recovery","Inflammation triggers mTOR and satellite cell activation for muscle repair — CWI suppresses this, blunting long-term adaptation despite short-term soreness relief","Cold has no effect on anything","Inflammation is always harmful"],optsCn:["冰总是有助于恢复","炎症触发mTOR和卫星细胞激活进行肌肉修复—CWI抑制此过程，短期减轻酸痛但削弱长期适应","冰对任何事都无影响","炎症总是有害的"],correct:1,explain:"Inflammation activates mTOR signalling and satellite cells for repair/adaptation. CWI suppresses this cascade → short-term comfort but blunted long-term gains.",explainCn:"炎症激活mTOR信号和卫星细胞进行修复/适应。CWI抑制此级联→短期舒适但削弱长期收益。"},
+{d:4,q:"Design a recovery protocol for an adolescent athlete who sleeps 6.5h/night and trains 6 days/week.",qCn:"为每天睡6.5小时、每周训练6天的青少年运动员设计恢复方案。",opts:["Add ice baths after every session","Prioritize sleep to ≥8h first (strongest evidence), then assess other recovery needs","Add more training days","Give creatine supplements"],optsCn:["每次训练后加冰浴","优先将睡眠提高到≥8小时（最强证据），然后评估其他恢复需求","增加训练天数","补充肌酸"],correct:1,explain:"Sleep is the strongest independent predictor of injury. Address the root cause (sleep deficit) before optimizing other recovery tools.",explainCn:"睡眠是受伤的最强独立预测因子。在优化其他恢复工具之前先解决根本原因（睡眠不足）。"},
+],
+// ── Topic 5: Sports Nutrition ──
+t5:[
+{d:1,q:"The three macronutrients are:",qCn:"三大宏量营养素是：",opts:["Vitamins, minerals, water","Carbohydrate, protein, fat","Glucose, amino acids, fatty acids","ATP, CP, glycogen"],optsCn:["维生素、矿物质、水","碳水化合物、蛋白质、脂肪","葡萄糖、氨基酸、脂肪酸","ATP、CP、糖原"],correct:1,explain:"Carbohydrate (~4 kcal/g), Protein (~4 kcal/g), Fat (~9 kcal/g) are the three macronutrients.",explainCn:"碳水（约4千卡/克）、蛋白质（约4千卡/克）、脂肪（约9千卡/克）是三大宏量营养素。"},
+{d:1,q:"RED-S stands for:",qCn:"RED-S代表：",opts:["Rest and Exercise Daily Schedule","Relative Energy Deficiency in Sport","Rapid Endurance Depletion Syndrome","Recovery Exercise Dose Standard"],optsCn:["每日休息与运动计划","运动相对能量不足","快速耐力耗竭综合征","恢复运动剂量标准"],correct:1,explain:"RED-S = Relative Energy Deficiency in Sport. EA below ~30 kcal/kg FFM/day disrupts hormones, bone, immunity.",explainCn:"RED-S = Relative Energy Deficiency in Sport（运动相对能量不足）。EA低于约30千卡/kg FFM/天扰乱激素、骨骼、免疫。"},
+{d:1,q:"At what body-mass loss does performance consistently drop?",qCn:"体重大约丢失多少时表现持续下降？",opts:["0.5%","1%","2%","5%"],optsCn:["0.5%","1%","2%","5%"],correct:2,explain:"Performance in prolonged hot-weather exercise consistently suffers once body-mass loss reaches ~2%.",explainCn:"炎热天气下长时间运动的表现在体重丢失约2%时持续受损。"},
+{d:2,q:"A 60-kg soccer player training 90 min/day should aim for approximately how much protein per day?",qCn:"60公斤足球运动员每天训练90分钟，每天应摄入约多少蛋白质？",opts:["30–40 g","72–120 g","200–250 g","500 g"],optsCn:["30–40克","72–120克","200–250克","500克"],correct:1,explain:"1.2–2.0 g/kg/day × 60 kg = 72–120 g/day. Per-meal dose ~0.25–0.40 g/kg.",explainCn:"1.2–2.0克/公斤/天 × 60公斤 = 72–120克/天。每餐约0.25–0.40克/公斤。"},
+{d:2,q:"Glycogen re-fills at approximately what rate?",qCn:"糖原回充速率约为多少？",opts:["~1% per hour","~5% per hour","~20% per hour","~50% per hour"],optsCn:["约每小时1%","约每小时5%","约每小时20%","约每小时50%"],correct:1,explain:"Glycogen re-fills ~5%/hour. Between two hard sessions, early carbohydrate (~1–1.2 g/kg/h) matters.",explainCn:"糖原回充约5%/小时。两次高强度训练之间，早期碳水补充（约1–1.2克/公斤/小时）很重要。"},
+{d:2,q:"The 'anabolic window' myth is debunked because:",qCn:"'合成窗口'迷思被揭穿是因为：",opts:["Protein doesn't build muscle","After controlling for total daily protein, timing effect vanished — muscles stay sensitive ~24h","The window is actually 5 minutes","Only carbs matter, not protein"],optsCn:["蛋白质不构建肌肉","控制每日总蛋白质后，时机效应消失—肌肉保持约24小时敏感性","窗口实际只有5分钟","只有碳水重要，蛋白质不重要"],correct:1,explain:"Meta-analysis of 23 RCTs: timing effect vanished after controlling for total protein. Pre vs post workout shakes produced identical hypertrophy.",explainCn:"23项RCT荟萃分析：控制总蛋白质后时机效应消失。训练前后蛋白粉产生相同肌肥大。"},
+{d:3,q:"A distance runner with stress fractures eats 1,600 kcal/day while burning 700 in training. If FFM = 45 kg, calculate her EA and explain the problem.",qCn:"有应力性骨折的跑步者每天1600千卡，训练消耗700千卡，FFM=45公斤。计算EA并解释问题。",opts:["EA = 30 kcal/kg FFM/day — borderline safe","EA = 20 kcal/kg FFM/day — below danger threshold, hormones and bone shut down","EA = 45 kcal/kg FFM/day — optimal","EA = 15 kcal/kg FFM/day — immediately life-threatening"],optsCn:["EA=30千卡/kg FFM/天—临界安全","EA=20千卡/kg FFM/天—低于危险阈值，激素和骨骼功能关闭","EA=45千卡/kg FFM/天—最佳","EA=15千卡/kg FFM/天—立即危及生命"],correct:1,explain:"EA = (1600−700)/45 = 20 kcal/kg FFM/day. Below ~30 threshold → RED-S: hormones, bone turnover disrupted regardless of calcium.",explainCn:"EA=(1600−700)/45=20千卡/kg FFM/天。低于约30阈值→RED-S：激素、骨转换紊乱。"},
+{d:3,q:"A wrestler lost 1.4 kg (all fluid) and plans to drink 4L plain water in 30 minutes. Why is this dangerous?",qCn:"摔跤手丢失1.4公斤体液，计划30分钟内喝4升白水。为什么危险？",opts:["Water intoxication → hyponatremia (blood sodium dilution)","Water doesn't absorb that fast","He'll gain too much weight","Nothing wrong with this plan"],optsCn:["水中毒→低钠血症（血钠稀释）","水吸收没那么快","会增重太多","这个计划没问题"],correct:0,explain:"1.4kg = ~2.2% body-mass loss (past threshold). 4L in 30min risks exercise-associated hyponatremia. Replace 100–150% losses over hours with electrolytes.",explainCn:"1.4公斤=约2.2%体重丢失（超过阈值）。30分钟4升有运动相关低钠血症风险。数小时内用含电解质液体补充100–150%丢失量。"},
+{d:3,q:"Why does 'per-kg' dosing beat 'one-size-fits-all' meal plans?",qCn:"为什么'按公斤'剂量优于'一刀切'膳食计划？",opts:["It's cheaper","It scales to individual body size, training phase, and appetite","It's easier to remember","It always produces faster results"],optsCn:["更便宜","能适应个体体重、训练阶段和食欲","更容易记","总是产生更快效果"],correct:1,explain:"Pattern 5 (individuality): fixed meal plans can't account for differences in body mass, training load, metabolic rate, and appetite.",explainCn:"模式5（个体差异）：固定膳食计划无法适应体重、训练负荷、代谢率和食欲的差异。"},
+{d:4,q:"An elite wrestler asks you to design his pre-competition nutrition. Using evidence, describe the ideal approach.",qCn:"精英摔跤手请你设计赛前营养方案。用证据描述理想方法。",opts:["Fast for 24 hours before competition","Carb-load with 8–12 g/kg/day for 2–3 days; pre-match meal 2–3h before with moderate carbs + low fat; hydrate with 500ml 2h before","Eat only protein","No food 12 hours before"],optsCn:["赛前24小时禁食","赛前2–3天碳水负荷8–12克/公斤/天；赛前2–3小时中等碳水+低脂餐；赛前2小时喝500毫升水","只吃蛋白质","赛前12小时不进食"],correct:1,explain:"High carb availability (8–12 g/kg for extreme loads), pre-competition meal 2–3h before (moderate GI carbs, low fiber/fat), hydration strategy.",explainCn:"高碳水可用性（极端负荷8–12克/公斤），赛前2–3小时餐（中GI碳水、低纤维/脂肪），补水策略。"},
+{d:4,q:"Explain why a lean female gymnast with low energy availability and a stress fracture may not need more calcium — she needs more food.",qCn:"解释为什么低能量可用性伴应力性骨折的瘦削女体操运动员可能不需要更多钙—她需要更多食物。",opts:["Calcium supplements are useless","EA (energy availability) deficit disrupts hormonal regulation of bone turnover — the root cause is insufficient calories, not calcium deficiency","Calcium only helps teeth","Gymnasts don't need strong bones"],optsCn:["钙片没用","EA不足扰乱骨转换的激素调节—根本原因是热量不足，非缺钙","钙只对牙齿有用","体操运动员不需要强壮骨骼"],correct:1,explain:"RED-S: low EA disrupts hormones (estrogen, IGF-1) that regulate bone remodeling. The problem is systemic energy deficit, not isolated calcium intake.",explainCn:"RED-S：低EA扰乱调节骨重塑的激素（雌激素、IGF-1）。问题是系统性能量不足，非孤立钙摄入。"},
+],
+// ── Topic 6: Supplements ──
+t6:[
+{d:1,q:"Which supplement has Grade A evidence for high-intensity performance?",qCn:"哪种补剂有A级证据支持高强度运动表现？",opts:["BCAAs","Fat burners","Creatine monohydrate","Testosterone boosters"],optsCn:["BCAAs","燃脂剂","肌酸一水合物","睾酮促进剂"],correct:2,explain:"Creatine is the most effective legal ergogenic aid with A-grade evidence. 3–5 g/day.",explainCn:"肌酸是最有效的合法增效补剂，有A级证据。每天3–5克。"},
+{d:1,q:"The highest level of evidence on the evidence pyramid is:",qCn:"证据金字塔最高级别的证据是：",opts:["Case reports","Cohort studies","Randomized controlled trials","Meta-analyses"],optsCn:["病例报告","队列研究","随机对照试验","荟萃分析"],correct:3,explain:"Meta-analyses of RCTs sit at the very top of the evidence pyramid.",explainCn:"RCT的荟萃分析位于证据金字塔最顶端。"},
+{d:1,q:"Why are fat burners graded F?",qCn:"燃脂剂为什么评F级？",opts:["They're too expensive","No credible RCT support; some contain banned stimulants","They only work for women","They require a prescription"],optsCn:["太贵","无可靠RCT支持；部分含违禁兴奋剂","只对女性有效","需要处方"],correct:1,explain:"No credible RCT support. Some contain banned/undisclosed stimulants. Any product promising rapid transformation = marketing.",explainCn:"无可靠RCT支持。部分含违禁/未公开的兴奋剂。任何承诺快速蜕变的产品=营销。"},
+{d:2,q:"BCAAs are graded D (ineffective) because:",qCn:"BCAAs评D级（无效）因为：",opts:["They cause muscle loss","Redundant if total protein is adequate — whey already contains all 9 essential aminos","They're toxic in high doses","Only work for endurance athletes"],optsCn:["导致肌肉流失","总蛋白质充足时多余—乳清已含全部9种必需氨基酸","高剂量有毒","只对耐力运动员有效"],correct:1,explain:"Whey protein already contains BCAAs plus all other essential amino acids. Isolated BCAAs add nothing if total protein is adequate.",explainCn:"乳清蛋白已含BCAAs和其他必需氨基酸。总蛋白质充足时分离BCAAs无额外作用。"},
+{d:2,q:"The creatine loading phase (~20 g/day × 5–7 days) is:",qCn:"肌酸冲击期（约20克/天 × 5–7天）：",opts:["Mandatory for any effect","Optional — saturates faster, but 3–5 g/day reaches same level in ~3–4 weeks","Dangerous","Only for professional athletes"],optsCn:["任何效果都必须","可选—更快饱和，但3–5克/天约3–4周达到相同水平","危险","只适合职业运动员"],correct:1,explain:"Loading is optional. 3–5 g/day daily achieves saturation in ~3–4 weeks without the GI side effects of loading.",explainCn:"冲击期可选。每天3–5克约3–4周达到饱和，无冲击期的胃肠副作用。"},
+{d:2,q:"When should a growing adolescent athlete use supplements?",qCn:"成长中的青少年运动员何时应使用补剂？",opts:["Whenever they want","Only with professional guidance — food first","Always take creatine","Supplements replace meals"],optsCn:["随时","仅在专业指导下—食补优先","总是补充肌酸","补剂替代正餐"],correct:1,explain:"Adolescents should get nutrition from food first. Any supplement only with professional guidance (ISSN adolescent criteria).",explainCn:"青少年应首先从食物获取营养。任何补充都需专业指导（ISSN青少年标准）。"},
+{d:3,q:"Rank these by evidence quality: (a) Uncle swears by fat burners, (b) Meta-analysis: creatine +2kg lean mass, (c) 8-mouse study, (d) 5000-runner cohort: vitamin D = lower injuries.",qCn:"按证据质量排序：(a)叔叔说燃脂剂好用(b)荟萃分析：肌酸+2公斤瘦体重(c)8只小鼠研究(d)5000人队列：维D=减少受伤",opts:["(a) > (b) > (c) > (d)","(b) > (d) > (c) > (a)","(d) > (b) > (a) > (c)","(c) > (d) > (b) > (a)"],optsCn:["(a)>(b)>(c)>(d)","(b)>(d)>(c)>(a)","(d)>(b)>(a)>(c)","(c)>(d)>(b)>(a)"],correct:1,explain:"Meta-analysis of RCTs (b) tops pyramid. Large cohort (d) next. Mouse study (c) is hypothesis-generating. Anecdote (a) is weakest.",explainCn:"RCT荟萃分析(b)居首。大队列(d)次之。小鼠研究(c)产生假说。轶事(a)最弱。"},
+{d:3,q:"A 16-year-old wrestler asks you to build a supplement stack. What do you approve, oversee, and refuse?",qCn:"16岁摔跤手请你设计补剂组合，你批准、监督、拒绝什么？",opts:["Approve: food-first + creatine with MD oversight. Oversight: vit D/iron after bloodwork. Refuse: fat burners/test-boosters","Approve everything","Refuse everything","Only approve protein powder"],optsCn:["批准：食补优先+肌酸需医生监督。监督：查血后补维D/铁。拒绝：燃脂剂/睾酮促进剂","全部批准","全部拒绝","只批准蛋白粉"],correct:0,explain:"Per ISSN adolescent criteria: food first; creatine only with physician/sports-dietitian oversight; vit D/iron after bloodwork; refuse unregulated products.",explainCn:"ISSN青少年标准：食补优先；肌酸仅在医生/运动营养师监督下使用；查血后补维D/铁；拒绝未监管产品。"},
+{d:3,q:"Caffeine improves performance by approximately how much, and what's the recommended timing?",qCn:"咖啡因提高运动表现约多少，推荐何时服用？",opts:["10–15% improvement, take at bedtime","2–4% endurance improvement, 3–6 mg/kg ~60 min pre-exercise","No measurable effect","50% improvement, take during exercise"],optsCn:["提高10–15%，睡前服用","提高2–4%耐力，运动前约60分钟3–6毫克/公斤","无可测量效果","提高50%，运动中服用"],correct:1,explain:"ISSN position stand: 3–6 mg/kg, ~60 min pre-exercise improves endurance 2–4% and repeated sprints. Late doses wreck sleep.",explainCn:"ISSN立场声明：3–6毫克/公斤，运动前约60分钟提高耐力2–4%和重复冲刺能力。太晚服用影响睡眠。"},
+{d:4,q:"An elite athlete asks about a new 'testosterone booster' with impressive marketing. Using evidence grading and safety principles, give your professional opinion.",qCn:"精英运动员询问新'睾酮促进剂'。用证据分级和安全原则给出专业意见。",opts:["Recommend it — marketing looks credible","Refuse: no credible RCT support for such products; some contain banned substances (WADA risk); testosterone boosters are Grade F","Suggest half dose","Tell them to ask their coach"],optsCn:["推荐—营销看起来可信","拒绝：此类产品无可靠RCT支持；部分含违禁物质（WADA风险）；睾酮促进剂为F级","建议半量","让他们问教练"],correct:1,explain:"Grade F: no credible evidence. Risk of banned substances → doping violation. Any product promising hormonal effects without Rx = marketing.",explainCn:"F级：无可靠证据。违禁物质风险→兴奋剂违规。任何承诺激素效果的非处方产品=营销。"},
+{d:4,q:"Explain why 'NSF Certified for Sport' or 'Informed Sport' seals matter for competitive athletes.",qCn:"解释为什么'NSF运动认证'或'Informed Sport'认证对竞技运动员重要。",opts:["They make supplements taste better","Contamination can trigger WADA doping violations — third-party testing verifies absence of banned substances","They guarantee effectiveness","They're required by law"],optsCn:["让补剂更好吃","污染可触发WADA兴奋剂违规—第三方检测验证不含违禁物质","保证有效","法律要求"],correct:1,explain:"Supplements may contain undisclosed/banned stimulants. Third-party certification (NSF/Informed Sport) verifies absence of WADA-prohibited substances.",explainCn:"补剂可能含未公开/违禁兴奋剂。第三方认证（NSF/Informed Sport）验证不含WADA禁止物质。"},
+],
+// ── Topic 7: PT Career ──
+t7:[
+{d:1,q:"The DPT program typically takes:",qCn:"DPT项目通常需要：",opts:["2 years","3 years","4 years","5 years"],optsCn:["2年","3年","4年","5年"],correct:1,explain:"Doctor of Physical Therapy is a 3-year doctoral program after a 4-year bachelor's degree.",explainCn:"物理治疗博士是4年本科后的3年博士项目。"},
+{d:1,q:"PT median salary (2024) is approximately:",qCn:"物理治疗师中位薪资（2024）约为：",opts:["$65,000","$85,000","$101,000","$132,000"],optsCn:["$65,000","$85,000","$101,000","$132,000"],correct:2,explain:"U.S. BLS May 2024: median pay $101,020/year.",explainCn:"美国劳工统计局2024年5月：中位年薪$101,020。"},
+{d:1,q:"Projected job growth for PTs (2024–34) is:",qCn:"物理治疗师预计就业增长（2024–34）为：",opts:["3% (average)","7% (average)","11% (much faster than average)","20%"],optsCn:["3%（平均）","7%（平均）","11%（远高于平均）","20%"],correct:2,explain:"+11% growth projected — 'much faster than average' (all-occupation average is 3%).",explainCn:"+11%增长预期 — '远高于平均'（所有职业平均为3%）。"},
+{d:2,q:"What exam must you pass to become a licensed PT?",qCn:"成为持证物理治疗师必须通过什么考试？",opts:["GRE","USMLE","NPTE","MCAT"],optsCn:["GRE","USMLE","NPTE","MCAT"],correct:2,explain:"National Physical Therapy Examination (NPTE) is required for licensure in your state.",explainCn:"国家物理治疗考试（NPTE）是获得州执照的必要条件。"},
+{d:2,q:"PT clinical rotations make up approximately what percentage of the DPT program?",qCn:"临床实习约占DPT项目的百分之几？",opts:["~10%","~23%","~50%","~75%"],optsCn:["约10%","约23%","约50%","约75%"],correct:1,explain:"DPT = ~77% classroom/labs + ~23% clinical rotations, including ~22-week final placement.",explainCn:"DPT约77%课堂/实验+约23%临床实习，包括约22周最终实习。"},
+{d:2,q:"What is the strongest evidence-based tool a PT has?",qCn:"物理治疗师最强的循证工具是什么？",opts:["Manual therapy","Prescription medication","Patient education","Surgery"],optsCn:["手法治疗","处方药","患者教育","手术"],correct:2,explain:"Patients who understand their injury recover better — education is the strongest evidence-based tool (Pattern 4).",explainCn:"理解损伤的患者恢复更好—教育是最强的循证工具（模式4）。"},
+{d:3,q:"Using Table 7.1 data, rebut: 'PTs barely earn more than personal trainers, so why bother with 7 years of school?'",qCn:"用表7.1数据反驳：'物理治疗师挣的和私教差不多，为什么要读7年书？'",opts:["PTs earn exactly the same as trainers","Median $101k vs trainer wages; +11% growth vs 3% avg; doctoral licensure creates scarcity; non-financial: autonomy, healthcare impact","PTs work less hours","Trainers need more education"],optsCn:["物理治疗师和私教挣的一样多","中位数10.1万 vs 私教工资；+11%增长 vs 3%平均；博士执照创造稀缺性","物理治疗师工作时间更少","私教需要更多教育"],correct:1,explain:"Data: median $101k vs trainer wages (typically far lower); +11% growth vs 3% average; top decile >$132k; doctoral licensure creates scarcity.",explainCn:"数据：中位数10.1万 vs 私教工资（通常低得多）；+11%增长 vs 3%平均；前十>13.2万；博士执照创造稀缺性。"},
+{d:3,q:"What's the most fragile stage in the PT pathway and how to mitigate it?",qCn:"PT职业道路中最脆弱的阶段是什么，如何应对？",opts:["High school — too early to plan","DPT admissions — mitigate with backup schools + gap-year clinical work","NPTE exam — retake it","Residency — optional anyway"],optsCn:["高中—太早规划","DPT录取—用备选学校+间隔年临床经验应对","NPTE考试—重考","住院医师—可选的"],correct:1,explain:"DPT admissions are competitive. Mitigate: apply to multiple schools, gain gap-year clinical experience as backup.",explainCn:"DPT录取竞争激烈。应对：申请多所学校，获取间隔年临床经验作为备选。"},
+{d:3,q:"List 3 prerequisites for DPT programs.",qCn:"列出DPT项目的3个先修课程。",opts:["Anatomy, physiology, chemistry, physics, psychology, statistics (pick 3)","Only biology needed","No prerequisites required","Art, music, philosophy"],optsCn:["解剖学、生理学、化学、物理、心理学、统计学（选3门）","只需生物","无需先修课程","艺术、音乐、哲学"],correct:0,explain:"Prerequisites include anatomy, physiology, chemistry, physics, psychology, and statistics.",explainCn:"先修课程包括解剖学、生理学、化学、物理、心理学和统计学。"},
+{d:4,q:"A PT treats a patient who had a Grade II ankle sprain 3 weeks ago. Using PEACE & LOVE principles, describe the treatment approach.",qCn:"物理治疗师治疗一位3周前II度踝关节扭伤的患者。用PEACE & LOVE原则描述治疗方案。",opts:["Continue full rest and ice","LOVE phase: optimal load (progressive loading pain-guided), optimism, cardiovascular activity, exercise to restore ROM/strength/proprioception","Aggressive stretching","Surgery"],optsCn:["继续完全休息和冰敷","LOVE阶段：最佳负荷（疼痛引导的渐进负荷）、乐观、心血管活动、恢复关节活动度/力量/本体感觉的运动","剧烈拉伸","手术"],correct:1,explain:"At 3 weeks, in remodeling phase (LOVE): progressive loading via mechanotransduction, cardiovascular activity for blood flow, exercise for ROM/strength recovery.",explainCn:"3周时处于重塑期（LOVE）：通过力学转导的渐进负荷、心血管活动促进血流、运动恢复关节活动度/力量。"},
+{d:4,q:"Explain how the 5 thinking patterns from Chapter 1 directly apply to DPT clinical practice.",qCn:"解释第1章的5个思维模式如何直接应用于DPT临床实践。",opts:["They don't apply to clinical work","Pattern 1 = training/recovery balance in rehab. Pattern 4 (SAID) = specific exercise prescription. Pattern 5 = individualized treatment plans. They're the same patterns tested in DPT interviews.","Only Pattern 1 matters","Patterns are just for exams"],optsCn:["不适用于临床工作","模式1=康复中的训练/恢复平衡。模式4（SAID）=特定运动处方。模式5=个性化治疗方案。它们就是DPT面试中测试的相同模式。","只有模式1重要","模式只用于考试"],correct:1,explain:"All 5 patterns apply: stress/recovery in rehab, structure/function in anatomy, energy systems in cardio rehab, SAID in exercise prescription, individuality in treatment plans.",explainCn:"所有5个模式都适用：康复中的压力/恢复、解剖中的结构/功能、心肺康复中的供能系统、运动处方中的SAID、治疗方案中的个体差异。"},
+],
+};
+
+// Generate a question from a template (with slight randomization of wrong answers)
+function genQuestion(topicId, difficulty){
+  const templates = Q_TEMPLATES[topicId];
+  if(!templates || !templates.length) return null;
+  // Filter by difficulty ±1
+  const pool = templates.filter(t=>Math.abs(t.d - difficulty)<=1);
+  const base = pool.length ? pick(pool) : pick(templates);
+  // Shuffle options but track correct
+  const correctText = base.opts[base.correct];
+  const indices = base.opts.map((_,i)=>i);
+  shuffle(indices);
+  const shuffledOpts = indices.map(i=>base.opts[i]);
+  const shuffledOptsCn = base.optsCn ? indices.map(i=>base.optsCn[i]) : undefined;
+  const newCorrect = shuffledOpts.indexOf(correctText);
+  return {topic:topicId,difficulty:base.d,q:base.q,qCn:base.qCn,opts:shuffledOpts,optsCn:shuffledOptsCn,correct:newCorrect,explain:base.explain,explainCn:base.explainCn};
+}
+
+// ════════════════════════════════════════
+// ADAPTIVE ENGINE
+// ════════════════════════════════════════
+function getMasteryLevel(score){
+  if(score>=75) return {label:showCN?'精通':'Mastery',cls:'mastery'};
+  if(score>=50) return {label:showCN?'熟练':'Proficient',cls:'proficient'};
+  if(score>=25) return {label:showCN?'学习中':'Learning',cls:'learning'};
+  return {label:showCN?'入门':'Beginner',cls:'beginner'};
+}
+
+function getWeakestTopic(){
+  let min=101,weak=TOPICS[0];
+  TOPICS.forEach(t=>{
+    const s=mastery[t.id]?.score||0;
+    if(s<min){min=s;weak=t;}
+  });
+  return weak;
+}
+
+function getRecommendedTopics(){
+  return TOPICS.filter(t=>(mastery[t.id]?.score||0)<50).sort((a,b)=>(mastery[a.id]?.score||0)-(mastery[b.id]?.score||0)).slice(0,3);
+}
+
+// Adaptive question selection: pick topic based on weakness + current difficulty
+function selectNextQuestion(preferredTopic){
+  let topic;
+  if(preferredTopic){
+    topic = TOPICS.find(t=>t.id===preferredTopic) || getWeakestTopic();
+  } else {
+    // Weighted random: weaker topics more likely
+    const weights = TOPICS.map(t=>{
+      const s = mastery[t.id]?.score||0;
+      return Math.max(1, 100 - s);
+    });
+    const total = weights.reduce((a,b)=>a+b,0);
+    let r = Math.random() * total;
+    topic = TOPICS[0];
+    for(let i=0;i<TOPICS.length;i++){
+      r -= weights[i];
+      if(r<=0){topic=TOPICS[i];break;}
+    }
+  }
+  const diff = mastery[topic.id]?.difficulty||1;
+  return genQuestion(topic.id, diff);
+}
+
+// Update mastery after answer
+function updateMasteryAfterAnswer(topicId, correct, difficulty){
+  const m = mastery[topicId];
+  m.totalQ++;
+  if(correct){
+    m.correctQ++;
+    m.streak++;
+    // Score: +diff*3 for correct at higher diff, +diff*1 for lower
+    m.score = Math.min(100, m.score + difficulty * 3);
+    // Increase difficulty after 3 correct in a row
+    if(m.streak >= 3 && m.difficulty < 4) m.difficulty++;
+  } else {
+    m.streak = 0;
+    m.score = Math.max(0, m.score - difficulty * 2);
+    // Decrease difficulty after wrong
+    if(m.difficulty > 1) m.difficulty--;
+  }
+  saveMastery();
+}
+
+// ════════════════════════════════════════
+// ADAPTIVE QUIZ UI
+// ════════════════════════════════════════
+let aqActive = false, aqQuestion = null, aqAnswered = false, aqTotal = 0, aqCorrect = 0, aqStreak = 0, aqHistory = [], aqPreferredTopic = null;
+
+function openAdaptiveOverlay(titleEN, titleZH){
+  document.getElementById('aqTitle').textContent = showCN ? titleZH : titleEN;
+  document.getElementById('aqOverlay').classList.add('open');
+}
+function closeAdaptive(){document.getElementById('aqOverlay').classList.remove('open');aqActive=false;}
+
+function startAdaptive(){
+  aqActive=true;aqTotal=0;aqCorrect=0;aqStreak=0;aqHistory=[];aqPreferredTopic=null;
+  openAdaptiveOverlay('🎯 Adaptive Practice','🎯 自适应刷题');
+  nextAdaptiveQ();
+}
+function startAdaptiveWeakest(){
+  const w=getWeakestTopic();
+  aqActive=true;aqTotal=0;aqCorrect=0;aqStreak=0;aqHistory=[];aqPreferredTopic=w.id;
+  openAdaptiveOverlay(`🎯 Practice: ${w.name}`,`🎯 专攻：${w.nameCn||w.name}`);
+  nextAdaptiveQ();
+}
+function startAdaptiveForTopic(tid){
+  const t=TOPICS.find(x=>x.id===tid);
+  aqActive=true;aqTotal=0;aqCorrect=0;aqStreak=0;aqHistory=[];aqPreferredTopic=tid;
+  openAdaptiveOverlay(`🎯 Practice: ${t.name}`,`🎯 专攻：${t.nameCn||t.name}`);
+  nextAdaptiveQ();
+}
+
+function nextAdaptiveQ(){
+  if(!aqActive) return;
+  aqQuestion = selectNextQuestion(aqPreferredTopic);
+  aqAnswered = false;
+  const q = aqQuestion;
+  const topic = TOPICS.find(t=>t.id===q.topic);
+  const m = mastery[q.topic];
+  const ml = getMasteryLevel(m.score);
+  const isZH = showCN;
+  const diffNames = isZH?['','入门','进阶','高级','专家']:['','Beginner','Intermediate','Advanced','Expert'];
+  const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
+  const streakText = aqStreak>1?(isZH?aqStreak+'连对':aqStreak+' streak'):'';
+  const body = document.getElementById('aqBody');
+  body.innerHTML = `
+    <div class="aq-progress"><div class="aq-progress-bar" style="width:${Math.min(100,aqTotal*5)}%"></div></div>
+    <div class="aq-q-num">
+      ${isZH?'第'+(aqTotal+1)+'题':'Question '+(aqTotal+1)} · ${isZH?(topic.nameCn||topic.name):topic.name}
+      <span class="aq-diff-badge aq-diff-${q.difficulty}">${diffNames[q.difficulty]}</span>
+      <span class="mastery-level ${ml.cls}" style="margin-left:.5rem;font-size:.7rem">${levelLabels[ml.cls]||ml.label} ${m.score}</span>
+    </div>
+    <div class="aq-streak">
+      <div class="aq-streak-bar" id="aqStreakBar">${renderStreakDots()}</div>
+      <span class="aq-streak-label">${streakText}</span>
+    </div>
+    <div class="aq-question">${isZH?(q.qCn||q.q):q.q}</div>
+    <div class="aq-options" id="aqOpts">
+      ${(isZH?(q.optsCn||q.opts):q.opts).map((o,i)=>`<div class="aq-opt" onclick="aqSelect(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="aq-explain" id="aqExplain"><strong>${isZH?'解析：':'Explanation:'}</strong> ${isZH?(q.explainCn||q.explain):q.explain}</div>
+    <div class="aq-footer">
+      <span style="font-size:.85rem;color:var(--text3)">${aqCorrect}/${aqTotal} ${isZH?'正确':'correct'}</span>
+      <div style="display:flex;gap:.5rem">
+        <button class="aq-btn secondary" onclick="closeAdaptive()">${isZH?'结束':'End Session'}</button>
+        <button class="aq-btn primary" id="aqNextBtn" onclick="nextAdaptiveQ()" disabled>${isZH?'下一题 →':'Next →'}</button>
+      </div>
+    </div>`;
+}
+
+function renderStreakDots(){
+  const last = aqHistory.slice(-10);
+  const dots = [];
+  for(let i=0;i<10;i++){
+    if(i<last.length) dots.push(`<div class="aq-streak-dot ${last[i]?'hit':'miss'}"></div>`);
+    else dots.push(`<div class="aq-streak-dot"></div>`);
+  }
+  return dots.join('');
+}
+
+function aqSelect(i){
+  if(aqAnswered) return;
+  aqAnswered = true;
+  const q = aqQuestion;
+  const correct = i===q.correct;
+  aqTotal++;
+  if(correct){aqCorrect++;aqStreak++;} else aqStreak=0;
+  aqHistory.push(correct);
+
+  updateMasteryAfterAnswer(q.topic, correct, q.difficulty);
+
+  const opts = document.querySelectorAll('#aqOpts .aq-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct) o.classList.add('correct');
+    if(idx===i && !correct) o.classList.add('wrong');
+  });
+  document.getElementById('aqExplain').classList.add('show');
+  document.getElementById('aqNextBtn').disabled = false;
+  document.getElementById('aqStreakBar').innerHTML = renderStreakDots();
+  const streakLabel = document.querySelector('.aq-streak-label');
+  if(streakLabel) streakLabel.textContent = aqStreak>1?(showCN?aqStreak+'连对':aqStreak+' streak'):'';
+  renderMasteryGrid();
+}
+
+// ════════════════════════════════════════
+// DIAGNOSTIC TEST
+// ════════════════════════════════════════
+let diagActive=false, diagQuestions=[], diagIndex=0, diagScore=0, diagAnswered=false, diagResults={};
+
+function startDiagnostic(){
+  diagActive=true;diagIndex=0;diagScore=0;diagAnswered=false;diagResults={};
+  // Pick 1 question per topic (difficulty 1) + some difficulty 2
+  diagQuestions = [];
+  TOPICS.forEach(t=>{
+    const q = genQuestion(t.id, 1);
+    if(q) diagQuestions.push(q);
+  });
+  // Add a few harder ones
+  TOPICS.slice(0,4).forEach(t=>{
+    const q = genQuestion(t.id, 2);
+    if(q) diagQuestions.push(q);
+  });
+  diagQuestions = shuffle(diagQuestions);
+  document.getElementById('diagOverlay').classList.add('open');
+  renderDiagQ();
+}
+function closeDiagnostic(){document.getElementById('diagOverlay').classList.remove('open');diagActive=false;}
+
+function renderDiagQ(){
+  const body = document.getElementById('diagBody');
+  if(diagIndex >= diagQuestions.length){
+    renderDiagResults();
+    return;
+  }
+  const q = diagQuestions[diagIndex];
+  const topic = TOPICS.find(t=>t.id===q.topic);
+  const pct = Math.round(diagIndex/diagQuestions.length*100);
+  const isZH = showCN;
+  body.innerHTML = `
+    <div class="aq-progress"><div class="aq-progress-bar" style="width:${pct}%"></div></div>
+    <div class="aq-q-num">${isZH?'第'+(diagIndex+1)+'题 / 共'+diagQuestions.length+'题':'Question '+(diagIndex+1)+' of '+diagQuestions.length} · ${isZH?(topic.nameCn||topic.name):topic.name}</div>
+    <div class="aq-question">${isZH?(q.qCn||q.q):q.q}</div>
+    <div class="aq-options" id="diagOpts">
+      ${(isZH?(q.optsCn||q.opts):q.opts).map((o,i)=>`<div class="aq-opt" onclick="diagSelect(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="aq-explain" id="diagExplain"><strong>${isZH?'解析：':'Explanation:'}</strong> ${isZH?(q.explainCn||q.explain):q.explain}</div>
+    <div class="aq-footer">
+      <span style="font-size:.85rem;color:var(--text3)">${diagScore}/${diagIndex} ${isZH?'正确':'correct'}</span>
+      <button class="aq-btn primary" id="diagNextBtn" onclick="diagNext()" disabled>${isZH?'下一题 →':'Next →'}</button>
+    </div>`;
+  diagAnswered=false;
+}
+function diagSelect(i){
+  if(diagAnswered) return;
+  diagAnswered=true;
+  const q=diagQuestions[diagIndex];
+  const correct=i===q.correct;
+  diagIndex++;
+  if(correct) diagScore++;
+  if(!diagResults[q.topic]) diagResults[q.topic]={correct:0,total:0};
+  diagResults[q.topic].total++;
+  if(correct) diagResults[q.topic].correct++;
+
+  const opts=document.querySelectorAll('#diagOpts .aq-opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('disabled');
+    if(idx===q.correct) o.classList.add('correct');
+    if(idx===i && !correct) o.classList.add('wrong');
+  });
+  document.getElementById('diagExplain').classList.add('show');
+  document.getElementById('diagNextBtn').disabled=false;
+}
+function diagNext(){renderDiagQ();}
+
+function renderDiagResults(){
+  const body=document.getElementById('diagBody');
+  const total=diagQuestions.length;
+  const pct=Math.round(diagScore/total*100);
+  const isZH=showCN;
+
+  // Update mastery based on diagnostic
+  TOPICS.forEach(t=>{
+    const r=diagResults[t.id];
+    if(r){
+      const topicPct=r.correct/r.total;
+      mastery[t.id].score = Math.round(topicPct * 60);
+      mastery[t.id].difficulty = topicPct>=0.75?2:topicPct>=0.5?1:1;
+      mastery[t.id].totalQ += r.total;
+      mastery[t.id].correctQ += r.correct;
+    }
+  });
+  saveMastery();
+
+  let topicHTML = '';
+  TOPICS.forEach(t=>{
+    const r=diagResults[t.id];
+    if(!r) return;
+    const tp = Math.round(r.correct/r.total*100);
+    const ml=getMasteryLevel(mastery[t.id].score);
+    const color = tp>=75?'var(--green)':tp>=50?'var(--accent)':tp>=25?'var(--amber)':'var(--red)';
+    const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
+    topicHTML+=`<div class="diag-topic">
+      <div class="diag-topic-name">${isZH?(t.nameCn||t.name):t.name}</div>
+      <div class="diag-topic-bar"><div class="diag-topic-fill" style="width:${tp}%;background:${color}"></div></div>
+      <div class="diag-topic-score">${r.correct}/${r.total} ${isZH?'正确':'correct'} (${tp}%) · <span class="mastery-level ${ml.cls}" style="font-size:.7rem;padding:.1rem .4rem">${levelLabels[ml.cls]||ml.label}</span></div>
+    </div>`;
+  });
+
+  body.innerHTML=`<div class="diag-result">
+    <div class="diag-score-big">${pct}%</div>
+    <div class="diag-label">${diagScore} / ${total} ${isZH?'正确 — 诊断完成':'correct — Diagnostic Complete'}</div>
+    <div class="diag-topic-grid">${topicHTML}</div>
+    <div style="margin-top:1.5rem">
+      <button class="aq-btn primary" onclick="closeDiagnostic();renderMasteryGrid();updateRecs();" style="font-size:1rem;padding:.7rem 1.5rem">${isZH?'查看面板 →':'View Dashboard →'}</button>
+    </div>
+    <div class="rec-box" style="margin-top:1.5rem;text-align:left" id="diagRecBox">
+      <div class="rec-title">${isZH?'📋 你的个性化学习计划':'📋 Your Personalized Study Plan'}</div>
+      <div class="rec-items" id="diagRecItems"></div>
+    </div>
+  </div>`;
+
+  const recItems=document.getElementById('diagRecItems');
+  const weak=getRecommendedTopics();
+  recItems.innerHTML = weak.map(t=>{
+    const ml=getMasteryLevel(mastery[t.id].score);
+    const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
+    return `<div class="rec-item">
+      <span class="rec-chip">Ch ${t.ch}</span>
+      <span>${isZH?(t.nameCn||t.name):t.name} — <strong>${levelLabels[ml.cls]||ml.label}</strong> (${mastery[t.id].score}/100)</span>
+      <span class="rec-action" onclick="closeDiagnostic();startAdaptiveForTopic('${t.id}')">${isZH?'开始刷题 →':'Practice →'}</span>
+    </div>`;
+  }).join('') || `<div class="rec-item">${isZH?'🎉 你已熟练掌握所有知识点！试试自适应刷题冲击精通等级。':'🎉 You\'re proficient in all topics! Try adaptive practice to reach mastery.'}</div>`;
+}
+
+// ════════════════════════════════════════
+// MASTERY DASHBOARD
+// ════════════════════════════════════════
+function renderMasteryGrid(){
+  const grid=document.getElementById('masteryGrid');
+  if(!grid) return;
+  const isZH = showCN;
+  const chNames=['','一','二','三','四','五','六','七'];
+  const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
+  grid.innerHTML = TOPICS.map(t=>{
+    const m=mastery[t.id]||{score:0,streak:0,totalQ:0,correctQ:0,difficulty:1};
+    const ml=getMasteryLevel(m.score);
+    const acc=m.totalQ>0?Math.round(m.correctQ/m.totalQ*100):0;
+    const chLabel=isZH?`第${chNames[t.ch]}章`:`Chapter ${t.ch}`;
+    return `<div class="mastery-card">
+      <div class="mastery-card-top">
+        <span class="mastery-ch">${chLabel}</span>
+        <span class="mastery-level ${ml.cls}">${levelLabels[ml.cls]||ml.label}</span>
+      </div>
+      <div class="mastery-title">${isZH?(t.nameCn||t.name):t.name}</div>
+      <div class="mastery-bar"><div class="mastery-fill ${ml.cls}" style="width:${m.score}%"></div></div>
+      <div class="mastery-stats">
+        <span>${isZH?'得分':'Score'}: ${m.score}/100</span>
+        <span>${isZH?'正确率':'Accuracy'}: ${acc}%</span>
+        <span>${isZH?'题数':'Q'}: ${m.totalQ}</span>
+      </div>
+      <div class="mastery-action">
+        <button onclick="startAdaptiveForTopic('${t.id}')">${isZH?'开始刷题 →':'Practice →'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// RECOMMENDATIONS
+// ════════════════════════════════════════
+function updateRecs(){
+  const box=document.getElementById('recBox');
+  const items=document.getElementById('recItems');
+  if(!box||!items) return;
+  const weak=getRecommendedTopics();
+  if(weak.length===0){
+    box.style.display='none';
+    return;
+  }
+  const isZH=showCN;
+  box.style.display='block';
+  items.innerHTML = weak.map(t=>{
+    const ml=getMasteryLevel(mastery[t.id].score);
+    const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
+    return `<div class="rec-item">
+      <span class="rec-chip">Ch ${t.ch}</span>
+      <span>${isZH?(t.nameCn||t.name):t.name} — ${levelLabels[ml.cls]||ml.label} (${mastery[t.id].score}/100)</span>
+      <span class="rec-action" onclick="startAdaptiveForTopic('${t.id}')">${isZH?'开始刷题 →':'Practice →'}</span>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// Resources Hub
+// ════════════════════════════════════════
+const RESOURCES_BY_CHAPTER = [
+  {
+    id:1, ch:'Ch 1', name:'The Body as a Machine', nameCn:'身体如机器',
+    videos:[
+      {src:'YouTube · Anatomy in Motion', vid:'5Ro6FxC9S84', title:'Energy Systems in Motion — How Muscles Produce Endurance', titleCn:'运动中的能量系统 — 肌肉如何产生耐力', url:'https://www.youtube.com/watch?v=5Ro6FxC9S84'},
+      {src:'YouTube · PTPioneer', vid:'L6okWmDtGfE', title:'NASM Energy Systems Explained + Mnemonic & Quiz', titleCn:'NASM三大供能系统详解 + 记忆口诀', url:'https://www.youtube.com/watch?v=L6okWmDtGfE'},
+      {src:'Bilibili · 德意的健身笔记', vid:'', title:'详解三大供能系统', titleCn:'详解三大供能系统', url:'https://www.bilibili.com/video/BV1vh411x7Ei/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop', cap:'Muscle fibers under load', capCn:'负重下的肌纤维'},
+      {src:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop', cap:'Energy systems in action', capCn:'能量系统运作中'}
+    ]
+  },
+  {
+    id:2, ch:'Ch 2', name:'Training Principles', nameCn:'训练原则',
+    videos:[
+      {src:'YouTube · Flow High Performance', vid:'fD4OyUDfL3U', title:'Progressive Overload for Strength vs Hypertrophy', titleCn:'力量与肌肥大的渐进超负荷', url:'https://www.youtube.com/watch?v=fD4OyUDfL3U'},
+      {src:'YouTube · Jeff Nippard', vid:'TQxMvpe2lQ8', title:'Fast or Slow Reps for Muscle Growth?', titleCn:'快节奏还是慢节奏？', url:'https://www.youtube.com/watch?v=TQxMvpe2lQ8'},
+      {src:'YouTube · Jeff Nippard', vid:'DzjWEn2BS_k', title:'I Cut My Training Volume In Half', titleCn:'我把训练量砍了一半', url:'https://www.youtube.com/watch?v=DzjWEn2BS_k'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop', cap:'Progressive overload in practice', capCn:'实践中的渐进超负荷'},
+      {src:'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop', cap:'Proper lifting form', capCn:'正确的举重姿势'}
+    ]
+  },
+  {
+    id:3, ch:'Ch 3', name:'Soft Tissue & Injury', nameCn:'软组织与损伤',
+    videos:[
+      {src:'YouTube · La Clinique Du Coureur', vid:'HGTabgG7GIU', title:'PEACE & LOVE — New Injury Treatment Acronym', titleCn:'PEACE & LOVE — 全新损伤处理方案', url:'https://www.youtube.com/watch?v=HGTabgG7GIU'},
+      {src:'Bilibili · PhysioDu物理治疗师', vid:'', title:'最全面的踝扭伤自我康复教程', titleCn:'最全面的踝扭伤自我康复教程', url:'https://www.bilibili.com/video/BV1ztHme1Eef/'},
+      {src:'YouTube · Sports Injury Physio', vid:'U_9gjff7ICU', title:'When to Use Ice or Heat for a Sports Injury', titleCn:'运动损伤何时用冰敷或热敷', url:'https://www.youtube.com/watch?v=U_9gjff7ICU'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop', cap:'Soft tissue rehabilitation', capCn:'软组织康复'},
+      {src:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop', cap:'Flexibility and stretching', capCn:'柔韧性与拉伸'}
+    ]
+  },
+  {
+    id:4, ch:'Ch 4', name:'Inflammation & Recovery', nameCn:'炎症与恢复',
+    videos:[
+      {src:'YouTube · Renaissance Periodization', vid:'uhwvH6pVDOw', title:'Cold Immersion Is Even More Worthless Than We Thought?', titleCn:'冷水浸泡比想象中更没用？', url:'https://www.youtube.com/watch?v=uhwvH6pVDOw'},
+      {src:'YouTube · Renaissance Periodization', vid:'pUC_UCEQKrk', title:'Sleep Loss Kills Muscle Growth', titleCn:'睡眠不足杀死肌肉增长', url:'https://www.youtube.com/watch?v=pUC_UCEQKrk'},
+      {src:'YouTube · AMR Physiotherapy', vid:'2S_gG63w020', title:'Should You Ice or Heat an Injury?', titleCn:'损伤应该冰敷还是热敷？', url:'https://www.youtube.com/watch?v=2S_gG63w020'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=300&fit=crop', cap:'Active recovery and rest', capCn:'积极恢复与休息'},
+      {src:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop', cap:'Cold water immersion therapy', capCn:'冷水浸泡疗法'}
+    ]
+  },
+  {
+    id:5, ch:'Ch 5', name:'Nutrition', nameCn:'营养',
+    videos:[
+      {src:'YouTube · TrainerRoad', vid:'Nb6pbcDzEjI', title:'Science-Backed Nutrition Plan for Cyclists', titleCn:'基于科学的骑行营养计划', url:'https://www.youtube.com/watch?v=Nb6pbcDzEjI'},
+      {src:'Bilibili · 吕一Heyimlvyi', vid:'', title:'碳水前置 & 碳水后置', titleCn:'碳水前置 & 碳水后置', url:'https://www.bilibili.com/video/BV1rQ64YWECw/'},
+      {src:'YouTube · Fast Talk Laboratories', vid:'IakmfcgPVM0', title:'Sweat Rate & Hydration for Endurance Athletes', titleCn:'耐力运动员的出汗率与补水', url:'https://www.youtube.com/watch?v=IakmfcgPVM0'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
+      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+    ]
+  },
+  {
+    id:6, ch:'Ch 6', name:'Supplements', nameCn:'补剂',
+    videos:[
+      {src:'YouTube · Renaissance Periodization', vid:'kMO0vfTIRok', title:'Does Creatine Work for Muscle Growth?', titleCn:'肌酸对肌肉增长有效吗？', url:'https://www.youtube.com/watch?v=kMO0vfTIRok'},
+      {src:'YouTube · Renaissance Periodization', vid:'efTDRqPka3Y', title:'The Only Supplements Worth Taking', titleCn:'唯一值得吃的补剂', url:'https://www.youtube.com/watch?v=efTDRqPka3Y'},
+      {src:'Bilibili · 院长贝贝教练培训', vid:'', title:'普通人练薄肌真的需要喝肌酸吗？', titleCn:'普通人练薄肌真的需要喝肌酸吗？', url:'https://www.bilibili.com/video/BV1x4FNzgEkE/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=300&fit=crop', cap:'Evidence-based supplements', capCn:'循证补剂'},
+      {src:'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop', cap:'Creatine — most researched supplement', capCn:'肌酸 — 研究最充分的补剂'}
+    ]
+  },
+  {
+    id:7, ch:'Ch 7', name:'Rehab & Career', nameCn:'康复与职业',
+    videos:[
+      {src:'YouTube · APTA', vid:'1Z2Ib4Meul4', title:'Physical Therapist Careers — APTA', titleCn:'物理治疗师职业 — 美国物理治疗协会', url:'https://www.youtube.com/watch?v=1Z2Ib4Meul4'},
+      {src:'YouTube · Reddy Care Physical Therapy', vid:'JdNXlQXzSyk', title:"What They Don't Tell You About Becoming a Physical Therapist", titleCn:'成为物理治疗师的真相', url:'https://www.youtube.com/watch?v=JdNXlQXzSyk'},
+      {src:'Bilibili · 运动康复小树老师', vid:'', title:'运动疗法 — 上肢肌力训练', titleCn:'运动疗法 — 上肢肌力训练', url:'https://www.bilibili.com/video/BV1bp421D78m/'}
+    ],
+    photos:[
+      {src:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop', cap:'Physical therapy in practice', capCn:'物理治疗实践'},
+      {src:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', cap:'Rehabilitation and recovery', capCn:'康复与恢复'}
+    ]
+  }
+];
+
+function renderResourcesHub(){
+  const el=document.getElementById('resourcesHub');
+  if(!el) return;
+  el.innerHTML = RESOURCES_BY_CHAPTER.map(c=>{
+    const vids = c.videos.map(v=>{
+      const thumb = v.vid ? `https://img.youtube.com/vi/${v.vid}/hqdefault.jpg` : '';
+      return `<a class="video-card" href="${v.url}" target="_blank" rel="noopener">
+        ${thumb?`<img class="video-thumb" src="${thumb}" loading="lazy" alt="${v.title}">`:''}
+        <div class="video-info">
+          <div class="vid-title" data-en="${v.title}" data-zh="${v.titleCn}">${v.title}</div>
+          <div class="vid-source" data-en="${v.src}" data-zh="${v.src}">${v.src}</div>
+        </div>
+      </a>`;
+    }).join('');
+    const pics = c.photos.map(p=>`<div class="photo-card">
+      <img src="${p.src}" loading="lazy" alt="${p.cap}">
+      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+    </div>`).join('');
+    return `<div class="res-hub-chapter">
+      <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>
+      <div class="video-grid">${vids}</div>
+      <div class="photo-grid">${pics}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// Q&A Chat (UI only — no AI linked yet)
+// ════════════════════════════════════════
+function addChatMessage(text, isUser, textZh){
+  const box=document.getElementById('chatMessages');
+  if(!box) return;
+  const div=document.createElement('div');
+  div.className='chat-msg '+(isUser?'user':'bot');
+  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'ASSISTANT'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+  applyLang();
+}
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const q=(input.value||'').trim();
+  if(!q) return;
+  addChatMessage(q, true, q);
+  input.value='';
+  const thinking='Thinking… 思考中…';
+  addChatMessage(thinking, false, '思考中…');
+  setTimeout(()=>{
+    const last=document.getElementById('chatMessages');
+    if(last) last.lastChild?.remove();
+    const replyZh='收到！我暂时还不能自主回答这个问题（AI 尚未接入）。请先描述你的具体症状，例如有没有肿胀、是否影响活动、疼了多久等。稍后接入 AI 后，我会结合运动医学知识为你给出个性化指导。⚠️ 本回复仅供学习参考，不能替代专业医疗建议。';
+    const replyEn='Got it! For now this assistant is not yet linked to an AI model. Please describe your symptoms in more detail (swelling? does it limit movement? how long?) and once AI is connected I will give you personalized guidance from sports-medicine knowledge. ⚠️ Educational only — not medical advice.';
+    addChatMessage(replyEn, false, replyZh);
+  }, 800);
+}
+
+// ════════════════════════════════════════
+// Floating AI modal
+// ════════════════════════════════════════
+function openAiModal(){ document.getElementById('aiModal').classList.add('open'); document.body.style.overflow='hidden'; document.getElementById('aiInput')?.focus(); }
+function closeAiModal(){ document.getElementById('aiModal').classList.remove('open'); document.body.style.overflow=''; }
+function addAiMsg(text,isUser,textZh){
+  const box=document.getElementById('aiModalBody');
+  if(!box) return;
+  const div=document.createElement('div');
+  div.className='chat-msg '+(isUser?'user':'bot');
+  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'ASSISTANT'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+  applyLang();
+}
+function sendAiChat(){
+  const input=document.getElementById('aiInput');
+  const q=(input.value||'').trim();
+  if(!q) return;
+  addAiMsg(q,true,q);
+  input.value='';
+  addAiMsg('Thinking… 思考中…',false,'思考中…');
+  setTimeout(()=>{
+    const box=document.getElementById('aiModalBody');
+    if(box && box.lastChild) box.lastChild.remove();
+    const replyZh='收到！这个 AI 助手目前只是界面，尚未接入 AI 模型。接入后，我会结合运动医学知识，针对你的问题（例如落枕、扭伤、恢复）给出个性化指导。⚠️ 仅供学习参考，不能替代专业医疗建议。';
+    const replyEn='Got it! This assistant is currently just the interface — no AI model is linked yet. Once connected, I will give personalized guidance from sports-medicine knowledge for issues like stiff neck, sprains, and recovery. ⚠️ Educational only — not medical advice.';
+    addAiMsg(replyEn,false,replyZh);
+  },800);
+}
+
+// ════════════════════════════════════════
+// Init
+// ════════════════════════════════════════
+applyLang();
+renderMasteryGrid();
+updateRecs();
+renderProgressBars();
+renderResourcesHub();
+document.getElementById('chatSend')?.addEventListener('click', sendChat);
+document.getElementById('chatInput')?.addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAiModal(); });
+document.getElementById('aiInput')?.addEventListener('keydown', e=>{ if(e.key==='Enter') sendAiChat(); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !document.getElementById('aiModal').classList.contains('open')){
+    const t=e.target;
+    const empty = !t || t.tagName!=='INPUT';
+    if(empty) openAiModal();
+  }
+});
+document.querySelectorAll('.ai-modal .chat-sug-btn').forEach(b=>b.addEventListener('click', ()=>{
+  const input=document.getElementById('aiInput');
+  input.value=b.dataset.zh || b.textContent;
+  sendAiChat();
+}));
+</script>
+</div><!-- /page-wrapper -->
+<!-- Floating AI button -->
+<button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
+  <span>🤖</span>
+  <span class="fab-badge"></span>
+</button>
+
+<!-- Full-screen AI modal -->
+<div class="ai-modal" id="aiModal">
+  <div class="ai-modal-header">
+    <span class="status-dot"></span>
+    <div>
+      <div class="ai-title" data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</div>
+      <div class="ai-sub" data-en="Ask about sports injuries &amp; recovery" data-zh="咨询运动损伤与恢复问题">Ask about sports injuries &amp; recovery</div>
+    </div>
+    <button class="ai-close" onclick="closeAiModal()" aria-label="Close">✕</button>
+  </div>
+  <div class="ai-suggestions">
+    <button class="chat-sug-btn" data-en="😴 我落枕了 / stiff neck" data-zh="😴 我落枕了 / 脖子僵硬">😴 我落枕了 / stiff neck</button>
+    <button class="chat-sug-btn" data-en="🦵 脚踝扭伤了 / sprained ankle" data-zh="🦵 脚踝扭伤了 / 踝扭伤">🦵 脚踝扭伤了 / sprained ankle</button>
+    <button class="chat-sug-btn" data-en="💪 练后肌肉酸痛 / muscle soreness" data-zh="💪 练后肌肉酸痛 / 肌肉酸痛">💪 练后肌肉酸痛 / muscle soreness</button>
+    <button class="chat-sug-btn" data-en="🦿 跑步膝盖疼 / knee pain while running" data-zh="🦿 跑步膝盖疼 / 跑步膝痛">🦿 跑步膝盖疼 / knee pain while running</button>
+  </div>
+  <div class="ai-modal-body" id="aiModalBody">
+    <div class="chat-msg bot" data-en="Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: &quot;我落枕了，该怎么办？&quot; Guidance (not a medical diagnosis) will appear here soon." data-zh="你好！我是你的恢复助手。请描述你的损伤或恢复问题 — 例如：&quot;我落枕了，该怎么办？&quot;这里将很快为你提供指导（非医疗诊断）。">Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: "我落枕了，该怎么办？" Guidance (not a medical diagnosis) will appear here soon.</div>
+  </div>
+  <div class="ai-modal-footer">
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" type="text" placeholder="请输入你的问题…" data-en="Type your question…" data-zh="请输入你的问题…">
+      <button class="ai-send-btn" onclick="sendAiChat()" data-en="Send" data-zh="发送">Send</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

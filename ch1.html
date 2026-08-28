@@ -329,6 +329,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
 /* ── Resources ── */
 .resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
 .resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -343,7 +346,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
 .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
 .photo-card:hover img{transform:scale(1.03)}
-.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
 /* ── Sidebar ── */
@@ -580,7 +582,7 @@ section{padding:4rem 0 3rem}
           <div class="stat-card"><div class="stat-num">~206</div><div class="stat-label" data-en="Bones" data-zh="骨骼">Bones</div></div>
           <div class="stat-card"><div class="stat-num">~37°C</div><div class="stat-label" data-en="Core temp" data-zh="核心温度">Core temp</div></div>
         </div>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="1.3 Energy Systems" data-zh="1.3 三大供能系统">1.3 Energy Systems</div>
@@ -591,7 +593,7 @@ section{padding:4rem 0 3rem}
           <tr><td data-en="Glycolytic" data-zh="糖酵解">Glycolytic</td><td data-en="Glycogen → pyruvate" data-zh="糖原 → 丙酮酸">Glycogen → pyruvate</td><td data-en="Fast" data-zh="快">Fast</td><td>~10 s – 2 min</td><td data-en="400 m run" data-zh="400米跑">400 m run</td></tr>
           <tr><td data-en="Oxidative" data-zh="氧化">Oxidative</td><td data-en="Carbs + fats + O₂" data-zh="碳水 + 脂肪 + O₂">Carbs + fats + O₂</td><td data-en="Slower but vast" data-zh="较慢但持久">Slower but vast</td><td>&gt; 2 min</td><td data-en="Marathon" data-zh="马拉松">Marathon</td></tr>
         </table>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1483721310020-03333e577078?w=600&h=400&fit=crop" alt="Sprinters on track"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="1.4 Muscle Fibers" data-zh="1.4 肌纤维类型">1.4 Muscle Fibers</div>
@@ -600,14 +602,14 @@ section{padding:4rem 0 3rem}
           <div><strong>Type I (Slow-Twitch)</strong><br>High mitochondria, rich blood supply, fatigue-resistant. <span class="cn">线粒体多，耐疲劳。</span></div>
           <div><strong>Type II (Fast-Twitch)</strong><br>Powerful but fatigue quickly. <span class="cn">力量大但易疲劳。</span></div>
         </div>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop" alt="Weightlifting under load"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="1.5 Adaptation (SAID)" data-zh="1.5 按需适应">1.5 Adaptation (SAID)</div>
       <div class="acc-body"><div class="acc-body-inner">
         <p data-en="Endurance training → more mitochondria. Resistance training → bigger, stronger fibers. The adaptation is specific to the demand you impose." data-zh="耐力训练 → 更多线粒体。力量训练 → 更大、更强的纤维。适应是针对你施加的特定需求。">Endurance training → more mitochondria. Resistance training → bigger, stronger fibers. <strong>The adaptation is specific to the demand you impose.</strong></p>
         <p class="cn">耐力训练 → 线粒体增加。力量训练 → 肌纤维变大。适应具有高度针对性。</p>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=400&fit=crop" alt="Active recovery"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="1.6 Myths Debunked" data-zh="1.6 常见迷思">1.6 Myths Debunked</div>
@@ -652,7 +654,7 @@ section{padding:4rem 0 3rem}
   <div class="resources-section" id="videos">
     <div class="resources-title" data-en="🎬 Chapter 1 · Videos &amp; Photos" data-zh="🎬 第1章 · 视频与图片">🎬 Videos &amp; Photos</div>
     <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=5Ro6FxC9S84" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/5Ro6FxC9S84/hqdefault.jpg" loading="lazy" alt="Energy Systems in Motion — How Muscles Produce Endurance"><div class="video-info"><div class="vid-title" data-en="Energy Systems in Motion — How Muscles Produce Endurance" data-zh="运动中的能量系统 — 肌肉如何产生耐力">Energy Systems in Motion — How Muscles Produce Endurance</div><div class="vid-source" data-en="YouTube · Anatomy in Motion" data-zh="YouTube · Anatomy in Motion">YouTube · Anatomy in Motion</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=L6okWmDtGfE" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/L6okWmDtGfE/hqdefault.jpg" loading="lazy" alt="NASM Energy Systems Explained + Mnemonic &amp; Quiz"><div class="video-info"><div class="vid-title" data-en="NASM Energy Systems Explained + Mnemonic &amp; Quiz" data-zh="NASM三大供能系统详解 + 记忆口诀">NASM Energy Systems Explained + Mnemonic & Quiz</div><div class="vid-source" data-en="YouTube · PTPioneer" data-zh="YouTube · PTPioneer">YouTube · PTPioneer</div></div></a><a class="video-card" href="https://www.bilibili.com/video/BV1vh411x7Ei/" target="_blank" rel="noopener"><div class="video-info"><div class="vid-title" data-en="详解三大供能系统" data-zh="详解三大供能系统">详解三大供能系统</div><div class="vid-source" data-en="Bilibili · 德意的健身笔记" data-zh="Bilibili · 德意的健身笔记">Bilibili · 德意的健身笔记</div></div></a></div>
-    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop" loading="lazy" alt="Muscle fibers under load"><div class="photo-cap" data-en="Muscle fibers under load" data-zh="负重下的肌纤维">Muscle fibers under load</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop" loading="lazy" alt="Energy systems in action"><div class="photo-cap" data-en="Energy systems in action" data-zh="能量系统运作中">Energy systems in action</div></div></div>
+    
     <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
@@ -1979,7 +1981,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
-      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+      {src:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
     ]
   },
   {
@@ -2024,7 +2026,7 @@ function renderResourcesHub(){
     }).join('');
     const pics = c.photos.map(p=>`<div class="photo-card">
       <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+      
     </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>

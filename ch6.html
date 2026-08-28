@@ -329,6 +329,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
 /* ── Resources ── */
 .resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
 .resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -343,7 +346,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
 .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
 .photo-card:hover img{transform:scale(1.03)}
-.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
 /* ── Sidebar ── */
@@ -582,7 +584,7 @@ section{padding:4rem 0 3rem}
           <tr><td><strong data-en="BCAAs" data-zh="支链氨基酸">BCAAs</strong></td><td><span class="grade-pill grade-d">D</span></td><td data-en="Redundant if total protein adequate" data-zh="总蛋白充足时多余">Redundant if total protein adequate</td></tr>
           <tr><td><strong data-en="Fat burners / boosters" data-zh="燃脂剂 / 增效剂">Fat burners / boosters</strong></td><td><span class="grade-pill grade-f">F</span></td><td data-en="No credible support; doping risk" data-zh="无可靠证据；有兴奋剂风险">No credible support; doping risk</td></tr>
         </table>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=400&fit=crop" alt="Supplement capsules"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=600&h=400&fit=crop" alt="Creatine powder scoop"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="Safety Checklist" data-zh="安全清单">Safety Checklist</div>
@@ -617,7 +619,7 @@ section{padding:4rem 0 3rem}
   <div class="resources-section" id="videos">
     <div class="resources-title" data-en="🎬 Chapter 6 · Videos &amp; Photos" data-zh="🎬 第6章 · 视频与图片">🎬 Videos &amp; Photos</div>
     <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=kMO0vfTIRok" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/kMO0vfTIRok/hqdefault.jpg" loading="lazy" alt="Does Creatine Work for Muscle Growth?"><div class="video-info"><div class="vid-title" data-en="Does Creatine Work for Muscle Growth?" data-zh="肌酸对肌肉增长有效吗？">Does Creatine Work for Muscle Growth?</div><div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=efTDRqPka3Y" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/efTDRqPka3Y/hqdefault.jpg" loading="lazy" alt="The Only Supplements Worth Taking"><div class="video-info"><div class="vid-title" data-en="The Only Supplements Worth Taking" data-zh="唯一值得吃的补剂">The Only Supplements Worth Taking</div><div class="vid-source" data-en="YouTube · Renaissance Periodization" data-zh="YouTube · Renaissance Periodization">YouTube · Renaissance Periodization</div></div></a><a class="video-card" href="https://www.bilibili.com/video/BV1x4FNzgEkE/" target="_blank" rel="noopener"><div class="video-info"><div class="vid-title" data-en="普通人练薄肌真的需要喝肌酸吗？" data-zh="普通人练薄肌真的需要喝肌酸吗？">普通人练薄肌真的需要喝肌酸吗？</div><div class="vid-source" data-en="Bilibili · 院长贝贝教练培训" data-zh="Bilibili · 院长贝贝教练培训">Bilibili · 院长贝贝教练培训</div></div></a></div>
-    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=400&h=300&fit=crop" loading="lazy" alt="Evidence-based supplements"><div class="photo-cap" data-en="Evidence-based supplements" data-zh="循证补剂">Evidence-based supplements</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400&h=300&fit=crop" loading="lazy" alt="Creatine — most researched supplement"><div class="photo-cap" data-en="Creatine — most researched supplement" data-zh="肌酸 — 研究最充分的补剂">Creatine — most researched supplement</div></div></div>
+    
     <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
@@ -1944,7 +1946,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
-      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+      {src:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
     ]
   },
   {
@@ -1989,7 +1991,7 @@ function renderResourcesHub(){
     }).join('');
     const pics = c.photos.map(p=>`<div class="photo-card">
       <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+      
     </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>

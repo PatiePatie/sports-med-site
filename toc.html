@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
 <title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -548,6 +549,111 @@ section{padding:4rem 0 3rem}
 h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing:-.02em}
 .logo{font-family:var(--font-heading);font-weight:600;letter-spacing:-.01em}
 .quiz-title,.qo-question,.aq-question,.acc-header,.fc-front .fc-term,.fc-back .fc-def,.stat-num,.mastery-title,.rec-title,.vid-title,.ai-title,.res-hub-chapter{font-family:var(--font-heading);font-weight:500}
+/* ══════════════════════════════════════════
+   BUILD — Readability & engagement polish (Aug 2026)
+   ══════════════════════════════════════════ */
+
+/* Reading progress bar (top of page) */
+#readingBar{position:fixed;top:0;left:0;height:4px;width:0;z-index:500;background:linear-gradient(90deg,var(--accent),#7c3aed,#e879f9);transition:width .1s linear;pointer-events:none}
+
+/* Comfortable reading measure + rhythm inside chapter bodies */
+.acc-body-inner{line-height:1.85}
+.acc-body-inner p{max-width:68ch}
+.inline-img{width:100%;border-radius:var(--radius);border:1px solid var(--border2);box-shadow:var(--shadow);margin:.9rem 0 .2rem}
+img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;margin:0 0 .2rem .5rem;vertical-align:top}
+
+/* Tables — modern card look + hover + mobile horizontal scroll */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);margin:.4rem 0 .4rem}
+.table-wrap table{margin:0;border:none}
+.table-wrap th,.table-wrap td{padding:.7rem .95rem;vertical-align:top}
+.table-wrap th{background:var(--surface2);font-weight:700;position:sticky;top:0}
+.table-wrap tr:hover td{background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+@media(max-width:600px){.table-wrap th,.table-wrap td{padding:.55rem .7rem;font-size:.86rem}}
+
+/* Debate boxes — colour-coded sides */
+.tab-panel{padding:1.1rem 1.3rem}
+.tab-panel.active{animation:fadeUp .25s ease}
+.tab-panel.side-a-tab{background:color-mix(in srgb,var(--green) 7%,var(--surface));border-left:4px solid var(--green)}
+.tab-panel.side-b-tab{background:color-mix(in srgb,var(--red) 6%,var(--surface));border-left:4px solid var(--red)}
+.tab-panel.verdict-tab{background:color-mix(in srgb,var(--amber) 8%,var(--surface));border-top:2px dashed color-mix(in srgb,var(--amber) 45%,transparent)}
+.tab-nav .tab-btn:nth-child(1).active{color:var(--green);border-bottom-color:var(--green);background:color-mix(in srgb,var(--green) 10%,transparent)}
+.tab-nav .tab-btn:nth-child(2).active{color:var(--red);border-bottom-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)}
+.tab-nav .tab-btn:nth-child(3).active{color:var(--amber);border-bottom-color:var(--amber);background:color-mix(in srgb,var(--amber) 10%,transparent)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Key-takeaway callout */
+.callout{margin:1.5rem 0;border-radius:var(--radius);border:1px solid var(--border2);background:linear-gradient(180deg,color-mix(in srgb,var(--accent-bg) 65%,var(--surface)),var(--surface));border-left:5px solid var(--accent);padding:1.15rem 1.3rem;box-shadow:var(--shadow-sm)}
+.callout h4{font-family:var(--font);font-size:1rem;font-weight:800;margin-bottom:.55rem;display:flex;align-items:center;gap:.5rem;letter-spacing:0}
+.callout h4 .co-ico{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex:none}
+.callout ul{margin:0;padding-left:1.15rem}
+.callout li{margin:.28rem 0;font-size:.93rem;line-height:1.7}
+.callout .callout-note{margin-top:.65rem;padding-top:.6rem;border-top:1px dashed var(--border2);font-size:.85rem;color:var(--text2);font-style:italic}
+
+/* Email capture (launch notifications) */
+.capture{border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);padding:1.4rem 1.5rem;box-shadow:var(--shadow);text-align:center}
+.capture h3{margin-bottom:.4rem;font-size:1.25rem}
+.capture p{font-size:.9rem;color:var(--text2);max-width:52ch;margin:0 auto .9rem}
+.capture-form{display:flex;gap:.5rem;max-width:460px;margin:0 auto}
+.capture-input{flex:1;min-width:0;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.capture-input:focus{border-color:var(--accent)}
+.capture-btn{flex:none;padding:.7rem 1.3rem;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer;font-size:.95rem;transition:transform .18s,box-shadow .18s}
+.capture-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.capture-msg{margin-top:.7rem;font-size:.86rem;color:var(--green);min-height:1.2em}
+.capture-note{margin-top:.55rem;font-size:.75rem;color:var(--text3)}
+@media(max-width:520px){.capture-form{flex-direction:column}}
+
+/* Trust strip + author card + feature grid (homepage) */
+.trust-strip{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.6rem 0 0}
+.trust-chip{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:.4rem .9rem;box-shadow:var(--shadow-sm)}
+.author-card{display:flex;gap:1.1rem;align-items:flex-start;max-width:720px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.4rem;box-shadow:var(--shadow-sm)}
+.author-ava{flex:none;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem;margin-top:1.2rem}
+.feature-card{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.15rem 1.2rem;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
+.feature-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.feature-card .co-ico{width:34px;height:34px;border-radius:10px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:.55rem}
+.feature-card h4{font-family:var(--font);font-weight:800;font-size:1rem;margin-bottom:.3rem}
+.feature-card p{font-size:.86rem;color:var(--text2);line-height:1.6}
+
+/* Exam prep & certificate (exam.html) */
+.std-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin-top:1.2rem}
+.study-step{display:flex;align-items:center;gap:.8rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:.85rem 1rem;box-shadow:var(--shadow-sm)}
+.step-num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.study-step.done .step-num{background:var(--green);color:#fff}
+.step-info{flex:1;min-width:0}
+.step-info h4{font-family:var(--font);font-size:.95rem;font-weight:700;margin:0}
+.step-info span{font-size:.78rem;color:var(--text3)}
+.step-status{flex:none;font-size:.76rem;font-weight:700;padding:.28rem .6rem;border-radius:20px}
+.step-status.rs{background:var(--accent-bg);color:var(--accent)}
+.step-status.done{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
+.exam-panel{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);padding:1.4rem}
+.exam-meta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.ekey{display:inline-flex;flex-direction:column;align-items:center;padding:.7rem 1.1rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);min-width:86px}
+.ekey b{font-size:1.3rem;color:var(--accent)}
+.ekey span{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.exam-q{padding:1rem 0;border-bottom:1px solid var(--border)}
+.exam-q:last-of-type{border-bottom:none}
+.exam-opt{display:block;width:100%;text-align:left;margin:.4rem 0;padding:.7rem .95rem;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.93rem;cursor:pointer;transition:all .15s}
+.exam-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.exam-opt.correct{background:color-mix(in srgb,var(--green) 15%,var(--surface));border-color:var(--green)}
+.exam-opt.wrong{background:color-mix(in srgb,var(--red) 12%,var(--surface));border-color:var(--red)}
+.exam-opt:disabled{cursor:not-allowed;opacity:.85}
+.exam-explain{margin:.6rem 0 .4rem;padding:.75rem .9rem;border-radius:var(--radius-sm);background:color-mix(in srgb,var(--accent) 6%,var(--surface));border:1px dashed var(--border2);font-size:.86rem;line-height:1.65}
+.exam-verdict{margin-top:1rem;padding:.9rem 1.1rem;border-radius:var(--radius);font-weight:700;text-align:center}
+.exam-verdict.good{background:color-mix(in srgb,var(--green) 15%,var(--surface));border:1px solid var(--green);color:var(--green)}
+.exam-verdict.mid{background:color-mix(in srgb,var(--amber) 15%,var(--surface));border:1px solid var(--amber);color:var(--amber)}
+.exam-verdict.low{background:color-mix(in srgb,var(--red) 12%,var(--surface));border:1px solid var(--red);color:var(--red)}
+.cert-gate{border-radius:var(--radius);border:1px dashed var(--border2);background:color-mix(in srgb,var(--accent-bg) 40%,var(--surface));padding:1rem 1.2rem;margin-bottom:1rem}
+.cert-check{display:flex;gap:.6rem;align-items:center;padding:.3rem 0;font-size:.9rem}
+.cert-check .ok{color:var(--green);font-weight:700}
+.cert-check .no{color:var(--text3)}
+.cert-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.8rem}
+.cert-flash{font-size:.85rem;color:var(--green);font-weight:600;min-height:1.2em}
+
+/* Certificate canvas holder */
+.cert-view{display:none;position:fixed;inset:0;z-index:400;background:rgba(10,10,14,.9);align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px)}
+.cert-view.open{display:flex}
+.cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
+.onthis .sidebar-link{font-size:.8rem}
 </style>
 </head>
 <body>
@@ -562,6 +668,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
     <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
   </div>
+    <a class="sidebar-link" href="exam.html" data-en="🎓 Exam Prep &amp; Certificate" data-zh="🎓 考试冲刺与证书">🎓 Exam Prep &amp; Certificate</a>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
     <a class="sidebar-link sub" href="ch1.html" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
@@ -605,6 +712,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing
   <div class="hero-actions">
     <button class="qo-btn next" onclick="openFlashcards()" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
     <button class="qo-btn next" onclick="openQuizMode()" style="background:var(--green)" data-en="📝 Quiz Mode" data-zh="📝 答题模式">📝 Quiz Mode</button>
+    <button class="qo-btn next" onclick="location.href='exam.html'" style="background:var(--accent)" data-en="🎓 Exam Prep &amp; Certificate" data-zh="🎓 考试冲刺与证书">🎓 Exam Prep &amp; Certificate</button>
   </div>
 </div>
 </section>
@@ -2304,6 +2412,83 @@ function closeLightbox(){
 }
 document.addEventListener('click', openLightbox);
 
+// ════════════════════════════════════════
+// BUILD — reading progress, table scroll, On-this-page TOC
+// ════════════════════════════════════════
+(function(){
+  try{
+    var pb=document.createElement('div');
+    pb.id='readingBar';
+    document.body.appendChild(pb);
+    var rp=function(){
+      var doc=document.documentElement;
+      var top=doc.scrollTop||document.body.scrollTop;
+      var h=(doc.scrollHeight||document.body.scrollHeight)-window.innerHeight;
+      pb.style.width=(h>0?Math.min(100,top/h*100):0)+'%';
+    };
+    window.addEventListener('scroll',rp,{passive:true});
+    window.addEventListener('resize',rp,{passive:true});
+    rp();
+  }catch(e){}
+
+  try{
+    document.querySelectorAll('table').forEach(function(t){
+      if(!t.closest('.table-wrap')){
+        var w=document.createElement('div');
+        w.className='table-wrap';
+        var p=t.parentNode;
+        p.insertBefore(w,t);
+        w.appendChild(t);
+      }
+    });
+  }catch(e){}
+
+  try{
+    var acc=document.querySelector('.accordion');
+    var side=document.getElementById('sidebar');
+    if(acc&&side&&!document.getElementById('onthisGroup')){
+      var hs=acc.querySelectorAll('.acc-header');
+      if(hs.length){
+        var grp=document.createElement('div');
+        grp.className='sidebar-group onthis';
+        grp.id='onthisGroup';
+        var lb=document.createElement('div');
+        lb.className='sidebar-label';
+        lb.textContent='On this page';
+        lb.setAttribute('data-en','On this page');
+        lb.setAttribute('data-zh','本页目录');
+        grp.appendChild(lb);
+        hs.forEach(function(h,i){
+          var it=h.parentElement;
+          it.id='sec-'+i;
+          var en=(h.getAttribute('data-en')||h.textContent||'').trim()||('Section '+(i+1));
+          var zh=(h.getAttribute('data-zh')||en).trim();
+          var a=document.createElement('a');
+          a.className='sidebar-link';
+          a.href='#sec-'+i;
+          a.setAttribute('data-en',en);
+          a.setAttribute('data-zh',zh);
+          a.textContent=en;
+          a.addEventListener('click',function(ev){
+            ev.preventDefault();
+            var item=it;
+            var body=item.querySelector('.acc-body');
+            if(!item.classList.contains('open')){
+              item.classList.add('open');
+              if(body) body.style.maxHeight=body.scrollHeight+'px';
+            }
+            item.scrollIntoView({behavior:'smooth',block:'start'});
+            side.classList.remove('open');
+          });
+          grp.appendChild(a);
+        });
+        var logo=side.querySelector('.sidebar-logo');
+        if(logo) side.insertBefore(grp,logo.nextSibling);
+        else side.insertBefore(grp,side.firstChild);
+      }
+    }
+  }catch(e){}
+})();
 </script>
 </div><!-- /page-wrapper -->
 <!-- Floating AI button -->

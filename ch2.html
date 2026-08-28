@@ -329,6 +329,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
 /* ── Resources ── */
 .resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
 .resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -343,7 +346,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
 .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
 .photo-card:hover img{transform:scale(1.03)}
-.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
 /* ── Sidebar ── */
@@ -574,13 +576,13 @@ section{padding:4rem 0 3rem}
       <div class="acc-header" onclick="toggleAcc(this)" data-en="2.2 Progressive Overload" data-zh="2.2 渐进超负荷">2.2 Progressive Overload</div>
       <div class="acc-body"><div class="acc-body-inner">
         <p data-en="Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt." data-zh="随时间系统性地增加需求 — 增加重量、次数、组数或减少休息。没有渐进超负荷，身体没有适应的理由。">Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt. <span class="cn">没有渐进超负荷，身体没有适应的理由。</span></p>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop" alt="Progressive overload lifting"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="2.3 Eccentric Training" data-zh="2.3 离心训练">2.3 Eccentric Training</div>
       <div class="acc-body"><div class="acc-body-inner">
         <p data-en="Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy." data-zh="肌肉离心收缩产生更大力量。这导致更多微损伤但也提供更大的力量和增肌刺激 — 用于肌腱病变康复。">Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy. <span class="cn">离心收缩力量更大，增肌刺激更强。</span></p>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&h=400&fit=crop" alt="Controlled eccentric squat"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="2.4 Stretching & Warm-Up" data-zh="2.4 拉伸与热身">2.4 Stretching & Warm-Up</div>
@@ -588,7 +590,7 @@ section{padding:4rem 0 3rem}
         <p data-en="Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone." data-zh="静态拉伸剂量很重要。保持<45秒无害；≥60秒可使力量下降约7.5%。动态热身应是基础。">Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone.</p>
         <p class="cn">拉伸关键看剂量：&lt;45秒基本无害；≥60秒可使力量下降约7.5%。</p>
         <p data-en="Static stretching should not exceed ~20 seconds per hold — holding longer raises the risk of muscle and tendon injury." data-zh="静态拉伸每次不宜超过20秒，超过会增加肌肉和肌腱的损伤风险。">Static stretching should not exceed ~20 seconds per hold — holding longer raises the risk of muscle and tendon injury. <span class="cn">静态拉伸每次不宜超过20秒，超过会增加肌肉和肌腱的损伤风险。</span></p>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?w=600&h=400&fit=crop" alt="Stretching warm-up"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="2.5 Strength Gain Timeline" data-zh="2.5 力量增长时间线">2.5 Strength Gain Timeline</div>
@@ -651,7 +653,7 @@ section{padding:4rem 0 3rem}
   <div class="resources-section" id="videos">
     <div class="resources-title" data-en="🎬 Chapter 2 · Videos &amp; Photos" data-zh="🎬 第2章 · 视频与图片">🎬 Videos &amp; Photos</div>
     <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=fD4OyUDfL3U" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/fD4OyUDfL3U/hqdefault.jpg" loading="lazy" alt="Progressive Overload for Strength vs Hypertrophy"><div class="video-info"><div class="vid-title" data-en="Progressive Overload for Strength vs Hypertrophy" data-zh="力量与肌肥大的渐进超负荷">Progressive Overload for Strength vs Hypertrophy</div><div class="vid-source" data-en="YouTube · Flow High Performance" data-zh="YouTube · Flow High Performance">YouTube · Flow High Performance</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=TQxMvpe2lQ8" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/TQxMvpe2lQ8/hqdefault.jpg" loading="lazy" alt="Fast or Slow Reps for Muscle Growth?"><div class="video-info"><div class="vid-title" data-en="Fast or Slow Reps for Muscle Growth?" data-zh="快节奏还是慢节奏？">Fast or Slow Reps for Muscle Growth?</div><div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=DzjWEn2BS_k" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/DzjWEn2BS_k/hqdefault.jpg" loading="lazy" alt="I Cut My Training Volume In Half"><div class="video-info"><div class="vid-title" data-en="I Cut My Training Volume In Half" data-zh="我把训练量砍了一半">I Cut My Training Volume In Half</div><div class="vid-source" data-en="YouTube · Jeff Nippard" data-zh="YouTube · Jeff Nippard">YouTube · Jeff Nippard</div></div></a></div>
-    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop" loading="lazy" alt="Progressive overload in practice"><div class="photo-cap" data-en="Progressive overload in practice" data-zh="实践中的渐进超负荷">Progressive overload in practice</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=300&fit=crop" loading="lazy" alt="Proper lifting form"><div class="photo-cap" data-en="Proper lifting form" data-zh="正确的举重姿势">Proper lifting form</div></div></div>
+    
     <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
@@ -1978,7 +1980,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
-      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+      {src:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
     ]
   },
   {
@@ -2023,7 +2025,7 @@ function renderResourcesHub(){
     }).join('');
     const pics = c.photos.map(p=>`<div class="photo-card">
       <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+      
     </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>

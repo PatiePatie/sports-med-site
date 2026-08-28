@@ -329,6 +329,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
 /* ── Resources ── */
 .resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
 .resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -343,7 +346,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
 .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
 .photo-card:hover img{transform:scale(1.03)}
-.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
 /* ── Sidebar ── */
@@ -574,7 +576,7 @@ section{padding:4rem 0 3rem}
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.2 Energy Availability: RED-S" data-zh="5.2 能量可用性：RED-S">5.2 Energy Availability: RED-S</div>
       <div class="acc-body"><div class="acc-body-inner">
         <p data-en="EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted)." data-zh="能量可用性 = (摄入 − 运动消耗) / FFM。最佳约45 kcal/kg FFM/天；低于约30 = RED-S（激素、骨骼、免疫紊乱）。">EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted). <span class="cn">低于30会扰乱激素、骨骼和免疫。</span></p>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=400&fit=crop" alt="Balanced sports nutrition"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.3 Micronutrients &amp; Hydration" data-zh="5.3 微量营养素与水合">5.3 Micronutrients &amp; Hydration</div>
@@ -591,7 +593,7 @@ section{padding:4rem 0 3rem}
             <p><strong data-en="Warning:" data-zh="注意：">Warning:</strong> <span data-en="Excess water → hyponatremia." data-zh="大量饮水 → 低钠血症。">Excess water → hyponatremia.</span> <span class="cn">大量清水可致低钠血症。</span></p>
           </div>
         </div>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop" alt="Hydration water bottle"></div></div>
     </div>
   </div>
 
@@ -643,7 +645,7 @@ section{padding:4rem 0 3rem}
   <div class="resources-section" id="videos">
     <div class="resources-title" data-en="🎬 Chapter 5 · Videos &amp; Photos" data-zh="🎬 第5章 · 视频与图片">🎬 Videos &amp; Photos</div>
     <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=Nb6pbcDzEjI" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/Nb6pbcDzEjI/hqdefault.jpg" loading="lazy" alt="Science-Backed Nutrition Plan for Cyclists"><div class="video-info"><div class="vid-title" data-en="Science-Backed Nutrition Plan for Cyclists" data-zh="基于科学的骑行营养计划">Science-Backed Nutrition Plan for Cyclists</div><div class="vid-source" data-en="YouTube · TrainerRoad" data-zh="YouTube · TrainerRoad">YouTube · TrainerRoad</div></div></a><a class="video-card" href="https://www.bilibili.com/video/BV1rQ64YWECw/" target="_blank" rel="noopener"><div class="video-info"><div class="vid-title" data-en="碳水前置 &amp; 碳水后置" data-zh="碳水前置 &amp; 碳水后置">碳水前置 & 碳水后置</div><div class="vid-source" data-en="Bilibili · 吕一Heyimlvyi" data-zh="Bilibili · 吕一Heyimlvyi">Bilibili · 吕一Heyimlvyi</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=IakmfcgPVM0" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/IakmfcgPVM0/hqdefault.jpg" loading="lazy" alt="Sweat Rate &amp; Hydration for Endurance Athletes"><div class="video-info"><div class="vid-title" data-en="Sweat Rate &amp; Hydration for Endurance Athletes" data-zh="耐力运动员的出汗率与补水">Sweat Rate & Hydration for Endurance Athletes</div><div class="vid-source" data-en="YouTube · Fast Talk Laboratories" data-zh="YouTube · Fast Talk Laboratories">YouTube · Fast Talk Laboratories</div></div></a></div>
-    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop" loading="lazy" alt="Balanced sports nutrition"><div class="photo-cap" data-en="Balanced sports nutrition" data-zh="均衡的运动营养">Balanced sports nutrition</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop" loading="lazy" alt="Hydration is key to performance"><div class="photo-cap" data-en="Hydration is key to performance" data-zh="补水是表现的关键">Hydration is key to performance</div></div></div>
+    
     <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
@@ -1970,7 +1972,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
-      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+      {src:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
     ]
   },
   {
@@ -2015,7 +2017,7 @@ function renderResourcesHub(){
     }).join('');
     const pics = c.photos.map(p=>`<div class="photo-card">
       <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+      
     </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>

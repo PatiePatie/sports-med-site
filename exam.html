@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<title>NPTE Exam Prep &amp; Certificate — Sports Med Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f6f7fb;--surface:#ffffff;--surface2:#eef1f6;--surface3:#e1e5ee;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#4f46e5;--accent2:#4338ca;--accent-bg:#eef2ff;
+  --green:#0e9f6e;--red:#e11d48;--amber:#d97706;
+  --border:#e8eaf0;--border2:#d8dce6;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
+  --shadow:0 4px 14px rgba(15,23,42,.08),0 1px 3px rgba(15,23,42,.04);
+  --shadow-lg:0 16px 40px rgba(15,23,42,.13),0 4px 10px rgba(15,23,42,.05);
+  --radius:16px;--radius-sm:10px;--radius-lg:22px;
+  --font:"Avenir Next","Avenir Next Condensed","Helvetica Neue",Arial,"Songti SC","SimSun","宋体",sans-serif;
+  --font-heading:"Cormorant Garamond","Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
+  --max-w:820px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body.lang-en .cn{display:none!important}
+body.lang-zh .en-text{display:none!important}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+th,td{padding:.55rem .75rem;border:1px solid var(--border);text-align:left}
+th{background:var(--surface2);font-weight:600}
+tr:nth-child(even){background:var(--surface2)}
+
+/* ── Dark ── */
+body.dark{
+  --bg:#0a101f;--surface:#131a2c;--surface2:#1b2337;--surface3:#263049;
+  --text:#e6e9f2;--text2:#9aa4bd;--text3:#6b7591;
+  --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1d2145;
+  --border:#232c44;--border2:#2f3a57;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 4px 16px rgba(0,0,0,.42);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.55);
+  --accent-glow:rgba(129,140,248,.25);
+}
+
+/* ── Layout ── */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.logo{font-size:1.05rem;font-weight:700;color:var(--text)}
+.logo span{color:var(--accent)}
+.header-actions{display:flex;gap:.5rem;align-items:center}
+.btn-icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
+.btn-icon:hover{background:var(--accent-bg);border-color:var(--accent)}
+nav{background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav ul{display:flex;gap:0;list-style:none;min-width:max-content}
+nav a{display:block;padding:.65rem 1rem;font-size:.88rem;font-weight:500;color:var(--text2);transition:all .2s;border-bottom:2px solid transparent;white-space:nowrap}
+nav a:hover,nav a.active{color:var(--accent);border-bottom-color:var(--accent);text-decoration:none}
+
+/* ── Hero ── */
+.hero{padding:3.5rem 0 2.5rem;text-align:center}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.75rem}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:580px;margin:0 auto}
+
+/* ── Sections ── */
+section{padding:3rem 0 2rem;border-bottom:1px solid var(--border)}
+section:last-of-type{border-bottom:none}
+.section-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--accent-bg);padding:.25rem .7rem;border-radius:20px;margin-bottom:.75rem}
+h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem}
+h3{font-size:1.2rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--text)}
+h4{font-size:1.05rem;font-weight:600;margin:1.2rem 0 .4rem}
+p{margin-bottom:.85rem}
+.cn{color:var(--text2);font-size:.93rem;margin-bottom:.85rem}
+.quote{border-left:3px solid var(--accent);padding:.75rem 1rem;margin:1rem 0;background:var(--accent-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-style:italic}
+
+/* ── Accordion ── */
+.accordion{margin:1rem 0}
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:.5rem;overflow:hidden}
+.acc-header{padding:.75rem 1rem;cursor:pointer;font-weight:600;font-size:.95rem;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:background .2s}
+.acc-header:hover{background:var(--surface2)}
+.acc-header::after{content:"▸";font-size:1.1rem;transition:transform .25s;color:var(--text3)}
+.acc-item.open .acc-header::after{transform:rotate(90deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc-body-inner{padding:.5rem 1rem 1rem;font-size:.93rem;line-height:1.7}
+
+/* ── Tabs for debates ── */
+.tabs{margin:1.25rem 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.tab-nav{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab-btn{flex:1;padding:.65rem .75rem;font-size:.85rem;font-weight:600;border:none;background:none;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{background:var(--surface2)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-bg)}
+.tab-panel{display:none;padding:1rem 1.25rem;font-size:.93rem;line-height:1.7}
+.tab-panel.active{display:block}
+.tab-panel.side-a-tab{border-left:3px solid var(--green)}
+.tab-panel.side-b-tab{border-left:3px solid var(--red)}
+.tab-panel.verdict-tab{border-left:3px solid var(--accent);background:var(--accent-bg)}
+
+/* ── Quiz ── */
+.quiz{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.quiz-title{font-weight:700;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.quiz-item{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.quiz-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-tag{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.15rem .5rem;border-radius:4px;margin-bottom:.3rem}
+.q-mechanism{background:#dbeafe;color:#1d4ed8}
+.q-data{background:#fef3c7;color:#92400e}
+.q-transfer{background:#d1fae5;color:#065f46}
+.q-flaw{background:#ffe4e6;color:#9f1239}
+.q-scenario{background:#e0e7ff;color:#3730a3}
+.q-explain{background:#f0fdf4;color:#166534}
+.q-calculate{background:#fef9c3;color:#854d0e}
+.q-debate{background:#fce7f3;color:#9d174d}
+.q-clinical{background:#ecfeff;color:#155e75}
+.q-hydration{background:#dbeafe;color:#1e40af}
+.q-plan{background:#f3e8ff;color:#6b21a8}
+.q-career{background:#fff7ed;color:#9a3412}
+.q-pyramid{background:#fefce8;color:#854d0e}
+.q-application{background:#f0fdf4;color:#166534}
+.q-reveal{display:none;margin-top:.5rem;padding:.75rem 1rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.93rem;line-height:1.6}
+.q-reveal.show{display:block}
+.reveal-btn{font-size:.82rem;color:var(--accent);cursor:pointer;border:none;background:none;font-weight:600;padding:.2rem 0}
+.reveal-btn:hover{text-decoration:underline}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.25rem 0}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center}
+.stat-num{font-size:2rem;font-weight:800;color:var(--accent)}
+.stat-label{font-size:.85rem;color:var(--text2);margin-top:.25rem}
+
+/* ── Pathway ── */
+.pathway{display:flex;flex-direction:column;gap:0;margin:1.25rem 0}
+.pathway-step{display:flex;gap:1rem;position:relative}
+.pathway-line{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.pathway-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--accent-bg);flex-shrink:0;z-index:1}
+.pathway-bar{width:2px;flex:1;background:var(--border)}
+.pathway-step:last-child .pathway-bar{display:none}
+.pathway-content{padding-bottom:1.5rem}
+.pathway-content strong{display:block;margin-bottom:.15rem}
+
+/* ── Badges ── */
+.evidence-badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.78rem;font-weight:700}
+.ev-strong{background:#dcfce7;color:#166534}
+.ev-moderate{background:#fef3c7;color:#92400e}
+.ev-mixed{background:#e0e7ff;color:#3730a3}
+.ev-weak{background:#fee2e2;color:#991b1b}
+.grade-pill{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-weight:700;font-size:.82rem}
+.grade-a{background:#dcfce7;color:#166534}
+.grade-ab{background:#d1fae5;color:#065f46}
+.grade-b{background:#fef3c7;color:#92400e}
+.grade-d{background:#fee2e2;color:#991b1b}
+.grade-f{background:#991b1b;color:#fff}
+
+/* ── Two col ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+
+/* ── References ── */
+.ref-list{counter-reset:ref}
+.ref-list li{counter-increment:ref;font-size:.88rem;color:var(--text2);margin-bottom:.5rem;padding-left:2rem;position:relative;list-style:none}
+.ref-list li::before{content:"["counter(ref)"]";position:absolute;left:0;font-weight:600;color:var(--accent)}
+
+/* ── Flashcard panel ── */
+.flashcard-panel{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.flashcard-panel.open{display:flex}
+.flashcard-box{background:var(--surface);border-radius:var(--radius);max-width:520px;width:90%;max-height:85vh;overflow:auto;padding:2rem;position:relative}
+.flashcard-close{position:absolute;top:.75rem;right:.75rem;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.flashcard-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.fc-counter{text-align:center;font-size:.85rem;color:var(--text3);margin-bottom:1rem}
+.fc-card{min-height:180px;perspective:800px;cursor:pointer;margin-bottom:1.5rem}
+.fc-inner{position:relative;width:100%;min-height:180px;transition:transform .5s;transform-style:preserve-3d}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius-sm);padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.fc-front{background:linear-gradient(135deg,var(--accent-bg),#e0e7ff);border:2px solid var(--accent)}
+.fc-front .fc-term{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}
+.fc-front .fc-hint{font-size:.85rem;color:var(--text3);margin-top:auto}
+.fc-back{background:linear-gradient(135deg,#dcfce7,#d1fae5);border:2px solid var(--green);transform:rotateY(180deg)}
+.fc-back .fc-def{font-size:1.05rem;line-height:1.6}
+.fc-nav{display:flex;gap:.75rem;justify-content:center}
+.fc-nav button{padding:.5rem 1.2rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;cursor:pointer;transition:all .2s}
+.fc-nav button:hover{background:var(--accent-bg);border-color:var(--accent)}
+.fc-nav button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fc-nav button.primary:hover{background:var(--accent2)}
+.fc-chapter-select{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem}
+.fc-chip{padding:.3rem .7rem;border-radius:20px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .2s}
+.fc-chip:hover,.fc-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── Quiz mode overlay ── */
+.quiz-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.quiz-overlay.open{display:flex}
+.qo-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1}
+.qo-header h3{font-size:1rem;margin:0}
+.qo-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.qo-body{flex:1;padding:2rem 1.25rem;max-width:700px;margin:0 auto;width:100%}
+.qo-progress{height:6px;background:var(--surface3);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+.qo-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.qo-q-num{font-size:.85rem;color:var(--text3);margin-bottom:.3rem}
+.qo-question{font-size:1.15rem;font-weight:700;margin-bottom:1.25rem;line-height:1.5}
+.qo-options{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.qo-opt{padding:.85rem 1rem;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:.95rem;transition:all .2s;text-align:left;background:var(--surface)}
+.qo-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.qo-opt.selected{border-color:var(--accent);background:var(--accent-bg)}
+.qo-opt.correct{border-color:var(--green);background:#dcfce7}
+.qo-opt.wrong{border-color:var(--red);background:#fef2f2}
+.qo-opt.disabled{pointer-events:none;opacity:.7}
+.qo-explain{display:none;padding:1rem;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:1.25rem;font-size:.93rem;line-height:1.6}
+.qo-explain.show{display:block}
+.qo-footer{display:flex;justify-content:space-between;align-items:center;padding-top:.5rem}
+.qo-btn{padding:.6rem 1.5rem;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.9rem;transition:all .2s}
+.qo-btn.next{background:var(--accent);color:#fff}
+.qo-btn.next:hover{background:var(--accent2)}
+.qo-btn:disabled{opacity:.4;cursor:not-allowed}
+.qo-score-card{text-align:center;padding:3rem 1rem}
+.qo-score-num{font-size:4rem;font-weight:800;color:var(--accent)}
+.qo-score-label{font-size:1.1rem;color:var(--text2);margin-bottom:1.5rem}
+.qo-score-bar{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.qo-score-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border)}
+.qo-score-dot.hit{background:var(--green);border-color:var(--green)}
+.qo-score-dot.miss{background:var(--red);border-color:var(--red)}
+
+/* ── Progress tracker ── */
+.progress-bar-wrap{margin:1rem 0}
+.progress-item{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem}
+.progress-item label{font-size:.88rem;font-weight:500;min-width:120px}
+.prog-track{flex:1;height:8px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s}
+.prog-pct{font-size:.82rem;color:var(--text3);min-width:36px;text-align:right}
+
+/* ── Debate legacy (still used inline) ── */
+.debate{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin:1.25rem 0}
+.debate-title{font-weight:700;font-size:1.05rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.side{padding:.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:.75rem}
+.side-a{background:#dcfce7;border-left:3px solid var(--green)}
+.side-b{background:#fef2f2;border-left:3px solid var(--red)}
+.side-label{font-weight:700;font-size:.85rem;text-transform:uppercase;margin-bottom:.25rem}
+.side-a .side-label{color:var(--green)}
+.side-b .side-label{color:var(--red)}
+.verdict{background:var(--accent-bg);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:.85rem 1rem;margin-top:.5rem}
+.verdict-label{font-weight:700;color:var(--accent);font-size:.85rem;margin-bottom:.25rem}
+
+/* ── Footer ── */
+footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;border-top:1px solid var(--border);margin-top:2rem}
+
+/* ── Back to top ── */
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:1.2rem;display:none;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,99,235,.3);z-index:99;transition:opacity .3s}
+.back-top.show{display:flex}
+
+/* ── Adaptive Quiz overlay ── */
+.aq-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.aq-overlay.open{display:flex}
+.aq-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1}
+.aq-header h3{font-size:1rem;margin:0}
+.aq-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.aq-body{flex:1;padding:1.5rem 1.25rem;max-width:720px;margin:0 auto;width:100%}
+.aq-progress{height:6px;background:var(--surface3);border-radius:3px;margin-bottom:1rem;overflow:hidden}
+.aq-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.aq-q-num{font-size:.82rem;color:var(--text3);margin-bottom:.2rem}
+.aq-diff-badge{display:inline-block;font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;margin-left:.5rem}
+.aq-diff-1{background:#dcfce7;color:#166534}
+.aq-diff-2{background:#dbeafe;color:#1d4ed8}
+.aq-diff-3{background:#fef3c7;color:#92400e}
+.aq-diff-4{background:#fee2e2;color:#991b1b}
+.aq-question{font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;line-height:1.5}
+.aq-streak{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.aq-streak-bar{display:flex;gap:3px}
+.aq-streak-dot{width:10px;height:10px;border-radius:50%;background:var(--surface3);transition:background .2s}
+.aq-streak-dot.hit{background:var(--green)}
+.aq-streak-dot.miss{background:var(--red)}
+.aq-streak-label{font-size:.82rem;color:var(--text3)}
+.aq-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.25rem}
+.aq-opt{padding:.8rem 1rem;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:.93rem;transition:all .15s;text-align:left;background:var(--surface);line-height:1.5}
+.aq-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.aq-opt.correct{border-color:var(--green);background:#dcfce7}
+.aq-opt.wrong{border-color:var(--red);background:#fef2f2}
+.aq-opt.disabled{pointer-events:none;opacity:.7}
+.aq-explain{display:none;padding:.85rem 1rem;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:1rem;font-size:.9rem;line-height:1.6}
+.aq-explain.show{display:block}
+.aq-footer{display:flex;justify-content:space-between;align-items:center}
+.aq-btn{padding:.55rem 1.3rem;border-radius:var(--radius-sm);border:none;font-weight:600;cursor:pointer;font-size:.88rem;transition:all .2s}
+.aq-btn.primary{background:var(--accent);color:#fff}
+.aq-btn.primary:hover{background:var(--accent2)}
+.aq-btn:disabled{opacity:.35;cursor:not-allowed}
+.aq-btn.secondary{background:var(--surface2);color:var(--text)}
+.aq-btn.secondary:hover{background:var(--surface3)}
+
+/* ── Diagnostic overlay ── */
+.diag-overlay{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;overflow:auto}
+.diag-overlay.open{display:flex}
+
+/* ── Mastery dashboard ── */
+.mastery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.mastery-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;position:relative;overflow:hidden}
+.mastery-card-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:.75rem}
+.mastery-ch{font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--accent);letter-spacing:.05em}
+.mastery-level{font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:12px}
+.mastery-level.beginner{background:#fee2e2;color:#991b1b}
+.mastery-level.learning{background:#fef3c7;color:#92400e}
+.mastery-level.proficient{background:#dbeafe;color:#1d4ed8}
+.mastery-level.mastery{background:#dcfce7;color:#166534}
+.mastery-title{font-weight:700;font-size:.95rem;margin-bottom:.5rem;line-height:1.3}
+.mastery-bar{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;margin-bottom:.5rem}
+.mastery-fill{height:100%;border-radius:4px;transition:width .5s}
+.mastery-fill.beginner{background:var(--red)}
+.mastery-fill.learning{background:var(--amber)}
+.mastery-fill.proficient{background:var(--accent)}
+.mastery-fill.mastery{background:var(--green)}
+.mastery-stats{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text3)}
+.mastery-action{margin-top:.75rem;text-align:center}
+.mastery-action button{font-size:.82rem;padding:.4rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);cursor:pointer;font-weight:600;transition:all .2s}
+.mastery-action button:hover{background:var(--accent);color:#fff}
+
+/* ── Recommendation box ── */
+.rec-box{background:linear-gradient(135deg,var(--accent-bg),#e0e7ff);border:1px solid var(--accent);border-radius:var(--radius);padding:1.25rem;margin:1.5rem 0}
+.rec-title{font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.rec-items{display:flex;flex-direction:column;gap:.5rem}
+.rec-item{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:var(--surface);border-radius:var(--radius-sm);font-size:.9rem}
+.rec-item .rec-chip{font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;background:var(--accent);color:#fff;white-space:nowrap}
+.rec-item .rec-action{margin-left:auto;font-size:.8rem;color:var(--accent);cursor:pointer;font-weight:600;white-space:nowrap}
+.rec-item .rec-action:hover{text-decoration:underline}
+
+/* ── Diagnostic results ── */
+.diag-result{text-align:center;padding:2rem 1rem}
+.diag-score-big{font-size:3.5rem;font-weight:800;color:var(--accent)}
+.diag-label{font-size:1rem;color:var(--text2);margin-bottom:1.5rem}
+.diag-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;text-align:left;margin:1.5rem 0}
+@media(max-width:500px){.diag-topic-grid{grid-template-columns:1fr}}
+.diag-topic{padding:.75rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm)}
+.diag-topic-name{font-weight:700;font-size:.88rem;margin-bottom:.25rem}
+.diag-topic-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.diag-topic-fill{height:100%;border-radius:3px}
+.diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
+
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
+/* ── Resources ── */
+.resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
+.resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.25rem}
+.video-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .2s,transform .2s;text-decoration:none;color:var(--text)}
+.video-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);text-decoration:none}
+.video-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface2);display:block}
+.video-info{padding:.6rem .75rem}
+.video-info .vid-title{font-size:.88rem;font-weight:600;line-height:1.4;margin-bottom:.2rem}
+.video-info .vid-source{font-size:.75rem;color:var(--text3)}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
+.photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
+.photo-card:hover img{transform:scale(1.03)}
+.resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
+
+/* ── Sidebar ── */
+.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:var(--surface);border-right:1px solid var(--border);z-index:150;overflow-y:auto;padding:1rem 0;transition:transform .3s}
+.sidebar-logo{padding:0 1rem .75rem;font-size:1rem;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.sidebar-logo span{color:var(--accent)}
+.sidebar-group{margin-bottom:.5rem}
+.sidebar-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:.5rem 1rem .25rem}
+.sidebar-link{display:block;padding:.4rem 1rem .4rem 1.5rem;font-size:.85rem;color:var(--text2);text-decoration:none;transition:all .15s;border-left:3px solid transparent}
+.sidebar-link:hover,.sidebar-link.active{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent);text-decoration:none}
+.sidebar-link.sub{padding-left:2rem;font-size:.8rem}
+.sidebar-toggle{display:none;position:fixed;top:.75rem;left:.75rem;z-index:160;width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.2rem;cursor:pointer;align-items:center;justify-content:center}
+.page-wrapper{margin-left:240px;transition:margin-left .3s}
+
+/* ── Resources Hub ── */
+.res-hub-chapter{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.res-hub-chapter:last-child{border-bottom:none}
+.res-hub-chapter h4{margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+
+/* ── Q&A Chat ── */
+.chat-panel{max-width:680px;margin:0 auto}
+.chat-window{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:480px}
+.chat-header{padding:.75rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+.chat-header .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.chat-msg{max-width:85%;padding:.65rem .9rem;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.55;animation:msgIn .3s ease}
+.chat-msg.bot{background:var(--accent-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
+.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-msg .msg-label{font-size:.7rem;font-weight:600;color:var(--text3);margin-bottom:.2rem;display:block}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1rem;border-top:1px solid var(--border);background:var(--surface2)}
+.chat-sug-btn{padding:.35rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.chat-sug-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chat-input-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--border);background:var(--surface)}
+.chat-input{flex:1;padding:.55rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--accent)}
+.chat-input::placeholder{color:var(--text3)}
+.chat-send{padding:.55rem 1rem;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s}
+.chat-send:hover{background:var(--accent2)}
+.chat-disclaimer{font-size:.75rem;color:var(--text3);text-align:center;padding:.5rem;font-style:italic}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Floating AI button & full-screen modal ── */
+.ai-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
+.ai-fab:hover{transform:scale(1.08);box-shadow:0 8px 26px rgba(0,0,0,.3)}
+.ai-fab .fab-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--green);border:2px solid #fff}
+.ai-modal{position:fixed;inset:0;z-index:320;background:var(--bg);display:none;flex-direction:column;opacity:0;transition:opacity .25s}
+.ai-modal.open{display:flex;opacity:1}
+.ai-modal-header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--border)}
+.ai-modal-header .ai-title{font-size:1.05rem;font-weight:700}
+.ai-modal-header .ai-sub{font-size:.78rem;color:var(--text3)}
+.ai-close{margin-left:auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ai-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ai-modal-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
+.ai-modal-body .chat-msg{max-width:75%}
+.ai-modal-footer{padding:1rem 1.5rem;background:var(--surface);border-top:1px solid var(--border)}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 1.5rem .75rem;background:var(--surface)}
+.ai-input-row{display:flex;gap:.5rem}
+.ai-input{flex:1;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.ai-input:focus{border-color:var(--accent)}
+.ai-input::placeholder{color:var(--text3)}
+.ai-send-btn{padding:.7rem 1.3rem;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;transition:background .2s}
+.ai-send-btn:hover{background:var(--accent2)}
+
+@media(max-width:600px){
+  .hero{padding:2rem 0 1.5rem}
+  section{padding:2rem 0 1.5rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .video-grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:1fr 1fr}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-toggle{display:flex}
+  .page-wrapper{margin-left:0}
+  .chat-window{height:400px}
+}
+
+/* ══════════════════════════════════════════
+   DESIGN POLISH (2026 refresh) — editorial, typography-led
+   ══════════════════════════════════════════ */
+html{scroll-behavior:smooth}
+body{letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+
+/* Typography scale */
+h1,h2,h3{letter-spacing:-.015em;line-height:1.15;font-weight:800;text-wrap:balance}
+h2{font-size:clamp(1.7rem,3.4vw,2.4rem)}
+h3{letter-spacing:-.01em}
+p{text-wrap:pretty}
+
+/* Header */
+header{background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(14px) saturate(160%);box-shadow:var(--shadow-sm)}
+.logo{font-size:1.12rem;font-weight:800;letter-spacing:-.01em}
+.btn-icon{box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,background .18s,border-color .18s}
+.btn-icon:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+
+/* Sections + labels */
+section{padding:4rem 0 3rem}
+.section-label{background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);font-weight:700}
+
+/* Cards — premium resting state */
+.stat-card,.mastery-card,.diag-topic,.video-card,.debate,.quiz,.acc-item,.rec-box,.chat-window{
+  border-radius:var(--radius);border-color:var(--border);box-shadow:var(--shadow-sm);transition:box-shadow .22s,transform .22s,border-color .22s}
+.stat-card:hover,.mastery-card:hover,.video-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+
+/* Buttons */
+.qo-btn,.aq-btn,.ai-send-btn,.chat-send,.fc-nav button{box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,background .18s}
+.qo-btn:hover,.aq-btn:hover,.ai-send-btn:hover,.chat-send:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.qo-btn.next,.aq-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+/* Quizzes & accordions */
+.quiz{border:2px solid var(--border)}
+.acc-header{border-left:2px solid transparent;transition:background .2s,border-color .2s}
+.acc-item.open>.acc-header{border-left:2px solid var(--accent)}
+
+/* Q&A / flashcard option pills */
+.qo-opt,.aq-opt{transition:border-color .15s,background .15s,transform .12s}
+.qo-opt:not(.disabled):hover,.aq-opt:not(.disabled):hover{transform:translateX(3px)}
+
+/* Resources video thumbnails */
+.video-thumb{border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+
+/* ------------------------------------------------
+   SIDEBAR — refined
+   ------------------------------------------------ */
+.sidebar-logo{font-weight:800;letter-spacing:-.01em}
+.sidebar-label{letter-spacing:.09em}
+.sidebar-link{border-left:3px solid transparent;transition:all .15s}
+.sidebar-link:hover{transform:translateX(2px)}
+
+/* ------------------------------------------------
+   INDEX — Hero (only used on index.html)
+   ------------------------------------------------ */
+.hero{
+  background:
+    radial-gradient(1200px 500px at 50% -10%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 60%),
+    linear-gradient(180deg,color-mix(in srgb,var(--accent-bg) 70%,var(--bg)),var(--bg));
+  border-bottom:1px solid var(--border);
+  padding:4.5rem 0 3.5rem;text-align:center}
+.hero h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800;letter-spacing:-.025em;max-width:760px;margin:0 auto 1rem}
+.hero-badge{font-weight:700;box-shadow:var(--shadow-sm)}
+.hero-actions{margin-top:2rem}
+
+/* INDEX — TOC cards (only on index.html) */
+.toc-intro h2{font-size:clamp(2rem,4.5vw,3rem)}
+.toc-intro .toc-sub{font-size:1.05rem}
+.ch-card{border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .2s,box-shadow .2s,border-color .2s}
+.ch-card:hover{box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+.ch-num{box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 35%,transparent)}
+
+/* AI floating button */
+.ai-fab{box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 45%,transparent)}
+
+/* Back to top */
+.back-top{box-shadow:var(--shadow-lg)}
+
+/* Focus visibility */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── Image Lightbox (click to view + download) ── */
+.lb-overlay{position:fixed;inset:0;z-index:400;background:rgba(10,10,14,.92);display:none;align-items:center;justify-content:center;flex-direction:column;padding:2rem;backdrop-filter:blur(4px)}
+.lb-overlay.open{display:flex}
+.lb-stage{position:relative;max-width:94vw;max-height:84vh;display:flex;align-items:center;justify-content:center}
+.lb-img{max-width:94vw;max-height:82vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-bar{position:absolute;top:-2.6rem;right:0;display:flex;gap:.5rem}
+.lb-btn{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.lb-btn:hover{background:rgba(255,255,255,.28)}
+.lb-btn.dl{width:auto;padding:0 .9rem;gap:.35rem;font-size:.85rem;font-weight:600}
+.lb-caption{color:#cfd3e0;margin-top:1rem;font-size:.9rem;text-align:center;max-width:80vw}
+.inline-img{cursor:zoom-in}
+@media(max-width:600px){.lb-bar{top:-2.3rem}}
+
+
+/* ── Type system: Avenir Next body + Cormorant Garamond (Claude-style slab-serif) headings ── */
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing:-.02em}
+.logo{font-family:var(--font-heading);font-weight:600;letter-spacing:-.01em}
+.quiz-title,.qo-question,.aq-question,.acc-header,.fc-front .fc-term,.fc-back .fc-def,.stat-num,.mastery-title,.rec-title,.vid-title,.ai-title,.res-hub-chapter{font-family:var(--font-heading);font-weight:500}
+/* ══════════════════════════════════════════
+   BUILD — Readability & engagement polish (Aug 2026)
+   ══════════════════════════════════════════ */
+
+/* Reading progress bar (top of page) */
+#readingBar{position:fixed;top:0;left:0;height:4px;width:0;z-index:500;background:linear-gradient(90deg,var(--accent),#7c3aed,#e879f9);transition:width .1s linear;pointer-events:none}
+
+/* Comfortable reading measure + rhythm inside chapter bodies */
+.acc-body-inner{line-height:1.85}
+.acc-body-inner p{max-width:68ch}
+.inline-img{width:100%;border-radius:var(--radius);border:1px solid var(--border2);box-shadow:var(--shadow);margin:.9rem 0 .2rem}
+img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;margin:0 0 .2rem .5rem;vertical-align:top}
+
+/* Tables — modern card look + hover + mobile horizontal scroll */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);margin:.4rem 0 .4rem}
+.table-wrap table{margin:0;border:none}
+.table-wrap th,.table-wrap td{padding:.7rem .95rem;vertical-align:top}
+.table-wrap th{background:var(--surface2);font-weight:700;position:sticky;top:0}
+.table-wrap tr:hover td{background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+@media(max-width:600px){.table-wrap th,.table-wrap td{padding:.55rem .7rem;font-size:.86rem}}
+
+/* Debate boxes — colour-coded sides */
+.tab-panel{padding:1.1rem 1.3rem}
+.tab-panel.active{animation:fadeUp .25s ease}
+.tab-panel.side-a-tab{background:color-mix(in srgb,var(--green) 7%,var(--surface));border-left:4px solid var(--green)}
+.tab-panel.side-b-tab{background:color-mix(in srgb,var(--red) 6%,var(--surface));border-left:4px solid var(--red)}
+.tab-panel.verdict-tab{background:color-mix(in srgb,var(--amber) 8%,var(--surface));border-top:2px dashed color-mix(in srgb,var(--amber) 45%,transparent)}
+.tab-nav .tab-btn:nth-child(1).active{color:var(--green);border-bottom-color:var(--green);background:color-mix(in srgb,var(--green) 10%,transparent)}
+.tab-nav .tab-btn:nth-child(2).active{color:var(--red);border-bottom-color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)}
+.tab-nav .tab-btn:nth-child(3).active{color:var(--amber);border-bottom-color:var(--amber);background:color-mix(in srgb,var(--amber) 10%,transparent)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Key-takeaway callout */
+.callout{margin:1.5rem 0;border-radius:var(--radius);border:1px solid var(--border2);background:linear-gradient(180deg,color-mix(in srgb,var(--accent-bg) 65%,var(--surface)),var(--surface));border-left:5px solid var(--accent);padding:1.15rem 1.3rem;box-shadow:var(--shadow-sm)}
+.callout h4{font-family:var(--font);font-size:1rem;font-weight:800;margin-bottom:.55rem;display:flex;align-items:center;gap:.5rem;letter-spacing:0}
+.callout h4 .co-ico{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex:none}
+.callout ul{margin:0;padding-left:1.15rem}
+.callout li{margin:.28rem 0;font-size:.93rem;line-height:1.7}
+.callout .callout-note{margin-top:.65rem;padding-top:.6rem;border-top:1px dashed var(--border2);font-size:.85rem;color:var(--text2);font-style:italic}
+
+/* Email capture (launch notifications) */
+.capture{border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);padding:1.4rem 1.5rem;box-shadow:var(--shadow);text-align:center}
+.capture h3{margin-bottom:.4rem;font-size:1.25rem}
+.capture p{font-size:.9rem;color:var(--text2);max-width:52ch;margin:0 auto .9rem}
+.capture-form{display:flex;gap:.5rem;max-width:460px;margin:0 auto}
+.capture-input{flex:1;min-width:0;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s}
+.capture-input:focus{border-color:var(--accent)}
+.capture-btn{flex:none;padding:.7rem 1.3rem;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer;font-size:.95rem;transition:transform .18s,box-shadow .18s}
+.capture-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.capture-msg{margin-top:.7rem;font-size:.86rem;color:var(--green);min-height:1.2em}
+.capture-note{margin-top:.55rem;font-size:.75rem;color:var(--text3)}
+@media(max-width:520px){.capture-form{flex-direction:column}}
+
+/* Trust strip + author card + feature grid (homepage) */
+.trust-strip{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.6rem 0 0}
+.trust-chip{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:.4rem .9rem;box-shadow:var(--shadow-sm)}
+.author-card{display:flex;gap:1.1rem;align-items:flex-start;max-width:720px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.4rem;box-shadow:var(--shadow-sm)}
+.author-ava{flex:none;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem;margin-top:1.2rem}
+.feature-card{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.15rem 1.2rem;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
+.feature-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.feature-card .co-ico{width:34px;height:34px;border-radius:10px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:.55rem}
+.feature-card h4{font-family:var(--font);font-weight:800;font-size:1rem;margin-bottom:.3rem}
+.feature-card p{font-size:.86rem;color:var(--text2);line-height:1.6}
+
+/* Exam prep & certificate (exam.html) */
+.std-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin-top:1.2rem}
+.study-step{display:flex;align-items:center;gap:.8rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:.85rem 1rem;box-shadow:var(--shadow-sm)}
+.step-num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-weight:800;display:flex;align-items:center;justify-content:center}
+.study-step.done .step-num{background:var(--green);color:#fff}
+.step-info{flex:1;min-width:0}
+.step-info h4{font-family:var(--font);font-size:.95rem;font-weight:700;margin:0}
+.step-info span{font-size:.78rem;color:var(--text3)}
+.step-status{flex:none;font-size:.76rem;font-weight:700;padding:.28rem .6rem;border-radius:20px}
+.step-status.rs{background:var(--accent-bg);color:var(--accent)}
+.step-status.done{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
+.exam-panel{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);padding:1.4rem}
+.exam-meta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.ekey{display:inline-flex;flex-direction:column;align-items:center;padding:.7rem 1.1rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);min-width:86px}
+.ekey b{font-size:1.3rem;color:var(--accent)}
+.ekey span{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.exam-q{padding:1rem 0;border-bottom:1px solid var(--border)}
+.exam-q:last-of-type{border-bottom:none}
+.exam-opt{display:block;width:100%;text-align:left;margin:.4rem 0;padding:.7rem .95rem;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.93rem;cursor:pointer;transition:all .15s}
+.exam-opt:hover{border-color:var(--accent);background:var(--accent-bg)}
+.exam-opt.correct{background:color-mix(in srgb,var(--green) 15%,var(--surface));border-color:var(--green)}
+.exam-opt.wrong{background:color-mix(in srgb,var(--red) 12%,var(--surface));border-color:var(--red)}
+.exam-opt:disabled{cursor:not-allowed;opacity:.85}
+.exam-opt.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface));font-weight:600}
+.exam-explain{margin:.6rem 0 .4rem;padding:.75rem .9rem;border-radius:var(--radius-sm);background:color-mix(in srgb,var(--accent) 6%,var(--surface));border:1px dashed var(--border2);font-size:.86rem;line-height:1.65}
+.exam-verdict{margin-top:1rem;padding:.9rem 1.1rem;border-radius:var(--radius);font-weight:700;text-align:center}
+.exam-verdict.good{background:color-mix(in srgb,var(--green) 15%,var(--surface));border:1px solid var(--green);color:var(--green)}
+.exam-verdict.mid{background:color-mix(in srgb,var(--amber) 15%,var(--surface));border:1px solid var(--amber);color:var(--amber)}
+.exam-verdict.low{background:color-mix(in srgb,var(--red) 12%,var(--surface));border:1px solid var(--red);color:var(--red)}
+.cert-gate{border-radius:var(--radius);border:1px dashed var(--border2);background:color-mix(in srgb,var(--accent-bg) 40%,var(--surface));padding:1rem 1.2rem;margin-bottom:1rem}
+.cert-check{display:flex;gap:.6rem;align-items:center;padding:.3rem 0;font-size:.9rem}
+.cert-check .ok{color:var(--green);font-weight:700}
+.cert-check .no{color:var(--text3)}
+.cert-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.8rem}
+.cert-flash{font-size:.85rem;color:var(--green);font-weight:600;min-height:1.2em}
+
+/* Certificate canvas holder */
+.cert-view{display:none;position:fixed;inset:0;z-index:400;background:rgba(10,10,14,.9);align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px)}
+.cert-view.open{display:flex}
+.cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
+.onthis .sidebar-link{font-size:.8rem}
+</style>
+
+</head>
+<body>
+<!-- Sidebar Toggle (mobile) -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
+    <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
+    <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
+    <a class="sidebar-link active" href="exam.html" data-en="🎓 Exam Prep &amp; Certificate" data-zh="🎓 考试冲刺与证书">🎓 Exam Prep &amp; Certificate</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
+    <a class="sidebar-link sub" href="ch1.html" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
+    <a class="sidebar-link sub" href="ch2.html" data-en="Ch 2 · Training Principles" data-zh="第二章 · 训练原则">Ch 2 · Training Principles</a>
+    <a class="sidebar-link sub" href="ch3.html" data-en="Ch 3 · Soft Tissue &amp; Injury" data-zh="第三章 · 软组织与损伤">Ch 3 · Soft Tissue &amp; Injury</a>
+    <a class="sidebar-link sub" href="ch4.html" data-en="Ch 4 · Inflammation &amp; Recovery" data-zh="第四章 · 炎症与恢复">Ch 4 · Inflammation &amp; Recovery</a>
+    <a class="sidebar-link sub" href="ch5.html" data-en="Ch 5 · Nutrition" data-zh="第五章 · 营养">Ch 5 · Nutrition</a>
+    <a class="sidebar-link sub" href="ch6.html" data-en="Ch 6 · Supplements" data-zh="第六章 · 补剂">Ch 6 · Supplements</a>
+    <a class="sidebar-link sub" href="ch7.html" data-en="Ch 7 · Rehab &amp; Career" data-zh="第七章 · 康复与职业">Ch 7 · Rehab &amp; Career</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
+    <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
+    <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
+    <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<header>
+<div class="container header-inner">
+  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
+  <div class="header-actions">
+    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+  </div>
+</div>
+</header>
+
+<!-- Hero -->
+<section id="hero" class="hero">
+<div class="container">
+  <div class="hero-badge"><span class="dot"></span><span data-en="Certification Exam Prep · NPTE" data-zh="执业资格考试冲刺 · NPTE">Certification Exam Prep · NPTE</span></div>
+  <h1 data-en="NPTE-Ready Exam Room" data-zh="NPTE 考试冲刺室"><span>NPTE-Ready Exam Room</span></h1>
+  <p data-en="A rigorous, evidence-based path to the NPTE-PT — exam structure, the 2024 content blueprint, a timed practice simulator, and a Certificate of Completion. Built for students and respected by clinicians." data-zh="通往NPTE-PT的严谨循证之路 — 考试结构、2024内容蓝图、限时模拟考试与学业完成证书。面向学生，亦经得起临床专业人士审视。">A rigorous, evidence-based path to the NPTE-PT — exam structure, the 2024 content blueprint, a timed practice simulator, and a Certificate of Completion. Built for students and respected by clinicians.</p>
+  <div class="hero-actions">
+    <button class="qo-btn next" onclick="document.getElementById('practex').scrollIntoView({behavior:'smooth'})" data-en="🎯 Take a Practice Exam" data-zh="🎯 开始模拟考试">🎯 Take a Practice Exam</button>
+    <button class="qo-btn next" onclick="document.getElementById('cert').scrollIntoView({behavior:'smooth'})" style="background:var(--green)" data-en="🏆 Certificate &amp; Progress" data-zh="🏆 证书与进度">🏆 Certificate &amp; Progress</button>
+  </div>
+  <div class="trust-strip">
+    <span class="trust-chip">✓ Sources cited</span>
+    <span class="trust-chip">✓ 2024 FSBPT blueprint</span>
+    <span class="trust-chip">✓ Bilingual EN/中文</span>
+  </div>
+</div>
+</section>
+
+<!-- NPTE at a Glance -->
+<section id="overview">
+<div class="container">
+  <span class="section-label" data-en="Exam Overview · 考试概览" data-zh="考试概览 · Exam Overview">Exam Overview · 考试概览</span>
+  <h2 data-en="The NPTE-PT at a Glance" data-zh="NPTE-PT 一览">The NPTE-PT at a Glance</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="The National Physical Therapy Examination is the standardized licensure exam for physical therapists in the United States. In plain terms: pass it and you are eligible to be licensed — fail it and you cannot practice. Here is everything you need to know before you book your seat." data-zh="NPTE（国家物理治疗师资格考试）是美国物理治疗师执业所需的标准化考试。通俗地说：通过它你才有资格执业 — 不过它就无法执业。报名前，这些是你需要知道的一切。">The National Physical Therapy Examination is the standardized licensure exam for physical therapists in the United States. In plain terms: pass it and you are eligible to be licensed — fail it and you cannot practice. Here is everything you need to know before you book your seat.</p>
+
+  <div class="exam-panel">
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:34%" data-en="Detail" data-zh="项目">Detail</th><th data-en="Information" data-zh="信息">Information</th></tr>
+      <tr><td data-en="Administering body" data-zh="主管机构">Administering body</td><td data-en="FSBPT — Federation of State Boards of Physical Therapy" data-zh="FSBPT — 美国物理治疗委员会联合会">FSBPT — Federation of State Boards of Physical Therapy</td></tr>
+      <tr><td data-en="Format" data-zh="考试形式">Format</td><td data-en="225 multiple-choice questions · 5 sections × 45 questions" data-zh="225道单选题 · 5节 × 45题">225 multiple-choice questions · 5 sections × 45 questions</td></tr>
+      <tr><td data-en="Scored / pretest" data-zh="计分/预试">Scored / pretest</td><td data-en="180 scored + 45 unscored pretest items (unlabeled)" data-zh="180道计分 + 45道不计分的预试题（未标注）">180 scored + 45 unscored pretest items (unlabeled)</td></tr>
+      <tr><td data-en="Time limit" data-zh="考试时长">Time limit</td><td data-en="5 hours · 60 minutes per section, sections lock when advanced" data-zh="5小时 · 每节60分钟，进入下一节后不能返回">5 hours · 60 minutes per section, sections lock when advanced</td></tr>
+      <tr><td data-en="Scheduled break" data-zh="安排休息">Scheduled break</td><td data-en="One 15-minute break after the second section" data-zh="第二节结束后一次15分钟休息">One 15-minute break after the second section</td></tr>
+      <tr><td data-en="Passing score" data-zh="及格分数">Passing score</td><td data-en="Scaled 600 on a 200–800 scale (criterion-referenced, not a fixed %)" data-zh="200–800尺度上的600分（标准参照，不是固定百分比）">Scaled 600 on a 200–800 scale (criterion-referenced, not a fixed %)</td></tr>
+      <tr><td data-en="Fees" data-zh="费用">Fees</td><td data-en="About $585 total — ~$485 FSBPT registration + ~$100 Prometric scheduling" data-zh="约$585 — FSBPT注册约$485 + Prometric约$100">About $585 total — ~$485 FSBPT registration + ~$100 Prometric scheduling</td></tr>
+      <tr><td data-en="Testing vendor" data-zh="考试中心">Testing vendor</td><td data-en="Prometric test centers only — no remote/online option" data-zh="仅Prometric考试中心 — 不支持远程/在线">Prometric test centers only — no remote/online option</td></tr>
+      <tr><td data-en="First-time pass rate" data-zh="首次通过率">First-time pass rate</td><td data-en="Roughly 85–90% for CAPTE-accredited DPT graduates" data-zh="CAPTE认证DPT项目毕业生约85–90%">Roughly 85–90% for CAPTE-accredited DPT graduates</td></tr>
+      <tr><td data-en="Attempt limits" data-zh="考试次数限制">Attempt limits</td><td data-en="6 lifetime attempts · maximum 3 attempts in any 12 months" data-zh="终生最多6次 · 每12个月最多3次">6 lifetime attempts · maximum 3 attempts in any 12 months</td></tr>
+    </table>
+    </div>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:.5rem" data-en="Data summarized from the FSBPT NPTE Candidate Handbook. Policies can change — verify current requirements at fsbpt.org before registering." data-zh="数据整理自FSBPT考生手册。政策可能变动 — 报名前请到 fsbpt.org 核实最新要求。">Data summarized from the FSBPT NPTE Candidate Handbook. Policies can change — verify current requirements at <a href="https://www.fsbpt.org" target="_blank" rel="noopener">fsbpt.org</a> before registering.</p>
+  </div>
+
+  <div class="callout" style="margin-top:1.5rem">
+    <h4><span class="co-ico">❗</span><span data-en="Three misconceptions that sink test-takers" data-zh="三个让考生吃亏的误区">Three misconceptions that sink test-takers</span></h4>
+    <ul>
+      <li data-en="The NPTE is NOT adaptive — a question gets neither easier nor harder based on your last answer. Hard questions do not mean you are failing." data-zh="NPTE并非自适应 — 题目难度不随你的作答改变。遇到难题不代表你不及格。">The NPTE is <strong>NOT adaptive</strong> — a question gets neither easier nor harder based on your last answer. Hard questions do not mean you are failing.</li>
+      <li data-en="There is NO penalty beyond a lost point for a wrong answer — answer every item, never leave a blank." data-zh="答错只损失该题分数，没有额外倒扣 — 每题都要作答，绝不空题。">There is <strong>NO penalty</strong> beyond a lost point for a wrong answer — answer every item, never leave a blank.</li>
+      <li data-en="The 45 pretest items are interspersed and unlabeled — you cannot skip “the experimental ones.” Treat all 225 with equal care." data-zh="45道预试题混在卷中且未标注 — 你无法跳过”试验题“。225题一律认真对待。">The <strong>45 pretest items</strong> are interspersed and unlabeled — you cannot skip “the experimental ones.” Treat all 225 with equal care.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- Scoring / format -->
+<section id="scoring">
+<div class="container">
+  <span class="section-label" data-en="Format &amp; Scoring · 形式与计分" data-zh="形式与计分 · Format &amp; Scoring">Format &amp; Scoring · 形式与计分</span>
+  <h2 data-en="How the Exam Actually Works" data-zh="考试究竟怎么考">How the Exam Actually Works</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="co-ico">📐</div>
+      <h4 data-en="Linear and fixed-form" data-zh="线性固定试卷">Linear and fixed-form</h4>
+      <p data-en="Every candidate on a given form answers the same 225 questions. Results are comparable across forms because scores are scaled, not raw." data-zh="同一套卷面的每位考生都回答相同的225题。不同试卷通过换算分数保持可比。">Every candidate on a given form answers the same 225 questions. Results are comparable across forms because scores are scaled, not raw.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">🔒</div>
+      <h4 data-en="Sections lock" data-zh="分节锁定">Sections lock</h4>
+      <p data-en="You may review and change answers within a 45-item section, but once you advance you cannot return. Budget 60 minutes per section." data-zh="每节45题内可回头检查和修改，但一旦进入下一节就无法返回。请按每节60分钟规划。">You may review and change answers within a 45-item section, but once you advance you cannot return. Budget 60 minutes per section.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">⚖️</div>
+      <h4 data-en="Not a percentage" data-zh="不看百分比">Not a percentage</h4>
+      <p data-en="The pass line is a scaled 600 set by criterion reference, so a “passing percent” does not exist. Most candidates must answer a solid majority of scored items to reach it." data-zh="及格线是标准参照设定的600分，因此不存在”百分之几算过“。多数考生需答对计分题的大多数。">The pass line is a scaled 600 set by criterion reference, so a “passing percent” does not exist. Most candidates must answer a solid majority of scored items to reach it.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">🧭</div>
+      <h4 data-en="Clinically reasoned" data-zh="考查临床推理">Clinically reasoned</h4>
+      <p data-en="Items test reasoning across the patient/client management model — not isolated recall. Knowing a fact is not the same as applying it." data-zh="题目考查你在临床管理模型中的推理能力，而非孤立记忆。知道一个事实不等于会应用它。">Items test reasoning across the patient/client management model — not isolated recall. Knowing a fact is not the same as applying it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Blueprint -->
+<section id="blueprint">
+<div class="container">
+  <span class="section-label" data-en="Content Blueprint · 考试蓝图" data-zh="考试蓝图 · Content Blueprint">Content Blueprint · 考试蓝图</span>
+  <h2 data-en="The 2024 FSBPT Content Outline" data-zh="FSBPT 2024 内容大纲">The 2024 FSBPT Content Outline</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="Every scored item is classified two ways: by body system and by clinical task (Examination · Foundations · Interventions). Because each live form is assembled to hit item ranges, FSBPT publishes the blueprint as ranges rather than single numbers — study to the range, not to a precise count." data-zh="每道计分题同时按”身体系统“和”临床任务“（检查 · 基础 · 干预）分类。由于每份实际试卷只需落在区间内，FSBPT以区间而非精确数字发布蓝图 — 学习要对准区间，而非某个精确数量。">Every scored item is classified two ways: by body system and by clinical task (Examination · Foundations · Interventions). Because each live form is assembled to hit item ranges, FSBPT publishes the blueprint as ranges rather than single numbers — study to the range, not to a precise count.</p>
+
+  <div class="exam-panel">
+    <h3 style="margin-bottom:.5rem" data-en="System item ranges (out of 180 scored items)" data-zh="系统题量区间（180道计分题）">System item ranges (out of 180 scored items)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th data-en="System" data-zh="系统">System</th><th data-en="Item range" data-zh="题量区间">Item range</th><th data-en="Approx. %" data-zh="约占比">Approx. %</th></tr>
+      <tr><td data-en="Musculoskeletal" data-zh="肌肉骨骼">Musculoskeletal</td><td>44–54</td><td>~25–30%</td></tr>
+      <tr><td data-en="Neuromuscular &amp; Nervous Systems" data-zh="神经肌肉与神经系统">Neuromuscular &amp; Nervous Systems</td><td>39–48</td><td>~22–27%</td></tr>
+      <tr><td data-en="Cardiovascular, Pulmonary &amp; Lymphatic" data-zh="心血管、肺与淋巴">Cardiovascular, Pulmonary &amp; Lymphatic</td><td>22–27 (+4–7)</td><td>~15–19%</td></tr>
+      <tr><td data-en="System Interactions" data-zh="系统交互">System Interactions</td><td>8–10</td><td>~4–6%</td></tr>
+      <tr><td data-en="Integumentary" data-zh="皮肤/表皮">Integumentary</td><td>8–11</td><td>~4–6%</td></tr>
+      <tr><td data-en="Metabolic &amp; Endocrine" data-zh="代谢与内分泌">Metabolic &amp; Endocrine</td><td>4–6</td><td>~2–3%</td></tr>
+      <tr><td data-en="Gastrointestinal" data-zh="消化">Gastrointestinal</td><td>3–6</td><td>~2–3%</td></tr>
+      <tr><td data-en="Genitourinary" data-zh="泌尿生殖">Genitourinary</td><td>2–5</td><td>~1–3%</td></tr>
+    </table>
+    </div>
+    <h3 style="margin:1.2rem 0 .5rem" data-en="Non-system content (embedded inside system scenarios)" data-zh="非系统内容（嵌入在系统场景中）">Non-system content (embedded inside system scenarios)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th data-en="Category" data-zh="类别">Category</th><th data-en="Item range" data-zh="题量区间">Item range</th></tr>
+      <tr><td data-en="Safety &amp; protection" data-zh="安全与防护">Safety &amp; protection</td><td>5–7</td></tr>
+      <tr><td data-en="Equipment, devices &amp; technologies" data-zh="设备与技术">Equipment, devices &amp; technologies</td><td>5–6</td></tr>
+      <tr><td data-en="Therapeutic modalities" data-zh="治疗性理疗">Therapeutic modalities</td><td>4–6</td></tr>
+      <tr><td data-en="Professional responsibilities" data-zh="职业责任">Professional responsibilities</td><td>4–5</td></tr>
+      <tr><td data-en="Research &amp; evidence-based practice" data-zh="研究与循证实践">Research &amp; evidence-based practice</td><td>3–5</td></tr>
+    </table>
+    </div>
+    <h3 style="margin:1.2rem 0 .5rem" data-en="Study-time allocation (a 200-hour plan)" data-zh="学习时间分配（200小时计划）">Study-time allocation (a 200-hour plan)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th data-en="Area" data-zh="领域">Area</th><th data-en="% of study time" data-zh="占比">% of study time</th><th data-en="Hours" data-zh="小时">Hours</th></tr>
+      <tr><td data-en="Musculoskeletal" data-zh="肌肉骨骼">Musculoskeletal</td><td>26%</td><td>52</td></tr>
+      <tr><td data-en="Neuromuscular &amp; Nervous" data-zh="神经肌肉与神经">Neuromuscular &amp; Nervous</td><td>23%</td><td>46</td></tr>
+      <tr><td data-en="Cardiovascular / Pulmonary / Lymphatic" data-zh="心血管/肺/淋巴">Cardiovascular / Pulmonary / Lymphatic</td><td>14%</td><td>28</td></tr>
+      <tr><td data-en="Equipment, devices &amp; modalities" data-zh="设备与理疗">Equipment, devices &amp; modalities</td><td>11%</td><td>22</td></tr>
+      <tr><td data-en="Safety &amp; professional responsibilities" data-zh="安全与职业责任">Safety &amp; professional responsibilities</td><td>9%</td><td>18</td></tr>
+      <tr><td data-en="Integumentary" data-zh="皮肤/表皮">Integumentary</td><td>7%</td><td>14</td></tr>
+      <tr><td data-en="Metabolic / GI / GU / system interactions" data-zh="代谢/消化/泌尿/系统交互">Metabolic / GI / GU / system interactions</td><td>5%</td><td>10</td></tr>
+      <tr><td data-en="Full-length exams &amp; cumulative review" data-zh="整套模拟与总复习">Full-length exams &amp; cumulative review</td><td>5%</td><td>10</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h4><span class="co-ico">📊</span><span data-en="Read the blueprint like an item writer" data-zh="像出题人一样读蓝图">Read the blueprint like an item writer</span></h4>
+    <ul>
+      <li data-en="Musculoskeletal + Neuromuscular together are roughly 83–102 of the 180 scored items — about HALF the exam. Front-load these two systems." data-zh="肌肉骨骼+神经肌肉合计约83–102道计分题，约占一半 — 请优先投入这两大系统。">Musculoskeletal + Neuromuscular together are roughly 83–102 of the 180 scored items — about <strong>HALF the exam</strong>. Front-load these two systems.</li>
+      <li data-en="Non-system points (safety, equipment, modalities, research) hide inside system scenarios — a safety item may appear inside a cardiopulmonary case. Prepare them everywhere." data-zh="非系统的分（安全、设备、理疗、研究）藏在系统场景里 — 安全题可能出现在心肺病例中。处处都要准备。">Non-system points (safety, equipment, modalities, research) hide inside system scenarios — a safety item may appear inside a cardiopulmonary case. Prepare them everywhere.</li>
+      <li data-en="Within every system the items span Examination → Foundations → Interventions. Learning a fact is not enough — practice applying it at the right step of the management model." data-zh="每个系统内题目贯穿 检查 → 基础 → 干预。只记事实不够 — 要在管理模型正确步骤学会应用。">Within every system the items span <strong>Examination → Foundations → Interventions</strong>. Learning a fact is not enough — practice applying it at the right step of the management model.</li>
+    </ul>
+    <div class="callout-note" data-en="Blueprint ranges as summarized in the OpenExamPrep NPTE study guide (2024 FSBPT Content Outline), June 2026." data-zh="蓝图区间引自 OpenExamPrep NPTE 学习指南（2024 FSBPT 内容大纲）2026年6月版。">Blueprint ranges as summarized in the <a href="https://open-exam-prep.com/study-guides/npte/npte-intro/content-domains" target="_blank" rel="noopener">OpenExamPrep</a> NPTE study guide (2024 FSBPT Content Outline), June 2026.</div>
+  </div>
+</div>
+</section>
+
+<!-- Study path -->
+<section id="path">
+<div class="container">
+  <span class="section-label" data-en="Your Study Path · 学习路径" data-zh="学习路径 · Your Study Path">Your Study Path · 学习路径</span>
+  <h2 data-en="Seven Modules, Mapped to the Blueprint" data-zh="七个模块与蓝图对应">Seven Modules, Mapped to the Blueprint</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This site’s 7 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all seven with mastery ≥60% to qualify for your certificate." data-zh="本站7章与NPTE蓝图直接对应。你在答题模式与自适应刷题中积累的每章精通度会体现在下方 — 全部7章达到60%以上精通即可获得证书资格。">This site’s 7 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all seven with mastery ≥60% to qualify for your certificate.</p>
+  <div class="std-grid" id="pathGrid">
+    <a class="study-step" href="ch1.html"><div class="step-num">1</div><div class="step-info"><h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4><span data-en="Foundations · anatomy, physiology, energy systems" data-zh="基础 · 解剖、生理、供能系统">Foundations · anatomy, physiology, energy systems</span></div><span class="step-status" id="path1">Not started</span></a>
+    <a class="study-step" href="ch2.html"><div class="step-num">2</div><div class="step-info"><h4 data-en="Training Principles" data-zh="训练原则">Training Principles</h4><span data-en="Interventions · therapeutic exercise design" data-zh="干预 · 治疗性运动设计">Interventions · therapeutic exercise design</span></div><span class="step-status" id="path2">Not started</span></a>
+    <a class="study-step" href="ch3.html"><div class="step-num">3</div><div class="step-info"><h4 data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</h4><span data-en="MSK examination · healing phases · differential diagnosis" data-zh="肌骨检查 · 愈合阶段 · 鉴别诊断">MSK examination · healing phases · differential diagnosis</span></div><span class="step-status" id="path3">Not started</span></a>
+    <a class="study-step" href="ch4.html"><div class="step-num">4</div><div class="step-info"><h4 data-en="Inflammation &amp; Recovery" data-zh="炎症与恢复">Inflammation &amp; Recovery</h4><span data-en="Foundations + interventions · sleep, DOMS, modalities" data-zh="基础+干预 · 睡眠、DOMS、理疗">Foundations + interventions · sleep, DOMS, modalities</span></div><span class="step-status" id="path4">Not started</span></a>
+    <a class="study-step" href="ch5.html"><div class="step-num">5</div><div class="step-info"><h4 data-en="Nutrition" data-zh="营养">Nutrition</h4><span data-en="Foundations · metabolic &amp; endocrine, RED-S, hydration" data-zh="基础 · 代谢内分泌、RED-S、补水">Foundations · metabolic &amp; endocrine, RED-S, hydration</span></div><span class="step-status" id="path5">Not started</span></a>
+    <a class="study-step" href="ch6.html"><div class="step-num">6</div><div class="step-info"><h4 data-en="Supplements" data-zh="补剂">Supplements</h4><span data-en="Research &amp; EBP · evidence pyramid, pharmacology basics" data-zh="研究与循证 · 证据金字塔、药理基础">Research &amp; EBP · evidence pyramid, pharmacology basics</span></div><span class="step-status" id="path6">Not started</span></a>
+    <a class="study-step" href="ch7.html"><div class="step-num">7</div><div class="step-info"><h4 data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</h4><span data-en="Professional responsibilities · DPT pathway · licensure" data-zh="职业责任 · DPT路径 · 执业资格">Professional responsibilities · DPT pathway · licensure</span></div><span class="step-status" id="path7">Not started</span></a>
+  </div>
+</div>
+</section>
+
+<!-- Practice exam -->
+<section id="practex">
+<div class="container">
+  <span class="section-label" data-en="Practice Exam · 模拟考试" data-zh="模拟考试 · Practice Exam">Practice Exam · 模拟考试</span>
+  <h2 data-en="NPTE-Style Practice Simulator" data-zh="NPTE风格模拟考试">NPTE-Style Practice Simulator</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="Timed, domain-tagged questions scored the way the real exam reports them. Choose your set size, watch the clock, get a blueprint-minded study prescription. Your best score feeds your certificate progress." data-zh="限时、按领域标注的题目，计分方式贴近真实考试。选择题量、盯住时钟、获得按蓝图定制的研究处方。最佳成绩会计入证书进度。">Timed, domain-tagged questions scored the way the real exam reports them. Choose your set size, watch the clock, get a blueprint-minded study prescription. Your best score feeds your certificate progress.</p>
+
+  <div class="exam-panel" id="examSetup">
+    <div class="exam-meta">
+      <label for="examCount" style="font-weight:700" data-en="Questions:" data-zh="题量：">Questions:</label>
+      <select id="examCount" style="padding:.55rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.95rem">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="30">30 (full bank)</option>
+      </select>
+      <span style="font-size:.85rem;color:var(--text3)" data-en="≈ 90 seconds per question (NPTE pace is ~80 s)" data-zh="每题约90秒（NPTE实际约80秒）">≈ 90 seconds per question (NPTE pace is ~80 s)</span>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <button class="qo-btn next" onclick="startExam()" style="font-size:1rem;padding:.7rem 1.5rem" data-en="▶ Start Exam" data-zh="▶ 开始考试">▶ Start Exam</button>
+      <button class="qo-btn" onclick="document.getElementById('examResult').style.display='none'" style="background:var(--surface2)" data-en="Clear last result" data-zh="清除上次结果">Clear last result</button>
+    </div>
+  </div>
+
+  <div class="exam-panel" id="examPanel" style="display:none">
+    <div id="examBody"></div>
+    <div style="display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap">
+      <button class="qo-btn" id="examPrev" onclick="examPrev()" data-en="← Back" data-zh="← 上一题">← Back</button>
+      <button class="qo-btn next" id="examNext" onclick="examNext()"><span id="examNextLabel" data-en="Next →" data-zh="下一题 →">Next →</span></button>
+    </div>
+  </div>
+
+  <div class="exam-panel" id="examResult" style="display:none"></div>
+
+  <p style="font-size:.76rem;color:var(--text3);margin-top:.8rem" data-en="Practice items are independent simulations written for this course — not actual or recalled NPTE questions. Verify current NPTE policies with FSBPT." data-zh="练习题为本站独立编写的仿真题，并非真实或记忆的NPTE题目。请以FSBPT现行政策为准。">Practice items are independent simulations written for this course — not actual or recalled NPTE questions. Verify current NPTE policies with <a href="https://www.fsbpt.org" target="_blank" rel="noopener">FSBPT</a>.</p>
+</div>
+</section>
+
+<!-- Certificate -->
+<section id="cert">
+<div class="container">
+  <span class="section-label" data-en="Certificate · 结业证书" data-zh="结业证书 · Certificate">Certificate · 结业证书</span>
+  <h2 data-en="Earn Your Certificate of Completion" data-zh="获得结业证书">Earn Your Certificate of Completion</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This documents completion of the 7-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate." data-zh="该证书证明你完成了7模块双语学习课程，并达到NPTE冲刺练习要求。输入姓名即可下载可打印证书。">This documents completion of the 7-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate.</p>
+
+  <div class="exam-panel">
+    <div class="cert-gate">
+      <div style="font-weight:700;margin-bottom:.5rem" data-en="Progress checklist" data-zh="进度清单">Progress checklist</div>
+      <div id="certChecks"></div>
+      <div id="certGateMsg" style="font-size:.85rem;color:var(--text3);margin-top:.4rem"></div>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center">
+      <input id="certName" type="text" disabled style="flex:1;min-width:200px;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:1rem;background:var(--bg);color:var(--text);outline:none" placeholder="Your full name / 你的姓名">
+      <button class="qo-btn next" id="certGen" onclick="genCert()" disabled style="font-size:1rem;padding:.7rem 1.4rem" data-en="🏆 Generate Certificate" data-zh="🏆 生成证书">🏆 Generate Certificate</button>
+    </div>
+    <div class="cert-flash" id="certFlash"></div>
+    <p style="font-size:.78rem;color:var(--text3);margin-top:.7rem" data-en="A course-completion certificate for your study portfolio — it is not a license, credential, or endorsement from FSBPT or CAPTE." data-zh="这是课程完成证书，用于你的学习档案 — 不代表FSBPT或CAPTE颁发的执照、资格或认可。">A course-completion certificate for your study portfolio — it is not a license, credential, or endorsement from FSBPT or CAPTE.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice or official NPTE preparation endorsement." data-zh="本指南仅作教育用途，不构成医疗建议，也不代表官方NPTE备考认可。">Educational material only, not medical advice or official NPTE preparation endorsement.</span></p>
+  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking “how do we know?”" data-zh="科学因争论而前进，而非因命令 — 永远追问”我们是怎么知道的？“">Science moves by debate, not decree — keep asking “how do we know?”</p>
+</div>
+</footer>
+</div>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
+
+<!-- Certificate preview modal -->
+<div class="cert-view" id="certView">
+  <div style="display:flex;gap:.75rem;position:absolute;top:1.2rem;right:1.5rem;z-index:5">
+    <button class="lb-btn dl" id="certSave" data-en="⬇ Save PNG" data-zh="⬇ 保存图片">⬇ Save PNG</button>
+    <button class="lb-btn" id="certViewClose">✕</button>
+  </div>
+  <div id="certCanvas"></div>
+</div>
+
+<script>
+var showCN = localStorage.getItem('sm_lang')==='zh';
+var langBtn=document.getElementById('langToggle');
+var darkBtn=document.getElementById('darkToggle');
+var bodyEl=document.body;
+if(localStorage.getItem('sm_dark')==='1') bodyEl.classList.add('dark');
+darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('sm_dark', bodyEl.classList.contains('dark')?'1':'0'); });
+
+function applyLangEP(){
+  var lang=showCN?'zh':'en';
+  bodyEl.classList.toggle('lang-zh',showCN);
+  bodyEl.classList.toggle('lang-en',!showCN);
+  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+lang); });
+  langBtn.textContent=showCN?'中':'EN';
+}
+langBtn.addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLangEP(); });
+
+(function(){
+  var pb=document.createElement('div'); pb.id='readingBar'; document.body.appendChild(pb);
+  var rp=function(){ var d=document.documentElement; var top=d.scrollTop||document.body.scrollTop; var h=(d.scrollHeight||document.body.scrollHeight)-window.innerHeight; pb.style.width=(h>0?Math.min(100,top/h*100):0)+'%'; };
+  window.addEventListener('scroll',rp,{passive:true}); window.addEventListener('resize',rp); rp();
+  document.querySelectorAll('table').forEach(function(t){ if(!t.closest('.table-wrap')){ var w=document.createElement('div'); w.className='table-wrap'; var p=t.parentNode; p.insertBefore(w,t); w.appendChild(t); } });
+})();
+
+function chScore(c){
+  var m={}; try{ m=JSON.parse(localStorage.getItem('sm_mastery')||'null')||{}; }catch(e){}
+  var t=m['t'+c];
+  return t?Math.round(t.score||0):null;
+}
+function renderPath(){
+  for(var c=1;c<=7;c++){
+    var el=document.getElementById('path'+c);
+    var v=chScore(c);
+    var step=el? el.closest('.study-step') : null;
+    if(v!=null && v>=60){
+      if(step) step.classList.add('done');
+      el.textContent=showCN?('精通 '+v+'%'):('Mastery '+v+'%');
+    } else {
+      el.textContent=showCN?'未开始':'Not started';
+    }
+  }
+}
+
+var EXAM_DOM={'msk':'Musculoskeletal','neuro':'Neuromuscular / Nervous','cardio':'Cardiovascular / Pulmonary','integ':'Integumentary','other':'Other / Cross-system'};
+var BANK=[
+{d:'msk',q:'A 20-year-old athlete reports her knee “gives way” during cutting and is swollen within hours. A Lachman test is positive. Which structure is most likely injured?',qcn:'20岁运动员膝关节打软并快速肿胀，Lachman试验阳性，最可能损伤的是？',opts:['Anterior cruciate ligament','Medial collateral ligament','Patellar tendon','Meniscus'],c:0,ex:'The Lachman test stresses the anterior cruciate ligament; a recent giving-way episode with rapid effusion (hemarthrosis) points to an acute ACL injury.',excn:'Lachman试验检验前交叉韧带；急性肿胀加打软提示ACL损伤。'},
+{d:'msk',q:'A lateral ankle sprain leaves moderate pain, swelling, bruising, and slight joint laxity but no complete tear. How is this graded?',qcn:'踝关节外侧扭伤：中度肿痛、轻度松弛但未完全断裂，如何分级？',opts:['Grade I','Grade II','Grade III','Grade IV'],c:1,ex:'Grade II is a partial ligament tear with moderate pain, swelling, and mild laxity; Grade III is a complete tear with gross instability.',excn:'II度=韧带部分撕裂，中度肿痛轻度松弛；III度=完全断裂明显不稳。'},
+{d:'msk',q:'Which intervention is best supported to reduce recurrent lateral ankle sprains?',qcn:'预防踝关节反复扭伤最有证据的干预？',opts:['Proactive stretching only','Balance and proprioception training','Daily anti-inflammatory medicine','Casting for six weeks'],c:1,ex:'Proprioception and balance training restore sensorimotor control after ligament injury and are the best-supported prevention for chronic ankle instability.',excn:'本体感觉与平衡训练恢复感觉运动控制，是预防慢性踝关节不稳的最佳证据。'},
+{d:'msk',q:'For patellar tendinopathy, which loading approach has the strongest evidence?',qcn:'髌腱病最有证据的负荷方式？',opts:['High-repetition, low-intensity work','Progressive heavy-slow resistance or eccentric loading','Full rest until pain resolves','Explosive plyometrics as the first step'],c:1,ex:'Progressive loading, such as heavy-slow resistance or eccentric protocols, stimulates tendon remodeling — the core of tendinopathy rehabilitation.',excn:'渐进负荷（如慢速大重量或离心训练）刺激肌腱重塑，是肌腱病康复核心。'},
+{d:'msk',q:'Which special test is classically used to isolate the supraspinatus tendon?',qcn:'何种特殊试验常用于单独评估冈上肌腱？',opts:['FABER test','Thompson test','Empty can (Jobe) test','Anterior drawer of the knee'],c:2,ex:'The empty-can (Jobe) test positions the arm so that the supraspinatus tendon is maximally stressed in isolation.',excn:'空罐试验(Jobe)将手臂置于使冈上肌腱单独受最大应力的位置。'},
+{d:'msk',q:'In the first 48–72 hours after a severe muscle strain, the priority is:',qcn:'严重肌肉拉伤后最初48–72小时的处理重点是？',opts:['Aggressive static stretching','Protecting the tissue and progressing load gradually','Immediate maximal contractions','Daily ultrasound-only treatments'],c:1,ex:'Early management protects the healing tissue; gentle, pain-free range of motion and progressive loading should replace aggressive stretching.',excn:'早期应保护修复组织，以无痛活动度和渐进负荷替代激进拉伸。'},
+{d:'msk',q:'Scapular winging with difficulty pushing the scapula forward suggests weakness of:',qcn:'翼状肩胛、前推困难提示哪块肌肉无力？',opts:['Latissimus dorsi','Serratus anterior','Supraspinatus','Biceps brachii'],c:1,ex:'Serratus anterior, often after long thoracic nerve injury, holds the scapula to the ribcage; its weakness produces winging.',excn:'前锯肌将肩胛骨固定于胸廓，其无力（常因长胸神经损伤）导致翼状肩。'},
+{d:'neuro',q:'A patient develops contralateral hemiplegia after a stroke. The lesion is most likely in the:',qcn:'卒中后出现对侧偏瘫，病灶最可能在？',opts:['Lateral pons only','Motor cortex / corticospinal territory','Cerebellum','Dorsal columns'],c:1,ex:'Corticospinal fibers cross near the medullary pyramids, so a lesion above that level causes contralateral motor loss.',excn:'皮质脊髓束在延髓锥体交叉，交叉以上的病灶导致对侧运动障碍。'},
+{d:'neuro',q:'Which finding is an upper motor neuron sign?',qcn:'下列哪项属于上运动神经元体征？',opts:['Muscle atrophy and areflexia','Fasciculations','Hyperreflexia with a Babinski sign','Flaccid paralysis'],c:2,ex:'UMN lesions release spinal reflexes, producing hyperreflexia, spasticity, and an extensor plantar (Babinski); LMN lesions cause atrophy and areflexia.',excn:'上运动神经元损伤出现高反射、痉挛与巴宾斯基征；下运动神经元损伤为萎缩、反射消失。'},
+{d:'neuro',q:'A patient with Parkinson disease has festinating gait. Which strategy may best improve ambulation?',qcn:'帕金森病患者呈慌张步态，哪种策略最能改善行走？',opts:['External rhythmic cueing with deliberate stops','A much wider stride width','Suppressing arm swing','Walking only on smooth ramps'],c:0,ex:'Rhythmic auditory cueing and planned stops help trigger the subcortical gait program damaged by basal ganglia disease.',excn:'节律性听觉提示与有意识的停顿可触发被基底节疾病破坏的步态程序。'},
+{d:'neuro',q:'Reduced sensation over the dorsum of the great toe maps to which dermatome?',qcn:'大脚趾背侧感觉减退对应哪个皮节？',opts:['L4','L5','S1','T10'],c:1,ex:'The L5 dermatome covers the dorsum of the foot and the great toe.',excn:'L5皮节覆盖足背与大脚趾。'},
+{d:'neuro',q:'Weakness in elbow flexion maps most closely to which myotome?',qcn:'肘屈曲无力对应哪个肌节？',opts:['C5–C6','C7–C8','T1','L2'],c:0,ex:'Elbow flexion is the C5–C6 myotome (biceps/brachialis); wrist and finger extension is chiefly C7–C8.',excn:'肘屈曲为C5–C6肌节（肱二头肌）；腕伸与指伸主要为C7–C8。'},
+{d:'neuro',q:'A Romberg test is positive (sway worsens with eyes closed). This most suggests:',qcn:'Romberg试验阳性（闭眼摇摆加重）最可能提示？',opts:['Cerebellar ataxia only','A purely vestibular lesion','Impaired proprioception, e.g. dorsal column or polyneuropathy','A motor cortex lesion'],c:2,ex:'Closing the eyes removes visual compensation; increased sway therefore points to reduced proprioception (dorsal columns / peripheral neuropathy), whereas cerebellar ataxia sways with the eyes open too.',excn:'闭眼去除视觉代偿后摇摆加重提示本体感觉受损（后索/周围神经病变）；小脑性共济失调睁眼也摇摆。'},
+{d:'cardio',q:'During graded exercise testing, which response is a criterion to stop the test?',qcn:'级量负荷运动试验中，哪项是终止试验的标准？',opts:['Slight dyspnea at peak effort','A fall in systolic blood pressure of at least 10 mmHg with rising workload','Mild leg fatigue at peak','Heart rate returning toward baseline'],c:1,ex:'A drop in systolic pressure of ≥10 mmHg as work increases, especially with anginal or ischemic symptoms, signals possible ischemia — stop and evaluate.',excn:'负荷增加时收缩压下降≥10mmHg，伴心绞痛或缺血症状提示可能缺血——应终止并评估。'},
+{d:'cardio',q:'Chest discomfort that reliably resolves with rest in a 55-year-old exerciser merits:',qcn:'55岁运动者劳力性胸痛休息后可缓解，恰当的处理是？',opts:['Nothing until the next scheduled visit','Stopping exercise, evaluating, and considering cardiology referral','Increasing intensity to build tolerance','Routine icing of the chest'],c:1,ex:'Exertional chest pain, even if transient, is a red flag for coronary artery disease and warrants prompt medical evaluation.',excn:'劳力性胸痛即使短暂也是冠心病的危险信号，应尽快医学评估。'},
+{d:'cardio',q:'In cardiac rehabilitation, exercise intensity is best anchored to:',qcn:'心脏康复中运动强度最好依据什么？',opts:['Rating of perceived exertion plus a target heart rate from exercise testing','A fixed “180 minus age” heart rate alone','The amount tolerated in the gym that day','Maximal static holds of breath'],c:0,ex:'A target heart rate derived from graded exercise testing, paired with RPE, individualizes a safe and effective dose.',excn:'由运动试验得出的目标心率配合RPE，可个体化安全有效的剂量。'},
+{d:'cardio',q:'A cool-down after cardiovascular exercise primarily:',qcn:'心血管运动后的整理活动主要作用是什么？',opts:['Builds muscle mass quickly','Progressively lowers heart rate and blood pressure, limiting post-exercise hypotension','Removes the need to rehydrate','Increases venous pooling'],c:1,ex:'A gradual reduction in workload lets heart rate, blood pressure, and catecholamines settle, reducing post-exercise hypotension and abnormal rhythms.',excn:'逐渐降低负荷使心率、血压与儿茶酚胺平稳回落，降低运动后低血压与心律异常风险。'},
+{d:'integ',q:'A pressure injury with full-thickness loss exposing subcutaneous fat (not bone or tendon) is staged as:',qcn:'压力性损伤全层缺失暴露皮下脂肪（未及骨或肌腱）分期为？',opts:['Stage 1','Stage 2','Stage 3','Unstageable by definition'],c:2,ex:'Stage 3 involves full-thickness loss exposing subcutaneous fat; Stage 4 exposes fascia, muscle, bone, or tendon.',excn:'III期暴露皮下脂肪；IV期暴露筋膜、肌肉、骨或肌腱。'},
+{d:'integ',q:'A burn with blisters, a moist weeping surface, and significant pain is best classified as:',qcn:'有大小、渗液湿润且疼痛明显的烧伤属于？',opts:['Superficial (first degree)','Partial-thickness (second degree)','Full-thickness (third degree)','Chemical only'],c:1,ex:'Partial-thickness burns blister, weep, and remain painful because nerve endings are intact.',excn:'二度烧伤有水泡、渗液且疼痛，因神经末梢仍完好。'},
+{d:'integ',q:'Which factor is most likely to delay wound healing?',qcn:'哪项因素最可能延缓伤口愈合？',opts:['Adequate protein intake','Smoking and tissue ischemia','Moderate, pain-free activity','Good glycemic control'],c:1,ex:'Smoking and ischemia lower oxygen and nutrient delivery to the wound; nutrition, activity, and glucose control support healing.',excn:'吸烟与缺血减少伤口氧气和营养供应；营养、活动与血糖控制有助于愈合。'},
+{d:'other',q:'A patient has recent bowel and bladder changes, saddle anesthesia, and progressive bilateral leg weakness. The priority action is:',qcn:'患者新发二便异常、鞍区麻木、双下肢进行性无力，首选处理是？',opts:['Begin isometric strengthening','Emergency referral for suspected cauda equina syndrome','Schedule an MRI in two weeks','Apply a heating pack'],c:1,ex:'This constellation suggests cauda equina syndrome, a surgical emergency requiring immediate referral.',excn:'该表现提示马尾综合征，属外科急症，需立即转诊。'},
+{d:'other',q:'Unilateral calf swelling, warmth, and tenderness after immobilization should prompt:',qcn:'固定制动后出现单侧小腿肿胀、发热、压痛，应？',opts:['Evaluating for deep vein thrombosis (Wells criteria) rather than massaging','Imaging the ankle','Extra calf massage','Ignoring it unless painful at rest'],c:0,ex:'Unilateral calf symptoms in a risk context raise DVT suspicion; the Wells score guides testing, and massage is contraindicated.',excn:'单侧小腿症状需警惕深静脉血栓，用Wells量表评估，切忌按摩。'},
+{d:'other',q:'A Trendelenburg lurch (pelvis drops on the swing side) during gait indicates weakness of:',qcn:'步态中Trendelenburg倾斜（摆动侧骨盆下降）提示哪块肌肉无力？',opts:['The stance-side gluteus medius','The contralateral quadriceps','The iliopsoas','The hamstrings'],c:0,ex:'The stance-side gluteus medius normally holds the pelvis level; its weakness lets the opposite side drop.',excn:'支撑侧臀中肌正常维持骨盆水平，其无力使对侧骨盆下降。'},
+{d:'other',q:'Which outcome measure captures functional independence across activities of daily living?',qcn:'哪项结局指标可评估日常生活活动的功能独立性？',opts:['A visual analog scale','The Functional Independence Measure (FIM)','Single-plane goniometry','A hand dynamometer'],c:1,ex:'The FIM spans self-care, mobility, and cognition and is a standard measure of functional independence.',excn:'FIM涵盖自理、移动与认知，是标准的功能独立性量表。'},
+{d:'other',q:'A test has a Minimal Detectable Change (MDC) of 5 points. A patient improves 3 points. The best interpretation is:',qcn:'某测试的MDC为5分，患者改善3分，最佳解读是？',opts:['The change is definitely real','The change lies within measurement error and cannot be called real','The treatment has failed','Retest immediately with a new examiner'],c:1,ex:'Improvement smaller than the MDC cannot be distinguished from measurement error, so it should not be reported as true change.',excn:'低于MDC的变化无法与测量误差区分，不能视为真实改善。'},
+{d:'other',q:'A patient’s systolic blood pressure falls as exercise intensity rises and dizziness develops. The correct action is to:',qcn:'运动强度升高时收缩压下降并出现头晕，正确处理是？',opts:['Push through one more stage','Stop exercising and evaluate and monitor','Switch to isometrics','Ignore dizziness as normal'],c:1,ex:'Exertional hypotension with symptoms is a red-flag response; exercise should stop and the patient be monitored and referred.',excn:'运动性低血压伴症状是危险信号，应停止运动并监护转诊。'},
+{d:'other',q:'Sharing a patient’s rehabilitation records with their coach requires:',qcn:'将患者康复记录分享给其教练需要？',opts:['Nothing, if the coach is family','The patient’s informed consent or authorization','A court order only','Approval from the fitness facility'],c:1,ex:'Protected health information may be disclosed to third parties only with the patient’s authorization or consent.',excn:'受保护的健康信息仅在患者授权或同意后方可向第三方披露。'},
+{d:'other',q:'NSAIDs should be used with particular caution in patients with:',qcn:'NSAIDs尤其应慎用于哪些患者？',opts:['Mild exercise-induced muscle soreness','Significant renal impairment or history of gastrointestinal bleeding','Young, healthy skin','Well-controlled diabetes'],c:1,ex:'NSAIDs reduce renal perfusion and raise gastrointestinal bleeding risk, so they are used with caution in renal and GI conditions.',excn:'NSAIDs减少肾血流并增加消化道出血风险，肾功能与消化道疾病患者需谨慎。'},
+{d:'other',q:'During a treatment session a patient suddenly develops facial droop and slurred speech. The priority is:',qcn:'治疗中患者突然面瘫、言语含糊，首要是？',opts:['Finish the current exercise set','Recognize possible stroke and activate emergency response','Adjust the exercise program','Wait to see whether it passes'],c:1,ex:'Facial droop with dysarthria suggests an acute stroke; stop treatment and begin emergency care immediately.',excn:'面瘫伴言语含糊提示急性卒中，应立即停止治疗并启动急救。'},
+{d:'other',q:'Which study design provides the strongest causal evidence for a new intervention?',qcn:'哪种研究设计对干预措施的因果证据最强？',opts:['Randomized controlled trial','Case series','Expert opinion','Cross-sectional survey'],c:0,ex:'Randomization best controls confounding, placing randomized controlled trials at the top of the intervention evidence hierarchy.',excn:'随机化最能控制混杂，随机对照试验位于干预证据等级顶端。'}
+];
+
+var sess=null;
+function shuffleEP(a){ var x=[].concat(a); for(var i=x.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=x[i]; x[i]=x[j]; x[j]=t; } return x; }
+function fmtTime(s){ var m=Math.floor(s/60), r=s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
+
+function startExam(){
+  var cnt=parseInt(document.getElementById('examCount').value,10)||10;
+  if(sess&&sess.timer) clearInterval(sess.timer);
+  var qs=shuffleEP(BANK).slice(0,cnt);
+  sess={q:qs,i:0,ans:{},total:cnt*90,left:cnt*90,done:false,timer:null};
+  document.getElementById('examSetup').style.display='none';
+  document.getElementById('examResult').style.display='none';
+  document.getElementById('examPanel').style.display='block';
+  showExamQ();
+  startTimer();
+  window.scrollTo({top:document.getElementById('practex').offsetTop-20,behavior:'smooth'});
+}
+function startTimer(){
+  if(!sess) return;
+  clearInterval(sess.timer);
+  sess.t0=Date.now();
+  sess.timer=setInterval(function(){
+    if(sess.done) return;
+    sess.left=Math.max(0,sess.total-Math.floor((Date.now()-sess.t0)/1000));
+    var el=document.getElementById('examTime');
+    if(el) el.textContent=fmtTime(sess.left);
+    if(sess.left<=0){ clearInterval(sess.timer); submitExam(); }
+  },500);
+}
+function showExamQ(){
+  var s=sess, q=s.q[s.i];
+  var d=document.getElementById('examBody');
+  var html='<div class="exam-meta">'
+    +'<span class="ekey"><b>'+fmtTime(sess.left)+'</b><span data-en="Time left" data-zh="剩余时间">Time left</span></span>'
+    +'<span class="ekey"><b>'+(s.i+1)+' / '+s.q.length+'</b><span data-en="Question" data-zh="题目">Question</span></span>'
+    +'<span class="ekey"><b>'+EXAM_DOM[q.d]+'</b><span data-en="Domain" data-zh="领域">Domain</span></span>'
+    +'</div>';
+  html+='<div class="exam-q"><p style="margin-bottom:.4rem"><strong>'+q.q+'</strong></p>';
+  if(q.qcn) html+='<p class="cn" style="font-size:.85rem">'+q.qcn+'</p>';
+  for(var k=0;k<q.opts.length;k++){
+    var sel=(s.ans[s.i]===k)?' selected':'';
+    html+='<button class="exam-opt'+sel+'" data-k="'+k+'">'+String.fromCharCode(65+k)+'. '+q.opts[k]+'</button>';
+  }
+  html+='</div>';
+  d.innerHTML=html;
+  d.querySelectorAll('.exam-opt').forEach(function(b){
+    b.addEventListener('click',function(){
+      s.ans[s.i]=parseInt(b.getAttribute('data-k'),10);
+      d.querySelectorAll('.exam-opt').forEach(function(x){ x.classList.remove('selected'); });
+      b.classList.add('selected');
+    });
+  });
+  var prev=document.getElementById('examPrev');
+  prev.style.display=(s.i>0)?'':'none';
+  var nx=document.getElementById('examNextLabel');
+  nx.textContent=(s.i===s.q.length-1)?(showCN?'交卷':'Submit'):(showCN?'下一题 →':'Next →');
+  applyLangEP();
+}
+function examPrev(){ if(!sess) return; if(sess.i>0){ sess.i--; showExamQ(); } }
+function examNext(){ if(!sess) return; if(sess.i<sess.q.length-1){ sess.i++; showExamQ(); } else { submitExam(); } }
+
+function submitExam(){
+  if(!sess||sess.done) return;
+  sess.done=true; if(sess.timer) clearInterval(sess.timer);
+  var correct=0, byD={};
+  sess.q.forEach(function(q,i){
+    var ok=(sess.ans[i]===q.c)?1:0;
+    if(ok) correct++;
+    if(!byD[q.d]) byD[q.d]={n:0,ok:0};
+    byD[q.d].n++; byD[q.d].ok+=ok;
+  });
+  var pct=Math.round(correct/sess.q.length*100);
+  var best=0; try{ best=parseInt(localStorage.getItem('sm_exam')||'0',10); }catch(e){}
+  if(pct>best) localStorage.setItem('sm_exam',String(pct));
+  document.getElementById('examPanel').style.display='none';
+  var res=document.getElementById('examResult');
+  res.style.display='block';
+  var verdict, vcls;
+  if(pct>=85){ verdict=showCN?'表现强劲 — 具备冲刺条件':'Strong — exam-ready'; vcls='good'; }
+  else if(pct>=70){ verdict=showCN?'接近目标 — 需强化薄弱领域':'Borderline — sharpen weak domains'; vcls='mid'; }
+  else { verdict=showCN?'需要复习 — 按下方建议补救':'Needs remediation — follow the prescription below'; vcls='low'; }
+  var html='<h3 style="margin-bottom:.8rem" data-en="Score Report · 成绩报告" data-zh="成绩报告 · Score Report">Score Report · 成绩报告</h3>';
+  html+='<div class="exam-meta">'
+    +'<span class="ekey"><b>'+pct+'%</b><span data-en="Score" data-zh="得分">Score</span></span>'
+    +'<span class="ekey"><b>'+correct+' / '+sess.q.length+'</b><span data-en="Correct" data-zh="正确">Correct</span></span>'
+    +'<span class="ekey"><b>'+fmtTime(Math.round((sess.total-sess.left)*1))+'</b><span data-en="Used time" data-zh="用时">Used time</span></span>'
+    +'</div>';
+  html+='<div class="exam-verdict '+vcls+'">'+verdict+'</div>';
+  html+='<div class="table-wrap"><table><tr><th data-en="Domain" data-zh="领域">Domain</th><th data-en="Correct" data-zh="正确">Correct</th><th data-en="Accuracy" data-zh="正确率">Accuracy</th></tr>';
+  Object.keys(byD).forEach(function(dd){
+    var r=byD[dd];
+    html+='<tr><td>'+EXAM_DOM[dd]+'</td><td>'+r.ok+' / '+r.n+'</td><td>'+Math.round(r.ok/r.n*100)+'%</td></tr>';
+  });
+  html+='</table></div>';
+  html+='<div class="callout"><h4><span class="co-ico">🎯</span><span data-en="Blueprint-minded prescription" data-zh="按蓝图配方的学习建议">Blueprint-minded prescription</span></h4><ul>'+bpPill(byD)+'</ul></div>';
+  html+='<div style="display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap">'
+    +'<button class="qo-btn next" onclick="resetExam()" data-en="↺ Try Another Set" data-zh="↺ 再练一组">↺ Try Another Set</button>'
+    +'<button class="qo-btn" onclick="document.getElementById(\'cert\').scrollIntoView({behavior:\'smooth\'})" style="background:var(--green)" data-en="🎓 Check Certificate" data-zh="🎓 查看证书">🎓 Check Certificate</button>'
+    +'</div>';
+  res.innerHTML=html;
+  applyLangEP();
+  renderPath(); renderCert();
+}
+function bpPill(byD){
+  var li='';
+  if(byD.msk){ var a=Math.round(byD.msk.ok/byD.msk.n*100); li+='<li'+(a<70?' style="color:var(--red);font-weight:700"':'')+' data-en'+(a<70?'':'')+'><span data-en="Musculoskeletal: '+a+'% — the largest domain (~25–30% of the exam). '+(a<70?'Review Ch 2–3 and progress loading before moving on.':'Keep this sharp; it earns the most points.')+'" data-zh="肌肉骨骼：'+a+'% — 占比最大的领域（约25–30%）。'+(a<70?'返回第2–3章复习负荷进阶后再继续。':'保持良好的掌握，这是得分大头。')+'">Musculoskeletal: '+a+'% — '+(a<70?'review Ch 2–3 before moving on.':'the largest domain; keep it sharp.')+'</span></li>'; }
+  if(byD.neuro){ var a=Math.round(byD.neuro.ok/byD.neuro.n*100); li+='<li><span data-en="Neuromuscular: '+a+'% — second-largest (~22–27%).'+(a<70?' Add Ch 1 (fibers/energy) and dedicated neuro practice.':'" data-zh="神经肌肉：'+a+'% — 第二大领域（约22–27%）。')+(a<70?'补充第1章（肌纤维/供能）与神经专科练习。':'')+'">Neuromuscular: '+a+'% — '+(a<70?'weak; add targeted practice.':'solid second domain.')+'</span></li>'; }
+  if(byD.cardio){ var a=Math.round(byD.cardio.ok/byD.cardio.n*100); li+='<li><span data-en="Cardiopulmonary: '+a+'% — mid-weight but high-safety; vital signs and red flags pay off everywhere." data-zh="心肺：'+a+'% — 中等占比但安全重点；生命体征与危险信号处处用得着。">Cardiopulmonary: '+a+'% — '+(a<70?'review vital-sign red flags.':'mid-weight but high-safety.')+'</span></li>'; }
+  if(byD.integ){ var a=Math.round(byD.integ.ok/byD.integ.n*100); li+='<li><span data-en="Integumentary: '+a+'% — small domain (~4–6%); a focused high-yield pass is enough." data-zh="皮肤：'+a+'% — 小领域（约4–6%）；集中的高性价比复习即可。">Integumentary: '+a+'% — small domain; focused pass suffices.</span></li>'; }
+  if(byD.other){ var a=Math.round(byD.other.ok/byD.other.n*100); li+='<li><span data-en="Other / cross-system: '+a+'% — safety, research, and professional items hide inside scenarios; keep them in every session." data-zh="其他/跨系统：'+a+'% — 安全、研究与职业题目藏在场景中，每次练习都要兼顾。">Other / cross-system: '+a+'% — keep safety/ethics items in every session.</span></li>'; }
+  li+='<li><span data-en="Repeat this domain-by-domain check weekly and overlay it on the blueprint — effort should follow points, not comfort." data-zh="每周按领域复测并与蓝图对照 — 投入应跟分数走，而非跟感觉走。">Repeat this domain-by-domain check weekly and overlay it on the blueprint — effort follows points, not comfort.</span></li>';
+  return li;
+}
+function resetExam(){
+  document.getElementById('examResult').style.display='none';
+  document.getElementById('examSetup').style.display='block';
+  sess=null;
+}
+
+function chScores(){
+  var m={}; try{ m=JSON.parse(localStorage.getItem('sm_mastery')||'null')||{}; }catch(e){}
+  var out=[];
+  for(var i=1;i<=7;i++){ out.push(m['t'+i]?Math.round(m['t'+i].score||0):0); }
+  return out;
+}
+function renderCert(){
+  var arr=chScores();
+  var best=0; try{ best=parseInt(localStorage.getItem('sm_exam')||'0',10); }catch(e){}
+  var rows='';
+  for(var i=0;i<7;i++){
+    var ok=arr[i]>=60;
+    rows+='<div class="cert-check '+(ok?'ok':'no')+'">'+(ok?'✓':'✗')+' <span data-en="Chapter '+(i+1)+' — mastery '+(ok?arr[i]+'%':'below 60%')+'" data-zh="第'+(i+1)+'章 — '+(ok?'精通 '+arr[i]+'%':'未达 60%')+'">Chapter '+(i+1)+' — mastery '+(ok?arr[i]+'%':'below 60%')+'</span></div>';
+  }
+  var eok=best>=70;
+  rows+='<div class="cert-check '+(eok?'ok':'no')+'">'+(eok?'✓':'✗')+' <span data-en="Practice exam — best score '+(eok?best+'%':'below 70%')+'" data-zh="模拟考试 — 最佳成绩 '+(eok?best+'%':'未达 70%')+'">Practice exam — best score '+(eok?best+'%':'below 70%')+'</span></div>';
+  var allok=arr.every(function(v){return v>=60;})&&eok;
+  document.getElementById('certChecks').innerHTML=rows;
+  var ni=document.getElementById('certName');
+  ni.disabled=!allok;
+  document.getElementById('certGen').disabled=!allok;
+  document.getElementById('certGateMsg').textContent=allok?'':(showCN?'完成全部7章（精通≥60%）并在任一模拟考试中得分≥70%以解锁证书。':'Complete all 7 chapters (mastery ≥60%) and score ≥70% on a practice exam to unlock your certificate.');
+  document.getElementById('certFlash').textContent='';
+  var step=document.getElementById('cert').closest('section');
+  applyLangEP();
+}
+
+var _certCanvas=null, _certURL=null;
+function dcenter(g,text,y,font,fill){
+  g.font=font; g.fillStyle=fill; g.textAlign='center'; g.textBaseline='alphabetic';
+  g.fillText(text,750,y);
+}
+function genCert(){
+  var name=(document.getElementById('certName').value||'').trim();
+  if(!name) name=(showCN?'<你的姓名>':'[Your Name]');
+  var c=document.createElement('canvas');
+  c.width=1500; c.height=1050;
+  var g=c.getContext('2d');
+  var indigo='#4f46e5', gold='#d97706', ink='#0f172a', soft='#475569', thin='#cbd5e1';
+  g.clearRect(0,0,1500,1050);
+  g.fillStyle='#ffffff'; g.fillRect(0,0,1500,1050);
+  g.strokeStyle=indigo; g.lineWidth=22; g.strokeRect(45,45,1410,960);
+  g.strokeStyle=gold; g.lineWidth=3; g.strokeRect(72,72,1356,906);
+  // emblem
+  g.beginPath(); g.arc(750,205,58,0,Math.PI*2); g.fillStyle=indigo; g.fill();
+  g.strokeStyle='#ffffff'; g.lineWidth=26; g.lineCap='round';
+  g.beginPath(); g.moveTo(750,165); g.lineTo(750,245); g.stroke();
+  g.beginPath(); g.moveTo(720,205); g.lineTo(780,205); g.stroke();
+  g.lineCap='butt';
+  // header
+  dcenter(g,'CERTIFICATE OF COMPLETION',345,'700 56px Georgia, serif',indigo);
+  dcenter(g,'Sports Medicine, Recovery & Nutrition',410,'normal 32px Georgia, serif',ink);
+  dcenter(g,'Evidence-Based Bilingual Study Course  ·  NPTE-Ready Practice',450,'normal 22px Georgia, serif',soft);
+  // body
+  dcenter(g,'This certifies that',520,'normal 26px Georgia, serif',soft);
+  dcenter(g,name,600,'italic 64px Georgia, serif',ink);
+  dcenter(g,'has completed all seven modules of this study course and met the',660,'normal 24px Georgia, serif',soft);
+  dcenter(g,'NPTE-Ready practice threshold in the independent practice simulator.',690,'normal 24px Georgia, serif',soft);
+  // date + signature
+  var d=new Date();
+  var datestr=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  dcenter(g,datestr,810,'normal 26px Georgia, serif',ink);
+  g.strokeStyle=ink; g.lineWidth=2;
+  g.beginPath(); g.moveTo(560,838); g.lineTo(940,838); g.stroke();
+  dcenter(g,'Program Director · Sports Med Guide',865,'normal 20px Georgia, serif',soft);
+  dcenter(g,'Course-completion record — not a license, credential, or endorsement from FSBPT or CAPTE.',955,'normal 18px Georgia, serif',soft);
+  dcenter(g,'Educational material only, not medical advice.',985,'normal 16px Georgia, serif',soft);
+  // download
+  _certURL=c.toDataURL('image/png');
+  var a=document.createElement('a');
+  a.href=_certURL; a.download='sports-med-certificate-'+datestr+'.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  // preview modal
+  var box=document.getElementById('certCanvas');
+  box.innerHTML='';
+  var img=document.createElement('img');
+  img.src=_certURL; img.style.cssText='max-width:92vw;max-height:76vh;border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.5)';
+  box.appendChild(img);
+  document.getElementById('certView').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('certFlash').textContent=(showCN?'证书已生成并开始下载':'Certificate generated — check your downloads.');
+}
+document.getElementById('certSave').addEventListener('click',function(){
+  if(!_certURL){ return; }
+  var a=document.createElement('a');
+  a.href=_certURL; a.download='sports-med-certificate.png';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+document.getElementById('certViewClose').addEventListener('click',function(){
+  document.getElementById('certView').classList.remove('open');
+  document.body.style.overflow='';
+});
+document.getElementById('certView').addEventListener('click',function(e){
+  if(e.target===this){ this.classList.remove('open'); document.body.style.overflow=''; }
+});
+
+// Init
+applyLangEP();
+renderPath();
+renderCert();
+</script>
+</body>
+</html>

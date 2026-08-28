@@ -525,6 +525,20 @@ section{padding:4rem 0 3rem}
 
 /* Focus visibility */
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── Image Lightbox (click to view + download) ── */
+.lb-overlay{position:fixed;inset:0;z-index:400;background:rgba(10,10,14,.92);display:none;align-items:center;justify-content:center;flex-direction:column;padding:2rem;backdrop-filter:blur(4px)}
+.lb-overlay.open{display:flex}
+.lb-stage{position:relative;max-width:94vw;max-height:84vh;display:flex;align-items:center;justify-content:center}
+.lb-img{max-width:94vw;max-height:82vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-bar{position:absolute;top:-2.6rem;right:0;display:flex;gap:.5rem}
+.lb-btn{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.lb-btn:hover{background:rgba(255,255,255,.28)}
+.lb-btn.dl{width:auto;padding:0 .9rem;gap:.35rem;font-size:.85rem;font-weight:600}
+.lb-caption{color:#cfd3e0;margin-top:1rem;font-size:.9rem;text-align:center;max-width:80vw}
+.inline-img{cursor:zoom-in}
+@media(max-width:600px){.lb-bar{top:-2.3rem}}
+
 </style>
 </head>
 <body>
@@ -537,6 +551,7 @@ section{padding:4rem 0 3rem}
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
+    <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
@@ -550,14 +565,14 @@ section{padding:4rem 0 3rem}
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
-    <a class="sidebar-link" href="index.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
     <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
-    <a class="sidebar-link" href="index.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
-    <a class="sidebar-link" href="index.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+    <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
   </div>
   <div class="sidebar-group">
     <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
-    <a class="sidebar-link" href="index.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+    <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
   </div>
 </nav>
 
@@ -582,137 +597,8 @@ section{padding:4rem 0 3rem}
   <p data-en="English / 中文 — 7 chapters, flashcards, adaptive quizzes & debates" data-zh="中文 / English — 七大章节、闪卡、自适应刷题与科学争论">English / 中文 — 7 chapters, flashcards, adaptive quizzes &amp; debates</p>
   <div class="hero-actions">
     <button class="qo-btn next" onclick="openFlashcards()" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
-    <button class="qo-btn next" onclick="openQuizMode()" style="background:var(--green)" data-en="📝 Quiz Mode" data-zh="📝 答题模式">📝 Quiz Mode</button>
+    <button class="qo-btn next" onclick="document.getElementById('qa').scrollIntoView({behavior:'smooth'})" style="background:var(--green)" data-en="💬 Ask a Question" data-zh="💬 在线答疑">💬 Ask a Question</button>
   </div>
-</div>
-</section>
-
-<!-- Chapter Grid -->
-<section id="chapters">
-<div class="container">
-  <div class="toc-intro">
-    <span class="section-label" data-en="Table of Contents" data-zh="目录">Table of Contents</span>
-    <h2 data-en="Explore the 7 Chapters" data-zh="浏览七大章节">Explore the 7 Chapters</h2>
-    <p class="toc-sub" data-en="Each chapter opens on its own page — notes, quiz &amp; videos all together." data-zh="每章独立成页 — 笔记、测验与视频尽在其中。">Each chapter opens on its own page — notes, quiz &amp; videos all together.</p>
-  </div>
-  <div class="ch-grid">
-    <a class="ch-card" href="ch1.html">
-      <div class="ch-num">1</div>
-      <div class="ch-card-body">
-        <h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4>
-        <p data-en="Energy systems · Muscle fibers · SAID & 5 thinking patterns" data-zh="供能系统 · 肌纤维 · SAID与五大思维模式">Energy systems · Muscle fibers · SAID &amp; 5 thinking patterns</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch2.html">
-      <div class="ch-num">2</div>
-      <div class="ch-card-body">
-        <h4 data-en="Training Principles" data-zh="训练原则">Training Principles</h4>
-        <p data-en="Progressive overload · Eccentric training · Stretching" data-zh="渐进超负荷 · 离心训练 · 拉伸">Progressive overload · Eccentric training · Stretching</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch3.html">
-      <div class="ch-num">3</div>
-      <div class="ch-card-body">
-        <h4 data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</h4>
-        <p data-en="Sprain vs strain · Healing phases · PEACE &amp; LOVE" data-zh="扭伤 vs 拉伤 · 愈合阶段 · PEACE与LOVE">Sprain vs strain · Healing phases · PEACE &amp; LOVE</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch4.html">
-      <div class="ch-num">4</div>
-      <div class="ch-card-body">
-        <h4 data-en="Inflammation &amp; Recovery" data-zh="炎症与恢复">Inflammation &amp; Recovery</h4>
-        <p data-en="DOMS · Sleep &amp; injury · The ice-bath debate" data-zh="延迟性酸痛 · 睡眠与受伤 · 冰浴之争">DOMS · Sleep &amp; injury · The ice-bath debate</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch5.html">
-      <div class="ch-num">5</div>
-      <div class="ch-card-body">
-        <h4 data-en="Nutrition" data-zh="营养">Nutrition</h4>
-        <p data-en="Macros · RED-S · Hydration · Anabolic window" data-zh="宏量营养素 · 能量不足 · 补水 · 合成窗口">Macros · RED-S · Hydration · Anabolic window</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch6.html">
-      <div class="ch-num">6</div>
-      <div class="ch-card-body">
-        <h4 data-en="Supplements" data-zh="补剂">Supplements</h4>
-        <p data-en="Evidence pyramid · Creatine · BCAAs · Fat burners" data-zh="证据金字塔 · 肌酸 · 支链氨基酸 · 燃脂剂">Evidence pyramid · Creatine · BCAAs · Fat burners</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="ch7.html">
-      <div class="ch-num">7</div>
-      <div class="ch-card-body">
-        <h4 data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</h4>
-        <p data-en="DPT pathway · PT salary · NPTE · Specialization" data-zh="物理治疗博士路径 · 薪资 · 执业考试 · 专科">DPT pathway · PT salary · NPTE · Specialization</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-  </div>
-</div>
-</section>
-
-
-<!-- Practice & Diagnose -->
-<section id="practice">
-<div class="container">
-  <span class="section-label" data-en="Practice &amp; Diagnose" data-zh="刷题与诊断">Practice &amp; Diagnose</span>
-  <h2 data-en="Test Your Knowledge" data-zh="检测你的知识水平">Test Your Knowledge</h2>
-  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Adaptive quiz engine — questions scale to your level. Diagnose weak spots, earn mastery, and get personalized study recommendations." data-zh="自适应刷题引擎 — 题目难度随你的水平自动调整。诊断薄弱环节，解锁精通等级，获得个性化学习建议。">Adaptive quiz engine — questions scale to your level. Diagnose weak spots, earn mastery, and get personalized study recommendations.</p>
-
-  <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
-    <button class="aq-btn primary" onclick="startDiagnostic()" style="font-size:1rem;padding:.7rem 1.5rem" data-en="🔬 Start Diagnostic Test" data-zh="🔬 开始诊断测试">🔬 Start Diagnostic Test</button>
-    <button class="aq-btn primary" onclick="startAdaptive()" style="font-size:1rem;padding:.7rem 1.5rem;background:var(--green)" data-en="🎯 Adaptive Practice" data-zh="🎯 自适应刷题">🎯 Adaptive Practice</button>
-    <button class="aq-btn secondary" onclick="startAdaptiveWeakest()" style="font-size:1rem;padding:.7rem 1.5rem" data-en="🎯 Practice Weakest Topic" data-zh="🎯 专攻薄弱章节">🎯 Practice Weakest Topic</button>
-  </div>
-
-  <div class="rec-box" id="recBox" style="display:none">
-    <div class="rec-title" data-en="📋 Personalized Study Recommendations" data-zh="📋 个性化学习建议">📋 Personalized Study Recommendations</div>
-    <div class="rec-items" id="recItems"></div>
-  </div>
-
-  <h3 style="margin-top:2rem" data-en="Mastery Dashboard" data-zh="精通度面板">Mastery Dashboard</h3>
-  <p style="font-size:.9rem;color:var(--text2);margin-bottom:.5rem" data-en="Track your knowledge level across every topic. Answer questions correctly at higher difficulty to level up." data-zh="追踪每个知识点的掌握程度。连续答对高难度题目即可升级。">Track your knowledge level across every topic. Answer questions correctly at higher difficulty to level up.</p>
-  <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
-    <span class="mastery-level beginner" data-en="Beginner 0–24" data-zh="入门 0–24">Beginner 0–24</span>
-    <span class="mastery-level learning" data-en="Learning 25–49" data-zh="学习中 25–49">Learning 25–49</span>
-    <span class="mastery-level proficient" data-en="Proficient 50–74" data-zh="熟练 50–74">Proficient 50–74</span>
-    <span class="mastery-level mastery" style="color:#fff" data-en="Mastery 75–100" data-zh="精通 75–100">Mastery 75–100</span>
-  </div>
-  <div class="mastery-grid" id="masteryGrid"></div>
-</div>
-</section>
-
-<!-- Progress -->
-<section id="progress">
-<div class="container">
-  <span class="section-label" data-en="Study Progress" data-zh="学习进度">Study Progress</span>
-  <h2 data-en="学习进度" data-zh="学习进度">学习进度</h2>
-  <div class="progress-bar-wrap" id="progressTracker">
-    <div class="progress-item"><label data-en="Ch 1 Quiz" data-zh="第一章 测验">Ch 1 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-1" style="width:0%"></div></div><span class="prog-pct" id="pct-1">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 2 Quiz" data-zh="第二章 测验">Ch 2 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-2" style="width:0%"></div></div><span class="prog-pct" id="pct-2">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 3 Quiz" data-zh="第三章 测验">Ch 3 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-3" style="width:0%"></div></div><span class="prog-pct" id="pct-3">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 4 Quiz" data-zh="第四章 测验">Ch 4 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-4" style="width:0%"></div></div><span class="prog-pct" id="pct-4">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 5 Quiz" data-zh="第五章 测验">Ch 5 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-5" style="width:0%"></div></div><span class="prog-pct" id="pct-5">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 6 Quiz" data-zh="第六章 测验">Ch 6 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-6" style="width:0%"></div></div><span class="prog-pct" id="pct-6">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 7 Quiz" data-zh="第七章 测验">Ch 7 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-7" style="width:0%"></div></div><span class="prog-pct" id="pct-7">0%</span></div>
-    <div class="progress-item"><label data-en="Flashcards" data-zh="闪卡">Flashcards</label><div class="prog-track"><div class="prog-fill" id="prog-fc" style="width:0%"></div></div><span class="prog-pct" id="pct-fc">0%</span></div>
-  </div>
-  <p style="font-size:.85rem;color:var(--text3)" data-en="Progress updates automatically as you use Quiz Mode and review flashcards." data-zh="使用答题模式和闪卡时，进度会自动更新。">Progress updates automatically as you use Quiz Mode and review flashcards.</p>
-</div>
-</section>
-
-<!-- Resources & Learning Hub -->
-<section id="resources">
-<div class="container">
-  <span class="section-label" data-en="Resources &amp; Learning" data-zh="资源与学习">Resources &amp; Learning</span>
-  <h2 data-en="Videos &amp; Photos by Chapter" data-zh="各章节视频与图片">Videos &amp; Photos by Chapter</h2>
-  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Curated YouTube &amp; Bilibili videos and Unsplash photos for every chapter. Videos open in a new tab." data-zh="为每个章节精选的 YouTube 和 Bilibili 视频以及 Unsplash 图片。视频将在新标签页打开。">Curated YouTube &amp; Bilibili videos and Unsplash photos for every chapter. Videos open in a new tab.</p>
-  <div id="resourcesHub"></div>
 </div>
 </section>
 
@@ -752,43 +638,6 @@ section{padding:4rem 0 3rem}
 </div>
 </section>
 
-<!-- References -->
-<section id="refs">
-<div class="container">
-  <span class="section-label" data-en="References" data-zh="参考文献">References</span>
-  <h2 data-en="参考文献" data-zh="参考文献">参考文献</h2>
-  <ol class="ref-list">
-    <li>Engel GL. The need for a new medical model. <em>Science</em>. 1977;196:129–136.</li>
-    <li>Khan KM, Scott A. Mechanotherapy. <em>Br J Sports Med</em>. 2009;43:247–252.</li>
-    <li>Simic L et al. Pre-exercise static stretching meta-analysis. <em>Scand J Med Sci Sports</em>. 2013;23:131–148.</li>
-    <li>Kay AD, Blazevich AJ. Acute static stretch effects. <em>Med Sci Sports Exerc</em>. 2012;44:154–164.</li>
-    <li>Warneke K et al. Stretch-induced force deficit meta-analysis. <em>J Sport Health Sci</em>. 2024;13:805–819.</li>
-    <li>Milewski MD et al. Sleep and injuries in adolescent athletes. <em>J Pediatr Orthop</em>. 2014;34:129–133.</li>
-    <li>Gao B et al. Sleep and sports injuries in adolescents. <em>J Pediatr Orthop</em>. 2019;39:e324–e333.</li>
-    <li>Dubois B, Esculier JF. PEACE and LOVE. <em>Br J Sports Med</em>. 2020;54:72–73.</li>
-    <li>Cheung K et al. DOMS treatment strategies. <em>Sports Med</em>. 2003;33:145–164.</li>
-    <li>Roberts LA et al. Cold water immersion & strength training. <em>J Physiol</em>. 2015;593:4285–4301.</li>
-    <li>Belval LN et al. Fluid Replacement Position Statement. <em>J Athl Train</em>. 2017;52:1166–1187.</li>
-    <li>Guest NS et al. Caffeine and exercise performance. <em>J Int Soc Sports Nutr</em>. 2021;18:1.</li>
-    <li>Thomas DT et al. Nutrition and Athletic Performance. <em>Med Sci Sports Exerc</em>. 2016;48:543–568.</li>
-    <li>Mountjoy M et al. IOC RED-S consensus. <em>Br J Sports Med</em>. 2018;52:687–694.</li>
-    <li>Schoenfeld BJ et al. Protein timing meta-analysis. <em>J Int Soc Sports Nutr</em>. 2013;10:53.</li>
-    <li>Schoenfeld BJ et al. Pre vs post protein. <em>PeerJ</em>. 2017;5:e2825.</li>
-    <li>Morton RW et al. Protein supplementation meta-analysis. <em>Br J Sports Med</em>. 2018;52:376–384.</li>
-    <li>Kreider RB et al. Creatine safety & efficacy. <em>J Int Soc Sports Nutr</em>. 2017;14:18.</li>
-    <li>APTA. Becoming a Physical Therapist. apta.org.</li>
-    <li>U.S. BLS. Physical Therapists (May 2024). bls.gov.</li>
-  </ol>
-</div>
-</section>
-
-<footer>
-<div class="container">
-  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
-  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking "how do we know?"" data-zh="科学因争论而前进，而非因命令 — 永远追问"我们是怎么知道的？"">Science moves by debate, not decree — keep asking "how do we know?"</p>
-</div>
-</footer>
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 <!-- Flashcard Panel -->
 <div class="flashcard-panel" id="flashPanel">
   <div class="flashcard-box">
@@ -2244,6 +2093,42 @@ document.querySelectorAll('.ai-modal .chat-sug-btn').forEach(b=>b.addEventListen
   input.value=b.dataset.zh || b.textContent;
   sendAiChat();
 }));
+
+// ════════════════════════════════════════
+// Image Lightbox: open full + download
+// ════════════════════════════════════════
+let _lbOverlay=null, _lbImg=null;
+function ensureLightbox(){
+  if(_lbOverlay) return;
+  _lbOverlay=document.createElement('div');
+  _lbOverlay.className='lb-overlay';
+  _lbOverlay.innerHTML='<div class="lb-stage"><div class="lb-bar"><button class="lb-btn dl" id="lbDl">⬇ <span></span></button><button class="lb-btn" id="lbClose">✕</button></div><img class="lb-img" id="lbImg" alt=""></div><div class="lb-caption" id="lbCap"></div>';
+  document.body.appendChild(_lbOverlay);
+  _lbImg=_lbOverlay.querySelector('#lbImg');
+  _lbOverlay.addEventListener('click', e=>{ if(e.target===_lbOverlay) closeLightbox(); });
+  _lbOverlay.querySelector('#lbClose').addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
+}
+function hiResUrl(src){
+  // strip size params to request a larger render
+  return src.replace(/\?w=\d+&h=\d+&fit=crop/, '?w=1800&q=85');
+}
+function openLightbox(e){
+  const t=e.target;
+  if(!t.classList || !t.classList.contains('inline-img')) return;
+  e.preventDefault();
+  ensureLightbox();
+  _lbImg.src=hiResUrl(t.currentSrc||t.src);
+  _lbImg.alt=t.alt||'';
+  _lbOverlay.querySelector('#lbCap').textContent=t.alt||'';
+  _lbOverlay.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  if(_lbOverlay){ _lbOverlay.classList.remove('open'); document.body.style.overflow=''; }
+}
+document.addEventListener('click', openLightbox);
+
 </script>
 </div><!-- /page-wrapper -->
 <!-- Floating AI button -->

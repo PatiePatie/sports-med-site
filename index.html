@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -17,7 +21,7 @@
   --shadow-lg:0 16px 40px rgba(15,23,42,.13),0 4px 10px rgba(15,23,42,.05);
   --radius:16px;--radius-sm:10px;--radius-lg:22px;
   --font:"Avenir Next","Avenir Next Condensed","Helvetica Neue",Arial,"Songti SC","SimSun","宋体",sans-serif;
-  --font-heading:"Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
+  --font-heading:"Cormorant Garamond","Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
   --max-w:820px;
 }
 html{scroll-behavior:smooth;font-size:16px}
@@ -541,9 +545,10 @@ section{padding:4rem 0 3rem}
 @media(max-width:600px){.lb-bar{top:-2.3rem}}
 
 
-/* ── Type system: Avenir Next body + Copernicus headings ── */
-h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:.01em}
-.logo,.quiz-title,.qo-question,.aq-question,.acc-header,.fc-front .fc-term,.fc-back .fc-def,.stat-num,.mastery-title,.rec-title,.vid-title,.ai-title,.res-hub-chapter{font-family:var(--font-heading)}
+/* ── Type system: Avenir Next body + Cormorant Garamond (Claude-style slab-serif) headings ── */
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing:-.02em}
+.logo{font-family:var(--font-heading);font-weight:600;letter-spacing:-.01em}
+.quiz-title,.qo-question,.aq-question,.acc-header,.fc-front .fc-term,.fc-back .fc-def,.stat-num,.mastery-title,.rec-title,.vid-title,.ai-title,.res-hub-chapter{font-family:var(--font-heading);font-weight:500}
 </style>
 </head>
 <body>
@@ -586,8 +591,6 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:.01em}
 <div class="container header-inner">
   <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
   <div class="header-actions">
-    <button class="btn-icon" id="flashBtn" title="Flashcards / 闪卡">🃏</button>
-    <button class="btn-icon" id="quizModeBtn" title="Quiz Mode / 刷题模式">📝</button>
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
   </div>

@@ -329,6 +329,9 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .diag-topic-fill{height:100%;border-radius:3px}
 .diag-topic-score{font-size:.78rem;color:var(--text3);margin-top:.2rem}
 
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-sm);margin:1rem 0 .25rem;display:block;box-shadow:var(--shadow-sm)}
+.acc-body-inner .inline-img{margin-left:auto;margin-right:auto}
+
 /* ── Resources ── */
 .resources-section{margin-top:2rem;padding-top:1.5rem;border-top:1px dashed var(--border)}
 .resources-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
@@ -343,7 +346,6 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .photo-card{border-radius:var(--radius-sm);overflow:hidden;position:relative}
 .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .3s}
 .photo-card:hover img{transform:scale(1.03)}
-.photo-card .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:.4rem .6rem;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:.75rem;font-weight:500}
 .resources-note{font-size:.82rem;color:var(--text3);margin-top:.5rem;font-style:italic}
 
 /* ── Sidebar ── */
@@ -579,7 +581,7 @@ section{padding:4rem 0 3rem}
           <div class="stat-card"><div class="stat-num">~267K</div><div class="stat-label" data-en="Jobs" data-zh="就业岗位">Jobs</div></div>
           <div class="stat-card"><div class="stat-num">$74–132K</div><div class="stat-label" data-en="Salary range" data-zh="薪资范围">Salary range</div></div>
         </div>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Physical therapy in practice"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="7.3 What PTs Do" data-zh="7.3 日常工作">7.3 What PTs Do</div>
@@ -588,7 +590,7 @@ section{padding:4rem 0 3rem}
           <div><strong data-en="Evaluate:" data-zh="评估：">Evaluate:</strong> <span data-en="Histories, strength/ROM testing, differential hypotheses." data-zh="病史采集、力量/关节活动度测试、鉴别诊断。">Histories, strength/ROM testing, differential hypotheses.</span><br><strong data-en="Treat:" data-zh="治疗：">Treat:</strong> <span data-en="Progressive exercise, manual therapy, load management." data-zh="渐进式运动、手法治疗、负荷管理。">Progressive exercise, manual therapy, load management.</span></div>
           <div><strong data-en="Educate:" data-zh="教育：">Educate:</strong> <span data-en="Patients who understand their injury recover better." data-zh="了解自身伤情的患者恢复更快。">Patients who understand their injury recover better.</span><br><strong data-en="Start today:" data-zh="今天就开始：">Start today:</strong> <span data-en="Training log, read 1 study abstract/week, volunteer." data-zh="训练日志、每周读一篇论文摘要、做志愿者。">Training log, read 1 study abstract/week, volunteer.</span></div>
         </div>
-      </div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Physical therapy rehabilitation"></div></div>
     </div>
   </div>
 
@@ -611,7 +613,7 @@ section{padding:4rem 0 3rem}
   <div class="resources-section" id="videos">
     <div class="resources-title" data-en="🎬 Chapter 7 · Videos &amp; Photos" data-zh="🎬 第7章 · 视频与图片">🎬 Videos &amp; Photos</div>
     <div class="video-grid"><a class="video-card" href="https://www.youtube.com/watch?v=1Z2Ib4Meul4" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/1Z2Ib4Meul4/hqdefault.jpg" loading="lazy" alt="Physical Therapist Careers — APTA"><div class="video-info"><div class="vid-title" data-en="Physical Therapist Careers — APTA" data-zh="物理治疗师职业 — 美国物理治疗协会">Physical Therapist Careers — APTA</div><div class="vid-source" data-en="YouTube · APTA" data-zh="YouTube · APTA">YouTube · APTA</div></div></a><a class="video-card" href="https://www.youtube.com/watch?v=JdNXlQXzSyk" target="_blank" rel="noopener"><img class="video-thumb" src="https://img.youtube.com/vi/JdNXlQXzSyk/hqdefault.jpg" loading="lazy" alt="What They Don't Tell You About Becoming a Physical Therapist"><div class="video-info"><div class="vid-title" data-en="What They Don't Tell You About Becoming a Physical Therapist" data-zh="成为物理治疗师的真相">What They Don't Tell You About Becoming a Physical Therapist</div><div class="vid-source" data-en="YouTube · Reddy Care Physical Therapy" data-zh="YouTube · Reddy Care Physical Therapy">YouTube · Reddy Care Physical Therapy</div></div></a><a class="video-card" href="https://www.bilibili.com/video/BV1bp421D78m/" target="_blank" rel="noopener"><div class="video-info"><div class="vid-title" data-en="运动疗法 — 上肢肌力训练" data-zh="运动疗法 — 上肢肌力训练">运动疗法 — 上肢肌力训练</div><div class="vid-source" data-en="Bilibili · 运动康复小树老师" data-zh="Bilibili · 运动康复小树老师">Bilibili · 运动康复小树老师</div></div></a></div>
-    <div class="photo-grid"><div class="photo-card"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop" loading="lazy" alt="Physical therapy in practice"><div class="photo-cap" data-en="Physical therapy in practice" data-zh="物理治疗实践">Physical therapy in practice</div></div><div class="photo-card"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" loading="lazy" alt="Rehabilitation and recovery"><div class="photo-cap" data-en="Rehabilitation and recovery" data-zh="康复与恢复">Rehabilitation and recovery</div></div></div>
+    
     <div class="resources-note" data-en="Videos open in a new tab. Photos via Unsplash (free license)." data-zh="视频将在新标签页打开。图片来自 Unsplash（免费授权）。">Videos open in a new tab. Photos via Unsplash (free license).</div>
   </div>
 </div>
@@ -1938,7 +1940,7 @@ const RESOURCES_BY_CHAPTER = [
     ],
     photos:[
       {src:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop', cap:'Balanced sports nutrition', capCn:'均衡的运动营养'},
-      {src:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
+      {src:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop', cap:'Hydration is key to performance', capCn:'补水是表现的关键'}
     ]
   },
   {
@@ -1983,7 +1985,7 @@ function renderResourcesHub(){
     }).join('');
     const pics = c.photos.map(p=>`<div class="photo-card">
       <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      <div class="photo-cap" data-en="${p.cap}" data-zh="${p.capCn}">${p.cap}</div>
+      
     </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>

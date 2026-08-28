@@ -917,7 +917,7 @@ let fcProgressCount = 0;
 function updateQuizProgress(pct){
   quizProgress[qoCurrent_quiz_ch || 0] = Math.max(quizProgress[qoCurrent_quiz_ch||0]||0, pct);
   localStorage.setItem('sm_quizProgress', JSON.stringify(quizProgress));
-  renderProgressBars();
+  syncProgress();
 }
 let qoCurrent_quiz_ch = 0;
 
@@ -930,7 +930,9 @@ function renderProgressBars(){
   for(let i=1;i<=7;i++){
     const el=document.getElementById('prog-'+i), p=document.getElementById('pct-'+i);
     if(!el||!p) continue;
-    const v = quizProgress[i]||0;
+    const tops=TOPICS.filter(t=>t.ch===i);
+    let v=0;
+    if(tops.length){ v=Math.round(tops.reduce((s,t)=>s+(mastery[t.id]?.score||0),0)/tops.length); }
     el.style.width = v+'%';
     p.textContent = v+'%';
   }
@@ -939,13 +941,23 @@ function renderProgressBars(){
   if(fcEl) fcEl.style.width = fcPct+'%';
   if(fcP) fcP.textContent = fcPct+'%';
 }
-function updateProgress(){renderProgressBars();}
+function updateProgress(){ syncProgress(); }
+function syncProgress(){ renderMasteryGrid(); updateRecs(); renderProgressBars(); }
 
 // Track which chapter quiz was completed
 function trackQuizDone(ch, pct){
   quizProgress[ch] = Math.max(quizProgress[ch]||0, pct);
   localStorage.setItem('sm_quizProgress', JSON.stringify(quizProgress));
-  renderProgressBars();
+  const top = TOPICS.find(t=>t.ch===ch);
+  if(top){
+    const m = mastery[top.id];
+    if(m && pct > (m.score||0)){
+      m.score = Math.min(100, Math.round(pct));
+      m.difficulty = pct>=75?2:pct>=50?1:1;
+      saveMastery();
+    }
+  }
+  syncProgress();
 }
 
 // Intercept quiz completion to track by chapter
@@ -1273,6 +1285,7 @@ t7:[
 // Builds thousands of fresh, non-repeating bilingual questions per topic.
 // Falls back gracefully. Trusted numeric + categorical randomization.
 var _paramSeen = {};
+var _tplSeen = {};
 var _paramCounts = {};
 
 function _phash(o){ return JSON.stringify(o); }
@@ -1423,6 +1436,31 @@ var PARAM = {
       var ex="The repeated-bout effect: subsequent identical workouts cause dramatically less damage via neural + cellular adaptations.";
       var exCn="重复训练效应：后续相同训练损伤大幅减少，源于神经与细胞适应。";
       return _buildQ("t4",1,q,qCn,optEn,optCn,1,ex,exCn);
+    },
+    function(diff){
+      var hours=[6,6.5,7,7.5];
+      var rands=[1.6,1.7,1.8,2.0];
+      var h=hours[_rr(hours.length)];
+      var r=rands[_rr(rands.length)];
+      var q="An adolescent athlete averaging "+h+" h of sleep per night has an injury risk, versus peers sleeping 8+ h, that is approximately:";
+      var qCn="每晚平均睡眠约"+h+"小时的青少年运动员，与睡8小时以上的同伴相比，其受伤风险约为：";
+      var optEn=[(r-0.7).toFixed(1)+"×",r.toFixed(1)+"×",(r+0.8).toFixed(1)+"×","1.0×"];
+      var optCn=[(r-0.7).toFixed(1)+"倍",r.toFixed(1)+"倍",(r+0.8).toFixed(1)+"倍","1.0倍"];
+      var ex="Milewski et al. 2014: athletes averaging <8 h of sleep were ~1.7× more likely to be injured.";
+      var exCn="Milewski等人2014：平均睡眠不足8小时的运动员受伤风险约高1.7倍。";
+      return _buildQ("t4",1,q,qCn,optEn,optCn,1,ex,exCn);
+    },
+    function(diff){
+      var acts=["a downhill running session","a heavy squat workout","a new eccentric arm-curl bout","a long-distance interval run"];
+      var actsCn=["一次下坡跑训练","一次大重量深蹲训练","一次新的离心弯举训练","一次长距离间歇跑"];
+      var i=_rr(acts.length);
+      var q="After one exposure to "+acts[i]+", a repeated identical session several days later typically produces:";
+      var qCn="首次接触"+actsCn[i]+"后，几天后再进行相同的训练通常会产生：";
+      var optEn=["More damage and soreness","Dramatically less damage and soreness","Exactly the same response","Complete recovery with no adaptation"];
+      var optCn=["更多损伤和酸痛","损伤和酸痛大幅减少","完全相同的反应","完全恢复且无适应"];
+      var ex="The repeated-bout effect: a subsequent identical workout causes dramatically less damage via neural + cellular adaptations.";
+      var exCn="重复训练效应：后续相同训练损伤大幅减少，源于神经与细胞适应。";
+      return _buildQ("t4",1,q,qCn,optEn,optCn,1,ex,exCn);
     }
   ],
   // ── Topic 5: Sports Nutrition ──
@@ -1564,9 +1602,13 @@ function genQuestion(topicId, difficulty){
   if(pq) return pq;
   const templates = Q_TEMPLATES[topicId];
   if(!templates || !templates.length) return null;
-  // Filter by difficulty ±1
-  const pool = templates.filter(t=>Math.abs(t.d - difficulty)<=1);
-  const base = pool.length ? pick(pool) : pick(templates);
+  if(!_tplSeen[topicId]) _tplSeen[topicId]={};
+  let pool = templates.filter(t=>Math.abs(t.d - difficulty)<=1);
+  if(!pool.length) pool = templates;
+  let base = null, n=0;
+  while(base===null && n<pool.length){ n++; const c=pool[_rr(pool.length)]; if(!_tplSeen[topicId][c.q]) base=c; }
+  if(base===null){ base = pool[_rr(pool.length)]; _tplSeen[topicId]={}; }
+  _tplSeen[topicId][base.q]=true;
   // Shuffle options but track correct
   const correctText = base.opts[base.correct];
   const indices = base.opts.map((_,i)=>i);
@@ -1743,7 +1785,7 @@ function aqSelect(i){
   document.getElementById('aqStreakBar').innerHTML = renderStreakDots();
   const streakLabel = document.querySelector('.aq-streak-label');
   if(streakLabel) streakLabel.textContent = aqStreak>1?(showCN?aqStreak+'连对':aqStreak+' streak'):'';
-  renderMasteryGrid();
+  syncProgress();
 }
 
 // ════════════════════════════════════════
@@ -1827,13 +1869,14 @@ function renderDiagResults(){
     const r=diagResults[t.id];
     if(r){
       const topicPct=r.correct/r.total;
-      mastery[t.id].score = Math.round(topicPct * 60);
+      mastery[t.id].score = Math.round(Math.min(1,topicPct) * 100);
       mastery[t.id].difficulty = topicPct>=0.75?2:topicPct>=0.5?1:1;
       mastery[t.id].totalQ += r.total;
       mastery[t.id].correctQ += r.correct;
     }
   });
   saveMastery();
+  syncProgress();
 
   let topicHTML = '';
   TOPICS.forEach(t=>{
@@ -2038,14 +2081,9 @@ function renderResourcesHub(){
         </div>
       </a>`;
     }).join('');
-    const pics = c.photos.map(p=>`<div class="photo-card">
-      <img src="${p.src}" loading="lazy" alt="${p.cap}">
-      
-    </div>`).join('');
     return `<div class="res-hub-chapter">
       <h4><span class="section-label">${c.ch}</span> <span data-en="${c.name}" data-zh="${c.nameCn}">${c.name}</span></h4>
       <div class="video-grid">${vids}</div>
-      <div class="photo-grid">${pics}</div>
     </div>`;
   }).join('');
 }

@@ -1,0 +1,1216 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   EDITORIAL SURGICAL — UI redesign draft
+   ------------------------------------------------------------------------------
+   A pure override layer. Loaded AFTER each page's inline <style>, so it wins the
+   cascade on ties without a single line of the original CSS being edited.
+
+   Nothing here changes markup, content or behaviour. Remove the <link> and the
+   site is byte-for-byte the original:  python3 tools/theme_switch.py off
+
+   Contents
+     01  Tokens — light
+     02  Tokens — dark
+     03  Base & typography
+     04  Header
+     05  Sidebar (desktop rail) + mobile drawer
+     06  Hero
+     07  Section eyebrows & headings
+     08  Surfaces — cards, stats, chapter cards
+     09  Chips, badges, tags — one desaturated family
+     10  Quizzes, options, overlays
+     11  Tables
+     12  Accordions & tabs
+     13  Chat & AI modal
+     14  Flashcards
+     15  Callouts, pathway, progress, references
+     16  Buttons & controls
+     17  Exam & certificate
+     18  Responsive — mobile first-class
+     19  Focus, motion, print
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── 01 · Tokens — light ─────────────────────────────────────────────────── */
+:root{
+  /* Warm paper, true ink — a page that reads like print, not like a SaaS dashboard */
+  --bg:#F7F5F0;
+  --paper:#F7F5F0;
+  --surface:#FFFEFB;
+  --surface2:#F0EDE4;
+  --surface3:#E5E0D3;
+
+  --text:#17181A;
+  --text2:#5A5F66;
+  --text3:#697079;   /* AA on paper: 4.62:1 */
+
+  /* One surgical accent */
+  --accent:#0F766E;
+  --accent2:#115E59;
+  --accent-bg:#E6F2F0;
+  --accent-glow:rgba(15,118,110,.18);
+
+  /* Semantics — desaturated into one coherent family */
+  --green:#3F7A54;
+  --red:#A6453A;
+  --amber:#8E6A1E;
+
+  /* Hairlines, not fat shadows */
+  --border:#E3DED2;
+  --border2:#CFC8B8;
+  --line:#E3DED2;
+  --line-strong:#CFC8B8;
+
+  --shadow-sm:0 0 0 0 transparent;
+  --shadow:0 1px 2px rgba(23,24,26,.05);
+  --shadow-lg:0 18px 48px rgba(23,24,26,.14),0 2px 8px rgba(23,24,26,.06);
+
+  /* Sharp, or barely rounded */
+  --radius:6px;
+  --radius-sm:4px;
+  --radius-lg:10px;
+
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --font-heading:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Songti SC","Source Han Serif SC","Noto Serif SC","SimSun",serif;
+
+  --max-w:880px;
+  --rail:256px;
+
+  /* Chip family — the only hues on the site besides the accent */
+  --c-blue:#3A6B8F;
+  --c-teal:#0F766E;
+  --c-moss:#4A7A4E;
+  --c-ochre:#836316;
+  --c-clay:#9E5044;
+  --c-plum:#6B4E79;
+  --c-slate:#5A6472;
+
+  --focus-ring:rgba(15,118,110,.35);
+}
+
+
+/* ─── 02 · Tokens — dark ──────────────────────────────────────────────────── */
+body.dark{
+  /* Warm charcoal, never blue-black */
+  --bg:#0E1114;
+  --paper:#0E1114;
+  --surface:#161A1F;
+  --surface2:#1F242B;
+  --surface3:#2A313A;
+
+  --text:#EDEAE2;
+  --text2:#A6ADB8;
+  --text3:#7C8592;   /* AA on charcoal: 4.68:1 */
+
+  --accent:#5EEAD4;
+  --accent2:#99F6E4;
+  --accent-bg:#12302C;
+  --accent-glow:rgba(94,234,212,.20);
+
+  --green:#6FBE8B;
+  --red:#E2897A;
+  --amber:#D2A452;
+
+  --border:#262C33;
+  --border2:#343C46;
+  --line:#262C33;
+  --line-strong:#343C46;
+
+  --shadow-sm:0 0 0 0 transparent;
+  --shadow:0 1px 2px rgba(0,0,0,.5);
+  --shadow-lg:0 20px 56px rgba(0,0,0,.62),0 2px 10px rgba(0,0,0,.4);
+
+  --c-blue:#8FBEDC;
+  --c-teal:#5EEAD4;
+  --c-moss:#93CCA1;
+  --c-ochre:#D9B76D;
+  --c-clay:#E39B8C;
+  --c-plum:#C0A3CE;
+  --c-slate:#A2AEBC;
+
+  --focus-ring:rgba(94,234,212,.4);
+}
+
+
+/* ─── 03 · Base & typography ─────────────────────────────────────────────── */
+html{font-size:16px}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.72;
+  letter-spacing:0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* clip (not hidden) so position:sticky keeps working */
+  overflow-x:clip;
+}
+::selection{background:var(--accent);color:var(--bg)}
+
+a{color:var(--accent);text-decoration:none;text-underline-offset:.18em}
+a:hover{text-decoration:underline;text-decoration-thickness:1px}
+
+/* Display type — serif for authority, tight on Latin, neutral on Chinese */
+h1,h2,h3,h4,h5,h6{
+  font-family:var(--font-heading);
+  font-weight:600;
+  letter-spacing:-.012em;
+  line-height:1.22;
+  text-wrap:balance;
+  color:var(--text);
+}
+h2{font-size:clamp(1.35rem,2.4vw,1.65rem);margin-bottom:.4rem}
+h3{font-size:1.12rem;font-weight:600;margin:1.6rem 0 .45rem}
+h4{font-size:1.02rem;font-weight:600;margin:1.25rem 0 .35rem}
+
+/* Chinese never wants negative tracking */
+body.lang-zh h1,body.lang-zh h2,body.lang-zh h3,body.lang-zh h4,
+body.lang-zh .logo,body.lang-zh .sidebar-logo,.cn{letter-spacing:0}
+
+p{margin-bottom:.9rem;text-wrap:pretty}
+.cn{color:var(--text2);font-size:.92rem;line-height:1.85}
+
+/* Long unbroken clinical terms must never push the page sideways */
+p,li,td,th,.acc-body-inner,.chat-msg,.qo-opt,.aq-opt{overflow-wrap:break-word}
+
+section{padding:clamp(2.5rem,6vw,4rem) 0 clamp(2rem,4.5vw,3rem);border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+
+.container{max-width:var(--max-w);padding:0 1.5rem}
+
+.quote{
+  border-left:2px solid var(--accent);
+  background:transparent;
+  border-radius:0;
+  padding:.15rem 0 .15rem 1.1rem;
+  font-style:normal;
+  color:var(--text2);
+}
+
+hr,.resources-section{border-top-style:solid;border-color:var(--line)}
+
+
+/* ─── 04 · Header ────────────────────────────────────────────────────────── */
+header{
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+  padding-top:env(safe-area-inset-top);
+}
+.header-inner{
+  padding:.6rem 0;
+  padding-left:max(0px,env(safe-area-inset-left));
+  padding-right:max(0px,env(safe-area-inset-right));
+}
+.logo{
+  font-family:var(--font-heading);
+  font-size:1.08rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--text);
+}
+.logo span{color:var(--accent)}
+
+.btn-icon{
+  width:38px;height:38px;
+  border-radius:var(--radius);
+  border:1px solid var(--line-strong);
+  background:transparent;
+  color:var(--text2);
+  box-shadow:none;
+  font-size:.95rem;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.btn-icon:hover{
+  transform:none;
+  box-shadow:none;
+  color:var(--accent);
+  border-color:var(--accent);
+  background:var(--accent-bg);
+}
+
+/* Reading progress — one teal hairline, no rainbow */
+#readingBar{height:2px;background:var(--accent)}
+
+/* Top nav (pages that use it) — active state is a rule, not a pill */
+nav:not(.sidebar){background:var(--surface);border-bottom:1px solid var(--line)}
+nav:not(.sidebar) a{
+  color:var(--text2);font-weight:500;font-size:.86rem;
+  padding:.7rem 1rem;border-bottom:1px solid transparent;
+}
+nav:not(.sidebar) a:hover,nav:not(.sidebar) a.active{
+  color:var(--accent);border-bottom-color:var(--accent);
+}
+
+
+/* ─── 05 · Sidebar + mobile drawer ───────────────────────────────────────── */
+.sidebar{
+  width:var(--rail);
+  background:var(--surface);
+  border-right:1px solid var(--line);
+  padding:1.1rem 0 2rem;
+  padding-left:env(safe-area-inset-left);
+  box-shadow:none;
+  scrollbar-width:thin;
+}
+.page-wrapper{margin-left:var(--rail)}
+
+.sidebar-logo{
+  font-family:var(--font-heading);
+  font-size:1.02rem;font-weight:600;letter-spacing:-.01em;
+  padding:0 1.25rem .9rem;
+  border-bottom:1px solid var(--line);
+  margin-bottom:.75rem;
+}
+.sidebar-logo span{color:var(--accent)}
+
+.sidebar-group{margin-bottom:1.1rem}
+.sidebar-group + .sidebar-group{padding-top:.9rem;border-top:1px solid var(--line)}
+
+/* Group labels become small-caps eyebrows */
+.sidebar-label{
+  font-family:var(--font);
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);
+  padding:.15rem 1.25rem .5rem;
+}
+
+.sidebar-link{
+  position:relative;
+  display:flex;align-items:center;
+  min-height:34px;
+  padding:.35rem 1rem .35rem 1.25rem;
+  font-size:.855rem;line-height:1.4;
+  color:var(--text2);
+  border-left:2px solid transparent;
+  border-radius:0;
+  transition:color .16s,background .16s,border-color .16s;
+}
+.sidebar-link.sub{padding-left:1.55rem;font-size:.82rem}
+.sidebar-link:hover{
+  transform:none;
+  color:var(--text);
+  background:color-mix(in srgb,var(--accent) 5%,transparent);
+  border-left-color:var(--line-strong);
+  text-decoration:none;
+}
+.sidebar-link.active{
+  color:var(--accent);
+  font-weight:600;
+  background:var(--accent-bg);
+  border-left-color:var(--accent);
+}
+/* the synapse: a hairline that runs out from the active marker */
+.sidebar-link.active::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,var(--accent),transparent 70%);
+  opacity:.5;
+}
+
+.sidebar-toggle{
+  top:calc(.6rem + env(safe-area-inset-top));
+  left:calc(.75rem + env(safe-area-inset-left));
+  width:44px;height:44px;
+  border-radius:var(--radius);
+  border:1px solid var(--line-strong);
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:var(--shadow);
+}
+.sidebar-toggle:hover{color:var(--accent);border-color:var(--accent)}
+
+/* Drawer backdrop — injected by draft.js, styled here */
+.sm-backdrop{
+  position:fixed;inset:0;z-index:140;
+  background:rgba(23,24,26,.42);
+  backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.sm-backdrop.show{opacity:1;pointer-events:auto}
+body.dark .sm-backdrop{background:rgba(0,0,0,.6)}
+body.sm-locked{overflow:hidden}
+
+.onthis .sidebar-link{font-size:.79rem;min-height:30px}
+
+
+/* ─── 06 · Hero ──────────────────────────────────────────────────────────── */
+.hero,.ne-hero{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  padding:clamp(3rem,7vw,5rem) 0 clamp(2.25rem,5vw,3.25rem);
+  position:relative;
+}
+/* a single hairline "scanline" across the top of the page — the diagnostic monitor */
+.hero::before,.ne-hero::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:.45;
+}
+
+.hero h1,.ne-hero h1{
+  font-family:var(--font-heading);
+  font-size:clamp(1.9rem,4vw,3rem);
+  font-weight:600;
+  letter-spacing:-.02em;
+  max-width:20ch;
+  margin-inline:auto;
+  margin-bottom:.9rem;
+}
+/* Kill the gradient-text headline — solid ink, with a short teal rule as the
+   signature. (The language toggle rewrites h1.textContent and destroys the inner
+   <span>, so the accent has to live on the heading, not on a wrapper.) */
+.hero h1 span,.ne-hero h1 span{
+  background:none;
+  -webkit-background-clip:initial;
+  background-clip:initial;
+  -webkit-text-fill-color:currentColor;
+  color:var(--text);
+}
+.hero h1::after{
+  content:"";display:block;
+  width:52px;height:2px;
+  background:var(--accent);
+  margin:1.15rem auto 0;
+}
+body.lang-zh .hero h1,body.lang-zh .ne-hero h1{letter-spacing:.01em;max-width:22ch}
+
+.hero p,.ne-hero p.lead{
+  font-size:1.02rem;color:var(--text2);max-width:56ch;margin-inline:auto;
+}
+
+/* Badge = hairline pill + a pulsing teal synapse dot */
+.hero-badge,.ne-module{
+  font-family:var(--font);
+  background:transparent;
+  border:1px solid var(--line-strong);
+  border-radius:2px;
+  color:var(--text2);
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;
+  padding:.34rem .75rem;
+  box-shadow:none;
+}
+.hero-badge .dot{
+  width:6px;height:6px;background:var(--accent);
+  box-shadow:0 0 0 0 var(--accent-glow);
+  animation:sm-synapse 2.8s ease-out infinite;
+}
+@keyframes sm-synapse{
+  0%  {box-shadow:0 0 0 0 var(--accent-glow)}
+  70% {box-shadow:0 0 0 7px transparent}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+
+.hero-actions{margin-top:1.9rem;gap:.6rem}
+
+/* Trust strip → flat hairline chips */
+.trust-chip{
+  border-radius:2px;background:transparent;border:1px solid var(--line);
+  box-shadow:none;color:var(--text2);font-size:.77rem;font-weight:600;
+  letter-spacing:.02em;padding:.34rem .8rem;
+}
+
+
+/* ─── 07 · Section eyebrows ──────────────────────────────────────────────── */
+.section-label{
+  font-family:var(--font);
+  display:inline-block;
+  background:none;border:none;border-bottom:1px solid var(--accent);
+  border-radius:0;
+  padding:0 0 .3rem;
+  margin-bottom:.9rem;
+  color:var(--accent);
+  font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+body.lang-zh .section-label{letter-spacing:.08em}
+
+.toc-intro h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:600}
+.toc-intro .toc-sub{font-size:1rem;color:var(--text2)}
+
+.resources-title,.rec-title,.quiz-title,.debate-title{
+  font-family:var(--font-heading);font-weight:600;
+}
+.resources-section{border-top:1px solid var(--line)}
+.resources-note{font-style:normal;color:var(--text3);font-size:.8rem}
+
+
+/* ─── 08 · Surfaces ──────────────────────────────────────────────────────── */
+.stat-card,.mastery-card,.diag-topic,.video-card,.debate,.quiz,.acc-item,
+.rec-box,.chat-window,.feature-card,.author-card,.exam-panel,.study-step,.ekey{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:none;
+  transition:border-color .2s,background .2s;
+}
+.stat-card:hover,.mastery-card:hover,.video-card:hover,.feature-card:hover{
+  transform:none;
+  box-shadow:none;
+  border-color:var(--line-strong);
+}
+
+/* Stat cards — serif numeral, small-caps label, a synapse rule underneath */
+.stat-card{position:relative;padding:1.25rem 1.1rem;overflow:hidden;text-align:left}
+.stat-num{
+  font-family:var(--font-heading);
+  font-size:2.1rem;font-weight:600;line-height:1.05;
+  color:var(--text);
+  letter-spacing:-.02em;
+}
+.stat-label{
+  font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin-top:.5rem;
+}
+.stat-card::after{
+  content:"";position:absolute;left:0;bottom:0;height:2px;width:34%;
+  background:var(--accent);opacity:.75;
+  transition:width .3s ease;
+}
+.stat-card:hover::after{width:100%}
+
+/* Chapter cards — the scanline sweeps on hover */
+.ch-card{
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--surface);
+  box-shadow:none;
+  padding:1.1rem 1.2rem;
+  transition:border-color .2s,background .2s;
+}
+.ch-card:hover{
+  transform:none;box-shadow:none;
+  border-color:color-mix(in srgb,var(--accent) 50%,var(--line));
+  background:color-mix(in srgb,var(--accent) 3%,var(--surface));
+}
+.ch-card::before{width:2px;background:var(--accent)}
+.ch-card::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+.ch-card:hover::after{transform:scaleX(1)}
+.ch-num{
+  width:44px;height:44px;border-radius:var(--radius-sm);
+  background:var(--accent-bg);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+  box-shadow:none;
+  font-family:var(--font-heading);font-weight:600;font-size:1.3rem;
+}
+.ch-card h4{font-family:var(--font-heading);font-size:1.05rem;font-weight:600}
+.ch-card p{font-size:.83rem;color:var(--text2)}
+.ch-go{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+
+/* Feature cards / author card */
+.feature-card .co-ico,.callout h4 .co-ico{
+  background:var(--accent-bg);color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 26%,transparent);
+  border-radius:var(--radius-sm);
+}
+.feature-card h4,.step-info h4,.callout h4{font-family:var(--font-heading);font-weight:600}
+.author-ava{
+  background:var(--accent-bg);color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+  border-radius:var(--radius);
+  font-family:var(--font-heading);font-weight:600;
+}
+
+/* Images */
+.inline-img,img{border-radius:var(--radius-sm)}
+.inline-img{border:1px solid var(--line);box-shadow:none}
+.video-thumb{border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+.vid-title{font-family:var(--font-heading);font-weight:600;font-size:.9rem}
+.vid-source{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.photo-card{border-radius:var(--radius-sm);border:1px solid var(--line)}
+
+
+/* ─── 09 · Chips, badges, tags — one desaturated family ──────────────────── */
+.q-tag,.evidence-badge,.grade-pill,.mastery-level,.aq-diff-badge,
+.rec-chip,.step-status,.ne-badge-chip{
+  font-family:var(--font);
+  display:inline-block;
+  background:color-mix(in srgb,var(--chip,var(--c-slate)) 9%,transparent);
+  color:var(--chip,var(--c-slate));
+  border:1px solid color-mix(in srgb,var(--chip,var(--c-slate)) 32%,transparent);
+  border-radius:2px;
+  padding:.14rem .5rem;
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  line-height:1.5;
+}
+body.lang-zh .q-tag,body.lang-zh .evidence-badge,body.lang-zh .mastery-level,
+body.lang-zh .step-status,body.lang-zh .rec-chip{letter-spacing:.04em}
+
+.q-mechanism,.q-hydration{--chip:var(--c-blue)}
+.q-data,.q-calculate,.q-pyramid{--chip:var(--c-ochre)}
+.q-transfer,.q-explain,.q-application{--chip:var(--c-moss)}
+.q-flaw,.q-career{--chip:var(--c-clay)}
+.q-scenario,.q-plan,.q-debate{--chip:var(--c-plum)}
+.q-clinical{--chip:var(--c-teal)}
+
+.ev-strong{--chip:var(--c-moss)}
+.ev-moderate{--chip:var(--c-ochre)}
+.ev-mixed{--chip:var(--c-blue)}
+.ev-weak{--chip:var(--c-clay)}
+
+.grade-pill{padding:.16rem .55rem;font-size:.72rem}
+.grade-a,.grade-ab{--chip:var(--c-moss)}
+.grade-b{--chip:var(--c-ochre)}
+.grade-d{--chip:var(--c-clay)}
+.grade-f{background:var(--c-clay);color:var(--surface);border-color:var(--c-clay)}
+
+.mastery-level.beginner{--chip:var(--c-clay)}
+.mastery-level.learning{--chip:var(--c-ochre)}
+.mastery-level.proficient{--chip:var(--c-blue)}
+.mastery-level.mastery{--chip:var(--c-moss)}
+
+.aq-diff-1{--chip:var(--c-moss)}
+.aq-diff-2{--chip:var(--c-blue)}
+.aq-diff-3{--chip:var(--c-ochre)}
+.aq-diff-4{--chip:var(--c-clay)}
+
+.rec-chip,.step-status.rs,.ne-badge-chip{--chip:var(--accent)}
+.step-status.done{--chip:var(--c-moss)}
+
+/* The base sheet colours several of these with two-class selectors
+   (.mastery-level.beginner, .step-status.rs, .rec-item .rec-chip …), which
+   outrank the single-class family rule above. Restate the flat treatment at
+   matching specificity so the whole chip family stays one system.
+   .mastery-level also carries an inline `color:#fff` in the markup — white on a
+   tinted chip is unreadable, so that one needs !important. */
+.mastery-level.beginner,.mastery-level.learning,
+.mastery-level.proficient,.mastery-level.mastery,
+.step-status.rs,.step-status.done,
+.rec-item .rec-chip{
+  background:color-mix(in srgb,var(--chip) 9%,transparent);
+  color:var(--chip);
+  border:1px solid color-mix(in srgb,var(--chip) 32%,transparent);
+  border-radius:2px;
+}
+.mastery-level{color:var(--chip)!important}
+.rec-item .rec-chip{font-size:.68rem;letter-spacing:.1em;padding:.14rem .5rem}
+
+.fc-chip,.chat-sug-btn{
+  border-radius:2px;
+  border:1px solid var(--line-strong);
+  background:transparent;
+  color:var(--text2);
+  font-size:.78rem;font-weight:500;
+  padding:.38rem .75rem;
+}
+.fc-chip:hover,.chat-sug-btn:hover{
+  background:var(--accent-bg);color:var(--accent);border-color:var(--accent);
+}
+.fc-chip.active{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+body.dark .fc-chip.active{color:var(--bg)}
+
+
+/* ─── 10 · Quizzes, options, overlays ────────────────────────────────────── */
+.quiz{border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem}
+.quiz-title{font-size:1.05rem}
+.quiz-item{border-bottom:1px solid var(--line)}
+
+.q-reveal{
+  background:transparent;
+  border-left:2px solid var(--accent);
+  border-radius:0;
+  padding:.5rem 0 .5rem .95rem;
+  margin-top:.6rem;
+  color:var(--text2);
+}
+.reveal-btn{
+  font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--accent);
+}
+body.lang-zh .reveal-btn{letter-spacing:.04em}
+
+/* Overlays float — the one place shadows are allowed */
+.quiz-overlay,.aq-overlay,.diag-overlay,.ai-modal{background:var(--paper)}
+.qo-header,.aq-header,.ai-modal-header,.ai-modal-footer,.ai-suggestions{
+  background:var(--surface);border-color:var(--line);
+}
+.qo-header h3,.aq-header h3,.ai-title{font-family:var(--font-heading);font-weight:600}
+.ai-sub{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+
+.qo-close,.aq-close,.ai-close,.flashcard-close{
+  border-radius:var(--radius-sm);
+  border:1px solid var(--line-strong);
+  background:transparent;color:var(--text2);
+}
+.qo-close:hover,.aq-close:hover,.ai-close:hover,.flashcard-close:hover{
+  background:var(--surface2);color:var(--text);border-color:var(--line-strong);
+}
+
+.qo-progress,.aq-progress,.prog-track,.mastery-bar,.diag-topic-bar{
+  background:var(--surface3);border-radius:1px;
+}
+.qo-progress-bar,.aq-progress-bar,.prog-fill,.diag-topic-fill{
+  background:var(--accent);border-radius:1px;
+}
+
+.qo-question,.aq-question{font-family:var(--font-heading);font-weight:600;font-size:1.2rem;line-height:1.4}
+.qo-q-num,.aq-q-num{
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);
+}
+
+.qo-opt,.aq-opt,.exam-opt{
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius-sm);
+  background:var(--surface);
+  transition:border-color .15s,background .15s;
+}
+.qo-opt:not(.disabled):hover,.aq-opt:not(.disabled):hover,.exam-opt:hover{
+  transform:none;
+  border-color:var(--accent);
+  background:var(--accent-bg);
+}
+.qo-opt.selected{border-color:var(--accent);background:var(--accent-bg);box-shadow:inset 2px 0 0 var(--accent)}
+.qo-opt.correct,.aq-opt.correct,.exam-opt.correct{
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 10%,var(--surface));
+  box-shadow:inset 2px 0 0 var(--green);
+}
+.qo-opt.wrong,.aq-opt.wrong,.exam-opt.wrong{
+  border-color:var(--red);
+  background:color-mix(in srgb,var(--red) 9%,var(--surface));
+  box-shadow:inset 2px 0 0 var(--red);
+}
+
+.qo-explain,.aq-explain,.exam-explain{
+  background:transparent;
+  border:none;border-left:2px solid var(--line-strong);
+  border-radius:0;
+  padding:.4rem 0 .4rem 1rem;
+  color:var(--text2);
+}
+
+.qo-score-num,.diag-score-big{
+  font-family:var(--font-heading);font-weight:600;color:var(--text);letter-spacing:-.03em;
+}
+.qo-score-label,.diag-label{color:var(--text2)}
+.qo-score-dot{border-radius:50%;border:1px solid var(--line-strong);background:transparent}
+.qo-score-dot.hit{background:var(--green);border-color:var(--green)}
+.qo-score-dot.miss{background:var(--red);border-color:var(--red)}
+.aq-streak-dot{background:var(--surface3)}
+.aq-streak-dot.hit{background:var(--green)}
+.aq-streak-dot.miss{background:var(--red)}
+.aq-streak-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+
+/* Mastery + recommendations */
+.mastery-ch{
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+}
+.mastery-title{font-family:var(--font-heading);font-weight:600;font-size:1rem}
+.mastery-stats{font-size:.74rem;color:var(--text3)}
+.mastery-fill.beginner{background:var(--c-clay)}
+.mastery-fill.learning{background:var(--c-ochre)}
+.mastery-fill.proficient{background:var(--c-blue)}
+.mastery-fill.mastery{background:var(--c-moss)}
+.mastery-action button{
+  border-radius:var(--radius-sm);border:1px solid var(--accent);
+  background:transparent;color:var(--accent);
+  font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.42rem .9rem;
+}
+.mastery-action button:hover{background:var(--accent);color:var(--surface)}
+body.dark .mastery-action button:hover{color:var(--bg)}
+
+.rec-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius);
+}
+.rec-item{background:transparent;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.rec-action{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+}
+.diag-topic-name{font-family:var(--font-heading);font-weight:600}
+.diag-topic-score{font-size:.74rem;color:var(--text3)}
+
+
+/* ─── 11 · Tables ────────────────────────────────────────────────────────── */
+table{border-collapse:collapse;font-size:.9rem;line-height:1.6}
+th,td{border:none;border-bottom:1px solid var(--line);padding:.62rem .85rem;vertical-align:top}
+th{
+  background:var(--surface2);
+  color:var(--text2);
+  font-family:var(--font);
+  font-weight:700;font-size:.7rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  border-bottom:1px solid var(--line-strong);
+}
+body.lang-zh th{letter-spacing:.05em;font-size:.78rem}
+tr:nth-child(even){background:transparent}
+tbody tr:nth-child(even),table tr:nth-child(even){
+  background:color-mix(in srgb,var(--surface2) 45%,transparent);
+}
+tr:last-child td{border-bottom:none}
+
+.table-wrap{
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:none;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  /* edge fades that only show while there is more table to the side */
+  background:
+    linear-gradient(90deg,var(--surface) 30%,transparent) left / 28px 100% no-repeat local,
+    linear-gradient(270deg,var(--surface) 30%,transparent) right / 28px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%,rgba(23,24,26,.13),transparent) left / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%,rgba(23,24,26,.13),transparent) right / 12px 100% no-repeat scroll,
+    var(--surface);
+}
+body.dark .table-wrap{
+  background:
+    linear-gradient(90deg,var(--surface) 30%,transparent) left / 28px 100% no-repeat local,
+    linear-gradient(270deg,var(--surface) 30%,transparent) right / 28px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.5),transparent) left / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.5),transparent) right / 12px 100% no-repeat scroll,
+    var(--surface);
+}
+.table-wrap th{position:sticky;top:0;z-index:1}
+.table-wrap tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+
+
+
+/* ─── 12 · Accordions & tabs ─────────────────────────────────────────────── */
+.acc-item{border-radius:var(--radius);margin-bottom:.4rem;background:var(--surface)}
+.acc-header{
+  font-family:var(--font-heading);
+  font-weight:600;font-size:1rem;
+  padding:.85rem 1.1rem;
+  min-height:48px;
+  border-left:2px solid transparent;
+  color:var(--text);
+}
+.acc-header:hover{background:color-mix(in srgb,var(--accent) 4%,var(--surface))}
+.acc-item.open>.acc-header{
+  border-left-color:var(--accent);
+  border-bottom:1px solid var(--line);
+  color:var(--accent);
+}
+.acc-header::after{color:var(--line-strong);font-size:.95rem}
+.acc-item.open>.acc-header::after{color:var(--accent)}
+.acc-body-inner{padding:.9rem 1.1rem 1.2rem;line-height:1.8;font-size:.93rem}
+.acc-body-inner p{max-width:70ch}
+
+.tabs{border:1px solid var(--line);border-radius:var(--radius)}
+.tab-nav{border-bottom:1px solid var(--line);background:var(--surface2)}
+.tab-btn{
+  font-family:var(--font);
+  font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);
+  padding:.8rem .8rem;min-height:44px;
+  border-bottom:2px solid transparent;background:none;
+}
+body.lang-zh .tab-btn{letter-spacing:.04em;font-size:.82rem}
+.tab-btn:hover{background:transparent;color:var(--text)}
+.tab-btn.active{background:transparent;color:var(--accent);border-bottom-color:var(--accent)}
+.tab-nav .tab-btn:nth-child(1).active{color:var(--green);border-bottom-color:var(--green);background:none}
+.tab-nav .tab-btn:nth-child(2).active{color:var(--red);border-bottom-color:var(--red);background:none}
+.tab-nav .tab-btn:nth-child(3).active{color:var(--amber);border-bottom-color:var(--amber);background:none}
+
+.tab-panel{padding:1.1rem 1.25rem;background:var(--surface)}
+.tab-panel.side-a-tab{background:var(--surface);border-left:2px solid var(--green)}
+.tab-panel.side-b-tab{background:var(--surface);border-left:2px solid var(--red)}
+.tab-panel.verdict-tab{background:var(--surface);border-left:2px solid var(--amber);border-top:none}
+
+.side{border-radius:var(--radius-sm)}
+.side-a{background:color-mix(in srgb,var(--green) 8%,var(--surface));border-left:2px solid var(--green)}
+.side-b{background:color-mix(in srgb,var(--red) 7%,var(--surface));border-left:2px solid var(--red)}
+.side-label{font-size:.68rem;letter-spacing:.13em}
+.verdict{
+  background:transparent;border:1px solid var(--line);
+  border-left:2px solid var(--accent);border-radius:var(--radius-sm);
+}
+.verdict-label{font-size:.68rem;letter-spacing:.13em;text-transform:uppercase}
+
+
+/* ─── 13 · Chat & AI modal ───────────────────────────────────────────────── */
+.chat-window{border-radius:var(--radius);border:1px solid var(--line)}
+.chat-header{
+  background:var(--surface2);border-bottom:1px solid var(--line);
+  font-family:var(--font);font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--text2);
+  padding:.8rem 1rem;
+}
+body.lang-zh .chat-header{letter-spacing:.06em;font-size:.85rem}
+.chat-header .status-dot{background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 20%,transparent)}
+
+.chat-msg{border-radius:var(--radius-sm);animation:none}
+.chat-msg.bot{
+  background:transparent;
+  border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+  color:var(--text);
+}
+.chat-msg.user{background:var(--accent);color:var(--surface);border-radius:var(--radius-sm)}
+body.dark .chat-msg.user{color:var(--bg)}
+.chat-msg .msg-label{
+  font-size:.63rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.3rem;
+}
+.chat-msg.user .msg-label{color:color-mix(in srgb,var(--surface) 75%,transparent)}
+body.dark .chat-msg.user .msg-label{color:color-mix(in srgb,var(--bg) 65%,transparent)}
+
+.chat-suggestions,.ai-suggestions{background:var(--surface2);border-top:1px solid var(--line)}
+.chat-input-row{background:var(--surface);border-top:1px solid var(--line)}
+.chat-input,.ai-input,.capture-input{
+  background:var(--bg);
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius-sm);
+  color:var(--text);
+  transition:border-color .18s,box-shadow .18s;
+}
+.chat-input:focus,.ai-input:focus,.capture-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--focus-ring);
+  outline:none;
+}
+.chat-disclaimer{font-style:normal;font-size:.74rem;color:var(--text3)}
+
+.ai-fab{
+  background:var(--accent);
+  border-radius:var(--radius);
+  width:54px;height:54px;
+  box-shadow:0 6px 20px color-mix(in srgb,var(--accent) 35%,transparent);
+  color:var(--surface);
+}
+body.dark .ai-fab{color:var(--bg)}
+.ai-fab:hover{transform:translateY(-2px);box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 42%,transparent)}
+.ai-fab .fab-badge{background:var(--green);border-color:var(--surface);width:11px;height:11px}
+
+
+/* ─── 14 · Flashcards ────────────────────────────────────────────────────── */
+.flashcard-panel{background:rgba(23,24,26,.5);backdrop-filter:blur(3px)}
+body.dark .flashcard-panel{background:rgba(0,0,0,.68)}
+.flashcard-box{
+  background:var(--paper);
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  padding:1.9rem;
+}
+.fc-counter{
+  font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);
+}
+.fc-front,.fc-back{border-radius:var(--radius);padding:1.6rem}
+.fc-front{
+  background:var(--surface);
+  border:1px solid var(--accent);
+  box-shadow:inset 0 -2px 0 var(--accent);
+}
+.fc-back{
+  background:var(--surface);
+  border:1px solid var(--green);
+  box-shadow:inset 0 -2px 0 var(--green);
+}
+.fc-front .fc-term{
+  font-family:var(--font-heading);font-size:1.4rem;font-weight:600;
+  letter-spacing:-.015em;color:var(--text);
+}
+.fc-front .fc-hint{
+  font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+}
+body.lang-zh .fc-front .fc-hint{letter-spacing:.06em}
+.fc-back .fc-def{font-size:1rem;line-height:1.7;color:var(--text)}
+
+
+/* ─── 15 · Callouts, pathway, progress, references ───────────────────────── */
+.callout{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius);
+  box-shadow:none;
+  padding:1.1rem 1.25rem;
+}
+.callout.k-danger{border-left-color:var(--red);background:var(--surface)}
+.callout.k-warning{border-left-color:var(--amber);background:var(--surface)}
+.callout.k-info{border-left-color:var(--accent);background:var(--surface)}
+.callout.k-tip{border-left-color:var(--green);background:var(--surface)}
+.callout.k-danger .co-ico{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red);border-color:color-mix(in srgb,var(--red) 30%,transparent)}
+.callout.k-warning .co-ico{background:color-mix(in srgb,var(--amber) 14%,transparent);color:var(--amber);border-color:color-mix(in srgb,var(--amber) 32%,transparent)}
+.callout.k-tip .co-ico{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green);border-color:color-mix(in srgb,var(--green) 30%,transparent)}
+.callout h4{font-size:.98rem;letter-spacing:-.01em}
+.callout .callout-note{border-top:1px solid var(--line);font-style:normal;color:var(--text3)}
+
+/* Pathway — the clearest synapse: hollow nodes on a hairline */
+.pathway-dot{
+  width:11px;height:11px;
+  background:var(--paper);
+  border:2px solid var(--accent);
+}
+.pathway-bar{width:1px;background:var(--line-strong)}
+.pathway-content{padding-bottom:1.6rem}
+.pathway-content strong{font-family:var(--font-heading);font-weight:600;font-size:1rem}
+
+.progress-item label{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2)}
+body.lang-zh .progress-item label{letter-spacing:.03em;font-size:.85rem}
+.prog-pct{font-size:.74rem;color:var(--text3);font-variant-numeric:tabular-nums}
+
+.ref-list li{font-size:.86rem;line-height:1.7}
+.ref-list li::before{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+
+.capture{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:none;
+}
+.capture h3{font-size:1.25rem}
+.capture-btn{
+  background:var(--accent);border-radius:var(--radius-sm);
+  box-shadow:none;font-weight:600;letter-spacing:.02em;color:var(--surface);
+}
+body.dark .capture-btn{color:var(--bg)}
+.capture-btn:hover{transform:none;background:var(--accent2);box-shadow:none}
+.capture-msg{color:var(--green)}
+.capture-note{color:var(--text3);font-size:.74rem}
+
+
+/* ─── 16 · Buttons & controls ────────────────────────────────────────────── */
+.qo-btn,.aq-btn,.ai-send-btn,.chat-send,.fc-nav button,.exam-opt,.mastery-action button{
+  font-family:var(--font);
+  border-radius:var(--radius-sm);
+  box-shadow:none;
+  letter-spacing:.02em;
+  transition:background .18s,color .18s,border-color .18s;
+}
+.qo-btn:hover,.aq-btn:hover,.ai-send-btn:hover,.chat-send:hover{transform:none;box-shadow:none}
+
+/* Primary — flat teal, no gradient */
+.qo-btn.next,.aq-btn.primary,.ai-send-btn,.chat-send{
+  background:var(--accent);
+  background-image:none;
+  color:var(--surface);
+  border:1px solid var(--accent);
+  font-weight:600;
+}
+body.dark .qo-btn.next,body.dark .aq-btn.primary,
+body.dark .ai-send-btn,body.dark .chat-send{color:var(--bg)}
+.qo-btn.next:hover,.aq-btn.primary:hover,.ai-send-btn:hover,.chat-send:hover{
+  background:var(--accent2);border-color:var(--accent2);
+}
+.aq-btn.secondary,.fc-nav button{
+  background:transparent;color:var(--text);
+  border:1px solid var(--line-strong);font-weight:600;
+}
+.aq-btn.secondary:hover,.fc-nav button:hover{
+  background:var(--accent-bg);color:var(--accent);border-color:var(--accent);
+}
+.fc-nav button.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+body.dark .fc-nav button.primary{color:var(--bg)}
+.fc-nav button.primary:hover{background:var(--accent2);color:var(--surface)}
+body.dark .fc-nav button.primary:hover{color:var(--bg)}
+
+/* Hero CTAs: one solid primary, the rest ghost — neutralises the inline
+   background:var(--green) / var(--text3) / gradient hacks in the markup. */
+.hero-actions .qo-btn{background-image:none!important;min-height:44px;padding:.62rem 1.25rem}
+.hero-actions .qo-btn:first-child{
+  background-color:var(--accent)!important;color:var(--surface);border:1px solid var(--accent);
+}
+body.dark .hero-actions .qo-btn:first-child{color:var(--bg)}
+.hero-actions .qo-btn:not(:first-child){
+  background-color:transparent!important;
+  color:var(--text)!important;
+  border:1px solid var(--line-strong);
+  font-weight:600;
+}
+.hero-actions .qo-btn:not(:first-child):hover{
+  color:var(--accent)!important;border-color:var(--accent);
+  background-color:var(--accent-bg)!important;
+}
+
+/* The overlay "close/secondary" buttons that inline `background:var(--text3)` */
+.qo-btn[style*="--text3"],.aq-btn[style*="--text3"]{
+  background:transparent!important;
+  color:var(--text)!important;
+  border:1px solid var(--line-strong);
+}
+.qo-btn[style*="--text3"]:hover{background:var(--surface2)!important}
+
+.back-top{
+  border-radius:var(--radius);
+  background:var(--surface);
+  color:var(--accent);
+  border:1px solid var(--line-strong);
+  box-shadow:var(--shadow);
+  width:44px;height:44px;
+}
+.back-top:hover{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+body.dark .back-top:hover{color:var(--bg)}
+
+/* Lightbox */
+.lb-overlay{background:rgba(14,17,20,.94)}
+.lb-btn{border-radius:var(--radius-sm);border-color:rgba(255,255,255,.22)}
+.lb-caption{color:#CFC8B8;font-size:.85rem}
+
+
+/* ─── 17 · Exam & certificate ────────────────────────────────────────────── */
+.study-step{border-radius:var(--radius);padding:.85rem 1rem;min-height:56px}
+.step-num{
+  border-radius:var(--radius-sm);
+  background:var(--accent-bg);color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 26%,transparent);
+  font-family:var(--font-heading);font-weight:600;
+}
+.study-step.done .step-num{background:var(--green);color:var(--surface);border-color:var(--green)}
+body.dark .study-step.done .step-num{color:var(--bg)}
+.step-info span{font-size:.75rem;color:var(--text3)}
+
+.exam-panel{border-radius:var(--radius);box-shadow:none;padding:1.4rem}
+.ekey{border-radius:var(--radius-sm);background:transparent;border:1px solid var(--line)}
+.ekey b{font-family:var(--font-heading);font-size:1.35rem;color:var(--text);font-weight:600}
+.ekey span{font-size:.66rem;letter-spacing:.14em;color:var(--text3)}
+.exam-q{border-bottom:1px solid var(--line)}
+.exam-verdict{border-radius:var(--radius);font-family:var(--font-heading);font-weight:600}
+.exam-verdict.good{background:color-mix(in srgb,var(--green) 10%,var(--surface));border:1px solid var(--green);color:var(--green)}
+.exam-verdict.mid{background:color-mix(in srgb,var(--amber) 10%,var(--surface));border:1px solid var(--amber);color:var(--amber)}
+.exam-verdict.low{background:color-mix(in srgb,var(--red) 9%,var(--surface));border:1px solid var(--red);color:var(--red)}
+.cert-gate{
+  border:1px solid var(--line);border-left:2px solid var(--accent);
+  border-radius:var(--radius);background:var(--surface);
+}
+.cert-check .ok{color:var(--green)}
+.cert-flash{color:var(--green)}
+.cert-view{background:rgba(14,17,20,.92)}
+.cert-view canvas{border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+
+
+/* ─── 18 · Responsive — mobile as a first-class citizen ──────────────────── */
+
+/* ≤1024px — the sidebar becomes a drawer well before phone width */
+@media (max-width:1024px){
+  .sidebar{
+    transform:translateX(-100%);
+    width:min(84vw,300px);
+    box-shadow:none;
+    padding-top:calc(1.1rem + env(safe-area-inset-top));
+  }
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-lg)}
+  .sidebar-toggle{display:flex}
+  .page-wrapper{margin-left:0}
+  /* Keep the wordmark clear of the toggle. Specificity has to beat the
+     `.container{padding:…}` shorthand in the ≤640 block below. */
+  header .header-inner{padding-left:58px}
+
+  /* Once the drawer is open the toggle becomes its close button, parked inside
+     the drawer's top-right corner instead of sitting on top of the wordmark.
+     body.sm-locked is set by draft.js only while the drawer is an overlay. */
+  body.sm-locked .sidebar-toggle{
+    left:calc(min(84vw,300px) - 3.25rem);
+    background:transparent;
+    border-color:var(--line);
+    color:var(--text2);
+    font-size:0;
+    box-shadow:none;
+  }
+  body.sm-locked .sidebar-toggle::before{
+    content:"\00d7";
+    font-size:1.5rem;
+    line-height:1;
+  }
+  body.sm-locked .sidebar-toggle:hover{color:var(--accent);border-color:var(--accent)}
+  /* bigger tap targets inside the drawer */
+  .sidebar-link{min-height:44px;font-size:.9rem;padding-top:.5rem;padding-bottom:.5rem}
+  .sidebar-link.sub{font-size:.875rem}
+
+  /* Every table is wrapped in .table-wrap by the page's own script, so the
+     scroll container is already there — just make sure it can never be the
+     thing that widens the page. */
+  .table-wrap{max-width:100%}
+  .onthis .sidebar-link{min-height:44px}
+}
+
+/* 641–1024px — grids stay two-up */
+@media (min-width:641px) and (max-width:1024px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .ch-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ≤640px — single column, thumb reach, no horizontal scroll */
+@media (max-width:640px){
+  html{font-size:16px}
+  .container{padding:0 1.15rem}
+  section{padding:2.25rem 0 1.75rem}
+
+  .hero,.ne-hero{padding:2.5rem 0 2rem}
+  .hero h1,.ne-hero h1{font-size:clamp(1.7rem,7vw,2.1rem);max-width:none}
+  .hero p,.ne-hero p.lead{font-size:.98rem}
+
+  /* CTAs stack full width, 48px tall */
+  .hero-actions{flex-direction:column;align-items:stretch;gap:.55rem;margin-top:1.5rem}
+  .hero-actions .qo-btn{width:100%;min-height:48px;font-size:.95rem;justify-content:center}
+
+  .stats,.ch-grid,.mastery-grid,.video-grid,.feature-grid,.std-grid,
+  .two-col,.diag-topic-grid{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:1fr 1fr}
+
+  /* 44px minimum on everything you tap */
+  .btn-icon{width:44px;height:44px}
+  .acc-header{min-height:48px;padding:.9rem 1rem;font-size:.96rem}
+  .tab-btn{min-height:46px;flex:0 0 auto}
+  .fc-chip,.chat-sug-btn{min-height:44px;display:inline-flex;align-items:center}
+  .qo-opt,.aq-opt,.exam-opt{min-height:48px;display:flex;align-items:center}
+  .qo-btn,.aq-btn,.chat-send,.ai-send-btn,.fc-nav button,
+  .mastery-action button,.rec-action,.capture-btn{min-height:44px}
+  .reveal-btn{min-height:44px;display:inline-flex;align-items:center}
+  .qo-close,.aq-close,.ai-close,.flashcard-close{width:44px;height:44px}
+  .flashcard-close{top:.6rem;right:.6rem}
+
+  /* Never below 15px in body copy; tables may go smaller */
+  body,.acc-body-inner,.tab-panel,.qo-explain,.aq-explain{font-size:.95rem}
+  .cn{font-size:.93rem}
+  table,.table-wrap th,.table-wrap td{font-size:.84rem}
+  th,td{padding:.5rem .65rem}
+
+  .chat-window{height:min(60vh,420px)}
+  .chat-msg{max-width:92%}
+  .flashcard-box{width:calc(100% - 2rem);padding:1.4rem}
+  .fc-front,.fc-back{padding:1.15rem}
+  .qo-body,.aq-body{padding:1.5rem 1.15rem}
+
+  .back-top{bottom:1rem;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom))}
+  .ai-fab{bottom:calc(1rem + env(safe-area-inset-bottom));right:1rem;width:50px;height:50px}
+  footer{padding-bottom:calc(2rem + env(safe-area-inset-bottom))}
+
+  .author-card{flex-direction:column}
+  .capture-form{flex-direction:column}
+}
+
+/* ≥1025px — the full editorial layout */
+@media (min-width:1025px){
+  .container{max-width:var(--max-w)}
+  .ch-grid{max-width:920px}
+}
+
+
+/* ─── 19 · Focus, motion, print ──────────────────────────────────────────── */
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:2px;
+}
+.sidebar-link:focus-visible,.btn-icon:focus-visible,.tab-btn:focus-visible{
+  outline-offset:-2px;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
+@media print{
+  .sidebar,.sidebar-toggle,.back-top,.ai-fab,#readingBar,header{display:none!important}
+  .page-wrapper{margin-left:0}
+  body{background:#fff;color:#000}
+  .acc-body{max-height:none!important}
+}

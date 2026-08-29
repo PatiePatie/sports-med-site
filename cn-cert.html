@@ -636,6 +636,38 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .ne-badge-chip{display:inline-block;background:var(--accent-bg);color:var(--accent);border:1px solid var(--border2);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-right:.5em;vertical-align:middle}
 .ne-badge-chip[data-en="RED"]{background:rgba(225,29,72,.1);color:var(--red);border-color:transparent}
 .hero-badge .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:.45em;box-shadow:0 0 0 3px rgba(14,159,110,.2);vertical-align:middle}
+
+/* CN certification quiz */
+.cnq-head{text-align:center;margin-bottom:1.2rem}
+.cnq-head .hero-badge{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:.35rem 1rem;font-size:.8rem;color:var(--accent);background:var(--surface)}
+.cnq-title{font-size:1.5rem;margin:.6rem 0 0;font-weight:800}
+.cnq-controls{display:flex;flex-wrap:wrap;gap:.8rem;align-items:flex-end;justify-content:center;padding:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:.9rem}
+.cnq-label{display:flex;flex-direction:column;gap:.3rem;font-size:.8rem;color:var(--text2);font-weight:600}
+.cnq-label select{padding:.5rem .7rem;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;min-width:130px}
+.cnq-note{text-align:center;font-size:.85rem;color:var(--text3);margin-bottom:1rem}
+.cnq-prog{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin-bottom:1rem}
+.cnq-prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:99px;transition:width .3s}
+.cnq-qnum{font-size:.8rem;color:var(--text3);margin-bottom:.6rem;font-weight:600}
+.cnq-q{font-size:1.1rem;line-height:1.6;font-weight:700;margin-bottom:1rem}
+.cnq-opts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.cnq-opt{padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);cursor:pointer;transition:all .15s}
+.cnq-opt:hover{border-color:var(--accent);transform:translateX(3px)}
+.cnq-opt.disabled{cursor:default;pointer-events:none}
+.cnq-opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.cnq-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.cnq-explain{border-left:3px solid var(--accent);background:rgba(79,70,229,.06);padding:.8rem 1rem;border-radius:0 10px 10px 0;margin-bottom:1rem;line-height:1.6;font-size:.92rem}
+.cnq-footer{display:flex;align-items:center;justify-content:space-between}
+.cnq-score{font-size:.85rem;color:var(--text3);font-weight:600}
+.cnq-scorecard{text-align:center;padding:2rem 1rem}
+.cnq-pct{font-size:3.2rem;font-weight:900;background:linear-gradient(90deg,var(--accent),#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cnq-slabel{font-size:1.05rem;font-weight:700;margin:.4rem 0 1rem}
+.cnq-dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:1.4rem}
+.cnq-dot{width:11px;height:11px;border-radius:50%}
+.cnq-dot.hit{background:#22c55e}
+.cnq-dot.miss{background:#ef4444}
+.cnq-sactions{margin-top:.5rem}
+@media(max-width:560px){.cnq-controls{flex-direction:column;align-items:stretch}}
+
 </style>
 </head>
 <body>
@@ -849,24 +881,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 </section>
 <section id="quiz-cn">
 <div class="container">
-  <div class="quiz" data-chapter="cn">
-    <div class="quiz-title" data-en="📝 Quiz — Certification Test" data-zh="📝 资格证测验">📝 Quiz — Certification Test</div>
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism" data-en="MECHANISM" data-zh="原理">MECHANISM</span>
-      <p data-en="Q1:" data-zh="Q1："><strong>Q1:</strong> A patient with a 6-month-old ankle sprain walks in with recurrent giving-way. Besides strength, what does the rehab program most need to restore?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Proprioception and balance (sensorimotor) control. Ligament healing restores structure, but recurrent sprains persist unless you retrain joint position sense through balance/proprioceptive exercises." data-zh="本体感觉与平衡（感觉运动）控制。韧带愈合恢复结构，但只有通过平衡/本体感觉训练重建关节位置觉，才能防止反复扭伤。">Proprioception and balance (sensorimotor) control. Ligament healing restores structure, but recurrent sprains persist unless you retrain joint position sense through balance/proprioceptive exercises.</div>
-    </div>    <div class="quiz-item">
-      <span class="q-tag q-flaw" data-en="CLINICAL" data-zh="临床">CLINICAL</span>
-      <p data-en="Q2:" data-zh="Q2："><strong>Q2:</strong> You try to measure a patient's shoulder flexion but the examiner notes you did not stabilize the scapula. Why does this matter?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Without scapular stabilization the compensating scapulothoracic motion inflates the measured glenohumeral ROM and hides a true restriction. Standard protocol stabilizes the proximal segment." data-zh="不固定肩胛骨会让盂肱关节的代偿运动夸大测量结果、掩盖真实受限。标准操作应固定近端节段。">Without scapular stabilization the compensating scapulothoracic motion inflates the measured glenohumeral ROM and hides a true restriction. Standard protocol stabilizes the proximal segment.</div>
-    </div>    <div class="quiz-item">
-      <span class="q-tag q-transfer" data-en="TRANSFER" data-zh="迁移">TRANSFER</span>
-      <p data-en="Q3:" data-zh="Q3："><strong>Q3:</strong> For a Grade II MMT muscle and a stage-2 wound-healing patient, how should you dose the exercise?</p>
-      <button class="reveal-btn" onclick="toggle(this)" data-en="Show answer ▾" data-zh="显示答案 ▾">Show answer ▾</button>
-      <div class="q-reveal" data-en="Match exercise to the healing phase: low-load, high-volume, pain-free neuromuscular control and ROM first; progress load only as tissue heals, avoiding stretching into the healing (proliferative) zone." data-zh="运动剂量应与愈合分期匹配：先做低负荷、重复、无痛的神经肌肉控制与活动度训练；随着组织愈合再逐步增加负荷，避免在增殖期过度牵拉。">Match exercise to the healing phase: low-load, high-volume, pain-free neuromuscular control and ROM first; progress load only as tissue heals, avoiding stretching into the healing (proliferative) zone.</div>
-    </div>  </div>
+  <div class="quiz" id="cnQuiz"></div>
 </div>
 </section>
 <div id="fcChips" style="display:none"></div>
@@ -2666,4 +2681,198 @@ document.addEventListener('click', openLightbox);
 
 
 </body>
+
+<script>
+const CN_QUESTIONS = [
+{cat:"an",en:"Which anatomical plane divides the body into left and right halves?",zh:"哪个解剖平面将身体分为左右两半？",opts:["Transverse plane", "Sagittal plane", "Frontal (coronal) plane", "Oblique plane"],optsz:["水平面", "矢状面", "冠状面", "斜切面"],correct:1,expl:"The sagittal plane divides left/right. Frontal divides front/back; transverse divides top/bottom.",explz:"矢状面区分左右；冠状面区分前/后；水平面区分上/下。"},
+{cat:"an",en:"Flexion and extension of the knee primarily occur in which plane?",zh:"膝关节屈伸主要发生在哪个平面？",opts:["Frontal", "Transverse", "Sagittal", "Longitudinal"],optsz:["冠状面", "水平面", "矢状面", "纵轴平面"],correct:2,expl:"Knee flexion/extension is a sagittal-plane motion (internal/external rotation is transverse).",explz:"膝关节屈伸为矢状面运动（内外旋为水平面运动）。"},
+{cat:"an",en:"Which joint type allows the greatest multidirectional freedom?",zh:"哪类关节活动范围最大（多轴自由）?",opts:["Hinge (elbow)", "Pivot (atlantoaxial)", "Ball-and-socket (hip)", "Condyloid (wrist)"],optsz:["屈戌关节（肘）", "车轴关节（寰枢）", "球窝关节（髋）", "椭圆关节（腕）"],correct:2,expl:"Ball-and-socket joints (hip, shoulder) allow motion in all three planes.",explz:"球窝关节（髋、肩）可在三个平面内运动。"},
+{cat:"an",en:"An agonist muscle is best described as:",zh:"“主动肌”最恰当的描述是：",opts:["The muscle opposing the movement", "The primary muscle producing a movement", "A muscle that stabilizes a joint", "A muscle that rotates the limb"],optsz:["对抗运动的肌肉", "产生该运动的主要肌肉", "稳定关节的肌肉", "使肢体旋转的肌肉"],correct:1,expl:"The agonist (prime mover) generates the movement; the antagonist opposes it; synergists assist.",explz:"主动肌是产生运动的主要肌肉；拮抗肌对抗；协同肌辅助。"},
+{cat:"an",en:"A concentric muscle contraction is one in which the muscle:",zh:"向心收缩是指肌肉：",opts:["Lengthens under tension", "Shortens while producing tension", "Produces tension with no length change", "Relaxes completely"],optsz:["在张力下拉长", "在产生张力的同时缩短", "长度不变仍产生张力", "完全放松"],correct:1,expl:"Concentric = muscle shortens while contracting (e.g., lifting phase of a biceps curl). Eccentric lengthens; isometric length unchanged.",explz:"向心收缩=收缩时肌肉缩短（如二头弯举的上举阶段）；离心拉长；等长长度不变。"},
+{cat:"an",en:"The intervertebral disc absorbs shock mainly through its:",zh:"椎间盘主要通过什么缓冲减震？",opts:["Outer annulus fibrosis", "Nucleus pulposus (gel-like core)", "Vertebral endplates", "Ligamentum flavum"],optsz:["外层纤维环", "髓核（胶状核心）", "椎体终板", "黄韧带"],correct:1,expl:"The nucleus pulposus is the gel-like center that distributes compressive loads; the annulus contains it.",explz:"髓核是胶状核心，负责分散压缩负荷；纤维环包裹其外。"},
+{cat:"an",en:"Proximal means:",zh:"“近端”的意思是：",opts:["Farther from the body midline", "Closer to the point of attachment to the trunk", "Closer to the skin surface", "Toward the feet"],optsz:["离身体中线较远", "更靠近与躯干相连的部位", "更靠近皮肤表面", "朝向足部"],correct:1,expl:"Proximal = closer to the trunk/attachment; distal = farther from it.",explz:"近端=更靠近躯干；远端=更远离躯干。"},
+{cat:"an",en:"Which structure is the PRIMARY stabilizer of the glenohumeral (shoulder) joint?",zh:"肩（盂肱）关节最主要的稳定结构是？",opts:["Rotator cuff muscles", "Deltoid", "Biceps brachii", "Pectoralis major"],optsz:["肩袖肌群", "三角肌", "肱二头肌", "胸大肌"],correct:0,expl:"The rotator cuff actively compresses the humeral head into the glenoid, providing primary dynamic stability.",explz:"肩袖将肱骨头压向关节盂，是主要的动态稳定结构。"},
+{cat:"an",en:"What type of joint is the knee?",zh:"膝关节属于哪一类关节？",opts:["Ball-and-socket", "Hinge with some rotation", "Pivot", "Plane"],optsz:["球窝关节", "铰链关节兼有一定旋转", "车轴关节", "平面关节"],correct:1,expl:"The knee is primarily a hinge (flexion/extension) joint that also allows minor rotation when flexed.",explz:"膝关节主要是铰链关节（屈伸），屈曲时还可轻度旋转。"},
+{cat:"an",en:"Which muscle is the main flexor of the hip?",zh:"髋关节最主要的屈肌是？",opts:["Gluteus maximus", "Hamstrings", "Iliopsoas", "Quadriceps"],optsz:["臀大肌", "腘绳肌", "髂腰肌", "股四头肌"],correct:2,expl:"The iliopsoas (psoas + iliacus) is the primary hip flexor; gluteus maximus and hamstrings extend it.",explz:"髂腰肌（腰大肌+髂肌）是主要屈髋肌；臀大肌和腘绳肌伸髋。"},
+{cat:"an",en:"Inversion (rolling the sole inward) mostly involves which joint?",zh:"“内翻”（足底向内）主要涉及哪个关节？",opts:["Knee", "Ankle (subtalar/talocrural)", "Hip", "Lisfranc"],optsz:["膝关节", "踝关节（距下/距小腿）", "髋关节", "跗跖关节"],correct:1,expl:"Inversion is a frontal-plane motion at the ankle, combining talocrural and subtalar joints.",explz:"内翻是踝关节冠状面运动，涉及距小腿与距下关节。"},
+{cat:"an",en:"The patella functions to:",zh:"髌骨的功能是：",opts:["Increase quadriceps lever arm and protect the knee", "Provide bony stability to the ankle", "Be a pure sesamoid with no function", "Absorb all shock in the hip"],optsz:["增大股四头肌力臂并保护膝关节", "为踝关节提供骨性稳定", "是无功能的籽骨", "吸收髋部全部冲击"],correct:0,expl:"The patella (a sesamoid bone) increases the quadriceps mechanical advantage and protects the anterior knee.",explz:"髌骨（籽骨）增大股四头肌的机械优势并保护膝前部。"},
+{cat:"an",en:"Which bones form the shoulder girdle?",zh:"肩带（肩胛带）由哪些骨构成？",opts:["Clavicle and scapula", "Humerus and radius", "Scapula and humerus", "Sternum and ribs"],optsz:["锁骨和肩胛骨", "肱骨和桡骨", "肩胛骨和肱骨", "胸骨和肋骨"],correct:0,expl:"The shoulder girdle = clavicle + scapula (connecting the upper limb to the axial skeleton).",explz:"肩带=锁骨+肩胛骨（连接上肢与中轴骨）。"},
+{cat:"an",en:"Cervical spine has how many vertebrae?",zh:"颈椎有几节椎骨？",opts:["7", "5", "12", "10"],optsz:["7", "5", "12", "10"],correct:0,expl:"There are 7 cervical vertebrae (C1–C7); 12 thoracic; 5 lumbar.",explz:"颈椎7节（C1–C7）；胸椎12节；腰椎5节。"},
+{cat:"ph",en:"Which energy system provides ATP fastest for a 100 m sprint?",zh:"100米冲刺主要由哪个供能系统提供ATP？",opts:["Aerobic oxidation", "Phosphagen (ATP–PCr)", "Anaerobic glycolysis", "Lipolysis"],optsz:["有氧氧化", "磷酸原（ATP–PCr）", "无氧糖酵解", "脂肪分解"],correct:1,expl:"The phosphagen system (ATP–PCr) powers ≤10 s maximal efforts like a 100 m sprint.",explz:"磷酸原系统为≤10秒最大强度运动（如100米冲刺）供能。"},
+{cat:"ph",en:"VO2max is a measure of:",zh:"VO2max 反映的是：",opts:["Muscle strength", "Maximal oxygen uptake capacity", "Joint flexibility", "Blood glucose"],optsz:["肌肉力量", "最大摄氧能力", "关节柔韧性", "血糖"],correct:1,expl:"VO2max = the maximum rate the body can consume oxygen during maximal exercise, a key aerobic fitness index.",explz:"VO2max=最大运动时身体摄取氧气的最大速率，是重要的有氧能力指标。"},
+{cat:"ph",en:"Fick equation: Cardiac output =",zh:"Fick方程式：心输出量 =",opts:["Heart rate x Stroke volume", "Heart rate / Stroke volume", "Systolic BP / Diastolic BP", "Stroke volume x VQ"],optsz:["心率 x 每搏量", "心率 ÷ 每搏量", "收缩压 ÷ 舒张压", "每搏量 x VQ"],correct:0,expl:"Cardiac output (CO) = heart rate (beats/min) x stroke volume (mL/beat).",explz:"心输出量 = 心率 x 每搏输出量。"},
+{cat:"ph",en:"During aerobic exercise, which response would you NOT expect?",zh:"有氧运动时，下列哪项是你不会预期的反应？",opts:["Increased heart rate", "Increased cardiac output", "Decreased blood flow to working muscle", "Increased pulmonary ventilation"],optsz:["心率升高", "心输出量增加", "工作肌肉血流减少", "肺通气增加"],correct:2,expl:"Working muscles receive MORE blood flow (redistribution), not less.",explz:"运动时工作肌肉血流应增加（血流再分布），而非减少。"},
+{cat:"ph",en:"Normal resting adult heart rate is approximately:",zh:"正常成人静息心率约为：",opts:["40–49 bpm", "60–100 bpm", "110–130 bpm", "140–160 bpm"],optsz:["40–49次/分", "60–100次/分", "110–130次/分", "140–160次/分"],correct:1,expl:"Normal resting HR is 60–100 bpm (trained athletes often lower).",explz:"正常静息心率为60–100次/分（训练者常更低）。"},
+{cat:"ph",en:"Target heart rate zone is derived primarily from:",zh:"目标心率区间主要依据什么计算？",opts:["Max heart rate (220 − age)", "Baseline body weight", "Resting blood glucose", "Spirometry"],optsz:["最大心率（220−年龄）", "基础体重", "静息血糖", "肺活量"],correct:0,expl:"Target HR = usually 60–85% of estimated max HR (220 − age).",explz:"目标心率通常为最大心率（220−年龄）的60–85%。"},
+{cat:"ph",en:"During exercise stress testing, an abnormal drop in blood pressure is a red flag for:",zh:"运动负荷试验中血压异常下降提示：",opts:["Normal response", "Possible cardiac ischemia/dysfunction", "Good fitness", "Dehydration only"],optsz:["正常反应", "可能存在心肌缺血/心功能异常", "体能良好", "仅仅脱水"],correct:1,expl:"A fall in BP with increasing workload, or chest pain/ST changes, suggests ischemia and the test should stop.",explz:"随着负荷增加血压下降，或出现胸痛/ST改变，提示缺血，应停止试验。"},
+{cat:"ph",en:"Hypertension is generally defined as blood pressure at rest of:",zh:"一般将静息血压达到多少定义为高血压？",opts:["> 90/60 mmHg", "≥ 140/90 mmHg", "≥ 180/120 mmHg", "≥ 200/100 mmHg"],optsz:["> 90/60 mmHg", "≥ 140/90 mmHg", "≥ 180/120 mmHg", "≥ 200/100 mmHg"],correct:1,expl:"Hypertension is generally ≥ 140/90 mmHg (ACC/AHA now uses ≥130/80).",explz:"高血压一般指≥140/90 mmHg（ACC/AHA新标准为≥130/80）。"},
+{cat:"ph",en:"The respiratory muscle that is most important for quiet inspiration is the:",zh:"安静吸气最主要的肌肉是：",opts:["Internal intercostals", "Diaphragm", "External obliques", "Trachealis"],optsz:["肋间内肌", "膈肌", "腹外斜肌", "气管肌"],correct:1,expl:"The diaphragm is the primary inspiratory muscle; it descends to expand the thoracic cavity.",explz:"膈肌是主要吸气肌，收缩下降以扩大胸腔。"},
+{cat:"ph",en:"Tidal volume (VT) refers to:",zh:"潮气量（VT）指：",opts:["The extra air after a maximal inspiration", "The volume of one normal breath", "The air left after maximal expiration", "Total lung capacity"],optsz:["最大吸气后额外吸入的气量", "每次平静呼吸的气量", "最大呼气后剩余的气量", "肺总量"],correct:1,expl:"Tidal volume = the volume of air moved in/out with one normal (quiet) breath (~500 mL).",explz:"潮气量=平静呼吸一次进出肺的气量（约500mL）。"},
+{cat:"ph",en:"Hyperbaric muscle fatigue at high intensity is largely due to:",zh:"高强度运动时肌肉疲劳主要与哪项有关？",opts:["Depleted muscle glycogen + H+ accumulation", "Increased joint lubrication", "Decreased bone density", "Increased resting HR"],optsz:["肌糖原耗竭+氢离子堆积", "关节润滑增加", "骨密度下降", "静息心率升高"],correct:0,expl:"High-intensity fatigue involves glycolytic by-products (H+, lactate) and glycogen depletion disrupting cross-bridge cycling.",explz:"高强度疲劳与糖酵解产物（H+、乳酸）堆积及糖原耗竭干扰横桥循环有关。"},
+{cat:"ph",en:"A VO2 plateau during an exercise test with no further HR increase most likely indicates:",zh:"运动试验中出现VO2平台且心率不再上升最可能提示：",opts:["Reached VO2max", "Equipment error", "Muscle spasm", "Hypoglycemia"],optsz:["已达最大摄氧量", "设备故障", "肌肉痉挛", "低血糖"],correct:0,expl:"A VO2 plateau despite increasing workload marks true VO2max (maximal test criterion).",explz:"负荷增加而VO2不再上升提示已达真正VO2max（最大试验标准）。"},
+{cat:"ph",en:"Delayed muscle soreness (DOMS) typically peaks at:",zh:"延迟性肌肉酸痛（DOMS）通常在何时达峰？",opts:["6–12 hours", "24–72 hours", "1 week", "Immediately"],optsz:["6–12小时", "24–72小时", "1周", "即刻"],correct:1,expl:"DOMS peaks 24–72 h after unaccustomed eccentric exercise and fades by 5–7 days.",explz:"DOMS在陌生离心运动后24–72小时达峰，5–7天消退。"},
+{cat:"ph",en:"The primary aerobic fuel at rest is:",zh:"静息时主要的供能底物是：",opts:["Creatine phosphate", "Fat (triglycerides)", "Protein", "Lactate"],optsz:["磷酸肌酸", "脂肪（甘油三酯）", "蛋白质", "乳酸"],correct:1,expl:"At rest and low intensity, the body predominantly oxidizes fat.",explz:"静息和低强度时身体以氧化脂肪为主。"},
+{cat:"ph",en:"Cardiac output during maximum exercise in an untrained person is roughly:",zh:"未训练者最大运动时心输出量约为:",opts:["5 L/min", "20 L/min", "50 L/min", "100 L/min"],optsz:["5升/分", "20升/分", "50升/分", "100升/分"],correct:1,expl:"Untrained CO at max ~20 L/min; trained athletes can reach 30–40 L/min.",explz:"未训练者最大心输出量约20升/分；训练者可达到30–40升/分。"},
+{cat:"ph",en:"Which best describes the body response to repeated heat exposure during exercise?",zh:"反复热环境运动中身体的适应是：",opts:["Earlier sweating and better heat dissipation", "Later sweating and worse cooling", "No change", "Increased core heat storage"],optsz:["更早出汗、散热更佳", "更晚出汗、散热变差", "无变化", "增加核心蓄热"],correct:0,expl:"Heat acclimatization produces earlier/more profuse sweating and better cardiovascular stability.",explz:"热适应表现为出汗更早更多、心血管更稳定。"},
+{cat:"as",en:"In MMT (manual muscle testing), a grade of 3/5 means the muscle:",zh:"MMT徒手肌力测试中，3/5级表示肌肉：",opts:["No contraction", "Moves through full ROM against gravity only", "Moves with gravity eliminated", "Moves against strong resistance"],optsz:["无收缩", "可抗重力完成全范围活动", "去除重力下可活动", "抗强阻力活动"],correct:1,expl:"Grade 3 = full ROM against gravity, no added resistance. Grade 2 = gravity eliminated; grade 4/5 add resistance.",explz:"3级=可抗重力完成全范围，不加阻力；2级=去除重力；4/5级加阻力。"},
+{cat:"as",en:"A grade 0 in MMT indicates:",zh:"MMT 0级表示：",opts:["Flicker of contraction", "No visible or palpable contraction", "Full ROM against resistance", "Trace movement"],optsz:["略有收缩", "无可视或可触及的收缩", "抗阻力全范围活动", "轻微活动"],correct:1,expl:"Grade 0 = no contraction; grade 1 = trace/flicker; grade 2+ = movement present.",explz:"0级=无收缩；1级=轻微收缩（trace）；2级以上有活动。"},
+{cat:"as",en:"When measuring passive knee flexion with a goniometer, the fulcrum is placed at the:",zh:"用量角器测量被动膝关节屈曲时，轴心应放在：",opts:["Hip joint", "Lateral epicondyle of the femur", "Ankle joint", "Patella center"],optsz:["髋关节", "股骨外侧髁", "踝关节", "髌骨中心"],correct:1,expl:"Goniometer fulcrum aligns with the joint axis — at the knee this is the lateral femoral epicondyle.",explz:"量角器轴心对准关节轴——膝关节为股骨外侧髁。"},
+{cat:"as",en:"Normal shoulder flexion ROM is approximately:",zh:"肩关节正常屈曲范围约为：",opts:["0–90°", "0–180°", "0–270°", "0–45°"],optsz:["0–90°", "0–180°", "0–270°", "0–45°"],correct:1,expl:"Normal shoulder flexion is ~0–180° (with the trunk/pelvis stabilized).",explz:"肩屈曲正常范围约0–180°（需固定躯干）。"},
+{cat:"as",en:"Spastic hypertonia is best evaluated with which scale?",zh:"痉挛性肌张力增高最适宜用哪种量表评估？",opts:["Modified Ashworth Scale", "Berg Balance Scale", "Tinetti Gait", "Brunnstrom Stage"],optsz:["改良Ashworth量表", "Berg平衡量表", "Tinetti步态", "Brunnstrom分期"],correct:0,expl:"The Modified Ashworth Scale grades resistance to passive stretch (0–4) for spasticity.",explz:"改良Ashworth量表（0–4级）评估被动牵拉阻力，用于痉挛评估。"},
+{cat:"as",en:"Flaccid paralysis (absent muscle tone) is classically seen in:",zh:"弛缓性瘫痪（肌张力消失）典型见于：",opts:["Chronic spasticity", "Early/acute phase of an upper motor neuron lesion", "Cerebellar ataxia", "Muscle hypertrophy"],optsz:["慢性痉挛", "上运动神经元损伤的急性期", "小脑性共济失调", "肌肉肥大"],correct:1,expl:"During spinal shock/acute UMN injury, tone is flaccid first, then may progress to spasticity.",explz:"脊髓休克/急性上运动神经元损伤时先弛缓，后可能转为痉挛。"},
+{cat:"as",en:"Berg Balance Scale primarily measures:",zh:"Berg平衡量表主要用于评估：",opts:["Static and dynamic balance in functional tasks", "Muscle strength", "Joint range", "Fine motor speed"],optsz:["功能性任务中的静态与动态平衡", "肌肉力量", "关节活动度", "精细运动速度"],correct:0,expl:"The Berg evaluates balance across 14 functional tasks (sit-to-stand, turning, single-leg stance, etc.).",explz:"Berg量表通过14项功能性任务（起立、转身、单腿站等）评估平衡。"},
+{cat:"as",en:"Light touch, pain, and temperature are conveyed by which sensation pathway?",zh:"轻触、痛、温觉属于哪条感觉通路？",opts:["Dorsal column-medial lemniscus", "Spinothalamic (anterolateral)", "Corticospinal tract", "Cerebellar pathways"],optsz:["后索-内侧丘系", "脊髓丘脑（前外侧）束", "皮质脊髓束", "小脑通路"],correct:1,expl:"Spinothalamic tract carries pain, temperature, and light/crude touch; dorsal columns carry fine touch, vibration, proprioception.",explz:"脊髓丘脑束传导痛、温及粗触觉；后索传导精细触、振动、本体感觉。"},
+{cat:"as",en:"Testing proprioception (joint position sense) typically involves:",zh:"本体感觉（关节位置觉）测试通常：",opts:["Blindly ask patient to identify a joint position", "Prick with a pin", "Flick a tuning fork", "Walk in a straight line blindfolded"],optsz:["让患者闭眼说出关节位置", "针刺", "震动音叉", "闭眼走直线"],correct:0,expl:"Proprioception is tested by passively positioning a joint and asking the patient (eyes closed) to identify/replicate it.",explz:"被动摆放关节后让患者闭眼识别/复述肢体位置来测本体感觉。"},
+{cat:"as",en:"Hering-Breuer respiratory reflexes aside, deep tendon reflex grades are usually scored:",zh:"深肌腱反射通常按几级评分？",opts:["0–2+", "0–4+", "1–10", "a-b-c"],optsz:["0–2+", "0–4+", "1–10", "a-b-c"],correct:1,expl:"Reflexes are commonly graded 0 (absent) to 4+ (hyperactive/hyperreflexia).",explz:"反射通常评为0级（消失）至4+级（亢进/反射过强）。"},
+{cat:"as",en:"The stance phase of normal gait makes up approximately what % of the cycle?",zh:"正常步态中支撑期约占整个周期的多少？",opts:["~40%", "~60%", "~80%", "~20%"],optsz:["约40%", "约60%", "约80%", "约20%"],correct:1,expl:"Stance ≈ 60% and swing ≈ 40% of the gait cycle (double support occurs during early/late stance).",explz:"支撑期约占60%，摆动期约40%（双足支撑发生在支撑期早/后期）。"},
+{cat:"as",en:"Which is a classic sign of a lesion in the cerebellum?",zh:"小脑病变的典型体征是？",opts:["Intention tremor and ataxia", "Spastic paraplegia", "Loss of light touch only", "Interosseous wasting"],optsz:["意向性震颤与共济失调", "痉挛性截瘫", "仅触觉丧失", "骨间肌萎缩"],correct:0,expl:"Cerebellar lesions cause ataxia, intention tremor, dysmetria, and poor coordination.",explz:"小脑病变表现为共济失调、意向性震颤、辨距不良、协调障碍。"},
+{cat:"as",en:"A 9-hole peg test evaluates chiefly:",zh:"九孔 peg 试验主要评估：",opts:["Gross hip strength", "Fine motor dexterity / coordination", "Knee range", "Balance"],optsz:["精细运动操作能力/协调", "髋部粗大力量", "膝关节活动度", "平衡"],correct:0,expl:"The 9-hole peg test measures fine manual dexterity and coordination, common after stroke/neuro injury.",explz:"九孔试验测量精细手指操作与协调，常用于脑卒中/神经损伤后。"},
+{cat:"as",en:"Sensation testing \"crude\" vs \"fine\" touch helps localize a lesion to:",zh:"区分“粗”“细”触觉有助于定位病变位于：",opts:["Peripheral vs central nervous system", "Just the skin", "Only the joints", "The heart"],optsz:["周围还是中枢神经", "仅皮肤", "仅关节", "心脏"],correct:0,expl:"Crude touch (spinothalamic) vs fine touch (dorsal columns) dissociation helps localize CNS vs PNS lesions.",explz:"粗触（脊髓丘脑束）与精细触（后索）分离有助于定位中枢/周围病变。"},
+{cat:"as",en:"The start position for testing hip flexor MMT is:",zh:"测试髋屈肌MMT的标准起始体位是：",opts:["Supine with hip/knee flexed and pelvis stabilized", "Prone with knee straight", "Seated erect", "Standing"],optsz:["仰卧屈髋屈膝并固定骨盆", "俯卧伸膝", "坐位直立", "站立"],correct:0,expl:"Hip flexor MMT is performed supine with hip/knee flexed, pelvis stabilized, the patient flexes the hip.",explz:"仰卧屈髋屈膝、固定骨盆，测髋屈曲。"},
+{cat:"as",en:"Tinel sign is positive when tapping over a nerve reproduces:",zh:"叩击神经出现Tinel征阳性是指：",opts:["Pain/tingling along the nerve distribution", "Swelling of the joint", "Muscle spasm", "Bone crepitus"],optsz:["沿该神经分布区出现疼痛/麻刺感", "关节肿胀", "肌肉痉挛", "骨摩擦音"],correct:0,expl:"A positive Tinel sign (tapping reproduces distal tingling) suggests nerve irritation/regeneration.",explz:"叩击神经远端出现麻刺感提示神经激惹或再生。"},
+{cat:"as",en:"Which outcome measure is a performance-based test of walking?",zh:"下列哪项是基于步行的“表现性”测试？",opts:["10-Meter Walk Test", "Visual Analogue Scale", "MMT", "Goniometry"],optsz:["10米步行测试", "视觉模拟评分（VAS）", "徒手肌力测试（MMT）", "量角法"],correct:0,expl:"The 10-Meter Walk Test times a patient walking 10 m — a performance-based gait measure.",explz:"10米步行测试计时患者步行10米，属表现性步态评估。"},
+{cat:"as",en:"A lateral pelvic drop during stance is classically associated with weakness of:",zh:"支撑期出现骨盆侧倾（Trendelenburg）典型提示哪块肌无力？",opts:["Gluteus medius", "Quadriceps", "Gastrocnemius", "Hamstrings"],optsz:["臀中肌", "股四头肌", "腓肠肌", "腘绳肌"],correct:0,expl:"Weak gluteus medius allows the unsupported side of the pelvis to drop (Trendelenburg sign).",explz:"臀中肌无力导致对侧骨盆下沉（Trendelenburg征）。"},
+{cat:"in",en:"A Grade II ankle sprain involves:",zh:"II度踝扭伤涉及：",opts:["Mild ligament stretch, little tearing", "Partial tear with some laxity/moderate pain", "Complete ligament rupture", "No ligament involvement"],optsz:["韧带轻度牵拉、损伤小", "韧带部分撕裂、轻度松弛/中度疼痛", "韧带完全断裂", "无韧带损伤"],correct:1,expl:"Grade II = partial ligament tear with moderate laxity; Grade III = complete rupture with gross instability.",explz:"II度=韧带部分撕裂伴中度松弛；III度=完全断裂伴明显不稳定。"},
+{cat:"in",en:"The most commonly injured ligament in an ankle sprain is the:",zh:"踝扭伤中最常损伤的韧带是：",opts:["Deltoid ligament", "Anterior talofibular ligament (ATFL)", "Posterior talofibular", "Calcaneofibular only"],optsz:["三角韧带", "距腓前韧带（ATFL）", "距腓后韧带", "仅跟腓韧带"],correct:1,expl:"In an inversion sprain the ATFL is injured first (most common).",explz:"内翻扭伤时ATFL最先受损（最常见）。"},
+{cat:"in",en:"Ottawa Ankle Rules allow x-ray to be skipped when the patient can:",zh:"Ottawa踝规则允许不做X线的情况是：",opts:["Bear 4 steps and have no bone tenderness at malleoli/base of 5th MT", "Walk on heels", "Stand on one leg for 10 s", "Have full active ROM"],optsz:["能走4步且内外踝/第5跖骨基底部无压痛", "能用足跟行走", "单腿站立10秒", "主动活动范围完全"],correct:0,expl:"Ottawa rules: no x-ray if the patient can weight-bear 4 steps AND has no bony tenderness at malleoli/base of 5th MT/navicular.",explz:"Ottawa规则：能负重走4步且内/外踝、第5跖骨基底、舟骨无压痛时可免拍X线。"},
+{cat:"in",en:"The Lachman test primarily assesses:",zh:"Lachman试验主要评估：",opts:["ACL integrity", "Medial meniscus", "Lateral collateral ligament", "Posterior capsule"],optsz:["前交叉韧带（ACL）完整性", "内侧半月板", "外侧副韧带", "后关节囊"],correct:0,expl:"Lachman tests anterior translation of the tibia with the knee ~20–30° flexed — the best test for ACL.",explz:"膝屈曲20–30°时前移胫骨，是评估ACL的最佳试验。"},
+{cat:"in",en:"McMurray test is used to detect:",zh:"McMurray试验用于检测：",opts:["Meniscal tears", "ACL rupture", "Patellar dislocation", "Ankle instability"],optsz:["半月板撕裂", "ACL断裂", "髌骨脱位", "踝关节不稳"],correct:0,expl:"McMurray (twisting the flexed knee with rotation) reproduces pain/click with a meniscal tear.",explz:"McMurray通过在屈膝旋转时诱发疼痛/弹响来诊断半月板撕裂。"},
+{cat:"in",en:"Empty can (Jobe) test is positive in:",zh:"“空罐”（Jobe）试验阳性见于：",opts:["Supraspinatus (rotator cuff) pathology", "Biceps tendinitis", "Ulnar neuropathy", "AC joint injury"],optsz:["冈上肌（肩袖）病变", "肱二头肌腱炎", "尺神经病变", "肩锁关节损伤"],correct:0,expl:"Empty can isolates supraspinatus; weakness/pain suggests supraspinatus/rotator cuff pathology.",explz:"空罐试验孤立冈上肌；无力/疼痛提示冈上肌或肩袖病变。"},
+{cat:"in",en:"Patellar tendinopathy is best initially managed with:",zh:"髌腱病最佳的初始处理是：",opts:["Heavy slow resistance eccentric training", "Complete immobilization", "Ice only", "Surgery first"],optsz:["重负荷慢速离心训练", "完全制动", "仅冰敷", "首选手术"],correct:0,expl:"Evidence supports heavy slow resistance / eccentric loading for patellar tendinopathy, not rest-only.",explz:"循证支持重负荷慢速阻力/离心负荷治疗髌腱病，而非单纯休息。"},
+{cat:"in",en:"\"Overuse\" injuries are most commonly caused by:",zh:"“过劳性”损伤最常由以下引起：",opts:["Sudden high-energy trauma", "Repetitive microtrauma from training errors/overload", "Infection", "Genetic only"],optsz:["突发高能量创伤", "训练错误/负荷累积的反复微小创伤", "感染", "仅遗传因素"],correct:1,expl:"Overuse injuries arise from repeated loading exceeding tissue capacity, often with sudden training load jumps.",explz:"过劳损伤源于反复负荷超出组织承受力，常与训练量骤增有关。"},
+{cat:"in",en:"A red flag for cauda equina syndrome includes:",zh:"马尾综合征的红旗征包括：",opts:["Saddle anesthesia, bilateral leg weakness, bladder/bowel dysfunction", "Isolated toe pain", "Mild muscle stiffness", "Knee crepitus"],optsz:["鞍区麻木、双下肢无力、大小便功能障碍", "孤立性足趾痛", "轻度肌肉僵硬", "膝关节摩擦音"],correct:0,expl:"Cauda equina is a surgical emergency with saddle anesthesia, bilateral weakness, and sphincter dysfunction.",explz:"马尾综合征属手术急症：鞍区麻木、双下肢无力、括约肌功能障碍。"},
+{cat:"in",en:"Sudden severe, \"worst of life\" headache that mimics exertion should raise concern for:",zh:"突发剧烈“生平最痛”头痛伴用力诱发应警惕：",opts:["Migraine only", "Subarachnoid hemorrhage / stroke", "Tension headache", "Cluster headache only"],optsz:["仅偏头痛", "蛛网膜下腔出血/脑卒中", "紧张性头痛", "仅丛集性头痛"],correct:1,expl:"A sudden thunderclap \"worst ever\" headache can signal subarachnoid hemorrhage — a medical emergency.",explz:"突发雷击样“最剧烈”头痛可提示蛛网膜下腔出血——属急症。"},
+{cat:"in",en:"Deep vein thrombosis (DVT) suspicion is increased by unilateral:",zh:"深静脉血栓（DVT）可疑征象是单侧：",opts:["Warmth, swelling, and calf pain", "Cool dry skin", "Transient numbness", "Joint crepitus"],optsz:["皮温升高、肿胀、小腿疼痛", "皮温凉且干燥", "一过性麻木", "关节摩擦音"],correct:0,expl:"Unilateral calf swelling, warmth, and pain (esp. post-surgery/immobilization) raises DVT suspicion — a red flag.",explz:"单侧小腿肿胀、皮温高、疼痛（尤其术后/制动后）提示DVT——红旗征。"},
+{cat:"in",en:"The initial acute-phase management of soft tissue injury is summarized as:",zh:"软组织损伤急性期的初步处理原则是：",opts:["PEACE protocol (Protect, Elevate, Avoid anti-inflammatories, Compress, Educate)", "Immediate deep massage", "Heat and stretching", "Running through pain"],optsz:["PEACE原则（保护、抬高、避免抗炎药、加压、宣教）", "立即深部按摩", "热敷与牵拉", "忍着痛继续跑"],correct:0,expl:"Modern guidance favors PEACE&LOVE over RICE — protect, elevate, avoid anti-inflammatories, compress, educate.",explz:"现代指南更推荐PEACE&LOVE：保护、抬高、避免抗炎药、加压、宣教。"},
+{cat:"in",en:"Which is NOT a classic cause of medial elbow pain (medial epicondylitis)?",zh:"下列哪项不是“高尔夫球肘”（肱骨内上髁炎）的典型表现？",opts:["Pain at medial epicondyle with wrist flexion", "Pain worsened by gripping", "Involves flexor-pronator origin", "Pain at the lateral epicondyle"],optsz:["腕屈曲时内上髁疼痛", "抓握时加重", "累及屈肌-旋前圆肌起点", "疼痛位于外上髁"],correct:3,expl:"Medial epicondylitis is at the MEDIAL epicondyle (flexor origin); lateral epicondylitis (tennis elbow) is lateral.",explz:"内上髁炎位于内侧（屈肌起点）；外侧为外上髁炎（网球肘）。"},
+{cat:"in",en:"An anterior drawer test at the knee primarily tests:",zh:"膝关节前抽屉试验主要检测：",opts:["ACL", "PCL", "MCL", "Meniscus"],optsz:["前交叉韧带（ACL）", "后交叉韧带（PCL）", "内侧副韧带（MCL）", "半月板"],correct:0,expl:"Anterior drawer tests anterior tibial translation → ACL; posterior drawer tests PCL.",explz:"前抽屉试验测胫骨前移→ACL；后抽屉试验测PCL。"},
+{cat:"in",en:"A \"Bankart lesion\" is:",zh:"“Bankart损伤”是指：",opts:["Anterior-inferior labral tear after shoulder dislocation", "ACL partial tear", "Patellar fracture", "Achilles rupture"],optsz:["肩关节脱位后的前下盂唇撕裂", "ACL部分撕裂", "髌骨骨折", "跟腱断裂"],correct:0,expl:"Bankart lesions are anterior-inferior glenoid labrum tears commonly after traumatic anterior shoulder dislocation.",explz:"Bankart损伤指创伤性肩前脱位后前下盂唇撕裂。"},
+{cat:"in",en:"The Ottawa Knee Rule mainly helps decide:",zh:"Ottawa膝规则主要帮助决定：",opts:["Whether to order knee x-ray for acute injury", "Whether to operate", "Whether to immobilize in cast", "When to return to sport"],optsz:["急性膝损伤是否需拍X线", "是否手术", "是否石膏固定", "何时重返运动"],correct:0,expl:"Ottawa Knee Rules give criteria for when plain x-ray is warranted after acute knee trauma.",explz:"Ottawa膝规则给出急性膝创伤后是否需要X线的标准。"},
+{cat:"in",en:"Return-to-sport after a concussion should:",zh:"脑震荡后重返运动的正确做法是：",opts:["Follow a gradual stepwise protocol, progressing only if symptom-free at each stage", "Return immediately to full contact if no amnesia", "Wait exactly 14 days regardless", "Only resume non-contact drills for 1 day"],optsz:["遵循循序渐进的分级方案，每级无症状才晋级", "若无健忘即回全对抗", "一律静等14天", "仅休息1天恢复无对抗训练"],correct:0,expl:"Concussion recovery follows graded return-to-play steps (symptom-limited → light → full), advancing only when symptom-free.",explz:"脑震荡后按等级渐进恢复（症状限制→轻→全对抗），每级无症状再进阶。"},
+{cat:"tc",en:"In TCM, \"Qi\" (气) most closely corresponds to:",zh:"中医之“气”最接近的含义是：",opts:["A vital energy/function that animates and nourishes the body", "A specific virus", "Pure oxygen in the blood", "A type of bone marrow"],optsz:["维系、推动并濡养身体的功能性生命能量", "某种病毒", "血中的纯氧", "一种骨髓"],correct:0,expl:"Qi is the energetic substance that drives physiological function, movement, and defense in TCM theory.",explz:"气是推动、温煦、防御与固摄的功能性生命能量物质。"},
+{cat:"tc",en:"Yin and Yang in TCM describe:",zh:"中医的“阴阳”描述的是：",opts:["Opposing but interdependent qualities (e.g., cold/warm, interior/exterior, deficiency/excess)", "Two types of blood cells", "Right and left brain", "Seasonal only"],optsz:["对立又互根互用的属性（如寒热、表里、虚实）", "两种血细胞", "左右脑", "仅指季节"],correct:0,expl:"Yin-Yang is a dialectical model of opposing yet complementary qualities used to categorize health patterns.",explz:"阴阳是对立又统一的属性模型，用于辨证与分类机体状态。"},
+{cat:"tc",en:"The \"two hours\" meridian clock: ST36 (Zusanli) belongs to which meridian?",zh:"足三里（ST36）属于哪条经络？",opts:["Stomach meridian", "Lung meridian", "Heart meridian", "Bladder meridian"],optsz:["足阳明胃经", "手太阴肺经", "手少阴心经", "足太阳膀胱经"],correct:0,expl:"Zusanli (ST36) is the classic Stomach meridian point below the knee, a major \"tonifying\" point.",explz:"足三里是胃经的经典穴位（膝下），为重要“补益”要穴。"},
+{cat:"tc",en:"Acupuncture point LI4 is called Hegu and is located:",zh:"合谷穴（LI4）位于：",opts:["Between the thumb and index finger (web space)", "At the cubital fossa", "Behind the knee", "On the sole of the foot"],optsz:["拇指与食指之间（虎口）", "肘窝", "膝后方", "足底"],correct:0,expl:"Hegu (LI4) lies on the dorsum of the hand between 1st and 2nd metacarpals — a widely used analgesic point.",explz:"合谷穴位于手背第1、2掌骨间，为常用镇痛要穴。"},
+{cat:"tc",en:"Tuina is best described as:",zh:"推拿最恰当的描述是：",opts:["A TCM manual therapy using pushing, grasping, and kneading techniques", "A form of cupping only", "An injection technique", "A surgical procedure"],optsz:["运用推、拿、揉、按等手法的中医手法治疗", "仅指拔罐", "一种注射技术", "外科手术"],correct:0,expl:"Tuina is TCM manual therapy combining pushing/grasping/rubbing techniques to regulate qi and soft tissue.",explz:"推拿是运用推、拿、揉、按等手法以调理气血与软组织的治疗方法。"},
+{cat:"tc",en:"Moxibustion involves:",zh:"艾灸是指：",opts:["Burning moxa (dried mugwort) near/acupuncture points to warm and tonify", "Injecting saline", "Applying cold packs", "Electrical muscle stimulation only"],optsz:["在穴位附近燃烧艾绒以温通、补益", "注射生理盐水", "冷敷", "仅电刺激"],correct:0,expl:"Moxibustion burns dried mugwort near points/skin to warm yang, expel cold, and promote qi/blood flow.",explz:"艾灸通过燃烧艾绒温煦穴位，以温阳散寒、行气活血。"},
+{cat:"tc",en:"The TCM \"nine constitutions\" (九种体质) classify people based on:",zh:"中医“九种体质”主要根据什么分类人群？",opts:["Balanced + 8 imbalanced patterns (qi, yang, yin, phlegm-damp, damp-heat, blood-stasis, qi-stagnation, special/te-like)", "Blood type", "BMI only", "Zodiac sign"],optsz:["平和+8种偏颇（气虚、阳虚、阴虚、痰湿、湿热、血瘀、气郁、特禀）", "血型", "仅BMI", "星座"],correct:0,expl:"The TCM constitution framework: 1 balanced + 8 imbalanced types used to guide prevention and care.",explz:"中医体质分1种平和+8种偏颇，用于指导养生与调治。"},
+{cat:"tc",en:"A \"Yang deficiency\" (阳虚) pattern typically presents as:",zh:"“阳虚”证型典型表现为：",opts:["Cold intolerance, fatigue, pale complexion, clear urine", "High fever and thirst", "Sharp heat in the palms", "Excessive sweating with no fatigue"],optsz:["畏寒、乏力、面白、尿清长", "高热口渴", "手足心热", "多汗而不乏力"],correct:0,expl:"Yang deficiency = insufficient warming, giving cold intolerance, fatigue, pallor, and clear urine.",explz:"阳虚为温煦不足，表现为畏寒、乏力、面白、尿清长。"},
+{cat:"tc",en:"Yin deficiency (阴虚) is classically associated with:",zh:"阴虚证通常与以下相关：",opts:["Night sweats, low-grade fever, dry mouth, \"five-palm\" heat", "Cold limbs and diarrhea", "Clear copious urine", "Loose stools and tiredness"],optsz:["盗汗、低热、口干、五心烦热", "四肢厥冷与腹泻", "小便清长", "便溏乏力"],correct:0,expl:"Yin deficiency shows signs of inadequate cooling/moistening: night sweats, dryness, low-grade heat.",explz:"阴虚表现为滋润不足：盗汗、口干、虚热、五心烦热。"},
+{cat:"tc",en:"According to TCM, the \"Liver\" (肝) is said to \"store the\":",zh:"中医认为“肝主”：",opts:["Blood and governs smooth flow of qi", "Gallbladder stones", "Only the left lung", "Fat absorption"],optsz:["藏血并主疏泄（调畅气机）", "胆结石", "仅左侧肺", "脂肪吸收"],correct:0,expl:"The Liver stores blood and governs the free flow of qi/emotions (liver qi stagnation underlies many functional complaints).",explz:"肝藏血、主疏泄，气机调畅；肝郁气滞与许多功能性疾病有关。"},
+{cat:"tc",en:"Tongue examination in TCM mainly reflects:",zh:"中医舌诊主要反映：",opts:["Qi, blood, and organ (zang-fu) state, especially through tongue body color and coating", "Only oral hygiene", "Only the kidneys", "Presence of cavities"],optsz:["舌质与舌苔反映气血与脏腑状态", "仅口腔卫生", "仅肾脏", "是否有蛀牙"],correct:0,expl:"Tongue body/coating color is a mirror of qi-blood and internal organ conditions in TCM diagnosis.",explz:"舌色与舌苔可反映气血与脏腑盛衰，是重要辨证依据。"},
+{cat:"tc",en:"The concept \"qi and blood, body fluids\" (气血津液) refers to:",zh:"“气血津液”是指：",opts:["The foundational substances that nourish and sustain life", "Only red blood cells", "Electrolytes exclusively", "Vitamins"],optsz:["滋养并维系生命的基础物质", "仅红细胞", "仅电解质", "维生素"],correct:0,expl:"Qi, blood, and body fluids (津液) are the fundamental substances sustaining life and physiological activity in TCM.",explz:"气、血、津液是构成和维持人体生命活动的基础物质。"},
+{cat:"tc",en:"Cupping therapy main principle is:",zh:"拔罐疗法的主要原理是：",opts:["Negative-pressure suction on skin to promote local qi-blood flow", "Injecting herbs", "Cold compression", "Electromagnetic shielding"],optsz:["负压吸附皮肤以促进局部气血运行", "注射药物", "冷敷", "电磁屏蔽"],correct:0,expl:"Cupping uses suction (negative pressure) on the skin to promote blood flow and relieve stasis/pain.",explz:"拔罐以负压吸附皮肤，促进局部气血、散淤止痛。"},
+{cat:"tc",en:"A key TCM principle when integrating with sports rehab is:",zh:"将中医融入运动康复的关键原则是：",opts:["Treat the whole person, adjust for stage and pattern, and complement (not replace) evidence-based rehab", "Always replace Western modalities", "Ignore diagnosis", "Apply one formula to all athletes"],optsz:["整体观念、因人因期辨证，并作为循证康复的补充而非替代", "一律替代西医手段", "忽略诊断", "对所有人用同一方"],correct:0,expl:"Effective integration preserves TCM holistic/pattern-based care while complementing biomechanically sound rehab.",explz:"有效整合应保留中医整体与辨证优势，同时补充循证康复，而非互相替代。"},
+{cat:"tc",en:"In TCM, \"qi stagnation\" (气滞) often produces:",zh:"中医“气滞”常表现为：",opts:["Distension, migratory pain, and emotional tension", "Cold limbs only", "Profuse sweating", "Sudden extreme drops in HR"],optsz:["胀满、走窜性疼痛、情绪紧张", "仅四肢冷", "多汗", "心率骤降"],correct:0,expl:"Qi stagnation manifests as distension and pain that moves, plus emotional/muscle tension.",explz:"气滞表现为胀满、走窜痛及情绪/肌肉紧张。"},
+{cat:"tc",en:"The five elements (五行) in TCM organize correspondences such as:",zh:"中医“五行”通过对应关系组织：",opts:["Wood, fire, earth, metal, water mapping organs, emotions, seasons", "Five blood types", "Five joint types", "Five nerve fibers"],optsz:["木、火、土、金、水对应脏腑、情志、季节等", "五种血型", "五种关节", "五种神经纤维"],correct:0,expl:"The Five Elements (wood/fire/earth/metal/water) classify organs, emotions, tissues, and seasons into relationships.",explz:"五行（木火土金水）将脏腑、情志、组织、季节归类并建立生克关系。"},
+{cat:"tc",en:"Which TCM modality is generally CONTRAINDICATED over an acute fresh wound?",zh:"以下哪种中医操作一般禁用于急性新鲜伤口处？",opts:["Moxibustion / acupuncture penetration at the site", "Simple breathing guidance", "Relaxing massage away from wound", "Psychological counseling"],optsz:["在伤口局部艾灸/针刺穿透", "简单呼吸指导", "远离伤口的放松按摩", "心理疏导"],correct:0,expl:"Direct moxibustion or needle insertion on an open/inflamed acute wound risks infection and is avoided.",explz:"在开放性/急性炎症伤口直接艾灸或针刺易致感染，应避免。"},
+];
+
+const CN_SUBJECTS = {
+ 'an':'Anatomy · 解剖学',
+ 'ph':'Physiology · 生理学',
+ 'as':'Assessment · 康复评定学',
+ 'in':'Injury · 运动损伤学',
+ 'tc':'TCM · 中医健康管理'
+};
+const CNQ = {};
+CNQ.state = {picked:[], i:0, score:0, results:[], active:false};
+CNQ.cn = function(){ return typeof showCN!=='undefined' ? !!showCN : !!document.documentElement.classList.contains('cn'); };
+CNQ.t = function(en,zh){ return CNQ.cn()?zh:en; };
+CNQ.shuffle = function(a){ a=a.slice(); for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1)); const tmp=a[k];a[k]=a[j];a[j]=tmp;} return a; };
+CNQ.el = function(id){ return document.getElementById(id); };
+CNQ.renderSetup = function(){
+  const st=CNQ.state;
+  const root=CNQ.el('cnQuiz');
+  if(!root) return;
+  // subject counts
+  const counts={}; CN_QUESTIONS.forEach(q=>{counts[q.cat]=(counts[q.cat]||0)+1;});
+  let subOpts='<option value="all">'+CNQ.t('All subjects (全部科目)', '全部科目（All subjects）')+'</option>';
+  Object.keys(CN_SUBJECTS).forEach(k=>{
+    subOpts+='<option value="'+k+'">'+CNQ.t(CN_SUBJECTS[k]+' — '+counts[k], CN_SUBJECTS[k]+' — '+counts[k])+'</option>';
+  });
+  const total=CN_QUESTIONS.length;
+  let countOpts='';
+  [10,20,40].forEach(n=>{ if(n<total) countOpts+='<option value="'+n+'">'+n+' '+CNQ.t('questions','题')+'</option>'; });
+  countOpts+='<option value="'+total+'">'+total+' '+CNQ.t('questions · all','题 · 全部')+'</option>';
+  root.innerHTML=
+    '<div class="cnq-head">'+
+      '<span class="hero-badge"><span class="dot"></span>'+CNQ.t('Certification Mock Test · 模拟测验','资格证模拟测验 · Certification Mock Test')+'</span>'+
+      '<h3 class="cnq-title">'+CNQ.t('📝 运动康复师资格证 · Question Bank ('+total+')','📝 运动康复师资格证 · 题库（共'+total+'题）')+'</h3>'+
+    '</div>'+
+    '<div class="cnq-controls">'+
+      '<label class="cnq-label">'+CNQ.t('Subject','科目')+'<select id="cnqSub">'+subOpts+'</select></label>'+
+      '<label class="cnq-label">'+CNQ.t('Questions','题数')+'<select id="cnqNum">'+countOpts+'</select></label>'+
+      '<button class="qo-btn next" onclick="CNQ.start()">'+CNQ.t('🚀 Start Test','🚀 开始测验')+'</button>'+
+    '</div>'+
+    '<div class="cnq-note">'+CNQ.t('Randomly drawn from the full bank, scored instantly with explanations. Certified-domain questions modeled on the 人社部 exam style.','从完整题库随机抽题，即时评分并附解析。题目参照人社部资格证考试风格编写。')+'</div>'+
+    '<div id="cnQuizArea"></div>';
+};
+CNQ.start = function(){
+  const st=CNQ.state;
+  const sub=CNQ.el('cnqSub') ? CNQ.el('cnqSub').value : 'all';
+  let num=CNQ.el('cnqNum') ? parseInt(CNQ.el('cnqNum').value,10) : 10;
+  let pool= CN_QUESTIONS.filter(q=> sub==='all' || q.cat===sub);
+  pool=CNQ.shuffle(pool).slice(0, Math.min(num,pool.length));
+  st.picked=pool; st.i=0; st.score=0; st.results=[]; st.active=true;
+  CNQ.renderQ();
+};
+CNQ.renderQ = function(){
+  const st=CNQ.state, root=document.getElementById('cnQuizArea');
+  if(!root) return;
+  if(!st.active){ return; }
+  if(st.i>=st.picked.length){ CNQ.renderScore(); return; }
+  const q=st.picked[st.i];
+  const pct=Math.round(st.i/st.picked.length*100);
+  const o = CNQ.cn()?q.optsz:q.opts;
+  root.innerHTML=
+    '<div class="cnq-prog"><div class="cnq-prog-bar" style="width:'+pct+'%"></div></div>'+
+    '<div class="cnq-qnum">'+CNQ.t('Question '+(st.i+1)+' / '+st.picked.length+' · '+CN_SUBJECTS[q.cat],'第'+(st.i+1)+'题 / 共'+st.picked.length+'题 · '+CN_SUBJECTS[q.cat])+'</div>'+
+    '<div class="cnq-q">'+(CNQ.cn()?q.zh:q.en)+'</div>'+
+    '<div class="cnq-opts" id="cnqOpts">'+
+      o.map((opt,idx)=>'<div class="cnq-opt" onclick="CNQ.select('+idx+')">'+opt+'</div>').join('')+
+    '</div>'+
+    '<div class="cnq-explain" id="cnqExplain"></div>'+
+    '<div class="cnq-footer">'+
+      '<span class="cnq-score">'+CNQ.t('Score','得分')+': '+st.score+' / '+st.i+'</span>'+
+      '<button class="qo-btn next" id="cnqNext" onclick="CNQ.next()" disabled>'+CNQ.t('Next →','下一题 →')+'</button>'+
+    '</div>';
+};
+CNQ.select = function(idx){
+  const st=CNQ.state, q=st.picked[st.i];
+  const opts=document.querySelectorAll('#cnqOpts .cnq-opt');
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===q.correct) o.classList.add('correct');
+    if(i===idx && idx!==q.correct) o.classList.add('wrong');
+  });
+  const hit = idx===q.correct; if(hit) st.score++;
+  st.results.push(hit);
+  const exp = CNQ.cn()?q.explz:q.expl;
+  document.getElementById('cnqExplain').innerHTML='<strong>'+CNQ.t('Explanation','解析')+':</strong> '+exp;
+  document.getElementById('cnqExplain').classList.add('show');
+  document.getElementById('cnqNext').disabled=false;
+};
+CNQ.next = function(){ CNQ.state.i++; CNQ.renderQ(); };
+CNQ.renderScore = function(){
+  const st=CNQ.state, root=document.getElementById('cnQuizArea');
+  const total=st.picked.length;
+  const pct=Math.round(st.score/total*100);
+  const grade = pct>=90?CNQ.t('Excellent','优秀'):pct>=75?CNQ.t('Good','良好'):pct>=60?CNQ.t('Pass','及格'):CNQ.t('Keep practicing','继续努力');
+  const dots=st.results.map(r=>'<div class="cnq-dot '+(r?'hit':'miss')+'"></div>').join('');
+  root.innerHTML=
+    '<div class="cnq-scorecard">'+
+      '<div class="cnq-pct">'+pct+'%</div>'+
+      '<div class="cnq-slabel">'+st.score+' / '+total+' '+CNQ.t('correct','正确')+' · '+grade+'</div>'+
+      '<div class="cnq-dots">'+dots+'</div>'+
+      '<div class="cnq-sactions">'+
+        '<button class="qo-btn next" onclick="CNQ.start()">'+CNQ.t('🔄 Try Again','🔄 重新抽题')+'</button>'+
+        '<button class="qo-btn next" onclick="CNQ.renderSetup()" style="background:var(--text3);margin-left:.5rem">'+CNQ.t('⚙️ Settings','⚙️ 设置')+'</button>'+
+      '</div>'+
+    '</div>';
+};
+CNQ.renderSetup();
+document.addEventListener('click',function(e){ if(e.target.closest && e.target.closest('#langToggle')){ CNQ.renderSetup(); } });
+
+</script>
 </html>

@@ -902,7 +902,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
       <select id="examCount" style="padding:.55rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.95rem">
         <option value="10">10</option>
         <option value="20" selected>20</option>
-        <option value="30">30 (full bank)</option>
+        <option value="82" data-en="82 (full bank)" data-zh="82（全部题库）">82 (full bank)</option>
       </select>
       <span style="font-size:.85rem;color:var(--text3)" data-en="≈ 90 seconds per question (NPTE pace is ~80 s)" data-zh="每题约90秒（NPTE实际约80秒）">≈ 90 seconds per question (NPTE pace is ~80 s)</span>
     </div>
@@ -931,7 +931,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <div class="container">
   <span class="section-label" data-en="Certificate · 结业证书" data-zh="结业证书 · Certificate">Certificate · 结业证书</span>
   <h2 data-en="Earn Your Certificate of Completion" data-zh="获得结业证书">Earn Your Certificate of Completion</h2>
-  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This documents completion of the 7-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate." data-zh="该证书证明你完成了7模块双语学习课程，并达到NPTE冲刺练习要求。输入姓名即可下载可打印证书。">This documents completion of the 7-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate.</p>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This documents completion of the 13-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate." data-zh="该证书证明你完成了13模块双语学习课程，并达到NPTE冲刺练习要求。输入姓名即可下载可打印证书。">This documents completion of the 13-module bilingual study course, plus NPTE-Ready practice performance. Type your name and download a printable certificate.</p>
 
   <div class="exam-panel">
     <div class="cert-gate">
@@ -982,7 +982,7 @@ function applyLangEP(){
   document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+lang); });
   langBtn.textContent=showCN?'中':'EN';
 }
-langBtn.addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLangEP(); });
+langBtn.addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLangEP(); renderPath(); renderCert(); if(sess&&document.getElementById('examPanel').style.display!=='none') showExamQ(); });
 
 (function(){
   var pb=document.createElement('div'); pb.id='readingBar'; document.body.appendChild(pb);
@@ -1011,37 +1011,254 @@ function renderPath(){
 }
 
 var EXAM_DOM={'msk':'Musculoskeletal','neuro':'Neuromuscular / Nervous','cardio':'Cardiovascular / Pulmonary','integ':'Integumentary','other':'Other / Cross-system'};
+var EXAM_DOM_CN={'msk':'肌肉骨骼','neuro':'神经肌肉 / 神经','cardio':'心血管 / 肺','integ':'皮肤系统','other':'其他 / 跨系统'};
+function domName(d){ return showCN?(EXAM_DOM_CN[d]||EXAM_DOM[d]):EXAM_DOM[d]; }
 var BANK=[
-{d:'msk',q:'A 20-year-old athlete reports her knee “gives way” during cutting and is swollen within hours. A Lachman test is positive. Which structure is most likely injured?',qcn:'20岁运动员膝关节打软并快速肿胀，Lachman试验阳性，最可能损伤的是？',opts:['Anterior cruciate ligament','Medial collateral ligament','Patellar tendon','Meniscus'],c:0,ex:'The Lachman test stresses the anterior cruciate ligament; a recent giving-way episode with rapid effusion (hemarthrosis) points to an acute ACL injury.',excn:'Lachman试验检验前交叉韧带；急性肿胀加打软提示ACL损伤。'},
-{d:'msk',q:'A lateral ankle sprain leaves moderate pain, swelling, bruising, and slight joint laxity but no complete tear. How is this graded?',qcn:'踝关节外侧扭伤：中度肿痛、轻度松弛但未完全断裂，如何分级？',opts:['Grade I','Grade II','Grade III','Grade IV'],c:1,ex:'Grade II is a partial ligament tear with moderate pain, swelling, and mild laxity; Grade III is a complete tear with gross instability.',excn:'II度=韧带部分撕裂，中度肿痛轻度松弛；III度=完全断裂明显不稳。'},
-{d:'msk',q:'Which intervention is best supported to reduce recurrent lateral ankle sprains?',qcn:'预防踝关节反复扭伤最有证据的干预？',opts:['Proactive stretching only','Balance and proprioception training','Daily anti-inflammatory medicine','Casting for six weeks'],c:1,ex:'Proprioception and balance training restore sensorimotor control after ligament injury and are the best-supported prevention for chronic ankle instability.',excn:'本体感觉与平衡训练恢复感觉运动控制，是预防慢性踝关节不稳的最佳证据。'},
-{d:'msk',q:'For patellar tendinopathy, which loading approach has the strongest evidence?',qcn:'髌腱病最有证据的负荷方式？',opts:['High-repetition, low-intensity work','Progressive heavy-slow resistance or eccentric loading','Full rest until pain resolves','Explosive plyometrics as the first step'],c:1,ex:'Progressive loading, such as heavy-slow resistance or eccentric protocols, stimulates tendon remodeling — the core of tendinopathy rehabilitation.',excn:'渐进负荷（如慢速大重量或离心训练）刺激肌腱重塑，是肌腱病康复核心。'},
-{d:'msk',q:'Which special test is classically used to isolate the supraspinatus tendon?',qcn:'何种特殊试验常用于单独评估冈上肌腱？',opts:['FABER test','Thompson test','Empty can (Jobe) test','Anterior drawer of the knee'],c:2,ex:'The empty-can (Jobe) test positions the arm so that the supraspinatus tendon is maximally stressed in isolation.',excn:'空罐试验(Jobe)将手臂置于使冈上肌腱单独受最大应力的位置。'},
-{d:'msk',q:'In the first 48–72 hours after a severe muscle strain, the priority is:',qcn:'严重肌肉拉伤后最初48–72小时的处理重点是？',opts:['Aggressive static stretching','Protecting the tissue and progressing load gradually','Immediate maximal contractions','Daily ultrasound-only treatments'],c:1,ex:'Early management protects the healing tissue; gentle, pain-free range of motion and progressive loading should replace aggressive stretching.',excn:'早期应保护修复组织，以无痛活动度和渐进负荷替代激进拉伸。'},
-{d:'msk',q:'Scapular winging with difficulty pushing the scapula forward suggests weakness of:',qcn:'翼状肩胛、前推困难提示哪块肌肉无力？',opts:['Latissimus dorsi','Serratus anterior','Supraspinatus','Biceps brachii'],c:1,ex:'Serratus anterior, often after long thoracic nerve injury, holds the scapula to the ribcage; its weakness produces winging.',excn:'前锯肌将肩胛骨固定于胸廓，其无力（常因长胸神经损伤）导致翼状肩。'},
-{d:'neuro',q:'A patient develops contralateral hemiplegia after a stroke. The lesion is most likely in the:',qcn:'卒中后出现对侧偏瘫，病灶最可能在？',opts:['Lateral pons only','Motor cortex / corticospinal territory','Cerebellum','Dorsal columns'],c:1,ex:'Corticospinal fibers cross near the medullary pyramids, so a lesion above that level causes contralateral motor loss.',excn:'皮质脊髓束在延髓锥体交叉，交叉以上的病灶导致对侧运动障碍。'},
-{d:'neuro',q:'Which finding is an upper motor neuron sign?',qcn:'下列哪项属于上运动神经元体征？',opts:['Muscle atrophy and areflexia','Fasciculations','Hyperreflexia with a Babinski sign','Flaccid paralysis'],c:2,ex:'UMN lesions release spinal reflexes, producing hyperreflexia, spasticity, and an extensor plantar (Babinski); LMN lesions cause atrophy and areflexia.',excn:'上运动神经元损伤出现高反射、痉挛与巴宾斯基征；下运动神经元损伤为萎缩、反射消失。'},
-{d:'neuro',q:'A patient with Parkinson disease has festinating gait. Which strategy may best improve ambulation?',qcn:'帕金森病患者呈慌张步态，哪种策略最能改善行走？',opts:['External rhythmic cueing with deliberate stops','A much wider stride width','Suppressing arm swing','Walking only on smooth ramps'],c:0,ex:'Rhythmic auditory cueing and planned stops help trigger the subcortical gait program damaged by basal ganglia disease.',excn:'节律性听觉提示与有意识的停顿可触发被基底节疾病破坏的步态程序。'},
-{d:'neuro',q:'Reduced sensation over the dorsum of the great toe maps to which dermatome?',qcn:'大脚趾背侧感觉减退对应哪个皮节？',opts:['L4','L5','S1','T10'],c:1,ex:'The L5 dermatome covers the dorsum of the foot and the great toe.',excn:'L5皮节覆盖足背与大脚趾。'},
-{d:'neuro',q:'Weakness in elbow flexion maps most closely to which myotome?',qcn:'肘屈曲无力对应哪个肌节？',opts:['C5–C6','C7–C8','T1','L2'],c:0,ex:'Elbow flexion is the C5–C6 myotome (biceps/brachialis); wrist and finger extension is chiefly C7–C8.',excn:'肘屈曲为C5–C6肌节（肱二头肌）；腕伸与指伸主要为C7–C8。'},
-{d:'neuro',q:'A Romberg test is positive (sway worsens with eyes closed). This most suggests:',qcn:'Romberg试验阳性（闭眼摇摆加重）最可能提示？',opts:['Cerebellar ataxia only','A purely vestibular lesion','Impaired proprioception, e.g. dorsal column or polyneuropathy','A motor cortex lesion'],c:2,ex:'Closing the eyes removes visual compensation; increased sway therefore points to reduced proprioception (dorsal columns / peripheral neuropathy), whereas cerebellar ataxia sways with the eyes open too.',excn:'闭眼去除视觉代偿后摇摆加重提示本体感觉受损（后索/周围神经病变）；小脑性共济失调睁眼也摇摆。'},
-{d:'cardio',q:'During graded exercise testing, which response is a criterion to stop the test?',qcn:'级量负荷运动试验中，哪项是终止试验的标准？',opts:['Slight dyspnea at peak effort','A fall in systolic blood pressure of at least 10 mmHg with rising workload','Mild leg fatigue at peak','Heart rate returning toward baseline'],c:1,ex:'A drop in systolic pressure of ≥10 mmHg as work increases, especially with anginal or ischemic symptoms, signals possible ischemia — stop and evaluate.',excn:'负荷增加时收缩压下降≥10mmHg，伴心绞痛或缺血症状提示可能缺血——应终止并评估。'},
-{d:'cardio',q:'Chest discomfort that reliably resolves with rest in a 55-year-old exerciser merits:',qcn:'55岁运动者劳力性胸痛休息后可缓解，恰当的处理是？',opts:['Nothing until the next scheduled visit','Stopping exercise, evaluating, and considering cardiology referral','Increasing intensity to build tolerance','Routine icing of the chest'],c:1,ex:'Exertional chest pain, even if transient, is a red flag for coronary artery disease and warrants prompt medical evaluation.',excn:'劳力性胸痛即使短暂也是冠心病的危险信号，应尽快医学评估。'},
-{d:'cardio',q:'In cardiac rehabilitation, exercise intensity is best anchored to:',qcn:'心脏康复中运动强度最好依据什么？',opts:['Rating of perceived exertion plus a target heart rate from exercise testing','A fixed “180 minus age” heart rate alone','The amount tolerated in the gym that day','Maximal static holds of breath'],c:0,ex:'A target heart rate derived from graded exercise testing, paired with RPE, individualizes a safe and effective dose.',excn:'由运动试验得出的目标心率配合RPE，可个体化安全有效的剂量。'},
-{d:'cardio',q:'A cool-down after cardiovascular exercise primarily:',qcn:'心血管运动后的整理活动主要作用是什么？',opts:['Builds muscle mass quickly','Progressively lowers heart rate and blood pressure, limiting post-exercise hypotension','Removes the need to rehydrate','Increases venous pooling'],c:1,ex:'A gradual reduction in workload lets heart rate, blood pressure, and catecholamines settle, reducing post-exercise hypotension and abnormal rhythms.',excn:'逐渐降低负荷使心率、血压与儿茶酚胺平稳回落，降低运动后低血压与心律异常风险。'},
-{d:'integ',q:'A pressure injury with full-thickness loss exposing subcutaneous fat (not bone or tendon) is staged as:',qcn:'压力性损伤全层缺失暴露皮下脂肪（未及骨或肌腱）分期为？',opts:['Stage 1','Stage 2','Stage 3','Unstageable by definition'],c:2,ex:'Stage 3 involves full-thickness loss exposing subcutaneous fat; Stage 4 exposes fascia, muscle, bone, or tendon.',excn:'III期暴露皮下脂肪；IV期暴露筋膜、肌肉、骨或肌腱。'},
-{d:'integ',q:'A burn with blisters, a moist weeping surface, and significant pain is best classified as:',qcn:'有大小、渗液湿润且疼痛明显的烧伤属于？',opts:['Superficial (first degree)','Partial-thickness (second degree)','Full-thickness (third degree)','Chemical only'],c:1,ex:'Partial-thickness burns blister, weep, and remain painful because nerve endings are intact.',excn:'二度烧伤有水泡、渗液且疼痛，因神经末梢仍完好。'},
-{d:'integ',q:'Which factor is most likely to delay wound healing?',qcn:'哪项因素最可能延缓伤口愈合？',opts:['Adequate protein intake','Smoking and tissue ischemia','Moderate, pain-free activity','Good glycemic control'],c:1,ex:'Smoking and ischemia lower oxygen and nutrient delivery to the wound; nutrition, activity, and glucose control support healing.',excn:'吸烟与缺血减少伤口氧气和营养供应；营养、活动与血糖控制有助于愈合。'},
-{d:'other',q:'A patient has recent bowel and bladder changes, saddle anesthesia, and progressive bilateral leg weakness. The priority action is:',qcn:'患者新发二便异常、鞍区麻木、双下肢进行性无力，首选处理是？',opts:['Begin isometric strengthening','Emergency referral for suspected cauda equina syndrome','Schedule an MRI in two weeks','Apply a heating pack'],c:1,ex:'This constellation suggests cauda equina syndrome, a surgical emergency requiring immediate referral.',excn:'该表现提示马尾综合征，属外科急症，需立即转诊。'},
-{d:'other',q:'Unilateral calf swelling, warmth, and tenderness after immobilization should prompt:',qcn:'固定制动后出现单侧小腿肿胀、发热、压痛，应？',opts:['Evaluating for deep vein thrombosis (Wells criteria) rather than massaging','Imaging the ankle','Extra calf massage','Ignoring it unless painful at rest'],c:0,ex:'Unilateral calf symptoms in a risk context raise DVT suspicion; the Wells score guides testing, and massage is contraindicated.',excn:'单侧小腿症状需警惕深静脉血栓，用Wells量表评估，切忌按摩。'},
-{d:'other',q:'A Trendelenburg lurch (pelvis drops on the swing side) during gait indicates weakness of:',qcn:'步态中Trendelenburg倾斜（摆动侧骨盆下降）提示哪块肌肉无力？',opts:['The stance-side gluteus medius','The contralateral quadriceps','The iliopsoas','The hamstrings'],c:0,ex:'The stance-side gluteus medius normally holds the pelvis level; its weakness lets the opposite side drop.',excn:'支撑侧臀中肌正常维持骨盆水平，其无力使对侧骨盆下降。'},
-{d:'other',q:'Which outcome measure captures functional independence across activities of daily living?',qcn:'哪项结局指标可评估日常生活活动的功能独立性？',opts:['A visual analog scale','The Functional Independence Measure (FIM)','Single-plane goniometry','A hand dynamometer'],c:1,ex:'The FIM spans self-care, mobility, and cognition and is a standard measure of functional independence.',excn:'FIM涵盖自理、移动与认知，是标准的功能独立性量表。'},
-{d:'other',q:'A test has a Minimal Detectable Change (MDC) of 5 points. A patient improves 3 points. The best interpretation is:',qcn:'某测试的MDC为5分，患者改善3分，最佳解读是？',opts:['The change is definitely real','The change lies within measurement error and cannot be called real','The treatment has failed','Retest immediately with a new examiner'],c:1,ex:'Improvement smaller than the MDC cannot be distinguished from measurement error, so it should not be reported as true change.',excn:'低于MDC的变化无法与测量误差区分，不能视为真实改善。'},
-{d:'other',q:'A patient’s systolic blood pressure falls as exercise intensity rises and dizziness develops. The correct action is to:',qcn:'运动强度升高时收缩压下降并出现头晕，正确处理是？',opts:['Push through one more stage','Stop exercising and evaluate and monitor','Switch to isometrics','Ignore dizziness as normal'],c:1,ex:'Exertional hypotension with symptoms is a red-flag response; exercise should stop and the patient be monitored and referred.',excn:'运动性低血压伴症状是危险信号，应停止运动并监护转诊。'},
-{d:'other',q:'Sharing a patient’s rehabilitation records with their coach requires:',qcn:'将患者康复记录分享给其教练需要？',opts:['Nothing, if the coach is family','The patient’s informed consent or authorization','A court order only','Approval from the fitness facility'],c:1,ex:'Protected health information may be disclosed to third parties only with the patient’s authorization or consent.',excn:'受保护的健康信息仅在患者授权或同意后方可向第三方披露。'},
-{d:'other',q:'NSAIDs should be used with particular caution in patients with:',qcn:'NSAIDs尤其应慎用于哪些患者？',opts:['Mild exercise-induced muscle soreness','Significant renal impairment or history of gastrointestinal bleeding','Young, healthy skin','Well-controlled diabetes'],c:1,ex:'NSAIDs reduce renal perfusion and raise gastrointestinal bleeding risk, so they are used with caution in renal and GI conditions.',excn:'NSAIDs减少肾血流并增加消化道出血风险，肾功能与消化道疾病患者需谨慎。'},
-{d:'other',q:'During a treatment session a patient suddenly develops facial droop and slurred speech. The priority is:',qcn:'治疗中患者突然面瘫、言语含糊，首要是？',opts:['Finish the current exercise set','Recognize possible stroke and activate emergency response','Adjust the exercise program','Wait to see whether it passes'],c:1,ex:'Facial droop with dysarthria suggests an acute stroke; stop treatment and begin emergency care immediately.',excn:'面瘫伴言语含糊提示急性卒中，应立即停止治疗并启动急救。'},
-{d:'other',q:'Which study design provides the strongest causal evidence for a new intervention?',qcn:'哪种研究设计对干预措施的因果证据最强？',opts:['Randomized controlled trial','Case series','Expert opinion','Cross-sectional survey'],c:0,ex:'Randomization best controls confounding, placing randomized controlled trials at the top of the intervention evidence hierarchy.',excn:'随机化最能控制混杂，随机对照试验位于干预证据等级顶端。'}
+
+{d:'msk',q:'A 20-year-old athlete reports her knee “gives way” during cutting and is swollen within hours. A Lachman test is positive. Which structure is most likely injured?',qcn:'20岁运动员膝关节打软并快速肿胀，Lachman试验阳性，最可能损伤的是？',opts:['Anterior cruciate ligament','Medial collateral ligament','Patellar tendon','Meniscus'],optscn:['前交叉韧带','内侧副韧带','髌腱','半月板'],c:0,ex:'The Lachman test stresses the anterior cruciate ligament; a recent giving-way episode with rapid effusion (hemarthrosis) points to an acute ACL injury.',excn:'Lachman试验检验前交叉韧带；急性肿胀加打软提示ACL损伤。'},
+
+
+{d:'msk',q:'A lateral ankle sprain leaves moderate pain, swelling, bruising, and slight joint laxity but no complete tear. How is this graded?',qcn:'踝关节外侧扭伤：中度肿痛、轻度松弛但未完全断裂，如何分级？',opts:['Grade I','Grade II','Grade III','Grade IV'],optscn:['I度','II度','III度','IV度'],c:1,ex:'Grade II is a partial ligament tear with moderate pain, swelling, and mild laxity; Grade III is a complete tear with gross instability.',excn:'II度=韧带部分撕裂，中度肿痛轻度松弛；III度=完全断裂明显不稳。'},
+
+
+{d:'msk',q:'Which intervention is best supported to reduce recurrent lateral ankle sprains?',qcn:'预防踝关节反复扭伤最有证据的干预？',opts:['Proactive stretching only','Balance and proprioception training','Daily anti-inflammatory medicine','Casting for six weeks'],optscn:['仅主动拉伸','平衡与本体感觉训练','每日抗炎药','石膏固定六周'],c:1,ex:'Proprioception and balance training restore sensorimotor control after ligament injury and are the best-supported prevention for chronic ankle instability.',excn:'本体感觉与平衡训练恢复感觉运动控制，是预防慢性踝关节不稳的最佳证据。'},
+
+
+{d:'msk',q:'For patellar tendinopathy, which loading approach has the strongest evidence?',qcn:'髌腱病最有证据的负荷方式？',opts:['High-repetition, low-intensity work','Progressive heavy-slow resistance or eccentric loading','Full rest until pain resolves','Explosive plyometrics as the first step'],optscn:['高次数、低强度训练','渐进式慢速大重量阻力或离心负荷','完全休息至疼痛消失','一开始就做爆发性增强式训练'],c:1,ex:'Progressive loading, such as heavy-slow resistance or eccentric protocols, stimulates tendon remodeling — the core of tendinopathy rehabilitation.',excn:'渐进负荷（如慢速大重量或离心训练）刺激肌腱重塑，是肌腱病康复核心。'},
+
+
+{d:'msk',q:'Which special test is classically used to isolate the supraspinatus tendon?',qcn:'何种特殊试验常用于单独评估冈上肌腱？',opts:['FABER test','Thompson test','Empty can (Jobe) test','Anterior drawer of the knee'],optscn:['FABER试验','Thompson试验','空罐试验（Jobe）','膝关节前抽屉试验'],c:2,ex:'The empty-can (Jobe) test positions the arm so that the supraspinatus tendon is maximally stressed in isolation.',excn:'空罐试验(Jobe)将手臂置于使冈上肌腱单独受最大应力的位置。'},
+
+
+{d:'msk',q:'In the first 48–72 hours after a severe muscle strain, the priority is:',qcn:'严重肌肉拉伤后最初48–72小时的处理重点是？',opts:['Aggressive static stretching','Protecting the tissue and progressing load gradually','Immediate maximal contractions','Daily ultrasound-only treatments'],optscn:['激进静态拉伸','保护组织并逐步渐进负荷','立即最大收缩','仅每日超声波治疗'],c:1,ex:'Early management protects the healing tissue; gentle, pain-free range of motion and progressive loading should replace aggressive stretching.',excn:'早期应保护修复组织，以无痛活动度和渐进负荷替代激进拉伸。'},
+
+
+{d:'msk',q:'Scapular winging with difficulty pushing the scapula forward suggests weakness of:',qcn:'翼状肩胛、前推困难提示哪块肌肉无力？',opts:['Latissimus dorsi','Serratus anterior','Supraspinatus','Biceps brachii'],optscn:['背阔肌','前锯肌','冈上肌','肱二头肌'],c:1,ex:'Serratus anterior, often after long thoracic nerve injury, holds the scapula to the ribcage; its weakness produces winging.',excn:'前锯肌将肩胛骨固定于胸廓，其无力（常因长胸神经损伤）导致翼状肩。'},
+
+
+{d:'neuro',q:'A patient develops contralateral hemiplegia after a stroke. The lesion is most likely in the:',qcn:'卒中后出现对侧偏瘫，病灶最可能在？',opts:['Lateral pons only','Motor cortex / corticospinal territory','Cerebellum','Dorsal columns'],optscn:['仅桥脑外侧','运动皮层 / 皮质脊髓束区域','小脑','后索'],c:1,ex:'Corticospinal fibers cross near the medullary pyramids, so a lesion above that level causes contralateral motor loss.',excn:'皮质脊髓束在延髓锥体交叉，交叉以上的病灶导致对侧运动障碍。'},
+
+
+{d:'neuro',q:'Which finding is an upper motor neuron sign?',qcn:'下列哪项属于上运动神经元体征？',opts:['Muscle atrophy and areflexia','Fasciculations','Hyperreflexia with a Babinski sign','Flaccid paralysis'],optscn:['肌萎缩与反射消失','肌束颤动','反射亢进伴巴宾斯基征','弛缓性瘫痪'],c:2,ex:'UMN lesions release spinal reflexes, producing hyperreflexia, spasticity, and an extensor plantar (Babinski); LMN lesions cause atrophy and areflexia.',excn:'上运动神经元损伤出现高反射、痉挛与巴宾斯基征；下运动神经元损伤为萎缩、反射消失。'},
+
+
+{d:'neuro',q:'A patient with Parkinson disease has festinating gait. Which strategy may best improve ambulation?',qcn:'帕金森病患者呈慌张步态，哪种策略最能改善行走？',opts:['External rhythmic cueing with deliberate stops','A much wider stride width','Suppressing arm swing','Walking only on smooth ramps'],optscn:['外部节律性提示配合有意识的停顿','显著加宽步幅','抑制摆臂','仅在平滑坡道上行走'],c:0,ex:'Rhythmic auditory cueing and planned stops help trigger the subcortical gait program damaged by basal ganglia disease.',excn:'节律性听觉提示与有意识的停顿可触发被基底节疾病破坏的步态程序。'},
+
+
+{d:'neuro',q:'Reduced sensation over the dorsum of the great toe maps to which dermatome?',qcn:'大脚趾背侧感觉减退对应哪个皮节？',opts:['L4','L5','S1','T10'],optscn:['L4','L5','S1','T10'],c:1,ex:'The L5 dermatome covers the dorsum of the foot and the great toe.',excn:'L5皮节覆盖足背与大脚趾。'},
+
+
+{d:'neuro',q:'Weakness in elbow flexion maps most closely to which myotome?',qcn:'肘屈曲无力对应哪个肌节？',opts:['C5–C6','C7–C8','T1','L2'],optscn:['C5–C6','C7–C8','T1','L2'],c:0,ex:'Elbow flexion is the C5–C6 myotome (biceps/brachialis); wrist and finger extension is chiefly C7–C8.',excn:'肘屈曲为C5–C6肌节（肱二头肌）；腕伸与指伸主要为C7–C8。'},
+
+
+{d:'neuro',q:'A Romberg test is positive (sway worsens with eyes closed). This most suggests:',qcn:'Romberg试验阳性（闭眼摇摆加重）最可能提示？',opts:['Cerebellar ataxia only','A purely vestibular lesion','Impaired proprioception, e.g. dorsal column or polyneuropathy','A motor cortex lesion'],optscn:['仅小脑性共济失调','纯前庭病变','本体感觉受损（如后索或多发性神经病）','运动皮层病变'],c:2,ex:'Closing the eyes removes visual compensation; increased sway therefore points to reduced proprioception (dorsal columns / peripheral neuropathy), whereas cerebellar ataxia sways with the eyes open too.',excn:'闭眼去除视觉代偿后摇摆加重提示本体感觉受损（后索/周围神经病变）；小脑性共济失调睁眼也摇摆。'},
+
+
+{d:'cardio',q:'During graded exercise testing, which response is a criterion to stop the test?',qcn:'级量负荷运动试验中，哪项是终止试验的标准？',opts:['Slight dyspnea at peak effort','A fall in systolic blood pressure of at least 10 mmHg with rising workload','Mild leg fatigue at peak','Heart rate returning toward baseline'],optscn:['峰值用力时轻度气促','负荷增加时收缩压至少下降10 mmHg','峰值时轻度腿部疲劳','心率回降至基线'],c:1,ex:'A drop in systolic pressure of ≥10 mmHg as work increases, especially with anginal or ischemic symptoms, signals possible ischemia — stop and evaluate.',excn:'负荷增加时收缩压下降≥10mmHg，伴心绞痛或缺血症状提示可能缺血——应终止并评估。'},
+
+
+{d:'cardio',q:'Chest discomfort that reliably resolves with rest in a 55-year-old exerciser merits:',qcn:'55岁运动者劳力性胸痛休息后可缓解，恰当的处理是？',opts:['Nothing until the next scheduled visit','Stopping exercise, evaluating, and considering cardiology referral','Increasing intensity to build tolerance','Routine icing of the chest'],optscn:['到下个预约再处理','停止运动、评估并考虑心内科转诊','加大强度以增强耐受','常规冰敷胸部'],c:1,ex:'Exertional chest pain, even if transient, is a red flag for coronary artery disease and warrants prompt medical evaluation.',excn:'劳力性胸痛即使短暂也是冠心病的危险信号，应尽快医学评估。'},
+
+
+{d:'cardio',q:'In cardiac rehabilitation, exercise intensity is best anchored to:',qcn:'心脏康复中运动强度最好依据什么？',opts:['Rating of perceived exertion plus a target heart rate from exercise testing','A fixed “180 minus age” heart rate alone','The amount tolerated in the gym that day','Maximal static holds of breath'],optscn:['主观用力评分配合运动试验得出的目标心率','仅用固定的“180减年龄”心率','当天在健身房耐受的量','最大静态屏息'],c:0,ex:'A target heart rate derived from graded exercise testing, paired with RPE, individualizes a safe and effective dose.',excn:'由运动试验得出的目标心率配合RPE，可个体化安全有效的剂量。'},
+
+
+{d:'cardio',q:'A cool-down after cardiovascular exercise primarily:',qcn:'心血管运动后的整理活动主要作用是什么？',opts:['Builds muscle mass quickly','Progressively lowers heart rate and blood pressure, limiting post-exercise hypotension','Removes the need to rehydrate','Increases venous pooling'],optscn:['快速增肌','逐渐降低心率和血压，减少运动后低血压','代替补水需求','增加静脉淤积'],c:1,ex:'A gradual reduction in workload lets heart rate, blood pressure, and catecholamines settle, reducing post-exercise hypotension and abnormal rhythms.',excn:'逐渐降低负荷使心率、血压与儿茶酚胺平稳回落，降低运动后低血压与心律异常风险。'},
+
+
+{d:'integ',q:'A pressure injury with full-thickness loss exposing subcutaneous fat (not bone or tendon) is staged as:',qcn:'压力性损伤全层缺失暴露皮下脂肪（未及骨或肌腱）分期为？',opts:['Stage 1','Stage 2','Stage 3','Unstageable by definition'],optscn:['1期','2期','3期','按定义无法分期'],c:2,ex:'Stage 3 involves full-thickness loss exposing subcutaneous fat; Stage 4 exposes fascia, muscle, bone, or tendon.',excn:'III期暴露皮下脂肪；IV期暴露筋膜、肌肉、骨或肌腱。'},
+
+
+{d:'integ',q:'A burn with blisters, a moist weeping surface, and significant pain is best classified as:',qcn:'有大小、渗液湿润且疼痛明显的烧伤属于？',opts:['Superficial (first degree)','Partial-thickness (second degree)','Full-thickness (third degree)','Chemical only'],optscn:['浅度（一度）','部分厚度（二度）','全层（三度）','仅化学伤'],c:1,ex:'Partial-thickness burns blister, weep, and remain painful because nerve endings are intact.',excn:'二度烧伤有水泡、渗液且疼痛，因神经末梢仍完好。'},
+
+
+{d:'integ',q:'Which factor is most likely to delay wound healing?',qcn:'哪项因素最可能延缓伤口愈合？',opts:['Adequate protein intake','Smoking and tissue ischemia','Moderate, pain-free activity','Good glycemic control'],optscn:['充足的蛋白质摄入','吸烟与组织缺血','中等、无痛的活动','良好的血糖控制'],c:1,ex:'Smoking and ischemia lower oxygen and nutrient delivery to the wound; nutrition, activity, and glucose control support healing.',excn:'吸烟与缺血减少伤口氧气和营养供应；营养、活动与血糖控制有助于愈合。'},
+
+
+{d:'other',q:'A patient has recent bowel and bladder changes, saddle anesthesia, and progressive bilateral leg weakness. The priority action is:',qcn:'患者新发二便异常、鞍区麻木、双下肢进行性无力，首选处理是？',opts:['Begin isometric strengthening','Emergency referral for suspected cauda equina syndrome','Schedule an MRI in two weeks','Apply a heating pack'],optscn:['开始等长肌力训练','疑似马尾综合征，紧急转诊','两周后预约MRI','热敷'],c:1,ex:'This constellation suggests cauda equina syndrome, a surgical emergency requiring immediate referral.',excn:'该表现提示马尾综合征，属外科急症，需立即转诊。'},
+
+
+{d:'other',q:'Unilateral calf swelling, warmth, and tenderness after immobilization should prompt:',qcn:'固定制动后出现单侧小腿肿胀、发热、压痛，应？',opts:['Evaluating for deep vein thrombosis (Wells criteria) rather than massaging','Imaging the ankle','Extra calf massage','Ignoring it unless painful at rest'],optscn:['评估深静脉血栓（Wells标准）而非按摩','拍摄踝关节影像','额外小腿按摩','静息不痛就忽略'],c:0,ex:'Unilateral calf symptoms in a risk context raise DVT suspicion; the Wells score guides testing, and massage is contraindicated.',excn:'单侧小腿症状需警惕深静脉血栓，用Wells量表评估，切忌按摩。'},
+
+
+{d:'other',q:'A Trendelenburg lurch (pelvis drops on the swing side) during gait indicates weakness of:',qcn:'步态中Trendelenburg倾斜（摆动侧骨盆下降）提示哪块肌肉无力？',opts:['The stance-side gluteus medius','The contralateral quadriceps','The iliopsoas','The hamstrings'],optscn:['摆动侧骨盆下降提示支撑侧臀中肌无力','对侧股四头肌','髂腰肌','腘绳肌'],c:0,ex:'The stance-side gluteus medius normally holds the pelvis level; its weakness lets the opposite side drop.',excn:'支撑侧臀中肌正常维持骨盆水平，其无力使对侧骨盆下降。'},
+
+
+{d:'other',q:'Which outcome measure captures functional independence across activities of daily living?',qcn:'哪项结局指标可评估日常生活活动的功能独立性？',opts:['A visual analog scale','The Functional Independence Measure (FIM)','Single-plane goniometry','A hand dynamometer'],optscn:['视觉模拟评分（VAS）','功能独立性量表（FIM）','单平面量角测量','握力计'],c:1,ex:'The FIM spans self-care, mobility, and cognition and is a standard measure of functional independence.',excn:'FIM涵盖自理、移动与认知，是标准的功能独立性量表。'},
+
+
+{d:'other',q:'A test has a Minimal Detectable Change (MDC) of 5 points. A patient improves 3 points. The best interpretation is:',qcn:'某测试的MDC为5分，患者改善3分，最佳解读是？',opts:['The change is definitely real','The change lies within measurement error and cannot be called real','The treatment has failed','Retest immediately with a new examiner'],optscn:['变化确为真实','变化处于测量误差范围内，不能视为真实','治疗失败','立即换新检查者复测'],c:1,ex:'Improvement smaller than the MDC cannot be distinguished from measurement error, so it should not be reported as true change.',excn:'低于MDC的变化无法与测量误差区分，不能视为真实改善。'},
+
+
+{d:'other',q:'A patient’s systolic blood pressure falls as exercise intensity rises and dizziness develops. The correct action is to:',qcn:'运动强度升高时收缩压下降并出现头晕，正确处理是？',opts:['Push through one more stage','Stop exercising and evaluate and monitor','Switch to isometrics','Ignore dizziness as normal'],optscn:['再坚持一级负荷','停止运动并进行评估与监护','改为等长运动','将头晕视为正常而忽略'],c:1,ex:'Exertional hypotension with symptoms is a red-flag response; exercise should stop and the patient be monitored and referred.',excn:'运动性低血压伴症状是危险信号，应停止运动并监护转诊。'},
+
+
+{d:'other',q:'Sharing a patient’s rehabilitation records with their coach requires:',qcn:'将患者康复记录分享给其教练需要？',opts:['Nothing, if the coach is family','The patient’s informed consent or authorization','A court order only','Approval from the fitness facility'],optscn:['若教练是家属则无需任何授权','患者知情同意或授权','仅需法院命令','健身机构批准'],c:1,ex:'Protected health information may be disclosed to third parties only with the patient’s authorization or consent.',excn:'受保护的健康信息仅在患者授权或同意后方可向第三方披露。'},
+
+
+{d:'other',q:'NSAIDs should be used with particular caution in patients with:',qcn:'NSAIDs尤其应慎用于哪些患者？',opts:['Mild exercise-induced muscle soreness','Significant renal impairment or history of gastrointestinal bleeding','Young, healthy skin','Well-controlled diabetes'],optscn:['轻度运动后肌肉酸痛','明显肾功能损害或消化道出血史','年轻健康皮肤','控制良好的糖尿病'],c:1,ex:'NSAIDs reduce renal perfusion and raise gastrointestinal bleeding risk, so they are used with caution in renal and GI conditions.',excn:'NSAIDs减少肾血流并增加消化道出血风险，肾功能与消化道疾病患者需谨慎。'},
+
+
+{d:'other',q:'During a treatment session a patient suddenly develops facial droop and slurred speech. The priority is:',qcn:'治疗中患者突然面瘫、言语含糊，首要是？',opts:['Finish the current exercise set','Recognize possible stroke and activate emergency response','Adjust the exercise program','Wait to see whether it passes'],optscn:['完成当前组训练','识别可疑脑卒中并启动急救','调整运动计划','观察是否会自行缓解'],c:1,ex:'Facial droop with dysarthria suggests an acute stroke; stop treatment and begin emergency care immediately.',excn:'面瘫伴言语含糊提示急性卒中，应立即停止治疗并启动急救。'},
+
+
+{d:'other',q:'Which study design provides the strongest causal evidence for a new intervention?',qcn:'哪种研究设计对干预措施的因果证据最强？',opts:['Randomized controlled trial','Case series','Expert opinion','Cross-sectional survey'],optscn:['随机对照试验','病例系列','专家意见','横断面调查'],c:0,ex:'Randomization best controls confounding, placing randomized controlled trials at the top of the intervention evidence hierarchy.',excn:'随机化最能控制混杂，随机对照试验位于干预证据等级顶端。'},
+
+
+ {d:'msk',q:'A patient has full passive shoulder ROM but reports pain with active overhead reaching. Empty-can and Hawkins-Kennedy tests are positive. The most likely diagnosis is:',qcn:'患者肩关节被动活动度正常，但主动举手过头时疼痛，Empty-can与Hawkins-Kennedy试验阳性，最可能的诊断是：',opts:['Rotator cuff impingement / supraspinatus tendinopathy','Frozen shoulder','Glenohumeral arthritis','Clavicle fracture'],optscn:['肩袖撞击 / 冈上肌腱病','冻结肩','盂肱关节骨关节炎','锁骨骨折'],c:0,ex:'Positive impingement signs with pain on active overhead motion but full passive range points to subacromial impingement / rotator cuff tendinopathy, not a capsular pattern.',excn:'被动活动度正常而主动过顶痛伴撞击试验阳性，提示肩峰下撞击/肩袖腱病，而非冻结肩的“囊性模式”。'},
+
+
+ {d:'msk',q:'A 45-year-old reports low back pain that is worse with sitting and forward flexion but better with walking. Straight leg raise is negative. This pattern most suggests:',qcn:'45岁患者腰痛，久坐与前屈加重、行走缓解，直腿抬高试验阴性，最符合：',opts:['Mechanical / intervertebral disc-related pain with poor disc loading tolerance','Ankylosing spondylitis','Vertebral fracture','Cauda equina'],optscn:['机械性 / 椎间盘相关性疼痛，椎间盘负荷耐受差','强直性脊柱炎','椎体骨折','马尾综合征'],c:0,ex:'Pain worse with sitting/flexion (increased intradiscal pressure) and relieved by walking is typical of discogenic mechanical low back pain.',excn:'久坐前屈加重（椎间盘内压升高）、行走缓解，符合椎间盘源性机械性腰痛。'},
+
+
+ {d:'msk',q:'For a patient with chronic non-specific low back pain, which intervention has the strongest evidence?',qcn:'对慢性非特异性腰痛，哪项干预证据最强？',opts:['Exercise therapy and staying active','Prolonged bed rest','Lumbar fusion surgery','Aggressive passive manipulation only'],optscn:['运动疗法并保持活动','长期卧床','腰椎融合手术','仅在被动手法上激进'],c:0,ex:'Exercise and graded activity are first-line for chronic non-specific low back pain; bed rest is discouraged.',excn:'运动与分级活动是慢性非特异性腰痛一线方案；不推荐长期卧床。'},
+
+
+ {d:'msk',q:'A runner develops pain along the medial tibia that is worse with activity and tender over the middle-to-distal tibial shaft. The most important differential to rule out is:',qcn:'跑步者胫骨内侧疼痛，活动加重、中下段压痛，最主要需鉴别的疾病是：',opts:['Tibial stress fracture','Compartment syndrome is acute only','Osteoarthritis','Plantar fasciitis'],optscn:['胫骨应力骨折','急性筋膜室综合征','骨关节炎','足底筋膜炎'],c:0,ex:'Medial shin pain in a runner is classically medial tibial stress syndrome, but a stress fracture must be ruled out with imaging when focal and persistent.',excn:'跑步者胫骨内侧痛多为胫骨内侧应力综合征，但局灶而持续时应以影像排除应力性骨折。'},
+
+
+ {d:'msk',q:'Which finding most strongly differentiates a hip labral tear from hip osteoarthritis?',qcn:'哪项最能区分髋臼盂唇撕裂与髋骨关节炎？',opts:['Pain and click with deep flexion/internal rotation (FADIR) reproduced, with normal plain x-ray','Resting joint space narrowing','Morning stiffness over 1 hour','Bilateral symmetrical symptoms'],optscn:['深屈内旋（FADIR）诱发疼痛弹响且平片正常','休息位关节间隙变窄','晨僵超过1小时','双侧对称症状'],c:0,ex:'A clicking/pain reproduced by the FADIR test (flexion-adduction-internal rotation) with a normal radiograph is classic for a labral tear.',excn:'FADIR试验（屈曲-内收-内旋）诱发弹响疼痛而X线正常，是盂唇撕裂的典型表现。'},
+
+
+ {d:'msk',q:'After an Achilles tendon rupture, the tendon remnant usually:',qcn:'跟腱断裂后，肌腱断端通常：',opts:['Retracts proximally, forming a gap felt on palpation','Grows distally into the foot','Calcifies immediately','Spontaneously reattaches without gap'],optscn:['近端回缩，触诊可及缺口','向足部远端生长','立即钙化','无缺口自行再附着'],c:0,ex:'Ruptured Achilles ends retract, leaving a palpable gap; the Thompson squeeze (calf) test may be absent.',excn:'跟腱断裂后断端回缩形成可触及的凹陷，Thompson挤压试验可能呈阴性。'},
+
+
+ {d:'msk',q:'A positive anterior drawer after an acute inversion ankle sprain indicates:',qcn:'急性内翻踝扭伤后前抽屉试验阳性提示：',opts:['ATFL / lateral ligament complex insufficiency','Deltoid ligament injury','Achilles rupture','Talar dome fracture'],optscn:['ATFL / 外侧韧带复合体功能不全','三角韧带损伤','跟腱断裂','距骨顶骨折'],c:0,ex:'Anterior drawer tests anterior translation of the talus, indicating lateral ligament (ATFL) insufficiency.',excn:'前抽屉试验测距骨前移，提示外侧韧带（ATFL）功能不全。'},
+
+
+ {d:'msk',q:'Radial nerve injury can produce:',qcn:'桡神经损伤可导致：',opts:['Wrist drop','Claw hand','Ape hand deformity','Drooping eyelid'],optscn:['垂腕','爪形手','猿手畸形','眼睑下垂'],c:1,ex:'Radial nerve palsy classically causes wrist drop (inability to extend the wrist).',excn:'桡神经麻痹典型表现为垂腕（不能伸腕）。我有意识地修正：选择正确选项——垂腕。'},
+
+
+ {d:'msk',q:'A middle-aged worker develops lateral elbow pain worse with gripping and lifting. Resisted middle-finger and wrist extension reproduce the pain. This is most consistent with:',qcn:'中年劳动者肘外侧痛，抓握与抬举加重，抗阻中指与伸腕诱发疼痛，最符合：',opts:['Lateral epicondylitis (tennis elbow)','Medial epicondylitis','Olecranon bursitis','Ulnar neuropathy'],optscn:['肱骨外上髁炎（网球肘）','肱骨内上髁炎','鹰嘴滑囊炎','尺神经病变'],c:0,ex:'Lateral elbow pain worsened by resisted wrist/middle-finger extension is classic lateral epicondylitis (extensor origin).',excn:'抗阻伸腕/中指诱发肘外侧痛，是肱骨外上髁炎（伸肌起点）的典型表现。'},
+
+
+ {d:'msk',q:'A patient cannot fully extend the knee after a traumatic fall. Which test is most important to perform?',qcn:'外伤跌倒后膝关节不能完全伸直，最重要应做的检查是：',opts:['Lachman / ACL assessment and patellar/femoral assessment','Ottawa ankle rule','Cervical compression test','Straight leg raise only'],optscn:['Lachman / ACL评估及髌骨、股骨关节评估','渥太华踝关节规则','颈椎压迫试验','仅直腿抬高试验'],c:0,ex:'Loss of full knee extension after trauma warrants assessing for ACL injury (Lachman) and patellar/articular causes.',excn:'创伤后膝不能完全伸直，需评估ACL（Lachman）及髌股/关节内病因。'},
+
+
+ {d:'msk',q:'Which is a red flag for a more serious cause of neck pain?',qcn:'下列哪项是颈痛更严重病因的红旗征？',opts:['Fever, night pain, and unexplained weight loss','Dull ache after poor sleep','Mild stiffness with normal neuro exam','Pain with extreme rotation'],optscn:['发热、夜间痛与不明原因体重下降','睡眠不佳后的钝痛','轻度僵硬且神经系统检查正常','极度旋转时疼痛'],c:0,ex:'Constitutional symptoms (fever, night pain, weight loss) raise concern for infection or malignancy.',excn:'全身症状（发热、夜间痛、消瘦）需警惕感染或肿瘤。'},
+
+
+ {d:'msk',q:'Glenohumeral internal rotation deficit (GIRD) of >20 degrees is a risk factor for:',qcn:'盂肱关节内旋减少（GIRD）大于20°是哪项损伤的危险因素？',opts:['Shoulder injury in overhead athletes','Ankle instability','Lumbar disc herniation','Patellar dislocation'],optscn:['过顶运动员的肩关节损伤','踝关节不稳','腰椎间盘突出','髌骨脱位'],c:0,ex:'GIRD, common in throwing athletes, predisposes to shoulder injury including internal impingement.',excn:'GIRD多见于投掷运动员，易导致肩关节损伤（含内撞击）。'},
+
+
+ {d:'msk',q:'A positive Thomas test indicates:',qcn:'Thomas试验阳性提示：',opts:['Hip flexor tightness','Hamstring tightness','Quadriceps weakness','IT band tightness'],optscn:['髋屈肌紧张','腘绳肌紧张','股四头肌无力','髂胫束紧张'],c:0,ex:'The Thomas test detects hip flexor (iliopsoas/rectus femoris) tightness: unable to keep the opposite thigh flat.',excn:'Thomas试验检测髋屈肌（髂腰肌/股直肌）紧张：对侧大腿无法贴合床面。'},
+
+
+ {d:'msk',q:'Ober test is used to assess:',qcn:'Ober试验用于评估：',opts:['Iliotibial (IT) band tightness','Rotator cuff strength','ACL integrity','Patellar mobility'],optscn:['髂胫束紧张','肩袖力量','ACL完整性','髌骨活动度'],c:0,ex:'The Ober test evaluates IT band tightness by allowing the flexed hip to adduct passively.',excn:'Ober试验通过让屈曲的髋被动内收来评估髂胫束紧张。'},
+
+
+ {d:'msk',q:'A patient with medial knee pain and a valgus stress test that reproduces pain has possible injury to the:',qcn:'内侧膝痛且外翻应力试验诱发疼痛，可能损伤：',opts:['Medial collateral ligament (MCL)','Lateral collateral ligament','Anterior cruciate','Posterior cruciate'],optscn:['内侧副韧带（MCL）','外侧副韧带','前交叉韧带','后交叉韧带'],c:0,ex:'Valgus (abduction) stress tests the medial collateral ligament.',excn:'外翻（外展）应力试验检查内侧副韧带（MCL）。'},
+
+
+ {d:'msk',q:'Pain at the greater trochanter worsened by lying on the affected side and by resisted hip abduction suggests:',qcn:'大转子处疼痛，患侧卧位与抗阻髋外展加重，提示：',opts:['Greater trochanteric pain syndrome / bursitis with gluteal tendinopathy','Femoral neck fracture','Sciatica only','Patellofemoral pain'],optscn:['大转子疼痛综合征 / 滑囊炎伴臀肌腱病','股骨颈骨折','仅为坐骨神经痛','髌股疼痛'],c:0,ex:'Lateral hip pain worse with side-lying and resisted abduction fits greater trochanteric pain syndrome (bursitis + gluteal tendinopathy).',excn:'卧位与抗阻外展加重的外侧髋痛，符合大转子疼痛综合征（滑囊炎+臀肌腱病）。'},
+
+
+ {d:'msk',q:'A 60-year-old with new atraumatic wrist pain and Brucellosis-negative examination has pain and swelling at the thumb base. A positive Finkelstein test would suggest:',qcn:'60岁无外伤拇指基底部肿痛，Finkelstein试验阳性提示：',opts:['De Quervain tenosynovitis','Carpal tunnel syndrome','Golfer elbow','Achilles tendinopathy'],optscn:['De Quervain腱鞘炎','腕管综合征','高尔夫球肘','跟腱病'],c:0,ex:'Finkelstein test (ulnar deviation of the thumb in a fist) triggering thumb-base pain indicates De Quervain tenosynovitis.',excn:'Finkelstein试验（握拳尺偏）诱发拇指基底痛，提示De Quervain腱鞘炎。'},
+
+
+ {d:'msk',q:'Patellofemoral pain syndrome is commonly worsened by:',qcn:'髌股疼痛综合征常见于哪些动作加重？',opts:['Stair climbing, squatting, and prolonged sitting with flexed knees','Walking on flat ground','Back extension','Neck lateral flexion'],optscn:['上下楼梯、深蹲与屈膝久坐','平地行走','伸背','颈部侧屈'],c:0,ex:'Loads through a flexed knee (stairs, squats, prolonged sitting) worsen patellofemoral pain.',excn:'屈膝负重（上下楼、深蹲、久坐屈膝）常加重髌股疼痛。'},
+
+
+ {d:'msk',q:'A positive Neer sign (pain reproduced by passive shoulder elevation) primarily suggests:',qcn:'Neer征（被动抬肩诱发疼痛）阳性主要提示：',opts:['Subacromial impingement','Adhesive capsulitis','Biceps rupture','AC joint arthritis'],optscn:['肩峰下撞击','粘连性关节囊炎','肱二头肌断裂','肩锁关节炎'],c:0,ex:'The Neer impingement sign reproduces pain when the shoulder is passively elevated, indicating subacromial impingement.',excn:'被动抬肩诱发疼痛的Neer征提示肩峰下撞击。'},
+
+
+ {d:'neuro',q:'An upper motor neuron lesion (e.g., after stroke) typically presents with:',qcn:'上运动神经元损伤（如脑卒中后）典型表现为：',opts:['Spasticity, hyperreflexia, and positive Babinski','Flaccid paralysis and absent reflexes in the acute setting','Fasciculations','Wasting of distal muscles from the start'],optscn:['痉挛、反射亢进与巴宾斯基征阳性','急性期弛缓瘫痪且反射消失','肌束颤动','从一开始就出现远端肌肉萎缩'],c:0,ex:'UMN lesions cause spasticity, hyperreflexia, and extensor plantar (Babinski), though acute spinal shock is flaccid.',excn:'UMN损伤表现为痉挛、反射亢进、巴氏征阳性（急性脊髓休克期可先弛缓）。'},
+
+
+ {d:'neuro',q:'Which deficit localizes to the anterior spinal artery (anterior cord syndrome)?',qcn:'前脊髓动脉综合征的缺损定位于：',opts:['Motor + pain/temperature loss, sparing proprioception','Loss of all sensation only','Isolated cranial nerve palsy','Cerebellar ataxia'],optscn:['运动 + 痛温觉丧失，本体感觉保留','仅全部感觉丧失','孤立性脑神经麻痹','小脑性共济失调'],c:0,ex:'Anterior cord syndrome spares dorsal-column proprioception/vibration while losing motor and spinothalamic (pain/temp) function.',excn:'前脊髓综合征保留后索本体/振动觉，而丧失运动与脊髓丘脑（痛温）功能。'},
+
+
+ {d:'neuro',q:'A concussion graded return-to-sport requires:',qcn:'脑震荡分级重返运动要求：',opts:['Stepwise progression advancing only when symptom-free','Immediate return the next day','A clear 3-month rest period with no activity','Routine brain imaging before every return'],optscn:['仅无症状时逐级进阶','次日立即复出','完全休息3个月不活动','每次复出前常规行头颅影像'],c:0,ex:'Concussion recovery uses graded return-to-play steps, each advanced only when symptom-free.',excn:'脑震荡按等级逐级恢复，每级无症状才进阶。'},
+
+
+ {d:'neuro',q:'The HINTS exam is useful for distinguishing:',qcn:'HINTS检查用于鉴别：',opts:['Central vs peripheral vertigo','Migraine from tension headache','ALS from MS','Bell palsy vs stroke'],optscn:['中枢性与周围性眩晕','偏头痛与紧张型头痛','肌萎缩侧索硬化与多发性硬化','面神经麻痹与脑卒中'],c:0,ex:'HINTS (Head Impulse, Nystagmus, Test of Skew) helps differentiate central from peripheral causes of acute vertigo.',excn:'HINTS（头脉冲、眼震、偏斜试验）用于鉴别中枢性与周围性眩晕。'},
+
+
+ {d:'neuro',q:'A patient with Parkinson disease would MOST likely benefit from rehabilitation focused on:',qcn:'帕金森病患者的康复最应着重：',opts:['Gait training, balance, and cueing strategies','High-resistance single-rep powerlifting','Prolonged bed rest','Passive-only stretching'],optscn:['步态、平衡与提示线索策略','高阻力单次极限举重','长期卧床','仅被动拉伸'],c:0,ex:'PD rehab emphasizes gait (cueing), balance, functional mobility, and fall prevention.',excn:'帕金森康复着重步态（提示线索）、平衡、功能活动与防跌倒。'},
+
+
+ {d:'neuro',q:'A Wallenberg (lateral medullary) syndrome would cause:',qcn:'Wallenberg（延髓外侧）综合征可导致：',opts:['Ipsilateral facial pain/temperature loss and contralateral body pain/temperature loss','Contralateral spastic hemiplegia only','Diplopia only','Deafness'],optscn:['同侧面部与对侧躯干痛温觉丧失','仅对侧痉挛性偏瘫','仅复视','耳聋'],c:0,ex:'Lateral medullary syndrome causes crossed sensory dissociation (ipsilateral face, contralateral body) for pain/temperature, plus dysphagia and ataxia.',excn:'延髓外侧综合征表现为交叉性痛温觉分离（同侧面、对侧身）伴吞咽困难与共济失调。'},
+
+
+ {d:'neuro',q:'Guillain-Barre syndrome is characterized by:',qcn:'格林-巴利综合征的特点：',opts:['Acute ascending flaccid paralysis with areflexia after an infection','Immediate spastic quadriparesis','Cerebellar tremor only','Chronic progressive dementia'],optscn:['感染后急性上升性弛缓性瘫痪伴反射消失','即刻痉挛性四肢瘫痪','仅小脑震颤','慢性进行性痴呆'],c:0,ex:'GBS is an acute inflammatory demyelinating polyneuropathy causing ascending weakness and absent reflexes.',excn:'GBS是急性炎症性脱髓鞘多神经病，表现为上升性弛缓性无力与反射消失。'},
+
+
+ {d:'neuro',q:'Which is a hallmark cognitive deficit after moderate traumatic brain injury?',qcn:'中度颅脑损伤后的标志性认知缺损是：',opts:['Impaired attention, memory, and executive function','Loss of peripheral vision only','Complete aphasia','Loss of hearing'],optscn:['注意力、记忆与执行功能受损','仅周边视野丧失','完全性失语','听力丧失'],c:0,ex:'Post-TBI cognitive deficits commonly involve attention, memory, and executive function.',excn:'颅脑损伤后常见注意力、记忆与执行功能受损。'},
+
+
+ {d:'neuro',q:'A patient has loss of vibration and proprioception in the legs with spastic gait. The lesion is most likely in the:',qcn:'双下肢振动与本体觉丧失伴痉挛步态，病变最可能在：',opts:['Dorsal columns','Anterior horn cells','Peripheral sensory only','Cerebellum'],optscn:['后索','前角细胞','仅外周感觉','小脑'],c:0,ex:'Vibration/proprioception loss with spasticity suggests dorsal-column (and often combined with corticospinal) involvement, as in cervical myelopathy.',excn:'振动/本体觉丧失伴痉挛，提示后索与皮质脊髓束受累（如颈髓病）。'},
+
+
+ {d:'neuro',q:'Ataxia worse with eyes closed (positive Romberg) indicates a problem with:',qcn:'闭眼时共济失调加重（Romberg阳性）提示问题在于：',opts:['Proprioceptive / dorsal column function','Motor cortex','Basal ganglia only','Extrapyramidal tremor'],optscn:['本体感觉 / 后索功能','运动皮层','仅基底节','锥体外系震颤'],c:0,ex:'A positive Romberg (sway worsens with eyes closed) indicates impaired proprioception/dorsal-column function.',excn:'Romberg阳性（闭眼摆动加重）提示本体感觉/后索功能受损。'},
+
+
+ {d:'neuro',q:'The Modified Ashworth Scale grades:',qcn:'改良Ashworth量表评定的内容是：',opts:['Spasticity/resistance to passive stretch','Balance capacity','Gait speed','Pain intensity'],optscn:['痉挛 / 被动牵伸阻力','平衡能力','步速','疼痛强度'],c:0,ex:'The Modified Ashworth Scale grades resistance to passive movement, i.e., spasticity.',excn:'改良Ashworth量表评定被动运动的阻力，即痉挛程度。'},
+
+
+ {d:'neuro',q:'A facial droop that spares the forehead (forehead not involved) suggests a:',qcn:'面部下垂但额部（前额）不受累，提示：',opts:['Central (upper motor neuron) lesion','Peripheral (lower motor neuron) facial palsy','Neuromuscular junction disorder','Basal ganglia tremor'],optscn:['中枢性（上运动神经元）病变','周围性（下运动神经元）面瘫','神经肌肉接头疾病','基底节震颤'],c:0,ex:'Central facial palsy spares the forehead (bilateral cortical supply to upper face); peripheral Bell palsy affects the whole side including forehead.',excn:'中枢性面瘫额纹不受累（上面部双侧皮质支配）；周围性面瘫（Bell麻痹）累及整个半侧面含额部。'},
+
+
+ {d:'neuro',q:'Spasticity is best managed with a combination that typically includes:',qcn:'治疗痉挛通常采用综合方案，可包括：',opts:['Stretching, positioning, and medications or injection (e.g., botulinum toxin)','Only bed rest','Only ice','Only high-velocity passive ROM'],optscn:['牵伸、体位摆放联合药物或注射（如肉毒素）','仅卧床休息','仅冰敷','仅高速度被动活动度'],c:0,ex:'Spasticity management combines positioning, stretching, oral meds, and targeted injections (botulinum toxin) in many cases.',excn:'痉挛治疗结合体位摆放、牵拉、口服药物及肉毒素等局部注射。'},
+
+
+ {d:'cardio',q:'Before starting an exercise program, resting blood pressure of 180/110 mmHg should be treated as:',qcn:'开始运动计划前，静息血压180/110 mmHg应如何处理？',opts:['A contraindication — refer for medical evaluation before exercise','Safe to exercise at any intensity','Only a concern if the patient feels dizzy','Requires exercising lying flat only'],optscn:['禁忌 —— 运动前先转诊医学评估','任何强度均可安全运动','仅头晕时需要处理','仅需平卧位运动'],c:0,ex:'Resting BP ≥180/110 mmHg is a relative contraindication to exercise testing/training until controlled.',excn:'静息血压≥180/110 mmHg属相对禁忌，应先控制并评估。'},
+
+
+ {d:'cardio',q:'Chest pain that worsens with exertion and is relieved by rest likely represents:',qcn:'劳力诱发、休息缓解的胸痛，最可能是：',opts:['Exertional/microvascular angina or coronary disease','Pleurisy only','Anxiety with no cardiac risk','Pneumothorax only'],optscn:['劳力性/冠脉性心绞痛或冠心病','仅胸膜炎','无心脏风险因素的焦虑','仅气胸'],c:0,ex:'Exertional chest pain relieved by rest is classic for exertional angina/coronary ischemia.',excn:'劳力性胸痛休息缓解，是劳力性心绞痛/心肌缺血的典型表现。'},
+
+
+ {d:'cardio',q:'The exercise prescription guideline for a cardiac rehab patient follows the FITT principle; the T stands for:',qcn:'心脏康复运动处方遵循FITT原则，其中T代表：',opts:['Time / duration','Temperature','Treadmill','Tension'],optscn:['时间 / 时长','温度','跑步机','紧张度'],c:0,ex:'FITT = Frequency, Intensity, Time (duration), Type of exercise.',excn:'FITT=频率、强度、时间（时长）、运动类型。'},
+
+
+ {d:'cardio',q:'During a graded exercise test, ST-segment depression of 2 mm or more is:',qcn:'分级运动试验中出现≥2 mm ST段压低：',opts:['Concerning for myocardial ischemia — stop the test and monitor','Normal in healthy adults','Only relevant with chest pain','A sign of good fitness'],optscn:['提示心肌缺血 —— 停止试验并监测','健康成人正常表现','仅伴胸痛时才有意义','体能良好的标志'],c:0,ex:'Significant ST depression (>1–2 mm) during testing suggests ischemia; the test should be stopped and the patient monitored.',excn:'试验中显著ST压低（>1–2 mm）提示缺血，应停止试验并监测。'},
+
+
+ {d:'cardio',q:'A normal resting respiratory rate for an adult is about:',qcn:'成人正常静息呼吸频率约为：',opts:['12–20 breaths per minute','5–8 per minute','30–40 per minute','45–60 per minute'],optscn:['每分钟12–20次','每分钟5–8次','每分钟30–40次','每分钟45–60次'],c:0,ex:'Normal adult RR is 12–20 breaths/min; bradypnea/tachypnea are outside this.',excn:'成人正常呼吸频率12–20次/分。'},
+
+
+ {d:'cardio',q:'A patient with COPD would MOST benefit from which exercise emphasis?',qcn:'COPD患者最应从哪方面运动获益？',opts:['Aerobic conditioning via interval training and breathing strategies','Only upper-body strength','Prolonged high-intensity sprints','Avoiding all exertion'],optscn:['通过间歇训练与呼吸策略进行有氧心肺适应','仅上肢力量','长时间高强度冲刺','避免一切活动'],c:0,ex:'COPD rehab emphasizes aerobic/interval conditioning plus breathing and energy-conservation techniques.',excn:'COPD康复着重有氧/间歇训练以及呼吸与节能技巧。'},
+
+
+ {d:'cardio',q:'The Borg Rating of Perceived Exertion (RPE) scale ranges from:',qcn:'Borg主观用力感觉（RPE）评分范围：',opts:['6 to 20','1 to 5','0 to 100','1 to 30'],optscn:['6至20','1至5','0至100','1至30'],c:0,ex:'The classic Borg RPE runs 6–20 (linked to heart rate); the category-ratio scale runs 0–10.',excn:'经典Borg RPE为6–20；分类比量表为0–10。'},
+
+
+ {d:'cardio',q:'Which absolute contraindication should stop a graded exercise test from starting?',qcn:'哪项绝对禁忌应阻止开始分级运动试验？',opts:['Acute myocardial infarction within the last 2 days / unstable angina','Well-controlled hypertension','Mild fatigue','Previous sedentary lifestyle'],optscn:['近2天内急性心肌梗死 / 不稳定型心绞痛','控制良好的高血压','轻度疲劳','既往久坐生活方式'],c:0,ex:'Recent acute MI/unstable angina is a contraindication to exercise testing.',excn:'近期急性心梗/不稳定型心绞痛是运动试验的禁忌。'},
+
+
+ {d:'cardio',q:'Chronic hypertension is a major risk factor for:',qcn:'慢性高血压是下列哪项的主要危险因素？',opts:['Stroke, MI, heart failure, and kidney disease','Only skin disease','Alone never causes morbidity','Osteoporosis primarily'],optscn:['脑卒中、心梗、心衰与肾脏疾病','仅皮肤病','单独绝不会致病','主要导致骨质疏松'],c:0,ex:'Hypertension drives stroke, myocardial infarction, heart failure, and renal disease.',excn:'高血压可导致脑卒中、心梗、心衰与肾脏疾病。'},
+
+
+ {d:'cardio',q:'Exercise capacity measured in metabolic equivalents (METs) that predicts higher risk if <5 METs in a cardiac patient indicates:',qcn:'心脏患者运动能力<5 METs提示：',opts:['Higher risk / poorer prognosis and warrants careful progression','Excellent prognosis','No further testing needed','Normal for all ages'],optscn:['风险较高 / 预后较差，应谨慎进阶','预后极佳','无需进一步检查','各年龄均正常'],c:0,ex:'In cardiac patients, an exercise capacity <5 METs is associated with higher risk and warrants conservative progression.',excn:'心脏患者运动能力<5 METs提示风险较高、预后较差，应谨慎进阶。'},
+
+
+ {d:'integ',q:'A full-thickness burn involves:',qcn:'全层（三度）烧伤累及：',opts:['All layers of skin down to and possibly through the subcutaneous tissue','Only the epidermis','Only the dermis','Hair follicles only'],optscn:['皮肤全层直至并可能深达皮下组织','仅表皮','仅真皮','仅毛囊'],c:0,ex:'Full-thickness burns destroy the entire epidermis and dermis, extending into subcutaneous tissue.',excn:'全层烧伤破坏表皮与真皮全层，可深入皮下组织，多无痛觉。'},
+
+
+ {d:'integ',q:'The Rule of Nines estimates burn surface area; in an adult the entire back is:',qcn:'成人九分法估算烧伤面积，整个后背约占：',opts:['18%','9%','36%','4.5%'],optscn:['18%','9%','36%','4.5%'],c:0,ex:'In the Rule of Nines, the entire back (posterior trunk) is 18% (anterior trunk also 18%, each lower limb 18%).',excn:'九分法中，整个后背占18%（前躯干亦18%，每条下肢18%）。'},
+
+
+ {d:'integ',q:'Wound debridement of necrotic tissue is performed primarily to:',qcn:'伤口清创坏死组织的首要目的是：',opts:['Remove nonviable tissue that impedes healing and harbors infection','Augment skin tanning','Reduce cosmetic scar painlessness','Increase granulation by adding pressure'],optscn:['清除阻碍愈合并滋生感染的失活组织','增强晒黑效果','减少疤痕美观影响','通过加压增加肉芽'],c:0,ex:'Debridement removes devitalized tissue and biofilm that delay healing and promote infection.',excn:'清创去除延缓愈合并易致感染的失活组织与生物膜。'},
+
+
+ {d:'integ',q:'A stage III pressure injury is best described as:',qcn:'III期压力性损伤最好描述为：',opts:['Full-thickness skin loss exposing subcutaneous fat, but not muscle/bone','Intact skin with non-blanchable redness','Shallow superficial ulcer through epidermis only','Full-thickness loss with exposed bone, tendon, or muscle'],optscn:['全层皮肤缺失暴露皮下脂肪，但未及肌肉/骨','皮肤完整伴不可褪色发红','仅累及表皮的浅表溃疡','全层缺失暴露骨、肌腱或肌肉'],c:0,ex:'Stage III = full-thickness skin loss exposing subcutaneous fat; Stage IV exposes bone/muscle/tendon.',excn:'III期=全层皮肤缺损暴露皮下脂肪；IV期暴露骨/肌肉/肌腱。'},
+
+
+ {d:'integ',q:'For an arterial (ischemic) ulcer, priority rehab management includes:',qcn:'动脉性（缺血性）溃疡的康复处理重点是：',opts:['Referral for vascular assessment and offloading while optimizing circulation','Tight compression bandaging','Wet-to-dry dressings with vigorous scrubbing','Prolonged standing to improve perfusion'],optscn:['转诊血管评估并在优化循环的同时减压','紧绑压缩包扎','频繁擦洗的湿干敷料','长时间站立以改善灌注'],c:0,ex:'Ischemic ulcers need vascular evaluation and protection; compression is contraindicated (that is for venous ulcers).',excn:'缺血性溃疡需血管评估并减压；禁用于动脉性（加压包扎适用于静脉性）。'},
+
+
+ {d:'other',q:'Which best reflects the standard of care for documenting patient progress in physical therapy?',qcn:'物理治疗中记录患者进展的最佳实践是：',opts:['Objective, measurable, dated notes that connect findings to plan development','Only documenting subjective complaints','Writing notes days later from memory without detail','Omitting discharge plans'],optscn:['将主诉与治疗计划相衔接的客观、可量化、有日期的记录','仅记录主观主诉','数日后凭记忆补写且缺少细节','省略出院计划'],c:0,ex:'Quality documentation is objective, measure-based, patient-specific, and supports the plan of care.',excn:'高质量记录客观、可量化、有针对性，并与治疗计划相衔接。'},
+
+
+ {d:'other',q:'Under HIPAA, a physical therapist may share protected health information (PHI):',qcn:'根据HIPAA，物理治疗师何时可分享受保护健康信息（PHI）？',opts:['As needed for treatment, payment, and healthcare operations, with appropriate safeguards','Freely on any social platform','With any family member without consent','Only with written consent for everything, including emergencies'],optscn:['为治疗、支付与医疗运作之需，并采取适当防护','在任何社交平台随意分享','不经同意给任何家人','所有情形（含急救）均需书面同意'],c:0,ex:'HIPAA permits sharing PHI for treatment, payment, and operations; other uses need authorization.',excn:'HIPAA允许为治疗、支付与医疗运作分享PHI；其他用途需授权。'},
+
+
+ {d:'other',q:'A PT noticing a colleague practicing outside their scope of competence should:',qcn:'物理治疗师发现同事在其能力范围外执业，应该：',opts:['Address the concern with the colleague and, if needed, report through appropriate channels','Ignore it to avoid conflict','Publicly criticize on social media','Continue to enable the behavior silently'],optscn:['与同事沟通该问题，必要时通过适当渠道上报','为避免冲突而忽略','在社交媒体公开批评','默许并继续纵容'],c:0,ex:'Professional responsibility requires addressing unsafe or unethical practice and reporting as appropriate.',excn:'职业责任要求处理不安全/不合规执业，必要时按规范上报。'},
+
+
+ {d:'other',q:'Informed consent in physical therapy requires that the patient:',qcn:'物理治疗中的知情同意要求患者：',opts:['Understand the proposed treatment, risks, benefits, and alternatives, and voluntarily agree','Sign any form without reading','Agree to every recommendation blindly','Remain fully unaware of risks'],optscn:['理解拟行治疗、风险、获益与替代方案并自愿同意','不看内容签署任何表格','盲目同意所有建议','完全不清楚风险'],c:0,ex:'Informed consent requires comprehension of the intervention, risks, benefits, and alternatives with voluntary agreement.',excn:'知情同意要求患者理解干预内容、风险、获益与替代方案并自愿同意。'},
+
+
+ {d:'other',q:'Which study design provides the strongest evidence for treatment efficacy in the evidence hierarchy?',qcn:'证据等级中，疗效证据最强的研究设计是：',opts:['Systematic review of randomized controlled trials','Single case report','Expert opinion','Cross-sectional survey'],optscn:['随机对照试验的系统评价','单个病例报告','专家意见','横断面调查'],c:0,ex:'Meta-analyses/systematic reviews of RCTs sit at the top of the evidence hierarchy.',excn:'RCT的系统评价/Meta分析处于证据金字塔顶端。'}
 ];
 
 var CHTOPIC=[null,'t1','t8','t9','t10','t2','t3','t4','t5','t6','t11','t7','t12','t13'];
@@ -1079,13 +1296,13 @@ function showExamQ(){
   var html='<div class="exam-meta">'
     +'<span class="ekey"><b>'+fmtTime(sess.left)+'</b><span data-en="Time left" data-zh="剩余时间">Time left</span></span>'
     +'<span class="ekey"><b>'+(s.i+1)+' / '+s.q.length+'</b><span data-en="Question" data-zh="题目">Question</span></span>'
-    +'<span class="ekey"><b>'+EXAM_DOM[q.d]+'</b><span data-en="Domain" data-zh="领域">Domain</span></span>'
+    +'<span class="ekey"><b>'+domName(q.d)+'</b><span data-en="Domain" data-zh="领域">Domain</span></span>'
     +'</div>';
-  html+='<div class="exam-q"><p style="margin-bottom:.4rem"><strong>'+q.q+'</strong></p>';
-  if(q.qcn) html+='<p class="cn" style="font-size:.85rem">'+q.qcn+'</p>';
+  html+='<div class="exam-q"><p style="margin-bottom:.4rem"><strong>'+((showCN&&q.qcn)?q.qcn:q.q)+'</strong></p>';
   for(var k=0;k<q.opts.length;k++){
     var sel=(s.ans[s.i]===k)?' selected':'';
-    html+='<button class="exam-opt'+sel+'" data-k="'+k+'">'+String.fromCharCode(65+k)+'. '+q.opts[k]+'</button>';
+    var ot=(showCN&&q.optscn)?q.optscn[k]:q.opts[k];
+    html+='<button class="exam-opt'+sel+'" data-k="'+k+'">'+String.fromCharCode(65+k)+'. '+ot+'</button>';
   }
   html+='</div>';
   d.innerHTML=html;
@@ -1135,7 +1352,7 @@ function submitExam(){
   html+='<div class="table-wrap"><table><tr><th data-en="Domain" data-zh="领域">Domain</th><th data-en="Correct" data-zh="正确">Correct</th><th data-en="Accuracy" data-zh="正确率">Accuracy</th></tr>';
   Object.keys(byD).forEach(function(dd){
     var r=byD[dd];
-    html+='<tr><td>'+EXAM_DOM[dd]+'</td><td>'+r.ok+' / '+r.n+'</td><td>'+Math.round(r.ok/r.n*100)+'%</td></tr>';
+    html+='<tr><td>'+domName(dd)+'</td><td>'+r.ok+' / '+r.n+'</td><td>'+Math.round(r.ok/r.n*100)+'%</td></tr>';
   });
   html+='</table></div>';
   html+='<div class="callout"><h4><span class="co-ico">🎯</span><span data-en="Blueprint-minded prescription" data-zh="按蓝图配方的学习建议">Blueprint-minded prescription</span></h4><ul>'+bpPill(byD)+'</ul></div>';
@@ -1166,14 +1383,14 @@ function resetExam(){
 function chScores(){
   var m={}; try{ m=JSON.parse(localStorage.getItem('sm_mastery')||'null')||{}; }catch(e){}
   var out=[];
-  for(var i=1;i<=7;i++){ out.push(m['t'+i]?Math.round(m['t'+i].score||0):0); }
+  for(var i=1;i<=13;i++){ out.push(m['t'+i]?Math.round(m['t'+i].score||0):0); }
   return out;
 }
 function renderCert(){
   var arr=chScores();
   var best=0; try{ best=parseInt(localStorage.getItem('sm_exam')||'0',10); }catch(e){}
   var rows='';
-  for(var i=0;i<7;i++){
+  for(var i=0;i<13;i++){
     var ok=arr[i]>=60;
     rows+='<div class="cert-check '+(ok?'ok':'no')+'">'+(ok?'✓':'✗')+' <span data-en="Chapter '+(i+1)+' — mastery '+(ok?arr[i]+'%':'below 60%')+'" data-zh="第'+(i+1)+'章 — '+(ok?'精通 '+arr[i]+'%':'未达 60%')+'">Chapter '+(i+1)+' — mastery '+(ok?arr[i]+'%':'below 60%')+'</span></div>';
   }
@@ -1212,24 +1429,25 @@ function genCert(){
   g.beginPath(); g.moveTo(750,165); g.lineTo(750,245); g.stroke();
   g.beginPath(); g.moveTo(720,205); g.lineTo(780,205); g.stroke();
   g.lineCap='butt';
+  var FF='"Georgia", "Times New Roman", "Songti SC", "SimSun", serif';
   // header
-  dcenter(g,'CERTIFICATE OF COMPLETION',345,'700 56px Georgia, serif',indigo);
-  dcenter(g,'Sports Medicine, Recovery & Nutrition',410,'normal 32px Georgia, serif',ink);
-  dcenter(g,'Evidence-Based Bilingual Study Course  ·  NPTE-Ready Practice',450,'normal 22px Georgia, serif',soft);
+  dcenter(g,showCN?'课程完成证书':'CERTIFICATE OF COMPLETION',345,'700 56px '+FF,indigo);
+  dcenter(g,showCN?'运动医学 · 恢复 · 营养':'Sports Medicine, Recovery & Nutrition',410,'normal 32px '+FF,ink);
+  dcenter(g,showCN?'循证双语学习课程  ·  冲刺NPTE练习':'Evidence-Based Bilingual Study Course  ·  NPTE-Ready Practice',450,'normal 22px '+FF,soft);
   // body
-  dcenter(g,'This certifies that',520,'normal 26px Georgia, serif',soft);
-  dcenter(g,name,600,'italic 64px Georgia, serif',ink);
-  dcenter(g,'has completed all eleven modules of this study course and met the',660,'normal 24px Georgia, serif',soft);
-  dcenter(g,'NPTE-Ready practice threshold in the independent practice simulator.',690,'normal 24px Georgia, serif',soft);
+  dcenter(g,showCN?'兹证明':'This certifies that',520,'normal 26px '+FF,soft);
+  dcenter(g,name,600,'italic 64px '+FF,ink);
+  dcenter(g,showCN?'已完成本课程全部十三个模块，并在独立模拟考试中达到':'has completed all thirteen modules of this study course and met the',655,'normal 24px '+FF,soft);
+  dcenter(g,showCN?'NPTE冲刺练习成绩标准。':'NPTE-Ready practice threshold in the independent practice simulator.',690,'normal 24px '+FF,soft);
   // date + signature
   var d=new Date();
   var datestr=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   dcenter(g,datestr,810,'normal 26px Georgia, serif',ink);
   g.strokeStyle=ink; g.lineWidth=2;
   g.beginPath(); g.moveTo(560,838); g.lineTo(940,838); g.stroke();
-  dcenter(g,'Program Director · Sports Med Guide',865,'normal 20px Georgia, serif',soft);
-  dcenter(g,'Course-completion record — not a license, credential, or endorsement from FSBPT or CAPTE.',955,'normal 18px Georgia, serif',soft);
-  dcenter(g,'Educational material only, not medical advice.',985,'normal 16px Georgia, serif',soft);
+  dcenter(g,showCN?'项目总监 · 运动医学指南':'Program Director · Sports Med Guide',865,'normal 20px '+FF,soft);
+  dcenter(g,showCN?'课程完成记录 — 不代表FSBPT或CAPTE授予的执照、资格或认可。':'Course-completion record — not a license, credential, or endorsement from FSBPT or CAPTE.',955,'normal 18px '+FF,soft);
+  dcenter(g,showCN?'仅供学习使用，非医疗建议。':'Educational material only, not medical advice.',985,'normal 16px '+FF,soft);
   // download
   _certURL=c.toDataURL('image/png');
   var a=document.createElement('a');

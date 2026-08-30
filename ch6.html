@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -742,7 +760,17 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <tr><td><strong data-en="Concussion" data-zh="脑震荡">Concussion</strong></td><td data-en="Nervous tissue function" data-zh="神经组织功能">Nervous tissue function</td><td data-en="Head impact (functional injury)" data-zh="头部撞击（功能性损伤）">Head impact (functional injury)</td></tr>
         </table>
         <p style="margin-top:.75rem"><strong data-en="Sprain grades:" data-zh="扭伤分级：">Sprain grades:</strong> <span data-en="I = overstretched. II = partial tear. III = complete rupture." data-zh="I = 过度拉伸。II = 部分撕裂。III = 完全断裂。">I = overstretched. II = partial tear. III = complete rupture.</span></p>
-      </div></div>
+      
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Injury vocabulary: sprain = LIGAMENT; strain = MUSCLE/TENDON; fracture = bone cortex; stress fracture = bone (repeated overload); tendinopathy = tendon (degenerative, not inflammatory); concussion = functional nervous tissue injury." data-zh="损伤词汇：扭伤(sprain)=韧带；拉伤(strain)=肌肉/肌腱；骨折=骨皮质；应力性骨折=骨（反复过载）；肌腱病变=肌腱（变性、非炎症）；脑震荡=神经组织功能性损伤。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Injury vocabulary: sprain = LIGAMENT; strain = MUSCLE/TENDON; fracture = bone cortex; stress fracture = bone (repeated overload); tendinopathy = tendon (degenerative, not inflammatory); concussion = functional nervous tissue injury.</li>
+            <li data-en="Sprain grades: I = overstretched (mild, intact); II = partial tear; III = complete rupture." data-zh="扭伤分级：I=过度牵拉（轻、完整）；II=部分撕裂；III=完全断裂。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Sprain grades: I = overstretched (mild, intact); II = partial tear; III = complete rupture.</li>
+            <li data-en="Tendinopathy is a degeneration/pain condition, NOT acute inflammation — it does NOT 're-inflame' the way a strain does; load-managing exercise (not rest/anti-inflammatories) is the treatment." data-zh="肌腱病变是变性/疼痛状况，并非急性炎症——不像拉伤那样“再发炎”；治疗靠负荷管理性运动（而非休息/抗炎药）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Tendinopathy is a degeneration/pain condition, NOT acute inflammation — it does NOT 're-inflame' the way a strain does; load-managing exercise (not rest/anti-inflammatories) is the treatment.</li>
+            <li data-en="ALWAYS clarify structure damaged: ligament=joint stability → taping/brace; muscle/tendon → progressive loading." data-zh="务必明确受损结构：韧带=关节稳定→贴扎/支具；肌肉/肌腱→渐进负荷。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> ALWAYS clarify structure damaged: ligament=joint stability → taping/brace; muscle/tendon → progressive loading.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="6.2 Three Healing Phases" data-zh="6.2 愈合三阶段">6.2 Three Healing Phases</div>
@@ -750,12 +778,23 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
         <div class="stats">
           <div class="stat-card"><div class="stat-num">~0–7d</div><div class="stat-label" data-en="Inflammatory" data-zh="炎症期">Inflammatory</div></div>
           <div class="stat-card"><div class="stat-num">~4–21d</div><div class="stat-label" data-en="Proliferative" data-zh="增生期">Proliferative</div></div>
-          <div class="stat-card"><div class="stat-num">3w–2yr</div><div class="stat-label" data-en="Remodeling" data-zh="重塑期">Remodeling</div></div>
+          <div class="stat-card"><div class="stat-num">3w–2yr</div><div class="stat-label" data-en="Remodeling" data-zh="重塑期">Remodeling
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Healing timeline: inflammatory (~0-7d: immune cells clear debris, starts repair — not the enemy) -> proliferative (~4-21d: fibroblasts lay type III collagen, capillaries sprout) -> remodeling (3wk-2yr: collagen reorganizes into type I along stress lines; LOAD directs alignment)." data-zh="愈合时间线：炎症期（约0–7天：免疫细胞清理，启动修复——并非“敌人”）→增殖期（约4–21天：成纤维细胞铺III型胶原、毛细血管新生）→重塑期（3周–2年：胶原沿应力线重塑为I型；负荷指导排列）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Healing timeline: inflammatory (~0-7d: immune cells clear debris, starts repair — not the enemy) -> proliferative (~4-21d: fibroblasts lay type III collagen, capillaries sprout) -> remodeling (3wk-2yr: collagen reorganizes into type I along stress lines; LOAD directs alignment).</li>
+            <li data-en="KEY exam point: remodeling is DRIVEN by controlled load — too little = weak disorganized scar; too much too soon = re-injury." data-zh="关键考点：重塑由受控负荷驱动——负荷过小=薄弱无序瘢痕；过早过量=再损伤。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY exam point: remodeling is DRIVEN by controlled load — too little = weak disorganized scar; too much too soon = re-injury.</li>
+            <li data-en="Immobilization (prolonged) → weaker, less-organized collagen; early controlled motion improves strength and orientation." data-zh="长期制动→胶原更弱、排列更乱；早期受控活动改善强度与取向。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Immobilization (prolonged) → weaker, less-organized collagen; early controlled motion improves strength and orientation.</li>
+          </ul>
         </div>
-        <p data-en="Inflammatory: Immune cells clear debris. Starts repair — not the enemy." data-zh="炎症期：免疫细胞清除碎片。启动修复 — 不是敌人。"><strong>Inflammatory:</strong> Immune cells clear debris. Starts repair — not the enemy. <span class="cn">炎症期是修复的启动键。</span></p>
-        <p data-en="Proliferative: Fibroblasts lay down type III collagen; capillaries sprout." data-zh="增殖期：成纤维细胞铺出III型胶原；毛细血管萌芽。"><strong>Proliferative:</strong> Fibroblasts lay down type III collagen; capillaries sprout. <span class="cn">成纤维细胞铺出III型胶原。</span></p>
-        <p data-en="Remodeling: Collagen reorganizes into type I along stress lines. Load directs alignment." data-zh="重塑期：胶原沿应力线重组为I型。负荷指导排列。"><strong>Remodeling:</strong> Collagen reorganizes into type I along stress lines. Load directs alignment. <span class="cn">负荷指导排列。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop" alt="Soft tissue rehabilitation"></div></div>
+</div></div>
+        </div>
+                <ul class="facts">
+          <li><b data-en="Inflammatory:" data-zh="炎症期：">Inflammatory:</b> <span data-en="Immune cells clear debris. Starts repair — not the enemy." data-zh="免疫细胞清除碎片。启动修复 — 不是敌人。">Immune cells clear debris. Starts repair — not the enemy.</span></li>
+          <li><b data-en="Proliferative:" data-zh="增殖期：">Proliferative:</b> <span data-en="Fibroblasts lay down type III collagen; capillaries sprout." data-zh="成纤维细胞铺出III型胶原；毛细血管萌芽。">Fibroblasts lay down type III collagen; capillaries sprout.</span></li>
+          <li><b data-en="Remodeling:" data-zh="重塑期：">Remodeling:</b> <span data-en="Collagen reorganizes into type I along stress lines. Load directs alignment." data-zh="胶原沿应力线重组为I型。负荷指导排列。">Collagen reorganizes into type I along stress lines. Load directs alignment.</span></li>
+        </ul>
+<img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop" alt="Soft tissue rehabilitation"></div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="6.3 PEACE &amp; LOVE Framework" data-zh="6.3 PEACE 与 LOVE 框架">6.3 PEACE &amp; LOVE Framework</div>
@@ -764,7 +803,18 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <div><strong data-en="PEACE (1–3 days)" data-zh="PEACE（1–3天）">PEACE (1–3 days)</strong><br><span data-en="P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate" data-zh="P 保护 · E 抬高 · A 避免抗炎药 · C 加压 · E 教育">P Protect · E Elevate · A Avoid anti-inflammatories · C Compress · E Educate</span></div>
           <div><strong data-en="LOVE (after)" data-zh="LOVE（之后）">LOVE (after)</strong><br><span data-en="L Optimal Load · O Optimism · V Vascularisation · E Exercise" data-zh="L 最佳负荷 · O 乐观 · V 血管化 · E 运动">L Optimal Load · O Optimism · V Vascularisation · E Exercise</span></div>
         </div>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Physical therapy rehabilitation"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Physical therapy rehabilitation">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="PEACE & LOVE replaces old RICE/PRICE acute-management dogma." data-zh="PEACE & LOVE（和平与爱）取代旧的RICE/PRICE急性处理信条。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> PEACE & LOVE replaces old RICE/PRICE acute-management dogma.</li>
+            <li data-en="PEACE (first 1-3 days): Protect, Elevate, Avoid anti-inflammatories, Compress, Educate." data-zh="PEACE（最初1–3天）：保护、抬高、避免抗炎药、加压、教育。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> PEACE (first 1-3 days): Protect, Elevate, Avoid anti-inflammatories, Compress, Educate.</li>
+            <li data-en="LOVE (after the acute phase): Optimal Load, Optimism, Vascularisation, Exercise." data-zh="LOVE（急性期后）：最佳负荷、积极心态、促进血运、运动。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> LOVE (after the acute phase): Optimal Load, Optimism, Vascularisation, Exercise.</li>
+            <li data-en="CRITICAL: AVOID anti-inflammatories (NSAIDs/ice) in the early phase — inflammation is needed for repair; the modern framework downplays ice and NSAIDs in favor of active load management. Ice use is now 'pain medicine' at best, not a routine." data-zh="关键：早期避免抗炎药（NSAIDs/冰敷）——炎症为修复所需；现代框架弱化冰敷与NSAIDs，强调主动负荷管理。冰敷至多作为“镇痛药”，而非常规。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> CRITICAL: AVOID anti-inflammatories (NSAIDs/ice) in the early phase — inflammation is needed for repair; the modern framework downplays ice and NSAIDs in favor of active load management. Ice use is now 'pain medicine' at best, not a routine.</li>
+            <li data-en="Optimal Loading: move early, within pain tolerance, to stimulate healing — pain should guide intensity but not stop meaningful movement." data-zh="最佳负荷：早期、在可耐受疼痛范围内活动以刺激愈合——疼痛指导强度，但不等于完全停止有意义的运动。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Optimal Loading: move early, within pain tolerance, to stimulate healing — pain should guide intensity but not stop meaningful movement.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
 <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="6.4 Common Injuries &amp; Red Flags" data-zh="6.4 常见损伤与红色警示">6.4 Common Injuries &amp; Red Flags</div>
@@ -784,7 +834,16 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <li><strong data-en="DVT" data-zh="深静脉血栓">DVT</strong> — <span data-en="Unilateral calf swelling/warmth after immobilization → Wells criteria, no massage" data-zh="固定后单侧小腿肿热 → Wells评估，禁按摩">Unilateral calf swelling/warmth after immobilization → Wells criteria, no massage</span></li>
         </ul>
 
-      </div></div>
+      
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="KEY injuries & tests: ankle sprain (ligament) → proprioception/balance retraining; shoulder impingement/rotator cuff → empty-can (Jobe) test; ACL → Lachman test; patellar tendinopathy → progressive heavy-slow resistance / eccentric loading." data-zh="关键损伤与检查：踝扭伤（韧带）→本体感觉/平衡再训练；肩峰下撞击/肩袖→空罐试验（Jobe）；前交叉韧带→Lachman试验；髌腱病变→渐进负重慢速抗阻/离心负荷。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY injuries & tests: ankle sprain (ligament) → proprioception/balance retraining; shoulder impingement/rotator cuff → empty-can (Jobe) test; ACL → Lachman test; patellar tendinopathy → progressive heavy-slow resistance / eccentric loading.</li>
+            <li data-en="RED FLAGS (urgent referral): cauda equina — bowel/bladder change + saddle anesthesia; stroke — facial droop + slurred speech + weakness; DVT — unilateral calf swelling/warmth after immobilization (Wells criteria, NO massage)." data-zh="红旗（紧急转诊）：马尾综合征——二便改变+鞍区麻木；脑卒中——面瘫+言语含糊+无力；DVT——制动后单侧小腿肿胀/发热（Wells标准，禁止按摩）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> RED FLAGS (urgent referral): cauda equina — bowel/bladder change + saddle anesthesia; stroke — facial droop + slurred speech + weakness; DVT — unilateral calf swelling/warmth after immobilization (Wells criteria, NO massage).</li>
+            <li data-en="Phase-based rehab: acute → recovery → sequelae (esp. stroke/SCI); progress mobility → strength → function → return to sport with gradual load." data-zh="分期康复：急性→恢复→后遗症期（尤其卒中/脊髓损伤）；按移动→力量→功能→逐步负荷重返运动推进。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Phase-based rehab: acute → recovery → sequelae (esp. stroke/SCI); progress mobility → strength → function → return to sport with gradual load.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
 
   </div>

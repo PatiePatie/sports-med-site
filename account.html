@@ -1005,6 +1005,9 @@ function saveProfile(){
   p.public=document.getElementById('pfPublic').checked;
   p.updatedAt=new Date().toISOString();
   localStorage.setItem('sm_profile',JSON.stringify(p));
+  var u=currentUser();
+  if(u){ u.name=p.name||null; localStorage.setItem('sm_user',JSON.stringify(u)); }
+  if(window.refreshAuthWidget) window.refreshAuthWidget();
   showMsg(t('Profile saved!','资料已保存！'),true);
   closeEdit();
   renderProfile();

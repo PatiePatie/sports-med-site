@@ -1,0 +1,7 @@
+# Sports-Med coordination bus — runtime state (per-machine, never commit)
+# The bus script itself (.coordination/coordinate) IS committed; only the
+# messages/cursors/notify logs it generates are local runtime state.
+.coordination/messages/
+.coordination/.cursors/
+.coordination/.verbose
+.coordination/.notify-*.log

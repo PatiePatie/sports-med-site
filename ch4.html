@@ -1151,6 +1151,7 @@ function showFC(){
   if(!fcReviewed.has(key)){
     fcReviewed.add(key);
     updateProgress();
+    try{ localStorage.setItem('sm_fc', String((parseInt(localStorage.getItem('sm_fc')||'0',10)||0)+1)); }catch(e){}
   }
 }
 function fcNext(){fcIndex = (fcIndex+1) % fcFiltered.length; showFC();}

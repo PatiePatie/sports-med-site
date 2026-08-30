@@ -37,7 +37,20 @@
       }
     });
     document.body.appendChild(fab);
+    updateHeaderBtn(user);
   }
+  function updateHeaderBtn(user){
+    var b=document.getElementById('loginBtn');
+    if(!b) return;
+    if(user&&user.email){
+      b.innerHTML='👤 <span class="bl-name">'+escapeHtml(user.email)+'</span>';
+      b.title=user.email;
+    }else{
+      b.textContent='👤 '+t('Log In','登录');
+      b.title='';
+    }
+  }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function init(){
     if(document.body){ build(); return; }
     document.addEventListener('DOMContentLoaded',build);

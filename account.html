@@ -785,16 +785,6 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </header>
-<header>
-<div class="container header-inner">
-  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
-  <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
-    <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
-  </div>
-</div>
-</header>
 
 <main>
   <div class="acct-wrap">
@@ -804,7 +794,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
       <div class="acct-avatar" id="avInitials">?</div>
       <h1 class="acct-name" id="acctName">—</h1>
       <div class="acct-email" id="acctEmail"></div>
-      <div><span class="acct-badge no" id="acctVerified" data-en="● Unverified" data-zh="● 未验证">● Unverified</span></div>
+      <div><span class="acct-badge no" id="acctVerified">● Unverified</span></div>
       <div class="acct-meta">
         <div id="metaJoined">📅 —</div>
         <div id="metaCountry">🌍 —</div>
@@ -940,7 +930,7 @@ function initials(name,email){
 }
 function renderProfile(){
   var u=currentUser(); var p=profile();
-  var name=(p.name||(u&&u.name)||(u&&u.email)||'—');
+  var name=(u&&u.name)||p.name||(u&&u.email)||'—';
   document.getElementById('avInitials').textContent=initials(name,u&&u.email);
   document.getElementById('acctName').textContent=name;
   document.getElementById('acctEmail').textContent=(u&&u.email)||'';
@@ -965,7 +955,7 @@ function renderStats(){
   document.getElementById('stMastery').textContent=L.overall+'%';
   document.getElementById('stExam').textContent=(L.exam>0?L.exam+'%':'—');
   document.getElementById('stQ').textContent=L.asked;
-  document.getElementById('stFlash').textContent='—';
+  document.getElementById('stFlash').textContent=(parseInt(localStorage.getItem('sm_fc')||'0',10)||0);
 }
 function renderChapters(){
   var m=getJSON('sm_mastery',{});

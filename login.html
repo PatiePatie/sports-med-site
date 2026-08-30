@@ -810,6 +810,7 @@ function handleAuth(resp){
   if(u){
     var meta=u.user_metadata||{};
     var nm=meta.full_name||meta.name||null;
+    if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
     localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, status:u.email_confirmed_at?1:0}));
   }
   return true;

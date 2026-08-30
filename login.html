@@ -799,7 +799,7 @@ function setStatus(){
   var out=document.getElementById('logoutBtn');
   var u=null;
   try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
-  if(u&&u.email){ line.textContent=(showCN?'已登录：':'Signed in: ')+u.email+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
+  if(u&&u.email){ var dname=u.name||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
   else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 和 EmailJS 的密钥。':'Not configured. Add your Supabase and EmailJS keys on this login page.'); out.style.display='none'; }
   else { line.textContent=(showCN?'未登录':'Not signed in'); out.style.display='none'; }
 }
@@ -808,7 +808,9 @@ function handleAuth(resp){
   if(resp.error){ myMsg((showCN?'出错了：':'Error: ')+resp.error.message,false); return false; }
   var u=resp.data.user||resp.data.session&&resp.data.session.user;
   if(u){
-    localStorage.setItem('sm_user', JSON.stringify({email:u.email, status:u.email_confirmed_at?1:0}));
+    var meta=u.user_metadata||{};
+    var nm=meta.full_name||meta.name||null;
+    localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, status:u.email_confirmed_at?1:0}));
   }
   return true;
 }

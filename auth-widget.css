@@ -1,0 +1,6 @@
+/* Shared account widget — floating Sign In / user chip shown on every page. */
+#acctFab{position:fixed;right:1.5rem;bottom:5.5rem;z-index:1201;display:flex;align-items:center;gap:.5rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:.55rem .95rem;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:var(--shadow-lg);transition:all .2s}
+#acctFab:hover{transform:translateY(-2px);border-color:var(--accent)}
+#acctFab .avat{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+#acctFab .acct-user{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#acctFab .acct-hint{color:var(--text2);font-weight:500}

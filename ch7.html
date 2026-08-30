@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -735,18 +753,42 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
         <div class="stats">
           <div class="stat-card"><div class="stat-num">1.7×</div><div class="stat-label" data-en="Injury risk if &lt;8h sleep" data-zh="睡眠不足8h的受伤风险">Injury risk if &lt;8h sleep</div></div>
           <div class="stat-card"><div class="stat-num">65%</div><div class="stat-label" data-en="Injured among short sleepers" data-zh="短睡眠者受伤率">Injured among short sleepers</div></div>
-          <div class="stat-card"><div class="stat-num">31%</div><div class="stat-label" data-en="Injured with ≥8h sleep" data-zh="充足睡眠者受伤率">Injured with ≥8h sleep</div></div>
+          <div class="stat-card"><div class="stat-num">31%</div><div class="stat-label" data-en="Injured with ≥8h sleep" data-zh="充足睡眠者受伤率">Injured with ≥8h sleep
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="KEY STATS: <8h sleep = 1.7x injury risk; 65% of injured athletes are short sleepers vs 31% with >=8h. Chronic short sleep is the strongest independent predictor of injury in adolescent athletes." data-zh="关键数据：睡眠<8小时→受伤风险1.7倍；受伤运动员中65%睡眠不足（≥8小时者仅31%）。慢性睡眠不足是青少年运动员受伤最强的独立预测因子。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY STATS: <8h sleep = 1.7x injury risk; 65% of injured athletes are short sleepers vs 31% with >=8h. Chronic short sleep is the strongest independent predictor of injury in adolescent athletes.</li>
+            <li data-en="Mechanism: deep (slow-wave) sleep pulses growth hormone (repair) and consolidates motor learning/memory." data-zh="机制：深睡眠脉冲释放生长激素（修复）并巩固运动学习/记忆。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Mechanism: deep (slow-wave) sleep pulses growth hormone (repair) and consolidates motor learning/memory.</li>
+            <li data-en="PT recommendation: 8-10h for athletes; treat sleep as part of the training/recovery prescription (recovery 'toolbox' priority)." data-zh="PT建议：运动员8–10小时；将睡眠视为训练/恢复处方的一部分（恢复“工具箱”中的优先项）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> PT recommendation: 8-10h for athletes; treat sleep as part of the training/recovery prescription (recovery 'toolbox' priority).</li>
+          </ul>
         </div>
-        <p data-en="Chronic short sleep is the strongest independent predictor of injury in adolescent athletes. Deep sleep pulses growth hormone and consolidates motor learning." data-zh="长期睡眠不足是青少年运动员受伤的最强独立预测因子。深度睡眠释放生长激素并巩固运动学习。">Chronic short sleep is the strongest independent predictor of injury in adolescent athletes. Deep sleep pulses growth hormone and consolidates motor learning.</p>
-      </div></div>
+</div></div>
+        </div>
+                <ul class="facts">
+          <li><span data-en="Chronic short sleep is the strongest independent predictor of injury in adolescent athletes." data-zh="长期睡眠不足是青少年运动员受伤的最强独立预测因子。">Chronic short sleep is the strongest independent predictor of injury in adolescent athletes.</span></li>
+          <li><span data-en="Deep sleep pulses growth hormone and consolidates motor learning." data-zh="深度睡眠释放生长激素并巩固运动学习。">Deep sleep pulses growth hormone and consolidates motor learning.</span></li>
+        </ul>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="7.2 DOMS: Delayed Onset Muscle Soreness" data-zh="7.2 延迟性肌肉酸痛（DOMS）">7.2 DOMS: Delayed Onset Muscle Soreness</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days. Soreness reflects remodeling — not workout quality." data-zh="不熟悉的运动后12–24小时出现，24–72小时达峰，5–7天消退。酸痛反映重塑过程 — 而非训练质量。">Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days. Soreness reflects remodeling — <strong>not</strong> workout quality.</p>
-        <p><strong data-en="Repeated-bout effect:" data-zh="重复训练效应：">Repeated-bout effect:</strong> <span data-en="Second session of same exercise causes dramatically less damage." data-zh="第二次相同训练造成的损伤大幅减少。">Second session of same exercise causes dramatically less damage.</span> <span class="cn">重复训练后酸痛大幅减少。</span></p>
+                <ul class="facts">
+          <li><span data-en="Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days." data-zh="不熟悉的运动后12–24小时出现，24–72小时达峰，5–7天消退。">Appears 12–24h after unfamiliar exercise, peaks 24–72h, fades by 5–7 days.</span></li>
+          <li><span data-en="Soreness reflects remodeling — not workout quality." data-zh="酸痛反映重塑过程 — 而非训练质量。">Soreness reflects remodeling — not workout quality.</span></li>
+        </ul>
+<p><strong data-en="Repeated-bout effect:" data-zh="重复训练效应：">Repeated-bout effect:</strong> <span data-en="Second session of same exercise causes dramatically less damage." data-zh="第二次相同训练造成的损伤大幅减少。">Second session of same exercise causes dramatically less damage.</span> <span class="cn">重复训练后酸痛大幅减少。</span></p>
         <p><strong data-en="Myth:" data-zh="迷思：">Myth:</strong> <span data-en="&quot;No pain, no gain&quot; — soreness correlates poorly with gains." data-zh="&quot;没有疼痛就没有收获&quot; — 酸痛与增肌相关性很弱。">"No pain, no gain" — soreness correlates poorly with gains.</span> <span class="cn">酸痛与增肌相关性很弱。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=400&fit=crop" alt="Active recovery"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=400&fit=crop" alt="Active recovery">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="DOMS timeline: appears 12-24h after unfamiliar/eccentric exercise, peaks 24-72h, resolves by 5-7 days." data-zh="DOMS时间线：在不熟悉/离心运动后12–24小时出现，24–72小时达峰，5–7天内消退。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> DOMS timeline: appears 12-24h after unfamiliar/eccentric exercise, peaks 24-72h, resolves by 5-7 days.</li>
+            <li data-en="Soreness reflects muscle REMODELING, not workout quality — 'no pain no gain' is a myth; soreness correlates poorly with gains." data-zh="酸痛反映肌肉重塑，而非训练质量——“不痛不练”是误区；酸痛与增肌相关性很弱。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Soreness reflects muscle REMODELING, not workout quality — 'no pain no gain' is a myth; soreness correlates poorly with gains.</li>
+            <li data-en="REPEATED-BOUT EFFECT: a second session of the same exercise causes dramatically less damage/soreness — relevant to program design & client expectation-setting." data-zh="重复训练效应：同一训练的第二次大幅减轻损伤/酸痛——关乎方案设计与客户预期管理。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> REPEATED-BOUT EFFECT: a second session of the same exercise causes dramatically less damage/soreness — relevant to program design & client expectation-setting.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="7.3 Recovery Toolbox Evidence" data-zh="7.3 恢复手段排序">7.3 Recovery Toolbox Evidence</div>
@@ -760,7 +802,17 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <tr><td data-en="Compression" data-zh="加压">Compression</td><td><span class="evidence-badge ev-weak" data-en="Weak" data-zh="弱">Weak</span></td><td data-en="Small soreness reduction; debated" data-zh="轻微减少酸痛；仍有争议">Small soreness reduction; debated</td></tr>
           <tr><td data-en="Cold water immersion" data-zh="冷水浸泡">Cold water immersion</td><td><span class="evidence-badge ev-mixed" data-en="Mixed" data-zh="混合">Mixed</span></td><td data-en="Reduces soreness BUT may blunt adaptation" data-zh="减轻酸痛但可能抑制适应">Reduces soreness BUT may blunt adaptation</td></tr>
         </table>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=600&h=400&fit=crop" alt="Cold water immersion"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=600&h=400&fit=crop" alt="Cold water immersion">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Evidence grades: Sleep (STRONG), Nutrition (STRONG), Active recovery (MODERATE), Massage/foam roll (MIXED - modest short-term relief), Compression (WEAK), Cold water immersion (MIXED - reduces soreness BUT may blunt adaptation)." data-zh="证据分级：睡眠（强）、营养（强）、主动恢复（中）、按摩/泡沫轴（混合——短期轻微缓解）、加压（弱）、冷水浸泡（混合——减轻酸痛但可能削弱适应）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Evidence grades: Sleep (STRONG), Nutrition (STRONG), Active recovery (MODERATE), Massage/foam roll (MIXED - modest short-term relief), Compression (WEAK), Cold water immersion (MIXED - reduces soreness BUT may blunt adaptation).</li>
+            <li data-en="KEY DEBATE — ice/CWI: 10-15°C for 10-15 min reliably reduces soreness and allows more work on multi-session days, BUT a 12-week trial showed CWI blunted type II fiber CSA (+17% vs active recovery) and satellite-cell activation/mTOR signalling." data-zh="关键争议——冰敷/冷水浸泡：10–15°C×10–15分钟可靠减轻酸痛，利于多日多练，但12周试验显示CWI削弱II型肌纤维横截面积（+17% vs 主动恢复）与卫星细胞激活/mTOR信号。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY DEBATE — ice/CWI: 10-15°C for 10-15 min reliably reduces soreness and allows more work on multi-session days, BUT a 12-week trial showed CWI blunted type II fiber CSA (+17% vs active recovery) and satellite-cell activation/mTOR signalling.</li>
+            <li data-en="Practical verdict: use ice as PAIN MEDICINE (first 48h, short sessions), NOT an automatic ritual; for long-term adaptation skip routine ice baths; for next-day competition the tradeoff may be worth it." data-zh="实用结论：视冰敷为“镇痛药”（前48小时、短时），而非自动仪式；追求长期适应则略过常规冰浴；次日有比赛时该权衡可能值得。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Practical verdict: use ice as PAIN MEDICINE (first 48h, short sessions), NOT an automatic ritual; for long-term adaptation skip routine ice baths; for next-day competition the tradeoff may be worth it.</li>
+            <li data-en="PARENT LESSON: acute injury → ice limits swelling (first 48h); chronic adaptation → avoid routine CWI." data-zh="总原则：急性损伤→冰敷限制肿胀（前48小时）；追求慢性适应→避免常规冷水浸泡。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> PARENT LESSON: acute injury → ice limits swelling (first 48h); chronic adaptation → avoid routine CWI.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
   </div>
 

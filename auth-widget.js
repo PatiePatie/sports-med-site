@@ -14,9 +14,11 @@
     if(name){
       b.innerHTML='👤 <span class="bl-name">'+escapeHtml(name)+'</span>';
       b.title=(user&&user.email)?user.email:'';
+      if(b.getAttribute('href')!=='account.html') b.setAttribute('href','account.html');
     }else{
       b.textContent='👤 '+t('Log In','登录');
       b.title='';
+      if(b.getAttribute('href')!=='login.html') b.setAttribute('href','login.html');
     }
   }
   function build(){ updateHeaderBtn(currentUser()); }

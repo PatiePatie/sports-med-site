@@ -1,0 +1,183 @@
+#!/usr/bin/env bash
+# ══════════════════════════════════════════════════════════════════════════════
+# coordinate — repo-local coordination bus for the Sports Medicine Bilingual Guide
+# ------------------------------------------------------------------------------
+# The "coordination channel" — a file-backed message bus any AI agent that opens
+# this repo can post to and read from. Auto-detected by the opencode
+# `coordinate.ts` plugin: any repo with a `.coordination/coordinate` + `.git`
+# gets (1) an automatic `checkin` announce the moment an agent starts a session,
+# and (2) fresh bus messages force-read into that agent's context so nobody
+# misses what another session said.
+#
+# Notifies OLIVER (the human) via a macOS banner whenever an agent enters or
+# posts something, so he sees the channel light up. This is the Sports-Med
+# equivalent of the DuaLaunch/LaunchLoop coordination bus.
+#
+# Message store: `.coordination/messages/` — a plain log per day, git-ignored,
+# so agents can write locally without dirtying the shared repo.
+#
+# Commands (matched by coordinate.ts + the watchdog-style integrations):
+#   checkin [msg]                     announce an agent just started (auto-notify Oliver)
+#   announce <level> [--priority p] <text>   post a bus message (level: info|high|urgent)
+#   poll                              print messages newer than our last read (fresh)
+#   log                               print the whole bus history
+#   notify <title> <text>             ping Oliver's macOS banner directly
+#
+# Env honoured:
+#   COORDINATE_AUTHOR       who is posting (default: the session/tool)
+#   COORDINATE_POLL_TIMEOUT short-poll hint (seconds) — kept for parity
+#   COORDINATE_TOOL         tool name (opencode etc.)
+# ══════════════════════════════════════════════════════════════════════════════
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BUS_DIR="$ROOT/.coordination"
+MSG_DIR="$BUS_DIR/messages"
+# Per-reader poll cursors live here: one small file per (author|day), git-ignored.
+# NOT PID-scoped — the same agent must re-find its cursor across invocations so
+# each reader sees each bus message exactly once (like the DuaLaunch bus).
+CURSOR_DIR="$BUS_DIR/.cursors"
+mkdir -p "$MSG_DIR" "$CURSOR_DIR"
+
+# --- identity / environment ----------------------------------------------------
+AUTHOR="${COORDINATE_AUTHOR:-}"
+TOOL="${COORDINATE_TOOL:-}"
+[ -z "$AUTHOR" ] && [ -n "$TOOL" ] && AUTHOR="$TOOL"
+[ -z "$AUTHOR" ] && AUTHOR="agent"
+SESSION="${COORDINATE_SESSION:-${SESSION_ID:-unknown}}"
+
+# --- helpers -------------------------------------------------------------------
+NOW="$(date '+%s')"
+HUMAN="$(date '+%Y-%m-%d %H:%M:%S')"
+DAY="$(date '+%Y-%m-%d')"
+VERBOSE_FILE="$BUS_DIR/.verbose"          # set to any value to echo to stdout on post
+# fd 9 -> human-readable notify log; survives caller-side >/dev/null redirects.
+exec 9>>"$MSG_DIR/.notify-$DAY.log"
+
+notify_oliver() { # $1 = title, $2 = text
+  local title="$1" text="$2"
+  if command -v /opt/homebrew/bin/terminal-notifier >/dev/null 2>&1; then
+    /opt/homebrew/bin/terminal-notifier -title "$title" -message "$text" -group coordinate >/dev/null 2>&1 || true
+  elif command -v osascript >/dev/null 2>&1; then
+    osascript -e "display notification \"$text\" with title \"$title\"" >/dev/null 2>&1 || true
+  fi
+# regardless of banner, ensure it lands in the human-readable daily log.
+# Writes to a dedicated fd (9) so the log line survives any caller-side
+# `>/dev/null` redirect on the notify_oliver call itself.
+  echo "[notify] $title — $text" >&9
+}
+
+# --- post a message to the bus -------------------------------------------------
+post() { # $1 = level (info|high|urgent), $2 = text
+  local level="$1" text="$2"
+  local f="$MSG_DIR/$DAY.log"
+  {
+    printf '%s\t%s\t%s\t%s\t%s\n' \
+      "$HUMAN" "$NOW" "${AUTHOR}" "${level}" "${text}"
+  } >> "$f"
+  if [ -f "$VERBOSE_FILE" ]; then
+    printf '[coordinate] %s %s %s: %s\n' "$HUMAN" "$AUTHOR" "$level" "$text"
+  fi
+}
+
+# --- publish fresh-message cursor per (day, reader) --------------------------
+# A poll returns only lines AFTER the reader's last cursor, so each agent sees
+# each message once. Cursor is per-reader and per-day, named by the author+tool.
+reader_key() {
+  printf '%s|%s' "${AUTHOR}" "${TOOL}"
+}
+cursor_path() {
+  printf '%s/%s.%s.cur' "$CURSOR_DIR" "$(reader_key)" "$DAY"
+}
+
+usage() {
+  sed -n '2,30p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  echo ""
+  echo "Subcommands:"
+  echo "  checkin [msg]                      announce an agent entered (auto-notify Oliver)"
+  echo "  announce <info|high|urgent> [--priority <info|high|urgent>] <text>"
+  echo "  poll                               print messages fresh to this reader"
+  echo "  log                                print the full bus history"
+  echo "  notify <title> <text>              ping Oliver's macOS banner"
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+
+  checkin)
+    # announce a session start + notify Oliver that an agent entered
+    msg="${1:-session started}"
+    post "info" "🟢 ENTERED — ${AUTHOR}${SESSION:+ [$SESSION]}: ${msg}"
+    notify_oliver "Sports-Med coordination" "Agent entered — ${AUTHOR}" >/dev/null 2>&1 || true
+    ;;
+
+  announce)
+    # acceptable forms:
+    #   announce info "hello"                     -> level flags -> post
+    #   announce --priority high "hello"          -> priority guard
+    #   announce "hello"                          -> default info
+    level="info" text=""
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --priority) level="$2"; shift 2 ;;
+        info|high|urgent) level="$1"; shift ;;
+        *) text="$*"; break ;;
+      esac
+    done
+    [ -z "$text" ] && { echo "announce: no text" >&2; exit 2; }
+    case "$level" in info|high|urgent) : ;; *) level="info" ;; esac
+    post "$level" "💬 ${AUTHOR}: ${text}"
+    # Oliver hears about anything high/urgent immediately
+    if [ "$level" = "high" ] || [ "$level" = "urgent" ]; then
+      notify_oliver "Sports-Med coordination [${level}]" "${AUTHOR}: ${text}" >/dev/null 2>&1 || true
+    fi
+    ;;
+
+  poll)
+    # Print messages on the bus that this reader hasn't seen yet.
+    file="$MSG_DIR/$DAY.log"
+    [ -f "$file" ] || { echo "(no new messages)"; exit 0; }
+    cfile="$(cursor_path)"
+    last=0; [ -f "$cfile" ] && last="$(cat "$cfile")"
+    : "${COORDINATE_POLL_TIMEOUT:=2}"   # short-poll parity hint (unused, kept for API)
+    wrote=0 out=""
+    while IFS=$'\t' read -r ts now author level text; do
+      if [ -z "$now" ]; then continue; fi
+      if [ "$now" -gt "$last" ]; then
+        out+="• [$ts] ${author} [${level}] ${text}\n"
+        if [ "$now" -gt "$wrote" ]; then wrote="$now"; fi
+      fi
+    done < "$file"
+    if [ -z "$out" ]; then
+      echo "(no new messages)"; exit 0
+    fi
+    printf '%b' "$out"
+    [ "$wrote" -gt 0 ] && echo "$wrote" > "$cfile"
+    ;;
+
+  log)
+    # Full history, today first then anything prior.
+    for f in "$MSG_DIR"/*.log; do
+      [ -e "$f" ] || continue
+      echo "── $f ──"
+      cat "$f"
+    done
+    ;;
+
+  notify)
+    notify_oliver "${1:-Sports-Med coordination}" "${2:-}" >/dev/null 2>&1 || true
+    echo "(notified Oliver)"
+    ;;
+
+  help|-h|--help)
+    usage ;;
+
+  *)
+    echo "coordinate: unknown command '$cmd'" >&2
+    usage >&2
+    exit 2 ;;
+esac
+
+exit 0

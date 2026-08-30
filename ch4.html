@@ -650,6 +650,33 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .facts li b{color:var(--accent);font-weight:700}
 ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
 ul.bul li{margin:.42rem 0;line-height:1.62}
+
+/* ═══════ FLASHCARD UI REDESIGN ═══════ */
+.flashcard-box{max-width:560px;padding:2.2rem 2rem}
+.fc-chapter-select{margin-bottom:1.4rem}
+.fc-chip{padding:.35rem .8rem;font-size:.78rem;border-radius:999px;background:var(--surface);color:var(--text2);border:1px solid var(--border2);box-shadow:var(--shadow-sm)}
+.fc-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-chip.active{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+.fc-counter{font-size:.82rem;color:var(--text3);margin-bottom:1.1rem;font-weight:700;letter-spacing:.02em}
+.fc-card{min-height:230px;perspective:1000px;margin-bottom:1.6rem}
+.fc-inner{min-height:230px}
+.fc-front,.fc-back{border-radius:20px;padding:2rem 1.6rem;box-shadow:0 18px 34px rgba(79,70,229,.16),0 4px 10px rgba(15,23,42,.06)}
+.fc-front{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#9333ea 100%);border:none;overflow:hidden;position:relative}
+.fc-front:before{content:"🃏";position:absolute;font-size:7rem;opacity:.10;right:-1rem;bottom:-1.6rem;transform:rotate(-12deg)}
+.fc-front .fc-term{font-size:1.45rem;font-weight:800;color:#fff;line-height:1.35;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.fc-front .fc-hint{color:rgba(255,255,255,.82);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:.3rem .85rem;border-radius:999px;font-size:.78rem;margin-top:1.2rem;backdrop-filter:blur(2px)}
+.fc-back{background:var(--surface);border:2px solid #c7d2fe}
+.fc-back .fc-def{font-size:1.1rem;line-height:1.65;color:var(--text);padding:0 .4rem}
+.fc-back .fc-def strong{display:inline-block;background:var(--accent-bg);color:var(--accent);padding:.18rem .6rem;border-radius:999px;font-size:.74rem;margin-bottom:.7rem}
+.fc-nav{gap:.8rem;align-items:center}
+.fc-nav button{padding:.55rem 1.4rem;border-radius:999px;font-weight:700;border:1px solid var(--border2);background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm)}
+.fc-nav button:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-nav button.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none}
+.fc-nav button.primary:hover{filter:brightness(1.05);color:#fff}
+.fc-nav button.fc-shuf{margin-left:.2rem;font-size:.82rem}
+.fc-progress{display:flex;gap:4px;justify-content:center;margin:0 0 .2rem}
+.fc-progress span{width:22px;height:4px;border-radius:2px;background:var(--surface3);transition:background .2s}
+.fc-progress span.on{background:var(--accent)}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -661,21 +688,21 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo">Sports Med <span>Guide</span></div>
-  <div class="sidebar-group">
+<div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
 
     <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
 
+    <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
   </div>
-  <div class="sidebar-group">
+<div class="sidebar-group">
     <div class="sidebar-label" data-en="Test Prep" data-zh="备考专区">Test Prep</div>
     <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
 
     <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
-
   </div>
-  <div class="sidebar-group">
+<div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
     <a class="sidebar-link sub" href="ch1.html" data-en="Ch 1 · The Body as a Machine" data-zh="第一章 · 身体如机器">Ch 1 · The Body as a Machine</a>
 
@@ -702,9 +729,8 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
     <a class="sidebar-link sub" href="ch12.html" data-en="Ch 12 · Assessment · 康复评定学" data-zh="第十二章 · 康复评定学">Ch 12 · Assessment · 康复评定学</a>
 
     <a class="sidebar-link sub" href="ch13.html" data-en="Ch 13 · TCM · 中医健康管理" data-zh="第十三章 · 中医健康管理">Ch 13 · TCM · 中医健康管理</a>
-
   </div>
-  <div class="sidebar-group">
+<div class="sidebar-group">
     <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
     <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
 
@@ -713,12 +739,10 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
     <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
 
     <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-
   </div>
-  <div class="sidebar-group">
+<div class="sidebar-group">
     <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
     <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
-
   </div>
 </nav>
 
@@ -982,6 +1006,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
     <button class="flashcard-close" onclick="closeFlashcards()">✕</button>
     <h3 style="text-align:center;margin-bottom:.75rem" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</h3>
     <div class="fc-chapter-select" id="fcChips"></div>
+    <div class="fc-progress" id="fcProgress"></div>
     <div class="fc-counter" id="fcCounter">1 / 10</div>
     <div class="fc-card" id="fcCard" onclick="this.classList.toggle('flipped')">
       <div class="fc-inner">
@@ -2784,6 +2809,29 @@ document.addEventListener('click', openLightbox);
     }
   }catch(e){}
 })();
+
+
+/* ═══ Flashcard upgrade: shuffle + progress dots + keyboard nav ═══ */
+function fcShuffle(){
+  for(var i=fcFiltered.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=fcFiltered[i]; fcFiltered[i]=fcFiltered[j]; fcFiltered[j]=tmp; }
+  fcIndex=0; showFC();
+}
+function fcSyncProgressDots(){
+  var pc=document.getElementById('fcProgress');
+  if(!pc) return;
+  pc.innerHTML=fcFiltered.map(function(_,i){ return '<span class="'+(i===fcIndex?'on':'')+'"></span>'; }).join('');
+}
+(function(){
+  var _os=showFC;
+  showFC=function(){ _os(); fcSyncProgressDots(); };
+})();
+document.addEventListener('keydown',function(e){
+  var fp=document.getElementById('flashPanel');
+  if(!fp || !!fp.className && fp.className.indexOf('open')===-1) return;
+  if(e.key==='ArrowLeft'){ fcPrev(); }
+  else if(e.key==='ArrowRight'){ fcNext(); }
+});
+
 </script>
 </div><!-- /page-wrapper -->
 <!-- Floating AI button -->

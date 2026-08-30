@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -739,34 +757,89 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <tr><td data-en="Frequency" data-zh="频率">Frequency</td><td>2–6×/week</td><td data-en="More frequent moderate sessions > one massive session." data-zh="高频中等训练 > 单次大容量训练。">More frequent moderate sessions > one massive session.</td></tr>
           <tr><td data-en="Rest" data-zh="休息">Rest</td><td>30 s – 5 min</td><td data-en="Short rest = metabolic stress; long rest = force output." data-zh="短休息 = 代谢压力；长休息 = 力量输出。">Short rest = metabolic stress; long rest = force output.</td></tr>
         </table>
-      </div></div>
+      
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Training variables: Intensity (heavy=strength, light=endurance), Volume (sets x reps x load; higher drives hypertrophy up to a point), Frequency (more frequent moderate > one massive session), Rest (short = metabolic stress, long = force output)." data-zh="训练变量：强度（重=力量、轻=耐力）、容量（组数×次数×负荷；更高容量促进肌肥大至上限）、频率（高频中等>单次大容量）、休息（短=代谢压力、长=力量输出）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Training variables: Intensity (heavy=strength, light=endurance), Volume (sets x reps x load; higher drives hypertrophy up to a point), Frequency (more frequent moderate > one massive session), Rest (short = metabolic stress, long = force output).</li>
+            <li data-en="1-RM percentage: ~85%+ = strength, ~67-85% = hypertrophy, ~67% and below = endurance (rough ranges)." data-zh="1RM百分比：约85%以上=力量、约67–85%=肌肥大、约67%及以下=耐力（大致范围）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> 1-RM percentage: ~85%+ = strength, ~67-85% = hypertrophy, ~67% and below = endurance (rough ranges).</li>
+            <li data-en="Progressive overload: systematically increase weight/reps/sets or decrease rest; without it, no adaptation." data-zh="渐进超负荷：系统性增加重量/次数/组数或减少休息；没有它身体就不适应。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Progressive overload: systematically increase weight/reps/sets or decrease rest; without it, no adaptation.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.2 Progressive Overload" data-zh="5.2 渐进超负荷">5.2 Progressive Overload</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt." data-zh="随时间系统性地增加需求 — 增加重量、次数、组数或减少休息。没有渐进超负荷，身体没有适应的理由。">Systematically increase demand over time — add weight, reps, sets, or decrease rest. Without progressive overload, the body has no reason to adapt. <span class="cn">没有渐进超负荷，身体没有适应的理由。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop" alt="Progressive overload lifting"></div></div>
+                <ul class="facts">
+          <li><span data-en="Systematically increase demand over time — add weight, reps, sets, or decrease rest." data-zh="随时间系统性地增加需求 — 增加重量、次数、组数或减少休息。">Systematically increase demand over time — add weight, reps, sets, or decrease rest.</span></li>
+          <li><span data-en="Without progressive overload, the body has no reason to adapt." data-zh="没有渐进超负荷，身体没有适应的理由。">Without progressive overload, the body has no reason to adapt.</span></li>
+        </ul>
+<img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop" alt="Progressive overload lifting">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Principle: systematically increase the training demand over time (load, volume, or intensity) so the body must adapt." data-zh="原则：随时间系统性增加训练需求（负荷、容量或强度），使身体必须适应。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Principle: systematically increase the training demand over time (load, volume, or intensity) so the body must adapt.</li>
+            <li data-en="Apply via: add weight, add reps/sets, reduce rest intervals, or progress exercise complexity/difficulty." data-zh="应用方式：加重、加次数/组数、缩短休息、或提高动作难度/复杂度。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Apply via: add weight, add reps/sets, reduce rest intervals, or progress exercise complexity/difficulty.</li>
+            <li data-en="Overload must be progressive but balanced against recovery to avoid overtraining/injury — periodization spreads it out." data-zh="超负荷须渐进但需与恢复平衡以避免过度训练/损伤——周期化将其分散。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Overload must be progressive but balanced against recovery to avoid overtraining/injury — periodization spreads it out.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.3 Eccentric Training" data-zh="5.3 离心训练">5.3 Eccentric Training</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy." data-zh="肌肉离心收缩产生更大力量。这导致更多微损伤但也提供更大的力量和增肌刺激 — 用于肌腱病变康复。">Muscles produce more force eccentrically. This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy. <span class="cn">离心收缩力量更大，增肌刺激更强。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&h=400&fit=crop" alt="Controlled eccentric squat"></div></div>
+                <ul class="facts">
+          <li><span data-en="Muscles produce more force eccentrically." data-zh="肌肉离心收缩产生更大力量。">Muscles produce more force eccentrically.</span></li>
+          <li><span data-en="This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy." data-zh="这导致更多微损伤但也提供更大的力量和增肌刺激 — 用于肌腱病变康复。">This causes more micro-damage but also greater strength and hypertrophy stimulus — used in rehab for tendinopathy.</span></li>
+        </ul>
+<img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&h=400&fit=crop" alt="Controlled eccentric squat">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Eccentric (lengthening) contractions produce MORE force than concentric/isometric." data-zh="离心（拉长）收缩产生的力量大于向心/等长收缩。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Eccentric (lengthening) contractions produce MORE force than concentric/isometric.</li>
+            <li data-en="Eccentrics cause more micro-damage but greater strength and hypertrophy stimulus — used in tendinopathy rehab (e.g., heavy slow resistance)." data-zh="离心产生更多微损伤，但提供更大力量与增肌刺激——用于肌腱病变康复（如负重慢速抗阻）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Eccentrics cause more micro-damage but greater strength and hypertrophy stimulus — used in tendinopathy rehab (e.g., heavy slow resistance).</li>
+            <li data-en="Higher eccentric load causes more delayed-onset muscle soreness (DOMS); progress carefully." data-zh="较高离心负荷导致更多延迟性肌肉酸痛（DOMS）；须谨慎渐进。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Higher eccentric load causes more delayed-onset muscle soreness (DOMS); progress carefully.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.4 Stretching & Warm-Up" data-zh="5.4 拉伸与热身">5.4 Stretching & Warm-Up</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone." data-zh="静态拉伸剂量很重要。保持<45秒无害；≥60秒可使力量下降约7.5%。动态热身应是基础。">Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone.</p>
-        <p class="cn">拉伸关键看剂量：&lt;45秒基本无害；≥60秒可使力量下降约7.5%。</p>
+                <ul class="facts">
+          <li><span data-en="Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone." data-zh="静态拉伸剂量很重要。保持<45秒无害；≥60秒可使力量下降约7.5%。动态热身应是基础。">Static stretching dose matters. Holds &lt;45 s are harmless; ≥60 s can cut strength by ~7.5%. Dynamic warm-up should be the backbone.</span></li>
+        </ul>
+<p class="cn">拉伸关键看剂量：&lt;45秒基本无害；≥60秒可使力量下降约7.5%。</p>
         <p data-en="Static stretching should not exceed ~20 seconds per hold — holding longer raises the risk of muscle and tendon injury." data-zh="静态拉伸每次不宜超过20秒，超过会增加肌肉和肌腱的损伤风险。">Static stretching should not exceed ~20 seconds per hold — holding longer raises the risk of muscle and tendon injury. <span class="cn">静态拉伸每次不宜超过20秒，超过会增加肌肉和肌腱的损伤风险。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?w=600&h=400&fit=crop" alt="Stretching warm-up"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?w=600&h=400&fit=crop" alt="Stretching warm-up">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Static stretch dose: holds <45 s are harmless; >=60 s can cut strength by ~7.5% (dose-dependent). Static stretching should not exceed ~20 s per hold — longer raises muscle/tendon injury risk." data-zh="静态拉伸剂量：<45秒无害；≥60秒可使力量下降约7.5%（剂量依赖）。每次静拉不宜超过约20秒——更长增加肌肉/肌腱损伤风险。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Static stretch dose: holds <45 s are harmless; >=60 s can cut strength by ~7.5% (dose-dependent). Static stretching should not exceed ~20 s per hold — longer raises muscle/tendon injury risk.</li>
+            <li data-en="Pre-exercise static stretching acutely reduces maximal strength ~5.4% and power ~1.9% (dose-dependent); long holds before max-effort lifting are a bad idea." data-zh="运动前静拉使最大力量瞬时下降约5.4%、爆发力约1.9%（剂量依赖）；最大力量训练前长时间保持不可取。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Pre-exercise static stretching acutely reduces maximal strength ~5.4% and power ~1.9% (dose-dependent); long holds before max-effort lifting are a bad idea.</li>
+            <li data-en="Dynamic warm-up should be the backbone; short stretches (<=45-60 s) essentially harmless and may reduce injury risk." data-zh="动态热身应是基础；短拉伸（≤45–60秒）基本无害且或可降低受伤风险。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Dynamic warm-up should be the backbone; short stretches (<=45-60 s) essentially harmless and may reduce injury risk.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="5.5 Strength Gain Timeline" data-zh="5.5 力量增长时间线">5.5 Strength Gain Timeline</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="Weeks 1–4: Neural adaptations — better motor-unit recruitment, firing rate, coordination." data-zh="第1–4周：神经适应 — 更好的运动单元招募、放电频率、协调性。"><strong>Weeks 1–4:</strong> Neural adaptations — better motor-unit recruitment, firing rate, coordination. <span class="cn">最初1–4周是神经适应。</span></p>
-        <p data-en="Weeks 4+: Structural changes — muscle hypertrophy becomes the main driver." data-zh="第4周后：结构性变化 — 肌肉肥大逐渐成为主要驱动力。"><strong>Weeks 4+:</strong> Structural changes — muscle hypertrophy becomes the main driver. <span class="cn">之后肌肥大逐渐成为主要驱动力。</span></p>
-      </div></div>
+                <ul class="facts">
+          <li><b data-en="Weeks 1–4:" data-zh="第1–4周：">Weeks 1–4:</b> <span data-en="Neural adaptations — better motor-unit recruitment, firing rate, coordination." data-zh="神经适应 — 更好的运动单元招募、放电频率、协调性。">Neural adaptations — better motor-unit recruitment, firing rate, coordination.</span></li>
+          <li><b data-en="Weeks 4+:" data-zh="第4周后：">Weeks 4+:</b> <span data-en="Structural changes — muscle hypertrophy becomes the main driver." data-zh="结构性变化 — 肌肉肥大逐渐成为主要驱动力。">Structural changes — muscle hypertrophy becomes the main driver.</span></li>
+        </ul>
+
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Strength timeline: Weeks 1-4 = NEURAL adaptations (motor-unit recruitment, firing rate, coordination); Weeks 4+ = STRUCTURAL (hypertrophy becomes the main driver)." data-zh="力量时间线：第1–4周=神经适应（运动单元招募、放电频率、协调）；第4周后=结构性变化（肌肥大成为主要驱动力）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Strength timeline: Weeks 1-4 = NEURAL adaptations (motor-unit recruitment, firing rate, coordination); Weeks 4+ = STRUCTURAL (hypertrophy becomes the main driver).</li>
+            <li data-en="This means early strength gains are mostly neural, NOT muscle size — so clients should not expect visible growth in weeks 1-4." data-zh="这意味着早期力量增长主要是神经性的，而非肌肉体积增加——故第1–4周不应期待明显肌肥大。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> This means early strength gains are mostly neural, NOT muscle size — so clients should not expect visible growth in weeks 1-4.</li>
+            <li data-en="Both neural and structural contributions continue throughout training; rate of gain slows as training advances (principle of diminishing returns)." data-zh="神经与结构机制在整个训练中持续；随训练深入增长速度放缓（收益递减）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Both neural and structural contributions continue throughout training; rate of gain slows as training advances (principle of diminishing returns).</li>
+          </ul>
+        </div>
+</div></div>
     </div>
   </div>
 

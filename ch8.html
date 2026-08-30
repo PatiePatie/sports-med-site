@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -738,14 +756,36 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <tr><td><strong data-en="Protein" data-zh="蛋白">Protein</strong></td><td>~4</td><td data-en="Builds/repairs tissue" data-zh="构建/修复组织">Builds/repairs tissue</td><td>1.2–2.0 g/kg/day; 0.25–0.40 g/kg/meal</td></tr>
           <tr><td><strong data-en="Fat" data-zh="脂肪">Fat</strong></td><td>~9</td><td data-en="Hormones; absorbs vitamins" data-zh="激素合成；吸收维生素">Hormones; absorbs vitamins</td><td>~20–35% <span data-en="of calories" data-zh="热量占比">of calories</span></td></tr>
         </table>
-        <p data-en="Glycogen re-fill: ~5%/hour — early carbs matter between sessions." data-zh="糖原回充：约每小时5% — 训练间隔的早期碳水补充很重要。"><strong>Glycogen re-fill:</strong> ~5%/hour — early carbs matter between sessions. <span class="cn">糖原回充约每小时5%。</span></p>
-      </div></div>
+                <ul class="facts">
+          <li><b data-en="Glycogen re-fill:" data-zh="糖原回充：">Glycogen re-fill:</b> <span data-en="~5%/hour — early carbs matter between sessions." data-zh="约每小时5% — 训练间隔的早期碳水补充很重要。">~5%/hour — early carbs matter between sessions.</span></li>
+        </ul>
+
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Macros: Carb ~4 kcal/g (fuels high-intensity, fills glycogen) target 3-10 g/kg by load; Protein ~4 kcal/g (build/repair) 1.2-2.0 g/kg/day, 0.25-0.40 g/kg/meal; Fat ~9 kcal/g (hormones, vitamin absorption) ~20-35% of calories." data-zh="宏量营养：碳水约4千卡/克（供高强度、补糖原）目标按负荷3–10克/公斤；蛋白质约4千卡/克（构建/修复）1.2–2.0克/公斤/日、每餐0.25–0.40克/公斤；脂肪约9千卡/克（激素、维生素吸收）约占总热量20–35%。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Macros: Carb ~4 kcal/g (fuels high-intensity, fills glycogen) target 3-10 g/kg by load; Protein ~4 kcal/g (build/repair) 1.2-2.0 g/kg/day, 0.25-0.40 g/kg/meal; Fat ~9 kcal/g (hormones, vitamin absorption) ~20-35% of calories.</li>
+            <li data-en="Glycogen re-fill is ~5%/hour — early carbs between back-to-back sessions matter." data-zh="糖原回充约每小时5%——背靠背训练之间的早期碳水摄入很关键。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Glycogen re-fill is ~5%/hour — early carbs between back-to-back sessions matter.</li>
+            <li data-en="Protein dosing matters more than total alone in some contexts, but total daily protein (~1.6 g/kg/day plateau) is the dominant factor." data-zh="某些情况下单次蛋白质剂量很重要，但每日总蛋白（约1.6克/公斤/日平台）是主导因素。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Protein dosing matters more than total alone in some contexts, but total daily protein (~1.6 g/kg/day plateau) is the dominant factor.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="8.2 Energy Availability: RED-S" data-zh="8.2 能量可用性：RED-S">8.2 Energy Availability: RED-S</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p data-en="EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted)." data-zh="能量可用性 = (摄入 − 运动消耗) / FFM。最佳约45 kcal/kg FFM/天；低于约30 = RED-S（激素、骨骼、免疫紊乱）。">EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted). <span class="cn">低于30会扰乱激素、骨骼和免疫。</span></p>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=400&fit=crop" alt="Balanced sports nutrition"></div></div>
+                <ul class="facts">
+          <li><span data-en="EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted)." data-zh="能量可用性 = (摄入 − 运动消耗) / FFM。最佳约45 kcal/kg FFM/天；低于约30 = RED-S（激素、骨骼、免疫紊乱）。">EA = (intake − exercise cost) / FFM. Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (hormones, bone, immunity disrupted).</span></li>
+        </ul>
+<img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&h=400&fit=crop" alt="Balanced sports nutrition">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Energy Availability (EA) = (energy intake - exercise energy expenditure) / fat-free mass (kg). Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (Relative Energy Deficiency in Sport)." data-zh="能量利用率（EA）=(能量摄入-运动能量消耗)/去脂体重(kg)。最佳约45千卡/公斤去脂体重/日；低于约30=RED-S（运动相对能量缺乏）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Energy Availability (EA) = (energy intake - exercise energy expenditure) / fat-free mass (kg). Optimal ~45 kcal/kg FFM/day; below ~30 = RED-S (Relative Energy Deficiency in Sport).</li>
+            <li data-en="RED-S consequences: disrupted HORMONES (low testosterone/estrogen), impaired BONE density (risk of stress fractures), and suppressed IMMUNITY." data-zh="RED-S后果：激素紊乱（睾酮/雌激素下降）、骨密度受损（应力性骨折风险）、免疫功能受抑。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> RED-S consequences: disrupted HORMONES (low testosterone/estrogen), impaired BONE density (risk of stress fractures), and suppressed IMMUNITY.</li>
+            <li data-en="KEY: low EA is the driver — not just low weight; treat by increasing intake and/or reducing exercise expenditure." data-zh="关键：驱动因素是低能量利用——不只是体轻；通过增加摄入和/或减少运动耗能来治疗。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY: low EA is the driver — not just low weight; treat by increasing intake and/or reducing exercise expenditure.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="8.3 Micronutrients &amp; Hydration" data-zh="8.3 微量营养素与水合">8.3 Micronutrients &amp; Hydration</div>
@@ -762,7 +802,17 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
             <p><strong data-en="Warning:" data-zh="注意：">Warning:</strong> <span data-en="Excess water → hyponatremia." data-zh="大量饮水 → 低钠血症。">Excess water → hyponatremia.</span> <span class="cn">大量清水可致低钠血症。</span></p>
           </div>
         </div>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop" alt="Hydration water bottle"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop" alt="Hydration water bottle">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="KEY STATS: sweat 0.5-4 L/h; performance drops at ~2% body-mass loss; drink 500ml 2h before exercise; replace 100-150% of lost mass after." data-zh="关键数据：出汗0.5–4升/小时；体重丢失约2%时表现下降；运动前2小时饮水500ml；运动后补充丢失量的100–150%。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY STATS: sweat 0.5-4 L/h; performance drops at ~2% body-mass loss; drink 500ml 2h before exercise; replace 100-150% of lost mass after.</li>
+            <li data-en="Micronutrients: Iron carries O2 (deficiency -> fatigue); Vitamin D + Calcium build bone; B-vitamins for energy metabolism." data-zh="微量营养：铁运送氧气（缺乏→疲劳）；维生素D+钙构建骨骼；B族维生素参与能量代谢。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Micronutrients: Iron carries O2 (deficiency -> fatigue); Vitamin D + Calcium build bone; B-vitamins for energy metabolism.</li>
+            <li data-en="RED FLAG: excess plain water -> hyponatremia (low sodium) — a real risk in endurance athletes; balance water with electrolytes." data-zh="红旗：过量白水→低钠血症——耐力运动员的真实风险；须以电解质平衡补水。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> RED FLAG: excess plain water -> hyponatremia (low sodium) — a real risk in endurance athletes; balance water with electrolytes.</li>
+            <li data-en="KEY controversy: the post-workout 'anabolic window' — meta-analysis of 23 RCTs (when total protein controlled) found the 30-60 min window effect vanished; pre- vs post 25g whey gave identical hypertrophy. Total daily protein (~1.6 g/kg/day) is king; per-meal 0.25-0.40 g/kg over 3-5 meals." data-zh="关键争议：练后“合成代谢窗口”——23项RCT的荟萃分析（控制总蛋白后）发现30–60分钟窗口效应消失；练前vs练后25克乳清增肌相同。每日总蛋白（约1.6克/公斤/日）为王；每餐0.25–0.40克/公斤、分3–5餐。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY controversy: the post-workout 'anabolic window' — meta-analysis of 23 RCTs (when total protein controlled) found the 30-60 min window effect vanished; pre- vs post 25g whey gave identical hypertrophy. Total daily protein (~1.6 g/kg/day) is king; per-meal 0.25-0.40 g/kg over 3-5 meals.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
   </div>
 

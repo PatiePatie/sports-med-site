@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -739,7 +757,16 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <span class="evidence-badge ev-weak" style="font-size:.9rem" data-en="Lab/animal &amp; case reports" data-zh="实验室/动物及个案报告">Lab/animal &amp; case reports</span><br>↓<br>
           <span class="evidence-badge" style="font-size:.9rem;background:#6b7280;color:#fff" data-en="Anecdotes &amp; ads" data-zh="轶事与广告">Anecdotes &amp; ads</span>
         </p>
-      </div></div>
+      
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="Evidence hierarchy: Meta-analyses (top) > RCTs > Cohort studies > Lab/animal & case reports > Anecdotes & ads (bottom)." data-zh="证据层级：荟萃分析（顶端）>随机对照试验>队列研究>实验室/动物与病例报告>轶事与广告（底端）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Evidence hierarchy: Meta-analyses (top) > RCTs > Cohort studies > Lab/animal & case reports > Anecdotes & ads (bottom).</li>
+            <li data-en="Evaluate claims by evidence level FIRST — marketing and personal testimonials are the weakest forms." data-zh="先以证据层级评估主张——营销与个人证言是最弱形式。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Evaluate claims by evidence level FIRST — marketing and personal testimonials are the weakest forms.</li>
+            <li data-en="For supplements, demand RCT/meta-analysis support + third-party testing before recommending." data-zh="对于补充剂，需有RCT/荟萃分析支持+第三方检测方可推荐。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> For supplements, demand RCT/meta-analysis support + third-party testing before recommending.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="9.2 Popular Supplements Graded" data-zh="9.2 热门补剂评级">9.2 Popular Supplements Graded</div>
@@ -753,7 +780,16 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <tr><td><strong data-en="BCAAs" data-zh="支链氨基酸">BCAAs</strong></td><td><span class="grade-pill grade-d">D</span></td><td data-en="Redundant if total protein adequate" data-zh="总蛋白充足时多余">Redundant if total protein adequate</td></tr>
           <tr><td><strong data-en="Fat burners / boosters" data-zh="燃脂剂 / 增效剂">Fat burners / boosters</strong></td><td><span class="grade-pill grade-f">F</span></td><td data-en="No credible support; doping risk" data-zh="无可靠证据；有兴奋剂风险">No credible support; doping risk</td></tr>
         </table>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=400&fit=crop" alt="Supplement capsules"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=600&h=400&fit=crop" alt="Creatine powder scoop"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=400&fit=crop" alt="Supplement capsules"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=600&h=400&fit=crop" alt="Creatine powder scoop">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+            <li data-en="KEY GRADES: Creatine = A (most effective legal ergogenic, 3-5 g/day); Protein powder = A (helps hit daily target, not magic); Caffeine = A-/B+ (3-6 mg/kg pre-exercise, individual response); Vitamin D/iron = B (only if deficient, bloodwork first); BCAAs = D (redundant if total protein adequate); Fat burners/boosters = F (no credible support, DOPING RISK)." data-zh="关键分级：肌酸=A（最有效合法增能剂，3–5克/日）；蛋白粉=A（助达每日目标，非神奇）；咖啡因=A-/B+（运动前3–6毫克/公斤，个体差异）；维生素D/铁=B（仅缺乏时、先查血）；BCAA=D（总蛋白充足时多余）；燃脂/促睾剂=F（无可信支持，有兴奋剂风险）。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> KEY GRADES: Creatine = A (most effective legal ergogenic, 3-5 g/day); Protein powder = A (helps hit daily target, not magic); Caffeine = A-/B+ (3-6 mg/kg pre-exercise, individual response); Vitamin D/iron = B (only if deficient, bloodwork first); BCAAs = D (redundant if total protein adequate); Fat burners/boosters = F (no credible support, DOPING RISK).</li>
+            <li data-en="SAFETY CHECKLIST: third-party tested? (NSF / Informed Sport); adolescents: food first; if it sounds magical -> it is marketing." data-zh="安全清单：是否第三方检测（NSF/Informed Sport）；青少年：以食物为先；听起来神奇→就是营销。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> SAFETY CHECKLIST: third-party tested? (NSF / Informed Sport); adolescents: food first; if it sounds magical -> it is marketing.</li>
+            <li data-en="Creatine is the flagship evidence-supported supplement — safe, effective for strength/power/sprint work." data-zh="肌酸是最有证据支持的补充剂——安全，对力量/爆发/冲刺有效。"><span class="tp-tag npte">NPTE</span><span class="tp-tag cnx">CN</span> Creatine is the flagship evidence-supported supplement — safe, effective for strength/power/sprint work.</li>
+          </ul>
+        </div>
+</div></div>
     </div>
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)" data-en="Safety Checklist" data-zh="安全清单">Safety Checklist</div>

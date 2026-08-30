@@ -632,6 +632,24 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+/* ── Fact bullets (scannable deep content) ── */
+.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
+.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
+  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
+.facts li b{color:var(--accent);font-weight:700}
+ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
+ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -737,7 +755,13 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 2 · Bachelor's (4 yrs)" data-zh="第二步 · 本科（4年）">Step 2 · Bachelor's (4 yrs)</strong><span data-en="Complete prerequisites: anatomy, physiology, chem, physics, psych, stats." data-zh="完成先修课程：解剖、生理、化学、物理、心理、统计。">Complete prerequisites: anatomy, physiology, chem, physics, psych, stats.</span></div></div>
           <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 3 · DPT (3 yrs)" data-zh="第三步 · DPT（3年）">Step 3 · DPT (3 yrs)</strong><span data-en="CAPTE-accredited program — labs ~77%, clinical rotations ~23%." data-zh="CAPTE认证项目 — 实验课约77%，临床实习约23%。">CAPTE-accredited program — labs ~77%, clinical rotations ~23%.</span></div></div>
           <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div><div class="pathway-content"><strong data-en="Step 4 · License" data-zh="第四步 · 执照">Step 4 · License</strong><span data-en="Pass NPTE in your state." data-zh="通过所在州的NPTE考试。">Pass NPTE in your state.</span></div></div>
-          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div></div><div class="pathway-content"><strong data-en="Step 5 · Optional" data-zh="第五步 · 可选">Step 5 · Optional</strong><span data-en="Residency/fellowship → board-certified specialist." data-zh="住院/专科训练 → 获得委员会认证专家资格。">Residency/fellowship → board-certified specialist.</span></div></div>
+          <div class="pathway-step"><div class="pathway-line"><div class="pathway-dot"></div></div><div class="pathway-content"><strong data-en="Step 5 · Optional" data-zh="第五步 · 可选">Step 5 · Optional</strong><span data-en="Residency/fellowship → board-certified specialist." data-zh="住院/专科训练 → 获得委员会认证专家资格。">Residency/fellowship → board-certified specialist.</span>
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+          </ul>
+        </div>
+</div></div>
         </div>
       </div></div>
     </div>
@@ -748,7 +772,13 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <div class="stat-card"><div class="stat-num">$101K</div><div class="stat-label" data-en="Median pay" data-zh="中位薪资">Median pay</div></div>
           <div class="stat-card"><div class="stat-num">+11%</div><div class="stat-label" data-en="Growth 2024–34" data-zh="增长率 2024–34">Growth 2024–34</div></div>
           <div class="stat-card"><div class="stat-num">~267K</div><div class="stat-label" data-en="Jobs" data-zh="就业岗位">Jobs</div></div>
-          <div class="stat-card"><div class="stat-num">$74–132K</div><div class="stat-label" data-en="Salary range" data-zh="薪资范围">Salary range</div></div>
+          <div class="stat-card"><div class="stat-num">$74–132K</div><div class="stat-label" data-en="Salary range" data-zh="薪资范围">Salary range
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+          </ul>
+        </div>
+</div></div>
         </div>
       <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Physical therapy in practice"></div></div>
     </div>
@@ -759,7 +789,13 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
           <div><strong data-en="Evaluate:" data-zh="评估：">Evaluate:</strong> <span data-en="Histories, strength/ROM testing, differential hypotheses." data-zh="病史采集、力量/关节活动度测试、鉴别诊断。">Histories, strength/ROM testing, differential hypotheses.</span><br><strong data-en="Treat:" data-zh="治疗：">Treat:</strong> <span data-en="Progressive exercise, manual therapy, load management." data-zh="渐进式运动、手法治疗、负荷管理。">Progressive exercise, manual therapy, load management.</span></div>
           <div><strong data-en="Educate:" data-zh="教育：">Educate:</strong> <span data-en="Patients who understand their injury recover better." data-zh="了解自身伤情的患者恢复更快。">Patients who understand their injury recover better.</span><br><strong data-en="Start today:" data-zh="今天就开始：">Start today:</strong> <span data-en="Training log, read 1 study abstract/week, volunteer." data-zh="训练日志、每周读一篇论文摘要、做志愿者。">Training log, read 1 study abstract/week, volunteer.</span></div>
         </div>
-      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Physical therapy rehabilitation"></div></div>
+      <img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Physical therapy rehabilitation">
+        <div class="test-prep">
+          <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
+          <ul>
+          </ul>
+        </div>
+</div></div>
     </div>
   </div>
 

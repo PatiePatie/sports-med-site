@@ -26,5 +26,6 @@
     if(document.body){ build(); return; }
     document.addEventListener('DOMContentLoaded',build);
   }
+  window.refreshAuthWidget = build;
   if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',init); } else { init(); }
 })();

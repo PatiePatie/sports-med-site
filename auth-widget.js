@@ -5,7 +5,13 @@
   function currentUser(){
     try{ return JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){ return null; }
   }
-  function displayName(u){ return (u&&u.name)?u.name:((u&&u.email)?u.email:null); }
+  function chosenName(){
+    try{ var p=JSON.parse(localStorage.getItem('sm_profile')||'null'); return (p&&p.name)?p.name:null; }catch(e){ return null; }
+  }
+  function displayName(u){
+    var n=(u&&u.name)?u.name:chosenName();
+    return n?n:((u&&u.email)?u.email:null);
+  }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function updateHeaderBtn(user){
     var b=document.getElementById('loginBtn');

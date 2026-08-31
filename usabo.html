@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<title>USABO Prep — Biology Olympiad — Vitalité</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
@@ -13,7 +13,7 @@
 :root{
   --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
   --text:#0A1828;--text2:#3C4E62;--text3:#7C8FA3;
-  --accent:#B8860B;--accent2:#A9741E;--accent-bg:#FBF3E0;
+  --accent:#2E7D5B;--accent2:#1B5E3A;--accent-bg:#E8F5E9;
   --green:#2E7D5B;--red:#C05A74;--amber:#B8860B;
   --border:#DDE7EE;--border2:#CBD9E2;
   --shadow-sm:0 1px 2px rgba(10,24,40,.06),0 1px 3px rgba(10,24,40,.08);
@@ -40,13 +40,13 @@ tr:nth-child(even){background:var(--surface2)}
 body.dark{
   --bg:#0A1828;--surface:#0F2238;--surface2:#14304A;--surface3:#1A3D5C;
   --text:#F1E9D0;--text2:#CDC49E;--text3:#938C6E;
-  --accent:#E8C87A;--accent2:#F1DCA0;--accent-bg:#3A3520;
+  --accent:#B8C97D;--accent2:#8BA65A;--accent-bg:#1A3D1A;
   --green:#B8C97D;--red:#D98A6B;--amber:#E8C87A;
   --border:#1B3A55;--border2:#264B6B;
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow:0 4px 16px rgba(0,0,0,.42);
   --shadow-lg:0 16px 40px rgba(0,0,0,.55);
-  --accent-glow:rgba(232,200,122,.28);
+  --accent-glow:rgba(184,201,125,.28);
 }
 
 /* ── Layout ── */
@@ -66,7 +66,7 @@ nav a:hover,nav a.active{color:var(--accent);border-bottom-color:var(--accent);t
 /* ── Hero ── */
 .hero{padding:3.5rem 0 2.5rem;text-align:center}
 .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.75rem}
-.hero h1 span{background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),#1B5E3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero p{font-size:1.1rem;color:var(--text2);max-width:580px;margin:0 auto}
 
 /* ── Sections ── */
@@ -394,7 +394,7 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── Floating AI button & full-screen modal ── */
-.ai-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
+.ai-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--accent),#1B5E3A);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
 .ai-fab:hover{transform:scale(1.08);box-shadow:0 8px 26px rgba(0,0,0,.3)}
 .ai-fab .fab-badge{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--green);border:2px solid #fff}
 .ai-modal{position:fixed;inset:0;z-index:320;background:var(--bg);display:none;flex-direction:column;opacity:0;transition:opacity .25s}
@@ -533,7 +533,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing
    ══════════════════════════════════════════ */
 
 /* Reading progress bar (top of page) */
-#readingBar{position:fixed;top:0;left:0;height:4px;width:0;z-index:500;background:linear-gradient(90deg,var(--accent),#7c3aed,#e879f9);transition:width .1s linear;pointer-events:none}
+#readingBar{position:fixed;top:0;left:0;height:4px;width:0;z-index:500;background:linear-gradient(90deg,var(--accent),#1B5E3A,#2E7D5B);transition:width .1s linear;pointer-events:none}
 
 /* Comfortable reading measure + rhythm inside chapter bodies */
 .acc-body-inner{line-height:1.85}
@@ -585,7 +585,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .trust-strip{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.6rem 0 0}
 .trust-chip{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:.4rem .9rem;box-shadow:var(--shadow-sm)}
 .author-card{display:flex;gap:1.1rem;align-items:flex-start;max-width:720px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.4rem;box-shadow:var(--shadow-sm)}
-.author-ava{flex:none;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem}
+.author-ava{flex:none;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#1B5E3A);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem}
 .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem;margin-top:1.2rem}
 .feature-card{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);padding:1.15rem 1.2rem;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
 .feature-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
@@ -616,6 +616,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .exam-opt.correct{background:color-mix(in srgb,var(--green) 15%,var(--surface));border-color:var(--green)}
 .exam-opt.wrong{background:color-mix(in srgb,var(--red) 12%,var(--surface));border-color:var(--red)}
 .exam-opt:disabled{cursor:not-allowed;opacity:.85}
+.exam-opt.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface));font-weight:600}
 .exam-explain{margin:.6rem 0 .4rem;padding:.75rem .9rem;border-radius:var(--radius-sm);background:color-mix(in srgb,var(--accent) 6%,var(--surface));border:1px dashed var(--border2);font-size:.86rem;line-height:1.65}
 .exam-verdict{margin-top:1rem;padding:.9rem 1.1rem;border-radius:var(--radius);font-weight:700;text-align:center}
 .exam-verdict.good{background:color-mix(in srgb,var(--green) 15%,var(--surface));border:1px solid var(--green);color:var(--green)}
@@ -634,47 +635,25 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
 
-/* ── Test Prep / Exam callout (board-review) ── */
-.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
-  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
-  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
-.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
-.test-prep .co-ico{font-size:1.05rem}
-.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
-.test-prep li{margin:.32rem 0;line-height:1.6}
-.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
-.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
-/* ── Fact bullets (scannable deep content) ── */
-.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
-.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
-  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
-.facts li b{color:var(--accent);font-weight:700}
-ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
-ul.bul li{margin:.42rem 0;line-height:1.62}
-
-.btn-signout-min{background:none;border:none;color:var(--text3);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:.25rem .35rem;margin-left:auto;opacity:.75;transition:opacity .2s}
-.btn-signout-min:hover{opacity:1;color:var(--text2)}
-
-
 /* ── Dark theme palette overrides: night dark blue + gold ── */
-body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-body.dark .ai-fab{background:linear-gradient(135deg,#E8C87A,#D9B24F)}
-body.dark #readingBar{background:linear-gradient(90deg,#E8C87A,#F1DCA0,#BFA181)}
-body.dark .author-ava{background:linear-gradient(135deg,#E8C87A,#BFA181)}
-body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#BFA181 12%,var(--surface)),var(--surface))}
-body.dark .test-prep .tp-tag{background:#BFA181;color:#0A1828}
-body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#E8C87A,#BFA181);color:#0A1828}
+body.dark .hero h1 span{background:linear-gradient(135deg,#B8C97D,#8BA65A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body.dark .ai-fab{background:linear-gradient(135deg,#B8C97D,#8BA65A)}
+body.dark #readingBar{background:linear-gradient(90deg,#B8C97D,#8BA65A,#B8C97D)}
+body.dark .author-ava{background:linear-gradient(135deg,#B8C97D,#8BA65A)}
+body.dark .test-prep{border-left-color:#8BA65A;background:linear-gradient(180deg,color-mix(in srgb,#8BA65A 12%,var(--surface)),var(--surface))}
+body.dark .test-prep .tp-tag{background:#8BA65A;color:#0A1828}
+body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#B8C97D,#8BA65A);color:#0A1828}
 body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#F1E9D0}
 
 
 /* ── Light theme palette overrides: blue + gold (echoes dark) ── */
-body:not(.dark) .hero h1 span{background:linear-gradient(135deg,#A9741E,#B8860B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-body:not(.dark) .ai-fab{background:linear-gradient(135deg,#B8860B,#A9741E)}
-body:not(.dark) #readingBar{background:linear-gradient(90deg,#B8860B,#A9741E,#B8860B)}
-body:not(.dark) .author-ava{background:linear-gradient(135deg,#B8860B,#A9741E)}
-body:not(.dark) .test-prep{border-left-color:#B8860B;background:linear-gradient(180deg,color-mix(in srgb,#B8860B 8%,var(--surface)),var(--surface))}
-body:not(.dark) .test-prep .tp-tag{background:#B8860B;color:#fff}
-body:not(.dark) .fc-chip.active,body:not(.dark) .fc-nav button.primary{background:linear-gradient(135deg,#B8860B,#A9741E);color:#fff}
+body:not(.dark) .hero h1 span{background:linear-gradient(135deg,#2E7D5B,#1B5E3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body:not(.dark) .ai-fab{background:linear-gradient(135deg,#2E7D5B,#1B5E3A)}
+body:not(.dark) #readingBar{background:linear-gradient(90deg,#2E7D5B,#1B5E3A,#2E7D5B)}
+body:not(.dark) .author-ava{background:linear-gradient(135deg,#2E7D5B,#1B5E3A)}
+body:not(.dark) .test-prep{border-left-color:#2E7D5B;background:linear-gradient(180deg,color-mix(in srgb,#2E7D5B 8%,var(--surface)),var(--surface))}
+body:not(.dark) .test-prep .tp-tag{background:#2E7D5B;color:#fff}
+body:not(.dark) .fc-chip.active,body:not(.dark) .fc-nav button.primary{background:linear-gradient(135deg,#2E7D5B,#1B5E3A);color:#fff}
 body:not(.dark) .fc-front{background:linear-gradient(135deg,#EAF1F6 0%,#F1F6F9 60%,#FFFFFF 100%);color:#0A1828}
 
 
@@ -683,74 +662,15 @@ body.dark .qo-btn.next,body.dark .aq-btn.primary,body.dark .fc-nav button.primar
 body.dark .fc-chip.active,body.dark .ai-send-btn,body.dark .chat-send,body.dark .chat-msg.user,
 body.dark .back-top,body.dark .guide-tab.on,body.dark .rec-item .rec-chip,body.dark .ch-nav .qo-btn,
 body.dark .author-ava,body.dark .callout h4 .co-ico,body.dark .guide-chip:hover{
-  background:linear-gradient(135deg,#B8860B,#A9741E) !important;color:#F1E9D0 !important;border-color:transparent !important}
+  background:linear-gradient(135deg,#2E7D5B,#1B5E3A) !important;color:#F1E9D0 !important;border-color:transparent !important}
 body.dark .qo-btn.next:hover,body.dark .aq-btn.primary:hover,body.dark .ai-send-btn:hover,
-body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .guide-tab.on:hover{
-  background:linear-gradient(135deg,#A9741E,#8E620A) !important}
+body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .guide-chip:hover{
+  background:linear-gradient(135deg,#1B5E3A,#0F3D24) !important}
 body.dark h1,body.dark h2,body.dark h3{
-  background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+  background:linear-gradient(120deg,#B8C97D,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
 
 </style>
-<link rel="stylesheet" href="auth-widget.css">
-<script src="auth-widget.js"></script>
-<style>
 
-/* ═══════ ACCOUNT PAGE ═══════ */
-.acct-wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem 3rem}
-.acct-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;font-size:.9rem;font-weight:600}
-.acct-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
-.acct-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
-.acct-hero{background:linear-gradient(135deg,var(--accent),#7c3aed);border-radius:var(--radius-lg);padding:2rem;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
-.acct-avatar{width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.22);border:3px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:1rem}
-.acct-name{font-size:1.6rem;font-weight:800;font-family:var(--font-heading);margin:0}
-.acct-email{font-size:.95rem;opacity:.9;margin:.3rem 0 .6rem;word-break:break-all}
-.acct-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;background:rgba(255,255,255,.2)}
-.acct-badge.ok{background:#22c55e;color:#fff}
-.acct-badge.no{background:rgba(255,255,255,.18);color:#fff}
-.acct-meta{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:1rem;font-size:.85rem}
-.acct-meta div{background:rgba(255,255,255,.14);padding:.4rem .7rem;border-radius:10px}
-.acct-hero-actions{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
-.acct-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.5rem;margin-top:1.1rem;box-shadow:var(--shadow-sm)}
-.acct-card h2{font-size:1.15rem;font-weight:800;margin:0 0 1rem;font-family:var(--font-heading);display:flex;align-items:center;gap:.5rem}
-.acct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
-.acct-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.acct-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
-.acct-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
-.acct-level{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fcd34d;border-radius:var(--radius);padding:1.3rem 1.5rem;margin-top:1.1rem;color:#78350f}
-.acct-level h2{margin:0 0 .4rem;font-size:1.05rem;font-weight:800;font-family:var(--font-heading)}
-.acct-level .lvl-lv{font-size:2rem;font-weight:900;font-family:var(--font-heading)}
-.acct-level .lvl-next{font-size:.85rem;color:#92400e;margin-top:.2rem}
-.acct-bar{height:12px;border-radius:10px;background:#fde68a;overflow:hidden;margin-top:.7rem}
-.acct-bar div{height:100%;background:linear-gradient(90deg,#f59e0b,#d97706);border-radius:10px;transition:width .5s}
-.acct-chap{display:grid;grid-template-columns:1fr auto;gap:.5rem .8rem;align-items:center;padding:.42rem 0;border-bottom:1px dashed var(--border)}
-.acct-chap .cn{font-size:.9rem;font-weight:600}
-.acct-chap .pct{font-size:.8rem;color:var(--text2);min-width:48px;text-align:right}
-.acct-chap .bar{grid-column:1/3;height:8px;border-radius:6px;background:var(--surface2);overflow:hidden}
-.acct-chap .bar div{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:6px}
-.acct-form label{display:block;font-size:.85rem;font-weight:700;color:var(--text2);margin:.9rem 0 .35rem}
-.acct-form input,.acct-form select,.acct-form textarea{width:100%;padding:.7rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:.95rem;font-family:inherit;box-sizing:border-box}
-.acct-form input:focus,.acct-form select:focus,.acct-form textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
-.acct-form textarea{min-height:90px;resize:vertical}
-.acct-form .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.acct-toggle{display:flex;align-items:center;gap:.6rem;margin-top:1rem;font-size:.9rem}
-.acct-switch{position:relative;width:44px;height:24px;flex-shrink:0}
-.acct-switch input{opacity:0;width:0;height:0}
-.acct-switch .sl{position:absolute;inset:0;background:var(--surface3);border-radius:24px;transition:.2s;cursor:pointer}
-.acct-switch .sl:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-.acct-switch input:checked + .sl{background:var(--accent)}
-.acct-switch input:checked + .sl:before{transform:translateX(20px)}
-.btn-acc{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;text-decoration:none}
-.btn-acc.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn-acc.primary:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-acc.ghost{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
-.btn-acc.ghost:hover{background:rgba(255,255,255,.28)}
-.btn-acc.danger{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-acc.danger:hover{opacity:.9}
-.acct-hint{font-size:.8rem;color:var(--text3);margin-top:.6rem;line-height:1.5}
-.acct-btnrow{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
-.acct-empty{color:var(--text3);text-align:center;padding:1.5rem;font-size:.9rem}
-
-</style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
@@ -758,8 +678,12 @@ body.dark h1,body.dark h2,body.dark h3{
 <script src="draft.js" defer></script>
 <script src="linear-layout.js" defer></script>
 <!-- DRAFT-THEME:END -->
-</head><body>
+</head>
+<body>
+<!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo">Vital<span>ité</span></div>
 <div class="sidebar-group">
@@ -768,7 +692,7 @@ body.dark h1,body.dark h2,body.dark h3{
 
     <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
 
-    <a class="sidebar-link active" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
+    <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
   </div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Test Prep" data-zh="备考专区">Test Prep</div>
@@ -776,7 +700,7 @@ body.dark h1,body.dark h2,body.dark h3{
 
     <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
 
-    <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
+    <a class="sidebar-link active" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
   </div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
@@ -797,6 +721,10 @@ body.dark h1,body.dark h2,body.dark h3{
     <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
   </div>
 </nav>
+
+
+
+
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
@@ -809,237 +737,395 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </header>
 
-<main>
-  <div class="acct-wrap">
-    <div class="acct-msg" id="acctMsg"></div>
-
-    <section class="acct-hero" id="heroProfile">
-      <div class="acct-avatar" id="avInitials">?</div>
-      <h1 class="acct-name" id="acctName">—</h1>
-      <div class="acct-email" id="acctEmail"></div>
-      <div><span class="acct-badge no" id="acctVerified">● Unverified</span></div>
-      <div class="acct-meta">
-        <div id="metaJoined">📅 —</div>
-        <div id="metaCountry">🌍 —</div>
-        <div id="metaAge">🎂 —</div>
-      </div>
-      <div class="acct-hero-actions">
-        <a class="btn-acc ghost" href="login.html" data-en="🔐 Account &amp; Email" data-zh="🔐 账号与邮箱">🔐 Account &amp; Email</a>
-        <button class="btn-acc ghost" onclick="selectEdit()" data-en="🖊 Edit Profile" data-zh="🖊 编辑资料">🖊 Edit Profile</button>
-      </div>
-    </section>
-
-    <section class="acct-level" id="lvlCard">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem">
-        <h2 data-en="🎯 Your Level" data-zh="🎯 你的等级">🎯 Your Level</h2>
-        <span class="lvl-lv" id="lvlNum">Lv 1</span>
-      </div>
-      <div id="lvlTitle" style="font-weight:700">Novice · 新手</div>
-      <div class="lvl-next" id="lvlNext">Start learning to advance —</div>
-      <div class="acct-bar"><div id="lvlBar" style="width:0%"></div></div>
-    </section>
-
-    <section class="acct-card">
-      <h2 data-en="📊 Your Progress" data-zh="📊 你的学习进度">📊 Your Progress</h2>
-      <div class="acct-grid">
-        <div class="acct-stat"><div class="v" id="stMastery">0%</div><div class="k" data-en="Overall Mastery" data-zh="总体掌握度">Overall Mastery</div></div>
-        <div class="acct-stat"><div class="v" id="stExam">—</div><div class="k" data-en="NPTE Best Score" data-zh="NPTE 最佳成绩">NPTE Best Score</div></div>
-        <div class="acct-stat"><div class="v" id="stFlash">—</div><div class="k" data-en="Cards Reviewed" data-zh="已复习卡片">Cards Reviewed</div></div>
-        <div class="acct-stat"><div class="v" id="stQ">0</div><div class="k" data-en="Questions Answered" data-zh="已答题数">Questions Answered</div></div>
-      </div>
-    </section>
-
-    <section class="acct-card">
-      <h2 data-en="📚 Chapter Mastery" data-zh="📚 章节掌握度">📚 Chapter Mastery</h2>
-      <div id="chapList"><div class="acct-empty" data-en="No chapter progress yet. Take quizzes to start!" data-zh="还没有章节进度。开始答题吧！">No chapter progress yet. Take quizzes to start!</div></div>
-    </section>
-
-    <section class="acct-card" id="editCard" style="display:none">
-      <h2 data-en="🖊 Edit Profile" data-zh="🖊 编辑资料">🖊 Edit Profile</h2>
-      <div class="acct-form">
-        <label data-en="Display Name" data-zh="显示名称">Display Name</label>
-        <input id="pfName" type="text" data-en-placeholder="Your name" data-zh-placeholder="你的昵称">
-        <div class="row">
-          <div>
-            <label data-en="Country" data-zh="国家/地区">Country</label>
-            <select id="pfCountry"></select>
-          </div>
-          <div>
-            <label data-en="Age" data-zh="年龄">Age</label>
-            <input id="pfAge" type="number" min="1" max="120" data-en-placeholder="Your age" data-zh-placeholder="你的年龄">
-          </div>
-        </div>
-        <label data-en="Bio / About you" data-zh="个人简介">Bio / About you</label>
-        <textarea id="pfBio" data-en-placeholder="Tell others a little about yourself (e.g. future PT / coach / athlete)..." data-zh-placeholder="简单介绍一下自己（例如：未来物理治疗师 / 教练 / 运动员）..."></textarea>
-        <div class="acct-toggle">
-          <div class="acct-switch"><input type="checkbox" id="pfPublic"><span class="sl"></span></div>
-          <span data-en="Show my profile to other members (for future social features)" data-zh="向其他成员展示我的资料（为将来社交功能准备）">Show my profile to other members (for future social features)</span>
-        </div>
-        <div class="acct-btnrow">
-          <button class="btn-acc primary" onclick="saveProfile()" data-en="💾 Save Profile" data-zh="💾 保存资料">💾 Save Profile</button>
-          <button class="btn-acc" onclick="closeEdit()" data-en="Cancel" data-zh="取消">Cancel</button>
-          <button class="btn-signout-min" onclick="doSignOut()" data-en="⏻ Sign out" data-zh="⏻ 退出">⏻ Sign out</button>
-        </div>
-        <p class="acct-hint" data-en="For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server." data-zh="目前你的资料仅保存在此浏览器中。将来加入社交功能时，可同步到服务器上的账号。">For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server.</p>
-      </div>
-    </section>
+<!-- Hero -->
+<section id="hero" class="hero">
+<div class="container">
+  <div class="hero-badge"><span class="dot"></span><span data-en="Biology Olympiad Prep · USABO" data-zh="生物奥赛备考 · USABO">Biology Olympiad Prep · USABO</span></div>
+  <h1 data-en="USABO Exam Room" data-zh="USABO 考试冲刺室"><span>USABO Exam Room</span></h1>
+  <p data-en="A comprehensive, evidence-based path to the USA Biology Olympiad — exam structure, content areas, practice questions, and study strategies. Built for students aiming for national recognition in biology." data-zh="通往美国生物奥林匹克的全面循证之路 — 考试结构、内容领域、练习题与学习策略。面向志在生物学国赛殊荣的学生。">A comprehensive, evidence-based path to the USA Biology Olympiad — exam structure, content areas, practice questions, and study strategies. Built for students aiming for national recognition in biology.</p>
+  <div class="hero-actions">
+    <button class="qo-btn next" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})" data-en="📋 Exam Overview" data-zh="📋 考试概览">📋 Exam Overview</button>
+    <button class="qo-btn next" onclick="document.getElementById('practice').scrollIntoView({behavior:'smooth'})" style="background:var(--green)" data-en="📝 Practice Questions" data-zh="📝 练习题">📝 Practice Questions</button>
   </div>
-</main>
+  <div class="trust-strip">
+    <span class="trust-chip">✓ Official USABO format</span>
+    <span class="trust-chip">✓ Content-mapped study plan</span>
+    <span class="trust-chip">✓ Bilingual EN/中文</span>
+  </div>
+</div>
+</section>
 
+<!-- USABO at a Glance -->
+<section id="overview">
+<div class="container">
+  <span class="section-label" data-en="Exam Overview · 考试概览" data-zh="考试概览 · Exam Overview">Exam Overview · 考试概览</span>
+  <h2 data-en="The USABO at a Glance" data-zh="USABO 一览">The USABO at a Glance</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="The USA Biology Olympiad is the premier biology competition for high school students in the United States. Organized by the Center for Excellence in Education (CEE), it identifies and nurtures the next generation of scientists. Here is everything you need to know." data-zh="美国生物奥林匹克是美国高中生首屈一指的生物学竞赛。由卓越教育中心（CEE）组织，旨在发现和培养下一代科学家。以下是你需要知道的一切。">The USA Biology Olympiad is the premier biology competition for high school students in the United States. Organized by the Center for Excellence in Education (CEE), it identifies and nurtures the next generation of scientists. Here is everything you need to know.</p>
+
+  <div class="exam-panel">
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:34%" data-en="Detail" data-zh="项目">Detail</th><th data-en="Information" data-zh="信息">Information</th></tr>
+      <tr><td data-en="Organizing body" data-zh="组织机构">Organizing body</td><td data-en="CEE — Center for Excellence in Education" data-zh="CEE — 卓越教育中心">CEE — Center for Excellence in Education</td></tr>
+      <tr><td data-en="Eligibility" data-zh="参赛资格">Eligibility</td><td data-en="U.S. citizens or permanent residents enrolled in high school (grades 9–12)" data-zh="在美国高中就读的美国公民或永久居民（9-12年级）">U.S. citizens or permanent residents enrolled in high school (grades 9–12)</td></tr>
+      <tr><td data-en="Exam rounds" data-zh="考试轮次">Exam rounds</td><td data-en="Two rounds: Open Exam (Part A + Part B) → Semifinal Exam" data-zh="两轮：公开考试（A部分+B部分）→ 半决赛">Two rounds: Open Exam (Part A + Part B) → Semifinal Exam</td></tr>
+      <tr><td data-en="Open Exam format" data-zh="公开考试形式">Open Exam format</td><td data-en="Part A: 50 multiple-choice (75 min) · Part B: 50 multiple-choice (75 min)" data-zh="A部分：50道选择题（75分钟）· B部分：50道选择题（75分钟）">Part A: 50 multiple-choice (75 min) · Part B: 50 multiple-choice (75 min)</td></tr>
+      <tr><td data-en="Semifinal format" data-zh="半决赛形式">Semifinal format</td><td data-en="100 multiple-choice + 50 free-response (3 hours total)" data-zh="100道选择题 + 50道自由应答（共3小时）">100 multiple-choice + 50 free-response (3 hours total)</td></tr>
+      <tr><td data-en="Top performers" data-zh="顶尖选手">Top performers</td><td data-en="~20 students advance to the Biology Olympiad Summer Study Program → 4 represent USA at IBO" data-zh="约20名学生进入生物奥林匹克暑期研究项目 → 4人代表美国参加IBO">~20 students advance to the Biology Olympiad Summer Study Program → 4 represent USA at IBO</td></tr>
+      <tr><td data-en="Timing" data-zh="时间">Timing</td><td data-en="Open Exam: February · Semifinal: March–April · Study Program: May–June" data-zh="公开考试：2月 · 半决赛：3-4月 · 暑期项目：5-6月">Open Exam: February · Semifinal: March–April · Study Program: May–June</td></tr>
+      <tr><td data-en="Cost" data-zh="费用">Cost</td><td data-en="Free for the Open Exam; Semifinal requires school registration" data-zh="公开考试免费；半决赛需学校注册">Free for the Open Exam; Semifinal requires school registration</td></tr>
+    </table>
+    </div>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:.5rem" data-en="Information from the official USABO website and CEE guidelines. Policies can change — verify at bolympiad.org before registering." data-zh="信息来自USABO官网和CEE指南。政策可能变动 — 报名前请到 bolympiad.org 核实。">Information summarized from the <a href="https://www.bolympiad.org" target="_blank" rel="noopener">USABO official website</a>. Policies can change — verify current requirements before registering.</p>
+  </div>
+
+  <div class="callout" style="margin-top:1.5rem">
+    <h4><span class="co-ico">🔬</span><span data-en="Why USABO matters" data-zh="USABO的重要性">Why USABO matters</span></h4>
+    <ul>
+      <li data-en="Gold/Silver/Bronze medal recognition from CEE — highly prestigious for college admissions." data-zh="CEE颁发的金/银/铜牌 — 对大学申请极具声望。">Gold/Silver/Bronze medal recognition from CEE — highly prestigious for college admissions.</li>
+      <li data-en="Top 4 represent the USA at the International Biology Olympiad (IBO) — the world's premier biology competition." data-zh="前4名代表美国参加国际生物奥林匹克（IBO）— 世界顶级生物竞赛。">Top 4 represent the USA at the International Biology Olympiad (IBO) — the world's premier biology competition.</li>
+      <li data-en="The Summer Study Program at George Mason University is a prestigious residential science experience." data-zh="乔治梅森大学的暑期研究项目是享有盛誉的驻校科学体验。">The Summer Study Program at George Mason University is a prestigious residential science experience.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- Content Areas -->
+<section id="content">
+<div class="container">
+  <span class="section-label" data-en="Content Areas · 考试内容" data-zh="考试内容 · Content Areas">Content Areas · 考试内容</span>
+  <h2 data-en="What You Need to Know" data-zh="你需要掌握的内容">What You Need to Know</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="The USABO tests knowledge across all major areas of biology. While the Open Exam covers breadth, the Semifinal dives deep into all topics. Master these areas:" data-zh="USABO考查生物学所有主要领域的知识。公开考试考查广度，半决赛则深入所有主题。掌握以下领域：">The USABO tests knowledge across all major areas of biology. While the Open Exam covers breadth, the Semifinal dives deep into all topics. Master these areas:</p>
+
+  <div class="exam-panel">
+    <div class="table-wrap">
+    <table>
+      <tr><th data-en="Area" data-zh="领域">Area</th><th data-en="Topics" data-zh="主题">Topics</th><th data-en="Weight" data-zh="权重">Weight</th></tr>
+      <tr><td data-en="Molecular Biology" data-zh="分子生物学">Molecular Biology</td><td data-en="DNA replication, transcription, translation, gene regulation, recombinant DNA" data-zh="DNA复制、转录、翻译、基因调控、重组DNA">DNA replication, transcription, translation, gene regulation, recombinant DNA</td><td>~20%</td></tr>
+      <tr><td data-en="Cell Biology" data-zh="细胞生物学">Cell Biology</td><td data-en="Cell structure, organelles, cell cycle, signaling, membrane transport" data-zh="细胞结构、细胞器、细胞周期、信号传导、膜运输">Cell structure, organelles, cell cycle, signaling, membrane transport</td><td>~15%</td></tr>
+      <tr><td data-en="Genetics &amp; Evolution" data-zh="遗传学与进化">Genetics &amp; Evolution</td><td data-en="Mendelian genetics, population genetics, phylogenetics, speciation" data-zh="孟德尔遗传、群体遗传、系统发育、物种形成">Mendelian genetics, population genetics, phylogenetics, speciation</td><td>~20%</td></tr>
+      <tr><td data-en="Anatomy &amp; Physiology" data-zh="解剖学与生理学">Anatomy &amp; Physiology</td><td data-en="Organ systems, homeostasis, neural, cardiovascular, respiratory" data-zh="器官系统、稳态、神经、心血管、呼吸">Organ systems, homeostasis, neural, cardiovascular, respiratory</td><td>~15%</td></tr>
+      <tr><td data-en="Plant Biology" data-zh="植物生物学">Plant Biology</td><td data-en="Photosynthesis, plant anatomy, hormones, reproduction, ecology" data-zh="光合作用、植物解剖、激素、繁殖、生态学">Photosynthesis, plant anatomy, hormones, reproduction, ecology</td><td>~10%</td></tr>
+      <tr><td data-en="Ecology &amp; Behavior" data-zh="生态学与行为">Ecology &amp; Behavior</td><td data-en="Ecosystems, biogeochemical cycles, population dynamics, ethology" data-zh="生态系统、生物地球化学循环、种群动态、行为学">Ecosystems, biogeochemical cycles, population dynamics, ethology</td><td>~10%</td></tr>
+      <tr><td data-en="Biochemistry" data-zh="生物化学">Biochemistry</td><td data-en="Proteins, enzymes, metabolism (glycolysis, Krebs, ETC), carbohydrates, lipids" data-zh="蛋白质、酶、代谢（糖酵解、三羧酸循环、电子传递链）、碳水化合物、脂质">Proteins, enzymes, metabolism (glycolysis, Krebs, ETC), carbohydrates, lipids</td><td>~10%</td></tr>
+    </table>
+    </div>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:.5rem" data-en="Weights are approximate based on historical exam analysis. The Semifinal may shift emphasis." data-zh="权重基于历年考试分析的近似值。半决赛可能有所调整。">Weights are approximate based on historical exam analysis. The Semifinal may shift emphasis.</p>
+  </div>
+</div>
+</section>
+
+<!-- Study Strategy -->
+<section id="strategy">
+<div class="container">
+  <span class="section-label" data-en="Study Strategy · 备考策略" data-zh="备考策略 · Study Strategy">Study Strategy · 备考策略</span>
+  <h2 data-en="Your Path to Medal" data-zh="通往奖牌之路">Your Path to Medal</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="USABO rewards depth AND breadth. Here is a proven study strategy:" data-zh="USABO奖励深度与广度。以下是经过验证的备考策略：">USABO rewards depth AND breadth. Here is a proven study strategy:</p>
+
+  <div class="pathway">
+    <div class="pathway-step">
+      <div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div>
+      <div class="pathway-content">
+        <strong data-en="Phase 1: Foundation (3–4 months)" data-zh="第一阶段：基础（3-4个月）">Phase 1: Foundation (3–4 months)</strong>
+        <p data-en="Build core knowledge with a comprehensive biology textbook. Campbell Biology is the gold standard. Focus on understanding concepts, not just memorizing facts." data-zh="使用综合生物学教材建立核心知识。Campbell Biology是金标准。注重理解概念，而非单纯记忆事实。">Build core knowledge with a comprehensive biology textbook. Campbell Biology is the gold standard. Focus on understanding concepts, not just memorizing facts.</p>
+      </div>
+    </div>
+    <div class="pathway-step">
+      <div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div>
+      <div class="pathway-content">
+        <strong data-en="Phase 2: Deep Dive (2–3 months)" data-zh="第二阶段：深入（2-3个月）">Phase 2: Deep Dive (2–3 months)</strong>
+        <p data-en="Specialized texts for each area: Molecular Biology of the Cell (Alberts), Genetics (Pierce), Ecology (Molles). Solve past USABO Open Exams." data-zh="每个领域的专业教材：《细胞分子生物学》（Alberts）、《遗传学》（Pierce）、《生态学》（Molles）。做历年USABO公开考试真题。">Specialized texts for each area: Molecular Biology of the Cell (Alberts), Genetics (Pierce), Ecology (Molles). Solve past USABO Open Exams.</p>
+      </div>
+    </div>
+    <div class="pathway-step">
+      <div class="pathway-line"><div class="pathway-dot"></div><div class="pathway-bar"></div></div>
+      <div class="pathway-content">
+        <strong data-en="Phase 3: Semifinal Prep (1–2 months)" data-zh="第三阶段：半决赛准备（1-2个月）">Phase 3: Semifinal Prep (1–2 months)</strong>
+        <p data-en="Practice free-response questions. Study IBO-style problems. Review experimental design and data analysis. Take timed practice exams." data-zh="练习自由应答题。学习IBO风格的题目。复习实验设计与数据分析。做限时模拟考试。">Practice free-response questions. Study IBO-style problems. Review experimental design and data analysis. Take timed practice exams.</p>
+      </div>
+    </div>
+    <div class="pathway-step">
+      <div class="pathway-line"><div class="pathway-dot"></div></div>
+      <div class="pathway-content">
+        <strong data-en="Phase 4: Final Review (2 weeks)" data-zh="第四阶段：最终复习（2周）">Phase 4: Final Review (2 weeks)</strong>
+        <p data-en="Review weak areas. Practice under exam conditions. Focus on speed and accuracy. Rest well before the exam." data-zh="复习薄弱领域。在考试条件下练习。注重速度与准确性。考前充分休息。">Review weak areas. Practice under exam conditions. Focus on speed and accuracy. Rest well before the exam.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1.5rem">
+    <h4><span class="co-ico">📚</span><span data-en="Essential resources" data-zh="必备资源">Essential resources</span></h4>
+    <ul>
+      <li data-en="Campbell Biology (12th ed.) — the foundational text for all USABO topics." data-zh="《坎贝尔生物学》（第12版）— USABO所有主题的基础教材。">Campbell Biology (12th ed.) — the foundational text for all USABO topics.</li>
+      <li data-en="Molecular Biology of the Cell (Alberts, 7th ed.) — deep dive into cell and molecular biology." data-zh="《细胞分子生物学》（Alberts，第7版）— 深入细胞与分子生物学。">Molecular Biology of the Cell (Alberts, 7th ed.) — deep dive into cell and molecular biology.</li>
+      <li data-en="Past USABO Open Exams (available at bolympiad.org) — essential for understanding question style." data-zh="历年USABO公开考试真题（可在 bolympiad.org 获取）— 了解题型必不可少。">Past USABO Open Exams (available at bolympiad.org) — essential for understanding question style.</li>
+      <li data-en="IBO problems from previous years — the ultimate challenge for Semifinal prep." data-zh="历年IBO题目 — 半决赛准备的终极挑战。">IBO problems from previous years — the ultimate challenge for Semifinal prep.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- Practice Questions -->
+<section id="practice">
+<div class="container">
+  <span class="section-label" data-en="Practice Questions · 练习题" data-zh="练习题 · Practice Questions">Practice Questions · 练习题</span>
+  <h2 data-en="USABO-Style Practice" data-zh="USABO风格练习">USABO-Style Practice</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="Test your knowledge with questions modeled after USABO format. Click to reveal answers and explanations." data-zh="用模拟USABO格式的题目测试你的知识。点击查看答案与解析。">Test your knowledge with questions modeled after USABO format. Click to reveal answers and explanations.</p>
+
+  <div class="quiz">
+    <div class="quiz-title">🧬 Practice Set 1: Molecular Biology &amp; Genetics</div>
+
+    <div class="quiz-item">
+      <span class="q-tag q-mechanism">Molecular Biology</span>
+      <p><strong>1.</strong> During DNA replication, which enzyme is primarily responsible for unwinding the double helix at the replication fork?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: D) Helicase</strong></p>
+        <p>Helicase unwinds the DNA double helix by breaking hydrogen bonds between base pairs. DNA gyrase (topoisomerase II) relieves supercoiling ahead of the fork, while DNA polymerase synthesizes new strands and primase synthesizes RNA primers.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-tag q-mechanism">Genetics</span>
+      <p><strong>2.</strong> In a cross between AaBbCc and aabbcc, what fraction of offspring would be expected to show the dominant phenotype for all three traits (assuming independent assortment)?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: 1/8</strong></p>
+        <p>For each gene: Aa × aa → 1/2 dominant phenotype. Bb × bb → 1/2 dominant phenotype. Cc × cc → 1/2 dominant phenotype. By multiplication rule: (1/2)³ = 1/8.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-tag q-data">Biochemistry</span>
+      <p><strong>3.</strong> Which of the following correctly describes the relationship between ΔG, ΔG°', and the actual cellular conditions for ATP hydrolysis?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: The actual ΔG is more negative than ΔG°' (−30.5 kJ/mol) because cellular [ATP]/[ADP] ratios are far from equilibrium.</strong></p>
+        <p>In cells, ATP concentration is maintained much higher than ADP, making the actual free energy release more negative (around −50 to −54 kJ/mol) than the standard free energy change.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-transfer">Cell Biology</span>
+      <p><strong>4.</strong> A cell is placed in a hypertonic solution. Which of the following will occur?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: Water will leave the cell, causing it to shrink (crenation in animal cells, plasmolysis in plant cells).</strong></p>
+        <p>In a hypertonic solution, the solute concentration outside is higher than inside. Water moves down its concentration gradient (osmosis) from inside to outside, causing cell shrinkage.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-clinical">Ecology</span>
+      <p><strong>5.</strong> In a logistic growth model (dN/dt = rN(1 − N/K)), what happens to the population growth rate when N = K/2?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: The population growth rate is at its maximum.</strong></p>
+        <p>When N = K/2, the term (1 − N/K) = 0.5, and the product rN(1 − N/K) is maximized. This is the inflection point of the logistic S-curve where growth is fastest.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="quiz-title">🔬 Practice Set 2: Advanced Topics</div>
+
+    <div class="quiz-item">
+      <span class="q-mechanism">Molecular Biology</span>
+      <p><strong>6.</strong> Which of the following best explains why Okazaki fragments are necessary during DNA replication?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: DNA polymerase can only synthesize in the 5'→3' direction, so the lagging strand must be synthesized discontinuously.</strong></p>
+        <p>The two strands of DNA are antiparallel. DNA polymerase reads 3'→5' and synthesizes 5'→3'. While the leading strand is continuous, the lagging strand is synthesized as short Okazaki fragments in the 5'→3' direction, which are later joined by DNA ligase.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-debate">Genetics</span>
+      <p><strong>7.</strong> A population of 1000 organisms has the following genotype frequencies: AA = 0.36, Aa = 0.48, aa = 0.16. Is this population in Hardy-Weinberg equilibrium?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: Yes, the population is in Hardy-Weinberg equilibrium.</strong></p>
+        <p>Frequency of A (p) = 0.36 + 0.48/2 = 0.6. Frequency of a (q) = 0.16 + 0.48/2 = 0.4. Expected: p² = 0.36, 2pq = 0.48, q² = 0.16. These match the observed frequencies exactly.</p>
+      </div>
+    </div>
+
+    <div class="quiz-item">
+      <span class="q-explain">Plant Biology</span>
+      <p><strong>8.</strong> In C4 plants, which anatomical feature is responsible for concentrating CO₂ around RuBisCO?</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
+      <div class="q-reveal">
+        <p><strong>Answer: Kranz anatomy — the arrangement of bundle sheath cells (containing RuBisCO) tightly around vascular bundles, with mesophyll cells on the outside.</strong></p>
+        <p>In C4 plants, CO₂ is initially fixed in mesophyll cells by PEP carboxylase (forming 4-carbon compounds), then transported to bundle sheath cells where it is released and refixed by RuBisCO. This spatial separation minimizes photorespiration.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Key Tips -->
+<section id="tips">
+<div class="container">
+  <span class="section-label" data-en="Exam Tips · 考试技巧" data-zh="考试技巧 · Exam Tips">Exam Tips · 考试技巧</span>
+  <h2 data-en="Strategies for Success" data-zh="成功策略">Strategies for Success</h2>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="co-ico">⏱️</div>
+      <h4 data-en="Time Management" data-zh="时间管理">Time Management</h4>
+      <p data-en="Open Exam: ~90 seconds per question. Don't get stuck — flag and move on. Return to difficult questions after completing easier ones." data-zh="公开考试：每题约90秒。不要卡住 — 标记后继续。完成简单题后再回来处理难题。">Open Exam: ~90 seconds per question. Don't get stuck — flag and move on. Return to difficult questions after completing easier ones.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">🧩</div>
+      <h4 data-en="Process of Elimination" data-zh="排除法">Process of Elimination</h4>
+      <p data-en="USABO questions often have nuanced distractors. Eliminate obviously wrong answers first, then carefully evaluate remaining options." data-zh="USABO题目常有微妙的干扰项。先排除明显错误的答案，再仔细评估剩余选项。">USABO questions often have nuanced distractors. Eliminate obviously wrong answers first, then carefully evaluate remaining options.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">📝</div>
+      <h4 data-en="Free-Response Writing" data-zh="自由应答写作">Free-Response Writing</h4>
+      <p data-en="For Semifinal free-response: be concise but complete. Use proper terminology. Show your reasoning. Partial credit is generous." data-zh="半决赛自由应答：简洁但完整。使用专业术语。展示推理过程。部分得分很慷慨。">For Semifinal free-response: be concise but complete. Use proper terminology. Show your reasoning. Partial credit is generous.</p>
+    </div>
+    <div class="feature-card">
+      <div class="co-ico">🔬</div>
+      <h4 data-en="Lab Knowledge" data-zh="实验知识">Lab Knowledge</h4>
+      <p data-en="USABO heavily tests experimental design, data interpretation, and statistical analysis. Know your techniques: PCR, gel electrophoresis, Western blot, chromatography." data-zh="USABO重点考查实验设计、数据分析和统计分析。熟悉技术：PCR、凝胶电泳、Western blot、色谱法。">USABO heavily tests experimental design, data interpretation, and statistical analysis. Know your techniques: PCR, gel electrophoresis, Western blot, chromatography.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Resources -->
+<section id="resources">
+<div class="container">
+  <span class="section-label" data-en="Resources · 学习资源" data-zh="学习资源 · Resources">Resources · 学习资源</span>
+  <h2 data-en="Essential Study Materials" data-zh="必备学习资料">Essential Study Materials</h2>
+
+  <div class="rec-box">
+    <div class="rec-title">📚 Recommended Textbooks</div>
+    <div class="rec-items">
+      <div class="rec-item">
+        <span class="rec-chip">Core</span>
+        <span>Campbell Biology (12th ed.) — Lisa Urry et al.</span>
+      </div>
+      <div class="rec-item">
+        <span class="rec-chip">Mol Bio</span>
+        <span>Molecular Biology of the Cell (7th ed.) — Bruce Alberts et al.</span>
+      </div>
+      <div class="rec-item">
+        <span class="rec-chip">Genetics</span>
+        <span>Genetics: From Genes to Genomes (6th ed.) — Hartwell et al.</span>
+      </div>
+      <div class="rec-item">
+        <span class="rec-chip">Ecology</span>
+        <span>Ecology: Concepts and Applications (9th ed.) — Manuel Molles</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rec-box" style="margin-top:1rem">
+    <div class="rec-title">🌐 Online Resources</div>
+    <div class="rec-items">
+      <div class="rec-item">
+        <span class="rec-chip">Official</span>
+        <span><a href="https://www.bolympiad.org" target="_blank" rel="noopener">USABO Official Website</a> — registration, past exams, rules</span>
+      </div>
+      <div class="rec-item">
+        <span class="rec-chip">Practice</span>
+        <span><a href="https://www.biolympiads.com" target="_blank" rel="noopener">Bioolympiads.com</a> — practice questions and study guides</span>
+      </div>
+      <div class="rec-item">
+        <span class="rec-chip">Videos</span>
+        <span><a href="https://www.khanacademy.org/science/biology" target="_blank" rel="noopener">Khan Academy Biology</a> — free video lessons on all topics</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Footer -->
 <footer>
 <div class="container">
-  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
-  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking &quot;how do we know?&quot;" data-zh="科学因争论而前进，而非因命令 — 永远追问&quot;我们是怎么知道的？&quot;">Science moves by debate, not decree — keep asking "how do we know?"</p>
+  <p data-en="Vitalité — Evidence-based study resources for Biology Olympiad preparation." data-zh="Vitalité — 基于证据的生物奥林匹克备考资源。">Vitalité — Evidence-based study resources for Biology Olympiad preparation.</p>
+  <p style="margin-top:.5rem" data-en="This is an educational resource, not affiliated with CEE or USABO." data-zh="这是教育资源，与CEE或USABO无关。">This is an educational resource, not affiliated with CEE or USABO.</p>
 </div>
 </footer>
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
-</div>
+</div><!-- /page-wrapper -->
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <script>
+// ── Language toggle ──
+(function(){
+  const b=document.body;
+  const btn=document.getElementById('langToggle');
+  const saved=localStorage.getItem('v_lang')||'en';
+  b.classList.add('lang-'+saved);
+  btn.textContent=saved==='en'?'中':'EN';
+  btn.onclick=()=>{
+    const cur=b.classList.contains('lang-en')?'en':'zh';
+    const next=cur==='en'?'zh':'en';
+    b.classList.remove('lang-'+cur);
+    b.classList.add('lang-'+next);
+    localStorage.setItem('v_lang',next);
+    btn.textContent=next==='en'?'中':'EN';
+  };
+})();
 
-/* ===== Theme + language (mirrors site: dark / sm_lang) ===== */
-var showCN = localStorage.getItem('sm_lang')==='zh';
-var bodyEl=document.body;
-var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')==='true'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
-darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
-function applyLang(){
-  bodyEl.classList.toggle('lang-zh',showCN);
-  bodyEl.classList.toggle('lang-en',!showCN);
-  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+ (showCN?'zh':'en')); });
-  document.querySelectorAll('[data-en-placeholder]').forEach(function(el){ el.placeholder=el.getAttribute('data-'+ ((showCN?'zh':'en'))+'-placeholder'); });
-  document.getElementById('langToggle').textContent=showCN?'中':'EN';
-  renderCountryOptions();
-  renderChapters();
-}
-document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLang(); });
+// ── Dark mode ──
+(function(){
+  const b=document.body;
+  const btn=document.getElementById('darkToggle');
+  const saved=localStorage.getItem('v_theme');
+  if(saved==='dark')b.classList.add('dark');
+  btn.textContent=b.classList.contains('dark')?'☀️':'🌙';
+  btn.onclick=()=>{
+    b.classList.toggle('dark');
+    localStorage.setItem('v_theme',b.classList.contains('dark')?'dark':'light');
+    btn.textContent=b.classList.contains('dark')?'☀️':'🌙';
+  };
+})();
 
-/* ===== Countries (bilingual) ===== */
-var COUNTRIES=[
- ['United States','美国'],['China','中国'],['Taiwan','中国台湾'],['Hong Kong','中国香港'],['Canada','加拿大'],
- ['United Kingdom','英国'],['Australia','澳大利亚'],['Singapore','新加坡'],['Japan','日本'],['South Korea','韩国'],
- ['Malaysia','马来西亚'],['Philippines','菲律宾'],['Vietnam','越南'],['Thailand','泰国'],['India','印度'],
- ['France','法国'],['Germany','德国'],['Spain','西班牙'],['Italy','意大利'],['Netherlands','荷兰'],
- ['Brazil','巴西'],['Mexico','墨西哥'],['Nigeria','尼日利亚'],['South Africa','南非'],['New Zealand','新西兰']
-];
+// ── Back to top ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+});
 
-function getJSON(k,d){ try{ return JSON.parse(localStorage.getItem(k)||'null')||d; }catch(e){ return d; } }
-function currentUser(){ return getJSON('sm_user',null); }
-function profile(){ return getJSON('sm_profile',{}); }
-function t(en,zh){ return showCN?zh:en; }
+// ── Accordion ──
+document.querySelectorAll('.acc-header').forEach(h=>{
+  h.addEventListener('click',()=>{
+    const item=h.parentElement;
+    item.classList.toggle('open');
+    const body=item.querySelector('.acc-body');
+    body.style.maxHeight=item.classList.contains('open')?body.scrollHeight+'px':'0';
+  });
+});
 
-var LEVELS=[
- [0,'Novice · 新手'],[12,'Apprentice · 学徒'],[24,'Student · 学员'],[36,'Practitioner · 实践者'],
- [48,'Clinician · 临床者'],[60,'Therapist · 治疗师'],[72,'Specialist · 专科者'],[84,'Expert · 专家'],
- [92,'Master · 大师'],[100,'Legend · 传奇']
-];
-function computeLevel(){
-  var m=getJSON('sm_mastery',{});
-  var tops=Object.keys(m).filter(function(k){return m[k]&&typeof m[k].score==='number';});
-  var sum=0, asked=0; tops.forEach(function(k){ sum+=m[k].score; asked+=(m[k].totalQ||0); });
-  var overall=tops.length?Math.round(sum/tops.length):0;
-  var exam=0; try{ exam=parseInt(localStorage.getItem('sm_exam')||'0',10); }catch(e){}
-  var grade=Math.round(overall*0.7 + exam*0.3);
-  var lvl=1; for(var i=0;i<LEVELS.length;i++){ if(grade>=LEVELS[i][0]) lvl=i+1; }
-  var lo=LEVELS[lvl-1][0], hi=(lvl<LEVELS.length)?LEVELS[lvl][0]:100;
-  var pct= lvl>=LEVELS.length?100:Math.min(100,Math.round((grade-lo)/(hi-lo)*100));
-  return {grade:grade,overall:overall,exam:exam,asked:asked,lvl:lvl,title:LEVELS[lvl-1][1],pct:pct};
-}
+// ── Tabs ──
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tabs=btn.closest('.tabs');
+    tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    tabs.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    tabs.querySelector('#'+btn.dataset.tab).classList.add('active');
+  });
+});
 
-function initials(name,email){
-  var s=(name||email||'?'); var parts=s.trim().split(/\s+/);
-  if(parts.length>=2) return (parts[0][0]+parts[1][0]).toUpperCase();
-  return s.slice(0,2).toUpperCase();
-}
-function renderProfile(){
-  var u=currentUser(); var p=profile();
-  var name=(u&&u.name)||p.name||(u&&u.email)||'—';
-  document.getElementById('avInitials').textContent=initials(name,u&&u.email);
-  document.getElementById('acctName').textContent=name;
-  document.getElementById('acctEmail').textContent=(u&&u.email)||'';
-  var vb=document.getElementById('acctVerified');
-  if(u&&u.status){ vb.className='acct-badge ok'; vb.textContent=t('● Verified','● 已验证'); }
-  else { vb.className='acct-badge no'; vb.textContent=t('● Unverified','● 未验证'); }
-  document.getElementById('metaJoined').textContent='📅 '+t('Member','成员');
-  document.getElementById('metaCountry').textContent='🌍 '+(p.country||t('Not set','未设置'));
-  document.getElementById('metaAge').textContent='🎂 '+((p.age&&p.age>0)?p.age:t('Not set','未设置'));
-}
-function renderLevel(){
-  var L=computeLevel();
-  document.getElementById('lvlNum').textContent='Lv '+L.lvl;
-  document.getElementById('lvlTitle').textContent=L.title;
-  document.getElementById('lvlBar').style.width=L.pct+'%';
-  var msg= L.lvl>=LEVELS.length ? t('You have reached the top level! 🎉','你已达到最高等级！🎉')
-    : t('Next level at '+L.grade+'/'+LEVELS[L.lvl][0]+' · '+LEVELS[L.lvl][1],'下一等级 '+L.grade+'/'+LEVELS[L.lvl][0]+' · '+LEVELS[L.lvl][1]);
-  document.getElementById('lvlNext').textContent=msg;
-}
-function renderStats(){
-  var L=computeLevel();
-  document.getElementById('stMastery').textContent=L.overall+'%';
-  document.getElementById('stExam').textContent=(L.exam>0?L.exam+'%':'—');
-  document.getElementById('stQ').textContent=L.asked;
-  document.getElementById('stFlash').textContent=(parseInt(localStorage.getItem('sm_fc')||'0',10)||0);
-}
-function renderChapters(){
-  var m=getJSON('sm_mastery',{});
-  var keys=['t1','t8','t9','t10','t2','t3','t4','t5','t6','t11','t7','t12','t13'];
-  var names=['Ch 1 · Body as a Machine','Ch 2 · Nervous System','Ch 3 · Cardiovascular System','Ch 4 · Integumentary System','Ch 5 · Training Principles','Ch 6 · Soft Tissue & Injury','Ch 7 · Recovery Science','Ch 8 · Nutrition','Ch 9 · Supplements','Ch 10 · Ethics & Responsibility','Ch 11 · Rehab & Career','Ch 12 · Assessment','Ch 13 · TCM Health'];
-  var namesZh=['第一章 · 身体如机器','第二章 · 神经系统','第三章 · 心血管系统','第四章 · 皮肤系统','第五章 · 训练原则','第六章 · 软组织与损伤','第七章 · 恢复科学','第八章 · 营养','第九章 · 补剂','第十章 · 伦理与职业责任','第十一章 · 康复与职业','第十二章 · 康复评定学','第十三章 · 中医健康管理'];
-  var box=document.getElementById('chapList'); var any=false, html='';
-  for(var i=0;i<keys.length;i++){
-    var sc=m[keys[i]]&&typeof m[keys[i]].score==='number'?m[keys[i]].score:0;
-    if(sc>0) any=true;
-    html+='<div class="acct-chap"><span class="cn">'+(showCN?namesZh[i]:names[i])+'</span><span class="pct">'+sc+'%</span><div class="bar"><div style="width:'+sc+'%"></div></div></div>';
+// ── Sidebar toggle ──
+document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// ── Reading progress bar ──
+window.addEventListener('scroll',()=>{
+  const bar=document.getElementById('readingBar');
+  if(bar){
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(window.scrollY/h*100)+'%';
   }
-  box.innerHTML=any?html:'<div class="acct-empty">'+(showCN?'还没有章节进度。开始答题吧！':'No chapter progress yet. Take quizzes to start!')+'</div>';
-}
-function renderCountryOptions(){
-  var sel=document.getElementById('pfCountry'); var p=profile();
-  var opts='<option value="">'+(showCN?'选择国家':'Select a country')+'</option>';
-  COUNTRIES.forEach(function(c){ opts+='<option value="'+c[0]+'">'+c[0]+' / '+c[1]+'</option>'; });
-  sel.innerHTML=opts;
-  if(p.country){ sel.value=p.country; }
-}
-function selectEdit(){
-  var p=profile();
-  document.getElementById('pfName').value=p.name||'';
-  document.getElementById('pfAge').value=p.age||'';
-  document.getElementById('pfBio').value=p.bio||'';
-  document.getElementById('pfPublic').checked=!!p.public;
-  document.getElementById('editCard').style.display='block';
-  document.getElementById('editCard').scrollIntoView({behavior:'smooth'});
-}
-function saveProfile(){
-  var p=profile();
-  p.name=document.getElementById('pfName').value.trim();
-  p.country=document.getElementById('pfCountry').value;
-  p.age=parseInt(document.getElementById('pfAge').value,10)||0;
-  p.bio=document.getElementById('pfBio').value.trim();
-  p.public=document.getElementById('pfPublic').checked;
-  p.updatedAt=new Date().toISOString();
-  localStorage.setItem('sm_profile',JSON.stringify(p));
-  var u=currentUser();
-  if(u){ u.name=p.name||null; localStorage.setItem('sm_user',JSON.stringify(u)); }
-  if(window.refreshAuthWidget) window.refreshAuthWidget();
-  showMsg(t('Profile saved!','资料已保存！'),true);
-  closeEdit();
-  renderProfile();
-}
-function closeEdit(){ document.getElementById('editCard').style.display='none'; }
-function doSignOut(){
-  if(!confirm(t('Sign out of this account?','确定要退出登录吗？'))) return;
-  localStorage.removeItem('sm_user');
-  window.location.href='login.html';
-}
-function showMsg(txt,ok){ var m=document.getElementById('acctMsg'); m.className='acct-msg '+(ok?'ok':'err'); m.textContent=txt; m.style.display='block'; }
-
-/* ===== Init ===== */
-renderProfile();
-renderLevel();
-renderStats();
-renderChapters();
-renderCountryOptions();
-applyLang();
+});
 </script>
+
 </body>
 </html>

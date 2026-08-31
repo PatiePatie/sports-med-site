@@ -3,12 +3,16 @@
 theme_switch.py — the flip switch for the "Editorial Surgical" UI redesign draft.
 
 The draft is a pure override layer: one shared stylesheet (the skin named by THEME_CSS,
-which itself @imports draft-theme.css) plus one
-small progressive-enhancement script (draft.js), linked immediately before </head> so
-they win the cascade over each page's inline <style> block. Nothing else in the HTML
-is rewritten except the Google Fonts <link>s, which are commented out (see §4.3 of
-UI_REDESIGN_HANDOFF.md — the audience is in China, where fonts.googleapis.com is
-blocked; the draft's type stack is 100% system fonts).
+which itself @imports draft-theme.css) plus two small progressive-enhancement scripts
+(draft.js, then the skin's own layout script named by LAYOUT_JS), all linked
+immediately before </head> so the sheet wins the cascade over each page's inline
+<style> block. Both scripts are `defer`, so they run after parsing in the order they
+appear here — draft.js first, the layout script second — which means the layout
+script sees a fully-built DOM and the whole enhancement is still one contiguous
+block to strip. Nothing else in the HTML is rewritten except the Google Fonts
+<link>s, which are commented out (see §4.3 of UI_REDESIGN_HANDOFF.md — the audience
+is in China, where fonts.googleapis.com is blocked; the draft's type stack is 100%
+system fonts).
 
 Usage:
     python3 tools/theme_switch.py on       # apply the draft to all pages (idempotent)
@@ -36,11 +40,17 @@ END = "<!-- DRAFT-THEME:END -->"
 # set it back to "draft-theme.css" for the bare Editorial Surgical layer.
 THEME_CSS = "linear-theme.css"
 
+# The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
+# shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
+# skin that is paint only — `off` strips either shape.
+LAYOUT_JS = "linear-layout.js"
+
 BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
-    f"{END}\n"
+    + (f'<script src="{LAYOUT_JS}" defer></script>\n' if LAYOUT_JS else "")
+    + f"{END}\n"
 )
 
 # Whole-block matcher used by `off` / idempotence checks.
@@ -100,7 +110,8 @@ def apply_on(path):
     new = new[:head_close] + BLOCK + new[head_close:]
 
     path.write_text(new, encoding="utf-8")
-    return "on", f"linked {THEME_CSS} + draft.js, parked {n_fonts} Google Fonts link(s)"
+    linked = ", ".join(x for x in (THEME_CSS, "draft.js", LAYOUT_JS) if x)
+    return "on", f"linked {linked}, parked {n_fonts} Google Fonts link(s)"
 
 
 def apply_off(path):
@@ -119,15 +130,27 @@ def apply_off(path):
 # stylesheet, so `on` skips it and the page silently falls back to another skin.
 # `status` calls that out by name.
 LINK_RE = re.compile(r'<link\b[^>]*href="([^"]+\.css)"[^>]*>')
+SCRIPT_RE = re.compile(r'<script\b[^>]*src="([^"]+\.js)"[^>]*>')
+
+
+def block_of(text):
+    m = BLOCK_RE.search(text)
+    return m.group(0) if m else None
 
 
 def linked_theme(text):
     """The stylesheet the DRAFT-THEME block actually links, or None."""
-    m = BLOCK_RE.search(text)
-    if not m:
+    block = block_of(text)
+    if not block:
         return None
-    link = LINK_RE.search(m.group(0))
+    link = LINK_RE.search(block)
     return link.group(1) if link else None
+
+
+def linked_scripts(text):
+    """Every script the DRAFT-THEME block links, in order."""
+    block = block_of(text)
+    return SCRIPT_RE.findall(block) if block else []
 
 
 def report(path):
@@ -138,6 +161,8 @@ def report(path):
     linked = linked_theme(text)
     if linked and linked != THEME_CSS:
         return "ON ", f"  (!) links {linked}, not {THEME_CSS} — run: off then on"
+    if LAYOUT_JS and LAYOUT_JS not in linked_scripts(text):
+        return "ON ", f"  (!) missing {LAYOUT_JS} — run: off then on"
     return "ON ", ("" if "</head>" in text else "  (!) no </head>")
 
 
@@ -152,7 +177,8 @@ def main(argv):
         print(f"No .html pages found in {ROOT}")
         return 1
 
-    missing = [n for n in (THEME_CSS, "draft-theme.css", "draft.js") if not (ROOT / n).exists()]
+    required = [THEME_CSS, "draft-theme.css", "draft.js"] + ([LAYOUT_JS] if LAYOUT_JS else [])
+    missing = [n for n in required if not (ROOT / n).exists()]
     if cmd == "on" and missing:
         print(f"Refusing to run: missing {', '.join(missing)} in {ROOT}")
         return 1

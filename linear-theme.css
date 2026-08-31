@@ -1,51 +1,83 @@
 @import url('draft-theme.css');
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   LINEAR — the product-surface direction
-   ------------------------------------------------------------------------------
-   A re-skin of the Sports Medicine guide in the visual language of linear.app:
+/* ─── Wordmark face — Playfair Display, self-hosted ────────────────────────
+   The Vitalite logo wordmark is an elegant high-contrast serif. Fonts are
+   served from this repo (fonts/playfair-display-latin.woff2) instead of the
+   Google Fonts CDN, which the audience in China can't reach. Latin subset
+   only — the wordmark is ASCII. Scoped to .logo / .sidebar-logo; the rest of
+   the UI stays 100% system sans (see §type below).                                     */
+@font-face{
+  font-family:'Playfair Display';
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url('fonts/playfair-display-latin.woff2') format('woff2');
+}
 
-     · Near-black ground (#08090A) with barely-there surfaces; light mode is
-       Linear's docs mode (white paper, 8%-black hairlines).
-     · One indigo accent (#5E6AD2) used sparingly — Linear never floods a page
-       with brand color; it spends it on focus, active state and one CTA.
-     · Hairlines at 8% instead of borders. Shadows only where something floats.
-     · Tight, dense sans type: 15px body, -0.022em display tracking, 510–560
-       weights. No serif anywhere — this is a product, not a journal.
-     · 8px corners (4px on chips, 12px on floating panels).
-     · Sticky translucent chrome: blur(20px) + saturate(180%).
-     · Motion is 120–180ms, ease-out, and only on color/border/opacity.
+/* ══════════════════════════════════════════════════════════════════════════════
+   LINEAR v2 — the inverted-L product surface
+   ------------------------------------------------------------------------------
+   A re-skin of the Vitalite sports-medicine guide in the visual language of
+   linear.app. v1 was a paint job; v2 is the layout as well:
+
+     · Inverted-L shell — a 240px nav-only rail (collapsible to a 56px icon
+       rail) plus a 48px top bar, and content that fills the rest of the
+       rectangle edge to edge. No 900px centred coffin on app surfaces.
+     · Near-black ground (#08090A; #010102 on the marketing page) with a
+       four-step surface ladder. Light mode is Linear's docs mode: white paper,
+       9%-ink hairlines.
+     · ONE accent: Vitalite Red — #DC2626 on white, #F03E3E on near-black (§3.1
+       of LINEAR_DESIGN_PROMPT.md; the brand mark is a red V). It is spent only
+       on the active nav indicator, focus rings, links, and the single primary
+       CTA per surface. It never fills a card and never floods a section.
+     · Hierarchy from stacked surfaces and hairlines, never from shadows.
+       Shadows exist only on things that literally float: modals, popovers, the
+       command palette, the mobile drawer.
+     · 4px spacing grid; 32px dense rows and 40px comfortable rows.
+     · Tight, dense sans type: 14–15px body, -0.022em display tracking,
+       tabular numerals on every figure. No serif anywhere.
+     · Motion is 120–180ms ease-out on colour/border/opacity/transform only.
 
    Layer discipline: this file is a pure override on draft-theme.css. Same
-   selectors, different values. Swap one <link> href to switch skins; run
+   selectors, different values. The shell that linear-layout.js mounts is the
+   one place new class names appear, and every one of them is prefixed `lin-`.
+   Swap one <link> href to switch skins; run
    `python3 tools/theme_switch.py off` for the byte-identical rollback.
-   No HTML is rewritten, no JS is touched.
+   No page HTML is rewritten, no existing JS is touched.
    ══════════════════════════════════════════════════════════════════════════════ */
 
 
-/* ─── 01 · Tokens — light (Linear "docs" mode) ────────────────────────────── */
+/* ─── 01 · Tokens — light (Linear "docs" mode: white paper, 9% ink) ───────── */
 :root{
   --bg:#FFFFFF;
   --paper:#FFFFFF;
   --surface:#FFFFFF;
   --surface2:#F9F9FA;
   --surface3:#F0F0F1;
+  --surface4:#E8E8EA;      /* deepest elevated — modals over a light ground */
 
   --text:#08090A;
-  --text2:#5B5E66;   /* AA on white: 6.6:1 */
-  --text3:#787D85;   /* AA on white: 4.6:1 */
+  /* Both greys clear 4.5:1 on the LIGHTEST surface they can land on
+     (--surface4 #E8E8EA), not just on white — measured, not eyeballed. */
+  --text2:#4E525A;   /* 8.0:1 on white, 6.5:1 on surface4 */
+  --text3:#646973;   /* 5.5:1 on white, 4.5:1 on surface4 */
 
-  /* Linear indigo — the only brand color on the page */
-  --accent:#5546C9;      /* darkened from #5E6AD2 for AA on white: 6.4:1 */
-  --accent2:#4A3DB5;
-  --accent-bg:#F1F0FD;
-  --accent-glow:rgba(94,106,210,.16);
+  /* Vitalite Red — the ONE chromatic colour on the page (§3.1).
+     #DC2626 on white is 4.8:1, so it is safe as link and CTA text. */
+  --accent:#DC2626;
+  --accent2:#B91C1C;       /* hover / pressed — 6.5:1 */
+  --accent-bg:rgba(220,38,38,.08);
+  --accent-glow:rgba(220,38,38,.16);
+  --accent-line:rgba(220,38,38,.38);
 
+  /* Semantic states. They share a hue neighbourhood with the accent by
+     necessity — the brand is red — so every semantic state also carries a
+     glyph (§12) and only ever appears as a tinted row, never as a fill. */
   --green:#12805C;
   --red:#C4322B;
   --amber:#8A6100;
 
-  /* Hairlines at ~8% ink, never a hard grey */
+  /* Hairlines at ~9% ink, never a hard grey */
   --border:rgba(8,9,10,.09);
   --border2:rgba(8,9,10,.15);
   --line:rgba(8,9,10,.09);
@@ -54,10 +86,10 @@
   /* Shadows exist only for things that float */
   --shadow-sm:0 0 0 0 transparent;
   --shadow:0 1px 2px rgba(8,9,10,.05);
-  --shadow-lg:0 16px 70px rgba(8,9,10,.14),0 2px 8px rgba(8,9,10,.06);
+  --shadow-lg:0 16px 70px rgba(8,9,10,.18),0 2px 8px rgba(8,9,10,.06);
 
   --radius:8px;
-  --radius-sm:5px;
+  --radius-sm:4px;
   --radius-lg:12px;
 
   /* Inter if the reader has it; otherwise the platform's own UI sans.
@@ -69,6 +101,17 @@
   --max-w:900px;
   --rail:240px;
 
+  /* ── The shell (§4) — one 4px grid, two row rhythms ── */
+  --lin-rail-w:240px;
+  --lin-rail-min:36px;      /* collapsed icon rail — Zen compact */
+  --lin-topbar-h:48px;
+  --lin-viewhead-h:40px;    /* the tab row */
+  --lin-row:32px;           /* dense list row */
+  --lin-row-lg:40px;        /* comfortable row: forms, buttons-lg, quiz */
+  --lin-gutter:24px;        /* content inset on app surfaces */
+  --lin-ease:cubic-bezier(.16,1,.3,1);
+  --lin-t:.14s;             /* 140ms — the middle of the 120–180 band */
+
   /* Chip family — desaturated, one step off the ground */
   --c-blue:#3D5AC7;
   --c-teal:#0F6F87;
@@ -78,16 +121,13 @@
   --c-plum:#5546C9;
   --c-slate:#5B5E66;
 
-  --focus-ring:rgba(94,106,210,.45);
+  --focus-ring:rgba(220,38,38,.45);
 
-  /* Linear-specific additions */
   --lin-elevated:#FFFFFF;
   --lin-hover:rgba(8,9,10,.045);
   --lin-active:rgba(8,9,10,.07);
-  --lin-glow-1:rgba(94,106,210,.14);
-  --lin-glow-2:rgba(120,90,220,.10);
   --lin-header-bg:rgba(255,255,255,.72);
-  --lin-btn-primary-bg:#5546C9;
+  --lin-btn-primary-bg:#DC2626;
   --lin-btn-primary-fg:#FFFFFF;
   --lin-ring:rgba(8,9,10,.08);
 }
@@ -98,30 +138,36 @@ body.dark{
   --bg:#08090A;
   --paper:#08090A;
   --surface:#0E0F11;
-  --surface2:#141517;
-  --surface3:#1C1D20;
+  --surface2:#141516;
+  --surface3:#1C1C1F;
+  --surface4:#26262A;
 
   --text:#F7F8F8;
-  --text2:#9CA0A8;   /* Linear's #8A8F98, lifted for AA on #08090A */
-  --text3:#7C818A;
+  /* Same rule on the dark side, measured up to --surface4 #26262A (the modal
+     and palette chrome). Linear's own #8A8F98 lands exactly on tertiary;
+     secondary is lifted a step so the ladder stays readable above it. */
+  --text2:#ADB2BA;   /* 9.4:1 on canvas, 7.1:1 on surface4 */
+  --text3:#8A8F98;   /* 6.1:1 on canvas, 4.6:1 on surface4 */
 
-  --accent:#8B93F8;      /* the indigo has to lift off near-black */
-  --accent2:#A8AEFB;
-  --accent-bg:rgba(94,106,210,.16);
-  --accent-glow:rgba(94,106,210,.30);
+  /* The red has to lift off near-black: #F03E3E is 5.2:1 on #08090A. */
+  --accent:#F03E3E;
+  --accent2:#FF6B6B;
+  --accent-bg:rgba(240,62,62,.14);
+  --accent-glow:rgba(240,62,62,.28);
+  --accent-line:rgba(240,62,62,.42);
 
   --green:#4CB782;
-  --red:#F0817C;
+  --red:#EB5757;
   --amber:#E5B54A;
 
   --border:rgba(255,255,255,.08);
   --border2:rgba(255,255,255,.14);
   --line:rgba(255,255,255,.08);
-  --line-strong:rgba(255,255,255,.14);
+  --line-strong:#23252A;
 
   --shadow-sm:0 0 0 0 transparent;
   --shadow:0 1px 2px rgba(0,0,0,.5);
-  --shadow-lg:0 24px 70px rgba(0,0,0,.6),0 2px 10px rgba(0,0,0,.5);
+  --shadow-lg:0 16px 70px rgba(0,0,0,.6),0 2px 10px rgba(0,0,0,.5);
 
   --c-blue:#7C8CF8;
   --c-teal:#5BC0DE;
@@ -131,15 +177,13 @@ body.dark{
   --c-plum:#B4A5FB;
   --c-slate:#9CA0A8;
 
-  --focus-ring:rgba(139,147,248,.55);
+  --focus-ring:rgba(240,62,62,.55);
 
-  --lin-elevated:#191A1D;
-  --lin-hover:rgba(255,255,255,.05);
-  --lin-active:rgba(255,255,255,.08);
-  --lin-glow-1:rgba(94,106,210,.30);
-  --lin-glow-2:rgba(150,90,220,.18);
+  --lin-elevated:#1C1C1F;
+  --lin-hover:rgba(255,255,255,.045);
+  --lin-active:rgba(255,255,255,.07);
   --lin-header-bg:rgba(8,9,10,.72);
-  --lin-btn-primary-bg:#5E6AD2;
+  --lin-btn-primary-bg:#DC2626;
   --lin-btn-primary-fg:#FFFFFF;
   --lin-ring:rgba(255,255,255,.08);
 }
@@ -210,7 +254,7 @@ section{
   padding:0;
   background:none;
   border:0;
-  color:var(--accent);
+  color:var(--text3);
 }
 
 .quote{
@@ -248,21 +292,22 @@ header{
 .header-inner{padding:.7rem 0;gap:.75rem}
 
 .logo{
-  font-size:.9375rem;
-  font-weight:560;
-  letter-spacing:-.018em;
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:1.0625rem;
+  font-weight:600;
+  letter-spacing:-.005em;
   color:var(--text);
   display:flex;align-items:center;gap:.5rem;
 }
-/* The mark: a small indigo square, the way Linear leads its wordmark */
+/* The mark: one flat red square — the Vitalite V reduced to its ground.
+   Flat, because §5 of the brief bans gradients outright. */
 .logo::before{
   content:"";
-  width:18px;height:18px;flex:none;
-  border-radius:5px;
-  background:linear-gradient(150deg,#6E79E0,#4E42BF);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.28);
+  width:16px;height:16px;flex:none;
+  border-radius:4px;
+  background:var(--lin-btn-primary-bg);
 }
-.logo span{color:var(--text3);font-weight:460}
+.logo span{color:var(--text3);font-weight:600}
 
 .header-actions{gap:.375rem}
 
@@ -325,7 +370,8 @@ nav:not(.sidebar) a:hover{color:var(--text);background:var(--lin-hover)}
 body.dark .sidebar{background:#0A0B0C}
 
 .sidebar-logo{
-  font-size:.875rem;font-weight:560;letter-spacing:-.018em;
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:1rem;font-weight:600;letter-spacing:-.005em;
   padding:.15rem .65rem 1rem;
   border-bottom:1px solid var(--line);
   margin:0 -.5rem .8rem;
@@ -336,7 +382,7 @@ body.dark .sidebar{background:#0A0B0C}
   content:"";
   width:16px;height:16px;flex:none;
   border-radius:4px;
-  background:linear-gradient(150deg,#6E79E0,#4E42BF);
+  background:var(--lin-btn-primary-bg);
 }
 .sidebar-logo span{color:var(--text3);font-weight:460}
 
@@ -392,7 +438,7 @@ body.dark .sm-backdrop{background:rgba(0,0,0,.72)}
 .onthis .sidebar-link{font-size:.78rem;min-height:28px}
 
 
-/* ─── 06 · Hero — the gradient ground ─────────────────────────────────────── */
+/* ─── 06 · Hero — a flat ground, type only ────────────────────────────────── */
 .hero,.ne-hero{
   background:var(--bg);
   border-bottom:1px solid var(--line);
@@ -401,26 +447,12 @@ body.dark .sm-backdrop{background:rgba(0,0,0,.72)}
   overflow:hidden;
   isolation:isolate;
 }
-/* Two soft ellipses of brand light, the way Linear lights its hero */
-.hero::before,.ne-hero::before{
-  content:"";
-  position:absolute;
-  top:-40%;left:50%;
-  width:min(1100px,150%);height:150%;
-  transform:translateX(-50%);
-  background:
-    radial-gradient(48% 42% at 50% 42%,var(--lin-glow-1),transparent 70%),
-    radial-gradient(36% 34% at 22% 28%,var(--lin-glow-2),transparent 72%);
-  opacity:1;
-  z-index:-1;
-  pointer-events:none;
-}
-/* A hairline of light along the very top edge */
-.hero::after,.ne-hero::after{
-  content:"";
-  position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  opacity:.5;
+/* v1 lit the hero with two brand ellipses and an accent hairline. v2 does not:
+   no gradients, no glow (§6 hard rule 5). The hero is a plain ground and the
+   type does the work. */
+.hero::before,.ne-hero::before,.hero::after,.ne-hero::after{
+  content:none;
+  display:none;
 }
 
 .hero .container,.ne-hero .container{position:relative;z-index:1}
@@ -455,18 +487,11 @@ body.dark .sm-backdrop{background:rgba(0,0,0,.72)}
   max-width:16ch;
   margin-inline:auto;
   margin-bottom:1.1rem;
-  /* Linear's headline is a vertical fade, not flat ink */
-  background:linear-gradient(180deg,var(--text) 30%,color-mix(in srgb,var(--text) 62%,transparent));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  color:transparent;
-}
-.hero h1 span,.ne-hero h1 span{
   background:none;
-  -webkit-text-fill-color:inherit;
-  color:inherit;
+  -webkit-text-fill-color:currentColor;
+  color:var(--text);
 }
+.hero h1 span,.ne-hero h1 span{background:none;color:inherit}
 /* the editorial rule under the headline has no place here */
 .hero h1::after{display:none}
 body.lang-zh .hero h1,body.lang-zh .ne-hero h1{letter-spacing:0;max-width:20ch;line-height:1.2}
@@ -1152,11 +1177,9 @@ body.dark .soc-btn{background:var(--lin-elevated)}
   padding:1.75rem;
 }
 body.dark .acct-hero{background:var(--surface)}
-/* One faint brand wash in the corner, the way Linear tints a header panel. */
-.acct-hero::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(60% 120% at 88% 0%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 70%);
-}
+/* v1 tinted this panel with a radial wash. v2 leaves it flat — the hairline
+   and the surface step are the whole hierarchy. */
+.acct-hero::before{content:none;display:none}
 .acct-hero > *{position:relative}
 
 .acct-avatar{
@@ -1335,13 +1358,9 @@ body .btn-land.ghost{background:var(--surface2);color:var(--text);border:1px sol
 body.dark .btn-land.ghost{background:var(--lin-elevated)}
 body .btn-land.ghost:hover{background:var(--lin-hover);border-color:var(--border2);color:var(--text)}
 
-/* One brand glow behind the hero — the ellipse pair §06 gives the other heroes. */
-body .landing-hero::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 0%,var(--lin-glow-1),transparent 70%),
-    radial-gradient(ellipse 40% 40% at 78% 8%,var(--lin-glow-2),transparent 70%);
-}
+/* The page's own CSS paints a brand glow behind the hero. Kill it — the
+   marketing surface is a flat #010102 (dark) / #FFFFFF (light) ground. */
+body .landing-hero::before{content:none;display:none}
 body .landing-hero h1{font-weight:560;letter-spacing:-.032em;line-height:1.06}
 body .landing-hero h1 em{color:var(--accent)}
 body .landing-hero .hero-sub{color:var(--text2);font-size:1.0625rem;line-height:1.6}
@@ -1391,3 +1410,928 @@ body .cta-band{
 }
 body.dark .cta-band{background:var(--surface)}
 body .cta-band h2{font-weight:560;letter-spacing:-.026em}
+
+
+/* ─── 23 · The shell — inverted L ─────────────────────────────────────────────
+   Mounted by linear-layout.js. Every selector here is gated on `body.lin-v2`,
+   so if the script never runs the page falls back to the v1 skin intact. */
+
+body.lin-v2 .sidebar{width:var(--lin-rail-w)}
+body.lin-v2 .page-wrapper{margin-left:var(--lin-rail-w);transition:margin-left var(--lin-t) var(--lin-ease)}
+body.lin-v2.lin-rail-collapsed .sidebar{width:var(--lin-rail-min)}
+body.lin-v2.lin-rail-collapsed .page-wrapper{margin-left:var(--lin-rail-min)}
+body.lin-v2 .sidebar{transition:width var(--lin-t) var(--lin-ease),transform .22s var(--lin-ease)}
+
+/* ── Top bar: 48px, sticky, translucent ── */
+body.lin-v2 header.lin-topbar{
+  position:sticky;top:0;z-index:130;
+  height:var(--lin-topbar-h);
+  min-height:var(--lin-topbar-h);
+  padding:0;
+  background:var(--lin-header-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+}
+body.lin-v2 .lin-topbar-inner{
+  max-width:none;
+  width:100%;
+  height:var(--lin-topbar-h);
+  margin:0;
+  padding:0 12px 0 16px;
+  display:flex;align-items:center;gap:8px;
+}
+body.lin-v2 .lin-topbar-inner > .header-actions{margin-left:auto}
+
+/* The wordmark lives in the rail on desktop; the top-left is the breadcrumb. */
+body.lin-v2 .lin-context{
+  display:flex;align-items:center;gap:6px;
+  min-width:0;
+  font-size:.875rem;font-weight:510;letter-spacing:-.01em;
+  color:var(--text);
+}
+body.lin-v2 .lin-crumb{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:44vw;
+}
+@media (min-width:1025px){
+  body.lin-v2 .lin-topbar-inner > .logo{display:none}
+}
+
+/* The drawer toggle is a bar item now, not a floating tile. */
+body.lin-v2 .lin-topbar-inner > .sidebar-toggle{
+  position:static;
+  top:auto;left:auto;
+  width:28px;height:28px;
+  flex:none;
+  border-radius:var(--radius-sm);
+  border:1px solid transparent;
+  background:transparent;
+  box-shadow:none;
+  color:var(--text2);
+  font-size:.9rem;
+}
+body.lin-v2 .lin-topbar-inner > .sidebar-toggle:hover{background:var(--lin-hover);color:var(--text)}
+
+/* ── ⌘K affordance ── */
+body.lin-v2 .lin-cmdk-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  height:28px;padding:0 8px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:var(--lin-hover);
+  color:var(--text3);
+  font-family:var(--font);
+  font-size:.8125rem;font-weight:460;letter-spacing:-.006em;
+  cursor:pointer;
+  transition:background var(--lin-t) ease,border-color var(--lin-t) ease,color var(--lin-t) ease;
+}
+body.lin-v2 .lin-cmdk-btn:hover{background:var(--lin-active);border-color:var(--border2);color:var(--text)}
+body.lin-v2 .lin-cmdk-btn .lin-cmdk-label{min-width:76px;text-align:left}
+body.lin-v2 .lin-kbd{
+  font-family:var(--font-mono);
+  font-size:.6875rem;font-weight:500;
+  font-variant-numeric:tabular-nums;
+  color:var(--text3);
+  border:1px solid var(--border);
+  border-radius:3px;
+  padding:1px 4px;
+  background:var(--bg);
+  line-height:1.25;
+}
+
+/* ── View header: tab strip + a 40px context row ── */
+body.lin-v2 .lin-viewheader{
+  position:sticky;top:var(--lin-topbar-h);z-index:120;
+  background:var(--lin-header-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line);
+}
+body.lin-v2 .lin-tabstrip{
+  display:flex;align-items:center;
+  gap:0;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
+  overflow-x:auto;
+  padding:0 16px;
+  margin:0;
+  background:transparent;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+  position:static;top:auto;
+  scrollbar-width:none;
+}
+body.lin-v2 .lin-tabstrip::-webkit-scrollbar{height:0}
+
+/* Tabs: text2 at rest, text1 + a 2px accent underline when active. */
+body.lin-v2 .lin-tabstrip .guide-tab,
+body.lin-v2 .lin-tabstrip .lin-tab{
+  flex:none;
+  display:inline-flex;align-items:center;
+  height:36px;
+  min-width:0;
+  padding:0 10px;
+  margin:0;
+  border:0;
+  border-bottom:2px solid transparent;
+  border-radius:0;
+  background:transparent;
+  color:var(--text2);
+  font-family:var(--font);
+  font-size:.8125rem;font-weight:500;letter-spacing:-.006em;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  cursor:pointer;
+  box-shadow:none;
+  transition:color var(--lin-t) ease,border-color var(--lin-t) ease;
+}
+body.lin-v2 .lin-tabstrip .guide-tab:hover,
+body.lin-v2 .lin-tabstrip .lin-tab:hover{color:var(--text);background:transparent;border-color:transparent;text-decoration:none}
+body.lin-v2 .lin-tabstrip .guide-tab.on,
+body.lin-v2 .lin-tabstrip .lin-tab.on{
+  background:transparent;
+  color:var(--text);
+  border-bottom-color:var(--accent);
+  box-shadow:none;
+}
+
+body.lin-v2 .lin-filterbar{
+  display:flex;align-items:center;gap:12px;
+  height:var(--lin-viewhead-h);
+  padding:0 16px;
+  font-size:.8125rem;
+}
+body.lin-v2 .lin-filter-main{
+  color:var(--text);font-weight:510;letter-spacing:-.008em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body.lin-v2 .lin-filter-meta{
+  margin-left:auto;
+  color:var(--text3);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+body.lin-v2 .lin-filterbar:empty,
+body.lin-v2 .lin-filter-main:empty + .lin-filter-meta:empty{display:none}
+
+/* ── Content fills the rectangle. No 900px coffin on an app surface. ── */
+body.lin-v2.lin-app .container{
+  max-width:none;
+  margin:0;
+  padding-left:var(--lin-gutter);
+  padding-right:var(--lin-gutter);
+}
+body.lin-v2.lin-app section{padding:28px 0 24px}
+body.lin-v2.lin-app .hero,body.lin-v2.lin-app .ne-hero{padding:40px 0 32px}
+/* Prose is the one thing that still wants a measure — 78ch, a conscious
+   exception to "edge to edge" so long passages stay readable (§4.4). */
+body.lin-v2.lin-app .acc-body-inner > p,
+body.lin-v2.lin-app .callout p,
+body.lin-v2.lin-app .sec-lede,
+body.lin-v2.lin-app .hero p{max-width:78ch}
+body.lin-v2.lin-app .hero p,body.lin-v2.lin-app .ne-hero p.lead{margin-inline:0}
+body.lin-v2.lin-app .hero h1,body.lin-v2.lin-app .ne-hero h1{margin-inline:0;text-align:left}
+body.lin-v2.lin-app .hero,body.lin-v2.lin-app .ne-hero{text-align:left}
+
+/* Anchors have to clear the sticky chrome. */
+body.lin-v2 section[id],
+body.lin-v2 .acc-item[id],
+body.lin-v2 [id^="g-sec-"],
+body.lin-v2 [id^="sec-"]{
+  scroll-margin-top:calc(var(--lin-topbar-h) + var(--lin-viewhead-h) + 40px);
+}
+body.lin-v2.lin-marketing section[id]{scroll-margin-top:calc(var(--lin-topbar-h) + 16px)}
+
+/* The page's own chapter strip was sticky at 61px; it lives inside the view
+   header now, which does the sticking for it. */
+body.lin-v2 .lin-viewheader .guide-tabs{position:static;top:auto;z-index:auto}
+
+
+/* ─── 24 · The rail, v2 — nav only, collapsible ───────────────────────────── */
+
+body.lin-v2 .sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--line);
+  padding:0 8px 32px;
+  overflow-x:hidden;
+}
+body.dark.lin-v2 .sidebar{background:#0A0B0C}
+
+/* Wordmark row shares the top bar's 48px so the two chromes line up. */
+body.lin-v2 .sidebar-logo{
+  display:flex;align-items:center;gap:8px;
+  height:var(--lin-topbar-h);
+  min-height:var(--lin-topbar-h);
+  margin:0 -8px 8px;
+  padding:0 12px 0 16px;
+  border-bottom:1px solid var(--line);
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:.9375rem;font-weight:600;letter-spacing:-.005em;
+  overflow:hidden;
+}
+body.lin-v2 .sidebar-logo span{color:var(--text3);font-weight:600}
+
+body.lin-v2 .lin-rail-collapse{
+  margin-left:auto;
+  flex:none;
+  width:24px;height:24px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid transparent;
+  border-radius:var(--radius-sm);
+  background:transparent;
+  color:var(--text3);
+  cursor:pointer;
+  transition:background var(--lin-t) ease,color var(--lin-t) ease;
+}
+body.lin-v2 .lin-rail-collapse:hover{background:var(--lin-hover);color:var(--text)}
+
+body.lin-v2 .sidebar-group{margin-bottom:12px}
+body.lin-v2 .sidebar-group + .sidebar-group{padding-top:12px;border-top:1px solid var(--line)}
+body.lin-v2 .sidebar-label{
+  padding:0 8px 4px;
+  font-size:.6875rem;font-weight:560;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);
+  white-space:nowrap;
+}
+
+/* Rows: 32px, 13px, 16px icon, hover bed at 4.5%, active at 7% + accent bar. */
+body.lin-v2 .sidebar-link{
+  position:relative;
+  display:flex;align-items:center;gap:8px;
+  min-height:var(--lin-row);
+  margin:1px 0;
+  padding:0 8px;
+  border:0;
+  border-left:0;
+  border-radius:var(--radius-sm);
+  font-size:.8125rem;font-weight:460;letter-spacing:-.006em;
+  line-height:1.35;
+  color:var(--text2);
+  white-space:nowrap;overflow:hidden;
+  transition:background var(--lin-t) ease,color var(--lin-t) ease;
+}
+body.lin-v2 .sidebar-link:hover{background:var(--lin-hover);color:var(--text);transform:none}
+body.lin-v2 .sidebar-link.active{background:var(--lin-active);color:var(--text);font-weight:510}
+body.lin-v2 .sidebar-link.active::before{
+  content:"";
+  position:absolute;left:-8px;top:6px;bottom:6px;
+  width:2px;border-radius:0 2px 2px 0;
+  background:var(--accent);
+}
+body.lin-v2 .sidebar-link.active::after{display:none}
+body.lin-v2 .sidebar-link.sub,
+body.lin-v2 #onthisGroup .sidebar-link{
+  padding-left:24px;
+  font-size:.78rem;
+  min-height:28px;
+  color:var(--text3);
+}
+body.lin-v2 #onthisGroup .sidebar-link:hover{color:var(--text2)}
+body.lin-v2 #onthisGroup .guide-ch{
+  padding:8px 8px 2px;
+  font-size:.6875rem;font-weight:560;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);
+  margin:0;
+}
+
+body.lin-v2 .lin-ico{
+  flex:none;
+  width:16px;height:16px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:currentColor;
+  opacity:.85;
+}
+body.lin-v2 .sidebar-link.active .lin-ico{opacity:1;color:var(--accent)}
+
+/* ── Collapsed: Zen compact icon rail (36px) ── */
+body.lin-v2.lin-rail-collapsed .sidebar{padding:4px 0 24px;overflow:hidden}
+body.lin-v2.lin-rail-collapsed .sidebar-logo{
+  height:0;padding:0;margin:0;overflow:hidden;
+  border:0;opacity:0;pointer-events:none;
+}
+body.lin-v2.lin-rail-collapsed .sidebar-logo::before{margin:0}
+/* Keep the expand toggle visible at the top of the collapsed rail */
+body.lin-v2.lin-rail-collapsed .lin-rail-collapse{
+  display:inline-flex;
+  width:100%;height:28px;
+  margin:0;padding:0;
+  justify-content:center;align-items:center;
+  flex:none;opacity:.45;
+  border:0;border-radius:0;
+  background:transparent;
+  color:var(--text3);
+  cursor:pointer;
+  transition:opacity .14s ease,color .14s ease;
+}
+body.lin-v2.lin-rail-collapsed .lin-rail-collapse:hover{opacity:1;color:var(--text)}
+body.lin-v2.lin-rail-collapsed .sidebar-label{
+  height:0;padding:0;margin:0;overflow:hidden;
+  font-size:0;border:0;opacity:0;
+}
+body.lin-v2.lin-rail-collapsed .sidebar-group{margin:0;padding:0;border:0}
+body.lin-v2.lin-rail-collapsed .sidebar-group + .sidebar-group{border:0;padding-top:2px}
+body.lin-v2.lin-rail-collapsed .sidebar-link{
+  justify-content:center;
+  padding:0;gap:0;
+  min-height:32px;
+  border-left:0;border-radius:0;
+}
+body.lin-v2.lin-rail-collapsed .sidebar-link.active::before{left:0;top:4px;bottom:4px;width:2px}
+/* Rows with no icon fall back to their first character. */
+body.lin-v2.lin-rail-collapsed .sidebar-link:not(.lin-has-ico){font-size:.6875rem;font-weight:560}
+body.lin-v2.lin-rail-collapsed .sidebar-link.lin-has-ico{font-size:0}
+body.lin-v2.lin-rail-collapsed #onthisGroup{display:none}
+body.lin-v2.lin-rail-collapsed .sidebar-logo{cursor:default}
+
+
+/* ─── 25 · The command palette — the one thing that floats ────────────────── */
+
+body.lin-cmdk-open{overflow:hidden}
+.lin-cmdk{
+  position:fixed;inset:0;z-index:400;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:12vh 16px 16px;
+  background:rgba(8,9,10,.4);
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
+  animation:lin-fade .12s ease-out;
+}
+body.dark .lin-cmdk{background:rgba(0,0,0,.62)}
+.lin-cmdk[hidden]{display:none}
+@keyframes lin-fade{from{opacity:0}to{opacity:1}}
+@keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+.lin-cmdk-panel{
+  width:min(620px,100%);
+  max-height:min(64vh,520px);
+  display:flex;flex-direction:column;
+  background:var(--surface3);
+  border:1px solid var(--border2);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+  animation:lin-rise .14s var(--lin-ease);
+}
+body.dark .lin-cmdk-panel{background:var(--surface3)}
+
+.lin-cmdk-input-row{
+  display:flex;align-items:center;gap:10px;
+  height:48px;flex:none;
+  padding:0 12px 0 14px;
+  border-bottom:1px solid var(--line);
+  color:var(--text3);
+}
+.lin-cmdk-input{
+  flex:1;min-width:0;
+  height:100%;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:none;
+  color:var(--text);
+  font-family:var(--font);
+  font-size:.9375rem;
+  letter-spacing:-.01em;
+  padding:0;
+}
+.lin-cmdk-input::placeholder{color:var(--text3)}
+
+.lin-cmdk-list{
+  flex:1;
+  margin:0;padding:6px;
+  list-style:none;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.lin-cmdk-group{
+  padding:10px 8px 4px;
+  font-size:.6875rem;font-weight:560;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);
+}
+.lin-cmdk-item{
+  display:flex;align-items:center;gap:10px;
+  min-height:var(--lin-row);
+  padding:0 8px;
+  border-radius:var(--radius-sm);
+  color:var(--text2);
+  font-size:.8125rem;
+  cursor:pointer;
+}
+.lin-cmdk-item.on{background:var(--lin-active);color:var(--text)}
+.lin-cmdk-item.on .lin-ico{color:var(--accent)}
+.lin-cmdk-item .lin-cmdk-label{
+  flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.lin-cmdk-item .lin-cmdk-hint{
+  flex:none;
+  font-family:var(--font-mono);
+  font-size:.6875rem;
+  font-variant-numeric:tabular-nums;
+  color:var(--text3);
+}
+.lin-cmdk-empty{padding:24px 16px;color:var(--text3);font-size:.8125rem}
+.lin-cmdk-foot{
+  flex:none;
+  display:flex;gap:16px;
+  padding:8px 14px;
+  border-top:1px solid var(--line);
+  font-size:.6875rem;
+  color:var(--text3);
+}
+
+
+/* ─── 26 · Density pass — 32/40 rows, list discipline, tabular figures ────── */
+
+/* Every figure on the site is tabular. */
+body.lin-v2 .stat-num,body.lin-v2 .stat .n,body.lin-v2 .ekey b,
+body.lin-v2 .fc-counter,body.lin-v2 .qo-q-num,body.lin-v2 .aq-q-num,
+body.lin-v2 .acct-stat .stat-num,body.lin-v2 .lvl-lv,body.lin-v2 .pct,
+body.lin-v2 td,body.lin-v2 th,body.lin-v2 .ch-num,body.lin-v2 .mastery-stats,
+body.lin-v2 .guide-chip,body.lin-v2 .exam-meta span{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;
+}
+
+/* Tables: 32px rows, an uppercase micro head, hairline dividers, no zebra. */
+body.lin-v2 .table-wrap{border-radius:var(--radius);border:1px solid var(--border);overflow-x:auto}
+body.lin-v2 table{font-size:.8125rem;width:100%}
+body.lin-v2 th{
+  height:var(--lin-row);
+  padding:0 12px;
+  background:var(--surface2);
+  color:var(--text3);
+  font-size:.6875rem;font-weight:560;letter-spacing:.06em;text-transform:uppercase;
+  text-align:left;vertical-align:middle;
+}
+body.lin-v2 td{padding:7px 12px;border-bottom:1px solid var(--line);color:var(--text2);vertical-align:top}
+body.lin-v2 tr:hover td{background:var(--lin-hover)}
+
+/* Facts / test-prep / resources stop being five stacked cards and become the
+   dense list Linear uses everywhere: hairline dividers, 32px rhythm. */
+body.lin-v2 .facts{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+body.lin-v2 .facts li{
+  display:block;
+  margin:0;
+  padding:8px 12px;
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  background:transparent;
+  font-size:.8125rem;line-height:1.55;
+  color:var(--text2);
+}
+body.lin-v2 .facts li:last-child{border-bottom:0}
+body.lin-v2 .facts li:hover{background:var(--lin-hover)}
+body.lin-v2 .facts li b{color:var(--text);font-weight:560}
+
+body.lin-v2 .test-prep{
+  border:1px solid var(--border);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius);
+  background:transparent;
+  padding:12px 14px;
+}
+body.lin-v2 .test-prep h4{
+  display:flex;align-items:center;gap:8px;
+  margin:0 0 6px;
+  font-size:.8125rem;font-weight:560;letter-spacing:-.008em;
+}
+body.lin-v2 .tp-tag{
+  font-size:.625rem;font-weight:560;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-bg);
+  border:1px solid var(--accent-line);
+  border-radius:3px;
+  padding:1px 5px;
+}
+body.lin-v2 .test-prep li{font-size:.8125rem;color:var(--text2)}
+body.lin-v2 .co-ico{font-size:.85rem;opacity:.7;filter:grayscale(1)}
+
+body.lin-v2 .resources-section .resource,
+body.lin-v2 .rec-item{
+  display:flex;align-items:center;gap:8px;
+  min-height:var(--lin-row);
+  padding:4px 8px;
+  border-bottom:1px solid var(--line);
+  font-size:.8125rem;
+}
+
+/* Accordions: 32px headers, a chevron that turns 90°, an indented body. */
+body.lin-v2 .acc-header{
+  display:flex;align-items:center;
+  min-height:var(--lin-row-lg);
+  padding:6px 4px;
+  font-size:.875rem;font-weight:510;letter-spacing:-.01em;
+}
+body.lin-v2 .acc-header::after{transition:transform .12s ease-out}
+body.lin-v2 .acc-item.open > .acc-header::after{transform:rotate(90deg)}
+body.lin-v2 .acc-body-inner{
+  padding:2px 0 16px 14px;
+  border-left:1px solid var(--line);
+  margin-left:2px;
+}
+
+/* Quiz: 40px option rows, a 4px hover bed, the reveal as a hairline box. */
+body.lin-v2 .quiz-item{border-bottom:1px solid var(--line);padding:12px 0}
+body.lin-v2 .quiz-item:last-child{border-bottom:0}
+body.lin-v2 .qo-opt,body.lin-v2 .aq-opt,body.lin-v2 .exam-opt{
+  min-height:var(--lin-row-lg);
+  display:flex;align-items:center;
+  padding:8px 12px;
+  border-radius:var(--radius-sm);
+  font-size:.8125rem;
+}
+body.lin-v2 .q-reveal,body.lin-v2 .q-explain{
+  border:1px solid var(--border);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius-sm);
+  background:transparent;
+  color:var(--text2);
+  font-size:.8125rem;
+  padding:8px 12px;
+  animation:lin-fade .15s ease-out;
+}
+body.lin-v2 .reveal-btn{
+  min-height:var(--lin-row);
+  padding:0 10px;
+  display:inline-flex;align-items:center;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:var(--lin-hover);
+  color:var(--text);
+  font-size:.8125rem;font-weight:510;
+  box-shadow:none;
+}
+body.lin-v2 .reveal-btn:hover{background:var(--lin-active);border-color:var(--border2)}
+
+/* Semantic states never rely on colour alone — the brand accent is red too,
+   so correct/wrong each carry a glyph (§3.1 collision note). */
+body.lin-v2 .qo-opt.correct::before,body.lin-v2 .aq-opt.correct::before,
+body.lin-v2 .exam-opt.correct::before{content:"✓";margin-right:8px;font-weight:600}
+body.lin-v2 .qo-opt.wrong::before,body.lin-v2 .aq-opt.wrong::before,
+body.lin-v2 .exam-opt.wrong::before{content:"✕";margin-right:8px;font-weight:600}
+
+/* Stat tiles */
+body.lin-v2 .stat-card,body.lin-v2 .stat{
+  padding:16px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:transparent;
+  box-shadow:none;
+}
+body.lin-v2 .stat-num,body.lin-v2 .stat .n{font-size:1.5rem;font-weight:560;letter-spacing:-.026em;color:var(--text)}
+body.lin-v2 .stat-label,body.lin-v2 .stat .l{font-size:.6875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+body.lin-v2 .stat .n span{color:var(--text)}
+
+/* Toggle switches — 32×20 track, 16px knob (§5). */
+body.lin-v2 .acct-switch .sl{width:32px;height:20px;border-radius:999px;background:var(--surface3);border:1px solid var(--border)}
+body.lin-v2 .acct-switch .sl::after,body.lin-v2 .acct-switch .sl span{width:16px;height:16px;border-radius:50%}
+body.lin-v2 .acct-switch input:checked + .sl{background:var(--accent);border-color:var(--accent)}
+
+/* Focus discipline: 2px accent at 45%, 2px offset, everywhere. */
+body.lin-v2 a:focus-visible,body.lin-v2 button:focus-visible,
+body.lin-v2 input:focus-visible,body.lin-v2 select:focus-visible,
+body.lin-v2 textarea:focus-visible,body.lin-v2 [tabindex]:focus-visible{
+  outline:2px solid var(--focus-ring);
+  outline-offset:2px;
+  border-radius:var(--radius-sm);
+}
+
+
+/* ─── 27 · The marketing surface (index.html) ─────────────────────────────────
+   #010102 ground, a text-first hero, and the chapter grid as a bento of
+   hairline tiles. Selectors carry `body` because index.html keeps its
+   component CSS in a <style> block inside <body>, after this sheet. */
+
+body.dark.lin-marketing{--bg:#010102;--paper:#010102}
+body.lin-marketing.lin-v2 .container{max-width:1100px}
+body.lin-marketing.lin-v2 .landing-hero .container{max-width:880px}
+
+body.lin-v2 .landing-hero h1{
+  font-size:clamp(2.25rem,5.4vw,3.5rem);
+  font-weight:560;
+  letter-spacing:-.032em;
+  line-height:1.05;
+}
+body.lin-v2.lang-zh .landing-hero h1{letter-spacing:0;line-height:1.2}
+body.lin-v2 .landing-hero h1 em{color:var(--accent)}
+body.lin-v2 .landing-hero h1 em::after{display:none}
+body.lin-v2 .hero-kicker{border-radius:999px}
+body.lin-v2 .sec-eyebrow{color:var(--text3);letter-spacing:.08em;font-weight:560;font-size:.6875rem}
+body.lin-v2 .sec-title{font-weight:560;letter-spacing:-.026em}
+
+/* Bento tiles: one surface step, a hairline, and a lift of exactly one step
+   on hover. No transform, no shadow. */
+body.lin-v2 .chip-grid{gap:8px}
+body.lin-v2 .chip-link{
+  gap:2px;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--surface2);
+  transition:background var(--lin-t) ease,border-color var(--lin-t) ease;
+}
+body.dark.lin-v2 .chip-link{background:var(--surface)}
+body.lin-v2 .chip-link:hover{
+  background:var(--surface3);
+  border-color:var(--border2);
+  transform:none;
+}
+body.dark.lin-v2 .chip-link:hover{background:var(--surface2)}
+body.lin-v2 .chip-link .ch{
+  font-family:var(--font-mono);
+  font-size:.6875rem;font-weight:500;letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+  color:var(--text3);
+}
+body.lin-v2 .chip-link .nm{font-size:.8125rem;font-weight:510;letter-spacing:-.008em;color:var(--text)}
+body.lin-v2 .chip-link .er{font-size:.6875rem;color:var(--text3)}
+
+body.lin-v2 .feature-grid{gap:8px}
+body.lin-v2 .feature-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--surface2);
+  padding:16px;
+  box-shadow:none;
+}
+body.dark.lin-v2 .feature-card{background:var(--surface)}
+body.lin-v2 .feature-card::before{display:none}
+body.lin-v2 .feature-card:hover{background:var(--surface3);border-color:var(--border2)}
+body.dark.lin-v2 .feature-card:hover{background:var(--surface2)}
+body.lin-v2 .feature-card .ic{color:var(--text3);font-size:1rem;filter:grayscale(1);opacity:.8}
+body.lin-v2 .feature-card h3{font-size:.875rem;font-weight:560;letter-spacing:-.012em}
+body.lin-v2 .feature-card p{font-size:.8125rem;color:var(--text2)}
+
+body.lin-v2 .hero-proof{gap:8px}
+body.lin-v2 .landing-section.band{background:var(--surface2);border-color:var(--line)}
+body.dark.lin-v2 .landing-section.band{background:var(--surface)}
+body.lin-v2 .cta-band{background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* The Q&A panel gets the palette's surface treatment (§4.2). */
+body.lin-v2 .chat-window{
+  background:var(--surface3);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:none;
+}
+body.lin-v2 .chat-msg{border-radius:var(--radius-sm);font-size:.875rem}
+body.lin-v2 .chat-msg.user{background:var(--surface4);border:1px solid var(--border);color:var(--text)}
+body.lin-v2 .chat-msg.bot{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;color:var(--text2)}
+body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);border-radius:var(--radius-sm)}
+
+
+/* ─── 28 · Responsive, v2 ─────────────────────────────────────────────────── */
+
+@media (max-width:1024px){
+  body.lin-v2 .page-wrapper,
+  body.lin-v2.lin-rail-collapsed .page-wrapper{margin-left:0}
+  body.lin-v2 .sidebar,
+  body.lin-v2.lin-rail-collapsed .sidebar{
+    width:min(84vw,300px);
+    transform:translateX(-100%);
+    box-shadow:none;
+  }
+  body.lin-v2 .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-lg)}
+  body.lin-v2 .lin-topbar-inner > .sidebar-toggle{display:inline-flex}
+  body.lin-v2 header .header-inner{padding-left:12px}   /* the toggle is inline now */
+  body.lin-v2 .lin-rail-collapse{display:none}
+  /* the drawer is never the collapsed rail */
+  body.lin-v2.lin-rail-collapsed .sidebar-logo{font-size:.875rem;justify-content:flex-start;padding:0 12px 0 16px}
+  body.lin-v2.lin-rail-collapsed .sidebar-link{justify-content:flex-start;padding:0 8px;gap:8px;font-size:.875rem}
+  body.lin-v2.lin-rail-collapsed .sidebar-link.lin-has-ico{font-size:.875rem}
+  body.lin-v2.lin-rail-collapsed .sidebar-label{height:auto;font-size:.6875rem;padding:0 8px 4px;background:none;margin:0 0 2px}
+  body.lin-v2.lin-rail-collapsed #onthisGroup{display:block}
+  /* the drawer close affordance the base layer parks over the wordmark has no
+     floating toggle to attach to any more */
+  body.lin-v2.sm-locked .sidebar-toggle{left:auto;font-size:.9rem}
+  body.lin-v2.sm-locked .sidebar-toggle::before{content:none}
+  body.lin-v2 .sidebar-link{min-height:36px}
+}
+
+@media (max-width:768px){
+  body.lin-v2{--lin-gutter:16px}
+  body.lin-v2 .lin-cmdk-btn .lin-cmdk-label,
+  body.lin-v2 .lin-cmdk-btn .lin-kbd{display:none}
+  body.lin-v2 .lin-cmdk-btn{width:28px;padding:0;justify-content:center}
+  body.lin-v2 .lin-crumb{max-width:38vw}
+  body.lin-v2 .lin-filterbar{padding:0 16px}
+}
+
+@media (max-width:600px){
+  body.lin-v2{--lin-gutter:14px}
+  body.lin-v2 .lin-topbar-inner{padding:0 8px 0 8px;gap:4px}
+  body.lin-v2 .lin-topbar-inner > .logo{font-size:.8125rem}
+  body.lin-v2 .lin-context{display:none}        /* the wordmark carries it */
+  body.lin-v2 .lin-cmdk{padding:8vh 8px 8px}
+  body.lin-v2 .lin-cmdk-panel{max-height:78vh}
+  /* Dense rows survive on a phone — this is a study surface, not a brochure.
+     Only the tap targets in chrome grow. */
+  body.lin-v2 .btn-icon{width:32px;height:32px}
+  body.lin-v2 .acc-header{min-height:44px;padding:8px 4px;font-size:.9375rem}
+  body.lin-v2 .qo-opt,body.lin-v2 .aq-opt,body.lin-v2 .exam-opt{min-height:44px;font-size:.875rem}
+  body.lin-v2 .lin-tabstrip{padding:0 8px}
+  /* Tables card-ise rather than cram. */
+  body.lin-v2 .table-wrap{border-radius:var(--radius);-webkit-overflow-scrolling:touch}
+  body.lin-v2 table{min-width:520px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .lin-cmdk,.lin-cmdk-panel,body.lin-v2 .q-reveal{animation:none!important}
+}
+
+@media print{
+  body.lin-v2 .lin-viewheader,.lin-cmdk,body.lin-v2 .lin-cmdk-btn{display:none!important}
+  body.lin-v2 .page-wrapper{margin-left:0}
+}
+
+
+/* ─── 29 · Restraint corrections found in review ──────────────────────────────
+   Three places where the base layers still spend the accent on decoration.
+   Linear's rule is that a red mark means "this is where you are" or "press
+   this" — nothing else. */
+
+/* Accordion headers carried a 2px accent rule and an accent chevron. The open
+   state is already carried by the chevron's rotation and the body's left rule. */
+body.lin-v2 .acc-header,
+body.lin-v2 .acc-item.open > .acc-header{border-left:0;padding-left:4px}
+body.lin-v2 .acc-header::after{color:var(--text3)}
+body.lin-v2 .acc-item.open > .acc-header::after{color:var(--text2)}
+
+/* Facts stay one flush list — no measure cap, no inherited card margins. */
+body.lin-v2 .facts li{max-width:none;margin:0}
+
+/* The landing kicker is a status pill, not a call to action. */
+body.lin-v2 .hero-kicker{color:var(--text2)}
+body.lin-v2 .hero-kicker .dot{background:var(--text3);box-shadow:none}
+
+/* Emoji that live in the markup can't be removed (content is sacred), but they
+   can stop competing with the type. Desaturate them wherever they are chrome. */
+body.lin-v2 .ai-fab,body.lin-v2 .co-ico,body.lin-v2 .feature-card .ic{filter:grayscale(1)}
+body.lin-v2 .ai-fab{opacity:.9}
+body.lin-v2 .ai-fab:hover{opacity:1}
+
+
+/* ─── 30 · The accent audit ───────────────────────────────────────────────────
+   §9 of the brief: "exactly ONE accent colour in use across the whole site, and
+   it stays scarce." Red is now the brand, which makes over-spending it much
+   louder than the indigo v1 got away with. This section is the audit result —
+   every remaining place the accent was decoration rather than meaning.
+
+   The accent is KEPT for, and only for:
+     · links and link-like actions
+     · the focus ring and the focused input's border
+     · the active nav row (bar + icon) and the active tab underline
+     · the one primary CTA per surface
+     · progress fills and the reading bar (position, i.e. "where you are")
+     · the answer reveal's left rule (§5 names this explicitly)
+     · ::selection
+   Everything below is neutralised. */
+
+/* Study-guide callouts: the label is information, not a button. */
+body.lin-v2 .test-prep{border-left:2px solid var(--border2)}
+body.lin-v2 .tp-tag{
+  color:var(--text3);
+  background:var(--lin-hover);
+  border:1px solid var(--border);
+}
+body.lin-v2 .cert-gate{border-left:2px solid var(--border2)}
+body.lin-v2 .tab-panel.verdict-tab{border-left:2px solid var(--border2);background:var(--surface2)}
+body.dark.lin-v2 .tab-panel.verdict-tab{background:var(--surface)}
+
+/* Numbered steps and status dots are structure, not emphasis. */
+body.lin-v2 .step-num{
+  background:var(--lin-active);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+body.lin-v2 .hero-badge .dot{background:var(--text3);box-shadow:none}
+
+/* An active chip is a surface step in Linear, never a coloured pill. */
+body.lin-v2 .fc-chip.active,
+body.lin-v2 .gsec.on{
+  background:var(--surface3);
+  border-color:var(--border2);
+  color:var(--text);
+  font-weight:510;
+}
+body.dark.lin-v2 .fc-chip.active,
+body.dark.lin-v2 .gsec.on{background:var(--surface4)}
+
+/* A selected quiz option keeps the accent as an outline; the fill goes. */
+body.lin-v2 .qo-opt.selected{background:var(--lin-active);border-color:var(--accent);color:var(--text)}
+
+/* The study highlight becomes an underline in accent rather than a wash. */
+body.lin-v2 .hl{
+  background:var(--lin-active);
+  box-shadow:inset 0 -1px 0 var(--accent-line);
+  color:var(--text);
+}
+
+/* Mastery is a four-step scale. With one accent available it has to be read
+   out of the sanctioned semantic set instead: neutral → warning → green
+   outline → green fill. */
+body.lin-v2 .mastery-level.proficient{
+  --chip:var(--green);
+  background:transparent;
+  color:var(--green);
+  border-color:color-mix(in srgb,var(--green) 38%,transparent);
+}
+body.lin-v2 .mastery-level.mastery{
+  --chip:var(--green);
+  background:color-mix(in srgb,var(--green) 14%,transparent);
+  color:var(--green);
+  border-color:color-mix(in srgb,var(--green) 38%,transparent);
+}
+body.lin-v2 .mastery-fill.proficient{background:color-mix(in srgb,var(--green) 55%,transparent)}
+
+/* Account: the avatar is a monogram tile, and the level number is just a
+   number — the progress bar under it already carries the accent. */
+body.lin-v2 .acct-avatar{
+  background:var(--surface3);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+body.dark.lin-v2 .acct-avatar{background:var(--surface2)}
+body.lin-v2 .acct-level .lvl-lv{color:var(--text)}
+
+/* The landing headline already has one red thing on it: the CTA. */
+body.lin-v2 .landing-hero h1 em{color:var(--text)}
+
+/* The palette's input is the whole panel's focus. Ringing the field inside an
+   already-floating dialog reads as an error state, so move the indicator out
+   to the panel edge — visible, but not a red box round the text. */
+.lin-cmdk-input:focus-visible{outline:none}
+.lin-cmdk-panel:focus-within{border-color:var(--accent-line)}
+
+
+/* ─── 31 · Two details the screenshots caught ─────────────────────────────── */
+
+/* The active-row indicator was 2px hard against the rail's edge, which reads as
+   nothing. 3px with a rounded outer corner is the VS Code / Linear shape. */
+body.lin-v2 .sidebar-link.active::before{
+  left:-8px;
+  width:3px;
+  top:4px;bottom:4px;
+  border-radius:0 3px 3px 0;
+}
+
+/* The disclosure chevron sat at the far end of a now-full-width row, miles from
+   the label it belongs to. Linear puts it in front, and rotates it in place. */
+body.lin-v2 .acc-header::after{
+  order:-1;
+  flex:none;
+  margin:0 8px 0 0;
+  position:static;
+  right:auto;
+  font-size:.7rem;
+  line-height:1;
+}
+
+/* The context row hides itself when it has nothing to say (§4.3: an empty
+   state is silence, not a placeholder). [hidden] has to be restated because
+   the row is display:flex. */
+body.lin-v2 .lin-filterbar[hidden]{display:none}
+
+/* The base row is space-between, so moving the chevron to the front pushed the
+   label to the far edge. A disclosure row is left-aligned. */
+body.lin-v2 .acc-header{justify-content:flex-start;gap:0}
+
+/* A collapsed rail needs a way back. Drop the mark, keep the toggle. */
+body.lin-v2.lin-rail-collapsed .sidebar-logo{justify-content:center;padding:0}
+body.lin-v2.lin-rail-collapsed .sidebar-logo::before{display:none}
+body.lin-v2.lin-rail-collapsed .lin-rail-collapse{display:inline-flex;margin:0}
+
+/* The chapter prev/next buttons carry `style="background:var(--accent)"` inline,
+   which in dark mode paints them the lifted #F03E3E — white label on that is
+   3.8:1. Route them through the button token (#DC2626, 4.8:1 under white) the
+   way every other primary already is. */
+body.lin-v2 .qo-btn[style*="--accent"],
+body.lin-v2 .aq-btn[style*="--accent"]{
+  background:var(--lin-btn-primary-bg)!important;
+  background-image:none!important;
+  color:#fff!important;
+}
+
+/* Two AA failures the audit turned up that are not token-level:
+
+   1. exam.html has buttons carrying `style="background:var(--surface2)"` and no
+      colour, so in dark mode they fell back to the UA's black `buttontext` on a
+      near-black fill — 1.15:1. Fold them into the ghost family. */
+body.lin-v2 .qo-btn[style*="--surface"],
+body.lin-v2 .aq-btn[style*="--surface"]{
+  background:var(--lin-hover)!important;
+  color:var(--text)!important;
+  border:1px solid var(--border);
+  box-shadow:none;
+}
+
+/* 2. The account meta row sits on the raised hero panel, where tertiary grey
+      runs out of headroom. It is real text, so it gets the secondary grey. */
+body.lin-v2 .acct-meta,body.lin-v2 .acct-meta div,body.lin-v2 .acct-meta span{color:var(--text2)}

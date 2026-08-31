@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
 <title>中国 运动康复师资格证备考 — Chinese Sports Rehab Certification Prep</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -734,6 +735,11 @@ body.dark h1,body.dark h2,body.dark h3{
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
+<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
+<link rel="stylesheet" href="linear-theme.css">
+<script src="draft.js" defer></script>
+<script src="linear-layout.js" defer></script>
+<!-- DRAFT-THEME:END -->
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -754,6 +760,9 @@ body.dark h1,body.dark h2,body.dark h3{
     <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
 
     <a class="sidebar-link active" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
+
+    <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
+
   </div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
@@ -792,7 +801,9 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="hero" class="hero">
 <div class="container">
   <div class="hero-badge"><span class="dot"></span><span data-en="Chinese Certification · 中国 运动康复师资格证" data-zh="中国 运动康复师资格证 · 备考">Chinese Certification · 中国 运动康复师资格证</span></div>
+
   <h1 data-en="Chinese Sports Rehab Certification Prep" data-zh="运动康复师资格证备考"><span>Chinese Sports Rehab Certification Prep</span></h1>
+
   <p data-en="A bilingual, exam-mapped review of the 人社部-registered 运动康复师 vocational certification — theory subjects, practical skills, and the high-yield facts you need to pass." data-zh="面向人社部备案的运动康复师职业技能等级证书的双语备考 — 涵盖理论科目、实操技能与高频考点。">A bilingual, exam-mapped review of the 人社部-registered 运动康复师 vocational certification — theory subjects, practical skills, and the high-yield facts you need to pass.</p>
 </div>
 </section>
@@ -1337,6 +1348,16 @@ function wrapInlineBilingual(){
 }
 wrapInlineBilingual();
 
+// China-availability: hide YouTube-only video cards in Chinese mode.
+// youtube.com / img.youtube.com are blocked on the mainland; Bilibili is not.
+function applyChinaVideoFilter(){
+  document.querySelectorAll('a.video-card').forEach(card=>{
+    const href=(card.getAttribute('href')||'').toLowerCase();
+    const blocked=href.includes('youtube.com')||href.includes('youtu.be')||href.includes('img.youtube.com');
+    card.style.display=(showCN&&blocked)?'none':'';
+  });
+}
+
 function applyLang(){
   const lang = showCN ? 'zh' : 'en';
   document.body.classList.toggle('lang-zh', showCN);
@@ -1348,6 +1369,7 @@ function applyLang(){
   renderMasteryGrid();
   renderFCChips();
   updateRecs();
+  applyChinaVideoFilter();
 }
 langBtn.addEventListener('click',()=>{
   showCN = !showCN;
@@ -2862,6 +2884,7 @@ CNQ.renderSetup = function(){
     '<div class="cnq-head">'+
       '<span class="hero-badge"><span class="dot"></span>'+CNQ.t('Certification Mock Test · 模拟测验','资格证模拟测验 · Certification Mock Test')+'</span>'+
       '<h3 class="cnq-title">'+CNQ.t('📝 运动康复师资格证 · Question Bank ('+total+')','📝 运动康复师资格证 · 题库（共'+total+'题）')+'</h3>'+
+
     '</div>'+
     '<div class="cnq-controls">'+
       '<label class="cnq-label">'+CNQ.t('Subject','科目')+'<select id="cnqSub">'+subOpts+'</select></label>'+

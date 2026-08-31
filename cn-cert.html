@@ -709,7 +709,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
+  <div class="sidebar-logo">Vitalite</div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
@@ -1306,6 +1306,16 @@ function wrapInlineBilingual(){
 }
 wrapInlineBilingual();
 
+// China-availability: hide YouTube-only video cards in Chinese mode.
+// youtube.com / img.youtube.com are blocked on the mainland; Bilibili is not.
+function applyChinaVideoFilter(){
+  document.querySelectorAll('a.video-card').forEach(card=>{
+    const href=(card.getAttribute('href')||'').toLowerCase();
+    const blocked=href.includes('youtube.com')||href.includes('youtu.be')||href.includes('img.youtube.com');
+    card.style.display=(showCN&&blocked)?'none':'';
+  });
+}
+
 function applyLang(){
   const lang = showCN ? 'zh' : 'en';
   document.body.classList.toggle('lang-zh', showCN);
@@ -1317,6 +1327,7 @@ function applyLang(){
   renderMasteryGrid();
   renderFCChips();
   updateRecs();
+  applyChinaVideoFilter();
 }
 langBtn.addEventListener('click',()=>{
   showCN = !showCN;

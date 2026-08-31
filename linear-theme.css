@@ -1301,3 +1301,93 @@ header .qo-btn:hover{background:var(--lin-hover);color:var(--text);transform:non
   color:var(--accent);
 }
 body.dark .gsec.on{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+
+
+/* ─── 22 · Landing page ──────────────────────────────────────────────────────
+   The public landing arrived after this skin was written. Two things about it:
+
+   1. index.html is the one page whose component CSS sits in a <style> block
+      inside <body> — after this linked sheet — so equal specificity loses.
+      Every selector here carries a `body` prefix to outrank it.
+   2. Its buttons paint `background:var(--accent)`, and in dark mode --accent is
+      the light lavender chosen for *text* on near-black; as a button fill under
+      white text it washes out and fails contrast. Route fills through the
+      button token instead. */
+
+body .btn-land{
+  border-radius:var(--radius-sm);
+  font-size:.875rem;font-weight:510;
+  padding:.55rem 1.1rem;
+  transition:background .12s ease,border-color .12s ease,color .12s ease;
+}
+body .btn-land.primary{
+  background:var(--lin-btn-primary-bg);
+  color:#fff;
+  border:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+}
+body .btn-land.primary:hover{
+  background:var(--lin-btn-primary-bg);
+  filter:brightness(1.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+}
+body .btn-land.ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+body.dark .btn-land.ghost{background:var(--lin-elevated)}
+body .btn-land.ghost:hover{background:var(--lin-hover);border-color:var(--border2);color:var(--text)}
+
+/* One brand glow behind the hero — the ellipse pair §06 gives the other heroes. */
+body .landing-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%,var(--lin-glow-1),transparent 70%),
+    radial-gradient(ellipse 40% 40% at 78% 8%,var(--lin-glow-2),transparent 70%);
+}
+body .landing-hero h1{font-weight:560;letter-spacing:-.032em;line-height:1.06}
+body .landing-hero h1 em{color:var(--accent)}
+body .landing-hero .hero-sub{color:var(--text2);font-size:1.0625rem;line-height:1.6}
+
+body .hero-kicker{
+  font-size:.75rem;font-weight:510;letter-spacing:.04em;text-transform:none;
+  border:1px solid var(--border);
+  background:var(--lin-hover);
+  border-radius:999px;
+  padding:.25rem .7rem;
+}
+/* The pulsing ring is one animation too many for a page this quiet. */
+body .hero-kicker .dot::after{display:none}
+
+body .stat{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:transparent;
+  padding:.85rem 1rem;
+}
+body .stat .n{font-weight:560;letter-spacing:-.022em;font-size:1.5rem}
+body .stat .l{font-size:.6875rem;letter-spacing:.08em;color:var(--text3)}
+
+body .landing-section.band{background:var(--surface2);border-color:var(--border)}
+body.dark .landing-section.band{background:var(--surface)}
+body .landing-footer{border-top:1px solid var(--border)}
+body .landing-footer .ft .links a{font-size:.8125rem;color:var(--text3)}
+body .landing-footer .ft .links a:hover{color:var(--text)}
+
+body .feature-card{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:none}
+body.dark .feature-card{background:var(--surface2)}
+body .feature-card::before{display:none}
+body .feature-card h3{font-size:.9375rem;font-weight:560;letter-spacing:-.014em}
+body .feature-card p{font-size:.875rem;color:var(--text2)}
+body .feature-card .ic{color:var(--accent)}
+
+/* Chat bubbles and the back-to-top control fill with accent too. */
+.chat-msg.user{background:var(--lin-btn-primary-bg);color:#fff}
+.back-top{background:var(--lin-btn-primary-bg);color:#fff;box-shadow:var(--shadow-lg)}
+
+/* The closing CTA band arrives as a saturated field of accent — Linear ends a
+   page on a quiet surface with a hairline, and lets the button carry the colour. */
+body .cta-band{
+  background:var(--surface2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+body.dark .cta-band{background:var(--surface)}
+body .cta-band h2{font-weight:560;letter-spacing:-.026em}

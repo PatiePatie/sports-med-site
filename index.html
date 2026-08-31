@@ -705,6 +705,19 @@ body:not(.dark) .test-prep .tp-tag{background:#B8860B;color:#fff}
 body:not(.dark) .fc-chip.active,body:not(.dark) .fc-nav button.primary{background:linear-gradient(135deg,#B8860B,#A9741E);color:#fff}
 body:not(.dark) .fc-front{background:linear-gradient(135deg,#EAF1F6 0%,#F1F6F9 60%,#FFFFFF 100%);color:#0A1828}
 
+
+/* ── Dark-mode refinement: calm buttons + gold→cream heading gradient ── */
+body.dark .qo-btn.next,body.dark .aq-btn.primary,body.dark .fc-nav button.primary,
+body.dark .fc-chip.active,body.dark .ai-send-btn,body.dark .chat-send,body.dark .chat-msg.user,
+body.dark .back-top,body.dark .guide-tab.on,body.dark .rec-item .rec-chip,body.dark .ch-nav .qo-btn,
+body.dark .author-ava,body.dark .callout h4 .co-ico,body.dark .guide-chip:hover{
+  background:linear-gradient(135deg,#B8860B,#A9741E) !important;color:#F1E9D0 !important;border-color:transparent !important}
+body.dark .qo-btn.next:hover,body.dark .aq-btn.primary:hover,body.dark .ai-send-btn:hover,
+body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .guide-tab.on:hover{
+  background:linear-gradient(135deg,#A9741E,#8E620A) !important}
+body.dark h1,body.dark h2,body.dark h3{
+  background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>

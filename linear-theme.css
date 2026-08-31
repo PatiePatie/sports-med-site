@@ -1,5 +1,19 @@
 @import url('draft-theme.css');
 
+/* ─── Wordmark face — Playfair Display, self-hosted ────────────────────────
+   The Vitalite logo wordmark is an elegant high-contrast serif. Fonts are
+   served from this repo (fonts/playfair-display-latin.woff2) instead of the
+   Google Fonts CDN, which the audience in China can't reach. Latin subset
+   only — the wordmark is ASCII. Scoped to .logo / .sidebar-logo; the rest of
+   the UI stays 100% system sans (see §type below).                                     */
+@font-face{
+  font-family:'Playfair Display';
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url('fonts/playfair-display-latin.woff2') format('woff2');
+}
+
 /* ══════════════════════════════════════════════════════════════════════════════
    LINEAR v2 — the inverted-L product surface
    ------------------------------------------------------------------------------
@@ -278,9 +292,10 @@ header{
 .header-inner{padding:.7rem 0;gap:.75rem}
 
 .logo{
-  font-size:.9375rem;
-  font-weight:560;
-  letter-spacing:-.018em;
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:1.0625rem;
+  font-weight:600;
+  letter-spacing:-.005em;
   color:var(--text);
   display:flex;align-items:center;gap:.5rem;
 }
@@ -292,7 +307,7 @@ header{
   border-radius:4px;
   background:var(--lin-btn-primary-bg);
 }
-.logo span{color:var(--text3);font-weight:460}
+.logo span{color:var(--text3);font-weight:600}
 
 .header-actions{gap:.375rem}
 
@@ -355,7 +370,8 @@ nav:not(.sidebar) a:hover{color:var(--text);background:var(--lin-hover)}
 body.dark .sidebar{background:#0A0B0C}
 
 .sidebar-logo{
-  font-size:.875rem;font-weight:560;letter-spacing:-.018em;
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:1rem;font-weight:600;letter-spacing:-.005em;
   padding:.15rem .65rem 1rem;
   border-bottom:1px solid var(--line);
   margin:0 -.5rem .8rem;
@@ -1612,10 +1628,11 @@ body.lin-v2 .sidebar-logo{
   margin:0 -8px 8px;
   padding:0 12px 0 16px;
   border-bottom:1px solid var(--line);
-  font-size:.875rem;font-weight:560;letter-spacing:-.018em;
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:.9375rem;font-weight:600;letter-spacing:-.005em;
   overflow:hidden;
 }
-body.lin-v2 .sidebar-logo span{color:var(--text3);font-weight:460}
+body.lin-v2 .sidebar-logo span{color:var(--text3);font-weight:600}
 
 body.lin-v2 .lin-rail-collapse{
   margin-left:auto;

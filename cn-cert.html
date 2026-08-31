@@ -2504,10 +2504,17 @@ function medaiAppend(boxId, raw){
   lbl.className='msg-label'; lbl.textContent='ASSISTANT';
   var sp=document.createElement('span');
   sp.className='chat-msg-text';
-  sp.setAttribute('data-en',raw); sp.setAttribute('data-zh',raw);
-  sp.textContent=raw;
+  sp.innerHTML=medaiRender(raw);
   div.appendChild(lbl); div.appendChild(sp);
   box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+function medaiRender(raw){
+  var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\n/g,'<br/>');
+  return s;
 }
 function medaiThinking(boxId){
   var box=document.getElementById(boxId); if(!box) return;
@@ -2614,11 +2621,13 @@ document.addEventListener('keydown', e=>{
     if(empty) openAiModal();
   }
 });
-document.querySelectorAll('.ai-modal .chat-sug-btn').forEach(b=>b.addEventListener('click', ()=>{
+document.addEventListener('click', function(e){
+  if(!(e.target && e.target.classList && e.target.classList.contains('chat-sug-btn'))) return;
   const input=document.getElementById('aiInput');
-  input.value=b.dataset.zh || b.textContent;
+  if(!input) return;
+  input.value=e.target.dataset.zh || e.target.textContent;
   sendAiChat();
-}));
+});
 
 // ════════════════════════════════════════
 // Image Lightbox: open full + download

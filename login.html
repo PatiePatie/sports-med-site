@@ -876,8 +876,16 @@ function handleAuth(resp){
     if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
     var ph=meta.phone||null;
     localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
+    touchMember(u);
   }
   return true;
+}
+
+/* Record this sign-in in the members directory (fails silently; trigger keeps it in sync). */
+function touchMember(u){
+  if(!sb || !u) return;
+  var nm=(u.user_metadata&&(u.user_metadata.full_name||u.user_metadata.name))||null;
+  sb.from('members').upsert({ id:u.id, email:u.email, name:nm, last_seen:new Date().toISOString() }, { onConflict:'id' }).then(function(){}).catch(function(){});
 }
 
 
@@ -898,12 +906,20 @@ function applySociUser(u){
   if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
   var ph=meta.phone||null;
   localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
+  touchMember(u);
 }
 
 /* React to OAuth redirect back (token in URL hash) + future auth changes */
 if(sb){
   try{ sb.auth.onAuthStateChange(function(ev, sess){
-    if(ev==='SIGNED_IN' && sess && sess.user){ applySociUser(sess.user); setStatus(); }
+    if(ev==='SIGNED_IN' && sess && sess.user){
+      applySociUser(sess.user); setStatus();
+      checkBlocked(sess.user.email).then(function(mod){
+        if(mod && (mod.frozen || mod.deleted)) blockSignIn(mod.deleted
+          ? (showCN?'此账号已被删除。':'This account has been deleted.')
+          : (showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.'));
+      });
+    }
     else if(ev==='SIGNED_OUT'){ localStorage.removeItem('sm_user'); setStatus(); }
   }); }catch(e){}
   /* On initial load, if an OAuth session came back via the redirect, capture it */
@@ -915,6 +931,24 @@ if(sb){
   }).catch(function(){ setStatus(); });
 }
 
+/* Freeze / deletion enforcement: if this email is frozen or deleted in the moderation table, block sign-in. */
+function checkBlocked(email){
+  if(!sb) return Promise.resolve(null);
+  return sb.from('moderation').select('frozen,deleted,note').eq('email',email).maybeSingle()
+    .then(function(r){
+      if(r.error) return null;
+      var m=r.data;
+      if(m && (m.frozen || m.deleted)) return m;
+      return null;
+    }).catch(function(){ return null; });
+}
+function blockSignIn(text){
+  localStorage.removeItem('sm_user');
+  if(sb){ sb.auth.signOut().then(function(){}).catch(function(){}); }
+  myMsg(text,false);
+  setStatus();
+}
+
 /* LOGIN */
 document.getElementById('liBtn').addEventListener('click',function(){
   if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
@@ -922,7 +956,16 @@ document.getElementById('liBtn').addEventListener('click',function(){
   var pw=document.getElementById('liPass').value;
   if(!em||!pw){ myMsg(showCN?'请输入邮箱和密码。':'Please enter email and password.',false); return; }
   sb.auth.signInWithPassword({email:em,password:pw}).then(handleAuth).then(function(ok){
-    if(ok){ myMsg(showCN?'登录成功！'+em:'Signed in! '+em,true); setStatus(); }
+    if(!ok) return;
+    checkBlocked(em).then(function(mod){
+      if(mod && mod.deleted){
+        blockSignIn(showCN?'此账号已被删除。':'This account has been deleted.');
+      } else if(mod && mod.frozen){
+        blockSignIn(showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.');
+      } else {
+        myMsg(showCN?'登录成功！'+em:'Signed in! '+em,true); setStatus();
+      }
+    });
   });
 });
 

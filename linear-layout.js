@@ -191,7 +191,8 @@
     /* 3c · Collapse to a 56px icon rail. Persisted, and only ever offered at
        desktop width — below 1024px the rail is already a drawer. */
     var COLLAPSE_KEY = 'lin_rail_collapsed';
-    if (store(COLLAPSE_KEY) === '1') body.classList.add('lin-rail-collapsed');
+    /* Default to collapsed (Zen compact). Only expand if user explicitly chose to. */
+    if (store(COLLAPSE_KEY) !== '0') body.classList.add('lin-rail-collapsed');
 
     var logo = $('.sidebar-logo', sidebar);
     if (logo && !$('.lin-rail-collapse', sidebar)) {
@@ -214,7 +215,12 @@
         label(next);
       });
       label(body.classList.contains('lin-rail-collapsed'));
-      logo.appendChild(btn);
+      /* Insert the expand button as the first child of the sidebar,
+         outside .sidebar-logo, so it stays visible when the logo is hidden
+         in collapsed (Zen compact) mode. */
+      var firstGroup = $('.sidebar-group', sidebar);
+      if (firstGroup) sidebar.insertBefore(btn, firstGroup);
+      else sidebar.appendChild(btn);
     }
 
     /* 3d · Collapsed rows need their label as a tooltip. */

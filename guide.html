@@ -698,6 +698,18 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 #onthisGroup .guide-ch{display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin:.7rem 0 .15rem;padding:0 .9rem}
 #onthisGroup .sidebar-link{padding-left:1.4rem;border-left:2px solid transparent}
 #onthisGroup .sidebar-link:hover{border-left-color:var(--accent)}
+
+/* ═══ GUIDE TAB MODE ═══ */
+.guide-tabs{position:sticky;top:48px;z-index:120;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;align-items:center;padding:.55rem 1rem;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.guide-tab{padding:.35rem .7rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:600;font-size:.82rem;cursor:pointer;min-width:2rem;transition:all .2s}
+.guide-tab:hover{border-color:var(--accent)}
+.guide-tab.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:var(--shadow-sm)}
+section.chapter{display:none}
+section.chapter.shown{display:block}
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:.5rem;padding-bottom:2rem}
+.ch-nav .qo-btn{display:inline-flex;align-items:center;justify-content:center;min-width:120px}
+.ch-nav[hidden]{display:none}
+@media(max-width:720px){.guide-tabs{top:48px}.ch-nav .qo-btn{min-width:96px}}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -721,6 +733,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
     cv.className='guide-ch';
     cv.setAttribute('data-en','Chapter '+ch);
     cv.setAttribute('data-zh','第'+ch+'章');
+    cv.setAttribute('data-ch',''+ch);
     cv.textContent=showCN?('第'+ch+'章'):('Chapter '+ch);
     grp.appendChild(cv);
     hdrs.forEach(function(h,i){
@@ -734,6 +747,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
       a.href='#g-sec-'+ch+'-'+i;
       a.setAttribute('data-en',en);
       a.setAttribute('data-zh',zh);
+      a.setAttribute('data-ch',''+ch);
       a.textContent=showCN?zh:en;
       a.addEventListener('click',function(ev){
         ev.preventDefault();
@@ -810,32 +824,33 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 </div>
 </header>
 
+<div class="guide-tabs" id="guideTabs">
+<button class="guide-tab" data-ch="1" data-en="Ch 1" data-zh="第1章">1</button>
+<button class="guide-tab" data-ch="2" data-en="Ch 2" data-zh="第2章">2</button>
+<button class="guide-tab" data-ch="3" data-en="Ch 3" data-zh="第3章">3</button>
+<button class="guide-tab" data-ch="4" data-en="Ch 4" data-zh="第4章">4</button>
+<button class="guide-tab" data-ch="5" data-en="Ch 5" data-zh="第5章">5</button>
+<button class="guide-tab" data-ch="6" data-en="Ch 6" data-zh="第6章">6</button>
+<button class="guide-tab" data-ch="7" data-en="Ch 7" data-zh="第7章">7</button>
+<button class="guide-tab" data-ch="8" data-en="Ch 8" data-zh="第8章">8</button>
+<button class="guide-tab" data-ch="9" data-en="Ch 9" data-zh="第9章">9</button>
+<button class="guide-tab" data-ch="10" data-en="Ch 10" data-zh="第10章">10</button>
+<button class="guide-tab" data-ch="11" data-en="Ch 11" data-zh="第11章">11</button>
+<button class="guide-tab" data-ch="12" data-en="Ch 12" data-zh="第12章">12</button>
+<button class="guide-tab" data-ch="13" data-en="Ch 13" data-zh="第13章">13</button>
+</div>
+
 <!-- Chapter 1 -->
 <!-- Full Guide -->
 <section id="guide">
 <div class="container">
   <span class="section-label" data-en="Full Guide" data-zh="完整指南">Full Guide</span>
   <h2 data-en="Sports Medicine — Complete Guide" data-zh="运动医学 — 完整指南">Sports Medicine — Complete Guide</h2>
-  <h3 data-en="All 13 chapters in one place. Use the chapter buttons or the left 'On this page' list to jump around." data-zh="全部13章整合于一处。使用章节按钮或左侧“本页目录”快速跳转。">All 13 chapters in one place. Use the chapter buttons or the left 'On this page' list to jump around.</h3>
-  <div class="guide-jump">
-    <a class="guide-chip" href="#ch1">Ch 1</a>
-    <a class="guide-chip" href="#ch2">Ch 2</a>
-    <a class="guide-chip" href="#ch3">Ch 3</a>
-    <a class="guide-chip" href="#ch4">Ch 4</a>
-    <a class="guide-chip" href="#ch5">Ch 5</a>
-    <a class="guide-chip" href="#ch6">Ch 6</a>
-    <a class="guide-chip" href="#ch7">Ch 7</a>
-    <a class="guide-chip" href="#ch8">Ch 8</a>
-    <a class="guide-chip" href="#ch9">Ch 9</a>
-    <a class="guide-chip" href="#ch10">Ch 10</a>
-    <a class="guide-chip" href="#ch11">Ch 11</a>
-    <a class="guide-chip" href="#ch12">Ch 12</a>
-    <a class="guide-chip" href="#ch13">Ch 13</a>
-  </div>
+  <h3 data-en="All 13 chapters in one place. Use the chapter buttons above or the left 'On this page' list to switch chapters." data-zh="全部13章整合于一处。使用上方章节按钮或左侧“本页目录”切换章节。">All 13 chapters in one place. Use the chapter buttons above or the left 'On this page' list to switch chapters.</h3>
 </div>
 </section>
 
-<section id="ch1">
+<section id="ch1" class="chapter shown">
 <div class="container">
   <span class="section-label" data-en="Chapter 1" data-zh="第一章">Chapter 1</span>
   <h2 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h2>
@@ -1066,7 +1081,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch2">
+<section id="ch2" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 2" data-zh="第二章">Chapter 2</span>
   <h2 data-en="Nervous System" data-zh="神经系统">Nervous System</h2>
@@ -1399,7 +1414,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
-<section id="ch3">
+<section id="ch3" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 3" data-zh="第三章">Chapter 3</span>
   <h2 data-en="Cardiovascular System" data-zh="心血管系统">Cardiovascular System</h2>
@@ -1633,7 +1648,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
-<section id="ch4">
+<section id="ch4" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 4" data-zh="第四章">Chapter 4</span>
   <h2 data-en="Integumentary System" data-zh="皮肤系统">Integumentary System</h2>
@@ -1863,7 +1878,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
-<section id="ch5">
+<section id="ch5" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 5" data-zh="五章">Chapter 5</span>
   <h2 data-en="Training Principles" data-zh="训练原则">Training Principles</h2>
@@ -2023,7 +2038,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch6">
+<section id="ch6" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 6" data-zh="六章">Chapter 6</span>
   <h2 data-en="Injury &amp; Healing" data-zh="损伤与愈合">Injury &amp; Healing</h2>
@@ -2161,7 +2176,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch7">
+<section id="ch7" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 4" data-zh="第四章">Chapter 4</span>
   <h2 data-en="Recovery Science" data-zh="恢复科学（含冰敷之辩）">Recovery Science</h2>
@@ -2292,7 +2307,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch8">
+<section id="ch8" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 8" data-zh="八章">Chapter 8</span>
   <h2 data-en="Sports Nutrition" data-zh="运动营养学（含合成代谢窗口之争）">Sports Nutrition</h2>
@@ -2421,7 +2436,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch9">
+<section id="ch9" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 9" data-zh="九章">Chapter 9</span>
   <h2 data-en="Supplements &amp; Evidence Grading" data-zh="补剂与证据分级">Supplements &amp; Evidence Grading</h2>
@@ -2510,7 +2525,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch10">
+<section id="ch10" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 10" data-zh="第十章">Chapter 10</span>
   <h2 data-en="Ethics &amp; Professional Responsibility" data-zh="伦理与职业责任">Ethics &amp; Professional Responsibility</h2>
@@ -2730,7 +2745,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
-<section id="ch11">
+<section id="ch11" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 11" data-zh="十一章">Chapter 11</span>
   <h2 data-en="Becoming a Physical Therapist" data-zh="成为物理治疗师">Becoming a Physical Therapist</h2>
@@ -2813,7 +2828,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </div>
 </div>
 </section>
-<section id="ch12">
+<section id="ch12" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 12" data-zh="第十二章">Chapter 12</span>
   <h2 data-en="Assessment · 康复评定学" data-zh="Assessment · 康复评定学">Assessment · 康复评定学</h2>
@@ -2912,7 +2927,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
-<section id="ch13">
+<section id="ch13" class="chapter">
 <div class="container">
   <span class="section-label" data-en="Chapter 13" data-zh="第十三章">Chapter 13</span>
   <h2 data-en="TCM · 中医健康管理" data-zh="TCM · 中医健康管理">TCM · 中医健康管理</h2>
@@ -3006,6 +3021,11 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
   </section>
 </div>
 </section>
+
+<div class="container ch-nav" id="chNav">
+  <button class="qo-btn next" id="chPrev"><span class="cnav-prefix" data-en="← Previous · " data-zh="← 上一章 · ">← Previous · </span><span class="cnav">Ch 1</span></button>
+  <button class="qo-btn next" id="chNext" style="background:var(--accent)"><span class="cnav">Ch 2</span><span class="cnav-prefix" data-en=" · Next →" data-zh=" · 下一章 →"> · Next →</span></button>
+</div>
 <footer>
 <div class="container">
   <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
@@ -4802,6 +4822,7 @@ document.addEventListener('click', openLightbox);
           a.href='#sec-'+i;
           a.setAttribute('data-en',en);
           a.setAttribute('data-zh',zh);
+      a.setAttribute('data-ch',''+ch);
           a.textContent = showCN ? zh : en;
           a.addEventListener('click',function(ev){
             ev.preventDefault();
@@ -4881,6 +4902,87 @@ document.addEventListener('keydown',function(e){
   </div>
 </div>
 
+
+
+<script>
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  var tabs=document.querySelectorAll('#guideTabs .guide-tab');
+  var prev=document.getElementById('chPrev'),next=document.getElementById('chNext');
+  var onthis=document.getElementById('onthisGroup');
+  var navRow=document.getElementById('chNav');
+  var labels=null;
+  try{labels=JSON.parse(localStorage.getItem('guideLabels')||'null');}catch(e){}
+  var cur=1;
+  function labelN(n){
+    if(labels&&labels[n])return labels[n];
+    var chipT=document.querySelector('#guideTabs .guide-tab[data-ch="'+n+'"]');
+    var en=chipT?chipT.getAttribute('data-en'):'';
+    return en||('Ch '+n);
+  }
+  function setVisible(tag){
+    var els=onthis?onthis.querySelectorAll('[data-ch]'):[];
+    for(var i=0;i<els.length;i++)els[i].style.display=(els[i].getAttribute('data-ch')==tag)?'':'none';
+    var groupHeads=onthis?onthis.querySelectorAll('.guide-ch'):[];
+    for(var j=0;j<groupHeads.length;j++){
+      var own=groupHeads[j].getAttribute('data-ch');
+      groupHeads[j].style.display=(own===tag)?'':'none';
+    }
+  }
+  function syncGsec(){
+    if(!onthis)return;
+    var links=onthis.querySelectorAll('a.sidebar-link[data-ch]');
+    for(var i=0;i<links.length;i++){
+      var target=links[i].getAttribute('data-ch');
+      links[i].style.display=(target==cur)?'':'none';
+    }
+    if(!prev||!next)return;
+    var prevTxt=prev.querySelector('.cnav'),nextTxt=next.querySelector('.cnav');
+    if(prevTxt){prevTxt.textContent=(cur>1)?labelN(cur-1):'';}
+    if(nextTxt){nextTxt.textContent=(cur<13)?labelN(cur+1):'';}
+    prev.disabled=(cur<=1);next.disabled=(cur>=13);
+  }
+  function showChapter(n,scroll){
+    if(n<1)n=1;if(n>13)n=13;cur=n;
+    for(var i=0;i<secs.length;i++){
+      var k=i+1;
+      var is= k===n;
+      secs[i].classList.toggle('shown',is);
+      if(is){/* ensure acc-item targets resolve */}
+    }
+    for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle('on',(j+1)===n);
+    setVisible(String(n));
+    syncGsec();
+    try{history.replaceState(null,'','#ch'+n);}catch(e){}
+    if(scroll){
+      var top=document.getElementById('pageTop');
+      var y=(top?top.getBoundingClientRect().top+window.pageYOffset-100:0);
+      window.scrollTo({top:y,behavior:'smooth'});
+    }
+  }
+  for(var t=0;t<tabs.length;t++){
+    (function(idx){tabs[idx].addEventListener('click',function(){showChapter(idx+1,true);});})(t);
+  }
+  if(prev){prev.addEventListener('click',function(){showChapter(cur-1,true);});}
+  if(next){next.addEventListener('click',function(){showChapter(cur+1,true);});}
+  function maybeEl(tag){try{return document.querySelector(tag);}catch(e){return null;}}
+  /* scope sidebar g-sec clicks to switch chapter first */
+  if(onthis){
+    onthis.addEventListener('click',function(ev){
+      var link=ev.target.closest?ev.target.closest('a.sidebar-link[data-ch]'):null;
+      if(link){var tag=link.getAttribute('data-ch');var n=parseInt(tag,10);if(n&&n!==cur){ev.preventDefault();showChapter(n,true);}}
+    });
+  }
+  /* deep-link on load */
+  var h=location.hash;
+  if(h&&/^#ch\d+$/.test(h)){
+    var nn=parseInt(h.slice(3),10);
+    if(nn>=1&&nn<=13){showChapter(nn,false);if(nn>1){try{history.replaceState(null,'','#ch'+nn);}catch(e){}}}
+  } else {
+    showChapter(1,false);
+  }
+})();
+</script>
 
 </body>
 </html>

@@ -1,0 +1,14 @@
+name: skin-coherence
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  skin-coherence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skin coherence + webfont audit
+        run: python3 .github/skin-check.py

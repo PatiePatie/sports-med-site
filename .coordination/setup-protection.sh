@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # One-time setup for the repo OWNER (Patrick): creates the `main-protection`
 # ruleset so Oliver + Patrick can work in parallel without clobbering each other,
-# and every merge is gated on the Pages deploy + skin-coherence check.
+# and every merge is gated on the skin-coherence check. The Pages deploy is
+# verified post-merge (it does not report a check on PRs in this repo).
 #
 # Usage (run from this repo's checkout, as the owner account):
 #   .coordination/setup-protection.sh
@@ -29,7 +30,9 @@ fi
 
 echo "About to create 'main-protection' (active, branch rule) on $REPO/main:"
 echo "  · require PR (0 approvals — self-merge OK)"
-echo "  · require checks: GitHub Pages + skin-coherence"
+echo "  · require check: skin-coherence"
+echo "    (note: 'GitHub Pages' does NOT report a status on PRs in this repo —"
+echo "     requiring it would softlock every merge. Pages is verified post-merge.)"
 echo "  · require up-to-date branches · block force-push · block deletion"
 read -r -p "Proceed? (y/N) " ans
 [[ "$ans" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
@@ -57,7 +60,7 @@ gh api -X POST "repos/$REPO/rulesets" \
       "type": "required_status_checks",
       "parameters": {
         "strict": true,
-        "contexts": ["GitHub Pages", "skin-coherence"]
+        "contexts": ["skin-coherence"]
       }
     },
     { "type": "non_fast_forward" },

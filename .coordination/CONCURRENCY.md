@@ -57,14 +57,18 @@ Cheat-sheet rules:
 
 ## The guarantees (why "changes still apply" is enforced, not hoped)
 
-Two required checks run on every PR to main:
+One required check runs on every PR to main:
 
 1. **`skin-coherence`** — `.github/skin-check.py` fails if any page links a
    stylesheet other than `linear-theme.css`, or if any page activates a Google
    Fonts link (China reach / zero-webfont rule). A stale rewrite can no longer
    silently regress the skin.
-2. **`GitHub Pages`** — the Pages build must succeed before merge. If the build
-   would break the live site, you can't merge.
+
+> ⚠️ **Do NOT add "GitHub Pages" as a required check.** GitHub Pages does not
+> report a commit status on pull requests in this repo (only on pushes to main),
+> so a required Pages check would make every PR hang forever waiting for a
+> check that never appears. Pages is still guaranteed — it auto-builds from main
+> on every merge — but it's *verified after* the merge (see troubleshooting, §4).
 
 Plus: branches must be **up to date** with main before merging (rebase
 required), force-push to main is **blocked**, and branch **deletion is blocked**.
@@ -81,7 +85,7 @@ ever contains things that passed the gauntlet.
 2. Name: `main-protection`. Enforcement: **Active**. Target: **main**.
 3. Rules:
    - ☑ **Require a pull request before merging** — required approvals: **0** (both of you can self-merge; speed matters on a 2-person team).
-   - ☑ **Require status checks to pass** — select **`skin-coherence`** and **`GitHub Pages`** from the list. (If `skin-coherence` hasn't run yet, open one PR first so it appears in the list.)
+   - ☑ **Require status checks to pass** — select **`skin-coherence`** from the list. (If it hasn't run yet, open one PR first so it appears in the list.) ⚠️ *Do NOT also select `GitHub Pages`* — it never reports on PRs in this repo, so requiring it would block every merge forever. Pages deploys automatically from main and is verified post-merge instead.
    - ☑ **Require branches to be up to date before merging**
    - ☑ **Block force pushes**
    - ☑ **Block branch deletions**

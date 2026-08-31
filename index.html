@@ -761,7 +761,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
+  <a class="logo" id="siteLogo" href="index.html" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></a>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -770,19 +770,168 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 </div>
 </header>
 
-<!-- Hero -->
-<section id="hero" class="hero">
+<style>
+/* ═══ Landing page components (self-contained; rides the Editorial Surgical system) ═══ */
+.landing-hero{position:relative;overflow:hidden;padding:clamp(3rem,7vw,5.5rem) 0 clamp(2.5rem,5vw,4rem)}
+.landing-hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(600px 300px at 85% -10%, var(--accent-bg), transparent 60%),
+    radial-gradient(500px 260px at -10% 110%, var(--accent-bg), transparent 60%);
+  opacity:.6}
+.landing-hero .container{position:relative;text-align:center;max-width:880px}
+.hero-kicker{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.25rem;
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+  padding:.4rem .85rem;border:1px solid var(--line-strong,var(--line));border-radius:999px;background:var(--surface)}
+.hero-kicker .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--accent);position:relative}
+.hero-kicker .dot::after{content:"";position:absolute;inset:-.32rem;border-radius:50%;border:1px solid var(--accent);opacity:.45;animation:lp-pulse 2.2s ease-out infinite}
+@keyframes lp-pulse{0%{transform:scale(.6);opacity:.6}100%{transform:scale(1.6);opacity:0}}
+.landing-hero h1{font-family:var(--font-heading);font-weight:600;line-height:1.12;
+  font-size:clamp(2.1rem,5.5vw,3.6rem);letter-spacing:-0.01em;margin:0 auto 1rem;max-width:16ch}
+.landing-hero h1 em{font-style:normal;color:var(--accent);position:relative;white-space:nowrap}
+.landing-hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:2px;
+  background:var(--accent);transform:scaleX(1);transform-origin:left;opacity:.55}
+.landing-hero .hero-sub{font-size:clamp(.98rem,2vw,1.12rem);color:var(--text2);
+  max-width:52ch;margin:0 auto 1.75rem;line-height:1.7}
+.landing-hero .hero-sub .cn{display:block;margin-top:.4rem;font-size:.88rem;color:var(--text3)}
+.hero-cta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.btn-land{display:inline-flex;align-items:center;gap:.45rem;padding:.7rem 1.4rem;border-radius:6px;
+  font-weight:600;font-size:.92rem;cursor:pointer;transition:all .18s;border:1px solid transparent;text-decoration:none}
+.btn-land.primary{background:var(--accent);color:#fff}
+.btn-land.primary:hover{background:var(--accent2);text-decoration:none;box-shadow:0 6px 18px var(--accent-glow)}
+.btn-land.ghost{background:var(--surface);color:var(--text);border-color:var(--line-strong,var(--line))}
+.btn-land.ghost:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.hero-proof{margin-top:2.5rem;display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+.stat{min-width:128px;padding:.9rem 1rem;text-align:left;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.stat .n{font-family:var(--font-heading);font-size:1.7rem;font-weight:600;color:var(--text);line-height:1}
+.stat .n span{color:var(--accent)}
+.stat .l{display:block;margin-top:.35rem;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.landing-section{padding:clamp(2.5rem,6vw,4rem) 0}
+.landing-section.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-eyebrow{display:block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.sec-title{font-family:var(--font-heading);font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:600;color:var(--text);margin-bottom:.6rem}
+.sec-lede{color:var(--text2);max-width:60ch;margin-bottom:1.75rem;line-height:1.7}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:.5rem}
+.feature-card{border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:1.25rem 1.3rem;position:relative;overflow:hidden}
+.feature-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);opacity:.9}
+.feature-card .ic{font-size:1.25rem;color:var(--accent);margin-bottom:.6rem}
+.feature-card h3{font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+.feature-card p{font-size:.85rem;color:var(--text2);line-height:1.6;margin:0}
+.chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem}
+.chip-link{display:flex;flex-direction:column;gap:.15rem;padding:.85rem 1rem;border:1px solid var(--line);
+  border-radius:6px;background:var(--bg);color:var(--text);text-decoration:none;transition:all .15s}
+.chip-link:hover{border-color:var(--accent);background:var(--accent-bg);text-decoration:none;transform:translateY(-1px)}
+.chip-link .ch{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.chip-link .nm{font-size:.92rem;font-weight:600;color:var(--text)}
+.chip-link .er{font-size:.8rem;color:var(--text3)}
+.cta-band{padding:clamp(2.5rem,6vw,4rem) 0;text-align:center;background:var(--accent-bg);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta-band h2{font-family:var(--font-heading);font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:600;color:var(--text);margin-bottom:.6rem}
+.cta-band p{color:var(--text2);max-width:52ch;margin:0 auto 1.5rem}
+.landing-footer{padding:2.5rem 0 3rem;border-top:1px solid var(--line)}
+.landing-footer .ft{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.landing-footer .ft .note{font-size:.8rem;color:var(--text3)}
+.landing-footer .ft .links{display:flex;gap:1.1rem;flex-wrap:wrap}
+.landing-footer .ft .links a{font-size:.82rem;color:var(--text2);text-decoration:none}
+.landing-footer .ft .links a:hover{color:var(--accent)}
+</style>
+
+<!-- Landing hero -->
+<section id="hero" class="landing-hero">
 <div class="container">
-  <div class="hero-badge"><span class="dot"></span><span data-en="Bilingual Student Guide" data-zh="双语学生指南">Bilingual Student Guide</span></div>
-  <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养"><span>Sports Medicine, Recovery &amp; Nutrition</span></h1>
-  <p data-en="English / 中文 — 13 chapters, flashcards, adaptive quizzes & debates" data-zh="中文 / English — 十三大章节、闪卡、自适应刷题与科学争论">English / 中文 — 13 chapters, flashcards, adaptive quizzes &amp; debates</p>
-  <div class="hero-actions">
-    <button class="qo-btn next" onclick="openFlashcards()" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
-    <button class="qo-btn next" onclick="location.href='exam.html'" style="background:var(--green)" data-en="🎓 Exam Prep &amp; Certificate" data-zh="🎓 考试冲刺与证书">🎓 Exam Prep &amp; Certificate</button>
-    <button class="qo-btn next" onclick="document.getElementById('qa').scrollIntoView({behavior:'smooth'})" style="background:var(--text3)" data-en="💬 Ask a Question" data-zh="💬 在线答疑">💬 Ask a Question</button>
+  <div class="hero-kicker"><span class="dot"></span><span data-en="Bilingual student guide · EN / 中文" data-zh="双语学生指南 · 中文 / EN">Bilingual student guide · EN / 中文</span></div>
+  <h1 data-en="Sports Medicine, Recovery &amp; Nutrition — built for how you actually study"
+      data-zh="运动医学、恢复与营养 — 为你的真实学习方式而设计">
+    Sports Medicine, Recovery &amp; Nutrition — built for <em>how you actually study</em>
+  </h1>
+  <p class="hero-sub">
+    <span data-en="Thirteen chapters, flashcards, adaptive practice and a recovery assistant — one sharp, bilingual study guide for pre-med and NPTE prep."
+          data-zh="十三章内容、闪卡、自适应刷题与恢复助手 — 一本为医学预科和 NPTE 备考而生的双语学习指南。">Thirteen chapters, flashcards, adaptive practice and a recovery assistant — one sharp, bilingual study guide for pre-med and NPTE prep.</span>
+    <span class="cn" data-en="(13 chapters · flashcards · adaptive quizzes · recovery assistant)"
+          data-zh="(13 大章节 · 闪卡 · 自适应刷题 · 恢复助手)">13 大章节 · 闪卡 · 自适应刷题 · 恢复助手</span>
+  </p>
+  <div class="hero-cta">
+    <a class="btn-land primary" href="#landing-chapters" data-en="Browse the chapters" data-zh="浏览章节">Browse the chapters</a>
+    <button class="btn-land ghost" onclick="document.getElementById('qa').scrollIntoView({behavior:'smooth'})" data-en="Ask the recovery assistant" data-zh="咨询恢复助手">Ask the recovery assistant</button>
+    <a class="btn-land ghost" href="exam.html" data-en="Exam prep &amp; certificate" data-zh="考试冲刺与证书">Exam prep &amp; certificate</a>
+  </div>
+  <div class="hero-proof">
+    <div class="stat"><span class="n">13</span><span class="l" data-en="Chapters" data-zh="章节">Chapters</span></div>
+    <div class="stat"><span class="n">5<i style="font-style:normal">00+</i></span><span class="l" data-en="Flashcards &amp; questions" data-zh="闪卡与题目">Flashcards &amp; questions</span></div>
+    <div class="stat"><span class="n">2</span><span class="l" data-en="Languages" data-zh="双语">Languages</span></div>
+    <div class="stat"><span class="n">0</span><span class="l" data-en="Accounts required to read" data-zh="免费阅读无需注册">Accounts to read</span></div>
   </div>
 </div>
 </section>
+
+<!-- Feature band -->
+<section class="landing-section band" id="landing-features">
+<div class="container">
+  <span class="sec-eyebrow" data-en="What's inside" data-zh="内容一览">What's inside</span>
+  <h2 class="sec-title" data-en="One guide, every study tool" data-zh="一本指南，全套学习工具">One guide, every study tool</h2>
+  <p class="sec-lede" data-en="Read the science, flip the flashcards, drill the weak spots, and ask the assistant when a question won't let go."
+      data-zh="读懂科学原理、翻转闪卡、针对薄弱环节刷题，遇到揪心的问题随时请教助手。">Read the science, flip the flashcards, drill the weak spots, and ask the assistant when a question won't let go.</p>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="ic">📖</div><h3 data-en="13 chapters of real content" data-zh="十三章系统化内容">13 chapters of real content</h3><p data-en="From the body as a machine to recovery science, nutrition, TCM and assessment — the full map." data-zh="从身体如机器到恢复科学、营养、中医与评定 — 一张完整的学习地图。">From the body as a machine to recovery science, nutrition, TCM and assessment — the full map.</p></div>
+    <div class="feature-card"><div class="ic">🃏</div><h3 data-en="Flashcards that stick" data-zh="真正记得住的闪卡">Flashcards that stick</h3><p data-en="Flippable, per-chapter decks with your progress saved locally." data-zh="可翻转、按章节组织的卡组，学习进度自动保存在本地。">Flippable, per-chapter decks with your progress saved locally.</p></div>
+    <div class="feature-card"><div class="ic">🎯</div><h3 data-en="Adaptive practice" data-zh="自适应刷题">Adaptive practice</h3><p data-en="Adaptive quizzes and diagnostics that pace themselves to what you miss." data-zh="自适应的测验与诊断，针对你出错的地方调整节奏。">Adaptive quizzes and diagnostics that pace themselves to what you miss.</p></div>
+    <div class="feature-card"><div class="ic">💬</div><h3 data-en="A recovery assistant" data-zh="恢复助手">A recovery assistant</h3><p data-en="Describe an ache or injury and get immediate, educational guidance — not a diagnosis." data-zh="描述酸痛或损伤，即时获得教育性指导 — 而非医学诊断。">Describe an ache or injury and get immediate, educational guidance — not a diagnosis.</p></div>
+    <div class="feature-card"><div class="ic">🌐</div><h3 data-en="Bilingual, by default" data-zh="默认双语">Bilingual, by default</h3><p data-en="Flip between English and 中文 with one tap — no reload, no friction." data-zh="一键切换中英文 — 无需刷新，零阻力。">Flip between English and 中文 with one tap — no reload, no friction.</p></div>
+    <div class="feature-card"><div class="ic">📱</div><h3 data-en="Fast anywhere" data-zh="随处流畅">Fast anywhere</h3><p data-en="Static pages, no external fonts, mobile-first — reads clean even behind a slow connection." data-zh="静态页面、无外部字体、移动优先 — 网速再慢也流畅可读。">Static pages, no external fonts, mobile-first — reads clean even behind a slow connection.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- Chapter grid -->
+<section class="landing-section" id="landing-chapters">
+<div class="container">
+  <span class="sec-eyebrow" data-en="The curriculum" data-zh="课程内容">The curriculum</span>
+  <h2 class="sec-title" data-en="Thirteen chapters, one path" data-zh="十三章内容，一条路径">Thirteen chapters, one path</h2>
+  <p class="sec-lede" data-en="Jump straight into any chapter — or start at the beginning and follow the arc." data-zh="可直接进入任意章节 — 或从第一章开始顺次学习。">Jump straight into any chapter — or start at the beginning and follow the arc.</p>
+  <div class="chip-grid">
+    <a class="chip-link" href="ch1.html"><span class="ch">Ch 1</span><span class="nm" data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</span><span class="er" data-en="EN / 中文" data-zh="中文 / EN">EN / 中文</span></a>
+    <a class="chip-link" href="ch2.html"><span class="ch">Ch 2</span><span class="nm" data-en="Nervous System" data-zh="神经系统">Nervous System</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch3.html"><span class="ch">Ch 3</span><span class="nm" data-en="Cardiovascular System" data-zh="心血管系统">Cardiovascular System</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch4.html"><span class="ch">Ch 4</span><span class="nm" data-en="Integumentary System" data-zh="皮肤系统">Integumentary System</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch5.html"><span class="ch">Ch 5</span><span class="nm" data-en="Training Principles" data-zh="训练原则">Training Principles</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch6.html"><span class="ch">Ch 6</span><span class="nm" data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch7.html"><span class="ch">Ch 7</span><span class="nm" data-en="Recovery Science" data-zh="恢复科学">Recovery Science</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch8.html"><span class="ch">Ch 8</span><span class="nm" data-en="Nutrition" data-zh="营养">Nutrition</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch9.html"><span class="ch">Ch 9</span><span class="nm" data-en="Supplements" data-zh="补剂">Supplements</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch10.html"><span class="ch">Ch 10</span><span class="nm" data-en="Ethics &amp; Responsibility" data-zh="伦理与职业责任">Ethics &amp; Responsibility</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch11.html"><span class="ch">Ch 11</span><span class="nm" data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch12.html"><span class="ch">Ch 12</span><span class="nm" data-en="Assessment · 康复评定学" data-zh="康复评定学 · Assessment">Assessment · 康复评定学</span><span class="er">EN / 中文</span></a>
+    <a class="chip-link" href="ch13.html"><span class="ch">Ch 13</span><span class="nm" data-en="TCM · 中医健康管理" data-zh="中医健康管理 · TCM">TCM · 中医健康管理</span><span class="er">EN / 中文</span></a>
+  </div>
+  <p class="sec-lede" style="margin-top:1.5rem;margin-bottom:0">
+    <a href="toc.html" data-en="See the full table of contents →" data-zh="查看完整目录 →">See the full table of contents →</a>
+  </p>
+</div>
+</section>
+
+<!-- CTA band -->
+<section class="cta-band" id="landing-cta">
+<div class="container">
+  <h2 data-en="Ready to open the front door?" data-zh="准备好推开大门了吗？">Ready to open the front door?</h2>
+  <p data-en="Start reading, start practicing, or ask the assistant your first question. It's all free, all in one place." data-zh="开始阅读、开始刷题，或向助手提出第一个问题。全部免费，尽在一处。">Start reading, start practicing, or ask the assistant your first question. It's all free, all in one place.</p>
+  <div class="hero-cta">
+    <a class="btn-land primary" href="#landing-chapters" data-en="Start reading" data-zh="开始阅读">Start reading</a>
+    <a class="btn-land ghost" href="login.html" data-en="Create an account" data-zh="创建账号">Create an account</a>
+  </div>
+</div>
+</section>
+
+<!-- Landing footer -->
+<footer class="landing-footer">
+<div class="container ft">
+  <span class="note" data-en="For educational purposes only — not a substitute for professional medical advice." data-zh="仅用于教学目的 — 不可替代专业医疗建议。">For educational purposes only — not a substitute for professional medical advice.</span>
+  <div class="links">
+    <a href="account.html" data-en="Account" data-zh="账户">Account</a>
+    <a href="toc.html" data-en="Contents" data-zh="目录">Contents</a>
+    <a href="exam.html" data-en="NPTE" data-zh="NPTE">NPTE</a>
+    <a href="cn-cert.html" data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</a>
+  </div>
+</div>
+</footer>
 
 <!-- Q&A Helper -->
 <section id="qa">
@@ -2688,6 +2837,16 @@ document.addEventListener('keydown',function(e){
   </div>
 </div>
 
+<script>
+/* Site logo → home (landing) if signed out, account if signed in */
+(function(){
+  var logo=document.getElementById('siteLogo');
+  if(!logo) return;
+  var signedIn=false;
+  try{ signedIn=!!JSON.parse(localStorage.getItem('sm_user')||'null'); }catch(e){}
+  if(signedIn) logo.setAttribute('href','account.html');
+})();
+</script>
 
 </body>
 </html>

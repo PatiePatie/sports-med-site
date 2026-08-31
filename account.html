@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Vitalite — Sports Medicine, Recovery &amp; Nutrition</title>
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
+<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -650,6 +650,10 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .facts li b{color:var(--accent);font-weight:700}
 ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
 ul.bul li{margin:.42rem 0;line-height:1.62}
+
+.btn-signout-min{background:none;border:none;color:var(--text3);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:.25rem .35rem;margin-left:auto;opacity:.75;transition:opacity .2s}
+.btn-signout-min:hover{opacity:1;color:var(--text2)}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -713,10 +717,6 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
-<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="linear-theme.css">
-<script src="draft.js" defer></script>
-<!-- DRAFT-THEME:END -->
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav class="sidebar" id="sidebar">
@@ -757,7 +757,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalite" data-zh="维塔利特">Vitalite</div>
+  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -783,7 +783,6 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
       <div class="acct-hero-actions">
         <a class="btn-acc ghost" href="login.html" data-en="🔐 Account &amp; Email" data-zh="🔐 账号与邮箱">🔐 Account &amp; Email</a>
         <button class="btn-acc ghost" onclick="selectEdit()" data-en="🖊 Edit Profile" data-zh="🖊 编辑资料">🖊 Edit Profile</button>
-        <button class="btn-acc danger" onclick="doSignOut()" data-en="⏻ Sign Out" data-zh="⏻ 退出登录">⏻ Sign Out</button>
       </div>
     </section>
 
@@ -836,6 +835,7 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
         <div class="acct-btnrow">
           <button class="btn-acc primary" onclick="saveProfile()" data-en="💾 Save Profile" data-zh="💾 保存资料">💾 Save Profile</button>
           <button class="btn-acc" onclick="closeEdit()" data-en="Cancel" data-zh="取消">Cancel</button>
+          <button class="btn-signout-min" onclick="doSignOut()" data-en="⏻ Sign out" data-zh="⏻ 退出">⏻ Sign out</button>
         </div>
         <p class="acct-hint" data-en="For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server." data-zh="目前你的资料仅保存在此浏览器中。将来加入社交功能时，可同步到服务器上的账号。">For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server.</p>
       </div>

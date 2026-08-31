@@ -81,6 +81,7 @@
     { file: 'toc.html',     en: 'Contents',       zh: '目录',              icon: 'list' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
+    { file: 'usabo.html',   en: 'USABO Biology',  zh: 'USABO 生物奥赛',       icon: 'dna' },
     { file: 'account.html', en: 'Account',        zh: '我的账户',           icon: 'user' },
     { file: 'login.html',   en: 'Sign in',        zh: '登录',              icon: 'login' }
   ];
@@ -115,6 +116,7 @@
     award:     '<circle cx="8" cy="6.5" r="3.5"/><path d="M5.8 9.6 5 14l3-1.5L11 14l-.8-4.4"/>',
     user:      '<circle cx="8" cy="5.8" r="2.6"/><path d="M3.4 13.5a4.6 4.6 0 0 1 9.2 0"/>',
     login:     '<path d="M9.5 3.5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2M8.5 8h-6M5.5 5.5 3 8l2.5 2.5"/>',
+    dna:       '<path d="M3.5 13.5C6 11 10 11 12.5 13.5M3.5 13.5C3.5 8.5 12.5 7.5 12.5 2.5M3.5 2.5C6 5 10 5 12.5 2.5M4 8l8 0M6 5l4 6"/>',
     play:      '<circle cx="8" cy="8" r="5.5"/><path d="m6.8 5.8 3.2 2.2-3.2 2.2Z"/>',
     message:   '<path d="M13 9.5a1.5 1.5 0 0 1-1.5 1.5H6l-3 2.5V4a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 13 4Z"/>',
     edit:      '<path d="M8.5 3.5H4a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7M11 2.6l2.4 2.4-4.6 4.6-2.9.5.5-2.9Z"/>',

@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>NPTE Exam Prep &amp; Certificate — Vitalite</title>
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
+<title>NPTE Exam Prep &amp; Certificate — Sports Med Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -39,14 +39,15 @@ tr:nth-child(even){background:var(--surface2)}
 
 /* ── Dark ── */
 body.dark{
-  --bg:#0a101f;--surface:#131a2c;--surface2:#1b2337;--surface3:#263049;
-  --text:#e6e9f2;--text2:#9aa4bd;--text3:#6b7591;
-  --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1d2145;
-  --border:#232c44;--border2:#2f3a57;
+  --bg:#0A1828;--surface:#0F2238;--surface2:#14304A;--surface3:#1A3D5C;
+  --text:#E8F1F5;--text2:#9DB8C8;--text3:#6F8FA3;
+  --accent:#178582;--accent2:#21A4A0;--accent-bg:#0E3A3A;
+  --green:#2EA98B;--red:#C05A74;--amber:#BFA181;
+  --border:#1B3A55;--border2:#264B6B;
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow:0 4px 16px rgba(0,0,0,.42);
   --shadow-lg:0 16px 40px rgba(0,0,0,.55);
-  --accent-glow:rgba(129,140,248,.25);
+  --accent-glow:rgba(23,133,130,.35);
 }
 
 /* ── Layout ── */
@@ -634,14 +635,21 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view.open{display:flex}
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
+
+/* ── Dark theme palette overrides: classic blue / turquoise / gold ── */
+body.dark .hero h1 span{background:linear-gradient(135deg,#178582,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body.dark .ai-fab{background:linear-gradient(135deg,#178582,#BFA181)}
+body.dark #readingBar{background:linear-gradient(90deg,#178582,#BFA181,#0A1828)}
+body.dark .author-ava{background:linear-gradient(135deg,#178582,#BFA181)}
+body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#178582 12%,var(--surface)),var(--surface))}
+body.dark .test-prep .tp-tag{background:#178582}
+body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#178582,#BFA181)}
+body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#E8F1F5}
+
 </style>
 
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
-<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="linear-theme.css">
-<script src="draft.js" defer></script>
-<!-- DRAFT-THEME:END -->
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -649,7 +657,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Vitalite</div>
+  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
@@ -690,7 +698,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalite" data-zh="维塔利特">Vitalite</div>
+  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -1425,7 +1433,7 @@ function genCert(){
   dcenter(g,datestr,810,'normal 26px Georgia, serif',ink);
   g.strokeStyle=ink; g.lineWidth=2;
   g.beginPath(); g.moveTo(560,838); g.lineTo(940,838); g.stroke();
-  dcenter(g,showCN?'项目总监 · 维塔利特':'Program Director · Vitalite',865,'normal 20px '+FF,soft);
+  dcenter(g,showCN?'项目总监 · 运动医学指南':'Program Director · Sports Med Guide',865,'normal 20px '+FF,soft);
   dcenter(g,showCN?'课程完成记录 — 不代表FSBPT或CAPTE授予的执照、资格或认可。':'Course-completion record — not a license, credential, or endorsement from FSBPT or CAPTE.',955,'normal 18px '+FF,soft);
   dcenter(g,showCN?'仅供学习使用，非医疗建议。':'Educational material only, not medical advice.',985,'normal 16px '+FF,soft);
   // download

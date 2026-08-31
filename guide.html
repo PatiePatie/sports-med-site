@@ -4940,17 +4940,20 @@ document.addEventListener('keydown',function(e){
     }
   }
   function syncGsec(){
-    if(!onthis)return;
-    var links=onthis.querySelectorAll('a.sidebar-link[data-ch]');
-    for(var i=0;i<links.length;i++){
-      var target=links[i].getAttribute('data-ch');
-      links[i].style.display=(target==cur)?'':'none';
+    if(onthis){
+      var links=onthis.querySelectorAll('a.sidebar-link[data-ch]');
+      for(var i=0;i<links.length;i++){
+        var target=links[i].getAttribute('data-ch');
+        links[i].style.display=(target==cur)?'':'none';
+      }
     }
-    if(!prev||!next)return;
-    var prevTxt=prev.querySelector('.cnav'),nextTxt=next.querySelector('.cnav');
-    if(prevTxt){prevTxt.textContent=(cur>1)?labelN(cur-1):'';}
-    if(nextTxt){nextTxt.textContent=(cur<13)?labelN(cur+1):'';}
-    prev.disabled=(cur<=1);next.disabled=(cur>=13);
+    if(prev||next){
+      var prevTxt=prev&&prev.querySelector('.cnav'),nextTxt=next&&next.querySelector('.cnav');
+      if(prevTxt){prevTxt.textContent=(cur>1)?labelN(cur-1):'';}
+      if(nextTxt){nextTxt.textContent=(cur<13)?labelN(cur+1):'';}
+      if(prev)prev.disabled=(cur<=1);
+      if(next)next.disabled=(cur>=13);
+    }
   }
   function showChapter(n,scroll){
     if(n<1)n=1;if(n>13)n=13;cur=n;

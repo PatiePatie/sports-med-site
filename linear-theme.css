@@ -1,0 +1,1303 @@
+@import url('draft-theme.css');
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   LINEAR — the product-surface direction
+   ------------------------------------------------------------------------------
+   A re-skin of the Sports Medicine guide in the visual language of linear.app:
+
+     · Near-black ground (#08090A) with barely-there surfaces; light mode is
+       Linear's docs mode (white paper, 8%-black hairlines).
+     · One indigo accent (#5E6AD2) used sparingly — Linear never floods a page
+       with brand color; it spends it on focus, active state and one CTA.
+     · Hairlines at 8% instead of borders. Shadows only where something floats.
+     · Tight, dense sans type: 15px body, -0.022em display tracking, 510–560
+       weights. No serif anywhere — this is a product, not a journal.
+     · 8px corners (4px on chips, 12px on floating panels).
+     · Sticky translucent chrome: blur(20px) + saturate(180%).
+     · Motion is 120–180ms, ease-out, and only on color/border/opacity.
+
+   Layer discipline: this file is a pure override on draft-theme.css. Same
+   selectors, different values. Swap one <link> href to switch skins; run
+   `python3 tools/theme_switch.py off` for the byte-identical rollback.
+   No HTML is rewritten, no JS is touched.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── 01 · Tokens — light (Linear "docs" mode) ────────────────────────────── */
+:root{
+  --bg:#FFFFFF;
+  --paper:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface2:#F9F9FA;
+  --surface3:#F0F0F1;
+
+  --text:#08090A;
+  --text2:#5B5E66;   /* AA on white: 6.6:1 */
+  --text3:#787D85;   /* AA on white: 4.6:1 */
+
+  /* Linear indigo — the only brand color on the page */
+  --accent:#5546C9;      /* darkened from #5E6AD2 for AA on white: 6.4:1 */
+  --accent2:#4A3DB5;
+  --accent-bg:#F1F0FD;
+  --accent-glow:rgba(94,106,210,.16);
+
+  --green:#12805C;
+  --red:#C4322B;
+  --amber:#8A6100;
+
+  /* Hairlines at ~8% ink, never a hard grey */
+  --border:rgba(8,9,10,.09);
+  --border2:rgba(8,9,10,.15);
+  --line:rgba(8,9,10,.09);
+  --line-strong:rgba(8,9,10,.15);
+
+  /* Shadows exist only for things that float */
+  --shadow-sm:0 0 0 0 transparent;
+  --shadow:0 1px 2px rgba(8,9,10,.05);
+  --shadow-lg:0 16px 70px rgba(8,9,10,.14),0 2px 8px rgba(8,9,10,.06);
+
+  --radius:8px;
+  --radius-sm:5px;
+  --radius-lg:12px;
+
+  /* Inter if the reader has it; otherwise the platform's own UI sans.
+     Zero webfont requests — the site has to load behind the GFW. */
+  --font:"Inter var","Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --font-heading:var(--font);
+  --font-mono:"Berkeley Mono","SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --max-w:900px;
+  --rail:240px;
+
+  /* Chip family — desaturated, one step off the ground */
+  --c-blue:#3D5AC7;
+  --c-teal:#0F6F87;
+  --c-moss:#2F7A56;
+  --c-ochre:#8A6100;
+  --c-clay:#C4322B;
+  --c-plum:#5546C9;
+  --c-slate:#5B5E66;
+
+  --focus-ring:rgba(94,106,210,.45);
+
+  /* Linear-specific additions */
+  --lin-elevated:#FFFFFF;
+  --lin-hover:rgba(8,9,10,.045);
+  --lin-active:rgba(8,9,10,.07);
+  --lin-glow-1:rgba(94,106,210,.14);
+  --lin-glow-2:rgba(120,90,220,.10);
+  --lin-header-bg:rgba(255,255,255,.72);
+  --lin-btn-primary-bg:#5546C9;
+  --lin-btn-primary-fg:#FFFFFF;
+  --lin-ring:rgba(8,9,10,.08);
+}
+
+
+/* ─── 02 · Tokens — dark (the signature Linear ground) ────────────────────── */
+body.dark{
+  --bg:#08090A;
+  --paper:#08090A;
+  --surface:#0E0F11;
+  --surface2:#141517;
+  --surface3:#1C1D20;
+
+  --text:#F7F8F8;
+  --text2:#9CA0A8;   /* Linear's #8A8F98, lifted for AA on #08090A */
+  --text3:#7C818A;
+
+  --accent:#8B93F8;      /* the indigo has to lift off near-black */
+  --accent2:#A8AEFB;
+  --accent-bg:rgba(94,106,210,.16);
+  --accent-glow:rgba(94,106,210,.30);
+
+  --green:#4CB782;
+  --red:#F0817C;
+  --amber:#E5B54A;
+
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,255,255,.14);
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.14);
+
+  --shadow-sm:0 0 0 0 transparent;
+  --shadow:0 1px 2px rgba(0,0,0,.5);
+  --shadow-lg:0 24px 70px rgba(0,0,0,.6),0 2px 10px rgba(0,0,0,.5);
+
+  --c-blue:#7C8CF8;
+  --c-teal:#5BC0DE;
+  --c-moss:#4CB782;
+  --c-ochre:#E5B54A;
+  --c-clay:#F0817C;
+  --c-plum:#B4A5FB;
+  --c-slate:#9CA0A8;
+
+  --focus-ring:rgba(139,147,248,.55);
+
+  --lin-elevated:#191A1D;
+  --lin-hover:rgba(255,255,255,.05);
+  --lin-active:rgba(255,255,255,.08);
+  --lin-glow-1:rgba(94,106,210,.30);
+  --lin-glow-2:rgba(150,90,220,.18);
+  --lin-header-bg:rgba(8,9,10,.72);
+  --lin-btn-primary-bg:#5E6AD2;
+  --lin-btn-primary-fg:#FFFFFF;
+  --lin-ring:rgba(255,255,255,.08);
+}
+
+
+/* ─── 03 · Base — density, type, rhythm ───────────────────────────────────── */
+html{font-size:16px}
+
+body{
+  font-family:var(--font);
+  font-size:.9375rem;          /* 15px — Linear's reading size */
+  line-height:1.6;
+  letter-spacing:-.001em;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-feature-settings:"cv01","cv03","ss03";
+}
+
+::selection{background:var(--accent-bg);color:var(--text)}
+
+a{color:var(--accent);text-decoration:none;transition:color .12s ease}
+a:hover{color:var(--accent2);text-decoration:none}
+/* body copy links keep an underline so they stay findable in a wall of text */
+.acc-body-inner a,.callout a,p a,li a{text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 35%,transparent);text-underline-offset:.2em}
+
+/* No serif anywhere. Display type is the body sans, tightened and de-bolded. */
+h1,h2,h3,h4,h5,h6,.logo,.sidebar-logo,.hero h1,.ne-hero h1{
+  font-family:var(--font);
+  letter-spacing:-.022em;
+  text-wrap:balance;
+}
+h1,h2{font-weight:560;line-height:1.14}
+h3,h4,h5,h6{font-weight:540;line-height:1.3;letter-spacing:-.014em}
+h2{font-size:clamp(1.4rem,2.5vw,1.75rem);margin-bottom:.35rem}
+h3{font-size:1.0625rem;margin:1.7rem 0 .5rem}
+h4{font-size:.9375rem;margin:1.3rem 0 .4rem}
+
+/* Chinese never wants negative tracking or a "balanced" ragged edge */
+body.lang-zh h1,body.lang-zh h2,body.lang-zh h3,body.lang-zh h4,
+body.lang-zh .logo,body.lang-zh .sidebar-logo,.cn{letter-spacing:0}
+
+p{margin-bottom:.85rem;color:var(--text2)}
+.acc-body-inner p,.callout p{color:var(--text2)}
+li{color:var(--text2)}
+strong,b{color:var(--text);font-weight:560}
+.cn{color:var(--text3);font-size:.875rem;line-height:1.8}
+
+section{
+  padding:clamp(2.75rem,6vw,4.5rem) 0 clamp(2.25rem,5vw,3.5rem);
+  border-bottom:1px solid var(--line);
+}
+.container{max-width:var(--max-w);padding:0 1.75rem}
+
+/* Section eyebrow — Linear's small monospaced-feeling label */
+.section-label,.sidebar-label,.resources-title,.mastery-title,.rec-title{
+  font-family:var(--font);
+  font-size:.6875rem;
+  font-weight:560;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text3);
+}
+.section-label{
+  display:inline-block;
+  margin-bottom:.6rem;
+  padding:0;
+  background:none;
+  border:0;
+  color:var(--accent);
+}
+
+.quote{
+  border-left:2px solid var(--border2);
+  background:transparent;
+  padding:.1rem 0 .1rem 1.15rem;
+  color:var(--text2);
+  font-style:normal;
+}
+
+/* Thin, self-effacing scrollbars — the Linear tell */
+*{scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:var(--border2);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+*::-webkit-scrollbar-thumb:hover{background:var(--text3);background-clip:content-box}
+
+/* One focus treatment for the whole site */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--focus-ring);
+  outline-offset:2px;
+  border-radius:var(--radius-sm);
+}
+
+
+/* ─── 04 · Header — translucent chrome ────────────────────────────────────── */
+header{
+  background:var(--lin-header-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+}
+.header-inner{padding:.7rem 0;gap:.75rem}
+
+.logo{
+  font-size:.9375rem;
+  font-weight:560;
+  letter-spacing:-.018em;
+  color:var(--text);
+  display:flex;align-items:center;gap:.5rem;
+}
+/* The mark: a small indigo square, the way Linear leads its wordmark */
+.logo::before{
+  content:"";
+  width:18px;height:18px;flex:none;
+  border-radius:5px;
+  background:linear-gradient(150deg,#6E79E0,#4E42BF);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28);
+}
+.logo span{color:var(--text3);font-weight:460}
+
+.header-actions{gap:.375rem}
+
+.btn-icon{
+  width:30px;height:30px;
+  border-radius:var(--radius-sm);
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--text2);
+  font-size:.8125rem;
+  box-shadow:none;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.btn-icon:hover{
+  background:var(--lin-hover);
+  border-color:var(--border);
+  color:var(--text);
+  transform:none;box-shadow:none;
+}
+
+/* The auth chip reads as Linear's top-right "Log in" — text, then a hairline */
+.btn-login{
+  height:30px;
+  padding:0 .7rem;
+  display:inline-flex;align-items:center;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:var(--lin-hover);
+  color:var(--text);
+  font-size:.8125rem;font-weight:510;
+  letter-spacing:-.006em;
+  box-shadow:none;
+}
+.btn-login:hover{background:var(--lin-active);border-color:var(--border2);transform:none;box-shadow:none;text-decoration:none}
+
+#readingBar{height:2px;background:var(--accent);opacity:.9}
+
+/* Top nav (pages that use one instead of the rail) */
+nav:not(.sidebar){
+  background:var(--lin-header-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line);
+}
+nav:not(.sidebar) a{
+  font-size:.8125rem;font-weight:500;
+  color:var(--text2);
+  padding:.6rem .85rem;
+  border-bottom:1px solid transparent;
+}
+nav:not(.sidebar) a:hover{color:var(--text);background:var(--lin-hover)}
+
+
+/* ─── 05 · Sidebar — the docs rail ────────────────────────────────────────── */
+.sidebar{
+  background:var(--surface2);
+  border-right:1px solid var(--line);
+  padding:.9rem .5rem 2.5rem;
+}
+body.dark .sidebar{background:#0A0B0C}
+
+.sidebar-logo{
+  font-size:.875rem;font-weight:560;letter-spacing:-.018em;
+  padding:.15rem .65rem 1rem;
+  border-bottom:1px solid var(--line);
+  margin:0 -.5rem .8rem;
+  padding-left:1.15rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.sidebar-logo::before{
+  content:"";
+  width:16px;height:16px;flex:none;
+  border-radius:4px;
+  background:linear-gradient(150deg,#6E79E0,#4E42BF);
+}
+.sidebar-logo span{color:var(--text3);font-weight:460}
+
+.sidebar-group{margin-bottom:.9rem}
+.sidebar-group + .sidebar-group{padding-top:.9rem;border-top:1px solid var(--line)}
+
+.sidebar-label{padding:.1rem .65rem .45rem}
+
+/* Rows: rounded, inset, no left rule — active is a filled pill */
+.sidebar-link{
+  min-height:30px;
+  margin:1px 0;
+  padding:.3rem .65rem;
+  border-left:0;
+  border-radius:var(--radius-sm);
+  font-size:.8125rem;
+  font-weight:460;
+  letter-spacing:-.006em;
+  color:var(--text2);
+  transition:background .12s ease,color .12s ease;
+}
+.sidebar-link.sub{padding-left:1.35rem;font-size:.78rem}
+.sidebar-link:hover{
+  background:var(--lin-hover);
+  color:var(--text);
+  border-left:0;
+  text-decoration:none;
+}
+.sidebar-link.active{
+  background:var(--lin-active);
+  color:var(--text);
+  font-weight:510;
+  border-left:0;
+}
+.sidebar-link.active::after{display:none}
+
+.sidebar-toggle{
+  width:36px;height:36px;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:var(--lin-header-bg);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  color:var(--text2);
+  box-shadow:var(--shadow);
+  font-size:.9rem;
+}
+.sidebar-toggle:hover{color:var(--text);border-color:var(--border2)}
+
+.sm-backdrop{background:rgba(8,9,10,.5);backdrop-filter:blur(4px)}
+body.dark .sm-backdrop{background:rgba(0,0,0,.72)}
+
+.onthis .sidebar-link{font-size:.78rem;min-height:28px}
+
+
+/* ─── 06 · Hero — the gradient ground ─────────────────────────────────────── */
+.hero,.ne-hero{
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+  padding:clamp(3.5rem,9vw,7rem) 0 clamp(2.75rem,6vw,4.5rem);
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+/* Two soft ellipses of brand light, the way Linear lights its hero */
+.hero::before,.ne-hero::before{
+  content:"";
+  position:absolute;
+  top:-40%;left:50%;
+  width:min(1100px,150%);height:150%;
+  transform:translateX(-50%);
+  background:
+    radial-gradient(48% 42% at 50% 42%,var(--lin-glow-1),transparent 70%),
+    radial-gradient(36% 34% at 22% 28%,var(--lin-glow-2),transparent 72%);
+  opacity:1;
+  z-index:-1;
+  pointer-events:none;
+}
+/* A hairline of light along the very top edge */
+.hero::after,.ne-hero::after{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:.5;
+}
+
+.hero .container,.ne-hero .container{position:relative;z-index:1}
+
+/* Release-note pill */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.45rem;
+  height:26px;padding:0 .7rem;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--lin-hover);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  color:var(--text2);
+  font-size:.75rem;font-weight:500;letter-spacing:-.004em;
+  text-transform:none;
+  box-shadow:none;
+  margin-bottom:1.35rem;
+}
+.hero-badge .dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-bg);
+  animation:none;
+}
+
+.hero h1,.ne-hero h1{
+  font-size:clamp(2.1rem,5.2vw,3.5rem);
+  font-weight:560;
+  letter-spacing:-.032em;
+  line-height:1.06;
+  max-width:16ch;
+  margin-inline:auto;
+  margin-bottom:1.1rem;
+  /* Linear's headline is a vertical fade, not flat ink */
+  background:linear-gradient(180deg,var(--text) 30%,color-mix(in srgb,var(--text) 62%,transparent));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+}
+.hero h1 span,.ne-hero h1 span{
+  background:none;
+  -webkit-text-fill-color:inherit;
+  color:inherit;
+}
+/* the editorial rule under the headline has no place here */
+.hero h1::after{display:none}
+body.lang-zh .hero h1,body.lang-zh .ne-hero h1{letter-spacing:0;max-width:20ch;line-height:1.2}
+
+.hero p,.ne-hero p.lead{
+  font-size:1.0625rem;
+  line-height:1.5;
+  color:var(--text2);
+  max-width:44ch;
+  margin-inline:auto;
+  margin-bottom:1.75rem;
+}
+.hero-actions{gap:.6rem}
+
+
+/* ─── 07 · Buttons & controls ─────────────────────────────────────────────── */
+.qo-btn,.aq-btn,.ai-send-btn,.chat-send,.fc-nav button,.mastery-action button,
+.capture-btn,.reveal-btn,.rec-item .rec-action,.lb-btn,.cert-actions button{
+  font-family:var(--font);
+  border-radius:var(--radius);
+  font-size:.8125rem;
+  font-weight:510;
+  letter-spacing:-.006em;
+  box-shadow:none;
+  transition:background .12s ease,color .12s ease,border-color .12s ease,opacity .12s ease;
+}
+
+/* Primary — flat indigo with the thin top highlight Linear puts on its CTAs */
+.qo-btn.next,.aq-btn.primary,.ai-send-btn,.chat-send,.fc-nav button.primary,
+.capture-btn,.rec-item .rec-action{
+  background:var(--lin-btn-primary-bg);
+  background-image:none;
+  color:var(--lin-btn-primary-fg);
+  border:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+  font-weight:510;
+}
+body.dark .qo-btn.next,body.dark .aq-btn.primary,
+body.dark .ai-send-btn,body.dark .chat-send,
+body.dark .fc-nav button.primary,body.dark .capture-btn{color:#fff}
+.qo-btn.next:hover,.aq-btn.primary:hover,.ai-send-btn:hover,.chat-send:hover,
+.fc-nav button.primary:hover,.capture-btn:hover,.rec-item .rec-action:hover{
+  background:color-mix(in srgb,var(--lin-btn-primary-bg) 86%,#fff);
+  border-color:transparent;
+  color:var(--lin-btn-primary-fg);
+  transform:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* Secondary — a translucent fill on a hairline, never an outline in accent */
+.aq-btn.secondary,.fc-nav button,.mastery-action button,.reveal-btn,.lb-btn{
+  background:var(--lin-hover);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-weight:510;
+}
+.aq-btn.secondary:hover,.fc-nav button:hover,.mastery-action button:hover,
+.reveal-btn:hover,.lb-btn:hover{
+  background:var(--lin-active);
+  color:var(--text);
+  border-color:var(--border2);
+}
+.qo-btn:disabled,.aq-btn:disabled,.exam-opt:disabled{opacity:.45;box-shadow:none}
+
+/* Hero CTAs — one solid primary, the rest quiet */
+.hero-actions .qo-btn{
+  background-image:none!important;
+  min-height:38px;
+  padding:0 1.05rem;
+  display:inline-flex;align-items:center;gap:.4rem;
+  border-radius:var(--radius);
+  font-size:.875rem;
+}
+.hero-actions .qo-btn:first-child{
+  background-color:var(--lin-btn-primary-bg)!important;
+  color:#fff!important;
+  border:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+}
+.hero-actions .qo-btn:first-child:hover{
+  background-color:color-mix(in srgb,var(--lin-btn-primary-bg) 86%,#fff)!important;
+}
+.hero-actions .qo-btn:not(:first-child){
+  background-color:var(--lin-hover)!important;
+  color:var(--text)!important;
+  border:1px solid var(--border);
+  font-weight:510;
+}
+.hero-actions .qo-btn:not(:first-child):hover{
+  background-color:var(--lin-active)!important;
+  color:var(--text)!important;
+  border-color:var(--border2);
+}
+
+.qo-btn[style*="--text3"],.aq-btn[style*="--text3"]{
+  background:var(--lin-hover)!important;
+  color:var(--text)!important;
+  border:1px solid var(--border);
+}
+.qo-btn[style*="--text3"]:hover{background:var(--lin-active)!important}
+
+.back-top{
+  width:34px;height:34px;
+  border-radius:var(--radius);
+  background:var(--lin-elevated);
+  color:var(--text2);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg);
+}
+.back-top:hover{background:var(--lin-active);color:var(--text);border-color:var(--border2)}
+
+
+/* ─── 08 · Cards & panels — hairline boxes, no lift ───────────────────────── */
+.ch-card,.feature-card,.stat-card,.mastery-card,.video-card,.photo-card,
+.author-card,.exam-panel,.rec-box,.callout,.res-hub-chapter,.debate,
+.flashcard-box,.capture,.trust-chip,.study-step,.qo-score-card,.diag-topic{
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:var(--surface2);
+  box-shadow:none;
+  transition:background .12s ease,border-color .12s ease;
+}
+body.dark .ch-card,body.dark .feature-card,body.dark .stat-card,
+body.dark .mastery-card,body.dark .video-card,body.dark .author-card,
+body.dark .exam-panel,body.dark .rec-box,body.dark .callout,
+body.dark .flashcard-box,body.dark .capture,body.dark .study-step,
+body.dark .qo-score-card{background:var(--surface)}
+
+.ch-card:hover,.feature-card:hover,.stat-card:hover,.mastery-card:hover,
+.video-card:hover,.photo-card:hover{
+  transform:none;
+  box-shadow:none;
+  border-color:var(--border2);
+  background:var(--surface3);
+}
+body.dark .ch-card:hover,body.dark .feature-card:hover,body.dark .stat-card:hover,
+body.dark .mastery-card:hover,body.dark .video-card:hover{background:var(--surface2)}
+/* kill any scanline sweep the editorial layer put on hover */
+.ch-card::before,.ch-card::after,.feature-card::before{display:none}
+
+.ch-card h4,.feature-card h4{font-size:.9375rem;font-weight:540;letter-spacing:-.014em;color:var(--text)}
+.ch-card p,.feature-card p{font-size:.8125rem;color:var(--text3);line-height:1.55}
+.ch-num{
+  font-family:var(--font-mono);
+  font-size:.6875rem;font-weight:500;letter-spacing:.04em;
+  color:var(--text3);
+  background:none;border:0;padding:0;
+}
+
+/* Stat tiles — big number, quiet label, no serif */
+.stat-card{padding:1.1rem 1.15rem}
+.stat-num{
+  font-family:var(--font);
+  font-size:1.75rem;font-weight:560;letter-spacing:-.028em;
+  color:var(--text);
+}
+.stat-card::after,.stat-num::after{display:none}
+.stat-label{
+  font-size:.6875rem;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text3);
+}
+
+.callout{padding:1rem 1.1rem;border-left:1px solid var(--border)}
+.callout h4{font-size:.8125rem;font-weight:560;letter-spacing:.01em;color:var(--text);margin:0 0 .45rem}
+.callout li,.callout p{font-size:.875rem;color:var(--text2)}
+
+
+/* ─── 09 · Chips, badges, tags ────────────────────────────────────────────── */
+.guide-chip,.q-tag,.fc-chip,.trust-chip,.grade-pill,.aq-diff-badge,
+.mastery-level,.tp-tag,.rec-item .rec-chip,.exam-meta span,.chat-sug-btn{
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:var(--lin-hover);
+  color:var(--text2);
+  font-size:.75rem;
+  font-weight:500;
+  letter-spacing:-.004em;
+  text-transform:none;
+  box-shadow:none;
+  transition:background .12s ease,border-color .12s ease,color .12s ease;
+}
+.guide-chip:hover,.fc-chip:hover,.chat-sug-btn:hover{
+  background:var(--lin-active);
+  border-color:var(--border2);
+  color:var(--text);
+  transform:none;text-decoration:none;
+}
+.guide-chip{font-family:var(--font-mono);font-size:.71rem;letter-spacing:.01em;padding:.28rem .55rem}
+.fc-chip.active{background:var(--accent-bg);border-color:color-mix(in srgb,var(--accent) 38%,transparent);color:var(--accent)}
+
+
+/* ─── 10 · Tables — hairline grid, uppercase head ─────────────────────────── */
+.table-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+table{font-size:.875rem;border-collapse:collapse}
+th,td{border:0;border-bottom:1px solid var(--line);padding:.6rem .8rem;vertical-align:top}
+.table-wrap table{border-radius:0}
+th,.table-wrap th{
+  background:var(--surface2);
+  color:var(--text3);
+  font-size:.6875rem;font-weight:560;
+  letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;
+}
+body.dark th,body.dark .table-wrap th{background:var(--surface2)}
+td,.table-wrap td{color:var(--text2)}
+tr:nth-child(even),tr:nth-child(even) td{background:transparent}
+tbody tr:last-child td,table tr:last-child td{border-bottom:0}
+.table-wrap tr:hover td,table tr:hover td{background:var(--lin-hover)}
+
+
+/* ─── 11 · Accordions & tabs ──────────────────────────────────────────────── */
+.acc-item{
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.acc-header{
+  padding:.85rem .25rem;
+  font-family:var(--font);
+  font-size:.9375rem;font-weight:510;letter-spacing:-.012em;
+  color:var(--text2);
+  background:transparent;
+  transition:color .12s ease;
+}
+.acc-header:hover{background:transparent;color:var(--text)}
+.acc-item.open>.acc-header{background:transparent;color:var(--text);font-weight:540}
+.acc-header::after{color:var(--text3);font-weight:400;transition:transform .18s ease}
+.acc-body-inner{padding:.1rem .25rem 1.2rem}
+
+.tab-nav{border-bottom:1px solid var(--line);gap:.15rem;background:transparent}
+.tab-btn{
+  border:0;border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+  background:transparent;
+  color:var(--text3);
+  font-size:.8125rem;font-weight:500;letter-spacing:-.006em;
+  padding:.5rem .75rem;
+  border-bottom:1px solid transparent;
+  margin-bottom:-1px;
+}
+.tab-btn:hover{background:var(--lin-hover);color:var(--text2)}
+.tab-btn.active,.tab-nav .tab-btn:nth-child(1).active,
+.tab-nav .tab-btn:nth-child(2).active,.tab-nav .tab-btn:nth-child(3).active{
+  background:transparent;
+  color:var(--text);
+  border-bottom-color:var(--accent);
+  font-weight:540;
+}
+
+
+/* ─── 12 · Quiz, flashcards, exam ─────────────────────────────────────────── */
+.qo-opt,.aq-opt,.exam-opt{
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:var(--surface2);
+  font-size:.875rem;
+  color:var(--text2);
+  box-shadow:none;
+  transition:background .12s ease,border-color .12s ease,color .12s ease;
+}
+body.dark .qo-opt,body.dark .aq-opt,body.dark .exam-opt{background:var(--surface)}
+.qo-opt:not(.disabled):hover,.aq-opt:not(.disabled):hover,.exam-opt:hover{
+  background:var(--lin-active);border-color:var(--border2);color:var(--text);transform:none;
+}
+.qo-opt.selected{border-color:var(--accent);background:var(--accent-bg);color:var(--text)}
+.qo-opt.correct,.aq-opt.correct,.exam-opt.correct{
+  border-color:color-mix(in srgb,var(--green) 55%,transparent);
+  background:color-mix(in srgb,var(--green) 12%,transparent);
+  color:var(--green);
+}
+.qo-opt.wrong,.aq-opt.wrong,.exam-opt.wrong{
+  border-color:color-mix(in srgb,var(--red) 55%,transparent);
+  background:color-mix(in srgb,var(--red) 12%,transparent);
+  color:var(--red);
+}
+.qo-question,.aq-question,.exam-q{font-size:1rem;font-weight:510;letter-spacing:-.014em;color:var(--text)}
+.qo-q-num,.aq-q-num{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.05em;color:var(--text3)}
+.qo-explain,.aq-explain,.exam-explain,.q-explain{
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  border-left:2px solid var(--accent);
+  background:var(--surface2);
+  font-size:.85rem;color:var(--text2);
+}
+
+/* Progress rails — 3px hairline tracks */
+.qo-progress,.aq-progress,.prog-track,.mastery-bar,.diag-topic-bar,.fc-progress{
+  background:var(--surface3);
+  border-radius:999px;
+  height:4px;
+  overflow:hidden;
+}
+body.dark .qo-progress,body.dark .aq-progress,body.dark .prog-track,
+body.dark .mastery-bar,body.dark .diag-topic-bar{background:rgba(255,255,255,.09)}
+.qo-progress-bar,.aq-progress-bar,.prog-fill,.mastery-fill,.diag-topic-fill{
+  background:var(--accent);
+  border-radius:999px;
+  transition:width .3s ease;
+}
+.qo-score-dot,.aq-streak-dot{border-radius:50%;border:1px solid var(--border2);background:transparent}
+.qo-score-dot.hit,.aq-streak-dot.hit{background:var(--green);border-color:var(--green)}
+.qo-score-dot.miss,.aq-streak-dot.miss{background:var(--red);border-color:var(--red)}
+
+.fc-card{border-radius:var(--radius-lg)}
+.fc-front,.fc-back{
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  background:var(--surface2);
+  box-shadow:var(--shadow);
+}
+body.dark .fc-front,body.dark .fc-back{background:var(--lin-elevated)}
+.fc-front:before{color:var(--text3);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+.fc-front .fc-term{font-family:var(--font);font-weight:540;letter-spacing:-.02em}
+.fc-counter{font-family:var(--font-mono);font-size:.75rem;color:var(--text3)}
+
+.study-step{border-radius:var(--radius);padding:.8rem .95rem;min-height:52px}
+.step-num{
+  border-radius:6px;
+  background:var(--accent-bg);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  font-family:var(--font-mono);font-weight:500;font-size:.8125rem;
+}
+.ekey{border-radius:var(--radius);background:var(--surface2);border:1px solid var(--border)}
+.ekey b{font-family:var(--font);font-size:1.35rem;font-weight:560;letter-spacing:-.026em;color:var(--text)}
+.ekey span{font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.exam-verdict{border-radius:var(--radius);font-family:var(--font);font-weight:540;letter-spacing:-.014em}
+.cert-gate{border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);background:var(--surface2)}
+
+
+/* ─── 13 · Overlays — the only things that float ──────────────────────────── */
+.qo-overlay,.quiz-overlay,.aq-overlay,.diag-overlay,.flashcard-panel,
+.ai-modal,.lb-overlay,.cert-view{
+  background:rgba(8,9,10,.55);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+body.dark .qo-overlay,body.dark .quiz-overlay,body.dark .aq-overlay,
+body.dark .diag-overlay,body.dark .ai-modal{background:rgba(0,0,0,.7)}
+
+.qo-body,.aq-body,.chat-window,.ai-modal-body,.flashcard-box,.diag-overlay>div,
+.qo-overlay>div,.quiz-overlay>div{
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  background:var(--lin-elevated);
+  box-shadow:var(--shadow-lg);
+}
+.qo-header,.aq-header,.ai-modal-header,.chat-header{
+  border-bottom:1px solid var(--line);
+  background:transparent;
+}
+.qo-header h3,.aq-header h3,.ai-modal-header .ai-title,.ai-title{
+  font-family:var(--font);font-size:.9375rem;font-weight:540;letter-spacing:-.016em;color:var(--text);
+}
+.qo-footer,.aq-footer,.ai-modal-footer{border-top:1px solid var(--line);background:transparent}
+.qo-close,.aq-close,.ai-close,.flashcard-close{
+  border-radius:var(--radius-sm);
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--text3);
+  transition:background .12s ease,color .12s ease;
+}
+.qo-close:hover,.aq-close:hover,.ai-close:hover,.flashcard-close:hover{
+  background:var(--lin-hover);border-color:var(--border);color:var(--text);
+}
+
+/* Floating action buttons — square, hairline, not a bubble */
+.ai-fab{
+  border-radius:var(--radius);
+  background:var(--lin-elevated);
+  border:1px solid var(--border);
+  color:var(--text);
+  box-shadow:var(--shadow-lg);
+}
+.ai-fab:hover{background:var(--lin-active);transform:none}
+
+
+/* ─── 14 · Inputs ─────────────────────────────────────────────────────────── */
+.ai-input,.chat-input,.capture-input,.fc-chapter-select,input[type=text],
+input[type=email],input[type=password],select,textarea{
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:.875rem;
+  box-shadow:none;
+  transition:border-color .12s ease,box-shadow .12s ease;
+}
+body.dark .ai-input,body.dark .chat-input,body.dark .capture-input,
+body.dark input[type=text],body.dark input[type=email],
+body.dark input[type=password],body.dark select,body.dark textarea{background:#0C0D0F}
+.ai-input::placeholder,.chat-input::placeholder,input::placeholder,textarea::placeholder{color:var(--text3)}
+.ai-input:focus,.chat-input:focus,.capture-input:focus,input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-bg);
+}
+
+/* Chat bubbles */
+.chat-msg,.ai-modal-body .chat-msg{border-radius:var(--radius);font-size:.875rem;box-shadow:none}
+.chat-msg.user{background:var(--accent-bg);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);color:var(--text)}
+.chat-msg.bot{background:var(--surface2);border:1px solid var(--border);color:var(--text2)}
+body.dark .chat-msg.bot{background:var(--surface)}
+.chat-msg .msg-label{font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+
+
+/* ─── 15 · Odds & ends ────────────────────────────────────────────────────── */
+.pathway-dot{border:1px solid var(--border2);background:var(--bg)}
+.pathway-line,.pathway-bar{background:var(--border)}
+.pathway-content strong{color:var(--text);font-weight:540}
+
+.author-ava{border-radius:50%;border:1px solid var(--border)}
+.video-thumb,.photo-card img,.inline-img{border-radius:var(--radius)}
+.video-info .vid-title{font-size:.875rem;font-weight:510;letter-spacing:-.01em;color:var(--text)}
+.video-info .vid-source{font-size:.75rem;color:var(--text3)}
+
+.ref-list li{font-size:.85rem;color:var(--text2)}
+.ref-list li::before{color:var(--text3)}
+
+.side-label,.verdict-label,.debate-title{
+  font-size:.6875rem;font-weight:560;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text3);
+}
+.hl{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--text);border-radius:3px;padding:0 .15em}
+
+footer{border-top:1px solid var(--line);background:var(--bg);color:var(--text3);font-size:.8125rem}
+footer a{color:var(--text2)}
+footer a:hover{color:var(--text)}
+
+
+/* ─── 16 · Responsive ─────────────────────────────────────────────────────── */
+@media (max-width:1024px){
+  .container{padding:0 1.25rem}
+}
+@media (max-width:640px){
+  body{font-size:.9375rem}
+  .container{padding:0 1.15rem}
+  .hero,.ne-hero{padding:3rem 0 2.5rem}
+  .hero h1,.ne-hero h1{font-size:2rem;letter-spacing:-.028em;max-width:none}
+  .hero p,.ne-hero p.lead{font-size:.9375rem}
+  .hero-actions .qo-btn{width:100%;justify-content:center}
+  .acc-header{padding:.8rem .1rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+
+/* ─── 17 · Corrections for page-level CSS that leaks ──────────────────────── */
+/* The pages style `nav a` globally, and the rail is a <nav> — so every sidebar
+   row inherited a 2px accent underline on hover/active. Scope it back out. */
+nav.sidebar a,.sidebar .sidebar-link{border-bottom:0 solid transparent}
+nav.sidebar a:hover,nav.sidebar a.active,
+.sidebar .sidebar-link:hover,.sidebar .sidebar-link.active{border-bottom-color:transparent}
+nav.sidebar .sidebar-link{color:var(--text2)}
+nav.sidebar .sidebar-link:hover,nav.sidebar .sidebar-link.active{color:var(--text)}
+#onthisGroup .sidebar-link:hover{border-left-color:transparent}
+
+/* Fact bullets ship a 4px accent bar each; five in a row shouts. One hairline
+   card, a neutral rule, and the accent kept for the bold lead-in only. */
+.facts li{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-left:2px solid var(--border2);
+  border-radius:var(--radius);
+  font-size:.875rem;
+  color:var(--text2);
+}
+body.dark .facts li{background:var(--surface)}
+.facts li b{color:var(--text);font-weight:560}
+
+/* The Q&A panel sits in the page — it is not floating, so it gets no shadow */
+.chat-window{
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  background:var(--surface2);
+  box-shadow:none;
+}
+body.dark .chat-window{background:var(--surface)}
+.chat-header{background:transparent;border-bottom:1px solid var(--line)}
+.chat-header .status-dot{box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 20%,transparent)}
+.chat-input-row,.ai-input-row{border-top:1px solid var(--line);background:transparent}
+.chat-disclaimer,.capture-note,.resources-note{font-size:.75rem;color:var(--text3)}
+
+/* Verdict / debate panels — the accent bar is the one loud element allowed */
+.tab-panel.verdict-tab{border-left:2px solid var(--accent);background:var(--accent-bg)}
+.side-a,.side-b{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface2)}
+body.dark .side-a,body.dark .side-b{background:var(--surface)}
+
+
+/* ─── 18 · Restraint pass — one accent per screen ─────────────────────────── */
+/* The markup hard-codes `background:var(--green)` / `var(--text3)` on secondary
+   CTAs. Linear gives a row exactly one filled button; the rest are ghosts. */
+.qo-btn[style*="--green"],.qo-btn[style*="--amber"],.qo-btn[style*="--red"],
+.aq-btn[style*="--green"]{
+  background:var(--lin-hover)!important;
+  background-image:none!important;
+  color:var(--text)!important;
+  border:1px solid var(--border);
+  box-shadow:none;
+}
+.qo-btn[style*="--green"]:hover,.qo-btn[style*="--amber"]:hover,
+.qo-btn[style*="--red"]:hover,.aq-btn[style*="--green"]:hover{
+  background:var(--lin-active)!important;border-color:var(--border2);
+}
+
+/* Recommendation rows: the action is a link, not a third purple pill */
+.rec-item .rec-action{
+  margin-left:auto;
+  padding:0;
+  background:none;
+  border:0;
+  box-shadow:none;
+  color:var(--accent);
+  font-size:.8125rem;font-weight:510;
+  border-radius:0;
+}
+.rec-item .rec-action:hover{background:none;border:0;color:var(--accent2);text-decoration:underline;text-underline-offset:.2em}
+.rec-item{border-bottom:1px solid var(--line);background:transparent}
+.rec-item:last-child{border-bottom:0}
+
+/* Mastery levels: a quiet four-step scale, not four candy pills */
+.mastery-ch{color:var(--text3);font-size:.6875rem;font-weight:560;letter-spacing:.06em}
+.mastery-level{
+  font-size:.6875rem;font-weight:510;
+  padding:.1rem .45rem;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:var(--lin-hover);
+  color:var(--text3);
+}
+.mastery-level.beginner{background:var(--lin-hover);color:var(--text3);border-color:var(--border)}
+.mastery-level.learning{background:color-mix(in srgb,var(--amber) 12%,transparent);color:var(--amber);border-color:color-mix(in srgb,var(--amber) 32%,transparent)}
+.mastery-level.proficient{background:var(--accent-bg);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 32%,transparent)}
+.mastery-level.mastery{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green);border-color:color-mix(in srgb,var(--green) 32%,transparent)}
+.mastery-fill.beginner{background:var(--text3)}
+.mastery-fill.learning{background:var(--amber)}
+.mastery-fill.proficient{background:var(--accent)}
+.mastery-fill.mastery{background:var(--green)}
+.mastery-title{color:var(--text)}
+.mastery-stats{font-size:.75rem;color:var(--text3)}
+
+/* Wordmark must never wrap behind the drawer toggle */
+.logo,.sidebar-logo{white-space:nowrap}
+@media (max-width:640px){
+  .logo{font-size:.875rem;gap:.4rem}
+  .logo::before{width:16px;height:16px}
+  .logo span{display:none}
+  .header-actions{gap:.25rem}
+  .btn-login{padding:0 .55rem;font-size:.75rem}
+}
+
+/* The base layer paints these through `.mastery-level{color:var(--chip)!important}`,
+   so the colour has to be routed through --chip rather than declared directly. */
+.mastery-level.beginner{--chip:var(--text3)}
+.mastery-level.learning{--chip:var(--amber)}
+.mastery-level.proficient{--chip:var(--accent)}
+.mastery-level.mastery{--chip:var(--green)}
+
+
+/* ─── 19 · Auth & account surfaces ───────────────────────────────────────────
+   login.html / account.html were never part of the original draft's scope, so
+   their page CSS still reaches for the pre-Linear card recipe: a --shadow-lg
+   float on a static panel, a solid-accent tab flood, pastel status boxes. Bring
+   them onto the same hairline system as the rest of the site. */
+
+/* Scoped with :has() because account.html reuses .acct-wrap as a bare page
+   container. The tab strip only exists on login.html, so it identifies the page
+   whose .acct-wrap elements (the auth panel and the contact panel) are cards. */
+body:has(.acct-tabs) .acct-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:none;
+  padding:1.75rem;
+}
+body.dark:has(.acct-tabs) .acct-wrap{background:var(--surface2)}
+
+/* Tabs read as one segmented control, not three competing buttons. */
+.acct-tabs{
+  gap:2px;padding:3px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:1.4rem;
+}
+body.dark .acct-tabs{background:var(--bg)}
+.acct-tab{
+  border:0;background:transparent;
+  border-radius:var(--radius-sm);
+  padding:.42rem .6rem;
+  font-size:.8125rem;font-weight:510;letter-spacing:0;
+  text-transform:none;
+  color:var(--text2);
+  transition:background .12s ease,color .12s ease;
+}
+.acct-tab:hover{background:var(--lin-hover);color:var(--text)}
+.acct-tab.active{
+  background:var(--surface);color:var(--text);
+  border:0;
+  box-shadow:0 1px 2px rgba(8,9,10,.08);
+}
+body.dark .acct-tab.active{background:var(--lin-elevated);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+
+.acct-field label{font-size:.8125rem;font-weight:510;color:var(--text2);margin-bottom:.3rem}
+.acct-field input{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:.9375rem;
+  padding:.55rem .7rem;
+  transition:border-color .12s ease,box-shadow .12s ease;
+}
+body.dark .acct-field input{background:var(--bg)}
+.acct-field input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
+}
+.acct-hint{font-size:.8125rem;color:var(--text3)}
+
+.acct-msg{
+  border-radius:var(--radius-sm);
+  font-size:.8125rem;
+  padding:.55rem .7rem;
+}
+.acct-msg.ok{
+  background:color-mix(in srgb,var(--green) 10%,transparent);
+  color:var(--green);
+  border:1px solid color-mix(in srgb,var(--green) 30%,transparent);
+}
+.acct-msg.err{
+  background:color-mix(in srgb,var(--red) 10%,transparent);
+  color:var(--red);
+  border:1px solid color-mix(in srgb,var(--red) 30%,transparent);
+}
+
+/* Social buttons: hairline rows that highlight, not lift. */
+.soc-btn{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:.875rem;font-weight:510;
+  padding:.55rem .8rem;
+  transition:background .12s ease,border-color .12s ease;
+}
+body.dark .soc-btn{background:var(--lin-elevated)}
+.soc-btn:hover{
+  background:var(--lin-hover);
+  border-color:var(--border2);
+  box-shadow:none;transform:none;
+}
+.soc-divider{font-size:.75rem;letter-spacing:.06em;color:var(--text3)}
+
+.mini{color:var(--accent);text-decoration:none;font-size:.8125rem}
+.mini:hover{text-decoration:underline}
+.acc-out{font-size:.875rem;line-height:1.7}
+
+/* The contact form's only action — §18 ghosts the inline-green CTAs because
+   elsewhere they sit beside a real primary; here there is nothing else to press. */
+#ctBtn{
+  background:var(--lin-btn-primary-bg)!important;
+  color:#fff!important;
+  border:1px solid transparent!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16)!important;
+  font-weight:510;
+}
+#ctBtn:hover{filter:brightness(1.08)}
+
+
+/* ─── 20 · Account page ──────────────────────────────────────────────────────
+   account.html predates the draft entirely: a purple gradient hero, a butter-
+   yellow level band, pill buttons. Same content, Linear's restraint — one
+   surface family, hairlines, and the accent spent only on progress and primary. */
+
+.acct-hero{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  color:var(--text);
+  box-shadow:none;
+  padding:1.75rem;
+}
+body.dark .acct-hero{background:var(--surface)}
+/* One faint brand wash in the corner, the way Linear tints a header panel. */
+.acct-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 120% at 88% 0%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 70%);
+}
+.acct-hero > *{position:relative}
+
+.acct-avatar{
+  width:56px;height:56px;
+  border-radius:var(--radius-lg);
+  background:var(--accent-bg);
+  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+  color:var(--accent);
+  font-size:1.25rem;font-weight:560;
+  margin-bottom:.85rem;
+}
+body.dark .acct-avatar{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.acct-name{font-size:1.375rem;font-weight:560;letter-spacing:-.022em}
+.acct-email{font-size:.875rem;color:var(--text2);opacity:1;margin:.25rem 0 .7rem}
+
+.acct-badge{
+  border-radius:var(--radius-sm);
+  font-size:.6875rem;font-weight:510;letter-spacing:0;
+  padding:.14rem .45rem;
+  background:var(--lin-hover);
+  color:var(--text2);
+  border:1px solid var(--border);
+}
+.acct-badge.ok{
+  background:color-mix(in srgb,var(--green) 12%,transparent);
+  color:var(--green);
+  border-color:color-mix(in srgb,var(--green) 32%,transparent);
+}
+.acct-badge.no{background:var(--lin-hover);color:var(--text3);border-color:var(--border)}
+.acct-meta{font-size:.8125rem;color:var(--text3);gap:.9rem}
+
+.btn-acc{
+  border-radius:var(--radius-sm);
+  font-size:.8125rem;font-weight:510;
+  padding:.42rem .8rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  transition:background .12s ease,border-color .12s ease;
+}
+body.dark .btn-acc{background:var(--lin-elevated)}
+.btn-acc:hover{background:var(--lin-hover);border-color:var(--border2)}
+.btn-acc.primary{
+  background:var(--lin-btn-primary-bg);color:#fff;border-color:transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+}
+.btn-acc.primary:hover{filter:brightness(1.08);background:var(--lin-btn-primary-bg)}
+.btn-acc.ghost{background:transparent;color:var(--text2);border-color:var(--border)}
+.btn-acc.ghost:hover{background:var(--lin-hover);color:var(--text)}
+/* Sign-out is destructive but not urgent — a text-weight red, not a filled pill. */
+.btn-acc.danger{
+  background:transparent;color:var(--red);
+  border-color:color-mix(in srgb,var(--red) 32%,transparent);
+}
+.btn-acc.danger:hover{background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red)}
+
+.acct-card{box-shadow:none;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.4rem}
+body.dark .acct-card{background:var(--surface)}
+.acct-card h2{font-size:1rem;font-weight:560;letter-spacing:-.014em}
+
+.acct-stat{background:transparent;border:1px solid var(--border);border-radius:var(--radius);padding:.9rem}
+.acct-stat .stat-num,.stat-num{font-weight:560;font-size:1.5rem;letter-spacing:-.02em}
+.stat-label,.acct-stat .stat-label{font-size:.75rem;color:var(--text3);letter-spacing:0}
+
+/* The level band joins the card family; the accent carries the progress. */
+.acct-level{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  color:var(--text);
+  padding:1.25rem 1.4rem;
+}
+body.dark .acct-level{background:var(--surface)}
+.acct-level h2{font-size:.6875rem;font-weight:560;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.acct-level .lvl-lv{font-size:1.5rem;font-weight:560;letter-spacing:-.024em;color:var(--accent)}
+.acct-level .lvl-next{font-size:.8125rem;color:var(--text3)}
+.acct-bar{height:6px;border-radius:999px;background:var(--lin-hover);margin-top:.85rem}
+.acct-bar div{background:var(--accent);border-radius:999px}
+
+.acct-chap{border-bottom:1px solid var(--border);padding:.55rem 0}
+.acct-chap .cn{font-size:.875rem;font-weight:510}
+.acct-chap .pct{font-size:.75rem;color:var(--text3)}
+.acct-chap .bar{height:4px;border-radius:999px;background:var(--lin-hover)}
+.acct-chap .bar div{background:var(--accent);border-radius:999px}
+
+.acct-form label{font-size:.8125rem;font-weight:510;color:var(--text2)}
+.acct-form input,.acct-form select,.acct-form textarea{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:.9375rem;padding:.55rem .7rem;
+}
+body.dark .acct-form input,body.dark .acct-form select,body.dark .acct-form textarea{background:var(--bg)}
+.acct-form input:focus,.acct-form select:focus,.acct-form textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
+}
+.acct-switch .sl{background:var(--surface3);border:1px solid var(--border)}
+.acct-switch input:checked + .sl{background:var(--accent);border-color:var(--accent)}
+.acct-empty{font-size:.875rem;color:var(--text3)}
+
+/* login.html puts a .qo-btn in the header as a back link — match the chrome's chips. */
+header .qo-btn{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--text2);
+  font-size:.8125rem!important;font-weight:510;
+  padding:.32rem .65rem!important;
+  box-shadow:none;
+}
+body.dark header .qo-btn{background:var(--lin-elevated)}
+header .qo-btn:hover{background:var(--lin-hover);color:var(--text);transform:none;box-shadow:none}
+
+
+/* ─── 21 · Guide section-chip navigation ─────────────────────────────────────
+   The chapter/section chip rail sits under the header as a second sticky band;
+   give it the same translucent chrome and the 5px chip radius the rest of the
+   site uses, instead of 999px pills. */
+.guide-tabs{
+  background:var(--lin-header-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  box-shadow:none;
+  padding:.5rem .75rem .55rem;
+}
+.gsec{
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text2);
+  font-size:.75rem;font-weight:510;
+  padding:.22rem .55rem;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.gsec:hover{background:var(--lin-hover);color:var(--text);border-color:var(--border2)}
+.gsec.on{
+  background:var(--accent-bg);
+  border-color:color-mix(in srgb,var(--accent) 40%,transparent);
+  color:var(--accent);
+}
+body.dark .gsec.on{background:color-mix(in srgb,var(--accent) 16%,transparent)}

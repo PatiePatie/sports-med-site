@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Vitalite — Sports Medicine, Recovery &amp; Nutrition</title>
+<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
@@ -700,23 +700,16 @@ ul.bul li{margin:.42rem 0;line-height:1.62}
 #onthisGroup .sidebar-link:hover{border-left-color:var(--accent)}
 
 /* ═══ GUIDE TAB MODE ═══ */
-.guide-tabs{position:sticky;top:61px;z-index:120;display:flex;flex-direction:column;gap:.35rem;padding:.5rem .75rem .6rem;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
-.gch-row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;align-items:center}
+.guide-tabs{position:sticky;top:61px;z-index:120;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;align-items:center;padding:.55rem 1rem;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
 .guide-tab{padding:.35rem .7rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:600;font-size:.82rem;cursor:pointer;min-width:2rem;transition:all .2s}
 .guide-tab:hover{border-color:var(--accent)}
 .guide-tab.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:var(--shadow-sm)}
-section.chapter{display:none;scroll-margin-top:130px}
+section.chapter{display:none}
 section.chapter.shown{display:block}
-.gsec-row{display:flex;gap:.3rem;overflow-x:auto;padding:.15rem .1rem .3rem;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.gsec-row[hidden]{display:none}
-.gsec{flex:0 0 auto;padding:.22rem .65rem;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s}
-.gsec:hover{border-color:var(--accent);color:var(--text)}
-.gsec.on{background:color-mix(in srgb,var(--accent) 14%,transparent);border-color:var(--accent);color:var(--accent)}
-.acc-item{scroll-margin-top:170px}
 .ch-nav{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:.5rem;padding-bottom:2rem}
 .ch-nav .qo-btn{display:inline-flex;align-items:center;justify-content:center;min-width:120px}
 .ch-nav[hidden]{display:none}
-@media(max-width:720px){.guide-tabs{top:61px}.gsec-row{scrollbar-width:none}.gsec-row::-webkit-scrollbar{display:none}.gsec{padding:.2rem .55rem;font-size:.75rem}.ch-nav .qo-btn{min-width:96px}}
+@media(max-width:720px){.guide-tabs{top:61px}.ch-nav .qo-btn{min-width:96px}}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -771,7 +764,7 @@ section.chapter.shown{display:block}
 </script>
 
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="linear-theme.css">
+<link rel="stylesheet" href="draft-theme.css">
 <script src="draft.js" defer></script>
 <!-- DRAFT-THEME:END -->
 </head>
@@ -781,7 +774,7 @@ section.chapter.shown{display:block}
 
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Vitalite</div>
+  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
@@ -822,7 +815,7 @@ section.chapter.shown{display:block}
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalite" data-zh="维塔利特">Vitalite</div>
+  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -832,7 +825,6 @@ section.chapter.shown{display:block}
 </header>
 
 <div class="guide-tabs" id="guideTabs">
-<div class="gch-row" id="gchRow">
 <button class="guide-tab" data-ch="1" data-en="Ch 1" data-zh="第1章">1</button>
 <button class="guide-tab" data-ch="2" data-en="Ch 2" data-zh="第2章">2</button>
 <button class="guide-tab" data-ch="3" data-en="Ch 3" data-zh="第3章">3</button>
@@ -847,15 +839,13 @@ section.chapter.shown{display:block}
 <button class="guide-tab" data-ch="12" data-en="Ch 12" data-zh="第12章">12</button>
 <button class="guide-tab" data-ch="13" data-en="Ch 13" data-zh="第13章">13</button>
 </div>
-<div class="gsec-row" id="gsecRow" aria-label="Sections" hidden></div>
-</div>
 
 <!-- Chapter 1 -->
 <!-- Full Guide -->
 <section id="guide">
 <div class="container">
   <span class="section-label" data-en="Full Guide" data-zh="完整指南">Full Guide</span>
-  <h2 data-en="Vitalite — Complete Guide" data-zh="维塔利特 — 完整指南">Vitalite — Complete Guide</h2>
+  <h2 data-en="Sports Medicine — Complete Guide" data-zh="运动医学 — 完整指南">Sports Medicine — Complete Guide</h2>
   <h3 data-en="All 13 chapters in one place. Use the chapter buttons above or the left 'On this page' list to switch chapters." data-zh="全部13章整合于一处。使用上方章节按钮或左侧“本页目录”切换章节。">All 13 chapters in one place. Use the chapter buttons above or the left 'On this page' list to switch chapters.</h3>
 </div>
 </section>
@@ -4926,9 +4916,19 @@ document.addEventListener('keydown',function(e){
   var cur=1;
   function labelN(n){
     if(labels&&labels[n])return labels[n];
-    var chipT=document.querySelector('#guideTabs .guide-tab[data-ch="'+n+'"]');
-    var en=chipT?chipT.getAttribute('data-en'):'';
-    return en||('Ch '+n);
+    var secN=document.getElementById('ch'+n);
+    var title='', h=null;
+    if(secN){
+      h=secN.querySelector('h1,h2');
+      if(h){
+        var en=h.getAttribute('data-en'), zh=h.getAttribute('data-zh');
+        var useZh = (typeof showCN!=='undefined') && showCN;
+        title = useZh ? (zh||en||'') : (en||zh||'');
+        if(!title) title=(h.textContent||'').trim();
+      }
+    }
+    if(title){ var pfx=(typeof showCN!=='undefined'&&showCN)?('第'+n+'章 · '):('Ch '+n+' · '); return pfx+title; }
+    return 'Ch '+n;
   }
   function setVisible(tag){
     var els=onthis?onthis.querySelectorAll('[data-ch]'):[];
@@ -4990,115 +4990,6 @@ document.addEventListener('keydown',function(e){
     if(nn>=1&&nn<=13){showChapter(nn,false);if(nn>1){try{history.replaceState(null,'','#ch'+nn);}catch(e){}}}
   } else {
     showChapter(1,false);
-  }
-})();
-</script>
-
-<script>
-/* ═══ SECTION TABS (V) — chip row under chapter tabs, scroll-spy, deep links ═══ */
-(function(){
-  var row=document.getElementById('gsecRow');
-  if(!row)return;
-  var chips=[],spyWait=false;
-  function langIsZh(){return (typeof showCN!=='undefined')?!!showCN:true;}
-  function headNum(h){
-    var en=h.getAttribute('data-en')||'';
-    var m=en.match(/^\s*(\d+(?:\.\d+)*)/);
-    return m?m[1]:'';
-  }
-  function currentChapter(){
-    var sec=document.querySelector('section.chapter.shown');
-    return sec?parseInt((sec.id||'ch1').replace(/^ch/,''),10)||1:1;
-  }
-  function build(){
-    var ch=currentChapter();
-    var sec=document.getElementById('ch'+ch);
-    var items=sec?Array.prototype.slice.call(sec.querySelectorAll('.acc-item')):[];
-    row.innerHTML='';
-    chips=[];
-    if(!items.length){row.hidden=true;return;}
-    row.hidden=false;
-    items.forEach(function(item,idx){
-      var h=item.querySelector('.acc-header');
-      if(!h)return;
-      var b=document.createElement('button');
-      b.type='button';
-      b.className='gsec';
-      var num=headNum(h);
-      var zh=h.getAttribute('data-zh')||'';
-      var en=h.getAttribute('data-en')||'';
-      b.setAttribute('data-en',en);
-      b.setAttribute('data-zh',zh);
-      b.textContent=langIsZh()?zh:en;
-      b.addEventListener('click',function(){
-        var h2=item.querySelector('.acc-header');
-        if(h2&&!item.classList.contains('open'))toggleAcc(h2);
-        item.scrollIntoView({behavior:'smooth',block:'start'});
-        setActive(idx);
-        try{history.replaceState(null,'','#ch'+ch+'-sec'+(idx+1));}catch(e){}
-      });
-      chips.push({btn:b,item:item});
-      row.appendChild(b);
-    });
-  }
-  function setActive(idx){
-    chips.forEach(function(c,i){c.btn.classList.toggle('on',i===idx);});
-  }
-  function doSpy(){
-    if(!chips.length)return;
-    var barH=document.getElementById('guideTabs').offsetHeight||0;
-    var cutoff=window.scrollY+barH+60;
-    var cur=-1;
-    for(var i=0;i<chips.length;i++){
-      var top=chips[i].item.getBoundingClientRect().top+window.scrollY;
-      if(top<=cutoff)cur=i;else break;
-    }
-    if(cur>=0)setActive(cur);
-    else if(window.scrollY<1)setActive(-1);
-  }
-  function spy(){if(spyWait)return;spyWait=true;requestAnimationFrame(function(){spyWait=false;doSpy();});}
-  window.addEventListener('scroll',spy,{passive:true});
-  document.querySelectorAll('section.chapter').forEach(function(sec){
-    var obs=new MutationObserver(function(muts){
-      for(var i=0;i<muts.length;i++){
-        if(muts[i].type==='attributes'&&/shown/.test(muts[i].target.className)){
-          build();
-          doSpy();
-          break;
-        }
-      }
-    });
-    obs.observe(sec,{attributes:true,attributeFilter:['class']});
-  });
-  window.gsecRefresh=build;
-  /* deep links: #chN (chapter) and #chN-secM (chapter + section) */
-  function parseDeep(){
-    var m=location.hash.match(/^#ch(\d+)(?:-sec(\d+))?$/);
-    if(!m)return;
-    var n=parseInt(m[1],10),s=m[2]?parseInt(m[2],10):0;
-    if(n<1||n>13)return;
-    var tab=document.querySelector('#gchRow .guide-tab[data-ch="'+n+'"]');
-    var needSwitch=currentChapter()!==n;
-    if(needSwitch&&tab)tab.click();
-    if(s>=1){
-      setTimeout(function(){
-        var sec=document.getElementById('ch'+n);
-        var its=sec?sec.querySelectorAll('.acc-item'):[];
-        if(its[s-1]){
-          var h2=its[s-1].querySelector('.acc-header');
-          if(h2&&!its[s-1].classList.contains('open'))toggleAcc(h2);
-          its[s-1].scrollIntoView({behavior:'smooth',block:'start'});
-          setActive(s-1);
-        }
-      },needSwitch?120:0);
-    }
-  }
-  window.addEventListener('hashchange',parseDeep);
-  if(/^#ch\d+-sec\d+$/.test(location.hash)){
-    parseDeep(); /* section deep link: Patrick's loader ignores -sec, we take over */
-  } else {
-    build();
-    doSpy();
   }
 })();
 </script>

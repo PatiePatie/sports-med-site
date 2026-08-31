@@ -3532,6 +3532,16 @@ function wrapInlineBilingual(){
 }
 wrapInlineBilingual();
 
+// China-availability: hide YouTube-only video cards in Chinese mode.
+// youtube.com / img.youtube.com are blocked on the mainland; Bilibili is not.
+function applyChinaVideoFilter(){
+  document.querySelectorAll('a.video-card').forEach(card=>{
+    const href=(card.getAttribute('href')||'').toLowerCase();
+    const blocked=href.includes('youtube.com')||href.includes('youtu.be')||href.includes('img.youtube.com');
+    card.style.display=(showCN&&blocked)?'none':'';
+  });
+}
+
 function applyLang(){
   const lang = showCN ? 'zh' : 'en';
   document.body.classList.toggle('lang-zh', showCN);
@@ -3543,6 +3553,7 @@ function applyLang(){
   renderMasteryGrid();
   renderFCChips();
   updateRecs();
+  applyChinaVideoFilter();
 }
 langBtn.addEventListener('click',()=>{
   showCN = !showCN;

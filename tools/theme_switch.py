@@ -115,11 +115,30 @@ def apply_off(path):
     return "off", f"removed draft link block, restored {n_fonts} Google Fonts link(s)"
 
 
+# A page rewritten from a pre-skin copy keeps the markers but links the old
+# stylesheet, so `on` skips it and the page silently falls back to another skin.
+# `status` calls that out by name.
+LINK_RE = re.compile(r'<link\b[^>]*href="([^"]+\.css)"[^>]*>')
+
+
+def linked_theme(text):
+    """The stylesheet the DRAFT-THEME block actually links, or None."""
+    m = BLOCK_RE.search(text)
+    if not m:
+        return None
+    link = LINK_RE.search(m.group(0))
+    return link.group(1) if link else None
+
+
 def report(path):
     text = path.read_text(encoding="utf-8")
-    return ("ON " if has_draft(text) else "off"), (
-        "" if "</head>" in text else "  (!) no </head>"
-    )
+    if not has_draft(text):
+        return "off", ("" if "</head>" in text else "  (!) no </head>")
+
+    linked = linked_theme(text)
+    if linked and linked != THEME_CSS:
+        return "ON ", f"  (!) links {linked}, not {THEME_CSS} — run: off then on"
+    return "ON ", ("" if "</head>" in text else "  (!) no </head>")
 
 
 def main(argv):

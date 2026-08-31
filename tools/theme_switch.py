@@ -2,7 +2,8 @@
 """
 theme_switch.py — the flip switch for the "Editorial Surgical" UI redesign draft.
 
-The draft is a pure override layer: one shared stylesheet (draft-theme.css) plus one
+The draft is a pure override layer: one shared stylesheet (the skin named by THEME_CSS,
+which itself @imports draft-theme.css) plus one
 small progressive-enhancement script (draft.js), linked immediately before </head> so
 they win the cascade over each page's inline <style> block. Nothing else in the HTML
 is rewritten except the Google Fonts <link>s, which are commented out (see §4.3 of
@@ -29,9 +30,15 @@ ROOT = Path(__file__).resolve().parent.parent
 BEGIN = "<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->"
 END = "<!-- DRAFT-THEME:END -->"
 
+# The active skin. A skin is a cosmetic layer that starts with
+# `@import url('draft-theme.css');` and then restates the tokens, so swapping
+# this one name re-skins every page. "linear-theme.css" is the Linear.app skin;
+# set it back to "draft-theme.css" for the bare Editorial Surgical layer.
+THEME_CSS = "linear-theme.css"
+
 BLOCK = (
     f"{BEGIN}\n"
-    '<link rel="stylesheet" href="draft-theme.css">\n'
+    f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
     f"{END}\n"
 )
@@ -93,7 +100,7 @@ def apply_on(path):
     new = new[:head_close] + BLOCK + new[head_close:]
 
     path.write_text(new, encoding="utf-8")
-    return "on", f"linked draft-theme.css + draft.js, parked {n_fonts} Google Fonts link(s)"
+    return "on", f"linked {THEME_CSS} + draft.js, parked {n_fonts} Google Fonts link(s)"
 
 
 def apply_off(path):
@@ -126,7 +133,7 @@ def main(argv):
         print(f"No .html pages found in {ROOT}")
         return 1
 
-    missing = [n for n in ("draft-theme.css", "draft.js") if not (ROOT / n).exists()]
+    missing = [n for n in (THEME_CSS, "draft-theme.css", "draft.js") if not (ROOT / n).exists()]
     if cmd == "on" and missing:
         print(f"Refusing to run: missing {', '.join(missing)} in {ROOT}")
         return 1

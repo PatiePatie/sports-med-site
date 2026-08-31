@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
 <title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -721,11 +721,6 @@ body.dark h1,body.dark h2,body.dark h3{
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
-<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="linear-theme.css">
-<script src="draft.js" defer></script>
-<script src="linear-layout.js" defer></script>
-<!-- DRAFT-THEME:END -->
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -747,8 +742,6 @@ body.dark h1,body.dark h2,body.dark h3{
     <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
 
     <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
-
-    <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
   </div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
@@ -1298,16 +1291,6 @@ function wrapInlineBilingual(){
 }
 wrapInlineBilingual();
 
-// China-availability: hide YouTube-only video cards in Chinese mode.
-// youtube.com / img.youtube.com are blocked on the mainland; Bilibili is not.
-function applyChinaVideoFilter(){
-  document.querySelectorAll('a.video-card').forEach(card=>{
-    const href=(card.getAttribute('href')||'').toLowerCase();
-    const blocked=href.includes('youtube.com')||href.includes('youtu.be')||href.includes('img.youtube.com');
-    card.style.display=(showCN&&blocked)?'none':'';
-  });
-}
-
 function applyLang(){
   const lang = showCN ? 'zh' : 'en';
   document.body.classList.toggle('lang-zh', showCN);
@@ -1319,7 +1302,6 @@ function applyLang(){
   renderMasteryGrid();
   renderFCChips();
   updateRecs();
-  applyChinaVideoFilter();
 }
 langBtn.addEventListener('click',()=>{
   showCN = !showCN;
@@ -2461,6 +2443,59 @@ function renderResourcesHub(){
 // ════════════════════════════════════════
 // Q&A Chat (UI only — no AI linked yet)
 // ════════════════════════════════════════
+
+// ════════════════════════════════════════
+// Medical AI (Dr7.ai via Cloudflare Worker)
+// MEDAI_URL is filled in once the worker is deployed (leave '' to show a friendly 'not configured' message).
+// ════════════════════════════════════════
+var MEDAI_URL = 'https://api.vitaliteplan.com';
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiAppend(boxId, raw){
+  var box=document.getElementById(boxId); if(!box) return;
+  var div=document.createElement('div');
+  div.className='chat-msg bot';
+  var lbl=document.createElement('span');
+  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  var sp=document.createElement('span');
+  sp.className='chat-msg-text';
+  sp.setAttribute('data-en',raw); sp.setAttribute('data-zh',raw);
+  sp.textContent=raw;
+  div.appendChild(lbl); div.appendChild(sp);
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+function medaiThinking(boxId){
+  var box=document.getElementById(boxId); if(!box) return;
+  var div=document.createElement('div');
+  div.className='chat-msg bot';
+  var lbl=document.createElement('span');
+  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  var sp=document.createElement('span');
+  sp.className='chat-msg-text';
+  sp.textContent='Thinking… 思考中…';
+  div.appendChild(lbl); div.appendChild(sp);
+  box.appendChild(div);
+  return div;
+}
+function medaiAsk(question){
+  return new Promise(function(resolve){
+    if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
+    fetch(MEDAI_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ question:question, lang:medaiLang() })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
+      else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
+    }).catch(function(){ resolve({ ok:false, error:'network' }); });
+  });
+}
+function medaiConfError(res){
+  var rn='Sorry — the AI is not configured yet. (Education only, not medical advice.)';
+  var rz='抱歉，AI 助手尚未配置完成。（仅供学习参考，不能替代专业医疗建议。）';
+  if(res.error==='network'){ rn='Network error. Please try again.'; rz='网络错误，请稍后重试。'; }
+  if(res.error===undefined || res.error==='upstream_error'){ rn='The AI is temporarily unavailable. Please try again later. (Education only, not medical advice.)'; rz='AI 暂时不可用，请稍后再试。（仅供学习参考，不能替代专业医疗建议。）'; }
+  return medaiLang()==='zh'?rz:rn;
+}
 function addChatMessage(text, isUser, textZh){
   const box=document.getElementById('chatMessages');
   if(!box) return;
@@ -2477,15 +2512,12 @@ function sendChat(){
   if(!q) return;
   addChatMessage(q, true, q);
   input.value='';
-  const thinking='Thinking… 思考中…';
-  addChatMessage(thinking, false, '思考中…');
-  setTimeout(()=>{
-    const last=document.getElementById('chatMessages');
-    if(last) last.lastChild?.remove();
-    const replyZh='收到！我暂时还不能自主回答这个问题（AI 尚未接入）。请先描述你的具体症状，例如有没有肿胀、是否影响活动、疼了多久等。稍后接入 AI 后，我会结合运动医学知识为你给出个性化指导。⚠️ 本回复仅供学习参考，不能替代专业医疗建议。';
-    const replyEn='Got it! For now this assistant is not yet linked to an AI model. Please describe your symptoms in more detail (swelling? does it limit movement? how long?) and once AI is connected I will give you personalized guidance from sports-medicine knowledge. ⚠️ Educational only — not medical advice.';
-    addChatMessage(replyEn, false, replyZh);
-  }, 800);
+  const thinkEl=medaiThinking('chatMessages');
+  medaiAsk(q).then(function(res){
+    if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
+    if(res.ok){ medaiAppend('chatMessages', res.reply); }
+    else { medaiAppend('chatMessages', medaiConfError(res)); }
+  });
 }
 
 // ════════════════════════════════════════
@@ -2507,16 +2539,14 @@ function sendAiChat(){
   const input=document.getElementById('aiInput');
   const q=(input.value||'').trim();
   if(!q) return;
-  addAiMsg(q,true,q);
+  addAiMsg(q, true, q);
   input.value='';
-  addAiMsg('Thinking… 思考中…',false,'思考中…');
-  setTimeout(()=>{
-    const box=document.getElementById('aiModalBody');
-    if(box && box.lastChild) box.lastChild.remove();
-    const replyZh='收到！这个 AI 助手目前只是界面，尚未接入 AI 模型。接入后，我会结合运动医学知识，针对你的问题（例如落枕、扭伤、恢复）给出个性化指导。⚠️ 仅供学习参考，不能替代专业医疗建议。';
-    const replyEn='Got it! This assistant is currently just the interface — no AI model is linked yet. Once connected, I will give personalized guidance from sports-medicine knowledge for issues like stiff neck, sprains, and recovery. ⚠️ Educational only — not medical advice.';
-    addAiMsg(replyEn,false,replyZh);
-  },800);
+  const thinkEl=medaiThinking('aiModalBody');
+  medaiAsk(q).then(function(res){
+    if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
+    if(res.ok){ medaiAppend('aiModalBody', res.reply); }
+    else { medaiAppend('aiModalBody', medaiConfError(res)); }
+  });
 }
 
 // ════════════════════════════════════════

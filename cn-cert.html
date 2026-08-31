@@ -39,14 +39,14 @@ tr:nth-child(even){background:var(--surface2)}
 /* ── Dark ── */
 body.dark{
   --bg:#0A1828;--surface:#0F2238;--surface2:#14304A;--surface3:#1A3D5C;
-  --text:#E8F1F5;--text2:#9DB8C8;--text3:#6F8FA3;
-  --accent:#178582;--accent2:#21A4A0;--accent-bg:#0E3A3A;
-  --green:#2EA98B;--red:#C05A74;--amber:#BFA181;
+  --text:#F1E9D0;--text2:#CDC49E;--text3:#938C6E;
+  --accent:#E8C87A;--accent2:#F1DCA0;--accent-bg:#3A3520;
+  --green:#B8C97D;--red:#D98A6B;--amber:#E8C87A;
   --border:#1B3A55;--border2:#264B6B;
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow:0 4px 16px rgba(0,0,0,.42);
   --shadow-lg:0 16px 40px rgba(0,0,0,.55);
-  --accent-glow:rgba(23,133,130,.35);
+  --accent-glow:rgba(232,200,122,.28);
 }
 
 /* ── Layout ── */
@@ -697,15 +697,15 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .fc-progress span{width:22px;height:4px;border-radius:2px;background:var(--surface3);transition:background .2s}
 .fc-progress span.on{background:var(--accent)}
 
-/* ── Dark theme palette overrides: classic blue / turquoise / gold ── */
-body.dark .hero h1 span{background:linear-gradient(135deg,#178582,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-body.dark .ai-fab{background:linear-gradient(135deg,#178582,#BFA181)}
-body.dark #readingBar{background:linear-gradient(90deg,#178582,#BFA181,#0A1828)}
-body.dark .author-ava{background:linear-gradient(135deg,#178582,#BFA181)}
-body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#178582 12%,var(--surface)),var(--surface))}
-body.dark .test-prep .tp-tag{background:#178582}
-body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#178582,#BFA181)}
-body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#E8F1F5}
+/* ── Dark theme palette overrides: night dark blue + gold ── */
+body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body.dark .ai-fab{background:linear-gradient(135deg,#E8C87A,#D9B24F)}
+body.dark #readingBar{background:linear-gradient(90deg,#E8C87A,#F1DCA0,#BFA181)}
+body.dark .author-ava{background:linear-gradient(135deg,#E8C87A,#BFA181)}
+body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#BFA181 12%,var(--surface)),var(--surface))}
+body.dark .test-prep .tp-tag{background:#BFA181;color:#0A1828}
+body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#E8C87A,#BFA181);color:#0A1828}
+body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#F1E9D0}
 
 </style>
 <link rel="stylesheet" href="auth-widget.css">
@@ -716,7 +716,7 @@ body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Sports Med <span>Guide</span></div>
+  <div class="sidebar-logo">Vital<span>ité</span></div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
@@ -755,7 +755,7 @@ body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Sports Med Guide" data-zh="运动医学指南">Sports Med <span>Guide</span></div>
+  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>

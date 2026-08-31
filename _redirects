@@ -1,0 +1,14 @@
+# ch1-13 -> consolidated guide.html (instant 301 on Cloudflare; GitHub Pages ignores this file)
+/ch1.html /guide.html#ch1 301
+/ch2.html /guide.html#ch2 301
+/ch3.html /guide.html#ch3 301
+/ch4.html /guide.html#ch4 301
+/ch5.html /guide.html#ch5 301
+/ch6.html /guide.html#ch6 301
+/ch7.html /guide.html#ch7 301
+/ch8.html /guide.html#ch8 301
+/ch9.html /guide.html#ch9 301
+/ch10.html /guide.html#ch10 301
+/ch11.html /guide.html#ch11 301
+/ch12.html /guide.html#ch12 301
+/ch13.html /guide.html#ch13 301

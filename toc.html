@@ -11,14 +11,14 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f6f7fb;--surface:#ffffff;--surface2:#eef1f6;--surface3:#e1e5ee;
-  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
-  --accent:#4f46e5;--accent2:#4338ca;--accent-bg:#eef2ff;
-  --green:#0e9f6e;--red:#e11d48;--amber:#d97706;
-  --border:#e8eaf0;--border2:#d8dce6;
-  --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
-  --shadow:0 4px 14px rgba(15,23,42,.08),0 1px 3px rgba(15,23,42,.04);
-  --shadow-lg:0 16px 40px rgba(15,23,42,.13),0 4px 10px rgba(15,23,42,.05);
+  --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
+  --text:#0A1828;--text2:#3C4E62;--text3:#7C8FA3;
+  --accent:#B8860B;--accent2:#A9741E;--accent-bg:#FBF3E0;
+  --green:#2E7D5B;--red:#C05A74;--amber:#B8860B;
+  --border:#DDE7EE;--border2:#CBD9E2;
+  --shadow-sm:0 1px 2px rgba(10,24,40,.06),0 1px 3px rgba(10,24,40,.08);
+  --shadow:0 4px 14px rgba(10,24,40,.08),0 1px 3px rgba(10,24,40,.04);
+  --shadow-lg:0 16px 40px rgba(10,24,40,.13),0 4px 10px rgba(10,24,40,.05);
   --radius:16px;--radius-sm:10px;--radius-lg:22px;
   --font:"Avenir Next","Avenir Next Condensed","Helvetica Neue",Arial,"Songti SC","SimSun","宋体",sans-serif;
   --font-heading:"Cormorant Garamond","Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
@@ -692,6 +692,17 @@ body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg
 body.dark .test-prep .tp-tag{background:#BFA181;color:#0A1828}
 body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#E8C87A,#BFA181);color:#0A1828}
 body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#F1E9D0}
+
+
+/* ── Light theme palette overrides: blue + gold (echoes dark) ── */
+body:not(.dark) .hero h1 span{background:linear-gradient(135deg,#A9741E,#B8860B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body:not(.dark) .ai-fab{background:linear-gradient(135deg,#B8860B,#A9741E)}
+body:not(.dark) #readingBar{background:linear-gradient(90deg,#B8860B,#A9741E,#B8860B)}
+body:not(.dark) .author-ava{background:linear-gradient(135deg,#B8860B,#A9741E)}
+body:not(.dark) .test-prep{border-left-color:#B8860B;background:linear-gradient(180deg,color-mix(in srgb,#B8860B 8%,var(--surface)),var(--surface))}
+body:not(.dark) .test-prep .tp-tag{background:#B8860B;color:#fff}
+body:not(.dark) .fc-chip.active,body:not(.dark) .fc-nav button.primary{background:linear-gradient(135deg,#B8860B,#A9741E);color:#fff}
+body:not(.dark) .fc-front{background:linear-gradient(135deg,#EAF1F6 0%,#F1F6F9 60%,#FFFFFF 100%);color:#0A1828}
 
 </style>
 <link rel="stylesheet" href="auth-widget.css">

@@ -11,14 +11,14 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f6f7fb;--surface:#ffffff;--surface2:#eef1f6;--surface3:#e1e5ee;
-  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
-  --accent:#4f46e5;--accent2:#4338ca;--accent-bg:#eef2ff;
-  --green:#0e9f6e;--red:#e11d48;--amber:#d97706;
-  --border:#e8eaf0;--border2:#d8dce6;
-  --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
-  --shadow:0 4px 14px rgba(15,23,42,.08),0 1px 3px rgba(15,23,42,.04);
-  --shadow-lg:0 16px 40px rgba(15,23,42,.13),0 4px 10px rgba(15,23,42,.05);
+  --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
+  --text:#0A1828;--text2:#3C4E62;--text3:#7C8FA3;
+  --accent:#B8860B;--accent2:#A9741E;--accent-bg:#FBF3E0;
+  --green:#2E7D5B;--red:#C05A74;--amber:#B8860B;
+  --border:#DDE7EE;--border2:#CBD9E2;
+  --shadow-sm:0 1px 2px rgba(10,24,40,.06),0 1px 3px rgba(10,24,40,.08);
+  --shadow:0 4px 14px rgba(10,24,40,.08),0 1px 3px rgba(10,24,40,.04);
+  --shadow-lg:0 16px 40px rgba(10,24,40,.13),0 4px 10px rgba(10,24,40,.05);
   --radius:16px;--radius-sm:10px;--radius-lg:22px;
   --font:"Avenir Next","Avenir Next Condensed","Helvetica Neue",Arial,"Songti SC","SimSun","宋体",sans-serif;
   --font-heading:"Cormorant Garamond","Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
@@ -38,14 +38,15 @@ tr:nth-child(even){background:var(--surface2)}
 
 /* ── Dark ── */
 body.dark{
-  --bg:#0a101f;--surface:#131a2c;--surface2:#1b2337;--surface3:#263049;
-  --text:#e6e9f2;--text2:#9aa4bd;--text3:#6b7591;
-  --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1d2145;
-  --border:#232c44;--border2:#2f3a57;
+  --bg:#0A1828;--surface:#0F2238;--surface2:#14304A;--surface3:#1A3D5C;
+  --text:#F1E9D0;--text2:#CDC49E;--text3:#938C6E;
+  --accent:#E8C87A;--accent2:#F1DCA0;--accent-bg:#3A3520;
+  --green:#B8C97D;--red:#D98A6B;--amber:#E8C87A;
+  --border:#1B3A55;--border2:#264B6B;
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow:0 4px 16px rgba(0,0,0,.42);
   --shadow-lg:0 16px 40px rgba(0,0,0,.55);
-  --accent-glow:rgba(129,140,248,.25);
+  --accent-glow:rgba(232,200,122,.28);
 }
 
 /* ── Layout ── */
@@ -695,6 +696,41 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .fc-progress{display:flex;gap:4px;justify-content:center;margin:0 0 .2rem}
 .fc-progress span{width:22px;height:4px;border-radius:2px;background:var(--surface3);transition:background .2s}
 .fc-progress span.on{background:var(--accent)}
+
+/* ── Dark theme palette overrides: night dark blue + gold ── */
+body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body.dark .ai-fab{background:linear-gradient(135deg,#E8C87A,#D9B24F)}
+body.dark #readingBar{background:linear-gradient(90deg,#E8C87A,#F1DCA0,#BFA181)}
+body.dark .author-ava{background:linear-gradient(135deg,#E8C87A,#BFA181)}
+body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#BFA181 12%,var(--surface)),var(--surface))}
+body.dark .test-prep .tp-tag{background:#BFA181;color:#0A1828}
+body.dark .fc-chip.active,body.dark .fc-nav button.primary{background:linear-gradient(135deg,#E8C87A,#BFA181);color:#0A1828}
+body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A3D5C 100%);color:#F1E9D0}
+
+
+/* ── Light theme palette overrides: blue + gold (echoes dark) ── */
+body:not(.dark) .hero h1 span{background:linear-gradient(135deg,#A9741E,#B8860B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+body:not(.dark) .ai-fab{background:linear-gradient(135deg,#B8860B,#A9741E)}
+body:not(.dark) #readingBar{background:linear-gradient(90deg,#B8860B,#A9741E,#B8860B)}
+body:not(.dark) .author-ava{background:linear-gradient(135deg,#B8860B,#A9741E)}
+body:not(.dark) .test-prep{border-left-color:#B8860B;background:linear-gradient(180deg,color-mix(in srgb,#B8860B 8%,var(--surface)),var(--surface))}
+body:not(.dark) .test-prep .tp-tag{background:#B8860B;color:#fff}
+body:not(.dark) .fc-chip.active,body:not(.dark) .fc-nav button.primary{background:linear-gradient(135deg,#B8860B,#A9741E);color:#fff}
+body:not(.dark) .fc-front{background:linear-gradient(135deg,#EAF1F6 0%,#F1F6F9 60%,#FFFFFF 100%);color:#0A1828}
+
+
+/* ── Dark-mode refinement: calm buttons + gold→cream heading gradient ── */
+body.dark .qo-btn.next,body.dark .aq-btn.primary,body.dark .fc-nav button.primary,
+body.dark .fc-chip.active,body.dark .ai-send-btn,body.dark .chat-send,body.dark .chat-msg.user,
+body.dark .back-top,body.dark .guide-tab.on,body.dark .rec-item .rec-chip,body.dark .ch-nav .qo-btn,
+body.dark .author-ava,body.dark .callout h4 .co-ico,body.dark .guide-chip:hover{
+  background:linear-gradient(135deg,#B8860B,#A9741E) !important;color:#F1E9D0 !important;border-color:transparent !important}
+body.dark .qo-btn.next:hover,body.dark .aq-btn.primary:hover,body.dark .ai-send-btn:hover,
+body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .guide-tab.on:hover{
+  background:linear-gradient(135deg,#A9741E,#8E620A) !important}
+body.dark h1,body.dark h2,body.dark h3{
+  background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -709,7 +745,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Vitalite</div>
+  <div class="sidebar-logo">Vital<span>ité</span></div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
@@ -748,7 +784,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalite" data-zh="维塔利特">Vitalite</div>
+  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>

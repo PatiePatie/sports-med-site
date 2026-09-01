@@ -669,6 +669,36 @@ body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .gui
 body.dark h1,body.dark h2,body.dark h3{
   background:linear-gradient(120deg,#B8C97D,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
 
+
+/* ═══ USABO interactive practice bank (刷题) ═══ */
+.usq-head{text-align:center;margin-bottom:1.2rem}
+.usq-title{font-size:1.5rem;margin:.6rem 0 0;font-weight:800}
+.usq-controls{display:flex;flex-wrap:wrap;gap:.8rem;align-items:flex-end;justify-content:center;padding:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:.9rem}
+.usq-label{display:flex;flex-direction:column;gap:.3rem;font-size:.8rem;color:var(--text2);font-weight:600}
+.usq-label select{padding:.5rem .7rem;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;min-width:130px}
+.usq-note{text-align:center;font-size:.85rem;color:var(--text3);margin-bottom:1rem}
+.usq-prog{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin-bottom:1rem}
+.usq-prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:99px;transition:width .3s}
+.usq-qnum{font-size:.8rem;color:var(--text3);margin-bottom:.6rem;font-weight:600}
+.usq-q{font-size:1.1rem;line-height:1.6;font-weight:700;margin-bottom:1rem}
+.usq-opts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.usq-opt{padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);cursor:pointer;transition:all .15s}
+.usq-opt:hover{border-color:var(--accent);transform:translateX(3px)}
+.usq-opt.disabled{cursor:default;pointer-events:none}
+.usq-opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.usq-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.usq-explain{border-left:3px solid var(--accent);background:rgba(79,70,229,.06);padding:.8rem 1rem;border-radius:0 10px 10px 0;margin-bottom:1rem;line-height:1.6;font-size:.92rem}
+.usq-footer{display:flex;align-items:center;justify-content:space-between}
+.usq-score{font-size:.85rem;color:var(--text3);font-weight:600}
+.usq-scorecard{text-align:center;padding:2rem 1rem}
+.usq-pct{font-size:3.2rem;font-weight:900;background:linear-gradient(90deg,var(--accent),#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.usq-slabel{font-size:1.05rem;font-weight:700;margin:.4rem 0 1rem}
+.usq-dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:1.4rem}
+.usq-dot{width:11px;height:11px;border-radius:50%}
+.usq-dot.hit{background:#22c55e}
+.usq-dot.miss{background:#ef4444}
+.usq-sactions{margin-top:.5rem}
+@media(max-width:560px){.usq-controls{flex-direction:column;align-items:stretch}}
 </style>
 
 <link rel="stylesheet" href="auth-widget.css">
@@ -865,97 +895,10 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- Practice Questions -->
 <section id="practice">
 <div class="container">
-  <span class="section-label" data-en="Practice Questions · 练习题" data-zh="练习题 · Practice Questions">Practice Questions · 练习题</span>
-  <h2 data-en="USABO-Style Practice" data-zh="USABO风格练习">USABO-Style Practice</h2>
-  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="Test your knowledge with questions modeled after USABO format. Click to reveal answers and explanations." data-zh="用模拟USABO格式的题目测试你的知识。点击查看答案与解析。">Test your knowledge with questions modeled after USABO format. Click to reveal answers and explanations.</p>
-
-  <div class="quiz">
-    <div class="quiz-title">🧬 Practice Set 1: Molecular Biology &amp; Genetics</div>
-
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism">Molecular Biology</span>
-      <p><strong>1.</strong> During DNA replication, which enzyme is primarily responsible for unwinding the double helix at the replication fork?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: D) Helicase</strong></p>
-        <p>Helicase unwinds the DNA double helix by breaking hydrogen bonds between base pairs. DNA gyrase (topoisomerase II) relieves supercoiling ahead of the fork, while DNA polymerase synthesizes new strands and primase synthesizes RNA primers.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-tag q-mechanism">Genetics</span>
-      <p><strong>2.</strong> In a cross between AaBbCc and aabbcc, what fraction of offspring would be expected to show the dominant phenotype for all three traits (assuming independent assortment)?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: 1/8</strong></p>
-        <p>For each gene: Aa × aa → 1/2 dominant phenotype. Bb × bb → 1/2 dominant phenotype. Cc × cc → 1/2 dominant phenotype. By multiplication rule: (1/2)³ = 1/8.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-tag q-data">Biochemistry</span>
-      <p><strong>3.</strong> Which of the following correctly describes the relationship between ΔG, ΔG°', and the actual cellular conditions for ATP hydrolysis?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: The actual ΔG is more negative than ΔG°' (−30.5 kJ/mol) because cellular [ATP]/[ADP] ratios are far from equilibrium.</strong></p>
-        <p>In cells, ATP concentration is maintained much higher than ADP, making the actual free energy release more negative (around −50 to −54 kJ/mol) than the standard free energy change.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-transfer">Cell Biology</span>
-      <p><strong>4.</strong> A cell is placed in a hypertonic solution. Which of the following will occur?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: Water will leave the cell, causing it to shrink (crenation in animal cells, plasmolysis in plant cells).</strong></p>
-        <p>In a hypertonic solution, the solute concentration outside is higher than inside. Water moves down its concentration gradient (osmosis) from inside to outside, causing cell shrinkage.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-clinical">Ecology</span>
-      <p><strong>5.</strong> In a logistic growth model (dN/dt = rN(1 − N/K)), what happens to the population growth rate when N = K/2?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: The population growth rate is at its maximum.</strong></p>
-        <p>When N = K/2, the term (1 − N/K) = 0.5, and the product rN(1 − N/K) is maximized. This is the inflection point of the logistic S-curve where growth is fastest.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="quiz">
-    <div class="quiz-title">🔬 Practice Set 2: Advanced Topics</div>
-
-    <div class="quiz-item">
-      <span class="q-mechanism">Molecular Biology</span>
-      <p><strong>6.</strong> Which of the following best explains why Okazaki fragments are necessary during DNA replication?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: DNA polymerase can only synthesize in the 5'→3' direction, so the lagging strand must be synthesized discontinuously.</strong></p>
-        <p>The two strands of DNA are antiparallel. DNA polymerase reads 3'→5' and synthesizes 5'→3'. While the leading strand is continuous, the lagging strand is synthesized as short Okazaki fragments in the 5'→3' direction, which are later joined by DNA ligase.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-debate">Genetics</span>
-      <p><strong>7.</strong> A population of 1000 organisms has the following genotype frequencies: AA = 0.36, Aa = 0.48, aa = 0.16. Is this population in Hardy-Weinberg equilibrium?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: Yes, the population is in Hardy-Weinberg equilibrium.</strong></p>
-        <p>Frequency of A (p) = 0.36 + 0.48/2 = 0.6. Frequency of a (q) = 0.16 + 0.48/2 = 0.4. Expected: p² = 0.36, 2pq = 0.48, q² = 0.16. These match the observed frequencies exactly.</p>
-      </div>
-    </div>
-
-    <div class="quiz-item">
-      <span class="q-explain">Plant Biology</span>
-      <p><strong>8.</strong> In C4 plants, which anatomical feature is responsible for concentrating CO₂ around RuBisCO?</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal Answer ▾</button>
-      <div class="q-reveal">
-        <p><strong>Answer: Kranz anatomy — the arrangement of bundle sheath cells (containing RuBisCO) tightly around vascular bundles, with mesophyll cells on the outside.</strong></p>
-        <p>In C4 plants, CO₂ is initially fixed in mesophyll cells by PEP carboxylase (forming 4-carbon compounds), then transported to bundle sheath cells where it is released and refixed by RuBisCO. This spatial separation minimizes photorespiration.</p>
-      </div>
-    </div>
-  </div>
+  <span class="section-label" data-en="Practice · 刷题" data-zh="刷题 · Practice">Practice · 刷题</span>
+  <h2 data-en="USABO-Style Practice · 刷题" data-zh="USABO 风格刷题">USABO-Style Practice</h2>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="Test your knowledge with interactive USABO-format questions. Choose a subject and number of questions, then get scored instantly with bilingual explanations." data-zh="用交互式USABO格式题目测试你的知识。选择科目和题数，即时评分并附双语解析。">Randomly drawn from the full bank, scored instantly with explanations.</p>
+  <div class="quiz" id="usqQuiz"></div>
 </div>
 </section>
 
@@ -1052,40 +995,61 @@ body.dark h1,body.dark h2,body.dark h3{
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ── Language toggle ──
-(function(){
-  const b=document.body;
-  const btn=document.getElementById('langToggle');
-  const saved=localStorage.getItem('v_lang')||'en';
-  b.classList.add('lang-'+saved);
-  btn.textContent=saved==='en'?'中':'EN';
-  btn.onclick=()=>{
-    const cur=b.classList.contains('lang-en')?'en':'zh';
-    const next=cur==='en'?'zh':'en';
-    b.classList.remove('lang-'+cur);
-    b.classList.add('lang-'+next);
-    localStorage.setItem('v_lang',next);
-    btn.textContent=next==='en'?'中':'EN';
-  };
-})();
+// ════════════════════════════════════════
+// LANGUAGE TOGGLE + DARK MODE (site-standard keys: sm_lang / dark)
+// ════════════════════════════════════════
+var showCN = true;
+const darkBtn = document.getElementById('darkToggle');
+if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');}
+darkBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  darkBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  localStorage.setItem('dark', document.body.classList.contains('dark'));
+});
+function refreshDarkBtn(){ darkBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+refreshDarkBtn();
 
-// ── Dark mode ──
-(function(){
-  const b=document.body;
-  const btn=document.getElementById('darkToggle');
-  const saved=localStorage.getItem('v_theme');
-  if(saved==='dark')b.classList.add('dark');
-  btn.textContent=b.classList.contains('dark')?'☀️':'🌙';
-  btn.onclick=()=>{
-    b.classList.toggle('dark');
-    localStorage.setItem('v_theme',b.classList.contains('dark')?'dark':'light');
-    btn.textContent=b.classList.contains('dark')?'☀️':'🌙';
-  };
-})();
+const langBtn = document.getElementById('langToggle');
+// inline bilingual (.cn / .en-text) wrapper, mirroring site pattern
+function wrapInlineBilingual(){
+  document.querySelectorAll('.cn').forEach(cn=>{
+    const parent = cn.parentElement;
+    if(!parent || parent.classList.contains('en-text')) return;
+    const children = Array.from(parent.childNodes);
+    const wrapper = document.createElement('span');
+    wrapper.className = 'en-text';
+    children.forEach(node=>{ if(node === cn) return; wrapper.appendChild(node.cloneNode(true)); });
+    parent.insertBefore(wrapper, cn);
+    children.forEach(node=>{ if(node !== cn) parent.removeChild(node); });
+  });
+}
+wrapInlineBilingual();
+function applyLang(){
+  const lang = showCN ? 'zh' : 'en';
+  document.body.classList.toggle('lang-zh', showCN);
+  document.body.classList.toggle('lang-en', !showCN);
+  document.querySelectorAll('[data-en][data-zh]').forEach(el=>{
+    el.textContent = el.getAttribute('data-'+lang);
+  });
+  langBtn.textContent = showCN ? '中' : 'EN';
+  try{ USQ.renderSetup(); }catch(e){}
+}
+langBtn.addEventListener('click',()=>{
+  showCN = !showCN;
+  localStorage.setItem('sm_lang', showCN ? 'zh' : 'en');
+  applyLang();
+});
+if(localStorage.getItem('sm_lang')==='en'){showCN=false;}
+applyLang();
 
 // ── Back to top ──
 window.addEventListener('scroll',()=>{
   document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+  const bar=document.getElementById('readingBar');
+  if(bar){
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(window.scrollY/h*100)+'%';
+  }
 });
 
 // ── Accordion ──
@@ -1114,15 +1078,198 @@ document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
   document.getElementById('sidebar').classList.toggle('open');
 });
 
-// ── Reading progress bar ──
-window.addEventListener('scroll',()=>{
-  const bar=document.getElementById('readingBar');
-  if(bar){
-    const h=document.documentElement.scrollHeight-window.innerHeight;
-    bar.style.width=(window.scrollY/h*100)+'%';
-  }
-});
+// ════════════════════════════════════════
+// USABO QUESTION BANK
+// ════════════════════════════════════════
+const US_QUESTIONS = [
+{cat:"mb",en:"Which enzyme synthesizes new DNA strands during replication by adding nucleotides in the 5'→3' direction?",zh:"复制过程中，哪种酶沿5'→3'方向添加核苷酸来合成新DNA链？",opts:['Helicase', 'DNA polymerase III', 'Primase', 'Ligase'],optsz:['解旋酶', 'DNA聚合酶III', '引物酶', '连接酶'],correct:1,expl:"DNA polymerase III catalyzes nucleotide addition 5'→3' on the growing strand; helicase unwinds, primase lays RNA primers, ligase seals nicks.",explz:"DNA聚合酶III催化核苷酸5'→3'添加；解旋酶解旋，引物酶合成RNA引物，连接酶封闭缺口。"},
+{cat:"mb",en:'The genetic information in a codon specifies which step of gene expression?',zh:'密码子所携带的遗传信息指定了基因表达的哪一步？',opts:['Replication', 'Transcription', 'Translation', 'Repair'],optsz:['复制', '转录', '翻译', '修复'],correct:2,expl:'A codon (3 mRNA nucleotides) specifies an amino acid during translation on the ribosome.',explz:'密码子（mRNA上3个核苷酸）在核糖体上翻译时指定一个氨基酸。'},
+{cat:"mb",en:'Which of the following molecules carries the anticodon?',zh:'下列哪种分子携带反密码子？',opts:['mRNA', 'rRNA', 'tRNA', 'snRNA'],optsz:['mRNA', 'rRNA', 'tRNA', 'snRNA'],correct:2,expl:'tRNA carries an anticodon that base-pairs with the mRNA codon; it also carries the corresponding amino acid.',explz:'tRNA携带反密码子与mRNA密码子互补配对，并携带相应氨基酸。'},
+{cat:"mb",en:"Which molecule's presence turns on the lac operon in E. coli?",zh:'在E. coli中，哪种分子的存在会开启lac操纵子？',opts:['Glucose', 'Lactose (allolactose)', 'Tryptophan', 'cAMP alone'],optsz:['葡萄糖', '乳糖（别乳糖）', '色氨酸', '仅供cAMP'],correct:1,expl:'Allolactose (from lactose) binds the lac repressor so it falls off the operator, enabling transcription.',explz:'别乳糖（来自乳糖）结合lac阻遏蛋白使其脱离操纵区，从而启动转录。'},
+{cat:"mb",en:'Alternative splicing primarily increases diversity of which molecule?',zh:'可变剪接主要增加哪种分子的多样性？',opts:['Genomic DNA', 'mRNA (and thus protein)', 'tRNA', 'Ribosomal RNA'],optsz:['基因组DNA', 'mRNA（进而蛋白质）', 'tRNA', '核糖体RNA'],correct:1,expl:'Alternative splicing produces different mRNA (and protein) isoforms from a single primary transcript.',explz:'可变剪接由单一初级转录本产生不同的mRNA（和蛋白质）亚型。'},
+{cat:"mb",en:'Which type of RNA is the catalytic component of the ribosome?',zh:'核糖体中具有催化作用的RNA成分是？',opts:['mRNA', 'tRNA', 'rRNA', 'siRNA'],optsz:['mRNA', 'tRNA', 'rRNA', 'siRNA'],correct:2,expl:'rRNA catalyzes peptide bond formation (ribozyme activity) in the large ribosomal subunit.',explz:'rRNA在核糖体大亚基中催化肽键形成（核酶活性）。'},
+{cat:"mb",en:'A mutation that changes one DNA base but codes for the same amino acid is termed:',zh:'改变一个DNA碱基但仍编码同一氨基酸的突变称为：',opts:['Nonsense', 'Frameshift', 'Silent', 'Missense'],optsz:['无义突变', '移码突变', '同义（沉默）突变', '错义突变'],correct:2,expl:'A silent mutation changes a codon to a synonymous codon translating the same amino acid.',explz:'同义突变将密码子换为同义密码子，翻译出相同氨基酸。'},
+{cat:"mb",en:'Telomerase extends which type of sequence to protect chromosome ends?',zh:'端粒酶通过延伸哪种序列来保护染色体末端？',opts:['Centromeric repeats', 'Telomeric repeats', 'Promoter sequences', 'Introns'],optsz:['着丝粒重复', '端粒重复', '启动子序列', '内含子'],correct:1,expl:'Telomerase adds short repetitive telomeric sequences to the ends of linear chromosomes, countering shortening.',explz:'端粒酶向线性染色体末端添加短的端粒重复序列，抵消缩短。'},
+{cat:"mb",en:'In PCR, roughly doubling the template each cycle means that after n cycles the DNA is increased about:',zh:'在PCR中，每一轮模板近似翻倍，n轮后DNA约增加：',opts:['n-fold', '2^n-fold', 'n^2-fold', 'log n-fold'],optsz:['n倍', '2^n倍', 'n^2倍', 'log n倍'],correct:1,expl:'PCR amplifies exponentially; after n cycles the target is amplified ~2^n fold.',explz:'PCR呈指数扩增，n轮后目标DNA约扩增2^n倍。'},
+{cat:"mb",en:'Which process describes the protein machine that scans mRNA and removes introns?',zh:'哪种过程指负责扫描mRNA并去除内含子的蛋白机器？',opts:['Spliceosome-mediated splicing', 'Translation initiation', 'DNA replication', 'Glycosylation'],optsz:['剪接体介导的剪接', '翻译起始', 'DNA复制', '糖基化'],correct:0,expl:'The spliceosome removes introns and joins exons during pre-mRNA processing.',explz:'剪接体在pre-mRNA加工过程中去除内含子并连接外显子。'},
+{cat:"cb",en:'Which organelle is the site of ATP synthesis via the electron transport chain?',zh:'哪个细胞器是电子传递链合成ATP的场所？',opts:['Nucleus', 'Mitochondrion', 'Golgi apparatus', 'Lysosome'],optsz:['细胞核', '线粒体', '高尔基体', '溶酶体'],correct:1,expl:'The inner mitochondrial membrane houses the electron transport chain and ATP synthase.',explz:'线粒体内膜上分布着电子传递链和ATP合酶。'},
+{cat:"cb",en:'Ribosomes that synthesize proteins destined for secretion are attached to which structure?',zh:'合成分泌蛋白的核糖体附着在哪种结构上？',opts:['Free cytoplasm', 'Rough endoplasmic reticulum', 'Smooth ER', 'Lysosomal membrane'],optsz:['游离细胞质', '粗面内质网', '滑面内质网', '溶酶体膜'],correct:1,expl:'Proteins destined for secretion are translated on ribosomes bound to the rough ER and enter the secretory pathway.',explz:'分泌蛋白在粗面内质网结合的核糖体上翻译，进入分泌通路。'},
+{cat:"cb",en:'Which of the following crosses a lipid bilayer passively without a transporter?',zh:'下列哪种物质无需转运体即可被动穿越脂双层？',opts:['Na+ ion', 'Glucose', 'Water (via aquaporins, but also some diffusion)', 'Large protein'],optsz:['Na+离子', '葡萄糖', '水（经水通道，也可少量扩散）', '大分子蛋白质'],correct:2,expl:'Small nonpolar molecules (O2, CO2) and to some extent water diffuse freely; ions and glucose need transporters.',explz:'小分子非极性物质（O2、CO2）以及一定程度的水可自由扩散；离子和葡萄糖需要转运体。'},
+{cat:"cb",en:'Osmosis is best defined as the movement of:',zh:'渗透作用最恰当的定义是：',opts:['Solute down its concentration gradient', 'Water across a semipermeable membrane toward higher solute concentration', 'Ions through channels', 'Solutes against their gradient using ATP'],optsz:['溶质顺浓度梯度移动', '水跨半透膜向溶质浓度高的一侧移动', '离子经通道移动', '溶质利用ATP逆梯度移动'],correct:1,expl:'Osmosis is the passive movement of water across a semipermeable membrane toward the more concentrated (lower water potential) side.',explz:'渗透是水跨半透膜被动地流向溶质浓度较高（水势较低）的一侧。'},
+{cat:"cb",en:'Which stage of the cell cycle has the highest DNA content per cell before division?',zh:'细胞周期中，分裂前哪个阶段每个细胞的DNA含量最高？',opts:['G1', 'S', 'G2 (after replication)', 'M'],optsz:['G1期', 'S期', 'G2期（复制后）', 'M期'],correct:2,expl:'After S phase the cell has 4n DNA in G2; M phase divides it back to 2n.',explz:'S期后细胞在G2含4n DNA，M期再平分回2n。'},
+{cat:"cb",en:'Which organelle breaks down macromolecules and old organelles using hydrolytic enzymes?',zh:'哪个细胞器利用水解酶分解大分子和衰老细胞器？',opts:['Peroxisome', 'Lysosome', 'Ribosome', 'Nucleolus'],optsz:['过氧化物酶体', '溶酶体', '核糖体', '核仁'],correct:1,expl:'Lysosomes contain hydrolytic enzymes that digest macromolecules and recycle organelles (autophagy).',explz:'溶酶体含水解酶，可消化大分子并回收细胞器（自噬）。'},
+{cat:"cb",en:'Which pair of structures are the microtubule-organizing centers that form the mitotic spindle?',zh:'哪一对结构是形成有丝分裂纺锤体的微管组织中心？',opts:['Centrosomes with centrioles', 'Ribosomes', 'Lysosomes', 'Peroxisomes'],optsz:['含中心粒的中心体', '核糖体', '溶酶体', '过氧化物酶体'],correct:0,expl:'Centrosomes (containing centrioles in animal cells) act as microtubule-organizing centers for the spindle.',explz:'中心体（动物细胞含中心粒）作为纺锤体的微管组织中心。'},
+{cat:"cb",en:'The movement of an ion against its electrochemical gradient driven by ATP is called:',zh:'由ATP驱动、使离子逆电化学梯度移动的过程称为：',opts:['Facilitated diffusion', 'Primary active transport', 'Simple diffusion', 'Osmosis'],optsz:['易化扩散', '初级主动运输', '简单扩散', '渗透'],correct:1,expl:'Primary active transport (e.g., Na+/K+ ATPase) uses ATP directly to move ions against gradients.',explz:'初级主动运输（如Na+/K+泵）直接利用ATP逆梯度泵离子。'},
+{cat:"cb",en:'In plant cells, which large central organelle maintains turgor pressure?',zh:'植物细胞中，哪个大中央细胞器维持膨压？',opts:['Chloroplast', 'Central vacuole', 'Peroxisome', 'Ribosome'],optsz:['叶绿体', '中央液泡', '过氧化物酶体', '核糖体'],correct:1,expl:'The large central vacuole holds water and solutes, maintaining turgor pressure that supports the plant.',explz:'大中央液泡储存水和溶质，维持支撑植物的膨压。'},
+{cat:"cb",en:'Which process packages and modifies proteins then sends them in vesicles to their destinations?',zh:'哪种过程对蛋白质进行加工修饰并以囊泡将其送到目的地？',opts:['Endoplasmic reticulum only', 'Golgi apparatus', 'Nucleus', 'Cytoskeleton'],optsz:['仅内质网', '高尔基体', '细胞核', '细胞骨架'],correct:1,expl:'The Golgi apparatus modifies, sorts, and packages proteins into vesicles for secretion or delivery.',explz:'高尔基体对蛋白质进行修饰、分类并包装成囊泡分泌或输送。'},
+{cat:"ge",en:'In a monohybrid cross of two heterozygotes (Aa × Aa), the expected phenotypic ratio is:',zh:'两个杂合子（Aa × Aa）的单因子杂交，预期表型比例是：',opts:['1:1', '3:1', '9:3:3:1', '1:2:1'],optsz:['1:1', '3:1', '9:3:3:1', '1:2:1'],correct:1,expl:'Aa × Aa gives ~3 dominant : 1 recessive phenotype (genotypic 1:2:1).',explz:'Aa × Aa产生约3显性:1隐性表型（基因型1:2:1）。'},
+{cat:"ge",en:'Two genes on the same chromosome that are physically close tend to be:',zh:'位于同一染色体上且物理距离很近的两个基因往往：',opts:['Always assort independently', 'Inherited together (linked)', 'Mutate more often', 'Never expressed'],optsz:['总是独立分配', '一起遗传（连锁）', '更易突变', '从不表达'],correct:1,expl:'Close genes on the same chromosome are linked and rarely separated by recombination.',explz:'同染色体上相邻基因连锁，很少被重组分开。'},
+{cat:"ge",en:'In the Hardy-Weinberg equation p^2 + 2pq + q^2 = 1, 2pq represents the frequency of:',zh:'在Hardy-Weinberg方程 p^2+2pq+q^2=1 中，2pq代表：',opts:['Homozygous dominant', 'Homozygous recessive', 'Heterozygotes', 'Total alleles'],optsz:['显性纯合子', '隐性纯合子', '杂合子', '等位基因总数'],correct:2,expl:'p^2 is AA, q^2 is aa, and 2pq is the heterozygote Aa frequency.',explz:'p^2为AA，q^2为aa，2pq为杂合子Aa的频率。'},
+{cat:"ge",en:'Which evolutionary mechanism is most likely to increase genetic variation in a small isolated population?',zh:'在小的隔离种群中，哪种进化机制最可能增加遗传变异？',opts:['Genetic drift', 'Mutation', 'Founder effect only', 'Bottleneck only'],optsz:['遗传漂变', '基因突变', '仅奠基者效应', '仅瓶颈效应'],correct:1,expl:'Mutation introduces new alleles and increases variation; drift/founder/bottleneck reduce variation.',explz:'突变引入新等位基因增加变异；漂变/奠基者/瓶颈都减少变异。'},
+{cat:"ge",en:'A 1:2:1 genotypic ratio without a 3:1 phenotypic ratio suggests which inheritance pattern?',zh:'基因型1:2:1但无3:1表型比，提示哪种遗传模式？',opts:['Complete dominance', 'Incomplete dominance (blending)', 'Sex-linked', 'Polygenic'],optsz:['完全显性', '不完全显性（混合）', '伴性遗传', '多基因遗传'],correct:1,expl:'In incomplete dominance the heterozygote shows an intermediate phenotype, giving 1:2:1 phenotypes.',explz:'不完全显性时杂合子表现中间表型，产生1:2:1表型。'},
+{cat:"ge",en:'Which of the following can alter allele frequencies and is NOT random?',zh:'下列哪项可改变等位基因频率且不是随机的？',opts:['Genetic drift', 'Natural selection', 'Gene flow that is random', 'Sampling error'],optsz:['遗传漂变', '自然选择', '随机的基因流动', '取样误差'],correct:1,expl:'Natural selection is non-random (differential fitness); drift is random.',explz:'自然选择是非随机的（差异适合度）；漂变是随机的。'},
+{cat:"ge",en:'A change in a single nucleotide that creates an early stop codon is a:',zh:'单个核苷酸改变产生提前终止密码子的突变是：',opts:['Silent mutation', 'Missense mutation', 'Nonsense mutation', 'Frameshift'],optsz:['同义突变', '错义突变', '无义突变', '移码突变'],correct:2,expl:'A nonsense mutation converts a sense codon into a premature stop codon, truncating the protein.',explz:'无义突变将编码密码子变为提前终止密码子，截短蛋白质。'},
+{cat:"ge",en:'Crossing over between homologous chromosomes most directly leads to:',zh:'同源染色体间的交叉互换最直接导致：',opts:['New combinations of alleles on a chromosome', 'Gene duplication', 'Chromosome-number change', 'Point mutation'],optsz:['同一染色体上等位基因的新组合', '基因重复', '染色体数目改变', '点突变'],correct:0,expl:'Crossing over recombines alleles between homologs, producing new combinations linked on a chromosome.',explz:'交叉互换使同源染色体间的等位基因重组，产生新组合。'},
+{cat:"ge",en:'The biological species concept defines a species primarily by:',zh:'生物学物种概念主要依据什么定义物种？',opts:['Appearance', 'Interbreeding potential (gene flow)', 'Habitat', 'Body size'],optsz:['外貌', '可相互交配（基因交流）', '栖息地', '体型'],correct:1,expl:'The biological species concept defines a species as groups that can interbreed and produce fertile offspring.',explz:'生物学物种概念定义为可相互交配并产生可育后代的一组个体。'},
+{cat:"ge",en:'Which is a prezygotic barrier preventing gene flow between species?',zh:'下列哪项是阻止种间基因流的前合子生殖隔离？',opts:['Hybrid sterility', 'Temporal isolation (different mating seasons)', 'Hybrid breakdown', 'Reduced F2 fitness'],optsz:['杂种不育', '时间隔离（不同交配季节）', '杂种衰败', 'F2适合度下降'],correct:1,expl:'Temporal, habitat, behavioral, and mechanical isolation are prezygotic barriers preventing mating/zygote formation.',explz:'时间、生境、行为、机械隔离均为阻止交配/合子形成的前合子隔离。'},
+{cat:"ap",en:'Which structure of the nephron is primarily responsible for reabsorbing most filtered water and solutes by bulk?',zh:'肾单位中哪个结构主要负责大量重吸收大部分滤过的水和溶质？',opts:['Glomerulus', 'Proximal convoluted tubule', 'Loop of Henle', 'Collecting duct'],optsz:['肾小球', '近端小管', '髓袢', '集合管'],correct:1,expl:'The proximal tubule reabsorbs ~65% of filtered Na+ and water plus most glucose/amino acids.',explz:'近端小管重吸收约65%的Na+和水以及大部分葡萄糖/氨基酸。'},
+{cat:"ap",en:'Which chamber of the heart pumps blood into the systemic (body) circulation?',zh:'心脏的哪个腔室将血液泵入体循环？',opts:['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle'],optsz:['右心房', '右心室', '左心房', '左心室'],correct:3,expl:'The left ventricle pumps oxygenated blood into the aorta for systemic circulation.',explz:'左心室将含氧血泵入主动脉进入体循环。'},
+{cat:"ap",en:'Gas exchange between alveoli and blood occurs by:',zh:'肺泡与血液之间的气体交换通过什么进行？',opts:['Active transport', 'Simple diffusion down partial-pressure gradients', 'Facilitated diffusion of O2', 'Bulk flow of air'],optsz:['主动运输', '沿分压梯度的简单扩散', 'O2易化扩散', '空气的整体流动'],correct:1,expl:'O2 and CO2 diffuse passively down their partial-pressure gradients across the respiratory membrane.',explz:'O2和CO2沿各自分压梯度在呼吸膜上被动扩散。'},
+{cat:"ap",en:'Which part of the brain coordinates voluntary movement and balance?',zh:'大脑的哪个部分协调随意运动与平衡？',opts:['Cerebrum', 'Cerebellum', 'Medulla oblongata', 'Thalamus'],optsz:['大脑', '小脑', '延髓', '丘脑'],correct:1,expl:'The cerebellum coordinates precision, timing, balance, and motor learning.',explz:'小脑协调动作的精准、时机、平衡与运动学习。'},
+{cat:"ap",en:'An action potential is initiated when the membrane potential reaches which value at the axon hillock?',zh:'轴丘处膜电位达到哪个值时触发动作电位？',opts:['Resting potential', 'Threshold (about -55 mV)', '+35 mV peak', '0 mV'],optsz:['静息电位', '阈值（约-55 mV）', '+35 mV峰值', '0 mV'],correct:1,expl:'Depolarization to threshold (~-55 mV) opens voltage-gated Na+ channels, firing the action potential.',explz:'去极化达到阈值（约-55mV）开启电压门控Na+通道，触发动作电位。'},
+{cat:"ap",en:'Insulin is secreted by which cells in response to elevated blood glucose?',zh:'血糖升高时，哪种细胞分泌胰岛素？',opts:['Alpha cells of pancreas', 'Beta cells of pancreas', 'Delta cells', 'Adrenal medulla cells'],optsz:['胰岛α细胞', '胰岛β细胞', 'δ细胞', '肾上腺髓质细胞'],correct:1,expl:'Pancreatic beta cells release insulin to lower blood glucose by promoting uptake/storage.',explz:'胰岛β细胞释放胰岛素，促进葡萄糖摄取/储存而降低血糖。'},
+{cat:"ap",en:'The primary muscle of inspiration at rest is the:',zh:'静息时最主要的吸气肌是：',opts:['Internal intercostals', 'Diaphragm', 'External obliques', 'Rectus abdominis'],optsz:['肋间内肌', '膈肌', '腹外斜肌', '腹直肌'],correct:1,expl:'The diaphragm descends to expand the thoracic cavity, driving quiet inspiration.',explz:'膈肌收缩下降扩大胸腔，驱动安静吸气。'},
+{cat:"ap",en:'Which hormone is released by the posterior pituitary and increases water reabsorption?',zh:'垂体后叶释放的哪种激素可增加水重吸收？',opts:['ADH (vasopressin)', 'Aldosterone', 'Cortisol', 'Thyroxine'],optsz:['抗利尿激素（ADH）', '醛固酮', '皮质醇', '甲状腺素'],correct:0,expl:'ADH from the posterior pituitary increases water reabsorption in the collecting ducts.',explz:'垂体后叶释放的ADH增加集合管的水重吸收。'},
+{cat:"ap",en:'Blood returning to the heart from the lungs enters the:',zh:'从肺部回心的血液进入：',opts:['Right atrium', 'Left atrium', 'Right ventricle', 'Superior vena cava'],optsz:['右心房', '左心房', '右心室', '上腔静脉'],correct:1,expl:'Oxygenated blood from pulmonary veins enters the left atrium.',explz:'肺静脉的含氧血进入左心房。'},
+{cat:"ap",en:'The sarcomere shortens during muscle contraction because:',zh:'肌肉收缩时肌节缩短是因为：',opts:['Myosin heads attach and pull actin filaments toward the M-line', 'Actin filaments extend', 'Myosin filaments lengthen', 'Both filaments elongate'],optsz:['肌球蛋白头附着并将肌动蛋白丝拉向M线', '肌动蛋白丝延长', '肌球蛋白丝变长', '两种肌丝都伸长'],correct:0,expl:'Cross-bridge cycling slides thin (actin) filaments toward the center, shortening the sarcomere (sliding-filament model).',explz:'横桥循环将细肌丝（肌动蛋白）滑向中央，缩短肌节（肌丝滑动模型）。'},
+{cat:"pb",en:'In C4 and CAM plants, the first CO2 fixation product is a:',zh:'在C4和CAM植物中，最初的CO2固定产物是：',opts:['3-phosphoglycerate (3-carbon)', 'Oxaloacetate (4-carbon)', 'Glyceraldehyde-3-phosphate', 'Ribulose-1,5-bisphosphate'],optsz:['3-磷酸甘油酸（3碳）', '草酰乙酸（4碳）', '3-磷酸甘油醛', '1,5-二磷酸核酮糖'],correct:1,expl:'PEP carboxylase fixes CO2 into a 4-carbon compound (oxaloacetate) in C4 and CAM plants.',explz:'C4和CAM植物中PEP羧化酶将CO2固定为4碳化合物（草酰乙酸）。'},
+{cat:"pb",en:"Which plant tropism is a plant's growth response toward light?",zh:'植物对光作出生长反应的向性称为：',opts:['Gravitropism', 'Phototropism', 'Thigmotropism', 'Hydrotropism'],optsz:['向重力性', '向光性', '向触性', '向水性'],correct:1,expl:'Phototropism is directional growth toward light, mediated by auxin redistribution.',explz:'向光性是朝向光的定向生长，由生长素重分布介导。'},
+{cat:"pb",en:'Which plant hormone promotes fruit ripening?',zh:'哪种植物激素促进果实成熟？',opts:['Auxin', 'Ethylene', 'Gibberellin', 'Cytokinin'],optsz:['生长素', '乙烯', '赤霉素', '细胞分裂素'],correct:1,expl:'Ethylene is the gaseous hormone that promotes fruit ripening and senescence.',explz:'乙烯是促进果实成熟和衰老的气体激素。'},
+{cat:"pb",en:'The Casparian strip in roots forces water and ions to pass through which layer?',zh:'根中的凯氏带迫使水和离子通过哪一层？',opts:['Endodermis symplast (plasma membrane)', 'Xylem apoplast', 'Epidermis', 'Cortex'],optsz:['内皮层共质体（质膜）', '木质部质外体', '表皮', '皮层'],correct:0,expl:'The Casparian strip seals the apoplast at the endodermis, forcing solutes through cell membranes (symplast).',explz:'凯氏带封闭内皮层质外体，迫使溶质经细胞膜（共质体）通过。'},
+{cat:"pb",en:'Which pigment directly absorbs light to drive photosynthesis?',zh:'哪种色素直接吸收光以驱动光合作用？',opts:['Carotenoid only', 'Chlorophyll a', 'Anthocyanin', 'Flavonoid'],optsz:['仅类胡萝卜素', '叶绿素a', '花青素', '类黄酮'],correct:1,expl:'Chlorophyll a is the primary reaction-center pigment directly transferring energy into the electron transport chain.',explz:'叶绿素a是直接向电子传递链转移能量的反应中心色素。'},
+{cat:"pb",en:'Which vascular tissue transports water and minerals upward from roots?',zh:'哪种维管组织将水和矿物质从根部向上运输？',opts:['Phloem', 'Xylem', 'Cambium', 'Parenchyma'],optsz:['韧皮部', '木质部', '形成层', '薄壁组织'],correct:1,expl:'Xylem conducts water and minerals upward via transpiration pull and cohesion.',explz:'木质部通过蒸腾拉力与内聚力向上运输水和矿物质。'},
+{cat:"pb",en:'Transpiration through stomata is driven mainly by:',zh:'通过气孔进行的蒸腾作用主要由什么驱动？',opts:['Active pumping of water', 'Evaporation creating negative pressure', 'Pressure from cambium', 'Root osmotic uptake only'],optsz:['主动泵水', '蒸发产生负压', '形成层压力', '仅根部渗透吸水'],correct:1,expl:'Water evaporates from leaves creating negative tension (transpiration pull) that draws water up the xylem.',explz:'叶片蒸发产生负压（蒸腾拉力），将水沿木质部上拉。'},
+{cat:"pb",en:'Which plant cells open and close the stomatal pore?',zh:'哪种植物细胞控制气孔的开闭？',opts:['Guard cells', 'Epidermal cells', 'Tracheids', 'Sieve cells'],optsz:['保卫细胞', '表皮细胞', '管胞', '筛胞'],correct:0,expl:'Guard cells open/close stomata by changing turgor via K+ and water flux.',explz:'保卫细胞通过K+和水分流动改变膨压来控制气孔开闭。'},
+{cat:"pb",en:'Which process converts atmospheric N2 into ammonia usable by plants, and which organisms do it?',zh:'哪种过程将大气N2转化为植物可利用的氨，由哪类生物完成？',opts:['Denitrification by fungi', 'Nitrogen fixation by bacteria (e.g., Rhizobium)', 'Photosynthesis by algae', 'Respiration by insects'],optsz:['真菌反硝化', '细菌固氮（如根瘤菌）', '藻类光合作用', '昆虫呼吸'],correct:1,expl:'Nitrogen-fixing bacteria (Rhizobium, free-living) convert N2 to NH3/ammonium available to plants.',explz:'固氮细菌（根瘤菌、自生固氮菌）将N2转化为植物可利用的NH3/铵态氮。'},
+{cat:"pb",en:'Which plant hormone stimulates seed germination and stem elongation?',zh:'哪种植物激素促进种子萌发和茎伸长？',opts:['Abscisic acid', 'Gibberellin', 'Ethylene', 'Jasmonic acid'],optsz:['脱落酸', '赤霉素', '乙烯', '茉莉酸'],correct:1,expl:'Gibberellins promote seed germination, stem elongation, and flowering.',explz:'赤霉素促进种子萌发、茎伸长和开花。'},
+{cat:"ec",en:'In a logistic growth model dN/dt = rN(1 - N/K), growth is fastest when:',zh:'在逻辑斯蒂增长模型 dN/dt = rN(1-N/K) 中，增长最快时：',opts:['N is near 0', 'N equals K/2', 'N equals K', 'N exceeds K'],optsz:['N接近0', 'N等于K/2', 'N等于K', 'N超过K'],correct:1,expl:'The per-capita term (1 - N/K)=0.5 maximizes dN/dt at N=K/2 (inflection point).',explz:'N=K/2时(1-N/K)=0.5使dN/dt最大（拐点）。'},
+{cat:"ec",en:'Which trophic level contains the most energy in a typical ecosystem?',zh:'在典型生态系统中，哪个营养级所含能量最多？',opts:['Tertiary consumers', 'Producers', 'Primary consumers', 'Decomposers'],optsz:['三级消费者', '生产者', '初级消费者', '分解者'],correct:1,expl:'Energy decreases ~10% per trophic level, so producers (base) have the most energy.',explz:'能量每营养级约损失90%，故生产者（底层）能量最多。'},
+{cat:"ec",en:'The mutualistic relationship between a flower and its bee pollinator is best described as:',zh:'花与授粉蜜蜂之间的共生关系最恰当的描述是：',opts:['Parasitism', 'Mutualism (+/+)', 'Commensalism', 'Competition'],optsz:['寄生', '互利共生（+/+）', '偏利共生', '竞争'],correct:1,expl:'Both partners benefit: the flower is pollinated and the bee gets nectar.',explz:'双方都受益：花被授粉而蜜蜂获得花蜜。'},
+{cat:"ec",en:'Which greenhouse gas produced by anaerobic decomposition and livestock is a potent contributor to warming?',zh:'由厌氧分解和牲畜产生的哪种温室气体对增温贡献显著？',opts:['Oxygen', 'Methane (CH4)', 'Nitrogen', 'Argon'],optsz:['氧气', '甲烷（CH4）', '氮气', '氩气'],correct:1,expl:'Methane is emitted by livestock, wetlands, and anaerobic processes and is a potent greenhouse gas.',explz:'甲烷来自牲畜、湿地和厌氧过程，是强温室气体。'},
+{cat:"ec",en:'A keystone species is best characterized by:',zh:'关键种（基石种）最恰当的特征是：',opts:['High abundance', 'A disproportionately large effect on ecosystem structure', 'Being a top predator always', 'Rapid growth'],optsz:['高丰度', '对生态系统结构有不成比例的巨大影响', '总是顶级捕食者', '快速生长'],correct:1,expl:'Keystone species have effects on the community far larger than their abundance would suggest.',explz:'关键种对群落的影响远超其丰度所暗示的水平。'},
+{cat:"ec",en:'Wolves reintroduced to Yellowstone changed river ecology by controlling elk—this illustrates:',zh:'重新引入黄石公园的狼通过控制马鹿改变了河流生态，这说明了：',opts:['Top-down (trophic cascade) regulation', 'Bottom-up control only', 'Competitive exclusion', 'Primary succession'],optsz:['自上而下（营养级联）调控', '仅自下而上控制', '竞争排斥', '初级演替'],correct:0,expl:'Apex predators regulating herbivores cascades to vegetation and even hydrology (trophic cascade).',explz:'顶级捕食者调控食草动物，级联影响植被乃至水文（营养级联）。'},
+{cat:"ec",en:'Interspecific competition between two species occupying the same niche often results in:',zh:'占据相同生态位的两个物种间的种间竞争常导致：',opts:['Competitive exclusion or niche partitioning', 'Guaranteed coexistence', 'Increased population of both', 'Merger into one species'],optsz:['竞争排斥或生态位分化', '必然共存', '种群都增加', '合并为一种'],correct:0,expl:'The competitive exclusion principle: two species cannot occupy the same niche indefinitely; one either excludes the other or they partition resources.',explz:'竞争排斥原理：两种不能无限占据同一生态位，一方被排斥或发生资源分化。'},
+{cat:"ec",en:"The term 'carrying capacity' (K) refers to:",zh:"术语'环境容纳量'（K）指的是：",opts:['The maximum population size an environment can sustain', 'The growth rate at low density', 'The number of births per year', 'The immigration rate'],optsz:['环境可持续维持的最大种群规模', '低密度时的增长率', '每年出生数', '迁入率'],correct:0,expl:'Carrying capacity K is the maximum population an environment can sustainably support.',explz:'环境容纳量K是环境可持续支持的最大种群规模。'},
+{cat:"ec",en:'Biodiversity increases ecosystem stability primarily because:',zh:'生物多样性之所以增强生态系统稳定性，主要是因为：',opts:['More redundancy so one species loss matters less', 'Species compete with each other', 'Predators become rare', 'Fewer trophic levels exist'],optsz:['冗余更多，单一物种丧失影响更小', '物种间相互竞争', '捕食者变少', '营养级更少'],correct:0,expl:'Functional redundancy in diverse communities buffers against disturbance and species loss.',explz:'多样群落中的功能冗余可缓冲干扰和物种丧失。'},
+{cat:"ec",en:'Primary succession differs from secondary succession in that primary succession:',zh:'初级演替与次级演替的区别在于初级演替：',opts:['Begins on bare rock/no soil', 'Follows disturbance leaving soil', 'Is much faster', 'Occurs only underwater'],optsz:['从裸岩/无土壤开始', '发生在留下土壤的干扰之后', '快得多', '仅在水下发生'],correct:0,expl:'Primary succession starts where no soil exists (e.g., lava, bare rock); secondary follows disturbance that leaves soil.',explz:'初级演替从无土壤处（如熔岩、裸岩）开始；次级发生在留下土壤的干扰之后。'},
+{cat:"bc",en:'Which of the following bonds links amino acids in a protein?',zh:'蛋白质中连接氨基酸的键是：',opts:['Glycosidic bond', 'Peptide bond', 'Phosphodiester bond', 'Hydrogen bond only'],optsz:['糖苷键', '肽键', '磷酸二酯键', '仅氢键'],correct:1,expl:'Peptide bonds link amino acids between the carboxyl of one and the amino of the next.',explz:'肽键连接一个氨基酸的羧基与下一个的氨基。'},
+{cat:"bc",en:'Enzymes increase reaction rate by:',zh:'酶通过什么提高反应速率？',opts:['Increasing activation energy', 'Lowering activation energy', 'Shifting equilibrium', 'Raising temperature'],optsz:['增加活化能', '降低活化能', '移动平衡', '升高温度'],correct:1,expl:'Enzymes stabilize the transition state, lowering activation energy without altering equilibrium.',explz:'酶稳定过渡态，降低活化能而不改变平衡。'},
+{cat:"bc",en:'The net ATP yield of glycolysis per glucose molecule is:',zh:'每分子葡萄糖经糖酵解的净ATP产量是：',opts:['2 ATP', '4 ATP (net 2 after investment)', '36 ATP', '38 ATP'],optsz:['2 ATP', '4 ATP（净2，扣投入）', '36 ATP', '38 ATP'],correct:1,expl:'Glycolysis produces 4 ATP but invests 2, yielding a net of 2 ATP (plus 2 NADH) per glucose.',explz:'糖酵解生成4个ATP但投入2个，每分子葡萄糖净得2个ATP（加2个NADH）。'},
+{cat:"bc",en:'The final electron acceptor in the aerobic electron transport chain is:',zh:'有氧电子传递链的最终电子受体是：',opts:['NAD+', 'Oxygen', 'Cytochrome c', 'FAD'],optsz:['NAD+', '氧气', '细胞色素c', 'FAD'],correct:1,expl:'Oxygen accepts electrons, forming water; without it the chain halts (anaerobic).',explz:'氧气接受电子生成水；无氧则链中断。'},
+{cat:"bc",en:'Which lipid is a major structural component of the cell membrane?',zh:'哪种脂质是细胞膜的主要结构成分？',opts:['Triglyceride', 'Phospholipid', 'Cholesterol only', 'Wax'],optsz:['甘油三酯', '磷脂', '仅胆固醇', '蜡'],correct:1,expl:'The phospholipid bilayer forms the structural basis of all cell membranes.',explz:'磷脂双分子层是所有细胞膜的结构基础。'},
+{cat:"bc",en:'The monomer of a nucleic acid is a:',zh:'核酸的单体是：',opts:['Amino acid', 'Nucleotide', 'Monosaccharide', 'Fatty acid'],optsz:['氨基酸', '核苷酸', '单糖', '脂肪酸'],correct:1,expl:'Nucleic acids (DNA/RNA) are polymers of nucleotides.',explz:'核酸（DNA/RNA）是核苷酸的多聚体。'},
+{cat:"bc",en:'Proteins that accelerate chemical reactions in cells are called:',zh:'细胞内加速化学反应的蛋白质称为：',opts:['Hormones', 'Enzymes', 'Antibodies', 'Channels'],optsz:['激素', '酶', '抗体', '通道'],correct:1,expl:'Enzymes are protein (or RNA) catalysts that accelerate biochemical reactions.',explz:'酶是加速生化反应的蛋白质（或RNA）催化剂。'},
+{cat:"bc",en:'Which polysaccharide serves as energy storage in animals?',zh:'哪种多糖在动物体内作为能量储存？',opts:['Cellulose', 'Starch', 'Glycogen', 'Chitin'],optsz:['纤维素', '淀粉', '糖原', '几丁质'],correct:2,expl:'Animals store glucose as glycogen (mainly liver and muscle).',explz:'动物以糖原形式储存葡萄糖（主要在肝和肌肉）。'},
+{cat:"bc",en:'The function of cholesterol in the plasma membrane is to:',zh:'胆固醇在质膜中的功能是：',opts:['Provide structural rigidity and modulate fluidity', 'Transport oxygen', 'Store genetic information', 'Pump sodium'],optsz:['提供结构刚性并调节流动性', '运输氧气', '储存遗传信息', '泵钠'],correct:0,expl:'Cholesterol stabilizes membrane fluidity and reduces permeability across a wide temperature range.',explz:'胆固醇在较大温度范围内稳定膜流动性并降低通透性。'},
+{cat:"bc",en:'Which molecule is the primary energy currency of the cell?',zh:'细胞的主要能量货币分子是：',opts:['Glucose', 'ATP', 'NADH', 'Creatine'],optsz:['葡萄糖', 'ATP', 'NADH', '肌酸'],correct:1,expl:'ATP stores and transfers energy for most cellular work.',explz:'ATP储存并转移能量，用于绝大多数细胞做功。'},
+{cat:"lg",en:'Gel electrophoresis separates DNA fragments based primarily on:',zh:'凝胶电泳主要根据什么分离DNA片段？',opts:['Size (molecular weight)', 'Base composition', 'Charge sign only', 'Color'],optsz:['大小（分子量）', '碱基组成', '仅电荷符号', '颜色'],correct:0,expl:'DNA fragments migrate through the gel based on size—smaller fragments travel farther.',explz:'DNA片段在凝胶中依大小迁移，小片段迁移更远。'},
+{cat:"lg",en:'Which technique detects a specific protein using an antibody?',zh:'哪种技术利用抗体检测特定蛋白质？',opts:['PCR', 'Western blot', 'Southern blot (DNA)', 'Restriction digestion'],optsz:['PCR', 'Western blot（蛋白质印迹）', 'Southern blot（DNA印迹）', '限制性酶切'],correct:1,expl:'Western blotting uses antibodies to detect specific proteins separated by SDS-PAGE.',explz:'Western blot利用抗体检测经SDS-PAGE分离的特定蛋白质。'},
+{cat:"lg",en:'To detect a specific DNA sequence, which blotting technique is used?',zh:'检测特定DNA序列应使用哪种印迹技术？',opts:['Northern blot', 'Southern blot', 'Western blot', 'Dot blot for protein'],optsz:['Northern blot', 'Southern blot', 'Western blot', '蛋白质点印迹'],correct:1,expl:'Southern blotting detects specific DNA sequences with a labeled probe.',explz:'Southern blot用标记探针检测特定DNA序列。'},
+{cat:"lg",en:'The control variable that is deliberately changed by the experimenter is the:',zh:'实验者有意改变的自变量是：',opts:['Dependent variable', 'Independent variable', 'Confounding variable', 'Control'],optsz:['因变量', '自变量', '混杂变量', '对照'],correct:1,expl:'The independent variable is manipulated; the dependent variable is measured in response.',explz:'自变量被操纵，因变量是随之测量的结果。'},
+{cat:"lg",en:'A p-value < 0.05 in a statistical test conventionally means:',zh:'统计检验中p值<0.05通常意味着：',opts:['The result is definitely biologically important', 'The result is statistically significant (unlikely due to chance)', 'The null hypothesis is proven true', 'No difference exists'],optsz:['结果肯定有生物学意义', '结果具有统计显著性（不太可能偶然）', '零假设被证明为真', '无差异存在'],correct:1,expl:"p<0.05 means the observed difference has <5% probability of occurring by chance, so it''s judged significant.",explz:'p<0.05表示观察到的差异偶然发生的概率小于5%，因此判定为显著。'},
+{cat:"lg",en:'Restriction enzymes cut DNA at:',zh:'限制性内切酶在DNA的哪里切割？',opts:['Random positions', 'Specific recognition sequences', 'Every base', 'Only at telomeres'],optsz:['随机位置', '特定识别序列', '每个碱基', '仅端粒'],correct:1,expl:'Restriction enzymes recognize and cut specific short palindromic DNA sequences.',explz:'限制酶识别并切割特定的短回文DNA序列。'},
+{cat:"lg",en:'A standard curve in an enzyme assay is used to:',zh:'酶活性测定中的标准曲线用于：',opts:['Determine unknown concentrations from known standards', 'Increase reaction rate', 'Change the enzyme', 'Identify the substrate'],optsz:['由已知标准推算未知浓度', '提高反应速率', '更换酶', '鉴定底物'],correct:0,expl:'A standard curve plots known concentrations vs. signal, allowing unknowns to be read off.',explz:'标准曲线绘制已知浓度与信号的关系，可据此读出未知浓度。'},
+{cat:"lg",en:'In a controlled experiment testing a drug, the group that receives no drug is the:',zh:'在测试药物的受控实验中，不接受药物的组是：',opts:['Experimental group', 'Control group', 'Independent group', 'Replicate'],optsz:['实验组', '对照组', '独立组', '重复组'],correct:1,expl:'The control group provides a baseline against which the effect of the experimental treatment is compared.',explz:'对照组提供基线，用于比较实验处理的效果。'},
+{cat:"lg",en:'Which method is best for determining the number of living bacteria in a sample?',zh:'哪种方法最适合测定样品中的活菌数量？',opts:['Microscope count (both live and dead)', 'Serial dilution and plate count (CFU)', 'Spectrophotometer absorbance', 'PCR only'],optsz:['显微镜计数（死活都计）', '系列稀释与平板计数（CFU）', '分光光度计吸光度', '仅PCR'],correct:1,expl:'Plate counting via serial dilution counts only viable bacteria as colony-forming units.',explz:'通过系列稀释平板计数只计活的细菌（菌落形成单位）。'},
+{cat:"lg",en:'Chromatography separates molecules based on:',zh:'色谱法根据什么分离分子？',opts:['Differential partitioning between phases', 'DNA sequence', 'Charge only constant', 'Molecular color'],optsz:['在相间的差别分配', 'DNA序列', '恒定电荷', '分子颜色'],correct:0,expl:'Chromatography separates compounds by their differential affinity/partitioning between a mobile and stationary phase.',explz:'色谱法依据分子在流动相与固定相间的差别亲和/分配来分离。'},
+];
+
+const US_SUBJECTS = {
+"mb":"Molecular Biology · 分子生物学",
+"cb":"Cell Biology · 细胞生物学",
+"ge":"Genetics & Evolution · 遗传学与进化",
+"ap":"Anatomy & Physiology · 解剖学与生理学",
+"pb":"Plant Biology · 植物生物学",
+"ec":"Ecology & Behavior · 生态学与行为",
+"bc":"Biochemistry · 生物化学",
+"lg":"Lab Techniques & Data · 实验技术与数据分析",
+};
+
+const USQ = {};
+USQ.state = {picked:[], i:0, score:0, results:[], active:false};
+USQ.el = function(id){ return document.getElementById(id); };
+USQ.t = function(en,zh){ return showCN ? zh : en; };
+USQ.shuffle = function(a){ a=a.slice(); for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1)); const tmp=a[k];a[k]=a[j];a[j]=tmp;} return a; };
+USQ.renderSetup = function(){
+  const root=USQ.el('usqQuiz');
+  if(!root) return;
+  const counts={}; US_QUESTIONS.forEach(q=>{counts[q.cat]=(counts[q.cat]||0)+1;});
+  let subOpts='<option value="all">'+USQ.t('All subjects (全部科目)','全部科目（All subjects）')+'</option>';
+  Object.keys(US_SUBJECTS).forEach(k=>{
+    subOpts+='<option value="'+k+'">'+USQ.t(US_SUBJECTS[k]+' — '+counts[k], US_SUBJECTS[k]+' — '+counts[k])+'</option>';
+  });
+  const total=US_QUESTIONS.length;
+  let countOpts='';
+  [10,20,40].forEach(n=>{ if(n<total) countOpts+='<option value="'+n+'">'+n+' '+USQ.t('questions','题')+'</option>'; });
+  countOpts+='<option value="'+total+'">'+total+' '+USQ.t('questions · all','题 · 全部')+'</option>';
+  root.innerHTML=
+    '<div class="usq-head">'+
+      '<h3 class="usq-title">'+USQ.t('🧬 USABO · Practice Bank ('+total+')','🧬 USABO · 题库（共'+total+'题）')+'</h3>'+
+    '</div>'+
+    '<div class="usq-controls">'+
+      '<label class="usq-label">'+USQ.t('Subject','科目')+'<select id="usqSub">'+subOpts+'</select></label>'+
+      '<label class="usq-label">'+USQ.t('Questions','题数')+'<select id="usqNum">'+countOpts+'</select></label>'+
+      '<button class="qo-btn next" onclick="USQ.start()">'+USQ.t('🚀 Start Practice','🚀 开始刷题')+'</button>'+
+    '</div>'+
+    '<div class="usq-note">'+USQ.t('Randomly drawn from the full bank across all 8 USABO content areas, scored instantly with bilingual explanations.','从覆盖全部8个USABO内容领域的完整题库随机抽题，即时评分并附双语解析。')+'</div>'+
+    '<div id="usqArea"></div>';
+};
+USQ.start = function(){
+  const st=USQ.state;
+  const sub=USQ.el('usqSub') ? USQ.el('usqSub').value : 'all';
+  let num=USQ.el('usqNum') ? parseInt(USQ.el('usqNum').value,10) : 10;
+  let pool= US_QUESTIONS.filter(q=> sub==='all' || q.cat===sub);
+  pool=USQ.shuffle(pool).slice(0, Math.min(num,pool.length));
+  st.picked=pool; st.i=0; st.score=0; st.results=[]; st.active=true;
+  USQ.renderQ();
+};
+USQ.renderQ = function(){
+  const st=USQ.state, root=document.getElementById('usqArea');
+  if(!root) return;
+  if(!st.active) return;
+  if(st.i>=st.picked.length){ USQ.renderScore(); return; }
+  const q=st.picked[st.i];
+  const pct=Math.round(st.i/st.picked.length*100);
+  const o = showCN?q.optsz:q.opts;
+  root.innerHTML=
+    '<div class="usq-prog"><div class="usq-prog-bar" style="width:'+pct+'%"></div></div>'+
+    '<div class="usq-qnum">'+USQ.t('Question '+(st.i+1)+' / '+st.picked.length+' · '+US_SUBJECTS[q.cat],'第'+(st.i+1)+'题 / 共'+st.picked.length+'题 · '+US_SUBJECTS[q.cat])+'</div>'+
+    '<div class="usq-q">'+(showCN?q.zh:q.en)+'</div>'+
+    '<div class="usq-opts" id="usqOpts">'+
+      o.map((opt,idx)=>'<div class="usq-opt" onclick="USQ.select('+idx+')">'+opt+'</div>').join('')+
+    '</div>'+
+    '<div class="usq-explain" id="usqExplain"></div>'+
+    '<div class="usq-footer">'+
+      '<span class="usq-score">'+USQ.t('Score','得分')+': '+st.score+' / '+st.i+'</span>'+
+      '<button class="qo-btn next" id="usqNext" onclick="USQ.next()" disabled>'+USQ.t('Next →','下一题 →')+'</button>'+
+    '</div>';
+};
+USQ.select = function(idx){
+  const st=USQ.state, q=st.picked[st.i];
+  const opts=document.querySelectorAll('#usqOpts .usq-opt');
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===q.correct) o.classList.add('correct');
+    if(i===idx && idx!==q.correct) o.classList.add('wrong');
+  });
+  const hit=idx===q.correct; if(hit) st.score++;
+  st.results.push(hit);
+  const exp = showCN?q.explz:q.expl;
+  document.getElementById('usqExplain').innerHTML='<strong>'+USQ.t('Explanation','解析')+':</strong> '+exp;
+  document.getElementById('usqExplain').classList.add('show');
+  document.getElementById('usqNext').disabled=false;
+};
+USQ.next = function(){ USQ.state.i++; USQ.renderQ(); };
+USQ.renderScore = function(){
+  const st=USQ.state, root=document.getElementById('usqArea');
+  const total=st.picked.length;
+  const pct=Math.round(st.score/total*100);
+  const grade = pct>=90?USQ.t('Excellent','优秀'):pct>=75?USQ.t('Good','良好'):pct>=60?USQ.t('Pass','及格'):USQ.t('Keep practicing','继续努力');
+  const dots=st.results.map(r=>'<div class="usq-dot '+(r?'hit':'miss')+'"></div>').join('');
+  root.innerHTML=
+    '<div class="usq-scorecard">'+
+      '<div class="usq-pct">'+pct+'%</div>'+
+      '<div class="usq-slabel">'+st.score+' / '+total+' '+USQ.t('correct','正确')+' · '+grade+'</div>'+
+      '<div class="usq-dots">'+dots+'</div>'+
+      '<div class="usq-sactions">'+
+        '<button class="qo-btn next" onclick="USQ.start()">'+USQ.t('🔄 Try Again','🔄 重新抽题')+'</button>'+
+        '<button class="qo-btn next" onclick="USQ.renderSetup()" style="background:var(--text3);margin-left:.5rem">'+USQ.t('⚙️ Settings','⚙️ 设置')+'</button>'+
+      '</div>'+
+    '</div>';
+};
+USQ.renderSetup();
 </script>
+
 
 </body>
 </html>

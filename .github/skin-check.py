@@ -16,7 +16,8 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-THEME_CSS = "linear-theme.css"
+# User-confirmed site-wide skin: gold-blue (2026-09-01). All pages must link this.
+THEME_CSS = "gold-blue-theme.css"
 
 LINK_RE = re.compile(r"<link[^>]+rel=[\"']stylesheet[\"'][^>]*>", re.IGNORECASE)
 HREF_RE = re.compile(r"href=[\"']([^\"']+)[\"']", re.IGNORECASE)

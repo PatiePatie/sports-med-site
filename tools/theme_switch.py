@@ -38,7 +38,7 @@ END = "<!-- DRAFT-THEME:END -->"
 # `@import url('draft-theme.css');` and then restates the tokens, so swapping
 # this one name re-skins every page. "linear-theme.css" is the Linear.app skin;
 # set it back to "draft-theme.css" for the bare Editorial Surgical layer.
-THEME_CSS = "linear-theme.css"
+THEME_CSS = "gold-blue-theme.css"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a

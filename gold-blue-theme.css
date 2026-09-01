@@ -731,3 +731,8 @@ body.dark .acct-switch .sl:before{background:#f1e9d0}
 body.dark .cnq-label select{background:var(--surface);color:var(--text);border-color:var(--border2);color-scheme:dark}
 body.dark .cnq-label select option{background:var(--surface);color:var(--text)}
 body.dark .soc-ico{background:var(--surface2);color:var(--text)}
+body.dark .adm-frozen .adm-stat{background:#3a2f0e;border-color:#6b5b1a}
+body.dark .adm-frozen .adm-stat .v{color:#f7d794}
+body.dark .aq-diff-2,body.dark .mastery-level.proficient,body.dark .q-mechanism{background:#182a4a;color:#93c5fd}
+body.dark .q-transfer{background:#0c2a26;color:#5eead4}
+body.dark .adm-tbl .btn.green{background:#0c2a1a;color:#86efac;border-color:#1f7a4d}

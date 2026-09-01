@@ -708,3 +708,26 @@ body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .gui
   background:linear-gradient(135deg,#A9741E,#8E620A) !important}
 body.dark h1,body.dark h2,body.dark h3{
   background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+
+/* ═══ DARK MODE: pastel & light accent boxes (site-wide) ═══
+   The hardcoded pastel callouts/chips/options on every page don't use --surface,
+   so they stayed light in night mode. Convert each pastel to a dark-tinted
+   background with hue-matched light text. */
+body.dark .q-data,body.dark .ev-moderate,body.dark .grade-b,body.dark .mastery-level.learning,body.dark .aq-diff-3,body.dark .adm-chip.frozen{background:#3a2f0e;color:#f7d794}
+body.dark .q-flaw,body.dark .q-debate{background:#331520;color:#f9a8d4}
+body.dark .q-explain,body.dark .q-application{background:#0c2a1a;color:#86efac}
+body.dark .q-calculate,body.dark .q-pyramid{background:#2f2a0c;color:#fde047}
+body.dark .q-plan{background:#201438;color:#c4b5fd}
+body.dark .q-career{background:#2f1f0d;color:#fdba74}
+body.dark .ev-weak,body.dark .grade-d,body.dark .mastery-level.beginner,body.dark .aq-diff-4,body.dark .acct-msg.err,body.dark .adm-msg.err,body.dark .adm-chip.deleted,body.dark .btn.danger{background:#3a1414;color:#fca5a5}
+body.dark .qo-opt.wrong,body.dark .aq-opt.wrong,body.dark .side-b{background:#3a1414;color:#fca5a5}
+body.dark .ev-strong,body.dark .grade-a,body.dark .mastery-level.mastery,body.dark .aq-diff-1,body.dark .acct-msg.ok,body.dark .adm-msg.ok,body.dark .adm-chip.ok{background:#0c2a1a;color:#86efac}
+body.dark .qo-opt.correct,body.dark .aq-opt.correct,body.dark .side-a{background:#0c2a1a;color:#86efac}
+body.dark .fc-back{background:linear-gradient(135deg,#0c2a1a,#102d20);color:#86efac}
+body.dark .acct-level{background:linear-gradient(135deg,#3a2f0e,#40341a);border-color:#6b5b1a;color:#fdea9a}
+body.dark .acct-level .lvl-next{color:#f7d794}
+body.dark .acct-bar{background:#6b5b1a}
+body.dark .acct-switch .sl:before{background:#f1e9d0}
+body.dark .cnq-label select{background:var(--surface);color:var(--text);border-color:var(--border2);color-scheme:dark}
+body.dark .cnq-label select option{background:var(--surface);color:var(--text)}
+body.dark .soc-ico{background:var(--surface2);color:var(--text)}

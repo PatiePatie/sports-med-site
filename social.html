@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
-<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vitalité Social — Coming Soon · 敬请期待</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -380,8 +375,11 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
 .chat-msg{max-width:85%;padding:.65rem .9rem;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.55;animation:msgIn .3s ease}
 .chat-msg.bot{background:var(--accent-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
-.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-msg.user{background:var(--accent);color:#2a2000;align-self:flex-end;border-bottom-right-radius:2px}
 .chat-msg .msg-label{font-size:.7rem;font-weight:600;color:var(--text3);margin-bottom:.2rem;display:block}
+.chat-msg.user .msg-label{color:#3a2c00}
+body.dark .chat-msg.user{color:#1a1300 !important;background:linear-gradient(135deg,#E8C87A,#D9B86A) !important;border-color:transparent !important}
+body.dark .chat-msg.user .msg-label{color:#241c00}
 .chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1rem;border-top:1px solid var(--border);background:var(--surface2)}
 .chat-sug-btn{padding:.35rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
 .chat-sug-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -428,6 +426,28 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
   .page-wrapper{margin-left:0}
   .chat-window{height:400px}
 }
+
+/* ── Hero (index) ── */
+.hero{background:linear-gradient(180deg,var(--accent-bg),var(--bg));border-bottom:1px solid var(--border)}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--surface);border:1px solid var(--border);padding:.35rem .8rem;border-radius:20px;margin-bottom:1rem}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+.hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
+
+/* ── Table of Contents (index) ── */
+.toc-intro{text-align:center;max-width:560px;margin:0 auto 2rem}
+.toc-intro h2{font-size:2.6rem;font-weight:800}
+.toc-intro .toc-sub{color:var(--text2);font-size:1rem;margin-top:.5rem}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;max-width:920px;margin:0 auto}
+.ch-card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:1rem;color:var(--text);text-decoration:none;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
+.ch-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);opacity:0;transition:opacity .18s}
+.ch-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.12);border-color:var(--accent);text-decoration:none}
+.ch-card:hover::before{opacity:1}
+.ch-num{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;font-weight:800;font-size:1.35rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(124,58,237,.25)}
+.ch-card h4{font-size:1.08rem;font-weight:700;margin:0;line-height:1.25}
+.ch-card p{font-size:.82rem;color:var(--text2);margin:.28rem 0 0;line-height:1.4}
+.ch-go{display:flex;align-items:center;gap:.2rem;font-size:.8rem;font-weight:700;color:var(--accent);white-space:nowrap;transition:gap .18s}
+.ch-card:hover .ch-go{gap:.5rem}
+.ch-card-body{flex:1;min-width:0}
 
 /* ══════════════════════════════════════════
    DESIGN POLISH (2026 refresh) — editorial, typography-led
@@ -635,27 +655,32 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
 
-/* ── Test Prep / Exam callout (board-review) ── */
-.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
-  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
-  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
-.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
-.test-prep .co-ico{font-size:1.05rem}
-.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
-.test-prep li{margin:.32rem 0;line-height:1.6}
-.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
-.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
-/* ── Fact bullets (scannable deep content) ── */
-.facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
-.facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
-  border-radius:var(--radius-sm,10px);padding:.7rem .9rem;line-height:1.62;box-shadow:var(--shadow-sm,0 1px 2px rgba(0,0,0,.04))}
-.facts li b{color:var(--accent);font-weight:700}
-ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
-ul.bul li{margin:.42rem 0;line-height:1.62}
-
-.btn-signout-min{background:none;border:none;color:var(--text3);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:.25rem .35rem;margin-left:auto;opacity:.75;transition:opacity .2s}
-.btn-signout-min:hover{opacity:1;color:var(--text2)}
-
+/* ═══════ FLASHCARD UI REDESIGN ═══════ */
+.flashcard-box{max-width:560px;padding:2.2rem 2rem}
+.fc-chapter-select{margin-bottom:1.4rem}
+.fc-chip{padding:.35rem .8rem;font-size:.78rem;border-radius:999px;background:var(--surface);color:var(--text2);border:1px solid var(--border2);box-shadow:var(--shadow-sm)}
+.fc-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-chip.active{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+.fc-counter{font-size:.82rem;color:var(--text3);margin-bottom:1.1rem;font-weight:700;letter-spacing:.02em}
+.fc-card{min-height:230px;perspective:1000px;margin-bottom:1.6rem}
+.fc-inner{min-height:230px}
+.fc-front,.fc-back{border-radius:20px;padding:2rem 1.6rem;box-shadow:0 18px 34px rgba(79,70,229,.16),0 4px 10px rgba(15,23,42,.06)}
+.fc-front{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#9333ea 100%);border:none;overflow:hidden;position:relative}
+.fc-front:before{content:"🃏";position:absolute;font-size:7rem;opacity:.10;right:-1rem;bottom:-1.6rem;transform:rotate(-12deg)}
+.fc-front .fc-term{font-size:1.45rem;font-weight:800;color:#fff;line-height:1.35;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.fc-front .fc-hint{color:rgba(255,255,255,.82);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:.3rem .85rem;border-radius:999px;font-size:.78rem;margin-top:1.2rem;backdrop-filter:blur(2px)}
+.fc-back{background:var(--surface);border:2px solid #c7d2fe}
+.fc-back .fc-def{font-size:1.1rem;line-height:1.65;color:var(--text);padding:0 .4rem}
+.fc-back .fc-def strong{display:inline-block;background:var(--accent-bg);color:var(--accent);padding:.18rem .6rem;border-radius:999px;font-size:.74rem;margin-bottom:.7rem}
+.fc-nav{gap:.8rem;align-items:center}
+.fc-nav button{padding:.55rem 1.4rem;border-radius:999px;font-weight:700;border:1px solid var(--border2);background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm)}
+.fc-nav button:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-nav button.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none}
+.fc-nav button.primary:hover{filter:brightness(1.05);color:#fff}
+.fc-nav button.fc-shuf{margin-left:.2rem;font-size:.82rem}
+.fc-progress{display:flex;gap:4px;justify-content:center;margin:0 0 .2rem}
+.fc-progress span{width:22px;height:4px;border-radius:2px;background:var(--surface3);transition:background .2s}
+.fc-progress span.on{background:var(--accent)}
 
 /* ── Dark theme palette overrides: night dark blue + gold ── */
 body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -691,6 +716,7 @@ body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .gui
 body.dark h1,body.dark h2,body.dark h3{
   background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
 
+/* ══════════════════════════════════════════
 /* ══════════════════════════════════════════
    VITALITE SIDEBAR — 4-part accordion + compact mode
    ══════════════════════════════════════════ */
@@ -731,65 +757,18 @@ body.dark h1,body.dark h2,body.dark h3{
   body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
 }
 </style>
+<!-- THEME: Gold/Blue palette -->
+<link rel="stylesheet" href="gold-blue-theme.css">
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
+<!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
-<style>
-
-
-<style>
-
-/* ═══════ ADMIN CONSOLE ═══════ */
-.adm{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:2rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
-.adm h1{font-size:1.5rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
-.adm .sub{color:var(--text3);font-size:.9rem}
-.adm-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin:.8rem 0;font-size:.9rem;font-weight:600}
-.adm-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
-.adm-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
-.adm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-top:1.1rem}
-.adm-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
-.adm-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
-.adm-kad{width:160px}
-.adm-frozen .adm-stat{background:#fef3c7;border-color:#fcd34d}
-.adm-frozen .adm-stat .v{color:#b45309}
-.adm-table-wrap{overflow-x:auto;margin-top:1rem}
-.adm-tbl{width:100%;border-collapse:collapse;font-size:.88rem}
-.adm-tbl th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);padding:.5rem .7rem;border-bottom:2px solid var(--border);text-align:left}
-.adm-tbl td{padding:.55rem .7rem;border-bottom:1px solid var(--border);vertical-align:middle}
-.adm-tbl tr:hover td{background:var(--surface2)}
-.adm-chip{display:inline-block;padding:.15rem .55rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap}
-.adm-chip.dev{background:#e0e7ff;color:#3730a3}
-.adm-chip.ok{background:#dcfce7;color:#166534}
-.adm-chip.frozen{background:#fef3c7;color:#92400e}
-.adm-chip.deleted{background:#fee2e2;color:#991b1b}
-.adm-tbl .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .6rem;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap}
-.adm-tbl .btn:hover{transform:translateY(-1px);border-color:var(--accent)}
-.adm-tbl .btn.danger{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
-.adm-tbl .btn.green{background:#dcfce7;color:#166534;border-color:#86efac}
-.adm-tbl .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.adm-empty{color:var(--text3);text-align:center;padding:2rem;font-size:.9rem}
-.adm-actions{display:flex;gap:.5rem;justify-content:flex-end}
-.adm-note{font-size:.8rem;color:var(--text3);margin-top:1rem}
-.adm-loading{display:flex;align-items:center;gap:.6rem;color:var(--text3);font-size:.9rem;padding:2rem;justify-content:center}
-.spin{width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:admSpin .8s linear infinite}
-@keyframes admSpin{to{transform:rotate(360deg)}}
-.adm-logout{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;padding:.55rem 1.1rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s}
-.adm-logout:hover{border-color:var(--red);color:var(--red)}
-.adm-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:800;padding:.3rem .7rem;border-radius:20px;background:var(--accent);color:#fff}
-.adm-dr7row{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:.8rem}
-.adm-dr7card{flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-dr7card .v{font-size:1.25rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
-.adm-dr7card .k{font-size:.76rem;color:var(--text3);margin-top:.2rem}
-.adm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;text-decoration:none;transition:all .2s}
-.adm-btn:hover{opacity:.92;transform:translateY(-1px);text-decoration:none}
-.adm-btn.ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-.adm-btn.ghost:hover{border-color:var(--accent)}
-.adm-url{width:100%;padding:.6rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:.9rem;font-family:monospace;margin:.5rem 0 1rem}
-.adm-hint{font-size:.82rem;color:var(--text3);line-height:1.6}
-
-</style><link rel="stylesheet" href="gold-blue-theme.css">
-</head><body>
+</head>
+<body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo"><span class="logo-text">Vital<span>ité</span></span>
     <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
@@ -805,8 +784,8 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
       <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
-      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
       <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
       <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
     </div>
@@ -834,17 +813,18 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link" href="#" data-infirmary data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
     </div>
   </div>
-  <div class="sidebar-group part" data-part="vitalite-social">
+  <div class="sidebar-group part open" data-part="vitalite-social">
     <button type="button" class="part-toggle">
       <span class="part-icon">👥</span>
       <span class="part-name" data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</span>
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link active" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
     </div>
   </div>
 </nav>
+
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
@@ -857,264 +837,50 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </header>
 
-<main>
-  <div id="admRoot"></div>
-</main>
-
-<footer>
+<section id="social" class="hero" style="min-height:70vh;display:flex;align-items:center">
   <div class="container">
-    <p><strong>Developer Console</strong> · Vitalité. Developer accounts only. Actions are logged.</p>
-    <p>To grant a new developer: add their email to the <code>devs</code> table in Supabase (SQL Editor).</p>
+    <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</span></div>
+    <h1 data-en="A Community Is on the Way" data-zh="社区正在筹备中"><span>👥 A Community Is on the Way</span></h1>
+    <p style="max-width:620px;margin:1rem auto;color:var(--text2);font-size:1.05rem" data-en="Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together." data-zh="Vitalite 社区将成为会员们交流的场所 — 分享学习心得、互相提问，并一起讨论运动医学与恢复。">Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together.</p>
+    <div class="hero-actions">
+      <a class="qo-btn next" href="index.html" data-en="← Back to Home" data-zh="← 返回首页">← Back to Home</a>
+      <button class="qo-btn next" onclick="openAiModal()" style="background:var(--text3)" data-en="🤖 Ask the AI" data-zh="🤖 咨询 AI">🤖 Ask the AI</button>
+    </div>
+    <p style="margin-top:2rem;font-size:.85rem;color:var(--text3)" data-en="To be continued…" data-zh="敬请期待…">To be continued…</p>
   </div>
-</footer>
-
+</section>
 </div><!-- /page-wrapper -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* ===== Supabase config (same project as login.html) ===== */
-var SB_URL = 'https://iftuqkfjwqnythhwencx.supabase.co';
-var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHVxa2Zqd3FueXRoaHdlbmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwODM2MDMsImV4cCI6MjEwMzY1OTYwM30.VFB8ZKFOKTPsgyw_IQNH_HGN1JDo44XWAJQPz1MZ8VQ';
 
-/* ===== Developer accounts (the only emails with console access) ===== */
-var DEV_EMAILS = ['goldensword.gt@gmail.com','P54992163@gmail.com'];
-var DEV_NAMES  = { 'goldensword.gt@gmail.com':'Oliver', 'P54992163@gmail.com':'Patrick Xie' };
+<button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
+  <span>🤖</span>
+  <span class="fab-badge"></span>
+</button>
 
-/* ===== Language + theme (mirrors site) ===== */
-var showCN = localStorage.getItem('sm_lang')==='zh';
-var bodyEl=document.body;
-var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')==='true'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
-darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
-function applyLang(){
-  bodyEl.classList.toggle('lang-zh',showCN);
-  bodyEl.classList.toggle('lang-en',!showCN);
-  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+ (showCN?'zh':'en')); });
-  document.getElementById('langToggle').textContent=showCN?'中':'EN';
-}
-document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLang(); });
+<div class="ai-modal" id="aiModal">
+  <div class="ai-modal-header">
+    <span class="status-dot"></span>
+    <div>
+      <div class="ai-title" data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</div>
+      <div class="ai-sub" data-en="Ask about sports injuries &amp; recovery" data-zh="咨询运动损伤与恢复问题">Ask about sports injuries &amp; recovery</div>
+    </div>
+    <button class="ai-close" onclick="closeAiModal()" aria-label="Close">✕</button>
+  </div>
+  <div class="ai-modal-body" id="aiModalBody">
+    <div class="chat-msg bot" data-en="Hi! I'm your recovery assistant. Describe your injury or recovery question. This is guidance (not a medical diagnosis)." data-zh="你好！我是你的恢复助手。请描述你的损伤或恢复问题。此为学习参考（非医疗诊断）。">Hi! I'm your recovery assistant. Describe your injury or recovery question. This is guidance (not a medical diagnosis).</div>
+  </div>
+  <div class="ai-modal-footer">
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" type="text" placeholder="请输入你的问题…" data-en="Type your question…" data-zh="请输入你的问题…">
+      <button class="ai-send-btn" onclick="sendAiChat()" data-en="Send" data-zh="发送">Send</button>
+    </div>
+  </div>
+</div>
 
-var t = function(en,zh){ return showCN?zh:en; };
-
-function currentUser(){
-  try{ return JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){ return null; }
-}
-function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
-
-var sb=null;
-try{ if(SB_URL.indexOf('PASTE')===-1 && SB_ANON.indexOf('PASTE')===-1) sb=window.supabase.createClient(SB_URL, SB_ANON); }catch(e){ console.error('supabase init',e); }
-
-function showMsg(text,ok){
-  var m=document.getElementById('admMsg');
-  if(!m) return;
-  m.className='adm-msg '+(ok?'ok':'err');
-  m.textContent=text; m.style.display='block';
-  clearTimeout(showMsg._t);
-  showMsg._t=setTimeout(function(){ m.style.display='none'; }, 6000);
-}
-function showRoot(html){ document.getElementById('admRoot').innerHTML=html; }
-
-function loadingView(){
-  showRoot('<div class="adm-loading"><div class="spin"></div><span>'+(showCN?'加载中…':'Loading…')+'</span></div>');
-}
-
-/* ============ Access gate ============ */
-function gateView(reason){
-  var u=currentUser();
-  var html='<div class="adm">'
-    +'<h1>🛠 '+(showCN?'开发者控制台':'Developer Console')+'</h1>'
-    +'<p class="sub">'+(showCN?'仅限开发者账号访问':'Developer accounts only')+'</p>'
-    +'<div class="adm-msg err" style="display:block">'+reason+'</div>'
-    +'<p class="adm-hint">'+(showCN?'此页面仅允许已授权开发者（Patrick、Oliver）使用。请先登录开发者账号。':'This console is restricted to authorized developers (Patrick, Oliver). Sign in with a developer account first.')+'</p>'
-    +'<div style="text-align:center;margin-top:1.5rem">'
-    +'<a class="adm-btn" href="login.html">'+(showCN?'🔐 前往登录':'🔐 Go to Sign In')+'</a>'
-    +'</div></div>';
-  showRoot(html);
-  document.getElementById('admMsg') || (function(){
-    var m=document.createElement('div'); m.id='admMsg'; m.className='adm-msg';
-    document.getElementById('admRoot').appendChild(m);
-  })();
-}
-
-/* ============ Dev console ============ */
-function renderConsole(u){
-  var who='';
-  for(var i=0;i<DEV_EMAILS.length;i++){
-    var d=DEV_EMAILS[i];
-    who+='<span class="adm-badge" style="margin-right:.5rem">'+(DEV_NAMES[d]||d)+'</span>';
-  }
-  var html='<div class="adm" style="background:linear-gradient(135deg,#0f2238,#4f46e5 60%,#7c3aed);color:#fff;box-shadow:var(--shadow-lg)">'
-    +'<h1 style="color:#fff">🛠 '+(showCN?'开发者控制台':'Developer Console')+'</h1>'
-    +'<p class="sub" style="color:rgba(255,255,255,.8)">'+(showCN?'欢迎回来，':'Welcome back, ')+esc(u.name||u.email)+'</p>'
-    +'<div style="margin-top:1rem">'+who+'</div>'
-    +'<div class="adm-grid">'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Users','用户')+'</div><div class="k" id="stUsers" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Frozen','冻结')+'</div><div class="k" id="stFrozen" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">Dr7</div><div class="k" id="stDr7" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'</div></div>';
-
-  html+='<div class="adm"><h1>👥 '+t('Members','用户管理')+'</h1>'
-    +'<div class="adm-msg" id="admMsg"></div>'
-    +'<div id="usersTable"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'加载用户…':'Loading users…')+'</span></div></div>'
-    +'<p class="adm-note">'+t('Freezing blocks the user from signing in and using the AI. Deleting permanently removes the account.','冻结可阻止用户登录并使用 AI；删除将永久移除账号。')+'</p>'
-    +'</div>';
-
-  html+='<div class="adm"><h1>🤖 Dr7.ai '+t('Usage · API Remaining','用量 · 剩余额度')+'</h1>'
-    +'<div class="adm-dr7row" id="dr7Stats"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
-    +'<p class="adm-note">'+t('Usage is logged server-side when the AI helper is used. The live remaining-quota number comes from your Dr7.ai dashboard.','AI 助手被使用时会在服务端记录用量；实时剩余额度请查看 Dr7.ai 控制台。')+'</p>'
-    +'<div class="adm-dr7row" style="margin-top:1rem">'
-    +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
-    +'</div></div>';
-
-  showRoot(html);
-  loadUsers(u);
-  loadDr7Usage();
-  applyLang();
-}
-
-function loadUsers(u){
-  var box=document.getElementById('usersTable');
-  if(!box) return;
-  if(!sb){ box.innerHTML='<div class="adm-empty">'+t('Supabase not configured.','Supabase 尚未配置。')+'</div>'; return; }
-  Promise.all([
-    sb.from('members').select('id,email,name,created_at,last_seen,sign_in_count').order('created_at',{ascending:false}),
-    sb.from('moderation').select('email,frozen,deleted,note'),
-    sb.from('devs').select('email')
-  ]).then(function(res){
-    var mem=(res[0]&&res[0].data)||[];
-    var mod={}; (res[1]&&res[1].data||[]).forEach(function(m){ mod[m.email]=m; });
-    var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[d.email]=1; });
-
-    var stUsers=document.getElementById('stUsers'); if(stUsers) stUsers.textContent=mem.length;
-
-    if(!mem.length){ box.innerHTML='<div class="adm-empty">'+t('No members yet.','还没有用户。')+(res[0]&&res[0].error?' '+(res[0].error.message||''):'')+'</div>'; return; }
-
-    var rows='';
-    mem.forEach(function(m){
-      var md=mod[m.email]||{};
-      var isDev=!!devs[m.email];
-      var status = isDev
-        ? '<span class="adm-chip dev">DEV</span>'
-        : md.deleted
-          ? '<span class="adm-chip deleted">'+t('Deleted','已删除')+'</span>'
-          : md.frozen
-            ? '<span class="adm-chip frozen">'+t('Frozen','已冻结')+'</span>'
-            : '<span class="adm-chip ok">'+t('Active','正常')+'</span>';
-      var name=m.name||t('(no name)','（未填名）');
-      var joined=(m.created_at||'').slice(0,10);
-      var seen=(m.last_seen||'—').slice(0,10);
-      var d='';
-      d+='<div class="adm-actions">';
-      if(isDev){
-        d+='<span class="adm-note" style="margin:0;font-weight:700">'+t('Developer','开发者')+'</span>';
-      } else if(md.deleted){
-        d+='<button class="btn danger" onclick="modUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',\'restore\',this)">'+t('↺ Restore','↺ 恢复')+'</button>';
-      } else {
-        d+='<button class="btn '+(md.frozen?'green':'')+'" onclick="modUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',\''+(md.frozen?'unfreeze':'freeze')+'\',this)">'+(md.frozen?t('🔓 Unfreeze','🔓 解冻'):t('❄ Freeze','❄ 冻结'))+'</button>';
-        d+='<button class="btn danger" onclick="delUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',this)">'+t('🗑 Delete','🗑 删除')+'</button>';
-      }
-      d+='</div>';
-
-      rows+='<tr><td><strong>'+esc(name)+'</strong>'+(isDev?' <span>⭐</span>':'')+'</td>'
-        +'<td>'+esc(m.email)+'</td>'
-        +'<td>'+status+'</td>'
-        +'<td>'+joined+'</td>'
-        +'<td>'+seen+'</td>'
-        +'<td style="text-align:right">'+d+'</td></tr>';
-    });
-
-    var extraDevs='';
-    for(var k in devs){ if(!mem.some(function(m){return m.email===k;})){ extraDevs+='<tr><td><strong>'+(DEV_NAMES[k]||k)+'</strong> <span>⭐</span></td><td>'+esc(k)+'</td><td><span class="adm-chip dev">DEV</span></td><td>—</td><td>—</td><td style="text-align:right"><span class="adm-note" style="margin:0;font-weight:700">Developer</span></td></tr>'; } }
-    rows+=extraDevs;
-
-    box.innerHTML='<div class="adm-table-wrap"><table class="adm-tbl">'
-      +'<thead><tr><th>'+t('Name','姓名')+'</th><th>'+t('Email','邮箱')+'</th><th>'+t('Status','状态')+'</th><th>'+t('Joined','注册')+'</th><th>'+t('Last Seen','最近登录')+'</th><th style="text-align:right">'+t('Actions','操作')+'</th></tr></thead>'
-      +'<tbody>'+rows+'</tbody></table></div>';
-  }).catch(function(e){ box.innerHTML='<div class="adm-empty">'+t('Failed to load users.','加载用户失败。')+'<br><span style="font-size:.8rem">'+esc(e.message||String(e))+'</span></div>'; });
-}
-
-function modUser(email, action, btn){
-  var labels={freeze:t('Freeze','冻结'),unfreeze:t('Unfreeze','解冻'),restore:t('Restore','恢复')};
-  var note = action==='restore'
-    ? t('Restore this account? They will be able to sign in again.','恢复此账号？对方将可重新登录。')
-    : action==='freeze'
-      ? t('Freeze this account? They will be blocked from signing in and using the AI.','冻结此账号？对方将无法登录和使用 AI。')
-      : t('Unfreeze this account?','解冻此账号？');
-  if(!confirm(note)) return;
-  if(btn) btn.disabled=true;
-  var u=currentUser();
-  var payload={ email:email, updated_by:(u&&u.email)||'', updated_at:new Date().toISOString(), note:action==='restore'?'':'action:'+action };
-  if(action==='freeze'){ payload.frozen=true; payload.deleted=false; }
-  else if(action==='unfreeze'){ payload.frozen=false; payload.deleted=false; }
-  else { payload.frozen=false; payload.deleted=false; } /* restore = clear both */
-
-  var op = Promise.resolve(null);
-  if(action==='restore') op = sb.from('moderation').delete().eq('email',email);
-  else op = sb.from('moderation').upsert(payload, { onConflict:'email' });
-
-  op.then(function(r){
-    if(r && r.error){ showMsg(t('Operation failed.','操作失败。')+' '+r.error.message,false); }
-    else { showMsg(t('Done.','完成。'),true); }
-    if(btn) btn.disabled=false;
-    loadUsers(u);
-    loadDr7Usage();
-    window.refreshAuthWidget && window.refreshAuthWidget();
-  }).catch(function(e){ if(btn) btn.disabled=false; showMsg(t('Error.','出错了。')+' '+esc(e.message||e),false); });
-}
-
-function delUser(email, btn){
-  if(!confirm(t('PERMANENTLY delete this account?','永久删除此账号？')+'\n'+email+'\n\n'+t('This cannot be undone.','此操作不可撤销。')) ) return;
-  if(btn) btn.disabled=true;
-  if(!sb){ showMsg(t('Supabase not configured.','Supabase 尚未配置。'),false); return; }
-  sb.rpc('admin_delete_user', { target_email:email }).then(function(r){
-    if(btn) btn.disabled=false;
-    if(r && r.error){
-      showMsg(t('Delete failed.','删除失败。')+' '+(r.error.message||''),false);
-    } else {
-      showMsg(t('Account permanently deleted.','账号已永久删除。'),true);
-      loadUsers(currentUser());
-      loadDr7Usage();
-      window.refreshAuthWidget && window.refreshAuthWidget();
-    }
-  }).catch(function(e){ if(btn) btn.disabled=false; showMsg(t('Error.','出错了。')+' '+esc(e.message||e),false); });
-}
-
-function loadDr7Usage(){
-  var box=document.getElementById('dr7Stats');
-  if(!box) return;
-  if(!sb){ box.innerHTML='<div class="adm-dr7card"><div class="v">—</div><div class="k">'+t('Not configured','未配置')+'</div></div>'; return; }
-  sb.from('dr7_usage').select('id,tokens_in,tokens_out,cost_usd').then(function(r){
-    if(r.error){ box.innerHTML='<div class="adm-dr7card"><div class="v">—</div><div class="k">'+esc(r.error.message||'error')+'</div></div>'; return; }
-    var rows=r.data||[];
-    var calls=rows.length, tin=0, tout=0, cost=0;
-    rows.forEach(function(x){ tin+=(x.tokens_in||0); tout+=(x.tokens_out||0); cost+=(parseFloat(x.cost_usd)||0); });
-    var stDr7=document.getElementById('stDr7'); if(stDr7) stDr7.textContent=calls+' '+(showCN?'次调用':'calls');
-    box.innerHTML=''
-      +'<div class="adm-dr7card"><div class="v">'+calls+'</div><div class="k">'+t('Total calls · 调用总数','总调用')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">'+(tin+tout).toLocaleString()+'</div><div class="k">'+t('Total tokens · 总Token数','总 Tokens')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">$'+cost.toFixed(4)+'</div><div class="k">'+t('Logged cost · 记录费用','记录费用')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">🤖</div><div class="k">'+t('Model · baichuan-m3','模型')+'</div></div>';
-    document.getElementById('dr7Stats').className='adm-dr7row';
-  });
-}
-
-/* ============ Init ============ */
-(function(){
-  applyLang();
-  var u=currentUser();
-  if(!u || !u.email || DEV_EMAILS.indexOf(String(u.email).toLowerCase())===-1){
-    gateView(t('⛔ Access denied. You are not a developer of Vitalité.','⛔ 拒绝访问。您不是 Vitalité 的开发者。'));
-    return;
-  }
-  renderConsole(u);
-})();
-</script>
 <script>
 /* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */
 (function(){
   var side=document.getElementById('sidebar');
   if(!side) return;
-
-  /* ---- Accordion: open one part at a time ---- */
   var toggles=side.querySelectorAll('.sidebar-group.part .part-toggle');
   function partOf(t){ var p=t.parentElement; return (p&&p.classList&&p.classList.contains('part'))?p:null; }
   toggles.forEach(function(t){
@@ -1125,32 +891,53 @@ function loadDr7Usage(){
       if(!wasOpen) grp.classList.add('open');
     });
   });
-
-  /* ---- Open the part containing the active link by default ---- */
   var act=side.querySelector('.sidebar-link.active');
-  var toOpen=null;
+  var toOpen= null;
   if(act){ toOpen=act.closest('.sidebar-group.part'); }
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
-
-  /* ---- Infirmary → launch the AI chat (open modal, else fallback) ---- */
   var ai=side.querySelector('[data-infirmary]');
-  if(ai){
-    ai.addEventListener('click',function(e){
-      e.preventDefault();
-      if(typeof openAiModal==='function'){ openAiModal(); }
-      else if(window.location.pathname!=='/index.html'&&window.location.search===''){ location.href='index.html#qa'; }
-    });
-  }
-
-  /* ---- Compact mode (Zen-style: collapse to icon rail, hover to expand) ---- */
+  if(ai){ ai.addEventListener('click',function(e){ e.preventDefault(); if(typeof openAiModal==='function') openAiModal(); }); }
   var btn=document.getElementById('sbCompact');
   var KEY='sm_sbcompact';
   function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }
   if(btn){ btn.addEventListener('click',function(){ setCompact(!document.body.classList.contains('sbcompact')); }); }
   try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
 })();
-</script>
 
+/* ═══ Language + dark mode ═══ */
+var showCN=false; try{ showCN=localStorage.getItem('sm_lang')==='zh'; }catch(e){}
+var dark=false; try{ dark=localStorage.getItem('dark')==='true'; }catch(e){}
+function applyLang(){
+  var lang=showCN?'zh':'en';
+  document.body.classList.toggle('lang-zh', showCN);
+  document.body.classList.toggle('lang-en', !showCN);
+  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+lang); });
+  document.getElementById('langToggle').textContent=showCN?'中':'EN';
+}
+function applyDark(){
+  var darkEl=document.getElementById('darkToggle');
+  document.body.classList.toggle('dark', dark);
+  if(darkEl) darkEl.textContent=dark?'☀️':'🌙';
+}
+document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; try{ localStorage.setItem('sm_lang', showCN?'zh':'en'); }catch(e){} applyLang(); });
+document.getElementById('darkToggle').addEventListener('click',function(){ dark=!dark; try{ localStorage.setItem('dark', dark?'true':'false'); }catch(e){} applyDark(); });
+applyLang(); applyDark();
+
+/* ═══ Medical AI ═══ */
+var MEDAI_URL='https://api.vitaliteplan.com';
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiRender(raw){ var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>'); s=s.replace(/\n/g,'<br/>'); return s; }
+function medaiAppend(boxId,raw){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.innerHTML=medaiRender(raw); div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); box.scrollTop=box.scrollHeight; }
+function medaiThinking(boxId){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.textContent='Thinking… 思考中…'; div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); return div; }
+function medaiAsk(question){ return new Promise(function(resolve){ if(!MEDAI_URL){ resolve({ok:false,error:'not_configured'}); return; } fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question,lang:medaiLang()})}).then(function(r){return r.json();}).then(function(d){ if(d&&d.reply){ resolve({ok:true,reply:d.reply}); } else { resolve({ok:false,error:(d&&d.error)||'unknown'}); } }).catch(function(){ resolve({ok:false,error:'network'}); }); }); }
+function medaiConfError(res){ var rn='The AI is not configured yet. (Education only, not medical advice.)'; var rz='AI 助手尚未配置完成。（仅供学习参考，不能替代专业医疗建议。）'; if(res.error==='network'){ rn='Network error. Please try again.'; rz='网络错误，请稍后重试。'; } if(res.error===undefined||res.error==='upstream_error'){ rn='The AI is temporarily unavailable. Please try again later.'; rz='AI 暂时不可用，请稍后再试。'; } return medaiLang()==='zh'?rz:rn; }
+function openAiModal(){ document.getElementById('aiModal').classList.add('open'); document.body.style.overflow='hidden'; var inp=document.getElementById('aiInput'); if(inp) inp.focus(); }
+function closeAiModal(){ document.getElementById('aiModal').classList.remove('open'); document.body.style.overflow=''; }
+function addAiMsg(text,isUser,textZh){ var box=document.getElementById('aiModalBody'); if(!box) return; var div=document.createElement('div'); div.className='chat-msg '+(isUser?'user':'bot'); div.innerHTML='<span class="msg-label">'+(isUser?'YOU':'ASSISTANT')+'</span><span class="chat-msg-text">'+String(text).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];})+'</span>'; box.appendChild(div); box.scrollTop=box.scrollHeight; }
+function sendAiChat(){ var input=document.getElementById('aiInput'); var q=(input.value||'').trim(); if(!q) return; addAiMsg(q,true,q); input.value=''; var think=medaiThinking('aiModalBody'); medaiAsk(q).then(function(res){ if(think&&think.parentNode) think.parentNode.removeChild(think); if(res.ok) medaiAppend('aiModalBody',res.reply); else medaiAppend('aiModalBody',medaiConfError(res)); }); }
+document.getElementById('aiInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendAiChat(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAiModal(); });
+</script>
 </body>
 </html>

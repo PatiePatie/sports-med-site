@@ -690,6 +690,45 @@ body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .gui
 body.dark h1,body.dark h2,body.dark h3{
   background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
 
+/* ══════════════════════════════════════════
+   VITALITE SIDEBAR — 4-part accordion + compact mode
+   ══════════════════════════════════════════ */
+.sb-compact-btn{display:flex;align-items:center;justify-content:center;width:26px;height:26px;margin-left:.4rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text3);font-size:1rem;line-height:1;cursor:pointer;transition:all .15s;flex:none}
+.sb-compact-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-bg)}
+.sidebar-logo{display:flex;align-items:center;gap:0}
+.sidebar-logo .logo-text{flex:1;min-width:0}
+.sidebar-group.part{margin-bottom:.25rem}
+.sidebar-group.part .part-toggle{display:flex;align-items:center;gap:.5rem;width:100%;padding:.6rem 1rem .6rem 1.15rem;background:none;border:none;border-left:3px solid transparent;color:var(--text2);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;text-align:left;transition:all .15s}
+.sidebar-group.part .part-toggle:hover{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent)}
+.sidebar-group.part.open>.part-toggle{color:var(--accent)}
+.part-icon{font-size:1.05rem;width:1.5rem;text-align:center;flex:none}
+.part-name{flex:1;min-width:0}
+.part-caret{margin-left:auto;font-size:.7rem;flex:none;transition:transform .2s}
+.sidebar-group.part.open>.part-toggle .part-caret{transform:rotate(180deg)}
+.part-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
+.sidebar-group.part.open .part-body{max-height:700px}
+.part-body .sidebar-link{padding-left:1.7rem}
+.part-body .sidebar-link.sub{padding-left:2.2rem}
+/* compact mode (desktop only) */
+@media (min-width:601px){
+  body.sbcompact .sidebar{width:62px;overflow:visible}
+  body.sbcompact .page-wrapper{margin-left:62px}
+  body.sbcompact .sidebar-logo{padding:.6rem 0;justify-content:center;border-bottom:none}
+  body.sbcompact .logo-text,body.sbcompact .sb-compact-btn,
+  body.sbcompact .part-name,body.sbcompact .part-caret,body.sbcompact .part-body,
+  body.sbcompact .sidebar .sidebar-link{display:none}
+  body.sbcompact .part-toggle{justify-content:center;padding:.7rem 0;border-left:none}
+  body.sbcompact .part-icon{width:auto;font-size:1.3rem}
+  body.sbcompact .sidebar:hover{width:240px;overflow-y:auto}
+  body.sbcompact .sidebar:hover .logo-text,body.sbcompact .sidebar:hover .sb-compact-btn,
+  body.sbcompact .sidebar:hover .part-name,body.sbcompact .sidebar:hover .part-caret,
+  body.sbcompact .sidebar:hover .part-body{display:flex}
+  body.sbcompact .sidebar:hover .sidebar-link{display:block}
+  body.sbcompact .sidebar:hover .logo-text{display:block}
+  body.sbcompact .sidebar:hover .part-toggle{justify-content:flex-start;padding:.6rem 1rem .6rem 1.15rem;border-left:3px solid transparent}
+  body.sbcompact .sidebar:hover .part-icon{width:1.5rem;font-size:1.05rem}
+  body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
+}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -758,42 +797,58 @@ body.dark h1,body.dark h2,body.dark h3{
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Vital<span>ité</span></div>
-<div class="sidebar-group">
-    <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
-    <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
-
-    <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-
-    <a class="sidebar-link active" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
+  <div class="sidebar-logo"><span class="logo-text">Vital<span>ité</span></span>
+    <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
   </div>
-<div class="sidebar-group">
-    <div class="sidebar-label" data-en="Test Prep" data-zh="备考专区">Test Prep</div>
-    <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
-
-    <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
-
-    <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
-    <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
-
+  <div class="sidebar-group part" data-part="vitalite-knowledge">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">🧭</span>
+      <span class="part-name" data-en="Vitalite Knowledge" data-zh="Vitalite 知识库">Vitalite Knowledge</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
+      <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
+      <a class="sidebar-link active" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
+      <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
+      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
+      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+    </div>
   </div>
-<div class="sidebar-group">
-    <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
-    <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
+  <div class="sidebar-group part" data-part="vitalite-test-prep">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">🎯</span>
+      <span class="part-name" data-en="Vitalite Test Prep" data-zh="Vitalite 备考">Vitalite Test Prep</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
+      <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
+      <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
+      <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
+    </div>
   </div>
-<div class="sidebar-group">
-    <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
-    <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
-
-    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
-
-    <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
-
-    <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
+  <div class="sidebar-group part" data-part="vitalite-infirmary">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">🩺</span>
+      <span class="part-name" data-en="Vitalite Infirmary" data-zh="Vitalite 诊所">Vitalite Infirmary</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="#" data-infirmary data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+    </div>
   </div>
-<div class="sidebar-group">
-    <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
-    <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
+  <div class="sidebar-group part" data-part="vitalite-social">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">👥</span>
+      <span class="part-name" data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+    </div>
   </div>
 </nav>
 <div class="page-wrapper">
@@ -1040,5 +1095,49 @@ renderChapters();
 renderCountryOptions();
 applyLang();
 </script>
+<script>
+/* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */
+(function(){
+  var side=document.getElementById('sidebar');
+  if(!side) return;
+
+  /* ---- Accordion: open one part at a time ---- */
+  var toggles=side.querySelectorAll('.sidebar-group.part .part-toggle');
+  function partOf(t){ var p=t.parentElement; return (p&&p.classList&&p.classList.contains('part'))?p:null; }
+  toggles.forEach(function(t){
+    t.addEventListener('click',function(){
+      var grp=partOf(t); if(!grp) return;
+      var wasOpen=grp.classList.contains('open');
+      side.querySelectorAll('.sidebar-group.part.open').forEach(function(g){ g.classList.remove('open'); });
+      if(!wasOpen) grp.classList.add('open');
+    });
+  });
+
+  /* ---- Open the part containing the active link by default ---- */
+  var act=side.querySelector('.sidebar-link.active');
+  var toOpen=null;
+  if(act){ toOpen=act.closest('.sidebar-group.part'); }
+  if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
+  if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
+
+  /* ---- Infirmary → launch the AI chat (open modal, else fallback) ---- */
+  var ai=side.querySelector('[data-infirmary]');
+  if(ai){
+    ai.addEventListener('click',function(e){
+      e.preventDefault();
+      if(typeof openAiModal==='function'){ openAiModal(); }
+      else if(window.location.pathname!=='/index.html'&&window.location.search===''){ location.href='index.html#qa'; }
+    });
+  }
+
+  /* ---- Compact mode (Zen-style: collapse to icon rail, hover to expand) ---- */
+  var btn=document.getElementById('sbCompact');
+  var KEY='sm_sbcompact';
+  function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }
+  if(btn){ btn.addEventListener('click',function(){ setCompact(!document.body.classList.contains('sbcompact')); }); }
+  try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
+})();
+</script>
+
 </body>
 </html>

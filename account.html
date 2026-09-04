@@ -789,6 +789,33 @@ body.dark h1,body.dark h2,body.dark h3{
 .acct-btnrow{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
 .acct-empty{color:var(--text3);text-align:center;padding:1.5rem;font-size:.9rem}
 
+/* ═══════ MODERATION (devs only) ═══════ */
+.mod-card{border:1px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 6%,var(--surface)),var(--surface));box-shadow:var(--shadow-sm)}
+.mod-card h2 .mod-ico{width:30px;height:30px;border-radius:9px;background:#7c3aed;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+.mod-note{font-size:.8rem;color:var(--text3);margin:.4rem 0 1rem;line-height:1.5}
+.mod-tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
+.mod-tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+.mod-tbl th{background:color-mix(in srgb,#7c3aed 12%,var(--surface2));font-weight:700;padding:.55rem .7rem;text-align:left;white-space:nowrap}
+.mod-tbl td{padding:.5rem .7rem;border-top:1px solid var(--border);vertical-align:middle}
+.mod-tbl tr:hover td{background:color-mix(in srgb,var(--accent) 5%,var(--surface))}
+.mod-tbl .nm{font-weight:700}
+.mod-chip{display:inline-block;font-size:.7rem;font-weight:700;padding:.18rem .5rem;border-radius:20px;white-space:nowrap}
+.mod-chip.dev{background:#ede9fe;color:#5b21b6}
+.mod-chip.ok{background:#dcfce7;color:#166534}
+.mod-chip.frozen{background:#fef3c7;color:#92400e}
+.mod-chip.deleted{background:#fee2e2;color:#991b1b}
+.mod-actions{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:flex-end}
+.mod-btn{font-size:.75rem;font-weight:700;padding:.32rem .65rem;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:all .15s;white-space:nowrap}
+.mod-btn:hover{transform:translateY(-1px)}
+.mod-btn.green{background:color-mix(in srgb,var(--green) 15%,var(--surface));border-color:var(--green);color:var(--green)}
+.mod-btn.danger{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.mod-btn.danger:hover{background:#fecaca}
+.mod-btn:disabled{opacity:.45;cursor:not-allowed}
+.mod-empty{color:var(--text3);text-align:center;padding:1.5rem;font-size:.9rem}
+.mod-loading{display:flex;align-items:center;gap:.6rem;color:var(--text3);padding:1rem;font-size:.88rem;justify-content:center}
+.mod-spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--border2);border-top-color:#7c3aed;animation:modspin .7s linear infinite}
+@keyframes modspin{to{transform:rotate(360deg)}}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
@@ -937,6 +964,14 @@ body.dark h1,body.dark h2,body.dark h3{
         <p class="acct-hint" data-en="For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server." data-zh="目前你的资料仅保存在此浏览器中。将来加入社交功能时，可同步到服务器上的账号。">For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server.</p>
       </div>
     </section>
+
+    <section class="acct-card mod-card" id="modCard" style="display:none">
+      <h2><span class="mod-ico">🛠</span> <span data-en="Moderation" data-zh="管理">Moderation</span> <span style="font-size:.72rem;color:var(--text3);font-weight:600;vertical-align:middle" data-en="(developers only)" data-zh="（仅开发者）">(developers only)</span></h2>
+      <p class="mod-note" data-en="Manage Vitalité members: freeze blocks a user from signing in / using the AI; delete permanently removes the account. Actions are logged." data-zh="管理 Vitalité 用户：冻结可阻止登录 / 使用 AI；删除将永久移除账号。所有操作都会被记录。">Manage Vitalité members: freeze blocks a user from signing in / using the AI; delete permanently removes the account. Actions are logged.</p>
+      <div class="acct-msg" id="modMsg"></div>
+      <div id="modTable"><div class="mod-loading"><div class="mod-spin"></div><span data-en="Loading members…" data-zh="加载用户…">Loading members…</span></div></div>
+      <p class="mod-note" data-en="To grant a new developer, add their email to the devs table in Supabase (SQL Editor)." data-zh="要新增开发者，请在 Supabase（SQL 编辑器）中把邮箱加入 devs 表。">To grant a new developer, add their email to the devs table in Supabase (SQL Editor).</p>
+    </section>
   </div>
 </main>
 
@@ -949,6 +984,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
 /* ===== Theme + language (mirrors site: dark / sm_lang) ===== */
@@ -965,6 +1001,8 @@ function applyLang(){
   document.getElementById('langToggle').textContent=showCN?'中':'EN';
   renderCountryOptions();
   renderChapters();
+  var mc=document.getElementById('modCard');
+  if(mc && mc.style.display!=='none') loadMembers();
 }
 document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLang(); });
 
@@ -1087,6 +1125,101 @@ function doSignOut(){
 }
 function showMsg(txt,ok){ var m=document.getElementById('acctMsg'); m.className='acct-msg '+(ok?'ok':'err'); m.textContent=txt; m.style.display='block'; }
 
+/* ===== Supabase + Moderation (developers only: Patrick & Oliver) ===== */
+var SB_URL='https://iftuqkfjwqnythhwencx.supabase.co';
+var SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHVxa2Zqd3FueXRoaHdlbmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwODM2MDMsImV4cCI6MjEwMzY1OTYwM30.VFB8ZKFOKTPsgyw_IQNH_HGN1JDo44XWAJQPz1MZ8VQ';
+var DEV_EMAILS=['goldensword.gt@gmail.com','P54992163@gmail.com'];
+var sb=null;
+function isDevEmail(em){ return DEV_EMAILS.indexOf(String(em||'').toLowerCase())!==-1; }
+try{ if(SB_URL.indexOf('PASTE')===-1 && SB_ANON.indexOf('PASTE')===-1){ sb=window.supabase.createClient(SB_URL,SB_ANON); } }catch(e){ console.error('Supabase init error',e); }
+function modEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function modMsg(txt,ok){ var m=document.getElementById('modMsg'); if(!m) return; m.className='acct-msg '+(ok?'ok':'err'); m.textContent=txt; m.style.display='block'; clearTimeout(modMsg._t); modMsg._t=setTimeout(function(){ m.style.display='none'; },6000); }
+function initModeration(){
+  var card=document.getElementById('modCard');
+  var u=currentUser();
+  if(!card) return;
+  if(!u || !u.email || !isDevEmail(u.email)){ card.style.display='none'; return; }
+  card.style.display='block';
+  loadMembers();
+}
+function loadMembers(){
+  var box=document.getElementById('modTable');
+  if(!box) return;
+  if(!sb){ box.innerHTML='<div class="mod-empty">'+t('Supabase not configured.','Supabase 尚未配置。')+'</div>'; return; }
+  Promise.all([
+    sb.from('members').select('id,email,name,created_at,last_seen').order('created_at',{ascending:false}),
+    sb.from('moderation').select('email,frozen,deleted,note'),
+    sb.from('devs').select('email')
+  ]).then(function(res){
+    var mem=(res[0]&&res[0].data)||[];
+    var mod={}; (res[1]&&res[1].data||[]).forEach(function(m){ mod[m.email]=m; });
+    var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[d.email]=1; });
+    if(!mem.length){ box.innerHTML='<div class="mod-empty">'+t('No members yet.','还没有用户。')+(res[0]&&res[0].error?' '+(res[0].error.message||''):'')+'</div>'; return; }
+    var rows='';
+    mem.forEach(function(m){
+      var md=mod[m.email]||{};
+      var isDev=!!devs[m.email]||isDevEmail(m.email);
+      var status = isDev
+        ? '<span class="mod-chip dev">DEV</span>'
+        : md.deleted
+          ? '<span class="mod-chip deleted">'+t('Deleted','已删除')+'</span>'
+          : md.frozen
+            ? '<span class="mod-chip frozen">'+t('Frozen','已冻结')+'</span>'
+            : '<span class="mod-chip ok">'+t('Active','正常')+'</span>';
+      var name=m.name||t('(no name)','（未填名）');
+      var joined=(m.created_at||'—').slice(0,10);
+      var emEsc=modEsc(m.email).replace(/'/g,"\\'");
+      var d='<div class="mod-actions">';
+      if(isDev){
+        d+='<span class="mod-note" style="margin:0;font-weight:700">'+t('Developer','开发者')+'</span>';
+      } else if(md.deleted){
+        d+='<button class="mod-btn" onclick="modUser(\''+emEsc+'\',\'restore\',this)">↺ '+t('Restore','恢复')+'</button>';
+      } else {
+        d+='<button class="mod-btn '+(md.frozen?'green':'')+'" onclick="modUser(\''+emEsc+'\',\''+(md.frozen?'unfreeze':'freeze')+'\',this)">'+(md.frozen?t('🔓 Unfreeze','🔓 解冻'):t('❄ Freeze','❄ 冻结'))+'</button>';
+        d+='<button class="mod-btn danger" onclick="delUser(\''+emEsc+'\',this)">'+t('🗑 Delete','🗑 删除')+'</button>';
+      }
+      d+='</div>';
+      rows+='<tr><td class="nm">'+modEsc(name)+(isDev?' ⭐':'')+'</td><td>'+modEsc(m.email)+'</td><td>'+status+'</td><td>'+joined+'</td><td style="text-align:right">'+d+'</td></tr>';
+    });
+    for(var k in devs){ if(!mem.some(function(m){return m.email===k;})){ rows+='<tr><td class="nm">'+modEsc(k)+' ⭐</td><td>'+modEsc(k)+'</td><td><span class="mod-chip dev">DEV</span></td><td>—</td><td style="text-align:right"><span class="mod-note" style="margin:0;font-weight:700">Developer</span></td></tr>'; } }
+    box.innerHTML='<div class="mod-tblwrap"><table class="mod-tbl"><thead><tr>'
+      +'<th>'+t('Name','姓名')+'</th><th>'+t('Email','邮箱')+'</th><th>'+t('Status','状态')+'</th><th>'+t('Joined','注册')+'</th><th style="text-align:right">'+t('Actions','操作')+'</th>'
+      +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }).catch(function(e){ box.innerHTML='<div class="mod-empty">'+t('Failed to load members.','加载用户失败。')+'<br><span style="font-size:.8rem">'+modEsc(e.message||String(e))+'</span></div>'; });
+}
+function modUser(email,action,btn){
+  var labels={freeze:t('Freeze','冻结'),unfreeze:t('Unfreeze','解冻'),restore:t('Restore','恢复')};
+  var note = action==='restore'
+    ? t('Restore this account? They will be able to sign in again.','恢复此账号？对方将可重新登录。')
+    : action==='freeze'
+      ? t('Freeze this account? They will be blocked from signing in and using the AI.','冻结此账号？对方将无法登录和使用 AI。')
+      : t('Unfreeze this account?','解冻此账号？');
+  if(!confirm(note)) return;
+  if(btn) btn.disabled=true;
+  var u=currentUser();
+  var payload={ email:email, updated_by:(u&&u.email)||'', updated_at:new Date().toISOString(), note:action==='restore'?'':'action:'+action };
+  if(action==='freeze'){ payload.frozen=true; payload.deleted=false; }
+  else if(action==='unfreeze'){ payload.frozen=false; payload.deleted=false; }
+  else { payload.frozen=false; payload.deleted=false; }
+  var op = action==='restore' ? sb.from('moderation').delete().eq('email',email) : sb.from('moderation').upsert(payload,{ onConflict:'email' });
+  op.then(function(r){
+    if(r && r.error){ modMsg(t('Operation failed.','操作失败。')+' '+r.error.message,false); }
+    else { modMsg(t('Done.','完成。'),true); }
+    if(btn) btn.disabled=false;
+    loadMembers();
+  }).catch(function(e){ if(btn) btn.disabled=false; modMsg(t('Error.','出错了。')+' '+modEsc(e.message||e),false); });
+}
+function delUser(email,btn){
+  if(!confirm(t('PERMANENTLY delete this account?','永久删除此账号？')+'\n'+email+'\n\n'+t('This cannot be undone.','此操作不可撤销。'))) return;
+  if(btn) btn.disabled=true;
+  if(!sb){ modMsg(t('Supabase not configured.','Supabase 尚未配置。'),false); return; }
+  sb.rpc('admin_delete_user',{ target_email:email }).then(function(r){
+    if(btn) btn.disabled=false;
+    if(r && r.error){ modMsg(t('Delete failed.','删除失败。')+' '+(r.error.message||''),false); }
+    else { modMsg(t('Account permanently deleted.','账号已永久删除。'),true); loadMembers(); }
+  }).catch(function(e){ if(btn) btn.disabled=false; modMsg(t('Error.','出错了。')+' '+modEsc(e.message||e),false); });
+}
+
 /* ===== Init ===== */
 renderProfile();
 renderLevel();
@@ -1094,6 +1227,7 @@ renderStats();
 renderChapters();
 renderCountryOptions();
 applyLang();
+initModeration();
 </script>
 <script>
 /* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */

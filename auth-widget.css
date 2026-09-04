@@ -4,3 +4,14 @@
 .btn-login .bl-name{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .admin-gear{flex-shrink:0}
 .admin-gear:hover{background:var(--accent-bg);border-color:var(--accent);transform:translateY(-1px)}
+
+/* Account dropdown (My Account / Log Out) */
+#logWrap{position:relative;display:inline-flex}
+#logWrap .caret{font-size:.7rem;opacity:.7;margin-left:.15rem;transition:transform .2s}
+#logWrap .btn-login{max-width:none}
+.log-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 40px rgba(10,24,40,.16);padding:.35rem;display:flex;flex-direction:column;gap:.15rem;z-index:1202;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s,transform .18s,visibility .18s}
+.log-menu.open{opacity:1;visibility:visible;transform:translateY(0)}
+.log-item{display:flex;align-items:center;gap:.55rem;padding:.55rem .7rem;border-radius:8px;font-size:.85rem;font-weight:600;color:var(--text);text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;width:100%;transition:background .15s}
+.log-item:hover{background:var(--surface2);text-decoration:none;color:var(--accent)}
+.log-menu .log-item:last-child{border-top:1px solid var(--border);border-radius:8px;margin-top:.15rem;padding-top:.6rem;color:var(--red,#C05A74)}
+.log-menu .log-item:last-child:hover{background:color-mix(in srgb,var(--red,#C05A74) 10%,transparent);color:var(--red,#C05A74)}

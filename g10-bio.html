@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<title>G10 Bio — Grade 10 Biology Study Guide | 十年级生物学习指南</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
@@ -431,28 +431,6 @@ body.dark .chat-msg.user .msg-label{color:#241c00}
   .chat-window{height:400px}
 }
 
-/* ── Hero (index) ── */
-.hero{background:linear-gradient(180deg,var(--accent-bg),var(--bg));border-bottom:1px solid var(--border)}
-.hero-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--surface);border:1px solid var(--border);padding:.35rem .8rem;border-radius:20px;margin-bottom:1rem}
-.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
-.hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
-
-/* ── Table of Contents (index) ── */
-.toc-intro{text-align:center;max-width:560px;margin:0 auto 2rem}
-.toc-intro h2{font-size:2.6rem;font-weight:800}
-.toc-intro .toc-sub{color:var(--text2);font-size:1rem;margin-top:.5rem}
-.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;max-width:920px;margin:0 auto}
-.ch-card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:1rem;color:var(--text);text-decoration:none;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
-.ch-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);opacity:0;transition:opacity .18s}
-.ch-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.12);border-color:var(--accent);text-decoration:none}
-.ch-card:hover::before{opacity:1}
-.ch-num{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;font-weight:800;font-size:1.35rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(124,58,237,.25)}
-.ch-card h4{font-size:1.08rem;font-weight:700;margin:0;line-height:1.25}
-.ch-card p{font-size:.82rem;color:var(--text2);margin:.28rem 0 0;line-height:1.4}
-.ch-go{display:flex;align-items:center;gap:.2rem;font-size:.8rem;font-weight:700;color:var(--accent);white-space:nowrap;transition:gap .18s}
-.ch-card:hover .ch-go{gap:.5rem}
-.ch-card-body{flex:1;min-width:0}
-
 /* ══════════════════════════════════════════
    DESIGN POLISH (2026 refresh) — editorial, typography-led
    ══════════════════════════════════════════ */
@@ -659,6 +637,42 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .cert-view canvas{max-width:92vw;max-height:80vh;box-shadow:0 24px 70px rgba(0,0,0,.5);border-radius:8px;background:#fff}
 .onthis .sidebar-link{font-size:.8rem}
 
+.ne-badge-chip{display:inline-block;background:var(--accent-bg);color:var(--accent);border:1px solid var(--border2);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-right:.5em;vertical-align:middle}
+.ne-badge-chip[data-en="RED"]{background:rgba(225,29,72,.1);color:var(--red);border-color:transparent}
+.hero-badge .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:.45em;box-shadow:0 0 0 3px rgba(14,159,110,.2);vertical-align:middle}
+
+/* CN certification quiz */
+.cnq-head{text-align:center;margin-bottom:1.2rem}
+.cnq-head .hero-badge{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:.35rem 1rem;font-size:.8rem;color:var(--accent);background:var(--surface)}
+.cnq-title{font-size:1.5rem;margin:.6rem 0 0;font-weight:800}
+.cnq-controls{display:flex;flex-wrap:wrap;gap:.8rem;align-items:flex-end;justify-content:center;padding:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:.9rem}
+.cnq-label{display:flex;flex-direction:column;gap:.3rem;font-size:.8rem;color:var(--text2);font-weight:600}
+.cnq-label select{padding:.5rem .7rem;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;min-width:130px}
+.cnq-note{text-align:center;font-size:.85rem;color:var(--text3);margin-bottom:1rem}
+.cnq-prog{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin-bottom:1rem}
+.cnq-prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:99px;transition:width .3s}
+.cnq-qnum{font-size:.8rem;color:var(--text3);margin-bottom:.6rem;font-weight:600}
+.cnq-q{font-size:1.1rem;line-height:1.6;font-weight:700;margin-bottom:1rem}
+.cnq-opts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.cnq-opt{padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);cursor:pointer;transition:all .15s}
+.cnq-opt:hover{border-color:var(--accent);transform:translateX(3px)}
+.cnq-opt.disabled{cursor:default;pointer-events:none}
+.cnq-opt.correct{border-color:#22c55e;background:rgba(34,197,94,.12)}
+.cnq-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.cnq-explain{border-left:3px solid var(--accent);background:rgba(79,70,229,.06);padding:.8rem 1rem;border-radius:0 10px 10px 0;margin-bottom:1rem;line-height:1.6;font-size:.92rem}
+.cnq-footer{display:flex;align-items:center;justify-content:space-between}
+.cnq-score{font-size:.85rem;color:var(--text3);font-weight:600}
+.cnq-scorecard{text-align:center;padding:2rem 1rem}
+.cnq-pct{font-size:3.2rem;font-weight:900;background:linear-gradient(90deg,var(--accent),#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cnq-slabel{font-size:1.05rem;font-weight:700;margin:.4rem 0 1rem}
+.cnq-dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:1.4rem}
+.cnq-dot{width:11px;height:11px;border-radius:50%}
+.cnq-dot.hit{background:#22c55e}
+.cnq-dot.miss{background:#ef4444}
+.cnq-sactions{margin-top:.5rem}
+@media(max-width:560px){.cnq-controls{flex-direction:column;align-items:stretch}}
+
+
 /* ═══════ FLASHCARD UI REDESIGN ═══════ */
 .flashcard-box{max-width:560px;padding:2.2rem 2rem}
 .fc-chapter-select{margin-bottom:1.4rem}
@@ -720,26 +734,39 @@ body.dark .chat-send:hover,body.dark .fc-nav button.primary:hover,body.dark .gui
 body.dark h1,body.dark h2,body.dark h3{
   background:linear-gradient(120deg,#E8C87A,#F1E9D0) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
 
+
+/* ═══ G10 BIO EXTRAS ═══ */
+.graph-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin:1.25rem 0;overflow-x:auto}
+.enzyme-graph{width:100%;max-width:500px;margin:0 auto;display:block}
+.graph-axis{stroke:var(--text3);stroke-width:1.5}
+.graph-curve{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+.graph-dashed{stroke:var(--text3);stroke-width:1;stroke-dasharray:6 4}
+.graph-dot{fill:var(--green)}
+.graph-title{font-size:13px;font-weight:700;fill:var(--text)}
+.graph-label{font-size:11px;font-weight:600;fill:var(--text2)}
+.graph-tick{font-size:10px;fill:var(--text3);text-anchor:middle}
+.graph-annotation{font-size:11px;font-weight:700;fill:var(--green);text-anchor:middle}
+.graph-annotation-red{font-size:11px;font-weight:700;fill:var(--red);text-anchor:middle}
+.graph-annotation-blue{font-size:11px;font-weight:700;fill:#3b82f6;text-anchor:middle}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <link rel="stylesheet" href="gold-blue-theme.css">
 </head>
 <body>
-<!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
-<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">Vital<span>ité</span></div>
+  <div class="sidebar-logo">Vital<span>é</span></div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Navigate" data-zh="导航">Navigate</div>
     <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
 
-    <a class="sidebar-link active" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
+    <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
 
     <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
-  </div>
+
+</div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Test Prep" data-zh="备考专区">Test Prep</div>
     <a class="sidebar-link" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
@@ -747,333 +774,440 @@ body.dark h1,body.dark h2,body.dark h3{
     <a class="sidebar-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
 
     <a class="sidebar-link" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
-    <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
 
-  </div>
+    <a class="sidebar-link active" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
+
+</div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Chapters" data-zh="章节">Chapters</div>
     <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
-  </div>
+
+</div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="Tools" data-zh="工具">Tools</div>
-    <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+    <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
 
-    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&amp;A Helper" data-zh="💬 问答助手">💬 Q&amp;A Helper</a>
+    <a class="sidebar-link" href="index.html#qa" data-en="💬 Q&A Helper" data-zh="💬 问答助手">💬 Q&A Helper</a>
 
-    <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
+    <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
 
     <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-  </div>
+
+</div>
 <div class="sidebar-group">
     <div class="sidebar-label" data-en="More" data-zh="更多">More</div>
     <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
-  </div>
+
+</div>
 </nav>
 
-
-
-
 <div class="page-wrapper">
-<header>
-<div class="container header-inner">
-  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
-  <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
-    <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
-  </div>
-</div>
-</header>
+  <header>
+    <div class="container header-inner">
+      <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>é</span></div>
+      <div class="header-actions">
+        <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
+        <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+        <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
+      </div>
+    </div>
+  </header>
 
-<!-- Hero -->
-<section id="hero" class="hero">
-<div class="container">
-  <div class="hero-badge"><span class="dot"></span><span data-en="Bilingual Student Guide" data-zh="双语学生指南">Bilingual Student Guide</span></div>
-  <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养"><span>Sports Medicine, Recovery &amp; Nutrition</span></h1>
-  <p data-en="English / 中文 — 13 chapters, flashcards, adaptive quizzes & debates" data-zh="中文 / English — 十三大章节、闪卡、自适应刷题与科学争论">English / 中文 — 13 chapters, flashcards, adaptive quizzes &amp; debates</p>
-  <div class="hero-actions">
-    <button class="qo-btn next" onclick="openFlashcards()" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
-    <button class="qo-btn next" onclick="openQuizMode()" style="background:var(--green)" data-en="📝 Quiz Mode" data-zh="📝 答题模式">📝 Quiz Mode</button>
-    <button class="qo-btn next" onclick="location.href='exam.html'" style="background:var(--accent)" data-en="🎓 Exam Prep &amp; Certificate" data-zh="🎓 考试冲刺与证书">🎓 Exam Prep &amp; Certificate</button>
-  </div>
-</div>
-</section>
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-badge"><span class="dot"></span><span data-en="G10 Biology · Chemistry of Life" data-zh="十年级生物 · 生命的化学">G10 Biology · Chemistry of Life</span></div>
+      <h1 data-en data-zh><span data-en="G10 Biology Study Guide" data-zh="生物学学习指南">G10 Biology Study Guide</span></h1>
+      <p data-en="6 Lessons: Chemistry of Life, Macromolecules, Proteins &amp; Enzymes" data-zh="6节课：生命的化学、大分子、蛋白质与酶">6 Lessons: Chemistry of Life, Macromolecules, Proteins &amp; Enzymes</p>
+    </div>
+  </section>
 
-<!-- Chapter Grid -->
-<section id="chapters">
-<div class="container">
-  <div class="toc-intro">
-    <span class="section-label" data-en="Table of Contents" data-zh="目录">Table of Contents</span>
-    <h2 data-en="Explore the 13 Chapters" data-zh="浏览十三大章节">Explore the 13 Chapters</h2>
-    <p class="toc-sub" data-en="All 13 chapters live together on one Full Guide page — notes, quizzes &amp; videos in one place." data-zh="全部13章整合在「完整指南」一页 — 笔记、测验与视频尽在其中。">All 13 chapters live together on one Full Guide page — notes, quizzes &amp; videos in one place.</p>
-  </div>
-  <div class="ch-grid">
-    <a class="ch-card" href="guide.html#ch1">
-      <div class="ch-num">1</div>
-      <div class="ch-card-body">
-        <h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4>
-        <p data-en="Energy systems · Muscle fibers · SAID &amp; 5 thinking patterns" data-zh="供能系统 · 肌纤维 · SAID与五大思维模式">Energy systems · Muscle fibers · SAID &amp; 5 thinking patterns</p>
+  <section id="s1">
+    <div class="container">
+      <span class="section-label" data-en="Lesson 1" data-zh="第1节">Lesson 1</span>
+      <h2 data-en="The Chemistry of Life" data-zh="生命的化学">The Chemistry of Life</h2>
+      <div class="accordion">
+        <div class="acc-item open">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <span><span data-en="1.1 Atoms, Elements & Matter" data-zh="1.1 原子、元素与物质">1.1 Atoms, Elements & Matter</span></span>
+          </div>
+          <div class="acc-body" style="max-height:3000px">
+            <div class="acc-body-inner">
+              <p data-en="Life is built from four key elements: Carbon (C), Hydrogen (H), Oxygen (O), and Nitrogen (N). Understanding atomic bonding is foundational to biology." data-zh="生命由四种关键元素构成：碳(C)、氢(H)、氧(O)和氮(N)。理解原子结合是生物学的基础。">Life is built from four key elements: Carbon (C), Hydrogen (H), Oxygen (O), and Nitrogen (N). Understanding atomic bonding is foundational to biology.</p>
+              <div class="table-wrap"><table>
+                <thead><tr><th data-en="Term" data-zh="术语">Term</th><th data-en="Definition" data-zh="定义">Definition</th><th data-en="Example" data-zh="举例">Example</th></tr></thead>
+                <tbody>
+                  <tr><td><strong data-en="Element" data-zh="元素">Element</strong></td><td data-en="Cannot be broken down into simpler substances" data-zh="不能被分解为更简单物质">Cannot be broken down into simpler substances</td><td data-en="Carbon, Oxygen" data-zh="碳、氧">Carbon, Oxygen</td></tr>
+                  <tr><td><strong data-en="Atom" data-zh="原子">Atom</strong></td><td data-en="Smallest unit of an element" data-zh="元素的最小单位">Smallest unit of an element</td><td data-en="A single carbon atom" data-zh="一个碳原子">A single carbon atom</td></tr>
+                  <tr><td><strong data-en="Molecule" data-zh="分子">Molecule</strong></td><td data-en="Two or more atoms joined by chemical bonds" data-zh="两个或更多原子通过化学键结合">Two or more atoms joined by chemical bonds</td><td data-en="H₂O (water)" data-zh="H₂O（水）">H₂O (water)</td></tr>
+                  <tr><td><strong data-en="Covalent Bond" data-zh="共价键">Covalent Bond</strong></td><td data-en="Sharing electrons between atoms" data-zh="原子间通过共享电子形成">Sharing electrons between atoms</td><td data-en="C–H bond in glucose" data-zh="葡萄糖中的C–H键">C–H bond in glucose</td></tr>
+                  <tr><td><strong data-en="Ionic Bond" data-zh="离子键">Ionic Bond</strong></td><td data-en="Transfer of electrons; opposite charges attract" data-zh="电子转移；异种电荷吸引">Transfer of electrons; opposite charges attract</td><td data-en="NaCl (salt)" data-zh="NaCl（食盐）">NaCl (salt)</td></tr>
+                  <tr><td><strong data-en="Valence Shell" data-zh="价电子层">Valence Shell</strong></td><td data-en="Outermost electron shell; atoms bond to fill it" data-zh="最外层电子壳；原子通过结合来填满它">Outermost electron shell; atoms bond to fill it</td><td data-en="Carbon has 4 valence e⁻" data-zh="碳有4个价电子">Carbon has 4 valence e⁻</td></tr>
+                </tbody>
+              </table></div>
+              <h4 data-en="Carbon: The Backbone of Life" data-zh="碳：生命的骨架">Carbon: The Backbone of Life</h4>
+              <p data-en="Carbon has 4 valence electrons → forms 4 covalent bonds. This versatility makes carbon the foundation of all organic molecules. Organic = containing C found in living systems. Exception: CO₂ and carbonates are inorganic." data-zh="碳有4个价电子→形成4个共价键。这种多样性使碳成为所有有机分子的基础。有机物=含C的生物体化合物。例外：CO₂和碳酸盐是无机物。">Carbon has 4 valence electrons → forms 4 covalent bonds. This versatility makes carbon the foundation of all organic molecules. Organic = containing C found in living systems. Exception: CO₂ and carbonates are inorganic.</p>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="1.2 Organic vs Inorganic" data-zh="1.2 有机物与无机物">1.2 Organic vs Inorganic</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Property" data-zh="特征">Property</th><th data-en="Organic" data-zh="有机化合物">Organic</th><th data-en="Inorganic" data-zh="无机化合物">Inorganic</th></tr></thead>
+              <tbody>
+                <tr><td data-en="Definition" data-zh="定义">Definition</td><td data-en="Contains carbon, found in living systems" data-zh="含碳，存在于生物体中">Contains carbon, found in living systems</td><td data-en="Does not contain C–H bonds" data-zh="不含C–H键">Does not contain C–H bonds</td></tr>
+                <tr><td data-en="Examples" data-zh="举例">Examples</td><td data-en="Glucose, proteins, DNA, lipids" data-zh="葡萄糖、蛋白质、DNA、脂质">Glucose, proteins, DNA, lipids</td><td data-en="CO₂, H₂O, NaCl" data-zh="CO₂、H₂O、NaCl">CO₂, H₂O, NaCl</td></tr>
+              </tbody>
+            </table></div>
+            <div class="callout k-tip"><h4><span class="co-ico">💡</span><span data-en="Key Exception" data-zh="重要例外">Key Exception</span></h4>
+              <p data-en="CO₂ contains carbon but is INORGANIC because it lacks C–H bonds." data-zh="CO₂含碳但属于无机物，因为它缺少C–H键。">CO₂ contains carbon but is INORGANIC because it lacks C–H bonds.</p>
+            </div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="1.3 Protein Powder Phenomenon" data-zh="1.3 蛋白粉现象">1.3 Protein Powder Phenomenon</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <p data-en="Protein powder is a popular supplement. The key question: How do the chemicals in protein powder help absorb proteins? Enzymes in the digestive system break peptide bonds via hydrolysis, releasing amino acids for absorption in the intestine." data-zh="蛋白粉是流行的补充剂。关键问题：蛋白粉中的化学物质如何帮助吸收蛋白质？消化系统中的酶通过水解打破肽键，释放氨基酸供肠道吸收。">Protein powder is a popular supplement. The key question: How do the chemicals in protein powder help absorb proteins? Enzymes in the digestive system break peptide bonds via hydrolysis, releasing amino acids for absorption in the intestine.</p>
+          </div></div>
+        </div>
       </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch2">
-      <div class="ch-num">2</div>
-      <div class="ch-card-body">
-        <h4 data-en="Nervous System" data-zh="神经系统">Nervous System</h4>
-        <p data-en="UMN vs LMN · Stroke · Spinal cord injury &amp; vestibular" data-zh="上/下运动神经元 · 卒中 · 脊髓损伤与前庭">UMN vs LMN · Stroke · Spinal cord injury &amp; vestibular</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch3">
-      <div class="ch-num">3</div>
-      <div class="ch-card-body">
-        <h4 data-en="Cardiovascular System" data-zh="心血管系统">Cardiovascular System</h4>
-        <p data-en="Cardiac rehab · Exercise testing · Heart-rate zones" data-zh="心脏康复 · 运动试验 · 心率区间">Cardiac rehab · Exercise testing · Heart-rate zones</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch4">
-      <div class="ch-num">4</div>
-      <div class="ch-card-body">
-        <h4 data-en="Integumentary System" data-zh="皮肤系统">Integumentary System</h4>
-        <p data-en="Wound healing · Burns · Pressure injuries &amp; staging" data-zh="伤口愈合 · 烧伤 · 压力性损伤与分期">Wound healing · Burns · Pressure injuries &amp; staging</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch5">
-      <div class="ch-num">5</div>
-      <div class="ch-card-body">
-        <h4 data-en="Training Principles" data-zh="训练原则">Training Principles</h4>
-        <p data-en="Progressive overload · Eccentric training · Stretching" data-zh="渐进超负荷 · 离心训练 · 拉伸">Progressive overload · Eccentric training · Stretching</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch6">
-      <div class="ch-num">6</div>
-      <div class="ch-card-body">
-        <h4 data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</h4>
-        <p data-en="Sprain vs strain · Healing phases · PEACE &amp; LOVE" data-zh="扭伤 vs 拉伤 · 愈合阶段 · PEACE与LOVE">Sprain vs strain · Healing phases · PEACE &amp; LOVE</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch7">
-      <div class="ch-num">7</div>
-      <div class="ch-card-body">
-        <h4 data-en="Recovery Science" data-zh="恢复科学">Recovery Science</h4>
-        <p data-en="DOMS · Sleep &amp; injury · The ice-bath debate" data-zh="延迟性酸痛 · 睡眠与受伤 · 冰浴之争">DOMS · Sleep &amp; injury · The ice-bath debate</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch8">
-      <div class="ch-num">8</div>
-      <div class="ch-card-body">
-        <h4 data-en="Nutrition" data-zh="营养">Nutrition</h4>
-        <p data-en="Macros · RED-S · Hydration · Anabolic window" data-zh="宏量营养素 · 能量不足 · 补水 · 合成窗口">Macros · RED-S · Hydration · Anabolic window</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch9">
-      <div class="ch-num">9</div>
-      <div class="ch-card-body">
-        <h4 data-en="Supplements" data-zh="补剂">Supplements</h4>
-        <p data-en="Evidence pyramid · Creatine · BCAAs · Fat burners" data-zh="证据金字塔 · 肌酸 · 支链氨基酸 · 燃脂剂">Evidence pyramid · Creatine · BCAAs · Fat burners</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch10">
-      <div class="ch-num">10</div>
-      <div class="ch-card-body">
-        <h4 data-en="Ethics &amp; Responsibility" data-zh="伦理与职业责任">Ethics &amp; Responsibility</h4>
-        <p data-en="HIPAA · Ethics · Delegation · Billing &amp; reimbursement" data-zh="HIPAA · 伦理 · 委派 · 计费与报销">HIPAA · Ethics · Delegation · Billing &amp; reimbursement</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch11">
-      <div class="ch-num">11</div>
-      <div class="ch-card-body">
-        <h4 data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</h4>
-        <p data-en="DPT pathway · PT salary · NPTE · Specialization" data-zh="物理治疗博士路径 · 薪资 · 执业考试 · 专科">DPT pathway · PT salary · NPTE · Specialization</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch12">
-      <div class="ch-num">12</div>
-      <div class="ch-card-body">
-        <h4 data-en="Assessment · 康复评定学" data-zh="Assessment · 康复评定学">Assessment · 康复评定学</h4>
-        <p data-en="MMT · Goniometry · Tone · Balance · Gait · Outcome measures" data-zh="肌力测试 · 量角器 · 肌张力 · 平衡 · 步态 · 结局评估">MMT · Goniometry · Tone · Balance · Gait · Outcome measures</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-    <a class="ch-card" href="guide.html#ch13">
-      <div class="ch-num">13</div>
-      <div class="ch-card-body">
-        <h4 data-en="TCM · 中医健康管理" data-zh="TCM · 中医健康管理">TCM · 中医健康管理</h4>
-        <p data-en="Yin-Yang &amp; Qi · Meridians · Tuina · Moxibustion · Constitutions" data-zh="阴阳与气 · 经络 · 推拿 · 艾灸 · 体质">Yin-Yang &amp; Qi · Meridians · Tuina · Moxibustion · Constitutions</p>
-      </div>
-      <div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div>
-    </a>
-  </div>
-</div>
-</section>
+    </div>
+  </section>
 
+  <section id="s2">
+    <div class="container">
+      <span class="section-label" data-en="Lesson 2" data-zh="第2节">Lesson 2</span>
+      <h2 data-en="Building Biomolecules" data-zh="构建生物分子">Building Biomolecules</h2>
+      <div class="accordion">
+        <div class="acc-item open">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="2.1 Four Main Biomolecules" data-zh="2.1 四种主要生物分子">2.1 Four Main Biomolecules</span></span></div>
+          <div class="acc-body" style="max-height:3000px"><div class="acc-body-inner">
+            <p data-en="Life depends on four classes of macromolecules. All contain carbon and are built from smaller subunits (monomers)." data-zh="生命依赖四大类大分子。所有都含碳，并由较小的亚基(单体)构建。">Life depends on four classes of macromolecules. All contain carbon and are built from smaller subunits (monomers).</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0">
+              <div style="display:flex;align-items:center;gap:.4rem"><span style="width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid #999;display:inline-block"></span><small data-en="Hydrogen (H)" data-zh="氢(H)">Hydrogen (H)</small></div>
+              <div style="display:flex;align-items:center;gap:.4rem"><span style="width:18px;height:18px;border-radius:50%;background:#333;display:inline-block"></span><small data-en="Carbon (C)" data-zh="碳(C)">Carbon (C)</small></div>
+              <div style="display:flex;align-items:center;gap:.4rem"><span style="width:18px;height:18px;border-radius:50%;background:#e74c3c;display:inline-block"></span><small data-en="Oxygen (O)" data-zh="氧(O)">Oxygen (O)</small></div>
+              <div style="display:flex;align-items:center;gap:.4rem"><span style="width:18px;height:18px;border-radius:50%;background:#3498db;display:inline-block"></span><small data-en="Nitrogen (N)" data-zh="氮(N)">Nitrogen (N)</small></div>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Biomolecule" data-zh="生物分子">Biomolecule</th><th data-en="Elements" data-zh="元素">Elements</th><th data-en="Monomer" data-zh="单体">Monomer</th><th data-en="Polymer" data-zh="多聚体">Polymer</th><th data-en="Shape" data-zh="形状">Shape</th></tr></thead>
+              <tbody>
+                <tr><td><strong data-en="Carbohydrates" data-zh="碳水化合物">Carbohydrates</strong></td><td>C, H, O <small data-en="(1:2:1)" data-zh="(比例1:2:1)">(1:2:1)</small></td><td data-en="Monosaccharide" data-zh="单糖">Monosaccharide</td><td data-en="Polysaccharide" data-zh="多糖">Polysaccharide</td><td data-en="Ring (hexagon)" data-zh="环状(六边形)">Ring (hexagon)</td></tr>
+                <tr><td><strong data-en="Lipids" data-zh="脂质">Lipids</strong></td><td>C, H, O <small data-en="(much more C &amp; H)" data-zh="(大量C和H)">(much more C &amp; H)</small></td><td data-en="Glycerol + Fatty Acids" data-zh="甘油 + 脂肪酸">Glycerol + Fatty Acids</td><td data-en="Not a true polymer" data-zh="非真正多聚体">Not a true polymer</td><td data-en="Long chain" data-zh="长链">Long chain</td></tr>
+                <tr><td><strong data-en="Proteins" data-zh="蛋白质">Proteins</strong></td><td>C, H, O, N <small data-en="(some S)" data-zh="(部分含S)">(some S)</small></td><td data-en="Amino Acid" data-zh="氨基酸">Amino Acid</td><td data-en="Polypeptide" data-zh="多肽">Polypeptide</td><td data-en="Central C + NH₂ + COOH + R" data-zh="中心C + NH₂ + COOH + R">Central C + NH₂ + COOH + R</td></tr>
+                <tr><td><strong data-en="Nucleic Acids" data-zh="核酸">Nucleic Acids</strong></td><td>C, H, O, N, P</td><td data-en="Nucleotide" data-zh="核苷酸">Nucleotide</td><td data-en="DNA / RNA" data-zh="DNA / RNA">DNA / RNA</td><td data-en="Chain of nucleotides" data-zh="核苷酸链">Chain of nucleotides</td></tr>
+              </tbody>
+            </table></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="2.2 Identifying Macromolecules" data-zh="2.2 识别大分子">2.2 Identifying Macromolecules</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="callout k-info"><h4><span class="co-ico">📊</span><span data-en="Element Mnemonic: CHO / CHON / CHONP" data-zh="元素口诀：CHO / CHON / CHONP">Element Mnemonic: CHO / CHON / CHONP</span></h4>
+              <p data-en="<strong>Carbs &amp; Lipids</strong> = CHO<br><strong>Proteins</strong> = CHON<br><strong>Nucleic Acids</strong> = CHONP" data-zh="<strong>碳水化合物 &amp; 脂质</strong> = CHO<br><strong>蛋白质</strong> = CHON<br><strong>核酸</strong> = CHONP"><strong>Carbs &amp; Lipids</strong> = CHO<br><strong>Proteins</strong> = CHON<br><strong>Nucleic Acids</strong> = CHONP</p>
+            </div>
+            <div class="callout k-warning"><h4><span class="co-ico">⚠️</span><span data-en="Watch Out: Carbs vs Lipids" data-zh="注意：碳水化合物 vs 脂质">Watch Out: Carbs vs Lipids</span></h4>
+              <p data-en="Both contain only CHO! Lipids have MUCH MORE C and H relative to O and form long chains. Carbs have a 1:2:1 ratio." data-zh="两者都只含CHO！脂质的C和H比O多得多，形成长链。碳水化合物比例为1:2:1。">Both contain only CHO! Lipids have MUCH MORE C and H relative to O and form long chains. Carbs have a 1:2:1 ratio.</p>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- Practice & Diagnose -->
-<section id="practice">
-<div class="container">
-  <span class="section-label" data-en="Practice &amp; Diagnose" data-zh="刷题与诊断">Practice &amp; Diagnose</span>
-  <h2 data-en="Test Your Knowledge" data-zh="检测你的知识水平">Test Your Knowledge</h2>
-  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Adaptive quiz engine — questions scale to your level. Diagnose weak spots, earn mastery, and get personalized study recommendations." data-zh="自适应刷题引擎 — 题目难度随你的水平自动调整。诊断薄弱环节，解锁精通等级，获得个性化学习建议。">Adaptive quiz engine — questions scale to your level. Diagnose weak spots, earn mastery, and get personalized study recommendations.</p>
+  <section id="s3">
+    <div class="container">
+      <span class="section-label" data-en="Lesson 3" data-zh="第3节">Lesson 3</span>
+      <h2 data-en="Metabolism & Macromolecules" data-zh="代谢与大分子">Metabolism &amp; Macromolecules</h2>
+      <div class="accordion">
+        <div class="acc-item open">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="3.1 Monomer vs Polymer" data-zh="3.1 单体与多聚体">3.1 Monomer vs Polymer</span></span></div>
+          <div class="acc-body" style="max-height:3000px"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Concept" data-zh="概念">Concept</th><th data-en="Definition" data-zh="定义">Definition</th><th data-en="Analogy" data-zh="类比">Analogy</th></tr></thead>
+              <tbody>
+                <tr><td><strong data-en="Monomer" data-zh="单体">Monomer</strong></td><td data-en="A single building block unit" data-zh="单个积木单位">A single building block unit</td><td data-en="1 Lego block" data-zh="1块乐高积木">1 Lego block</td></tr>
+                <tr><td><strong data-en="Polymer" data-zh="多聚体">Polymer</strong></td><td data-en="A chain of many monomers" data-zh="许多单体组成的链">A chain of many monomers</td><td data-en="Lego building" data-zh="乐高模型">Lego building</td></tr>
+                <tr><td><strong data-en="Polymerization" data-zh="聚合作用">Polymerization</strong></td><td data-en="Process of linking monomers into polymers" data-zh="将单体连接成多聚体的过程">Process of linking monomers into polymers</td><td data-en="Snapping Legos together" data-zh="把乐高拼在一起">Snapping Legos together</td></tr>
+              </tbody>
+            </table></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="3.2 Condensation vs Hydrolysis" data-zh="3.2 缩合反应 vs 水解反应">3.2 Condensation vs Hydrolysis</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Reaction" data-zh="反应类型">Reaction</th><th data-en="What Happens" data-zh="发生什么">What Happens</th><th data-en="Water" data-zh="水">Water</th><th data-en="Metabolism" data-zh="代谢">Metabolism</th></tr></thead>
+              <tbody>
+                <tr><td><strong data-en="Condensation" data-zh="缩合反应">Condensation</strong></td><td data-en="Monomers join → polymer" data-zh="单体连接→多聚体">Monomers join → polymer</td><td data-en="RELEASED" data-zh="释放">RELEASED</td><td data-en="Anabolism (合成代谢)" data-zh="合成代谢">Anabolism (合成代谢)</td></tr>
+                <tr><td><strong data-en="Hydrolysis" data-zh="水解反应">Hydrolysis</strong></td><td data-en="Polymer → monomers" data-zh="多聚体→单体">Polymer → monomers</td><td data-en="USED" data-zh="消耗">USED</td><td data-en="Catabolism (分解代谢)" data-zh="分解代谢">Catabolism (分解代谢)</td></tr>
+              </tbody>
+            </table></div>
+            <div style="background:var(--surface2);border-radius:var(--radius);padding:1.25rem;margin:1.5rem 0;text-align:center">
+              <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+                <div style="background:var(--accent-bg);border:2px solid var(--accent);border-radius:8px;padding:.5rem 1rem;font-weight:600" data-en="Monomer A" data-zh="单体A">Monomer A</div>
+                <span style="font-size:1.5rem;color:var(--accent)">+</span>
+                <div style="background:var(--accent-bg);border:2px solid var(--accent);border-radius:8px;padding:.5rem 1rem;font-weight:600" data-en="Monomer B" data-zh="单体B">Monomer B</div>
+              </div>
+              <div style="font-size:.85rem;color:var(--text2);margin:.5rem 0" data-en="↓ Condensation: H₂O released ↓" data-zh="↓ 缩合反应：释放H₂O ↓">↓ Condensation: H₂O released ↓</div>
+              <div style="background:var(--green);color:#fff;border-radius:8px;padding:.5rem 1rem;font-weight:600;display:inline-block" data-en="Dimer (A–B)" data-zh="二联体(A–B)">Dimer (A–B)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin:1rem .5rem 0" data-en="↓ Hydrolysis: H₂O added ↓" data-zh="↓ 水解反应：加入H₂O ↓">↓ Hydrolysis: H₂O added ↓</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-top:.5rem">
+                <div style="background:var(--accent-bg);border:2px solid var(--accent);border-radius:8px;padding:.5rem 1rem;font-weight:600" data-en="Monomer A" data-zh="单体A">Monomer A</div>
+                <span style="font-size:1.5rem;color:var(--accent)">+</span>
+                <div style="background:var(--accent-bg);border:2px solid var(--accent);border-radius:8px;padding:.5rem 1rem;font-weight:600" data-en="Monomer B" data-zh="单体B">Monomer B</div>
+              </div>
+            </div>
+            <div class="callout k-info"><h4><span class="co-ico">📊</span><span data-en="Metabolism Definitions" data-zh="代谢定义">Metabolism Definitions</span></h4>
+              <p data-en="<strong>Metabolism</strong> = all enzyme-catalyzed reactions in a cell<br><strong>Anabolism</strong> = building complex molecules (condensation)<br><strong>Catabolism</strong> = breaking complex molecules (hydrolysis)" data-zh="<strong>代谢</strong> = 细胞中所有酶催化的反应<br><strong>合成代谢</strong> = 构建复杂分子（缩合反应）<br><strong>分解代谢</strong> = 分解复杂分子（水解反应）"><strong>Metabolism</strong> = all enzyme-catalyzed reactions in a cell<br><strong>Anabolism</strong> = building complex molecules (condensation)<br><strong>Catabolism</strong> = breaking complex molecules (hydrolysis)</p>
+            </div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="3.3 Detailed Functions" data-zh="3.3 详细功能">3.3 Detailed Functions</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Macromolecule" data-zh="大分子">Macromolecule</th><th data-en="Key Functions" data-zh="主要功能">Key Functions</th><th data-en="Examples" data-zh="举例">Examples</th><th data-en="Build / Break" data-zh="构建 / 拆解">Build / Break</th></tr></thead>
+              <tbody>
+                <tr><td><strong data-en="Carbohydrates" data-zh="碳水化合物">Carbohydrates</strong></td><td data-en="Fast energy, structural support, storage" data-zh="快速能量、结构支持、储能">Fast energy, structural support, storage</td><td data-en="Glucose, starch, glycogen, cellulose" data-zh="葡萄糖、淀粉、糖原、纤维素">Glucose, starch, glycogen, cellulose</td><td data-en="Condensation / Hydrolysis" data-zh="缩合 / 水解">Condensation / Hydrolysis</td></tr>
+                <tr><td><strong data-en="Lipids" data-zh="脂质">Lipids</strong></td><td data-en="Long-term energy, membrane, insulation, hormones" data-zh="长期储能、膜结构、保温、激素">Long-term energy, membrane, insulation, hormones</td><td data-en="Oil, butter, wax, cholesterol" data-zh="油、黄油、蜡、胆固醇">Oil, butter, wax, cholesterol</td><td data-en="N/A" data-zh="N/A">N/A</td></tr>
+                <tr><td><strong data-en="Proteins" data-zh="蛋白质">Proteins</strong></td><td data-en="Structure, transport, enzymes, antibodies" data-zh="结构、运输、酶、抗体">Structure, transport, enzymes, antibodies</td><td data-en="Collagen, hemoglobin, insulin" data-zh="胶原蛋白、血红蛋白、胰岛素">Collagen, hemoglobin, insulin</td><td data-en="Condensation / Hydrolysis" data-zh="缩合 / 水解">Condensation / Hydrolysis</td></tr>
+                <tr><td><strong data-en="Nucleic Acids" data-zh="核酸">Nucleic Acids</strong></td><td data-en="Store &amp; transmit genetic info" data-zh="储存和传递遗传信息">Store &amp; transmit genetic info</td><td data-en="DNA, RNA" data-zh="DNA, RNA">DNA, RNA</td><td data-en="Condensation / Hydrolysis" data-zh="缩合 / 水解">Condensation / Hydrolysis</td></tr>
+              </tbody>
+            </table></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
-    <button class="aq-btn primary" onclick="startDiagnostic()" style="font-size:1rem;padding:.7rem 1.5rem" data-en="🔬 Start Diagnostic Test" data-zh="🔬 开始诊断测试">🔬 Start Diagnostic Test</button>
-    <button class="aq-btn primary" onclick="startAdaptive()" style="font-size:1rem;padding:.7rem 1.5rem;background:var(--green)" data-en="🎯 Adaptive Practice" data-zh="🎯 自适应刷题">🎯 Adaptive Practice</button>
-    <button class="aq-btn secondary" onclick="startAdaptiveWeakest()" style="font-size:1rem;padding:.7rem 1.5rem" data-en="🎯 Practice Weakest Topic" data-zh="🎯 专攻薄弱章节">🎯 Practice Weakest Topic</button>
-  </div>
+  <section id="s4">
+    <div class="container">
+      <span class="section-label" data-en="Lesson 4" data-zh="第4节">Lesson 4</span>
+      <h2 data-en="Protein Structure & Function" data-zh="蛋白质的结构与功能">Protein Structure &amp; Function</h2>
+      <div class="accordion">
+        <div class="acc-item open">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="4.1 Amino Acids & Peptide Bonds" data-zh="4.1 氨基酸与肽键">4.1 Amino Acids &amp; Peptide Bonds</span></span></div>
+          <div class="acc-body" style="max-height:3000px"><div class="acc-body-inner">
+            <p data-en="20 different amino acids exist in nature. Each has three parts:" data-zh="自然界中有20种不同的氨基酸。每个有三个部分：">20 different amino acids exist in nature. Each has three parts:</p>
+            <div style="background:var(--surface2);border-radius:var(--radius);padding:1.25rem;margin:1rem 0;text-align:center">
+              <div style="display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap">
+                <div style="background:#3498db;color:#fff;border-radius:8px;padding:.4rem .8rem;font-weight:600">NH₂<br><small data-en="Amino group" data-zh="氨基">Amino group</small></div>
+                <span style="font-size:1.2rem">—</span>
+                <div style="background:#333;color:#fff;border-radius:8px;padding:.6rem;font-weight:700;font-size:1.2rem">C</div>
+                <span style="font-size:1.2rem">—</span>
+                <div style="background:#e74c3c;color:#fff;border-radius:8px;padding:.4rem .8rem;font-weight:600">COOH<br><small data-en="Carboxyl group" data-zh="羧基">Carboxyl group</small></div>
+              </div>
+              <div style="margin-top:.75rem;display:flex;justify-content:center;gap:2rem">
+                <div style="border:2px dashed var(--accent);border-radius:8px;padding:.4rem .8rem;color:var(--accent);font-weight:600">H</div>
+                <div style="background:var(--accent);color:#fff;border-radius:8px;padding:.4rem .8rem;font-weight:600">R group<br><small data-en="(unique per amino acid)" data-zh="(每个氨基酸独特)">(unique per amino acid)</small></div>
+              </div>
+            </div>
+            <p data-en="Amino acids link via PEPTIDE BONDS (covalent) through condensation. Chain = POLYPEPTIDE. Sequence (coded by DNA) determines 3D structure → function." data-zh="氨基酸通过肽键(共价键)经缩合反应连接。链=多肽。序列(由DNA编码)决定3D结构→功能。">Amino acids link via PEPTIDE BONDS (covalent) through condensation. Chain = POLYPEPTIDE. Sequence (coded by DNA) determines 3D structure → function.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="4.2 Four Levels of Protein Structure" data-zh="4.2 蛋白质的四级结构">4.2 Four Levels of Protein Structure</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Level" data-zh="层级">Level</th><th data-en="Name" data-zh="名称">Name</th><th data-en="Description" data-zh="描述">Description</th><th data-en="Bond" data-zh="键">Bond</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td><strong data-en="Primary" data-zh="一级结构">Primary</strong></td><td data-en="Sequence of amino acids" data-zh="氨基酸序列">Sequence of amino acids</td><td data-en="Peptide bonds" data-zh="肽键">Peptide bonds</td></tr>
+                <tr><td>2</td><td><strong data-en="Secondary" data-zh="二级结构">Secondary</strong></td><td data-en="Folding (α-helix, β-sheet)" data-zh="折叠（α螺旋、β折叠）">Folding (α-helix, β-sheet)</td><td data-en="Hydrogen bonds" data-zh="氢键">Hydrogen bonds</td></tr>
+                <tr><td>3</td><td><strong data-en="Tertiary" data-zh="三级结构">Tertiary</strong></td><td data-en="3D arrangement" data-zh="三维排列">3D arrangement</td><td data-en="H-bonds, disulfide, ionic" data-zh="氢键、二硫键、离子键">H-bonds, disulfide, ionic</td></tr>
+                <tr><td>4</td><td><strong data-en="Quaternary" data-zh="四级结构">Quaternary</strong></td><td data-en="Multiple polypeptides" data-zh="多条多肽链组合">Multiple polypeptides</td><td data-en="Same as tertiary" data-zh="同三级">Same as tertiary</td></tr>
+              </tbody>
+            </table></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="4.3 Fibrous vs Globular Proteins" data-zh="4.3 纤维蛋白 vs 球蛋白">4.3 Fibrous vs Globular Proteins</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Feature" data-zh="特征">Feature</th><th data-en="Fibrous" data-zh="纤维蛋白">Fibrous</th><th data-en="Globular" data-zh="球蛋白">Globular</th></tr></thead>
+              <tbody>
+                <tr><td data-en="Shape" data-zh="形状">Shape</td><td data-en="Long strands" data-zh="长线状">Long strands</td><td data-en="Rounded" data-zh="球形">Rounded</td></tr>
+                <tr><td data-en="Role" data-zh="功能">Role</td><td data-en="Structural support" data-zh="结构支持">Structural support</td><td data-en="Functional (transport, catalytic)" data-zh="功能性（运输、催化）">Functional (transport, catalytic)</td></tr>
+                <tr><td data-en="Solubility" data-zh="溶解性">Solubility</td><td data-en="Less soluble" data-zh="较难溶">Less soluble</td><td data-en="More soluble" data-zh="易溶">More soluble</td></tr>
+                <tr><td data-en="Examples" data-zh="举例">Examples</td><td data-en="Collagen, Keratin, Actin" data-zh="胶原蛋白、角蛋白、肌动蛋白">Collagen, Keratin, Actin</td><td data-en="Hemoglobin, Insulin, Enzymes" data-zh="血红蛋白、胰岛素、酶">Hemoglobin, Insulin, Enzymes</td></tr>
+              </tbody>
+            </table></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="4.4 Denaturation & Proteome" data-zh="4.4 变性与蛋白质组">4.4 Denaturation &amp; Proteome</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="callout k-danger"><h4><span class="co-ico">⛔</span><span data-en="Denaturation = Irreversible!" data-zh="变性 = 不可逆！">Denaturation = Irreversible!</span></h4>
+              <p data-en="Caused by extreme pH or high temperature. Destroys secondary, tertiary, quaternary structure. Primary structure (amino acid sequence) remains intact." data-zh="由极端pH或高温引起。破坏二、三、四级结构。一级结构（氨基酸序列）保持完整。">Caused by extreme pH or high temperature. Destroys secondary, tertiary, quaternary structure. Primary structure (amino acid sequence) remains intact.</p>
+            </div>
+            <h4 data-en="Example Proteins" data-zh="蛋白质举例">Example Proteins</h4>
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Protein" data-zh="蛋白质">Protein</th><th data-en="Structure" data-zh="结构">Structure</th><th data-en="Function" data-zh="功能">Function</th></tr></thead>
+              <tbody>
+                <tr><td data-en="Insulin" data-zh="胰岛素">Insulin</td><td data-en="2 chains (21 + 30 AA)" data-zh="2条链(21+30个氨基酸)">2 chains (21 + 30 AA)</td><td data-en="Hormone; regulates blood sugar" data-zh="激素；调节血糖">Hormone; regulates blood sugar</td></tr>
+                <tr><td data-en="Collagen" data-zh="胶原蛋白">Collagen</td><td data-en="Triple helix" data-zh="三股螺旋">Triple helix</td><td data-en="Skin, tendon, bone support" data-zh="皮肤、肌腱、骨骼支持">Skin, tendon, bone support</td></tr>
+                <tr><td data-en="Hemoglobin" data-zh="血红蛋白">Hemoglobin</td><td data-en="4 subunits" data-zh="4个亚基">4 subunits</td><td data-en="Transports O₂ in blood" data-zh="在血液中运输O₂">Transports O₂ in blood</td></tr>
+              </tbody>
+            </table></div>
+            <div class="callout k-info"><h4><span class="co-ico">📊</span><span data-en="Proteome vs Genome" data-zh="蛋白质组 vs 基因组">Proteome vs Genome</span></h4>
+              <p data-en="<strong>Genome</strong> = complete set of genes<br><strong>Proteome</strong> = complete set of proteins<br>Every individual has a UNIQUE proteome." data-zh="<strong>基因组</strong> = 全部基因的集合<br><strong>蛋白质组</strong> = 全部蛋白质的集合<br>每个个体都有独特的蛋白质组。"><strong>Genome</strong> = complete set of genes<br><strong>Proteome</strong> = complete set of proteins<br>Every individual has a UNIQUE proteome.</p>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="rec-box" id="recBox" style="display:none">
-    <div class="rec-title" data-en="📋 Personalized Study Recommendations" data-zh="📋 个性化学习建议">📋 Personalized Study Recommendations</div>
-    <div class="rec-items" id="recItems"></div>
-  </div>
+  <section id="s5">
+    <div class="container">
+      <span class="section-label" data-en="Lesson 5" data-zh="第5节">Lesson 5</span>
+      <h2 data-en="Enzymes" data-zh="酶">Enzymes</h2>
+      <div class="accordion">
+        <div class="acc-item open">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="5.1 Enzyme Properties & Specificity" data-zh="5.1 酶的特性与专一性">5.1 Enzyme Properties &amp; Specificity</span></span></div>
+          <div class="acc-body" style="max-height:3000px"><div class="acc-body-inner">
+            <p data-en="Enzymes are LARGE GLOBULAR PROTEINS acting as organic catalysts. They lower activation energy, increase reaction rates, are NOT consumed, and work at low concentrations." data-zh="酶是大型球蛋白，充当有机催化剂。它们降低活化能，提高反应速率，不被消耗，低浓度即可工作。">Enzymes are LARGE GLOBULAR PROTEINS acting as organic catalysts. They lower activation energy, increase reaction rates, are NOT consumed, and work at low concentrations.</p>
+            <div class="table-wrap"><table>
+              <thead><tr><th data-en="Key Term" data-zh="术语">Key Term</th><th data-en="Definition" data-zh="定义">Definition</th></tr></thead>
+              <tbody>
+                <tr><td><strong data-en="Enzyme" data-zh="酶">Enzyme</strong></td><td data-en="Globular protein catalyst" data-zh="球蛋白催化剂">Globular protein catalyst</td></tr>
+                <tr><td><strong data-en="Active Site" data-zh="活性位点">Active Site</strong></td><td data-en="Region where substrate binds" data-zh="底物结合的区域">Region where substrate binds</td></tr>
+                <tr><td><strong data-en="Substrate" data-zh="底物">Substrate</strong></td><td data-en="Molecule the enzyme acts on" data-zh="酶作用的分子">Molecule the enzyme acts on</td></tr>
+                <tr><td><strong data-en="Activation Energy" data-zh="活化能">Activation Energy</strong></td><td data-en="Minimum energy to start a reaction" data-zh="启动反应所需的最小能量">Minimum energy to start a reaction</td></tr>
+                <tr><td><strong data-en="Saturation" data-zh="饱和">Saturation</strong></td><td data-en="All active sites occupied" data-zh="所有活性位点被占据">All active sites occupied</td></tr>
+              </tbody>
+            </table></div>
+            <h4 data-en="Two Models of Enzyme Specificity" data-zh="两种酶专一性模型">Two Models of Enzyme Specificity</h4>
+            <div class="tabs">
+              <div class="tab-nav">
+                <button class="tab-btn active" onclick="showTab(this,'lock-key')" data-en="Lock and Key" data-zh="锁与钥匙">Lock and Key</button>
+                <button class="tab-btn" onclick="showTab(this,'induced-fit')" data-en="Induced Fit (more accurate)" data-zh="诱导适合（更准确）">Induced Fit (more accurate)</button>
+              </div>
+              <div class="tab-panel active" id="lock-key">
+                <p data-en="The active site fits the substrate perfectly like a key in a lock. The active site is a rigid, exact shape." data-zh="活性位点与底物完美匹配，如同钥匙与锁。活性位点是刚性的、精确的形状。">The active site fits the substrate perfectly like a key in a lock. The active site is a rigid, exact shape.</p>
+              </div>
+              <div class="tab-panel" id="induced-fit">
+                <p data-en="The active site changes shape slightly when substrate binds — like a glove fitting around a hand. This is the MORE ACCURATE model." data-zh="底物结合时活性位点略微改变形状——如同手套贴合手。这是更准确的模型。">The active site changes shape slightly when substrate binds — like a glove fitting around a hand. This is the MORE ACCURATE model.</p>
+              </div>
+            </div>
+            <h4 data-en="Phenomenon: Lactose Intolerance" data-zh="现象：乳糖不耐受">Phenomenon: Lactose Intolerance</h4>
+            <p data-en="Lactose (milk sugar) is broken by LACTASE into glucose + galactose. Insufficient lactase → undigested lactose → bacteria produce CO₂, H₂, methane → bloating. Lactose intolerance is the NATURAL state for most mammals." data-zh="乳糖(牛奶糖)被乳糖酶分解为葡萄糖+半乳糖。乳糖酶不足→未消化的乳糖→细菌产生CO₂、H₂、甲烷→腹胀。乳糖不耐受是大多数哺乳动物的自然状态。">Lactose (milk sugar) is broken by LACTASE into glucose + galactose. Insufficient lactase → undigested lactose → bacteria produce CO₂, H₂, methane → bloating. Lactose intolerance is the NATURAL state for most mammals.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="5.2 Factors Affecting Enzyme Activity" data-zh="5.2 影响酶活性的因素">5.2 Factors Affecting Enzyme Activity</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <h4 data-en="Effect of Temperature" data-zh="温度的影响">Effect of Temperature</h4>
+            <div class="graph-container">
+              <svg viewBox="0 0 400 250" class="enzyme-graph" role="img" aria-label="Temperature vs Enzyme Activity">
+                <text x="200" y="20" text-anchor="middle" class="graph-title">Temperature vs Enzyme Activity / 温度 vs 酶活性</text>
+                <line x1="50" y1="220" x2="380" y2="220" class="graph-axis"/>
+                <line x1="50" y1="220" x2="50" y2="30" class="graph-axis"/>
+                <text x="15" y="125" class="graph-label" transform="rotate(-90,15,125)">Activity / 活性</text>
+                <text x="215" y="245" class="graph-label">Temperature (°C) / 温度</text>
+                <text x="70" y="235" class="graph-tick">0</text><text x="130" y="235" class="graph-tick">20</text><text x="190" y="235" class="graph-tick">40</text><text x="250" y="235" class="graph-tick">60</text><text x="310" y="235" class="graph-tick">80</text><text x="365" y="235" class="graph-tick">100</text>
+                <path d="M70,210 Q100,200 130,180 Q160,140 190,60 Q200,40 210,60 Q230,120 250,200 Q260,215 270,218" class="graph-curve"/>
+                <circle cx="197" cy="48" r="4" class="graph-dot"/>
+                <text x="200" y="38" class="graph-annotation">Optimal ~37°C</text>
+                <text x="280" y="195" class="graph-annotation-red">Denaturation! / 变性！</text>
+                <rect x="50" y="222" width="140" height="5" fill="#3b82f6" opacity="0.3" rx="2"/>
+                <rect x="190" y="222" width="20" height="5" fill="#22c55e" opacity="0.5" rx="2"/>
+                <rect x="210" y="222" width="170" height="5" fill="#ef4444" opacity="0.3" rx="2"/>
+              </svg>
+            </div>
+            <h4 data-en="Effect of pH" data-zh="pH的影响">Effect of pH</h4>
+            <div class="graph-container">
+              <svg viewBox="0 0 400 250" class="enzyme-graph" role="img" aria-label="pH vs Enzyme Activity">
+                <text x="200" y="20" text-anchor="middle" class="graph-title">pH vs Enzyme Activity / pH vs 酶活性</text>
+                <line x1="50" y1="220" x2="380" y2="220" class="graph-axis"/>
+                <line x1="50" y1="220" x2="50" y2="30" class="graph-axis"/>
+                <text x="15" y="125" class="graph-label" transform="rotate(-90,15,125)">Activity / 活性</text>
+                <text x="215" y="245" class="graph-label">pH</text>
+                <text x="70" y="235" class="graph-tick">0</text><text x="115" y="235" class="graph-tick">2</text><text x="160" y="235" class="graph-tick">4</text><text x="205" y="235" class="graph-tick">6</text><text x="250" y="235" class="graph-tick">8</text><text x="295" y="235" class="graph-tick">10</text><text x="340" y="235" class="graph-tick">12</text><text x="368" y="235" class="graph-tick">14</text>
+                <path d="M70,215 Q90,210 120,200 Q150,170 180,80 Q200,40 220,80 Q250,170 280,200 Q310,210 340,215" class="graph-curve"/>
+                <circle cx="200" cy="40" r="4" class="graph-dot"/>
+                <text x="200" y="30" class="graph-annotation">Optimal pH / 最佳pH</text>
+              </svg>
+            </div>
+            <h4 data-en="Effect of Substrate Concentration" data-zh="底物浓度的影响">Effect of Substrate Concentration</h4>
+            <div class="graph-container">
+              <svg viewBox="0 0 400 250" class="enzyme-graph" role="img" aria-label="Substrate Concentration vs Rate">
+                <text x="200" y="20" text-anchor="middle" class="graph-title">Substrate Concentration vs Rate / 底物浓度 vs 反应速率</text>
+                <line x1="50" y1="220" x2="380" y2="220" class="graph-axis"/>
+                <line x1="50" y1="220" x2="50" y2="30" class="graph-axis"/>
+                <text x="15" y="125" class="graph-label" transform="rotate(-90,15,125)">Rate / 速率</text>
+                <text x="215" y="245" class="graph-label">Substrate Conc. / 底物浓度</text>
+                <path d="M70,210 Q100,170 140,100 Q180,60 220,50 Q260,46 300,45 Q340,44 370,44" class="graph-curve"/>
+                <line x1="50" y1="44" x2="380" y2="44" class="graph-dashed"/>
+                <text x="385" y="48" class="graph-annotation">Vmax</text>
+                <text x="200" y="85" class="graph-annotation-blue">← All active sites busy → / ← 所有活性位点已满 →</text>
+              </svg>
+            </div>
+            <div class="callout k-tip"><h4><span class="co-ico">💡</span><span data-en="Key Insight" data-zh="关键洞察">Key Insight</span></h4>
+              <p data-en="At saturation, increasing substrate has NO EFFECT. To go faster, you need more enzyme." data-zh="在饱和点，增加底物无效。要加快速度，需要更多酶。">At saturation, increasing substrate has NO EFFECT. To go faster, you need more enzyme.</p>
+            </div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span><span data-en="5.3 Enzyme Denaturation" data-zh="5.3 酶的变性">5.3 Enzyme Denaturation</span></span></div>
+          <div class="acc-body"><div class="acc-body-inner">
+            <div class="callout k-danger"><h4><span class="co-ico">⛔</span><span data-en="How Enzymes Denature" data-zh="酶如何变性">How Enzymes Denature</span></h4>
+              <p data-en="<strong>High temperature:</strong> Extra kinetic energy → vibration → breaks bonds → active site changes<br><strong>Extreme pH:</strong> Breaks hydrogen bonds → active site changes<br><strong>Result:</strong> Substrate CANNOT bind → enzyme stops. IRREVERSIBLE." data-zh="<strong>高温：</strong>额外动能→振动→打破键→活性位点改变<br><strong>极端pH：</strong>打破氢键→活性位点改变<br><strong>结果：</strong>底物无法结合→酶停止工作。不可逆。"><strong>High temperature:</strong> Extra kinetic energy → vibration → breaks bonds → active site changes<br><strong>Extreme pH:</strong> Breaks hydrogen bonds → active site changes<br><strong>Result:</strong> Substrate CANNOT bind → enzyme stops. IRREVERSIBLE.</p>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h3 style="margin-top:2rem" data-en="Mastery Dashboard" data-zh="精通度面板">Mastery Dashboard</h3>
-  <p style="font-size:.9rem;color:var(--text2);margin-bottom:.5rem" data-en="Track your knowledge level across every topic. Answer questions correctly at higher difficulty to level up." data-zh="追踪每个知识点的掌握程度。连续答对高难度题目即可升级。">Track your knowledge level across every topic. Answer questions correctly at higher difficulty to level up.</p>
-  <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
-    <span class="mastery-level beginner" data-en="Beginner 0–24" data-zh="入门 0–24">Beginner 0–24</span>
-    <span class="mastery-level learning" data-en="Learning 25–49" data-zh="学习中 25–49">Learning 25–49</span>
-    <span class="mastery-level proficient" data-en="Proficient 50–74" data-zh="熟练 50–74">Proficient 50–74</span>
-    <span class="mastery-level mastery" style="color:#fff" data-en="Mastery 75–100" data-zh="精通 75–100">Mastery 75–100</span>
-  </div>
-  <div class="mastery-grid" id="masteryGrid"></div>
-</div>
-</section>
+  <section id="s6">
+    <div class="container">
+      <span class="section-label" data-en="Quick Reference" data-zh="速查手册">Quick Reference</span>
+      <h2 data-en="Master Comparison Table" data-zh="总结对比表">Master Comparison Table</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th></th><th data-en="Carbs" data-zh="碳水化合物">Carbs</th><th data-en="Lipids" data-zh="脂质">Lipids</th><th data-en="Proteins" data-zh="蛋白质">Proteins</th><th data-en="Nucleic Acids" data-zh="核酸">Nucleic Acids</th></tr></thead>
+        <tbody>
+          <tr><td><strong data-en="Elements" data-zh="元素">Elements</strong></td><td>C, H, O</td><td>C, H, O</td><td>C, H, O, N (S)</td><td>C, H, O, N, P</td></tr>
+          <tr><td><strong data-en="Monomer" data-zh="单体">Monomer</strong></td><td data-en="Monosaccharide" data-zh="单糖">Monosaccharide</td><td data-en="Glycerol + Fatty Acids" data-zh="甘油+脂肪酸">Glycerol + Fatty Acids</td><td data-en="Amino Acid" data-zh="氨基酸">Amino Acid</td><td data-en="Nucleotide" data-zh="核苷酸">Nucleotide</td></tr>
+          <tr><td><strong data-en="Polymer" data-zh="多聚体">Polymer</strong></td><td data-en="Polysaccharide" data-zh="多糖">Polysaccharide</td><td data-en="Not a true polymer" data-zh="非真正多聚体">Not a true polymer</td><td data-en="Polypeptide" data-zh="多肽">Polypeptide</td><td data-en="DNA / RNA" data-zh="DNA / RNA">DNA / RNA</td></tr>
+          <tr><td><strong data-en="Energy Role" data-zh="能量角色">Energy Role</strong></td><td data-en="FAST energy" data-zh="快速能量">FAST energy</td><td data-en="LONG-TERM storage" data-zh="长期储能">LONG-TERM storage</td><td data-en="Structural, transport" data-zh="结构、运输">Structural, transport</td><td data-en="Genetic info" data-zh="遗传信息">Genetic info</td></tr>
+          <tr><td><strong data-en="Examples" data-zh="举例">Examples</strong></td><td data-en="Glucose, starch, glycogen" data-zh="葡萄糖、淀粉、糖原">Glucose, starch, glycogen</td><td data-en="Butter, oil, wax, cholesterol" data-zh="黄油、油、蜡、胆固醇">Butter, oil, wax, cholesterol</td><td data-en="Collagen, hemoglobin, insulin" data-zh="胶原蛋白、血红蛋白、胰岛素">Collagen, hemoglobin, insulin</td><td data-en="DNA, RNA" data-zh="DNA, RNA">DNA, RNA</td></tr>
+          <tr><td><strong data-en="Build" data-zh="构建">Build</strong></td><td data-en="Condensation" data-zh="缩合">Condensation</td><td>N/A</td><td data-en="Condensation" data-zh="缩合">Condensation</td><td data-en="Condensation" data-zh="缩合">Condensation</td></tr>
+          <tr><td><strong data-en="Break" data-zh="拆解">Break</strong></td><td data-en="Hydrolysis" data-zh="水解">Hydrolysis</td><td>N/A</td><td data-en="Hydrolysis" data-zh="水解">Hydrolysis</td><td data-en="Hydrolysis" data-zh="水解">Hydrolysis</td></tr>
+        </tbody>
+      </table></div>
+      <h3 style="margin-top:2rem" data-en="Key Definitions Glossary" data-zh="术语表">Key Definitions Glossary</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th data-en="Term" data-zh="术语">Term</th><th data-en="Definition" data-zh="定义">Definition</th><th data-en="Term" data-zh="术语">Term</th><th data-en="Definition" data-zh="定义">Definition</th></tr></thead>
+        <tbody>
+          <tr><td><strong data-en="Matter" data-zh="物质">Matter</strong></td><td data-en="Has mass and takes up space" data-zh="有质量且占据空间">Has mass and takes up space</td><td><strong data-en="Anabolism" data-zh="合成代谢">Anabolism</strong></td><td data-en="Building up molecules" data-zh="构建分子">Building up molecules</td></tr>
+          <tr><td><strong data-en="Element" data-zh="元素">Element</strong></td><td data-en="Cannot be broken down further" data-zh="不能再分解">Cannot be broken down further</td><td><strong data-en="Catabolism" data-zh="分解代谢">Catabolism</strong></td><td data-en="Breaking down molecules" data-zh="分解分子">Breaking down molecules</td></tr>
+          <tr><td><strong data-en="Covalent Bond" data-zh="共价键">Covalent Bond</strong></td><td data-en="Sharing electrons" data-zh="共享电子">Sharing electrons</td><td><strong data-en="Denaturation" data-zh="变性">Denaturation</strong></td><td data-en="Loss of 3D structure (irreversible)" data-zh="3D结构丢失(不可逆)">Loss of 3D structure (irreversible)</td></tr>
+          <tr><td><strong data-en="Monomer" data-zh="单体">Monomer</strong></td><td data-en="Single building block" data-zh="单个构建单位">Single building block</td><td><strong data-en="Proteome" data-zh="蛋白质组">Proteome</strong></td><td data-en="Complete set of proteins" data-zh="全部蛋白质的集合">Complete set of proteins</td></tr>
+          <tr><td><strong data-en="Polymer" data-zh="多聚体">Polymer</strong></td><td data-en="Chain of many monomers" data-zh="许多单体组成的链">Chain of many monomers</td><td><strong data-en="Active Site" data-zh="活性位点">Active Site</strong></td><td data-en="Region where substrate binds" data-zh="底物结合区域">Region where substrate binds</td></tr>
+          <tr><td><strong data-en="Condensation" data-zh="缩合反应">Condensation</strong></td><td data-en="Monomers join; H₂O released" data-zh="单体连接；释放H₂O">Monomers join; H₂O released</td><td><strong data-en="Enzyme" data-zh="酶">Enzyme</strong></td><td data-en="Globular protein catalyst" data-zh="球蛋白催化剂">Globular protein catalyst</td></tr>
+          <tr><td><strong data-en="Hydrolysis" data-zh="水解反应">Hydrolysis</strong></td><td data-en="Polymer broken; H₂O used" data-zh="多聚体分解；消耗H₂O">Polymer broken; H₂O used</td><td><strong data-en="Lactase" data-zh="乳糖酶">Lactase</strong></td><td data-en="Breaks lactose → glucose + galactose" data-zh="分解乳糖→葡萄糖+半乳糖">Breaks lactose → glucose + galactose</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
 
-<!-- Progress -->
-<section id="progress">
-<div class="container">
-  <span class="section-label" data-en="Study Progress" data-zh="学习进度">Study Progress</span>
-  <h2 data-en="学习进度" data-zh="学习进度">学习进度</h2>
-  <div class="progress-bar-wrap" id="progressTracker">
-    <div class="progress-item"><label data-en="Ch 1 Quiz" data-zh="第一章 测验">Ch 1 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-1" style="width:0%"></div></div><span class="prog-pct" id="pct-1">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 2 Quiz" data-zh="第二章 测验">Ch 2 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-2" style="width:0%"></div></div><span class="prog-pct" id="pct-2">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 3 Quiz" data-zh="第三章 测验">Ch 3 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-3" style="width:0%"></div></div><span class="prog-pct" id="pct-3">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 4 Quiz" data-zh="第四章 测验">Ch 4 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-4" style="width:0%"></div></div><span class="prog-pct" id="pct-4">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 5 Quiz" data-zh="第五章 测验">Ch 5 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-5" style="width:0%"></div></div><span class="prog-pct" id="pct-5">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 6 Quiz" data-zh="第六章 测验">Ch 6 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-6" style="width:0%"></div></div><span class="prog-pct" id="pct-6">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 7 Quiz" data-zh="第七章 测验">Ch 7 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-7" style="width:0%"></div></div><span class="prog-pct" id="pct-7">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 8 Quiz" data-zh="第八章 测验">Ch 8 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-8" style="width:0%"></div></div><span class="prog-pct" id="pct-8">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 9 Quiz" data-zh="第九章 测验">Ch 9 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-9" style="width:0%"></div></div><span class="prog-pct" id="pct-9">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 10 Quiz" data-zh="第十章 测验">Ch 10 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-10" style="width:0%"></div></div><span class="prog-pct" id="pct-10">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 11 Quiz" data-zh="第十一章 测验">Ch 11 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-11" style="width:0%"></div></div><span class="prog-pct" id="pct-11">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 12 Quiz" data-zh="第十二章 测验">Ch 12 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-12" style="width:0%"></div></div><span class="prog-pct" id="pct-12">0%</span></div>
-    <div class="progress-item"><label data-en="Ch 13 Quiz" data-zh="第十三章 测验">Ch 13 Quiz</label><div class="prog-track"><div class="prog-fill" id="prog-13" style="width:0%"></div></div><span class="prog-pct" id="pct-13">0%</span></div>
-    <div class="progress-item"><label data-en="Flashcards" data-zh="闪卡">Flashcards</label><div class="prog-track"><div class="prog-fill" id="prog-fc" style="width:0%"></div></div><span class="prog-pct" id="pct-fc">0%</span></div>
-  </div>
-  <p style="font-size:.85rem;color:var(--text3)" data-en="Progress updates automatically as you use Quiz Mode and review flashcards." data-zh="使用答题模式和闪卡时，进度会自动更新。">Progress updates automatically as you use Quiz Mode and review flashcards.</p>
-</div>
-</section>
-
-<!-- Resources & Learning Hub -->
-<section id="resources">
-<div class="container">
-  <span class="section-label" data-en="Resources &amp; Learning" data-zh="资源与学习">Resources &amp; Learning</span>
-  <h2 data-en="Videos by Chapter" data-zh="各章节视频">Videos by Chapter</h2>
-  <p style="color:var(--text2);margin-bottom:1.5rem" data-en="Curated YouTube &amp; Bilibili videos for every chapter. Videos open in a new tab." data-zh="为每个章节精选的 YouTube 和 Bilibili 视频。视频将在新标签页打开。">Curated YouTube &amp; Bilibili videos for every chapter. Videos open in a new tab.</p>
-  <div id="resourcesHub"></div>
-</div>
-</section>
-
-<!-- References -->
-<section id="refs">
-<div class="container">
-  <span class="section-label" data-en="References" data-zh="参考文献">References</span>
-  <h2 data-en="参考文献" data-zh="参考文献">参考文献</h2>
-  <ol class="ref-list">
-    <li>Engel GL. The need for a new medical model. <em>Science</em>. 1977;196:129–136.</li>
-    <li>Khan KM, Scott A. Mechanotherapy. <em>Br J Sports Med</em>. 2009;43:247–252.</li>
-    <li>Simic L et al. Pre-exercise static stretching meta-analysis. <em>Scand J Med Sci Sports</em>. 2013;23:131–148.</li>
-    <li>Kay AD, Blazevich AJ. Acute static stretch effects. <em>Med Sci Sports Exerc</em>. 2012;44:154–164.</li>
-    <li>Warneke K et al. Stretch-induced force deficit meta-analysis. <em>J Sport Health Sci</em>. 2024;13:805–819.</li>
-    <li>Milewski MD et al. Sleep and injuries in adolescent athletes. <em>J Pediatr Orthop</em>. 2014;34:129–133.</li>
-    <li>Gao B et al. Sleep and sports injuries in adolescents. <em>J Pediatr Orthop</em>. 2019;39:e324–e333.</li>
-    <li>Dubois B, Esculier JF. PEACE and LOVE. <em>Br J Sports Med</em>. 2020;54:72–73.</li>
-    <li>Cheung K et al. DOMS treatment strategies. <em>Sports Med</em>. 2003;33:145–164.</li>
-    <li>Roberts LA et al. Cold water immersion & strength training. <em>J Physiol</em>. 2015;593:4285–4301.</li>
-    <li>Belval LN et al. Fluid Replacement Position Statement. <em>J Athl Train</em>. 2017;52:1166–1187.</li>
-    <li>Guest NS et al. Caffeine and exercise performance. <em>J Int Soc Sports Nutr</em>. 2021;18:1.</li>
-    <li>Thomas DT et al. Nutrition and Athletic Performance. <em>Med Sci Sports Exerc</em>. 2016;48:543–568.</li>
-    <li>Mountjoy M et al. IOC RED-S consensus. <em>Br J Sports Med</em>. 2018;52:687–694.</li>
-    <li>Schoenfeld BJ et al. Protein timing meta-analysis. <em>J Int Soc Sports Nutr</em>. 2013;10:53.</li>
-    <li>Schoenfeld BJ et al. Pre vs post protein. <em>PeerJ</em>. 2017;5:e2825.</li>
-    <li>Morton RW et al. Protein supplementation meta-analysis. <em>Br J Sports Med</em>. 2018;52:376–384.</li>
-    <li>Kreider RB et al. Creatine safety & efficacy. <em>J Int Soc Sports Nutr</em>. 2017;14:18.</li>
-    <li>APTA. Becoming a Physical Therapist. apta.org.</li>
-    <li>U.S. BLS. Physical Therapists (May 2024). bls.gov.</li>
-  </ol>
-</div>
-</section>
+  <section id="quiz-g10">
+    <div class="container">
+      <span class="section-label" data-en="Practice" data-zh="练习">Practice</span>
+      <h2 data-en="G10 Biology Quiz" data-zh="生物学科测验">G10 Biology Quiz</h2>
+      <div class="quiz" id="g10Quiz"></div>
+    </div>
+  </section>
+  <div id="fcChips" style="display:none"></div>
 
 <footer>
 <div class="container">
-  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
-  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking "how do we know?"" data-zh="科学因争论而前进，而非因命令 — 永远追问"我们是怎么知道的？"">Science moves by debate, not decree — keep asking "how do we know?"</p>
+  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational exam-prep material. Certification rules, levels and content differ by region and provider — verify with your authorized 人社部-注册 evaluation center before registering." data-zh="本页为备考教育资料。证书等级、报考条件与内容因地区和机构而异 — 报名前请向经授权的人社部备案评价机构核实。">Educational exam-prep material. Certification rules, levels and content differ by region and provider — verify with your authorized 人社部-注册 evaluation center before registering.</span></p>
 </div>
 </footer>
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
-<!-- Flashcard Panel -->
-<div class="flashcard-panel" id="flashPanel">
-  <div class="flashcard-box">
-    <button class="flashcard-close" onclick="closeFlashcards()">✕</button>
-    <h3 style="text-align:center;margin-bottom:.75rem" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</h3>
-    <div class="fc-chapter-select" id="fcChips"></div>
-    <div class="fc-progress" id="fcProgress"></div>
-    <div class="fc-counter" id="fcCounter">1 / 10</div>
-    <div class="fc-card" id="fcCard" onclick="this.classList.toggle('flipped')">
-      <div class="fc-inner">
-        <div class="fc-front">
-          <div class="fc-term" id="fcTerm">Loading...</div>
-          <div class="fc-hint" data-en="tap to flip" data-zh="点击翻转">tap to flip</div>
-        </div>
-        <div class="fc-back">
-          <div class="fc-def" id="fcDef"></div>
-        </div>
-      </div>
-    </div>
-    <div class="fc-nav">
-      <button onclick="fcPrev()" data-en="← Prev" data-zh="← 上一张">← Prev</button>
-      <button class="primary" onclick="fcNext()" data-en="Next →" data-zh="下一张 →">Next →</button>
-    </div>
-  </div>
-</div>
 
-<!-- Quiz Mode Overlay -->
-<div class="quiz-overlay" id="quizOverlay">
-  <div class="qo-header">
-    <h3 data-en="📝 Quiz Mode" data-zh="📝 答题模式">📝 Quiz Mode</h3>
-    <button class="qo-close" onclick="closeQuizMode()">✕</button>
-  </div>
-  <div class="qo-body" id="qoBody"></div>
-</div>
-
-<!-- Adaptive Quiz Overlay -->
-<div class="aq-overlay" id="aqOverlay">
-  <div class="aq-header">
-    <h3 id="aqTitle" data-en="🎯 Adaptive Practice" data-zh="🎯 自适应刷题">🎯 Adaptive Practice</h3>
-    <button class="aq-close" onclick="closeAdaptive()">✕</button>
-  </div>
-  <div class="aq-body" id="aqBody"></div>
-</div>
-
-<!-- Diagnostic Overlay -->
-<div class="diag-overlay" id="diagOverlay">
-  <div class="aq-header">
-    <h3 data-en="🔬 Diagnostic Test" data-zh="🔬 诊断测试">🔬 Diagnostic Test</h3>
-    <button class="aq-close" onclick="closeDiagnostic()">✕</button>
-  </div>
-  <div class="aq-body" id="diagBody"></div>
-</div>
-
-
-
+  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
 <script>
 // ════════════════════════════════════════
@@ -1505,7 +1639,7 @@ if(localStorage.getItem('sm_lang')==='en'){showCN=false;}
 
 // ════════════════════════════════════════
 // NAV + SCROLL
-// ════════════════════════════════════════
+
 const backBtn = document.getElementById('backTop');
 window.addEventListener('scroll',()=>{backBtn.classList.toggle('show', window.scrollY>500);});
 
@@ -2858,7 +2992,7 @@ document.addEventListener('click', openLightbox);
         grp.id='onthisGroup';
         var lb=document.createElement('div');
         lb.className='sidebar-label';
-        lb.textContent='On this page';
+        lb.textContent = showCN ? '本页目录' : 'On this page';
         lb.setAttribute('data-en','On this page');
         lb.setAttribute('data-zh','本页目录');
         grp.appendChild(lb);
@@ -2872,7 +3006,7 @@ document.addEventListener('click', openLightbox);
           a.href='#sec-'+i;
           a.setAttribute('data-en',en);
           a.setAttribute('data-zh',zh);
-          a.textContent=en;
+          a.textContent = showCN ? zh : en;
           a.addEventListener('click',function(ev){
             ev.preventDefault();
             var item=it;
@@ -2917,7 +3051,103 @@ document.addEventListener('keydown',function(e){
 });
 
 </script>
-</div><!-- /page-wrapper -->
+
+
+<script>
+/* G10 Bio Quiz Engine */
+var G10QS = [{"q": "What are the 4 most common elements in living organisms?", "qcn": "生物体中最常见的四种元素是什么？", "opts": ["C, H, O, N", "C, H, O, P", "C, N, O, S", "H, O, N, P"], "optscn": ["碳、氢、氧、氮", "碳、氢、氧、磷", "碳、氮、氧、硫", "氢、氧、氮、磷"], "correct": 0, "expl": "The 4 most common elements are Carbon, Hydrogen, Oxygen, and Nitrogen (CHON).", "explz": "最常见的四种元素是碳、氢、氧和氮(CHON)。"}, {"q": "What is released during a condensation reaction?", "qcn": "缩合反应中释放什么物质？", "opts": ["Water (H₂O)", "Oxygen (O₂)", "Carbon dioxide", "Glucose"], "optscn": ["水(H₂O)", "氧(O₂)", "二氧化碳", "葡萄糖"], "correct": 0, "expl": "Condensation releases water as monomers join.", "explz": "缩合反应释放水，单体连接形成多体。"}, {"q": "Which macromolecule contains C, H, O, N, P?", "qcn": "哪种大分子含有C、H、O、N、P？", "opts": ["Nucleic acids", "Proteins", "Carbohydrates", "Lipids"], "optscn": ["核酸", "蛋白质", "碳水化合物", "脂质"], "correct": 0, "expl": "Nucleic acids (DNA and RNA) contain C, H, O, N, and P.", "explz": "核酸(DNA和RNA)含有C、H、O、N和P。"}, {"q": "What bond joins amino acids?", "qcn": "什么键连接氨基酸？", "opts": ["Peptide bond", "Ionic bond", "Hydrogen bond", "Glycosidic bond"], "optscn": ["肽键", "离子键", "氢键", "糖苷键"], "correct": 0, "expl": "Amino acids are linked by peptide bonds.", "explz": "氨基酸通过肽键连接。"}, {"q": "Correct order of protein structure levels?", "qcn": "蛋白质结构层级的正确顺序？", "opts": ["Primary → Secondary → Tertiary → Quaternary", "Secondary → Primary → Tertiary → Quaternary", "Tertiary → Secondary → Primary → Quaternary", "Quaternary → Tertiary → Secondary → Primary"], "optscn": ["一级→二级→三级→四级", "二级→一级→三级→四级", "三级→二级→一级→四级", "四级→三级→二级→一级"], "correct": 0, "expl": "Sequence → α-helix/β-sheet → 3D shape → multiple chains.", "explz": "序列→α螺旋/β折叠→3D形状→多条链。"}, {"q": "Which enzyme breaks down lactose?", "qcn": "哪种酶分解乳糖？", "opts": ["Lactase", "Amylase", "Protease", "Lipase"], "optscn": ["乳糖酶", "淀粉酶", "蛋白酶", "脂肪酶"], "correct": 0, "expl": "Lactase breaks lactose into glucose + galactose.", "explz": "乳糖酶将乳糖分解为葡萄糖和半乳糖。"}, {"q": "What happens at very high temperature to enzymes?", "qcn": "极高温度下酶会怎样？", "opts": ["Denaturation (activity → 0)", "Activity keeps increasing", "Activity stays same", "Recovers after cooling"], "optscn": ["变性(活性→0)", "活性继续增加", "活性不变", "冷却后恢复"], "correct": 0, "expl": "High temperature causes irreversible denaturation.", "explz": "高温导致不可逆变性。"}, {"q": "Function of hemoglobin?", "qcn": "血红蛋白的功能？", "opts": ["Transport O₂", "Catalyze reactions", "Store DNA", "Break down fats"], "optscn": ["运输O₂", "催化反应", "储存DNA", "分解脂肪"], "correct": 0, "expl": "Hemoglobin transports oxygen in red blood cells.", "explz": "血红蛋白在红血球中运输氧气。"}, {"q": "Which reaction builds polymers?", "qcn": "哪种反应构建多聚体？", "opts": ["Condensation", "Hydrolysis", "Denaturation", "Fermentation"], "optscn": ["缩合反应", "水解反应", "变性", "发酵"], "correct": 0, "expl": "Condensation joins monomers, releasing water.", "explz": "缩合反应连接单体，释放水。"}, {"q": "What is the R group?", "qcn": "R基团是什么？", "opts": ["Unique side chain of each amino acid", "The backbone of all proteins", "A type of chemical bond", "The active site of enzymes"], "optscn": ["每个氨基酸的独特侧链", "所有蛋白质的骨架", "一种化学键", "酶的活性位点"], "correct": 0, "expl": "The R group is the unique side chain that makes each amino acid different.", "explz": "R基团是使每种氨基酸不同的独特侧链。"}];
+
+var g10State = {q:0, score:0, answered:false, showCN:false};
+
+function g10T(en,zh){ return g10State.showCN ? zh : en; }
+
+function g10RenderSetup(){
+  var box = document.getElementById('g10Quiz');
+  if(!box) return;
+  var html = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center">';
+  html += '<h3 style="margin-bottom:.75rem">' + g10T('Test Your Knowledge','检验你的知识') + '</h3>';
+  html += '<p style="color:var(--text2);margin-bottom:1rem">' + g10T(G10QS.length + ' questions on Chemistry of Life, Macromolecules, Proteins & Enzymes', G10QS.length + '道题涵盖生命的化学、大分子、蛋白质与酶') + '</p>';
+  html += '<button onclick="g10Start()" style="background:var(--accent);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer">' + g10T('Start Quiz','开始测验') + '</button>';
+  html += '</div>';
+  box.innerHTML = html;
+}
+
+function g10Start(){
+  g10State.q = 0; g10State.score = 0; g10State.answered = false;
+  g10RenderQ();
+}
+
+function g10RenderQ(){
+  var box = document.getElementById('g10Quiz');
+  if(!box || g10State.q >= G10QS.length){ g10RenderScore(); return; }
+  var q = G10QS[g10State.q];
+  g10State.answered = false;
+  var opts = q.opts, optsz = q.optscn;
+  var html = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">';
+  html += '<span style="color:var(--text3);font-size:.85rem">' + g10T('Question','题目') + ' ' + (g10State.q+1) + '/' + G10QS.length + '</span>';
+  html += '<span style="color:var(--green);font-weight:600">' + g10T('Score','得分') + ': ' + g10State.score + '</span>';
+  html += '</div>';
+  html += '<p style="font-weight:600;font-size:1.05rem;margin-bottom:1rem">' + g10T(q.q, q.qcn) + '</p>';
+  for(var i=0;i<opts.length;i++){
+    html += '<div class="g10-opt" onclick="g10Select('+i+')" style="background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:.65rem 1rem;margin:.4rem 0;cursor:pointer;transition:all .2s;font-size:.95rem">' + g10T(opts[i], optsz[i]) + '</div>';
+  }
+  html += '<div id="g10Expl" style="display:none;margin-top:1rem"></div>';
+  html += '<div style="text-align:right;margin-top:1rem"><button id="g10Next" onclick="g10Next()" style="display:none;background:var(--accent);color:#fff;border:none;padding:.5rem 1.5rem;border-radius:8px;font-weight:600;cursor:pointer">' + g10T('Next','下一题') + '</button></div>';
+  html += '</div>';
+  box.innerHTML = html;
+}
+
+function g10Select(i){
+  if(g10State.answered) return;
+  g10State.answered = true;
+  var q = G10QS[g10State.q];
+  var correct = (i === q.correct);
+  if(correct) g10State.score++;
+  var opts = document.querySelectorAll('.g10-opt');
+  opts.forEach(function(el,idx){
+    el.style.cursor = 'default';
+    if(idx === q.correct){ el.style.borderColor = 'var(--green)'; el.style.background = '#d5f5e3'; }
+    else if(idx === i && !correct){ el.style.borderColor = 'var(--red)'; el.style.background = '#fadbd8'; }
+  });
+  var expl = document.getElementById('g10Expl');
+  expl.style.display = 'block';
+  expl.innerHTML = '<div class="callout ' + (correct ? 'k-info' : 'k-danger') + '"><p style="font-weight:600;margin-bottom:.25rem">' + (correct ? '✅ ' + g10T('Correct!','正确！') : '❌ ' + g10T('Incorrect.','不正确。')) + '</p><p>' + g10T(q.expl, q.explz) + '</p></div>';
+  document.getElementById('g10Next').style.display = 'inline-block';
+}
+
+function g10Next(){
+  g10State.q++;
+  g10RenderQ();
+}
+
+function g10RenderScore(){
+  var box = document.getElementById('g10Quiz');
+  if(!box) return;
+  var pct = Math.round(g10State.score / G10QS.length * 100);
+  var grade = pct >= 90 ? '优秀 Excellent' : pct >= 70 ? '良好 Good' : pct >= 60 ? '及格 Pass' : '需要复习 Needs Review';
+  var color = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? '#e67e22' : 'var(--red)';
+  var html = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center">';
+  html += '<h3 style="margin-bottom:.5rem">' + g10T('Quiz Complete!','测验完成！') + '</h3>';
+  html += '<div style="font-size:3rem;font-weight:800;color:' + color + ';margin:.75rem 0">' + g10State.score + '/' + G10QS.length + '</div>';
+  html += '<div style="font-size:1.1rem;font-weight:600;color:' + color + ';margin-bottom:.5rem">' + pct + '%</div>';
+  html += '<div style="color:var(--text2);margin-bottom:1.5rem">' + grade + '</div>';
+  html += '<button onclick="g10Start()" style="background:var(--accent);color:#fff;border:none;padding:.6rem 2rem;border-radius:8px;font-weight:600;cursor:pointer">' + g10T('Try Again','再试一次') + '</button>';
+  html += '</div>';
+  box.innerHTML = html;
+}
+
+/* Wire up on load */
+document.addEventListener('DOMContentLoaded', function(){
+  g10RenderSetup();
+  document.addEventListener('click', function(){
+    var btn = document.getElementById('langToggle');
+    if(btn) g10State.showCN = btn.textContent.trim() === 'EN';
+    g10RenderSetup();
+    if(g10State.q > 0 && g10State.answered) g10RenderQ();
+  });
+});
+</script>
 <!-- Floating AI button -->
 <button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
   <span>🤖</span>
@@ -2952,5 +3182,7 @@ document.addEventListener('keydown',function(e){
 </div>
 
 
+
+</div><!-- /page-wrapper -->
 </body>
 </html>

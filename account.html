@@ -837,6 +837,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
       <a class="sidebar-link active" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
+      <a class="sidebar-link" href="#contentEditorCard" data-en="📝 Content Editor" data-zh="📝 内容编辑" style="display:none">📝 Content Editor</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
       <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
@@ -963,6 +964,33 @@ body.dark h1,body.dark h2,body.dark h3{
       <div class="acct-msg" id="modMsg"></div>
       <div id="modTable"><div class="mod-loading"><div class="mod-spin"></div><span data-en="Loading members…" data-zh="加载用户…">Loading members…</span></div></div>
       <p class="mod-note" data-en="To grant a new developer, add their email to the devs table in Supabase (SQL Editor)." data-zh="要新增开发者，请在 Supabase（SQL 编辑器）中把邮箱加入 devs 表。">To grant a new developer, add their email to the devs table in Supabase (SQL Editor).</p>
+    </section>
+
+    <section class="acct-card" id="contentEditorCard" style="display:none">
+      <h2><span data-en="📝 Content Editor" data-zh="📝 内容编辑">📝 Content Editor</span> <span style="font-size:.72rem;color:var(--text3);font-weight:600;vertical-align:middle" data-en="(developers only)" data-zh="（仅开发者）">(developers only)</span></h2>
+      <p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem" data-en="Edit chapter content directly. Changes save to THIS browser and override the original content on the study guide page — visible only to you, for quick drafting before a real edit." data-zh="直接编辑章节内容。更改保存在此浏览器，并覆盖学习指南页面的原始内容——仅对你可见，用于正式编辑前快速起草。">Edit chapter content directly. Changes save to THIS browser and override the original content on the study guide page — visible only to you, for quick drafting before a real edit.</p>
+      <div id="contentEditorList"></div>
+      <div id="contentEditModal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);max-width:900px;width:95%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border)">
+            <div>
+              <div style="font-weight:700;font-size:1rem" id="editorTitle">Edit Chapter</div>
+              <div style="font-size:.78rem;color:var(--text3)" id="editorSubtitle">HTML content — edit carefully</div>
+            </div>
+            <button onclick="closeContentEditor()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:.3rem .7rem;cursor:pointer;font-size:.85rem;color:var(--text)">✕ Close</button>
+          </div>
+          <div style="flex:1;overflow:auto;padding:1rem 1.5rem">
+            <textarea id="contentEditorArea" style="width:100%;min-height:400px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:.82rem;line-height:1.6;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);resize:vertical;tab-size:2"></textarea>
+          </div>
+          <div style="display:flex;gap:.6rem;padding:1rem 1.5rem;border-top:1px solid var(--border);justify-content:space-between;align-items:center">
+            <div style="font-size:.78rem;color:var(--text3)" id="editorStatus"></div>
+            <div style="display:flex;gap:.5rem">
+              <button onclick="resetContentChapter()" style="padding:.5rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:.85rem;cursor:pointer">↺ Reset to Original</button>
+              <button onclick="saveContentChapter()" style="padding:.5rem 1.25rem;border-radius:6px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer">💾 Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </main>
@@ -1212,6 +1240,110 @@ function delUser(email,btn){
   }).catch(function(e){ if(btn) btn.disabled=false; modMsg(t('Error.','出错了。')+' '+modEsc(e.message||e),false); });
 }
 
+/* ===== Content Editor (devs only) ===== */
+var CHAPTER_META = [
+  {id:'ch1',en:'The Body as a Machine',zh:'身体如机器'},
+  {id:'ch2',en:'Nervous System',zh:'神经系统'},
+  {id:'ch3',en:'Cardiovascular System',zh:'心血管系统'},
+  {id:'ch4',en:'Integumentary System',zh:'皮肤系统'},
+  {id:'ch5',en:'Training Principles',zh:'训练原则'},
+  {id:'ch6',en:'Soft Tissue & Injury',zh:'软组织与损伤'},
+  {id:'ch7',en:'Recovery Science',zh:'恢复科学'},
+  {id:'ch8',en:'Nutrition',zh:'营养'},
+  {id:'ch9',en:'Supplements',zh:'补剂'},
+  {id:'ch10',en:'Ethics & Responsibility',zh:'伦理与职业责任'},
+  {id:'ch11',en:'Rehab & Career',zh:'康复与职业'},
+  {id:'ch12',en:'Assessment',zh:'康复评定学'},
+  {id:'ch13',en:'TCM Health',zh:'中医健康管理'}
+];
+var currentEditChapter=null;
+
+function initContentEditor(){
+  var u=currentUser();
+  var card=document.getElementById('contentEditorCard');
+  var link=document.querySelector('a[href="#contentEditorCard"]');
+  var isDev = u && u.email && isDevEmail(u.email);
+  if(isDev){
+    if(card) card.style.display='block';
+    if(link) link.style.display='block';
+    renderContentEditor();
+  } else {
+    if(card) card.style.display='none';
+    if(link) link.style.display='none';
+  }
+}
+function renderContentEditor(){
+  var box=document.getElementById('contentEditorList');
+  if(!box) return;
+  var html='';
+  CHAPTER_META.forEach(function(ch){
+    var modified=!!localStorage.getItem('sm_content_'+ch.id);
+    html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.6rem .5rem;border-bottom:1px solid var(--border)">';
+    html+='  <div style="min-width:2rem;height:2rem;border-radius:8px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem">'+ch.id.replace('ch','')+'</div>';
+    html+='  <div style="flex:1">';
+    html+='    <div style="font-weight:600;font-size:.9rem">'+ch.en+' · '+ch.zh+'</div>';
+    html+='    <div style="font-size:.72rem;color:'+(modified?'var(--green)':'var(--text3)')+'">'+(modified?(showCN?'● 已修改 — 使用自定义内容':'● Modified — using custom content'):(showCN?'● 原始内容':'● Original content'))+'</div>';
+    html+='  </div>';
+    html+='  <button onclick="openContentEditor(\''+ch.id+'\')" style="padding:.4rem .9rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:.82rem;cursor:pointer">'+(showCN?'编辑':'Edit')+'</button>';
+    html+='</div>';
+  });
+  box.innerHTML=html;
+}
+function openContentEditor(chId){
+  currentEditChapter=chId;
+  var meta=null;
+  for(var i=0;i<CHAPTER_META.length;i++){ if(CHAPTER_META[i].id===chId){ meta=CHAPTER_META[i]; break; } }
+  document.getElementById('editorTitle').textContent='Edit: '+chId.replace('ch','')+'. '+(meta?meta.en:'');
+  document.getElementById('editorSubtitle').textContent='HTML content — edit carefully. Changes override the study guide in THIS browser only.';
+  var saved=localStorage.getItem('sm_content_'+chId);
+  if(saved){
+    document.getElementById('contentEditorArea').value=saved;
+    document.getElementById('editorStatus').textContent='● Modified — saved '+new Date().toLocaleString();
+  } else {
+    document.getElementById('contentEditorArea').value='Loading original content...';
+    document.getElementById('editorStatus').textContent='Loading...';
+    fetch('guide.html').then(function(r){return r.text();}).then(function(html){
+      var parser=new DOMParser();
+      var doc=parser.parseFromString(html,'text/html');
+      var sec=doc.getElementById(chId);
+      if(sec){
+        var inner=sec.querySelector('.container');
+        document.getElementById('contentEditorArea').value=inner?inner.innerHTML:'<!-- No content found -->';
+        document.getElementById('editorStatus').textContent='● Original content loaded';
+      } else {
+        document.getElementById('contentEditorArea').value='<!-- Chapter not found -->';
+        document.getElementById('editorStatus').textContent='● Chapter not found in guide.html';
+      }
+    }).catch(function(err){
+      document.getElementById('contentEditorArea').value='<!-- Error loading: '+err.message+' -->';
+      document.getElementById('editorStatus').textContent='● Error loading original';
+    });
+  }
+  document.getElementById('contentEditModal').style.display='flex';
+}
+function closeContentEditor(){
+  document.getElementById('contentEditModal').style.display='none';
+  currentEditChapter=null;
+}
+function saveContentChapter(){
+  if(!currentEditChapter) return;
+  var val=document.getElementById('contentEditorArea').value;
+  localStorage.setItem('sm_content_'+currentEditChapter, val);
+  document.getElementById('editorStatus').textContent='● Saved! '+new Date().toLocaleString();
+  showMsg(t('Chapter content saved! Visit guide.html to see changes.','章节内容已保存！访问guide.html查看更改。'),true);
+  renderContentEditor();
+  setTimeout(closeContentEditor, 800);
+}
+function resetContentChapter(){
+  if(!currentEditChapter) return;
+  if(!confirm(t('Reset this chapter to original content?','将此章节恢复为原始内容？'))) return;
+  localStorage.removeItem('sm_content_'+currentEditChapter);
+  document.getElementById('editorStatus').textContent='● Reset to original';
+  showMsg(t('Chapter reset to original.','章节已恢复为原始内容。'),true);
+  renderContentEditor();
+  setTimeout(closeContentEditor, 800);
+}
+
 /* ===== Init ===== */
 renderProfile();
 renderLevel();
@@ -1220,6 +1352,7 @@ renderChapters();
 renderCountryOptions();
 applyLang();
 initModeration();
+initContentEditor();
 </script>
 <script>
 /* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */

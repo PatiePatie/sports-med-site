@@ -883,6 +883,14 @@ function handleAuth(resp){
   return true;
 }
 
+/* After a confirmed successful sign-in, bounce to the page the user originally wanted (auth-gate ?next=). */
+function goNext(){
+  try{
+    var n=new URLSearchParams(location.search).get('next');
+    if(n){ location.replace(decodeURIComponent(n)); }
+  }catch(e){}
+}
+
 /* Record this sign-in in the members directory (fails silently; trigger keeps it in sync). */
 function touchMember(u){
   if(!sb || !u) return;
@@ -920,6 +928,7 @@ if(sb){
         if(mod && (mod.frozen || mod.deleted)) blockSignIn(mod.deleted
           ? (showCN?'此账号已被删除。':'This account has been deleted.')
           : (showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.'));
+        else goNext();
       });
     }
     else if(ev==='SIGNED_OUT'){ localStorage.removeItem('sm_user'); setStatus(); }
@@ -928,6 +937,7 @@ if(sb){
   sb.auth.getSession().then(function(d){
     if(d && d.data && d.data.session && d.data.session.user){
       applySociUser(d.data.session.user);
+      goNext();
     }
     setStatus();
   }).catch(function(){ setStatus(); });
@@ -965,7 +975,7 @@ document.getElementById('liBtn').addEventListener('click',function(){
       } else if(mod && mod.frozen){
         blockSignIn(showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.');
       } else {
-        myMsg(showCN?'登录成功！'+em:'Signed in! '+em,true); setStatus();
+        myMsg(showCN?'登录成功！'+em:'Signed in! '+em,true); setStatus(); goNext();
       }
     });
   });

@@ -5193,5 +5193,22 @@ document.addEventListener('keydown',function(e){
 })();
 </script>
 
+<script>
+/* ═══ Dev content override: apply localStorage sm_content_<ch#> edits (dev tool) ═══ */
+(function(){
+  try{
+    ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9','ch10','ch11','ch12','ch13'].forEach(function(id){
+      var ov=localStorage.getItem('sm_content_'+id);
+      if(!ov) return;
+      var sec=document.getElementById(id);
+      if(!sec) return;
+      var inner=sec.querySelector('.container');
+      if(!inner) return;
+      inner.innerHTML=ov;
+    });
+  }catch(e){ console.warn('Content override skipped:',e); }
+})();
+</script>
+
 </body>
 </html>

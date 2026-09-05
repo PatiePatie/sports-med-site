@@ -764,13 +764,64 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <link rel="stylesheet" href="gold-blue-theme.css">
+<!-- ═══ LANDING-ONLY OVERRIDES — this page is a marketing site, not the app ═══ -->
+<style>
+/* Kill the app sidebar reservation — no sidebar, no dead band */
+.landing .page-wrapper{margin-left:0}
+.landing .container{max-width:1120px}
+.landing header{position:sticky;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(14px)}
+.landing .header-inner{gap:1.5rem}
+.landing-nav{display:flex;align-items:center;gap:1.6rem;margin-left:auto}
+.landing-nav a{font-size:.9rem;font-weight:600;color:var(--text2);text-decoration:none;transition:color .15s}
+.landing-nav a:hover{color:var(--accent)}
+.landing .header-actions{display:flex;gap:.5rem;align-items:center}
+.landing .btn-login{white-space:nowrap}
+@media(max-width:860px){.landing-nav{display:none}}
+
+/* Distinct marketing hero: full-bleed band, big serif headline, glow orbs */
+.landing .hero{position:relative;overflow:hidden;padding:6.5rem 0 5.5rem;text-align:center;background:linear-gradient(180deg,var(--accent-bg),color-mix(in srgb,var(--accent-bg) 55%,var(--bg)) 55%,var(--bg))}
+.landing .hero::before,.landing .hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none}
+.landing .hero::before{width:420px;height:420px;top:-160px;left:-120px;background:color-mix(in srgb,var(--accent) 35%,transparent)}
+.landing .hero::after{width:360px;height:360px;bottom:-140px;right:-100px;background:color-mix(in srgb,var(--green) 30%,transparent)}
+.landing .hero .container{position:relative;z-index:1}
+.landing .hero-badge{font-size:.8rem;padding:.45rem 1rem}
+.landing .hero h1{font-family:var(--font-heading);font-weight:600;font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;letter-spacing:-.01em;margin:0 auto 1.1rem;max-width:21ch;background:linear-gradient(100deg,var(--text) 0 54%,var(--accent) 54% 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.landing .hero p{font-size:1.12rem;color:var(--text2);max-width:56ch;margin:0 auto 1.9rem}
+.landing .hero-actions{gap:1rem}
+.landing .hero-actions .qo-btn.next{font-size:1rem;padding:.85rem 2.3rem;border-radius:999px;box-shadow:var(--shadow)}
+.landing .hero-actions .qo-btn.next:nth-child(2){background:var(--green)}
+
+/* Section rhythm: alternate bands so it doesn't read as one flat app page */
+.landing #landing-stats{padding:2.8rem 0;background:color-mix(in srgb,var(--surface2) 55%,var(--bg))}
+.landing .stat-number-band{display:flex;justify-content:center;gap:1rem}
+.landing #landing-features{padding:4.5rem 0;text-align:center}
+.landing #landing-features .feature-grid{justify-content:center}
+.landing .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.7rem 1.4rem;text-align:left;transition:transform .18s,box-shadow .18s;height:100%}
+.landing .feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.landing #landing-chapters{padding:4.5rem 0;background:color-mix(in srgb,var(--surface) 60%,var(--bg));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.landing .ch-grid{gap:1rem}
+.landing .ch-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem 1.1rem;min-height:118px;flex-direction:column;align-items:flex-start;gap:.45rem;transition:transform .18s,box-shadow .18s,border-color .18s}
+.landing .ch-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+.landing .ch-card-body h4{font-size:1rem}
+.landing .ch-go{align-self:flex-end;margin-top:auto}
+.landing #landing-audience{padding:4.5rem 0;text-align:center}
+.landing #landing-cta{padding:4.5rem 0 5rem;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 14%,var(--bg)),var(--bg))}
+.landing #landing-cta h2{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3rem);font-weight:600;margin-bottom:.6rem}
+.landing #landing-cta .qo-btn.next{font-size:1.05rem;padding:.9rem 2.6rem;border-radius:999px;box-shadow:var(--shadow-lg)}
+@media(max-width:600px){.landing .hero{padding:4rem 0 3rem}.landing .hero h1{font-size:2.2rem}}
+</style>
 </head>
-<body>
+<body class="landing">
 <!-- ═══ PUBLIC MARKETING LANDING — site content lives behind login (auth-gate) ═══ -->
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
   <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
+  <nav class="landing-nav">
+    <a href="#landing-features" data-en="Features" data-zh="特色">Features</a>
+    <a href="#landing-chapters" data-en="Curriculum" data-zh="课程">Curriculum</a>
+    <a href="#landing-audience" data-en="Who it's for" data-zh="适合谁">Who it's for</a>
+  </nav>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -783,7 +834,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="hero" class="hero">
 <div class="container">
   <div class="hero-badge"><span class="dot"></span><span data-en="Bilingual Student Guide" data-zh="双语学生指南">Bilingual Student Guide</span></div>
-  <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养"><span>Sports Medicine, Recovery &amp; Nutrition</span></h1>
+  <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养">Sports Medicine, Recovery &amp; Nutrition</h1>
   <p data-en="English / 中文 — 13 chapters, flashcards, adaptive quizzes & debates" data-zh="中文 / English — 十三大章节、闪卡、自适应刷题与科学争论">English / 中文 — 13 chapters, flashcards, adaptive quizzes &amp; debates</p>
   <div class="hero-actions">
     <a class="qo-btn next" href="login.html?next=guide.html" data-en="Get Started — Free" data-zh="免费开始学习">Get Started — Free</a>

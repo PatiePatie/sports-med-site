@@ -56,7 +56,9 @@
     var want = cur === 'hub' ? null : (cur === 'admin' ? 'vitalite-dev' : 'vitalite-' + cur);
     var groups = sidebar.querySelectorAll('.sidebar-group.part');
     for (var i = 0; i < groups.length; i++) {
-      var keep = want && groups[i].getAttribute('data-part') === want;
+      var part = groups[i].getAttribute('data-part');
+      if (part === 'vitalite-dev') continue;   /* auth-widget.js owns dev visibility */
+      var keep = want && part === want;
       groups[i].style.display = keep ? '' : 'none';
       if (keep) groups[i].classList.add('open');
     }

@@ -752,10 +752,15 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
 /* ═══════════════════════════════════════════════════════════════════════════
    Sidebar: accordion parts + compact rail
    The markup (.part-toggle / .part-icon / .part-name / .part-caret /
-   .part-body / .sb-compact-btn) and the JS that drives it already shipped on
-   every sidebar page, but none of it had styles here — parts rendered as bare
-   buttons and body.sbcompact did nothing. This is that missing layer.
+   .part-body / .sb-compact-btn) shipped on every sidebar page with no styles
+   behind it. This is that layer.
+
+   Collapsing is keyed on .collapsed, which sidebar.js adds — never on the
+   absence of a class. With no JS, or if anything goes wrong, every group
+   stays fully visible rather than the nav disappearing.
    ═══════════════════════════════════════════════════════════════════════════ */
+
+.sidebar{overscroll-behavior:contain;padding-bottom:2rem}
 
 /* ---- logo row ---- */
 .sidebar-logo{display:flex;align-items:center;gap:.5rem}
@@ -768,68 +773,53 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
 .sb-compact-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-bg)}
 .sb-compact-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* ---- accordion part header ---- */
-.sidebar-group.part{margin:0 .5rem .25rem}
+/* ---- part header ---- */
+.sidebar-group.part{margin:0 .5rem .2rem}
 .part-toggle{
   width:100%;display:flex;align-items:center;gap:.55rem;
   padding:.5rem .6rem;border:1px solid transparent;border-radius:var(--radius-sm);
   background:transparent;color:var(--text);font:inherit;font-size:.86rem;font-weight:700;
-  text-align:left;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+  text-align:left;cursor:pointer;transition:background .18s,color .18s}
 .part-toggle:hover{background:var(--surface2);color:var(--accent)}
 .part-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .part-icon{flex:none;width:20px;text-align:center;font-size:1rem;line-height:1}
 .part-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .part-caret{flex:none;font-size:.7rem;color:var(--text3);transition:transform .22s ease}
-.sidebar-group.part.open > .part-toggle{color:var(--accent);background:var(--accent-bg)}
-.sidebar-group.part.open > .part-toggle .part-caret{transform:rotate(180deg);color:var(--accent)}
 
-/* ---- accordion body: closed by default, opens with the .open class ---- */
-.part-body{
-  overflow:hidden;max-height:0;opacity:0;
-  transition:max-height .28s ease,opacity .2s ease,padding .28s ease;
-  padding:0 0 0 .25rem}
-.sidebar-group.part.open > .part-body{max-height:60rem;opacity:1;padding:.15rem 0 .45rem .25rem}
+/* ---- part body: OPEN is the default; only .collapsed closes it ---- */
+.part-body{padding:.1rem 0 .4rem .25rem}
+.sidebar-group.part.collapsed > .part-body{display:none}
+.sidebar-group.part.collapsed > .part-toggle .part-caret{transform:rotate(-90deg)}
+.sidebar-group.part:not(.collapsed) > .part-toggle{color:var(--accent)}
 
-/* links sit slightly tighter inside a part */
-.part-body .sidebar-link{padding:.35rem .6rem .35rem 1.15rem;border-radius:6px;border-left:2px solid transparent}
+.part-body .sidebar-link{padding:.35rem .6rem .35rem 1.15rem;border-radius:6px}
 .part-body .sidebar-link.sub{padding-left:1.7rem}
 .part-body .sidebar-label{padding:.45rem .6rem .2rem 1.15rem}
 
-/* ═══ Compact rail: icons only, hover (or keyboard focus) to expand ═══ */
+/* ═══ Compact rail: icons only, hover or keyboard focus expands ═══ */
 body.sbcompact .sidebar{width:64px}
 body.sbcompact .page-wrapper{margin-left:64px}
 body.sbcompact .sidebar .logo-text,
 body.sbcompact .sidebar .sb-compact-btn,
 body.sbcompact .sidebar .part-name,
 body.sbcompact .sidebar .part-caret,
-body.sbcompact .sidebar .part-body{
-  opacity:0;pointer-events:none;
-  /* collapse the box so the rail is genuinely narrow, not just visually */
-  max-height:0;width:0;overflow:hidden;padding:0;margin:0;border:0}
+body.sbcompact .sidebar .part-body{display:none}
 body.sbcompact .sidebar .sidebar-logo{justify-content:center;padding-left:0;padding-right:0}
-body.sbcompact .sidebar-group.part{margin-left:.35rem;margin-right:.35rem}
 body.sbcompact .part-toggle{justify-content:center;padding:.55rem .3rem}
 body.sbcompact .part-icon{width:auto;font-size:1.15rem}
 
-/* expand on hover or when anything inside takes keyboard focus */
 body.sbcompact .sidebar:hover,
-body.sbcompact .sidebar:focus-within{
-  width:240px;box-shadow:var(--shadow-lg);z-index:200}
+body.sbcompact .sidebar:focus-within{width:240px;box-shadow:var(--shadow-lg);z-index:200}
 body.sbcompact .sidebar:hover .logo-text,
-body.sbcompact .sidebar:focus-within .logo-text,
+body.sbcompact .sidebar:focus-within .logo-text{display:block}
 body.sbcompact .sidebar:hover .sb-compact-btn,
-body.sbcompact .sidebar:focus-within .sb-compact-btn,
+body.sbcompact .sidebar:focus-within .sb-compact-btn{display:flex}
 body.sbcompact .sidebar:hover .part-name,
-body.sbcompact .sidebar:focus-within .part-name,
+body.sbcompact .sidebar:focus-within .part-name{display:block}
 body.sbcompact .sidebar:hover .part-caret,
-body.sbcompact .sidebar:focus-within .part-caret{
-  opacity:1;pointer-events:auto;width:auto;max-height:none;overflow:visible;border:0}
-body.sbcompact .sidebar:hover .part-name,
-body.sbcompact .sidebar:focus-within .part-name{flex:1;overflow:hidden;text-overflow:ellipsis}
-body.sbcompact .sidebar:hover .sidebar-group.part.open > .part-body,
-body.sbcompact .sidebar:focus-within .sidebar-group.part.open > .part-body{
-  opacity:1;pointer-events:auto;width:auto;max-height:60rem;overflow:hidden;
-  padding:.15rem 0 .45rem .25rem}
+body.sbcompact .sidebar:focus-within .part-caret{display:block}
+body.sbcompact .sidebar:hover .sidebar-group.part:not(.collapsed) > .part-body,
+body.sbcompact .sidebar:focus-within .sidebar-group.part:not(.collapsed) > .part-body{display:block}
 body.sbcompact .sidebar:hover .sidebar-logo,
 body.sbcompact .sidebar:focus-within .sidebar-logo{justify-content:flex-start;padding-left:1rem;padding-right:1rem}
 body.sbcompact .sidebar:hover .part-toggle,
@@ -839,22 +829,20 @@ body.sbcompact .sidebar:focus-within .part-icon{width:20px;font-size:1rem}
 
 .sidebar{transition:transform .3s,width .22s ease,box-shadow .22s ease}
 .page-wrapper{transition:margin-left .22s ease}
-
-/* Motion-sensitive users get the same layout without the sliding */
 @media (prefers-reduced-motion:reduce){
-  .sidebar,.page-wrapper,.part-body,.part-caret,.sb-compact-btn{transition:none}
+  .sidebar,.page-wrapper,.part-caret,.sb-compact-btn{transition:none}
 }
 
-/* On phones the rail idea does not apply — the sidebar is a drawer */
+/* Phones: the sidebar is a drawer, the rail idea does not apply */
 @media(max-width:900px){
   body.sbcompact .sidebar{width:240px}
   body.sbcompact .page-wrapper{margin-left:0}
-  body.sbcompact .sidebar .logo-text,
-  body.sbcompact .sidebar .sb-compact-btn,
+  body.sbcompact .sidebar .logo-text{display:block}
+  body.sbcompact .sidebar .sb-compact-btn{display:flex}
   body.sbcompact .sidebar .part-name,
-  body.sbcompact .sidebar .part-caret{opacity:1;width:auto;max-height:none;overflow:visible}
-  body.sbcompact .sidebar .sidebar-group.part.open > .part-body{
-    opacity:1;width:auto;max-height:60rem;padding:.15rem 0 .45rem .25rem}
+  body.sbcompact .sidebar .part-caret{display:block}
+  body.sbcompact .sidebar .sidebar-group.part:not(.collapsed) > .part-body{display:block}
   body.sbcompact .sidebar .sidebar-logo{justify-content:flex-start;padding-left:1rem;padding-right:1rem}
   body.sbcompact .part-toggle{justify-content:flex-start;padding:.5rem .6rem}
+  body.sbcompact .part-icon{width:20px;font-size:1rem}
 }

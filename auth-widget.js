@@ -187,7 +187,44 @@
     setAdminBtn(user);
     setDevNav(user);
   }
-  function build(){ var u=currentUser(); updateHeaderBtn(u); }
+  /* ---- Sidebar parts: independent collapse, remembered per group ----
+     Each page carries an inline accordion script that keeps exactly ONE part
+     open, which hides most of the navigation. Replace those handlers (cloning
+     the button drops the old listener) so every part starts open and each one
+     toggles on its own. The CSS collapses on .collapsed only, so if this never
+     runs the sidebar still shows everything. */
+  function initSidebarParts(){
+    var side=document.getElementById('sidebar');
+    if(!side || side.getAttribute('data-sb-init')==='1') return;
+    side.setAttribute('data-sb-init','1');
+
+    var KEY='sm_sbparts';
+    var state={};
+    try{ state=JSON.parse(localStorage.getItem('sm_sbparts')||'{}')||{}; }catch(e){ state={}; }
+
+    var groups=Array.prototype.slice.call(side.querySelectorAll('.sidebar-group.part'));
+    groups.forEach(function(g){
+      var id=g.getAttribute('data-part')||'';
+      g.classList.remove('open');                 /* the inline script's marker */
+      if(state[id]) g.classList.add('collapsed'); else g.classList.remove('collapsed');
+
+      var oldT=g.querySelector('.part-toggle');
+      if(!oldT) return;
+      var t=oldT.cloneNode(true);                 /* drops the one-at-a-time handler */
+      oldT.parentNode.replaceChild(t,oldT);
+      t.setAttribute('aria-expanded', g.classList.contains('collapsed')?'false':'true');
+      t.addEventListener('click',function(e){
+        e.preventDefault();
+        var closed=g.classList.toggle('collapsed');
+        t.setAttribute('aria-expanded', closed?'false':'true');
+        state[id]=closed?1:0;
+        try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(err){}
+      });
+    });
+    side.classList.add('sb-js');
+  }
+
+  function build(){ var u=currentUser(); updateHeaderBtn(u); initSidebarParts(); }
   function init(){
     if(document.body){ build(); return; }
     document.addEventListener('DOMContentLoaded',build);

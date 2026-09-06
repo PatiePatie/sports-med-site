@@ -713,7 +713,6 @@ body.dark h1,body.dark h2,body.dark h3{
 <header><div class="container header-inner">
   <span style="display:inline-flex;align-items:center;gap:.45rem"><img src="icons/vitalite-32.png" alt="Vitalité" style="width:20px;height:20px;border-radius:5px;flex:none"><a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a></span>
   <div class="header-actions">
-    <a class="qo-btn" href="index.html" style="text-decoration:none;font-size:.9rem;padding:.5rem 1rem" data-en="← Back to Home" data-zh="← 返回首页">← Back to Home</a>
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
     <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
@@ -885,12 +884,13 @@ function handleAuth(resp){
   return true;
 }
 
-/* After a confirmed successful sign-in, bounce to the page the user originally wanted (auth-gate ?next=). */
+/* After a confirmed successful sign-in, bounce to the page the user originally wanted (auth-gate ?next=); default to home (guide.html). */
 function goNext(){
   try{
     var n=new URLSearchParams(location.search).get('next');
-    if(n){ location.replace(decodeURIComponent(n)); }
+    if(n){ location.replace(decodeURIComponent(n)); return; }
   }catch(e){}
+  location.replace('guide.html');
 }
 
 /* Record this sign-in in the members directory (fails silently; trigger keeps it in sync). */

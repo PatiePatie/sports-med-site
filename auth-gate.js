@@ -5,7 +5,14 @@
 (function(){
   try{
     var u = JSON.parse(localStorage.getItem('sm_user')||'null') || null;
-    if(u && u.email && !u.suspended){ return; } /* signed in, allow */
+    if(u && u.email && !u.suspended){
+      /* signed in, allow — and point the brand logo at home (guide.html), not the landing */
+      try{
+        var logo = document.querySelector('a.logo[href="index.html"]');
+        if(logo){ logo.href = 'guide.html'; }
+      }catch(e){}
+      return;
+    }
   }catch(e){}
   var here = location.pathname.split('/').pop() + location.search + location.hash;
   var next = encodeURIComponent(here || '');

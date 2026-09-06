@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* Logged in? Skip the landing — straight to home (guide.html). */
+(function(){try{var u=JSON.parse(localStorage.getItem('sm_user')||'null');if(u&&u.email){location.replace('guide.html');}}catch(e){}})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
@@ -832,6 +836,7 @@ body.dark h1,body.dark h2,body.dark h3{
 #v-splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.05rem;background:radial-gradient(130% 100% at 50% 0%,#16265c 0%,#0F1B3D 48%,#080f24 100%);opacity:1;transition:opacity .35s ease}
 #v-splash.v-splash-off{opacity:0;pointer-events:none}
 #v-splash::before{content:"";position:absolute;top:50%;left:50%;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;background:radial-gradient(closest-side,rgba(217,164,65,.10),transparent);pointer-events:none}
+#v-splash .v-hosp{position:absolute;left:0;bottom:0;width:100%;height:min(44vh,420px);opacity:.8;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 55%,transparent 100%);mask-image:linear-gradient(to top,#000 55%,transparent 100%)}
 #v-splash .v-forest{position:absolute;left:0;bottom:0;width:100%;height:min(44vh,420px);opacity:.58;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 26%,transparent 97%);mask-image:linear-gradient(to top,#000 26%,transparent 97%)}
 #v-splash .v-tile{position:relative;width:92px;height:92px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 0 1px rgba(217,164,65,.35);animation:v-rise .7s cubic-bezier(.16,1,.3,1) both}
 #v-splash .v-tile img{width:70px;height:70px;border-radius:16px;display:block}
@@ -878,8 +883,70 @@ body.dark h1,body.dark h2,body.dark h3{
       forest.appendChild(g);
     }
     row('#0E1C42','<use href="#v-pine" transform="translate(80,232) scale(0.8)"/> <use href="#v-pine" transform="translate(200,208) scale(0.95)"/> <use href="#v-pine" transform="translate(330,248) scale(0.7)"/> <use href="#v-pine" transform="translate(470,216) scale(0.9)"/> <use href="#v-pine" transform="translate(610,200) scale(1)"/> <use href="#v-pine" transform="translate(740,240) scale(0.75)"/> <use href="#v-pine" transform="translate(880,192) scale(1.05)"/> <use href="#v-pine" transform="translate(1010,224) scale(0.85)"/> <use href="#v-pine" transform="translate(1130,248) scale(0.7)"/> <use href="#v-round" transform="translate(140,232) scale(0.8)"/> <use href="#v-round" transform="translate(560,224) scale(0.85)"/> <use href="#v-round" transform="translate(950,216) scale(0.9)"/>');
-    row('#050B1A','<use href="#v-pine" transform="translate(60,120) scale(1.5)"/> <use href="#v-pine" transform="translate(230,160) scale(1.25)"/> <use href="#v-pine" transform="translate(400,112) scale(1.55)"/> <use href="#v-pine" transform="translate(580,136) scale(1.4)"/> <use href="#v-pine" transform="translate(760,96) scale(1.65)"/> <use href="#v-pine" transform="translate(940,152) scale(1.3)"/> <use href="#v-pine" transform="translate(1090,120) scale(1.5)"/> <use href="#v-round" transform="translate(300,144) scale(1.35)"/> <use href="#v-round" transform="translate(860,120) scale(1.5)"/>');
+    row('#050B1A','<use href="#v-pine" transform="translate(60,120) scale(1.5)"/> <use href="#v-pine" transform="translate(230,160) scale(1.25)"/> <use href="#v-pine" transform="translate(400,112) scale(1.55)"/> <use href="#v-pine" transform="translate(760,96) scale(1.65)"/> <use href="#v-pine" transform="translate(940,152) scale(1.3)"/> <use href="#v-pine" transform="translate(1090,120) scale(1.5)"/> <use href="#v-round" transform="translate(300,144) scale(1.35)"/> <use href="#v-round" transform="translate(860,120) scale(1.5)"/>');
     row('#050B1A','<use href="#v-pine" transform="translate(30,272) scale(0.55)"/> <use href="#v-pine" transform="translate(1150,264) scale(0.6)"/>');
+    /* hospital — massing, parapets, window grid, AC box, entrance canopy.
+       cross on a facade signage plaque (NOT the roof — that read as a church).
+       wifi stays as the rooftop beacon. */
+    var hosp=document.createElementNS(NS,'svg');
+    hosp.setAttribute('class','v-hosp');
+    hosp.setAttribute('viewBox','0 0 1200 360');
+    hosp.setAttribute('preserveAspectRatio','xMidYMax slice');
+    hosp.setAttribute('aria-hidden','true');
+    var hdefs=document.createElementNS(NS,'defs');
+    var winpat=document.createElementNS(NS,'pattern');
+    winpat.setAttribute('id','v-win');
+    winpat.setAttribute('width','20');winpat.setAttribute('height','26');
+    winpat.setAttribute('patternUnits','userSpaceOnUse');
+    var win=document.createElementNS(NS,'rect');
+    win.setAttribute('x','2');win.setAttribute('y','2');
+    win.setAttribute('width','12');win.setAttribute('height','16');
+    win.setAttribute('rx','1.5');
+    win.setAttribute('fill','#D9A441');win.setAttribute('opacity','.38');
+    winpat.appendChild(win);
+    hdefs.appendChild(winpat);
+    hosp.appendChild(hdefs);
+    var bldg=document.createElementNS(NS,'path');
+    bldg.setAttribute('d','M455,360 L455,250 L545,250 L545,360 Z M451,250 L549,250 L549,242 L451,242 Z M655,360 L655,250 L745,250 L745,360 Z M651,250 L749,250 L749,242 L651,242 Z M545,360 L545,170 L655,170 L655,360 Z M541,170 L659,170 L659,162 L541,162 Z M552,162 L584,162 L584,150 L552,150 Z M568,322 L632,322 L632,314 L568,314 Z M572,330 L578,330 L578,360 L572,360 Z M622,330 L628,330 L628,360 L622,360 Z');
+    bldg.setAttribute('fill','#0E2244');
+    hosp.appendChild(bldg);
+    function windowBand(x,y,w,h){
+      var b=document.createElementNS(NS,'rect');
+      b.setAttribute('x',x);b.setAttribute('y',y);
+      b.setAttribute('width',w);b.setAttribute('height',h);
+      b.setAttribute('fill','url(#v-win)');
+      hosp.appendChild(b);
+    }
+    windowBand(467,260,66,80);
+    windowBand(667,260,66,80);
+    windowBand(560,210,80,94);
+    var plaque=document.createElementNS(NS,'rect');
+    plaque.setAttribute('x','586');plaque.setAttribute('y','180');
+    plaque.setAttribute('width','28');plaque.setAttribute('height','24');
+    plaque.setAttribute('rx','2');
+    plaque.setAttribute('fill','none');plaque.setAttribute('stroke','#D9A441');plaque.setAttribute('stroke-width','2.5');
+    hosp.appendChild(plaque);
+    var pcross=document.createElementNS(NS,'path');
+    pcross.setAttribute('d','M600,186 L600,198 M594,192 L606,192');
+    pcross.setAttribute('stroke','#D9A441');pcross.setAttribute('stroke-width','3');pcross.setAttribute('stroke-linecap','round');
+    hosp.appendChild(pcross);
+    var door=document.createElementNS(NS,'rect');
+    door.setAttribute('x','590');door.setAttribute('y','332');
+    door.setAttribute('width','20');door.setAttribute('height','28');
+    door.setAttribute('fill','none');door.setAttribute('stroke','#D9A441');door.setAttribute('stroke-width','1.5');door.setAttribute('opacity','.6');
+    hosp.appendChild(door);
+    var wdot=document.createElementNS(NS,'circle');
+    wdot.setAttribute('cx','600');wdot.setAttribute('cy','150');wdot.setAttribute('r','3.5');
+    wdot.setAttribute('fill','#D9A441');
+    hosp.appendChild(wdot);
+    var w1=document.createElementNS(NS,'path');
+    w1.setAttribute('d','M592,140 A12,12 0 0 1 608,140');
+    w1.setAttribute('fill','none');w1.setAttribute('stroke','#D9A441');w1.setAttribute('stroke-width','3.5');w1.setAttribute('stroke-linecap','round');
+    hosp.appendChild(w1);
+    var w2=document.createElementNS(NS,'path');
+    w2.setAttribute('d','M586,132 A22,22 0 0 1 614,132');
+    w2.setAttribute('fill','none');w2.setAttribute('stroke','#D9A441');w2.setAttribute('stroke-width','3.5');w2.setAttribute('stroke-linecap','round');
+    hosp.appendChild(w2);
     var tile=document.createElement('div');tile.className='v-tile';
     var img=document.createElement('img');img.src='icons/vitalite-512.png';img.alt='';img.width=70;img.height=70;
     tile.appendChild(img);
@@ -888,7 +955,7 @@ body.dark h1,body.dark h2,body.dark h3{
     var rule=document.createElement('div');rule.className='v-rule';
     var tag=document.createElement('div');tag.className='v-tag';
     tag.textContent=zh?'运动医学 · 恢复 · 营养':'Sports Medicine · Recovery · Nutrition';
-    s.appendChild(forest);s.appendChild(tile);s.appendChild(name);s.appendChild(rule);s.appendChild(tag);
+    s.appendChild(forest);s.appendChild(hosp);s.appendChild(tile);s.appendChild(name);s.appendChild(rule);s.appendChild(tag);
     document.body.appendChild(s);
     document.body.style.overflow='hidden';
     /* hero entrance — same rise, staggered, as the splash fades (Linear handoff) */

@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="icons/vitalite-32.png">
+<link rel="apple-touch-icon" href="icons/vitalite-180.png">
 <title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
@@ -764,6 +765,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <script src="auth-widget.js"></script>
 <script src="auth-gate.js"></script>
 <link rel="stylesheet" href="gold-blue-theme.css">
+  <script src="loader.js"></script>
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -771,7 +773,7 @@ body.dark h1,body.dark h2,body.dark h3{
 
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><span class="logo-text">Vital<span>ité</span></span>
+  <div class="sidebar-logo"><a href="index.html" style="color:var(--text);text-decoration:none;display:flex;align-items:center;flex:1;min-width:0"><span class="logo-text">Vital<span>ité</span></span></a>
     <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
   </div>
   <div class="sidebar-group part" data-part="vitalite-knowledge">
@@ -781,7 +783,6 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
       <a class="sidebar-link active" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
       <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
@@ -803,7 +804,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="#" data-infirmary data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -816,6 +817,17 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
     </div>
   </div>
+  <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">🛠</span>
+      <span class="part-name" data-en="Developer Tools" data-zh="开发者工具">Developer Tools</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="admin.html" data-en="🛠 Moderation" data-zh="🛠 用户管理">🛠 Moderation</a>
+      <a class="sidebar-link" href="admin.html#editor" data-en="📝 Content Editor" data-zh="📝 内容编辑">📝 Content Editor</a>
+    </div>
+  </div>
 </nav>
 
 
@@ -824,7 +836,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
+  <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -3024,16 +3036,6 @@ document.addEventListener('keydown',function(e){
   if(act){ toOpen=act.closest('.sidebar-group.part'); }
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
-
-  /* ---- Infirmary → launch the AI chat (open modal, else fallback) ---- */
-  var ai=side.querySelector('[data-infirmary]');
-  if(ai){
-    ai.addEventListener('click',function(e){
-      e.preventDefault();
-      if(typeof openAiModal==='function'){ openAiModal(); }
-      else if(window.location.pathname!=='/index.html'&&window.location.search===''){ location.href='index.html#qa'; }
-    });
-  }
 
   /* ---- Compact mode (Zen-style: collapse to icon rail, hover to expand) ---- */
   var btn=document.getElementById('sbCompact');

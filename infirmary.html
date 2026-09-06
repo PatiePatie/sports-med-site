@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
-<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<title>Vitalité Infirmary — Recovery Assistant</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
@@ -380,8 +380,11 @@ footer{padding:2rem 0;text-align:center;color:var(--text3);font-size:.85rem;bord
 .chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
 .chat-msg{max-width:85%;padding:.65rem .9rem;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.55;animation:msgIn .3s ease}
 .chat-msg.bot{background:var(--accent-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
-.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.chat-msg.user{background:var(--accent);color:#2a2000;align-self:flex-end;border-bottom-right-radius:2px}
 .chat-msg .msg-label{font-size:.7rem;font-weight:600;color:var(--text3);margin-bottom:.2rem;display:block}
+.chat-msg.user .msg-label{color:#3a2c00}
+body.dark .chat-msg.user{color:#1a1300 !important;background:linear-gradient(135deg,#E8C87A,#D9B86A) !important;border-color:transparent !important}
+body.dark .chat-msg.user .msg-label{color:#241c00}
 .chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem 1rem;border-top:1px solid var(--border);background:var(--surface2)}
 .chat-sug-btn{padding:.35rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
 .chat-sug-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -645,6 +648,18 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .test-prep li{margin:.32rem 0;line-height:1.6}
 .test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
 .test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
+.hl{color:var(--accent);font-weight:700}
+
+/* ── Test Prep / Exam callout (board-review) ── */
+.test-prep{margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border2);
+  border-left:6px solid #7c3aed;background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 7%,var(--surface)),var(--surface));
+  padding:1.2rem 1.35rem;box-shadow:var(--shadow-sm)}
+.test-prep h4{margin:0 0 .6rem;display:flex;align-items:center;gap:.55rem;font-size:1.02rem;color:var(--text)}
+.test-prep .co-ico{font-size:1.05rem}
+.test-prep ul{margin:.4rem 0 0;padding-left:1.15rem}
+.test-prep li{margin:.32rem 0;line-height:1.6}
+.test-prep .tp-tag{display:inline-block;background:#7c3aed;color:#fff;border-radius:5px;padding:.1rem .5rem;font-size:.68rem;font-weight:700;letter-spacing:.04em;margin-right:.2rem}
+.test-prep .npte{background:#0d6efd}.test-prep .cnx{background:#dc3545}
 /* ── Fact bullets (scannable deep content) ── */
 .facts{margin:1.2rem 0 0;list-style:none;padding:0;display:grid;gap:.55rem}
 .facts li{background:var(--surface);border:1px solid var(--border2);border-left:4px solid var(--accent);
@@ -653,9 +668,53 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 ul.bul{list-style:disc;margin:.5rem 0 .5rem 1.1rem;padding:0}
 ul.bul li{margin:.42rem 0;line-height:1.62}
 
-.btn-signout-min{background:none;border:none;color:var(--text3);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:.25rem .35rem;margin-left:auto;opacity:.75;transition:opacity .2s}
-.btn-signout-min:hover{opacity:1;color:var(--text2)}
+/* ═══════ FLASHCARD UI REDESIGN ═══════ */
+.flashcard-box{max-width:560px;padding:2.2rem 2rem}
+.fc-chapter-select{margin-bottom:1.4rem}
+.fc-chip{padding:.35rem .8rem;font-size:.78rem;border-radius:999px;background:var(--surface);color:var(--text2);border:1px solid var(--border2);box-shadow:var(--shadow-sm)}
+.fc-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-chip.active{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+.fc-counter{font-size:.82rem;color:var(--text3);margin-bottom:1.1rem;font-weight:700;letter-spacing:.02em}
+.fc-card{min-height:230px;perspective:1000px;margin-bottom:1.6rem}
+.fc-inner{min-height:230px}
+.fc-front,.fc-back{border-radius:20px;padding:2rem 1.6rem;box-shadow:0 18px 34px rgba(79,70,229,.16),0 4px 10px rgba(15,23,42,.06)}
+.fc-front{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#9333ea 100%);border:none;overflow:hidden;position:relative}
+.fc-front:before{content:"🃏";position:absolute;font-size:7rem;opacity:.10;right:-1rem;bottom:-1.6rem;transform:rotate(-12deg)}
+.fc-front .fc-term{font-size:1.45rem;font-weight:800;color:#fff;line-height:1.35;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.fc-front .fc-hint{color:rgba(255,255,255,.82);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:.3rem .85rem;border-radius:999px;font-size:.78rem;margin-top:1.2rem;backdrop-filter:blur(2px)}
+.fc-back{background:var(--surface);border:2px solid #c7d2fe}
+.fc-back .fc-def{font-size:1.1rem;line-height:1.65;color:var(--text);padding:0 .4rem}
+.fc-back .fc-def strong{display:inline-block;background:var(--accent-bg);color:var(--accent);padding:.18rem .6rem;border-radius:999px;font-size:.74rem;margin-bottom:.7rem}
+.fc-nav{gap:.8rem;align-items:center}
+.fc-nav button{padding:.55rem 1.4rem;border-radius:999px;font-weight:700;border:1px solid var(--border2);background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm)}
+.fc-nav button:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.fc-nav button.primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;border:none}
+.fc-nav button.primary:hover{filter:brightness(1.05);color:#fff}
+.fc-nav button.fc-shuf{margin-left:.2rem;font-size:.82rem}
+.fc-progress{display:flex;gap:4px;justify-content:center;margin:0 0 .2rem}
+.fc-progress span{width:22px;height:4px;border-radius:2px;background:var(--surface3);transition:background .2s}
+.fc-progress span.on{background:var(--accent)}
 
+/* ═══ GUIDE page: chapter jump bar ═══ */
+.guide-jump{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 1.75rem}
+.guide-chip{display:inline-block;padding:.45rem .9rem;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:.85rem;font-weight:500;transition:all .2s}
+.guide-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+/* guide on-this-page chapter groups */
+#onthisGroup .guide-ch{display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin:.7rem 0 .15rem;padding:0 .9rem}
+#onthisGroup .sidebar-link{padding-left:1.4rem;border-left:2px solid transparent}
+#onthisGroup .sidebar-link:hover{border-left-color:var(--accent)}
+
+/* ═══ GUIDE TAB MODE ═══ */
+.guide-tabs{position:sticky;top:61px;z-index:120;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;align-items:center;padding:.55rem 1rem;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.guide-tab{padding:.35rem .7rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:600;font-size:.82rem;cursor:pointer;min-width:2rem;transition:all .2s}
+.guide-tab:hover{border-color:var(--accent)}
+.guide-tab.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:var(--shadow-sm)}
+section.chapter{display:none}
+section.chapter.shown{display:block}
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:.5rem;padding-bottom:2rem}
+.ch-nav .qo-btn{display:inline-flex;align-items:center;justify-content:center;min-width:120px}
+.ch-nav[hidden]{display:none}
+@media(max-width:720px){.guide-tabs{top:61px}.ch-nav .qo-btn{min-width:96px}}
 
 /* ── Dark theme palette overrides: night dark blue + gold ── */
 body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -734,72 +793,65 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <script src="auth-gate.js"></script>
-<style>
 
-/* ═══════ ACCOUNT PAGE ═══════ */
-.acct-wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem 3rem}
-.acct-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;font-size:.9rem;font-weight:600}
-.acct-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
-.acct-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
-.acct-hero{background:linear-gradient(135deg,var(--accent),#7c3aed);border-radius:var(--radius-lg);padding:2rem;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
-.acct-avatar{width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.22);border:3px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:1rem}
-.acct-name{font-size:1.6rem;font-weight:800;font-family:var(--font-heading);margin:0}
-.acct-email{font-size:.95rem;opacity:.9;margin:.3rem 0 .6rem;word-break:break-all}
-.acct-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;background:rgba(255,255,255,.2)}
-.acct-badge.ok{background:#22c55e;color:#fff}
-.acct-badge.no{background:rgba(255,255,255,.18);color:#fff}
-.acct-meta{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:1rem;font-size:.85rem}
-.acct-meta div{background:rgba(255,255,255,.14);padding:.4rem .7rem;border-radius:10px}
-.acct-hero-actions{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
-.acct-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.5rem;margin-top:1.1rem;box-shadow:var(--shadow-sm)}
-.acct-card h2{font-size:1.15rem;font-weight:800;margin:0 0 1rem;font-family:var(--font-heading);display:flex;align-items:center;gap:.5rem}
-.acct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
-.acct-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.acct-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
-.acct-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
-.acct-level{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fcd34d;border-radius:var(--radius);padding:1.3rem 1.5rem;margin-top:1.1rem;color:#78350f}
-.acct-level h2{margin:0 0 .4rem;font-size:1.05rem;font-weight:800;font-family:var(--font-heading)}
-.acct-level .lvl-lv{font-size:2rem;font-weight:900;font-family:var(--font-heading)}
-.acct-level .lvl-next{font-size:.85rem;color:#92400e;margin-top:.2rem}
-.acct-bar{height:12px;border-radius:10px;background:#fde68a;overflow:hidden;margin-top:.7rem}
-.acct-bar div{height:100%;background:linear-gradient(90deg,#f59e0b,#d97706);border-radius:10px;transition:width .5s}
-.acct-chap{display:grid;grid-template-columns:1fr auto;gap:.5rem .8rem;align-items:center;padding:.42rem 0;border-bottom:1px dashed var(--border)}
-.acct-chap .cn{font-size:.9rem;font-weight:600}
-.acct-chap .pct{font-size:.8rem;color:var(--text2);min-width:48px;text-align:right}
-.acct-chap .bar{grid-column:1/3;height:8px;border-radius:6px;background:var(--surface2);overflow:hidden}
-.acct-chap .bar div{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:6px}
-.acct-form label{display:block;font-size:.85rem;font-weight:700;color:var(--text2);margin:.9rem 0 .35rem}
-.acct-form input,.acct-form select,.acct-form textarea{width:100%;padding:.7rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:.95rem;font-family:inherit;box-sizing:border-box}
-.acct-form input:focus,.acct-form select:focus,.acct-form textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
-.acct-form textarea{min-height:90px;resize:vertical}
-.acct-form .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.acct-toggle{display:flex;align-items:center;gap:.6rem;margin-top:1rem;font-size:.9rem}
-.acct-switch{position:relative;width:44px;height:24px;flex-shrink:0}
-.acct-switch input{opacity:0;width:0;height:0}
-.acct-switch .sl{position:absolute;inset:0;background:var(--surface3);border-radius:24px;transition:.2s;cursor:pointer}
-.acct-switch .sl:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-.acct-switch input:checked + .sl{background:var(--accent)}
-.acct-switch input:checked + .sl:before{transform:translateX(20px)}
-.btn-acc{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s;text-decoration:none}
-.btn-acc.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn-acc.primary:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-acc.ghost{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
-.btn-acc.ghost:hover{background:rgba(255,255,255,.28)}
-.btn-acc.danger{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-acc.danger:hover{opacity:.9}
-.acct-hint{font-size:.8rem;color:var(--text3);margin-top:.6rem;line-height:1.5}
-.acct-btnrow{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
-.acct-empty{color:var(--text3);text-align:center;padding:1.5rem;font-size:.9rem}
+<script>
+(function(){
+  var grp=document.getElementById('onthisGroup');
+  if(!grp) return;
+  grp.innerHTML='';
+  var lb=document.createElement('div');
+  lb.className='sidebar-label';
+  lb.textContent=showCN?'本页目录':'On this page';
+  lb.setAttribute('data-en','On this page');
+  lb.setAttribute('data-zh','本页目录');
+  grp.appendChild(lb);
+  document.querySelectorAll('.accordion').forEach(function(acc,ci){
+    var ch=ci+1;
+    var hdrs=acc.querySelectorAll('.acc-header');
+    if(!hdrs.length) return;
+    var cv=document.createElement('div');
+    cv.className='guide-ch';
+    cv.setAttribute('data-en','Chapter '+ch);
+    cv.setAttribute('data-zh','第'+ch+'章');
+    cv.setAttribute('data-ch',''+ch);
+    cv.textContent=showCN?('第'+ch+'章'):('Chapter '+ch);
+    grp.appendChild(cv);
+    hdrs.forEach(function(h,i){
+      var it=h.closest('.acc-item');
+      if(!it) return;
+      it.id='g-sec-'+ch+'-'+i;
+      var en=(h.getAttribute('data-en')||h.textContent||'').trim()||('Section '+(i+1));
+      var zh=(h.getAttribute('data-zh')||en).trim();
+      var a=document.createElement('a');
+      a.className='sidebar-link sec';
+      a.href='#g-sec-'+ch+'-'+i;
+      a.setAttribute('data-en',en);
+      a.setAttribute('data-zh',zh);
+      a.setAttribute('data-ch',''+ch);
+      a.textContent=showCN?zh:en;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var item=it, body=item.querySelector('.acc-body');
+        if(!item.classList.contains('open')){ item.classList.add('open'); if(body) body.style.maxHeight=body.scrollHeight+'px'; }
+        item.scrollIntoView({behavior:'smooth',block:'start'});
+        var sb=document.getElementById('sidebar');
+        if(sb) sb.classList.remove('open');
+      });
+      grp.appendChild(a);
+    });
+  });
+})();
+</script>
 
-/* ═══════ MODERATION (devs only) ═══════ */
-</style>
-<link rel="stylesheet" href="auth-widget.css">
-<script src="auth-widget.js"></script>
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css">
   <script src="loader.js"></script>
-</head><body>
+</head>
+<body>
+<!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo"><a href="index.html" style="color:var(--text);text-decoration:none;display:flex;align-items:center;flex:1;min-width:0"><span class="logo-text">Vital<span>ité</span></span></a>
     <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
@@ -812,10 +864,10 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link active" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
+      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
-      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
       <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
       <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
@@ -825,14 +877,15 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link sub" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
     </div>
   </div>
-  <div class="sidebar-group part" data-part="vitalite-infirmary">
+  <div class="sidebar-group part open" data-part="vitalite-infirmary">
     <button type="button" class="part-toggle">
       <span class="part-icon">🩺</span>
       <span class="part-name" data-en="Vitalite Infirmary" data-zh="Vitalite 诊所">Vitalite Infirmary</span>
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link active" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link sub" href="guide.html" data-en="← Back to Knowledge" data-zh="← 返回知识库">← Back to Knowledge</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -857,6 +910,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </div>
   </div>
 </nav>
+
+
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
@@ -869,245 +924,179 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </header>
 
-<main>
-  <div class="acct-wrap">
-    <div class="acct-msg" id="acctMsg"></div>
-
-    <section class="acct-hero" id="heroProfile">
-      <div class="acct-avatar" id="avInitials">?</div>
-      <h1 class="acct-name" id="acctName">—</h1>
-      <div class="acct-email" id="acctEmail"></div>
-      <div><span class="acct-badge no" id="acctVerified">● Unverified</span></div>
-      <div class="acct-meta">
-        <div id="metaJoined">📅 —</div>
-        <div id="metaCountry">🌍 —</div>
-        <div id="metaAge">🎂 —</div>
-      </div>
-      <div class="acct-hero-actions">
-        <a class="btn-acc ghost" href="login.html" data-en="🔐 Account &amp; Email" data-zh="🔐 账号与邮箱">🔐 Account &amp; Email</a>
-        <button class="btn-acc ghost" onclick="selectEdit()" data-en="🖊 Edit Profile" data-zh="🖊 编辑资料">🖊 Edit Profile</button>
-      </div>
-    </section>
-
-    <section class="acct-level" id="lvlCard">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem">
-        <h2 data-en="🎯 Your Level" data-zh="🎯 你的等级">🎯 Your Level</h2>
-        <span class="lvl-lv" id="lvlNum">Lv 1</span>
-      </div>
-      <div id="lvlTitle" style="font-weight:700">Novice · 新手</div>
-      <div class="lvl-next" id="lvlNext">Start learning to advance —</div>
-      <div class="acct-bar"><div id="lvlBar" style="width:0%"></div></div>
-    </section>
-
-    <section class="acct-card">
-      <h2 data-en="📊 Your Progress" data-zh="📊 你的学习进度">📊 Your Progress</h2>
-      <div class="acct-grid">
-        <div class="acct-stat"><div class="v" id="stMastery">0%</div><div class="k" data-en="Overall Mastery" data-zh="总体掌握度">Overall Mastery</div></div>
-        <div class="acct-stat"><div class="v" id="stExam">—</div><div class="k" data-en="NPTE Best Score" data-zh="NPTE 最佳成绩">NPTE Best Score</div></div>
-        <div class="acct-stat"><div class="v" id="stFlash">—</div><div class="k" data-en="Cards Reviewed" data-zh="已复习卡片">Cards Reviewed</div></div>
-        <div class="acct-stat"><div class="v" id="stQ">0</div><div class="k" data-en="Questions Answered" data-zh="已答题数">Questions Answered</div></div>
-      </div>
-    </section>
-
-    <section class="acct-card">
-      <h2 data-en="📚 Chapter Mastery" data-zh="📚 章节掌握度">📚 Chapter Mastery</h2>
-      <div id="chapList"><div class="acct-empty" data-en="No chapter progress yet. Take quizzes to start!" data-zh="还没有章节进度。开始答题吧！">No chapter progress yet. Take quizzes to start!</div></div>
-    </section>
-
-    <section class="acct-card" id="editCard" style="display:none">
-      <h2 data-en="🖊 Edit Profile" data-zh="🖊 编辑资料">🖊 Edit Profile</h2>
-      <div class="acct-form">
-        <label data-en="Display Name" data-zh="显示名称">Display Name</label>
-        <input id="pfName" type="text" data-en-placeholder="Your name" data-zh-placeholder="你的昵称">
-        <div class="row">
-          <div>
-            <label data-en="Country" data-zh="国家/地区">Country</label>
-            <select id="pfCountry"></select>
-          </div>
-          <div>
-            <label data-en="Age" data-zh="年龄">Age</label>
-            <input id="pfAge" type="number" min="1" max="120" data-en-placeholder="Your age" data-zh-placeholder="你的年龄">
-          </div>
-        </div>
-        <label data-en="Bio / About you" data-zh="个人简介">Bio / About you</label>
-        <textarea id="pfBio" data-en-placeholder="Tell others a little about yourself (e.g. future PT / coach / athlete)..." data-zh-placeholder="简单介绍一下自己（例如：未来物理治疗师 / 教练 / 运动员）..."></textarea>
-        <div class="acct-toggle">
-          <div class="acct-switch"><input type="checkbox" id="pfPublic"><span class="sl"></span></div>
-          <span data-en="Show my profile to other members (for future social features)" data-zh="向其他成员展示我的资料（为将来社交功能准备）">Show my profile to other members (for future social features)</span>
-        </div>
-        <div class="acct-btnrow">
-          <button class="btn-acc primary" onclick="saveProfile()" data-en="💾 Save Profile" data-zh="💾 保存资料">💾 Save Profile</button>
-          <button class="btn-acc" onclick="closeEdit()" data-en="Cancel" data-zh="取消">Cancel</button>
-          <button class="btn-signout-min" onclick="doSignOut()" data-en="⏻ Sign out" data-zh="⏻ 退出">⏻ Sign out</button>
-        </div>
-        <p class="acct-hint" data-en="For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server." data-zh="目前你的资料仅保存在此浏览器中。将来加入社交功能时，可同步到服务器上的账号。">For now your profile is saved privately in this browser only. When we add social features, we can sync it to your account on the server.</p>
-      </div>
-    </section>
+<!-- ═══ Infirmary hero ═══ -->
+<section class="chapter" id="infirmary-hero">
+<div class="container">
+  <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Infirmary · 诊所" data-zh="Vitalite 诊所 · Infirmary">Vitalite Infirmary · 诊所</span></div>
+  <h1 data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</h1>
+  <p data-en="Describe an injury, ache, or recovery question — get practical guidance in seconds. Bilingual, evidence-informed, and never a medical diagnosis." data-zh="描述你的损伤、酸痛或恢复问题 — 几秒内获得实用指导。双语、循证、且绝不替代专业诊断。">Describe an injury, ache, or recovery question — get practical guidance in seconds. Bilingual, evidence-informed, and never a medical diagnosis.</p>
+  <div class="chat-window" style="max-width:760px;margin:1.25rem auto 0">
+    <div class="chat-header"><span class="status-dot"></span><span data-en="🩺 Recovery Assistant" data-zh="🩺 恢复助手">🩺 Recovery Assistant</span></div>
+    <div class="chat-suggestions">
+      <button class="chat-sug-btn" data-en="😴 我落枕了 / stiff neck" data-zh="😴 我落枕了 / 脖子僵硬">😴 我落枕了 / stiff neck</button>
+      <button class="chat-sug-btn" data-en="🦵 脚踝扭伤了 / sprained ankle" data-zh="🦵 脚踝扭伤了 / 踝扭伤">🦵 脚踝扭伤了 / sprained ankle</button>
+      <button class="chat-sug-btn" data-en="💪 练后肌肉酸痛 / muscle soreness" data-zh="💪 练后肌肉酸痛 / 肌肉酸痛">💪 练后肌肉酸痛 / muscle soreness</button>
+      <button class="chat-sug-btn" data-en="🦿 跑步膝盖疼 / knee pain while running" data-zh="🦿 跑步膝盖疼 / 跑步膝痛">🦿 跑步膝盖疼 / knee pain while running</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot" data-en="Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: "我落枕了，该怎么办？" Guidance (not a medical diagnosis) will appear here soon." data-zh="你好！我是你的恢复助手。请描述你的损伤或恢复问题 — 例如："我落枕了，该怎么办？"这里将很快为你提供指导（非医疗诊断）。">Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: "我落枕了，该怎么办？" Guidance (not a medical diagnosis) will appear here soon.</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="请输入你的问题…" data-en="Type your question…" data-zh="请输入你的问题…">
+      <button class="chat-send" id="chatSend" data-en="Send" data-zh="发送">Send</button>
+    </div>
   </div>
-</main>
+  <div class="chat-disclaimer" data-en="Education only, not medical advice. If you're in serious pain or injured, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛严重或受伤，请及时就医。">Education only, not medical advice. If you're in serious pain or injured, see a professional.</div>
+  <div style="margin-top:1.5rem;text-align:center">
+    <a class="qo-btn next" href="guide.html" data-en="🧭 Back to Vitalite Knowledge" data-zh="🧭 返回 Vitalite 知识库">🧭 Back to Vitalite Knowledge</a>
+  </div>
+</div>
+</section>
 
 <footer>
 <div class="container">
   <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
-  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking &quot;how do we know?&quot;" data-zh="科学因争论而前进，而非因命令 — 永远追问&quot;我们是怎么知道的？&quot;">Science moves by debate, not decree — keep asking "how do we know?"</p>
+  <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking "how do we know?"" data-zh="科学因争论而前进，而非因命令 — 永远追问"我们是怎么知道的？"">Science moves by debate, not decree — keep asking "how do we know?"</p>
 </div>
 </footer>
+</div><!-- /page-wrapper -->
+
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
-</div>
 <script>
+/* ═══ Vitalite Infirmary — app scripts ═══ */
 
-/* ===== Theme + language (mirrors site: dark / sm_lang) ===== */
-var showCN = localStorage.getItem('sm_lang')==='zh';
-var bodyEl=document.body;
-var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')==='true'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
-darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
-function applyLang(){
-  bodyEl.classList.toggle('lang-zh',showCN);
-  bodyEl.classList.toggle('lang-en',!showCN);
-  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+ (showCN?'zh':'en')); });
-  document.querySelectorAll('[data-en-placeholder]').forEach(function(el){ el.placeholder=el.getAttribute('data-'+ ((showCN?'zh':'en'))+'-placeholder'); });
-  document.getElementById('langToggle').textContent=showCN?'中':'EN';
-  renderCountryOptions();
-  renderChapters();
-}
-document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); applyLang(); });
+// ── Dark mode ──
+(function(){
+  const darkBtn=document.getElementById('darkToggle');
+  if(darkBtn) darkBtn.addEventListener('click',()=>{
+    document.body.classList.toggle('dark');
+    darkBtn.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+    localStorage.setItem('dark',document.body.classList.contains('dark'));
+  });
+  if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');if(darkBtn)darkBtn.textContent='☀️';}
+})();
 
-/* ===== Countries (bilingual) ===== */
-var COUNTRIES=[
- ['United States','美国'],['China','中国'],['Taiwan','中国台湾'],['Hong Kong','中国香港'],['Canada','加拿大'],
- ['United Kingdom','英国'],['Australia','澳大利亚'],['Singapore','新加坡'],['Japan','日本'],['South Korea','韩国'],
- ['Malaysia','马来西亚'],['Philippines','菲律宾'],['Vietnam','越南'],['Thailand','泰国'],['India','印度'],
- ['France','法国'],['Germany','德国'],['Spain','西班牙'],['Italy','意大利'],['Netherlands','荷兰'],
- ['Brazil','巴西'],['Mexico','墨西哥'],['Nigeria','尼日利亚'],['South Africa','南非'],['New Zealand','新西兰']
-];
-
-function getJSON(k,d){ try{ return JSON.parse(localStorage.getItem(k)||'null')||d; }catch(e){ return d; } }
-function currentUser(){ return getJSON('sm_user',null); }
-function profile(){ return getJSON('sm_profile',{}); }
-function t(en,zh){ return showCN?zh:en; }
-
-var LEVELS=[
- [0,'Novice · 新手'],[12,'Apprentice · 学徒'],[24,'Student · 学员'],[36,'Practitioner · 实践者'],
- [48,'Clinician · 临床者'],[60,'Therapist · 治疗师'],[72,'Specialist · 专科者'],[84,'Expert · 专家'],
- [92,'Master · 大师'],[100,'Legend · 传奇']
-];
-function computeLevel(){
-  var m=getJSON('sm_mastery',{});
-  var tops=Object.keys(m).filter(function(k){return m[k]&&typeof m[k].score==='number';});
-  var sum=0, asked=0; tops.forEach(function(k){ sum+=m[k].score; asked+=(m[k].totalQ||0); });
-  var overall=tops.length?Math.round(sum/tops.length):0;
-  var exam=0; try{ exam=parseInt(localStorage.getItem('sm_exam')||'0',10); }catch(e){}
-  var grade=Math.round(overall*0.7 + exam*0.3);
-  var lvl=1; for(var i=0;i<LEVELS.length;i++){ if(grade>=LEVELS[i][0]) lvl=i+1; }
-  var lo=LEVELS[lvl-1][0], hi=(lvl<LEVELS.length)?LEVELS[lvl][0]:100;
-  var pct= lvl>=LEVELS.length?100:Math.min(100,Math.round((grade-lo)/(hi-lo)*100));
-  return {grade:grade,overall:overall,exam:exam,asked:asked,lvl:lvl,title:LEVELS[lvl-1][1],pct:pct};
-}
-
-function initials(name,email){
-  var s=(name||email||'?'); var parts=s.trim().split(/\s+/);
-  if(parts.length>=2) return (parts[0][0]+parts[1][0]).toUpperCase();
-  return s.slice(0,2).toUpperCase();
-}
-function renderProfile(){
-  var u=currentUser(); var p=profile();
-  var name=(u&&u.name)||p.name||(u&&u.email)||'—';
-  document.getElementById('avInitials').textContent=initials(name,u&&u.email);
-  document.getElementById('acctName').textContent=name;
-  document.getElementById('acctEmail').textContent=(u&&u.email)||'';
-  var vb=document.getElementById('acctVerified');
-  if(u&&u.status){ vb.className='acct-badge ok'; vb.textContent=t('● Verified','● 已验证'); }
-  else { vb.className='acct-badge no'; vb.textContent=t('● Unverified','● 未验证'); }
-  document.getElementById('metaJoined').textContent='📅 '+t('Member','成员');
-  document.getElementById('metaCountry').textContent='🌍 '+(p.country||t('Not set','未设置'));
-  document.getElementById('metaAge').textContent='🎂 '+((p.age&&p.age>0)?p.age:t('Not set','未设置'));
-}
-function renderLevel(){
-  var L=computeLevel();
-  document.getElementById('lvlNum').textContent='Lv '+L.lvl;
-  document.getElementById('lvlTitle').textContent=L.title;
-  document.getElementById('lvlBar').style.width=L.pct+'%';
-  var msg= L.lvl>=LEVELS.length ? t('You have reached the top level! 🎉','你已达到最高等级！🎉')
-    : t('Next level at '+L.grade+'/'+LEVELS[L.lvl][0]+' · '+LEVELS[L.lvl][1],'下一等级 '+L.grade+'/'+LEVELS[L.lvl][0]+' · '+LEVELS[L.lvl][1]);
-  document.getElementById('lvlNext').textContent=msg;
-}
-function renderStats(){
-  var L=computeLevel();
-  document.getElementById('stMastery').textContent=L.overall+'%';
-  document.getElementById('stExam').textContent=(L.exam>0?L.exam+'%':'—');
-  document.getElementById('stQ').textContent=L.asked;
-  document.getElementById('stFlash').textContent=(parseInt(localStorage.getItem('sm_fc')||'0',10)||0);
-}
-function renderChapters(){
-  var m=getJSON('sm_mastery',{});
-  var keys=['t1','t8','t9','t10','t2','t3','t4','t5','t6','t11','t7','t12','t13'];
-  var names=['Ch 1 · Body as a Machine','Ch 2 · Nervous System','Ch 3 · Cardiovascular System','Ch 4 · Integumentary System','Ch 5 · Training Principles','Ch 6 · Soft Tissue & Injury','Ch 7 · Recovery Science','Ch 8 · Nutrition','Ch 9 · Supplements','Ch 10 · Ethics & Responsibility','Ch 11 · Rehab & Career','Ch 12 · Assessment','Ch 13 · TCM Health'];
-  var namesZh=['第一章 · 身体如机器','第二章 · 神经系统','第三章 · 心血管系统','第四章 · 皮肤系统','第五章 · 训练原则','第六章 · 软组织与损伤','第七章 · 恢复科学','第八章 · 营养','第九章 · 补剂','第十章 · 伦理与职业责任','第十一章 · 康复与职业','第十二章 · 康复评定学','第十三章 · 中医健康管理'];
-  var box=document.getElementById('chapList'); var any=false, html='';
-  for(var i=0;i<keys.length;i++){
-    var sc=m[keys[i]]&&typeof m[keys[i]].score==='number'?m[keys[i]].score:0;
-    if(sc>0) any=true;
-    html+='<div class="acct-chap"><span class="cn">'+(showCN?namesZh[i]:names[i])+'</span><span class="pct">'+sc+'%</span><div class="bar"><div style="width:'+sc+'%"></div></div></div>';
+// ── Language toggle ──
+(function(){
+  const langBtn=document.getElementById('langToggle');
+  let showCN=localStorage.getItem('sm_lang')==='zh';
+  function applyLang(){
+    const lang=showCN?'zh':'en';
+    document.body.classList.toggle('lang-zh',showCN);
+    document.body.classList.toggle('lang-en',!showCN);
+    document.querySelectorAll('[data-en][data-zh]').forEach(el=>{ el.textContent=el.getAttribute('data-'+lang); });
+    document.querySelectorAll('[data-en-placeholder]').forEach(el=>{ el.placeholder=el.getAttribute('data-'+lang+'-placeholder'); });
+    if(langBtn) langBtn.textContent=showCN?'中':'EN';
   }
-  box.innerHTML=any?html:'<div class="acct-empty">'+(showCN?'还没有章节进度。开始答题吧！':'No chapter progress yet. Take quizzes to start!')+'</div>';
-}
-function renderCountryOptions(){
-  var sel=document.getElementById('pfCountry'); var p=profile();
-  var opts='<option value="">'+(showCN?'选择国家':'Select a country')+'</option>';
-  COUNTRIES.forEach(function(c){ opts+='<option value="'+c[0]+'">'+c[0]+' / '+c[1]+'</option>'; });
-  sel.innerHTML=opts;
-  if(p.country){ sel.value=p.country; }
-}
-function selectEdit(){
-  var p=profile();
-  document.getElementById('pfName').value=p.name||'';
-  document.getElementById('pfAge').value=p.age||'';
-  document.getElementById('pfBio').value=p.bio||'';
-  document.getElementById('pfPublic').checked=!!p.public;
-  document.getElementById('editCard').style.display='block';
-  document.getElementById('editCard').scrollIntoView({behavior:'smooth'});
-}
-function saveProfile(){
-  var p=profile();
-  p.name=document.getElementById('pfName').value.trim();
-  p.country=document.getElementById('pfCountry').value;
-  p.age=parseInt(document.getElementById('pfAge').value,10)||0;
-  p.bio=document.getElementById('pfBio').value.trim();
-  p.public=document.getElementById('pfPublic').checked;
-  p.updatedAt=new Date().toISOString();
-  localStorage.setItem('sm_profile',JSON.stringify(p));
-  var u=currentUser();
-  if(u){ u.name=p.name||null; localStorage.setItem('sm_user',JSON.stringify(u)); }
-  if(window.refreshAuthWidget) window.refreshAuthWidget();
-  showMsg(t('Profile saved!','资料已保存！'),true);
-  closeEdit();
-  renderProfile();
-}
-function closeEdit(){ document.getElementById('editCard').style.display='none'; }
-function doSignOut(){
-  if(!confirm(t('Sign out of this account?','确定要退出登录吗？'))) return;
-  localStorage.removeItem('sm_user');
-  window.location.href='login.html';
-}
-function showMsg(txt,ok){ var m=document.getElementById('acctMsg'); m.className='acct-msg '+(ok?'ok':'err'); m.textContent=txt; m.style.display='block'; }
+  if(langBtn) langBtn.addEventListener('click',()=>{
+    showCN=!showCN;
+    localStorage.setItem('sm_lang',showCN?'zh':'en');
+    applyLang();
+  });
+  applyLang();
+})();
 
-/* ===== Init ===== */
-renderProfile();
-renderLevel();
-renderStats();
-renderChapters();
-renderCountryOptions();
-applyLang();
-</script>
-<script>
-/* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */
+// ── Back to top ──
+(function(){
+  var backBtn=document.getElementById('backTop');
+  if(backBtn) window.addEventListener('scroll',function(){ backBtn.classList.toggle('show', window.scrollY>500); });
+})();
+
+// ── Medical AI (Dr7.ai via Cloudflare Worker) ──
+var MEDAI_URL='https://api.vitaliteplan.com';
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiRender(raw){
+  var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\n/g,'<br/>');
+  return s;
+}
+function medaiAppend(boxId, raw){
+  var box=document.getElementById(boxId); if(!box) return;
+  var div=document.createElement('div');
+  div.className='chat-msg bot';
+  var lbl=document.createElement('span');
+  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  var sp=document.createElement('span');
+  sp.className='chat-msg-text';
+  sp.innerHTML=medaiRender(raw);
+  div.appendChild(lbl); div.appendChild(sp);
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+function medaiThinking(boxId){
+  var box=document.getElementById(boxId); if(!box) return;
+  var div=document.createElement('div');
+  div.className='chat-msg bot';
+  var lbl=document.createElement('span');
+  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  var sp=document.createElement('span');
+  sp.className='chat-msg-text';
+  sp.textContent='Thinking… 思考中…';
+  div.appendChild(lbl); div.appendChild(sp);
+  box.appendChild(div);
+  return div;
+}
+function medaiAsk(question){
+  return new Promise(function(resolve){
+    if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
+    fetch(MEDAI_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ question:question, lang:medaiLang() })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
+      else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
+    }).catch(function(){ resolve({ ok:false, error:'network' }); });
+  });
+}
+function medaiConfError(res){
+  var rn='Sorry — the AI is not configured yet. (Education only, not medical advice.)';
+  var rz='抱歉，AI 助手尚未配置完成。（仅供学习参考，不能替代专业医疗建议。）';
+  if(res.error==='network'){ rn='Network error. Please try again.'; rz='网络错误，请稍后重试。'; }
+  if(res.error===undefined || res.error==='upstream_error'){ rn='The AI is temporarily unavailable. Please try again later. (Education only, not medical advice.)'; rz='AI 暂时不可用，请稍后再试。（仅供学习参考，不能替代专业医疗建议。）'; }
+  return medaiLang()==='zh'?rz:rn;
+}
+function addChatMessage(text, isUser, textZh){
+  const box=document.getElementById('chatMessages');
+  if(!box) return;
+  const div=document.createElement('div');
+  div.className='chat-msg '+(isUser?'user':'bot');
+  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'ASSISTANT'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+  document.querySelectorAll('[data-en][data-zh]').forEach(el=>{ var l=medaiLang(); el.textContent=el.getAttribute('data-'+l); });
+}
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const q=(input.value||'').trim();
+  if(!q) return;
+  addChatMessage(q, true, q);
+  input.value='';
+  const thinkEl=medaiThinking('chatMessages');
+  medaiAsk(q).then(function(res){
+    if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
+    if(res.ok){ medaiAppend('chatMessages', res.reply); }
+    else { medaiAppend('chatMessages', medaiConfError(res)); }
+  });
+}
+document.getElementById('chatSend')?.addEventListener('click', sendChat);
+document.getElementById('chatInput')?.addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+document.addEventListener('click', function(e){
+  if(!(e.target && e.target.classList && e.target.classList.contains('chat-sug-btn'))) return;
+  const cInput=document.getElementById('chatInput');
+  if(!cInput) return;
+  const lang=medaiLang();
+  cInput.value=e.target.getAttribute('data-'+lang) || e.target.textContent;
+  sendChat();
+});
+
+// ── Sidebar accordion + compact mode ──
 (function(){
   var side=document.getElementById('sidebar');
   if(!side) return;
-
-  /* ---- Accordion: open one part at a time ---- */
   var toggles=side.querySelectorAll('.sidebar-group.part .part-toggle');
   function partOf(t){ var p=t.parentElement; return (p&&p.classList&&p.classList.contains('part'))?p:null; }
   toggles.forEach(function(t){
@@ -1118,15 +1107,6 @@ applyLang();
       if(!wasOpen) grp.classList.add('open');
     });
   });
-
-  /* ---- Open the part containing the active link by default ---- */
-  var act=side.querySelector('.sidebar-link.active');
-  var toOpen=null;
-  if(act){ toOpen=act.closest('.sidebar-group.part'); }
-  if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
-  if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
-
-  /* ---- Compact mode (Zen-style: collapse to icon rail, hover to expand) ---- */
   var btn=document.getElementById('sbCompact');
   var KEY='sm_sbcompact';
   function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }
@@ -1134,6 +1114,6 @@ applyLang();
   try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
 })();
 </script>
-
 </body>
+
 </html>

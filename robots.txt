@@ -1,0 +1,26 @@
+# Vitalité Plan — robots.txt
+# ---------------------------------------------------------------
+# NOTE: vitaliteplan.com sits behind Cloudflare, which is currently
+# serving its OWN managed robots.txt from the edge (Content Signals
+# feature, default template). To make THIS file take effect, disable
+# the managed robots.txt in Cloudflare (dashboard → Content Signals /
+# robots.txt management), otherwise the edge copy wins.
+# ---------------------------------------------------------------
+
+User-agent: *
+Allow: /
+
+# Content signals (content-signals.org) — explicit, no ambiguity:
+# search:   building a search index / providing search results
+# ai-input: feeding content into AI models in real time (RAG, grounding,
+#           Gemini/Claude link access, AI search answers)
+# ai-train: training or fine-tuning AI models
+#
+# Policy: search + ai-input ALLOWED (site must be readable + AI-accessible),
+# ai-train DISALLOWED (no model training on this content without consent).
+
+search: allow
+ai-input: allow
+ai-train: disallow
+
+Sitemap: https://vitaliteplan.com/sitemap.xml

@@ -54,7 +54,7 @@
         a.id='adminGear';
         a.className='btn-icon admin-gear';
         a.href='admin.html';
-        a.title=t('🛠 Developer Console','🛠 开发者控制台');
+        a.title=t('🛠 Developer Tools','🛠 开发者工具');
         a.setAttribute('aria-label',a.title);
         a.textContent='🛠';
         var ha=initHeadRef();
@@ -63,6 +63,14 @@
     }else if(existing && existing.parentNode){
       existing.parentNode.removeChild(existing);
     }
+  }
+
+  /* Dev Tools is a main sidebar tab — reveal the group only for developers. */
+  function setDevNav(u){
+    var dev=isDev(u);
+    Array.prototype.slice.call(document.querySelectorAll('.sidebar-group[data-part="vitalite-dev"]')).forEach(function(g){
+      g.style.display = dev ? '' : 'none';
+    });
   }
 
   function buildLoggedIn(name){
@@ -135,6 +143,7 @@
     var name=displayName(user);
     if(name){ buildLoggedIn(name); } else { buildLoggedOut(); }
     setAdminBtn(user);
+    setDevNav(user);
   }
   function build(){ var u=currentUser(); updateHeaderBtn(u); }
   function init(){

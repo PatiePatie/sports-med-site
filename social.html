@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="icons/vitalite-32.png">
+<link rel="apple-touch-icon" href="icons/vitalite-180.png">
 <title>Vitalité Social — Coming Soon · 敬请期待</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -765,13 +767,14 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <script src="auth-gate.js"></script>
+  <script src="loader.js"></script>
 </head>
 <body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><span class="logo-text">Vital<span>ité</span></span>
+  <div class="sidebar-logo"><a href="index.html" style="color:var(--text);text-decoration:none;display:flex;align-items:center;flex:1;min-width:0"><span class="logo-text">Vital<span>ité</span></span></a>
     <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
   </div>
   <div class="sidebar-group part" data-part="vitalite-knowledge">
@@ -781,7 +784,6 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="index.html" data-en="🏠 Home" data-zh="🏠 首页">🏠 Home</a>
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
       <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
@@ -803,7 +805,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="#" data-infirmary data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
     </div>
   </div>
   <div class="sidebar-group part open" data-part="vitalite-social">
@@ -816,12 +818,23 @@ body.dark h1,body.dark h2,body.dark h3{
       <a class="sidebar-link active" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
     </div>
   </div>
+  <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
+    <button type="button" class="part-toggle">
+      <span class="part-icon">🛠</span>
+      <span class="part-name" data-en="Developer Tools" data-zh="开发者工具">Developer Tools</span>
+      <span class="part-caret">▾</span>
+    </button>
+    <div class="part-body">
+      <a class="sidebar-link" href="admin.html" data-en="🛠 Moderation" data-zh="🛠 用户管理">🛠 Moderation</a>
+      <a class="sidebar-link" href="admin.html#editor" data-en="📝 Content Editor" data-zh="📝 内容编辑">📝 Content Editor</a>
+    </div>
+  </div>
 </nav>
 
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
+  <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -836,7 +849,6 @@ body.dark h1,body.dark h2,body.dark h3{
     <h1 data-en="A Community Is on the Way" data-zh="社区正在筹备中"><span>👥 A Community Is on the Way</span></h1>
     <p style="max-width:620px;margin:1rem auto;color:var(--text2);font-size:1.05rem" data-en="Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together." data-zh="Vitalite 社区将成为会员们交流的场所 — 分享学习心得、互相提问，并一起讨论运动医学与恢复。">Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together.</p>
     <div class="hero-actions">
-      <a class="qo-btn next" href="index.html" data-en="← Back to Home" data-zh="← 返回首页">← Back to Home</a>
       <button class="qo-btn next" onclick="openAiModal()" style="background:var(--text3)" data-en="🤖 Ask the AI" data-zh="🤖 咨询 AI">🤖 Ask the AI</button>
     </div>
     <p style="margin-top:2rem;font-size:.85rem;color:var(--text3)" data-en="To be continued…" data-zh="敬请期待…">To be continued…</p>
@@ -889,8 +901,6 @@ body.dark h1,body.dark h2,body.dark h3{
   if(act){ toOpen=act.closest('.sidebar-group.part'); }
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
-  var ai=side.querySelector('[data-infirmary]');
-  if(ai){ ai.addEventListener('click',function(e){ e.preventDefault(); if(typeof openAiModal==='function') openAiModal(); }); }
   var btn=document.getElementById('sbCompact');
   var KEY='sm_sbcompact';
   function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }

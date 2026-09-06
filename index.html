@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* Logged in? Skip the landing — straight to home (guide.html). */
+(function(){try{var u=JSON.parse(localStorage.getItem('sm_user')||'null');if(u&&u.email){location.replace('guide.html');}}catch(e){}})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%234f46e5%27/%3E%3Cpath d=%27M32 18v28M18 32h28%27 stroke=%27%23fff%27 stroke-width=%278%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>Sports Medicine, Recovery &amp; Nutrition — Student Guide</title>
+<link rel="icon" type="image/png" href="icons/vitalite-32.png">
+<link rel="apple-touch-icon" href="icons/vitalite-180.png">
+<title>The Vitalité Plan — Sports Medicine, Recovery &amp; Nutrition</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
@@ -803,23 +808,197 @@ body.dark h1,body.dark h2,body.dark h3{
 .landing .ch-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem 1.1rem;min-height:118px;flex-direction:column;align-items:flex-start;gap:.45rem;transition:transform .18s,box-shadow .18s,border-color .18s}
 .landing .ch-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
 .landing .ch-card-body h4{font-size:1rem}
+.landing .ch-phase{margin-top:2.5rem}
+.landing .ch-phase:first-child{margin-top:1.75rem}
+.landing .phase-head{max-width:920px;margin:0 auto 1.1rem;display:flex;align-items:center;gap:1rem;text-align:left}
+.landing .phase-num{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.2rem;font-weight:700;font-style:italic;color:var(--accent);background:var(--accent-bg);border:1.5px solid color-mix(in srgb,var(--accent) 50%,var(--border));box-shadow:var(--shadow-sm)}
+.landing .phase-meta{min-width:0}
+.landing .phase-eyebrow{display:block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin-bottom:.1rem}
+.landing .phase-meta h4{margin:0;font-family:var(--font-heading);font-size:1.45rem;font-weight:600;line-height:1.15}
+.landing .phase-meta p{margin:.2rem 0 0;font-size:.9rem;color:var(--text2)}
 .landing .ch-go{align-self:flex-end;margin-top:auto}
+.landing #landing-fork{padding:4.5rem 0;text-align:center;background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--accent-bg) 40%,var(--bg)))}
+.landing .fork-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;max-width:860px;margin:2rem auto 0}
+.landing .fork-card{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 1.6rem;transition:transform .18s,box-shadow .18s,border-color .18s;text-decoration:none;color:var(--text)}
+.landing .fork-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 45%,var(--border));text-decoration:none}
+.landing .fork-ico{font-size:2.2rem;line-height:1}
+.landing .fork-card h4{font-size:1.25rem;font-weight:700;margin:0}
+.landing .fork-card p{font-size:.92rem;color:var(--text2);margin:0}
+.landing .fork-go{margin-top:auto;font-size:.9rem;font-weight:700;color:var(--accent);display:inline-flex;align-items:center;gap:.3rem}
+.landing .fork-card:hover .fork-go{text-decoration:underline}
+@media(max-width:600px){.landing .fork-card{padding:1.5rem 1.2rem}}
 .landing #landing-audience{padding:4.5rem 0;text-align:center}
 .landing #landing-cta{padding:4.5rem 0 5rem;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 14%,var(--bg)),var(--bg))}
 .landing #landing-cta h2{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3rem);font-weight:600;margin-bottom:.6rem}
 .landing #landing-cta .qo-btn.next{font-size:1.05rem;padding:.9rem 2.6rem;border-radius:999px;box-shadow:var(--shadow-lg)}
 @media(max-width:600px){.landing .hero{padding:4rem 0 3rem}.landing .hero h1{font-size:2.2rem}}
+/* ═══ Vitalité splash (landing only) — Linear-style: one glow, faint grid, expo rises ═══ */
+#v-splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.05rem;background:radial-gradient(130% 100% at 50% 0%,#16265c 0%,#0F1B3D 48%,#080f24 100%);opacity:1;transition:opacity .35s ease}
+#v-splash.v-splash-off{opacity:0;pointer-events:none}
+#v-splash::before{content:"";position:absolute;top:50%;left:50%;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;background:radial-gradient(closest-side,rgba(217,164,65,.10),transparent);pointer-events:none}
+#v-splash .v-hosp{position:absolute;left:0;bottom:0;width:100%;height:min(44vh,420px);opacity:.8;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 55%,transparent 100%);mask-image:linear-gradient(to top,#000 55%,transparent 100%)}
+#v-splash .v-forest{position:absolute;left:0;bottom:0;width:100%;height:min(44vh,420px);opacity:.58;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 26%,transparent 97%);mask-image:linear-gradient(to top,#000 26%,transparent 97%)}
+#v-splash .v-tile{position:relative;width:92px;height:92px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 0 1px rgba(217,164,65,.35);animation:v-rise .7s cubic-bezier(.16,1,.3,1) both}
+#v-splash .v-tile img{width:70px;height:70px;border-radius:16px;display:block}
+#v-splash .v-name{font-family:var(--font-heading),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:2.1rem;font-weight:700;letter-spacing:-.02em;color:#fff;opacity:0;animation:v-rise .7s .1s cubic-bezier(.16,1,.3,1) both}
+#v-splash .v-name .v-acc{color:#D9A441}
+#v-splash .v-rule{width:56px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#D9A441,transparent);transform:scaleX(0);animation:v-rule .6s .26s cubic-bezier(.16,1,.3,1) both}
+#v-splash .v-tag{margin-top:.1rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);opacity:0;animation:v-rise .7s .36s cubic-bezier(.16,1,.3,1) both}
+@keyframes v-rise{from{opacity:0;transform:translateY(14px) scale(.97);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes v-rule{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){#v-splash .v-tile,#v-splash .v-name,#v-splash .v-rule,#v-splash .v-tag{animation:none;opacity:1;transform:none;filter:none}}
 </style>
 </head>
 <body class="landing">
+<script>
+/* Vitalité splash — Linear-style: quiet rise, expo ease, hero handoff. JS-injected, no-JS safe. */
+(function(){
+  try{
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var zh=(localStorage.getItem('sm_lang')||'').toLowerCase()==='zh';
+    var s=document.createElement('div');s.id='v-splash';s.setAttribute('aria-hidden','true');
+    /* forest — two depth rows of dark blue silhouettes behind the tile.
+       back row = hazy steel-blue, front row = near-black navy; saplings
+       flank the edges (the "growth" whisper). fades upward into mist. */
+    var NS='http://www.w3.org/2000/svg';
+    var forest=document.createElementNS(NS,'svg');
+    forest.setAttribute('class','v-forest');
+    forest.setAttribute('viewBox','0 0 1200 360');
+    forest.setAttribute('preserveAspectRatio','xMidYMax slice');
+    forest.setAttribute('aria-hidden','true');
+    var defs=document.createElementNS(NS,'defs');
+    var pine=document.createElementNS(NS,'path');
+    pine.setAttribute('id','v-pine');
+    pine.setAttribute('d','M50,0 L32,48 L38,44 L20,96 L26,92 L6,140 L42,140 L44,160 L56,160 L58,140 L94,140 L74,92 L80,96 L62,48 L68,44 Z');
+    defs.appendChild(pine);
+    var rnd=document.createElementNS(NS,'path');
+    rnd.setAttribute('id','v-round');
+    rnd.setAttribute('d','M50,24 C72,24 78,54 62,68 C80,70 82,94 64,100 C70,116 60,128 46,120 C34,114 38,96 48,90 C34,84 38,62 52,56 C44,46 44,32 50,24 Z M46,120 L44,160 L56,160 L54,120 Z');
+    defs.appendChild(rnd);
+    forest.appendChild(defs);
+    function row(fill,uses){
+      var g=document.createElementNS(NS,'g');
+      g.setAttribute('fill',fill);
+      g.insertAdjacentHTML('beforeend',uses);
+      forest.appendChild(g);
+    }
+    row('#0E1C42','<use href="#v-pine" transform="translate(80,232) scale(0.8)"/> <use href="#v-pine" transform="translate(200,208) scale(0.95)"/> <use href="#v-pine" transform="translate(330,248) scale(0.7)"/> <use href="#v-pine" transform="translate(470,216) scale(0.9)"/> <use href="#v-pine" transform="translate(610,200) scale(1)"/> <use href="#v-pine" transform="translate(740,240) scale(0.75)"/> <use href="#v-pine" transform="translate(880,192) scale(1.05)"/> <use href="#v-pine" transform="translate(1010,224) scale(0.85)"/> <use href="#v-pine" transform="translate(1130,248) scale(0.7)"/> <use href="#v-round" transform="translate(140,232) scale(0.8)"/> <use href="#v-round" transform="translate(560,224) scale(0.85)"/> <use href="#v-round" transform="translate(950,216) scale(0.9)"/>');
+    row('#050B1A','<use href="#v-pine" transform="translate(60,120) scale(1.5)"/> <use href="#v-pine" transform="translate(230,160) scale(1.25)"/> <use href="#v-pine" transform="translate(400,112) scale(1.55)"/> <use href="#v-pine" transform="translate(760,96) scale(1.65)"/> <use href="#v-pine" transform="translate(940,152) scale(1.3)"/> <use href="#v-pine" transform="translate(1090,120) scale(1.5)"/> <use href="#v-round" transform="translate(300,144) scale(1.35)"/> <use href="#v-round" transform="translate(860,120) scale(1.5)"/>');
+    row('#050B1A','<use href="#v-pine" transform="translate(30,272) scale(0.55)"/> <use href="#v-pine" transform="translate(1150,264) scale(0.6)"/>');
+    /* hospital — massing, parapets, window grid, AC box, entrance canopy.
+       cross on a facade signage plaque (NOT the roof — that read as a church).
+       wifi stays as the rooftop beacon. */
+    var hosp=document.createElementNS(NS,'svg');
+    hosp.setAttribute('class','v-hosp');
+    hosp.setAttribute('viewBox','0 0 1200 360');
+    hosp.setAttribute('preserveAspectRatio','xMidYMax slice');
+    hosp.setAttribute('aria-hidden','true');
+    var hdefs=document.createElementNS(NS,'defs');
+    var winpat=document.createElementNS(NS,'pattern');
+    winpat.setAttribute('id','v-win');
+    winpat.setAttribute('width','20');winpat.setAttribute('height','26');
+    winpat.setAttribute('patternUnits','userSpaceOnUse');
+    var win=document.createElementNS(NS,'rect');
+    win.setAttribute('x','2');win.setAttribute('y','2');
+    win.setAttribute('width','12');win.setAttribute('height','16');
+    win.setAttribute('rx','1.5');
+    win.setAttribute('fill','#D9A441');win.setAttribute('opacity','.38');
+    winpat.appendChild(win);
+    hdefs.appendChild(winpat);
+    hosp.appendChild(hdefs);
+    var bldg=document.createElementNS(NS,'path');
+    bldg.setAttribute('d','M455,360 L455,250 L545,250 L545,360 Z M451,250 L549,250 L549,242 L451,242 Z M655,360 L655,250 L745,250 L745,360 Z M651,250 L749,250 L749,242 L651,242 Z M545,360 L545,170 L655,170 L655,360 Z M541,170 L659,170 L659,162 L541,162 Z M552,162 L584,162 L584,150 L552,150 Z M568,322 L632,322 L632,314 L568,314 Z M572,330 L578,330 L578,360 L572,360 Z M622,330 L628,330 L628,360 L622,360 Z');
+    bldg.setAttribute('fill','#0E2244');
+    hosp.appendChild(bldg);
+    function windowBand(x,y,w,h){
+      var b=document.createElementNS(NS,'rect');
+      b.setAttribute('x',x);b.setAttribute('y',y);
+      b.setAttribute('width',w);b.setAttribute('height',h);
+      b.setAttribute('fill','url(#v-win)');
+      hosp.appendChild(b);
+    }
+    windowBand(467,260,66,80);
+    windowBand(667,260,66,80);
+    windowBand(560,210,80,94);
+    var plaque=document.createElementNS(NS,'rect');
+    plaque.setAttribute('x','586');plaque.setAttribute('y','180');
+    plaque.setAttribute('width','28');plaque.setAttribute('height','24');
+    plaque.setAttribute('rx','2');
+    plaque.setAttribute('fill','none');plaque.setAttribute('stroke','#D9A441');plaque.setAttribute('stroke-width','2.5');
+    hosp.appendChild(plaque);
+    var pcross=document.createElementNS(NS,'path');
+    pcross.setAttribute('d','M600,186 L600,198 M594,192 L606,192');
+    pcross.setAttribute('stroke','#D9A441');pcross.setAttribute('stroke-width','3');pcross.setAttribute('stroke-linecap','round');
+    hosp.appendChild(pcross);
+    var door=document.createElementNS(NS,'rect');
+    door.setAttribute('x','590');door.setAttribute('y','332');
+    door.setAttribute('width','20');door.setAttribute('height','28');
+    door.setAttribute('fill','none');door.setAttribute('stroke','#D9A441');door.setAttribute('stroke-width','1.5');door.setAttribute('opacity','.6');
+    hosp.appendChild(door);
+    var wdot=document.createElementNS(NS,'circle');
+    wdot.setAttribute('cx','600');wdot.setAttribute('cy','150');wdot.setAttribute('r','3.5');
+    wdot.setAttribute('fill','#D9A441');
+    hosp.appendChild(wdot);
+    var w1=document.createElementNS(NS,'path');
+    w1.setAttribute('d','M592,140 A12,12 0 0 1 608,140');
+    w1.setAttribute('fill','none');w1.setAttribute('stroke','#D9A441');w1.setAttribute('stroke-width','3.5');w1.setAttribute('stroke-linecap','round');
+    hosp.appendChild(w1);
+    var w2=document.createElementNS(NS,'path');
+    w2.setAttribute('d','M586,132 A22,22 0 0 1 614,132');
+    w2.setAttribute('fill','none');w2.setAttribute('stroke','#D9A441');w2.setAttribute('stroke-width','3.5');w2.setAttribute('stroke-linecap','round');
+    hosp.appendChild(w2);
+    var tile=document.createElement('div');tile.className='v-tile';
+    var img=document.createElement('img');img.src='icons/vitalite-512.png';img.alt='';img.width=70;img.height=70;
+    tile.appendChild(img);
+    var name=document.createElement('div');name.className='v-name';
+    name.innerHTML='Vital<span class="v-acc">it\u00e9</span>';
+    var rule=document.createElement('div');rule.className='v-rule';
+    var tag=document.createElement('div');tag.className='v-tag';
+    tag.textContent=zh?'运动医学 · 恢复 · 营养':'Sports Medicine · Recovery · Nutrition';
+    s.appendChild(forest);s.appendChild(hosp);s.appendChild(tile);s.appendChild(name);s.appendChild(rule);s.appendChild(tag);
+    document.body.appendChild(s);
+    document.body.style.overflow='hidden';
+    /* hero entrance — same rise, staggered, as the splash fades (Linear handoff) */
+    var heroSel=['.landing .hero .hero-badge','.landing .hero h1','.landing .hero p','.landing .hero .hero-actions'];
+    var heroEls=[];
+    for(var hi=0;hi<heroSel.length;hi++){
+      var he=document.querySelector(heroSel[hi]);
+      if(he) heroEls.push(he);
+    }
+    if(!reduce && heroEls.length){
+      for(var hj=0;hj<heroEls.length;hj++){
+        heroEls[hj].style.opacity='0';
+        heroEls[hj].style.transform='translateY(16px)';
+        heroEls[hj].style.filter='blur(5px)';
+        heroEls[hj].style.transition='opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .7s cubic-bezier(.16,1,.3,1)';
+      }
+    }
+    var hold=reduce?1000:2100;
+    setTimeout(function(){
+      s.classList.add('v-splash-off');
+      document.body.style.overflow='';
+      if(!reduce && heroEls.length){
+        for(var hk=0;hk<heroEls.length;hk++){
+          (function(el,idx){
+            setTimeout(function(){
+              el.style.opacity='1';el.style.transform='none';el.style.filter='blur(0)';
+            },idx*90);
+          })(heroEls[hk],hk);
+        }
+      }
+      setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},400);
+    },hold);
+  }catch(e){}
+})();
+</script>
 <!-- ═══ PUBLIC MARKETING LANDING — site content lives behind login (auth-gate) ═══ -->
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
+  <div style="display:inline-flex;align-items:center;gap:.45rem"><img src="icons/vitalite-32.png" alt="Vitalité" style="width:20px;height:20px;border-radius:5px;flex:none"><div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div></div>
   <nav class="landing-nav">
     <a href="#landing-features" data-en="Features" data-zh="特色">Features</a>
-    <a href="#landing-chapters" data-en="Curriculum" data-zh="课程">Curriculum</a>
+    <a href="#landing-chapters" data-en="The Plan" data-zh="计划">The Plan</a>
     <a href="#landing-audience" data-en="Who it's for" data-zh="适合谁">Who it's for</a>
   </nav>
   <div class="header-actions">
@@ -833,12 +1012,34 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- Hero -->
 <section id="hero" class="hero">
 <div class="container">
-  <div class="hero-badge"><span class="dot"></span><span data-en="Bilingual Student Guide" data-zh="双语学生指南">Bilingual Student Guide</span></div>
+  <div class="hero-badge"><span class="dot"></span><span data-en="The Vitalité Plan — a lifelong program" data-zh="活力计划 — 终身方案">The Vitalité Plan — a lifelong program</span></div>
   <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养">Sports Medicine, Recovery &amp; Nutrition</h1>
-  <p data-en="English / 中文 — 13 chapters, flashcards, adaptive quizzes & debates" data-zh="中文 / English — 十三大章节、闪卡、自适应刷题与科学争论">English / 中文 — 13 chapters, flashcards, adaptive quizzes &amp; debates</p>
+  <p data-en="Not a crash course. A long-term plan — know your body, train it smart, heal it right. 13 bilingual chapters, flashcards &amp; adaptive quizzes." data-zh="不是速成课，而是一份长期计划 — 了解身体、科学训练、正确康复。十三大双语章节、闪卡与自适应刷题。">Not a crash course. A long-term plan — know your body, train it smart, heal it right. 13 bilingual chapters, flashcards &amp; adaptive quizzes.</p>
   <div class="hero-actions">
-    <a class="qo-btn next" href="login.html?next=guide.html" data-en="Get Started — Free" data-zh="免费开始学习">Get Started — Free</a>
-    <a class="qo-btn next" href="login.html?next=guide.html" style="background:var(--green)" data-en="Create Account" data-zh="创建账号">Create Account</a>
+    <a class="qo-btn next" href="login.html?next=guide.html" data-en="🧭 Enter Vitalite Knowledge" data-zh="🧭 进入知识库">🧭 Enter Vitalite Knowledge</a>
+    <a class="qo-btn next" href="login.html?next=infirmary.html" style="background:var(--green)" data-en="🩺 Enter Vitalite Infirmary" data-zh="🩺 进入诊所">🩺 Enter Vitalite Infirmary</a>
+  </div>
+</div>
+</section>
+
+<!-- Two doors: Knowledge vs Infirmary -->
+<section id="landing-fork">
+<div class="container">
+  <span class="section-label" data-en="Two wings of Vitalité" data-zh="Vitalité 的两翼">Two wings of Vitalité</span>
+  <h2 data-en="Learn the science — or ask the assistant" data-zh="学习科学 — 或询问助手">Learn the science — or ask the assistant</h2>
+  <div class="fork-grid">
+    <a class="fork-card" href="login.html?next=guide.html">
+      <div class="fork-ico">🧭</div>
+      <h4 data-en="Vitalite Knowledge" data-zh="Vitalite 知识库">Vitalite Knowledge</h4>
+      <p data-en="13 bilingual chapters, flashcards, adaptive quizzes, NPTE & 运动康复师 exam prep." data-zh="十三个双语章节、闪卡、自适应刷题、NPTE 与运动康复师备考。">13 bilingual chapters, flashcards, adaptive quizzes, NPTE &amp; 运动康复师 exam prep.</p>
+      <span class="fork-go" data-en="Enter Knowledge →" data-zh="进入知识库 →">Enter Knowledge →</span>
+    </a>
+    <a class="fork-card" href="login.html?next=infirmary.html">
+      <div class="fork-ico">🩺</div>
+      <h4 data-en="Vitalite Infirmary" data-zh="Vitalite 诊所">Vitalite Infirmary</h4>
+      <p data-en="The AI Recovery Assistant — describe an injury or ache, get practical guidance in seconds." data-zh="AI 恢复助手 — 描述损伤或酸痛，几秒内获得实用指导。">The AI Recovery Assistant — describe an injury or ache, get practical guidance in seconds.</p>
+      <span class="fork-go" data-en="Enter Infirmary →" data-zh="进入诊所 →">Enter Infirmary →</span>
+    </a>
   </div>
 </div>
 </section>
@@ -871,8 +1072,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="landing-features">
 <div class="container">
   <span class="section-label" data-en="Why Vitalité" data-zh="为何选择 Vitalité">Why Vitalité</span>
-  <h2 data-en="Everything you need to master sports medicine" data-zh="掌握运动医学所需的一切">Everything you need to master sports medicine</h2>
-  <p data-en="A bilingual, board-prep engine — from anatomy to rehab, built for both the NPTE and the 运动康复师 qualification." data-zh="一套双语备考引擎 — 从解剖到康复，同时服务 NPTE 与运动康复师资格证。">A bilingual, board-prep engine — from anatomy to rehab, built for both the NPTE and the 运动康复师 qualification.</p>
+  <h2 data-en="Not a guide. A plan." data-zh="不是指南，而是计划">Not a guide. A plan.</h2>
+  <p data-en="Most medical sites hand you facts and wave goodbye. The Vitalité Plan turns every chapter into a step — Foundations, Performance, Recovery, Mastery — in a lifelong game of getting stronger, healthier, and sharper." data-zh="大多数医学网站把知识丢给你就挥手告别。活力计划把每一章变成一步 — 基础、提升、康复、精通 — 这是一场让身体更强、更健康、头脑更敏锐的终身棋局。">Most medical sites hand you facts and wave goodbye. The Vitalité Plan turns every chapter into a step — Foundations, Performance, Recovery, Mastery — in a lifelong game of getting stronger, healthier, and sharper.</p>
   <div class="feature-grid">
     <div class="feature-card">
       <div class="co-ico">🃏</div>
@@ -912,24 +1113,72 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="landing-chapters">
 <div class="container">
   <div class="toc-intro">
-    <span class="section-label" data-en="The Curriculum" data-zh="课程体系">The Curriculum</span>
-    <h2 data-en="One guide, thirteen chapters" data-zh="一部指南，十三大章节">One guide, thirteen chapters</h2>
-    <p data-en="From the body's energy systems to Chinese rehabilitative medicine — follow the full arc of sports medicine. Sign in to open each chapter." data-zh="从身体供能系统到中医康复 — 纵览运动医学全貌。登录后即可打开各章节。">From the body's energy systems to Chinese rehabilitative medicine — follow the full arc of sports medicine. Sign in to open each chapter.</p>
+    <span class="section-label" data-en="The Plan" data-zh="计划">The Plan</span>
+    <h2 data-en="One plan, four phases, thirteen chapters" data-zh="一份计划 · 四个阶段 · 十三大章节">One plan, four phases, thirteen chapters</h2>
+    <p data-en="Each phase builds on the last — follow the arc from first principle to full practice. Sign in to open each chapter." data-zh="每个阶段都建立在前一阶段之上 — 从基本原理一路走到完整实践。登录后即可打开各章节。">Each phase builds on the last — follow the arc from first principle to full practice. Sign in to open each chapter.</p>
   </div>
-  <div class="ch-grid">
+  <div class="ch-phases">
+    <div class="ch-phase">
+      <div class="phase-head">
+        <span class="phase-num">I</span>
+        <div class="phase-meta">
+          <span class="phase-eyebrow" data-en="Phase I" data-zh="第一阶段">Phase I</span>
+          <h4 data-en="Foundations" data-zh="基础">Foundations</h4>
+          <p data-en="Know the machine before you train it." data-zh="先认识这台机器，再训练它。">Know the machine before you train it.</p>
+        </div>
+      </div>
+      <div class="ch-grid">
     <a class="ch-card" href="login.html?next=guide.html%23ch1"><div class="ch-num">1</div><div class="ch-card-body"><h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4><p data-en="Energy systems · Muscle fibers · SAID principle" data-zh="供能系统 · 肌纤维 · SAID原则">Energy systems · Muscle fibers · SAID principle</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch2"><div class="ch-num">2</div><div class="ch-card-body"><h4 data-en="Nervous System" data-zh="神经系统">Nervous System</h4><p data-en="Motor control · Reflexes · Neurological exam" data-zh="运动控制 · 反射 · 神经检查">Motor control · Reflexes · Neurological exam</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch3"><div class="ch-num">3</div><div class="ch-card-body"><h4 data-en="Cardiovascular System" data-zh="心血管系统">Cardiovascular System</h4><p data-en="Heart · Vessels · Blood · Exercise response" data-zh="心脏 · 血管 · 血液 · 运动反应">Heart · Vessels · Blood · Exercise response</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch4"><div class="ch-num">4</div><div class="ch-card-body"><h4 data-en="Integumentary System" data-zh="皮肤系统">Integumentary System</h4><p data-en="Skin · Wound healing · Burns · Ulcers" data-zh="皮肤 · 伤口愈合 · 烧伤 · 溃疡">Skin · Wound healing · Burns · Ulcers</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+      </div>
+    </div>
+    <div class="ch-phase">
+      <div class="phase-head">
+        <span class="phase-num">II</span>
+        <div class="phase-meta">
+          <span class="phase-eyebrow" data-en="Phase II" data-zh="第二阶段">Phase II</span>
+          <h4 data-en="Performance" data-zh="提升">Performance</h4>
+          <p data-en="Train. Fuel. Adapt. The science of getting better." data-zh="训练 · 供能 · 适应 — 关于变强的科学。">Train. Fuel. Adapt. The science of getting better.</p>
+        </div>
+      </div>
+      <div class="ch-grid">
     <a class="ch-card" href="login.html?next=guide.html%23ch5"><div class="ch-num">5</div><div class="ch-card-body"><h4 data-en="Training Principles" data-zh="训练原则">Training Principles</h4><p data-en="Progressive overload · Periodization · Stretching" data-zh="渐进超负荷 · 周期化 · 拉伸">Progressive overload · Periodization · Stretching</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
-    <a class="ch-card" href="login.html?next=guide.html%23ch6"><div class="ch-num">6</div><div class="ch-card-body"><h4 data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</h4><p data-en="Inflammation · Sprains · Strains · Healing phases" data-zh="炎症 · 扭伤 · 拉伤 · 愈合阶段">Inflammation · Sprains · Strains · Healing phases</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
-    <a class="ch-card" href="login.html?next=guide.html%23ch7"><div class="ch-num">7</div><div class="ch-card-body"><h4 data-en="Recovery Science" data-zh="恢复科学">Recovery Science</h4><p data-en="Sleep · Active recovery · Cold &amp; heat · Repeated bouts" data-zh="睡眠 · 主动恢复 · 冷热疗法 · 重复运动">Sleep · Active recovery · Cold &amp; heat · Repeated bouts</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch8"><div class="ch-num">8</div><div class="ch-card-body"><h4 data-en="Nutrition" data-zh="营养">Nutrition</h4><p data-en="Macros · Timing · Hydration · Sports foods" data-zh="宏量营养素 · 时机 · 补水 · 运动食品">Macros · Timing · Hydration · Sports foods</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch9"><div class="ch-num">9</div><div class="ch-card-body"><h4 data-en="Supplements" data-zh="补剂">Supplements</h4><p data-en="Evidence grades · Creatine · Caffeine · Safety" data-zh="证据等级 · 肌酸 · 咖啡因 · 安全性">Evidence grades · Creatine · Caffeine · Safety</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+      </div>
+    </div>
+    <div class="ch-phase">
+      <div class="phase-head">
+        <span class="phase-num">III</span>
+        <div class="phase-meta">
+          <span class="phase-eyebrow" data-en="Phase III" data-zh="第三阶段">Phase III</span>
+          <h4 data-en="Recovery" data-zh="康复">Recovery</h4>
+          <p data-en="When it breaks: assess the damage, guide the healing." data-zh="当它受损：评估损伤，引导愈合。">When it breaks: assess the damage, guide the healing.</p>
+        </div>
+      </div>
+      <div class="ch-grid">
+    <a class="ch-card" href="login.html?next=guide.html%23ch6"><div class="ch-num">6</div><div class="ch-card-body"><h4 data-en="Soft Tissue &amp; Injury" data-zh="软组织与损伤">Soft Tissue &amp; Injury</h4><p data-en="Inflammation · Sprains · Strains · Healing phases" data-zh="炎症 · 扭伤 · 拉伤 · 愈合阶段">Inflammation · Sprains · Strains · Healing phases</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+    <a class="ch-card" href="login.html?next=guide.html%23ch7"><div class="ch-num">7</div><div class="ch-card-body"><h4 data-en="Recovery Science" data-zh="恢复科学">Recovery Science</h4><p data-en="Sleep · Active recovery · Cold &amp; heat · Repeated bouts" data-zh="睡眠 · 主动恢复 · 冷热疗法 · 重复运动">Sleep · Active recovery · Cold &amp; heat · Repeated bouts</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+    <a class="ch-card" href="login.html?next=guide.html%23ch12"><div class="ch-num">12</div><div class="ch-card-body"><h4 data-en="Assessment · 康复评定学" data-zh="Assessment · 康复评定学">Assessment · 康复评定学</h4><p data-en="MMT · Goniometry · Balance · Gait" data-zh="肌力测定 · 关节角度 · 平衡 · 步态">MMT · Goniometry · Balance · Gait</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+      </div>
+    </div>
+    <div class="ch-phase">
+      <div class="phase-head">
+        <span class="phase-num">IV</span>
+        <div class="phase-meta">
+          <span class="phase-eyebrow" data-en="Phase IV" data-zh="第四阶段">Phase IV</span>
+          <h4 data-en="Mastery" data-zh="精通">Mastery</h4>
+          <p data-en="Practice it. Own it. Pass it on." data-zh="践行它，掌握它，传承它。">Practice it. Own it. Pass it on.</p>
+        </div>
+      </div>
+      <div class="ch-grid">
     <a class="ch-card" href="login.html?next=guide.html%23ch10"><div class="ch-num">10</div><div class="ch-card-body"><h4 data-en="Ethics &amp; Responsibility" data-zh="伦理与职业责任">Ethics &amp; Responsibility</h4><p data-en="Legal · HIPAA · Delegation · Billing" data-zh="法律 · HIPAA · 授权 · 计费">Legal · HIPAA · Delegation · Billing</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch11"><div class="ch-num">11</div><div class="ch-card-body"><h4 data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</h4><p data-en="Rehab plans · DPT path · NPTE · Career growth" data-zh="康复方案 · DPT 路径 · NPTE · 职业发展">Rehab plans · DPT path · NPTE · Career growth</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
-    <a class="ch-card" href="login.html?next=guide.html%23ch12"><div class="ch-num">12</div><div class="ch-card-body"><h4 data-en="Assessment · 康复评定学" data-zh="Assessment · 康复评定学">Assessment · 康复评定学</h4><p data-en="MMT · Goniometry · Balance · Gait" data-zh="肌力测定 · 关节角度 · 平衡 · 步态">MMT · Goniometry · Balance · Gait</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
     <a class="ch-card" href="login.html?next=guide.html%23ch13"><div class="ch-num">13</div><div class="ch-card-body"><h4 data-en="TCM · 中医健康管理" data-zh="TCM · 中医健康管理">TCM · 中医健康管理</h4><p data-en="Yin-yang · Meridians · Tuina · Constitutional medicine" data-zh="阴阳 · 经络 · 推拿 · 体质医学">Yin-yang · Meridians · Tuina · Constitutional medicine</p></div><div class="ch-go" data-en="Enter →" data-zh="进入 →">Enter →</div></a>
+      </div>
+    </div>
   </div>
   <div class="trust-strip">
     <a class="qo-btn next" href="login.html?next=guide.html" data-en="Open the Full Guide →" data-zh="打开完整指南 →">Open the Full Guide →</a>
@@ -941,7 +1190,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="landing-audience">
 <div class="container">
   <span class="section-label" data-en="Who it's for" data-zh="适合谁">Who it's for</span>
-  <h2 data-en="Built for students, clinching careers" data-zh="为学子与执业者打造">Built for students, clinching careers</h2>
+  <h2 data-en="Built for students, launching careers" data-zh="为学子打造，助力职业启航">Built for students, launching careers</h2>
   <div class="quote" style="background:var(--accent-bg)">
     <p data-en="Whether you're preparing for the NPTE, the 运动康复师 qualification, or just want to truly understand your own body and training — Vitalité meets you where you are." data-zh="无论你正在备考 NPTE、运动康复师资格证，还是只想真正了解自己的身体与训练 — Vitalité 都能从你的起点出发。">Whether you're preparing for the NPTE, the 运动康复师 qualification, or just want to truly understand your own body and training — Vitalité meets you where you are.</p>
   </div>
@@ -951,8 +1200,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- Final CTA -->
 <section id="landing-cta" style="text-align:center">
 <div class="container">
-  <h2 data-en="Start learning today" data-zh="今天就开始学习">Start learning today</h2>
-  <p data-en="Free. Bilingual. Create your account in seconds." data-zh="免费。双语。几秒创建你的账号。">Free. Bilingual. Create your account in seconds.</p>
+  <h2 data-en="Start your plan today" data-zh="今天开始你的计划">Start your plan today</h2>
+  <p data-en="Free. Bilingual. Chapter one is waiting." data-zh="免费。双语。第一章在等你。">Free. Bilingual. Chapter one is waiting.</p>
   <div class="hero-actions">
     <a class="qo-btn next" href="login.html?next=guide.html" data-en="🚀 Create Free Account" data-zh="🚀 免费创建账号">🚀 Create Free Account</a>
     <a class="qo-btn next" href="login.html" style="background:var(--green)" data-en="👤 Log In" data-zh="👤 登录">👤 Log In</a>
@@ -964,7 +1213,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="container">
   <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
   <p style="margin-top:.5rem" data-en="Science moves by debate, not decree — keep asking “how do we know?”" data-zh="科学因争论而前进，而非因命令 — 永远追问“我们是怎么知道的？”">Science moves by debate, not decree — keep asking “how do we know?”</p>
-  <p style="margin-top:.5rem;color:var(--text3);font-size:.8rem" data-en="© Vitalité · Sports Medicine, Recovery &amp; Nutrition" data-zh="© Vitalité · 运动医学、恢复与营养">© Vitalité · Sports Medicine, Recovery &amp; Nutrition</p>
+  <p style="margin-top:.5rem;color:var(--text3);font-size:.8rem" data-en="© Vitalité · The Vitalité Plan · Sports Medicine, Recovery &amp; Nutrition" data-zh="© Vitalité · 活力计划 · 运动医学、恢复与营养">© Vitalité · The Vitalité Plan · Sports Medicine, Recovery &amp; Nutrition</p>
 </div>
 </footer>
 

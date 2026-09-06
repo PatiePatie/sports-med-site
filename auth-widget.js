@@ -27,13 +27,16 @@
   }
 
   /* ---- Logout. Works from ANY page, no supabase lib required:
-     1) clear local sm_user
+     1) clear the local auth mirrors (sm_user AND sm_profile — the profile
+        name is the header's fallback, so leaving it makes "Oliver" survive
+        logout)
      2) revoke the Supabase session via plain fetch (anon key is public by
         design — it's in every page's source anyway) and purge the stored
         token so NOTHING can resurrect the session — even a stale cached
         login.html will find no session to re-import
-     3) hand off to login.html?out=1 (the guards there are belt+braces) ---- */
-  var V_SB={ url:'https://iftuqkfjwqnythhwencx.supabase.co', ref:'iftuqkfjwqnythhwencx', anon:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHVxa2Zqd3FueXRoaHdlbmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwODM2MDMsImV4cCI6MjEwMzY1OTYwM30.VFB8ZKFOKTPsgyw_IQNH_HGN1JDo44XWAJQPz1MZ8VQ' };
+     3) land on index.html — the public landing page (no auth scripts there,
+        so the logged-out state cannot be re-imported by any path) ---- */
+  var V_SB={ url:'https://eytmbftrjvsntyzwbtzl.supabase.co', ref:'eytmbftrjvsntyzwbtzl', anon:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc' };
   /* If the page itself declares Supabase config (login/admin do), prefer it —
      so a project switch keeps logout working without touching this file.
      Otherwise fall back to the embedded public config. */
@@ -50,8 +53,10 @@
     var cfg=sbCfg();
     var done=function(){
       try{ localStorage.removeItem('sm_user'); }catch(e){}
+      try{ localStorage.removeItem('sm_profile'); }catch(e){}
       try{ localStorage.removeItem('sb-'+cfg.ref+'-auth-token'); }catch(e){}
-      window.location.href='login.html?out=1';
+      try{ localStorage.removeItem('sb-'+V_SB.ref+'-auth-token'); }catch(e){}
+      window.location.href='index.html';
     };
     try{
       var raw=localStorage.getItem('sb-'+cfg.ref+'-auth-token');

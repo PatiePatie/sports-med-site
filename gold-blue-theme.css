@@ -44,7 +44,7 @@ body.dark{
 
 /* ── Layout ── */
 .container{max-width:var(--max-w);margin:0 auto;padding:0 1.25rem}
-header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+header{position:sticky;top:0;z-index:150;background:var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
 .logo{font-size:1.05rem;font-weight:700;color:var(--text)}
 .logo span{color:var(--accent)}

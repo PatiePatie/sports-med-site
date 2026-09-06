@@ -866,8 +866,8 @@ body.dark h1,body.dark h2,body.dark h3{
     <div class="container header-inner">
       <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
       <div class="header-actions">
-        <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-        <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+        <button class="btn-icon" id="langToggle" title="Switch 中文 / English">中文</button>
+        <button class="btn-icon" id="darkToggle" title="Toggle dark / light mode">🌙 Dark</button>
         <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
       </div>
     </div>
@@ -1647,10 +1647,10 @@ function switchTab(btn, panelId){
 const darkBtn = document.getElementById('darkToggle');
 darkBtn.addEventListener('click',()=>{
   document.body.classList.toggle('dark');
-  darkBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  darkBtn.textContent = document.body.classList.contains('dark') ? '☀️ Light' : '🌙 Dark';
   localStorage.setItem('dark', document.body.classList.contains('dark'));
 });
-if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');darkBtn.textContent='☀️';}
+if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');darkBtn.textContent='☀️ Light';}
 
 // ════════════════════════════════════════
 // LANGUAGE TOGGLE
@@ -1683,7 +1683,7 @@ function applyLang(){
   document.querySelectorAll('[data-en][data-zh]').forEach(el=>{
     el.textContent = el.getAttribute('data-'+lang);
   });
-  langBtn.textContent = showCN ? '中' : 'EN';
+  langBtn.textContent = showCN ? '中文' : 'English';
   renderMasteryGrid();
   renderFCChips();
   updateRecs();
@@ -2834,7 +2834,7 @@ function renderResourcesHub(){
 // MEDAI_URL is filled in once the worker is deployed (leave '' to show a friendly 'not configured' message).
 // ════════════════════════════════════════
 var MEDAI_URL = 'https://api.vitaliteplan.com';
-function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')!=='en'?'zh':'en'; }catch(e){ return 'en'; } }
 function medaiAppend(boxId, raw){
   var box=document.getElementById(boxId); if(!box) return;
   var div=document.createElement('div');

@@ -57,7 +57,8 @@
   function isCN() {
     if (body.classList.contains('lang-zh')) return true;
     if (body.classList.contains('lang-en')) return false;
-    return store('sm_lang') === 'zh';
+    /* No saved preference → 中文, matching the page-level default. */
+    return store('sm_lang') !== 'en';
   }
   /* Give a node both strings so the page's own applyLang() keeps it in sync
      on every subsequent toggle, and set the current one ourselves because

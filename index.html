@@ -888,7 +888,7 @@ body:not(.dark) #v-splash{
     /* theme first — site defaults to dark; keep explicit light pickers light */
     if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');}
     var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var zh=(localStorage.getItem('sm_lang')||'').toLowerCase()==='zh';
+    var zh=(localStorage.getItem('sm_lang')||'').toLowerCase()!=='en';
     var s=document.createElement('div');s.id='v-splash';s.setAttribute('aria-hidden','true');
     /* forest — two depth rows of dark blue silhouettes behind the tile.
        back row = hazy steel-blue, front row = near-black navy; saplings
@@ -1035,8 +1035,8 @@ body:not(.dark) #v-splash{
     <a href="#landing-audience" data-en="Who it's for" data-zh="适合谁">Who it's for</a>
   </nav>
   <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+    <button class="btn-icon" id="langToggle" title="Switch 中文 / English">中文</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark / light mode">🌙 Dark</button>
     <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
   </div>
 </div>
@@ -1258,23 +1258,23 @@ body:not(.dark) #v-splash{
 (function(){
   var bodyEl=document.body;
   var darkBtn=document.getElementById('darkToggle');
-  if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
+  if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️ Light'; }
   if(darkBtn) darkBtn.addEventListener('click',function(){
     bodyEl.classList.toggle('dark');
     localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false');
-    darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙';
+    darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️ Light' : '🌙 Dark';
   });
 })();
 
 /* ── Language toggle ── */
 (function(){
-  var showCN = localStorage.getItem('sm_lang')==='zh';
+  var showCN = localStorage.getItem('sm_lang')!=='en';
   function applyLang(){
     document.body.classList.toggle('lang-zh',showCN);
     document.body.classList.toggle('lang-en',!showCN);
     document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+ (showCN?'zh':'en')); });
     document.querySelectorAll('[data-en-placeholder]').forEach(function(el){ el.placeholder=el.getAttribute('data-'+ ((showCN?'zh':'en'))+'-placeholder'); });
-    document.getElementById('langToggle').textContent=showCN?'中':'EN';
+    document.getElementById('langToggle').textContent=showCN?'中文':'English';
   }
   document.getElementById('langToggle').addEventListener('click',function(){
     showCN=!showCN;

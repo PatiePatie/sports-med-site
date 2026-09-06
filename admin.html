@@ -790,7 +790,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-hint{font-size:.82rem;color:var(--text3);line-height:1.6}
 
 </style><link rel="stylesheet" href="gold-blue-theme.css?v=3">
-  <script src="loader.js"></script>
+  <script src="loader.js?v=6"></script>
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav class="sidebar" id="sidebar">
@@ -805,12 +805,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
-      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
@@ -826,6 +822,7 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -835,7 +832,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link" href="social.html" data-en="💬 Forum" data-zh="💬 论坛">💬 Forum</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
@@ -970,6 +967,12 @@ function renderConsole(u){
     +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
     +'</div></div>';
 
+  html+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
+    +'<div class="adm-msg" id="forumModMsg"></div>'
+    +'<div id="forumModBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取举报…':'Loading reports…')+'</span></div></div>'
+    +'<p class="adm-note">'+t('Reported topics and replies land here. Hide keeps the post (and its replies) out of the public forum; Delete removes it permanently.','被举报的主题与回复会出现在这里。隐藏会让帖子及其回复从公开论坛中消失；删除将永久移除。')+'</p>'
+    +'</div>';
+
   html+='<div class="adm" id="siteEditor"><h1>🎨 '+t('Site Editor','站点编辑器')+'</h1>'
     +'<p class="adm-note" style="margin-top:.15rem">'+t('Pick a page, pick a section, then edit it visually on a live canvas. Drafts stay on this device only; Publish pushes the section live for every visitor, in English and 中文.','选择页面与区块，在实时画布上进行可视化编辑。草稿仅保存在本机；发布后该区块的中英文内容将对所有访客生效。')+'</p>'
     +'<div id="siteEditorRoot"></div>'
@@ -1001,6 +1004,7 @@ function renderConsole(u){
   showRoot(html);
   loadUsers(u);
   loadDr7Usage();
+  loadForumMod();
   applyLang();
 }
 
@@ -1127,6 +1131,95 @@ function loadDr7Usage(){
       +'<div class="adm-dr7card"><div class="v">$'+cost.toFixed(4)+'</div><div class="k">'+t('Logged cost · 记录费用','记录费用')+'</div></div>'
       +'<div class="adm-dr7card"><div class="v">🤖</div><div class="k">'+t('Model · baichuan-m3','模型')+'</div></div>';
     document.getElementById('dr7Stats').className='adm-dr7row';
+  });
+}
+
+/* ============ Forum Moderation (topics + replies reported by users) ============ */
+function loadForumMod(){
+  var box=document.getElementById('forumModBox');
+  if(!box) return;
+  if(!sb){
+    box.innerHTML='<div class="adm-empty">'+t('Forum not connected. Run forum-schema.sql in the Supabase SQL editor to enable it.','论坛未连接。请在 Supabase SQL 编辑器中运行 forum-schema.sql 以启用。')+'</div>';
+    return;
+  }
+  var msg=document.getElementById('forumModMsg');
+  function say(s){ if(msg) msg.innerHTML=s; }
+  function escT(x){
+    return String(x==null?'':x).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  }
+  function fmt(iso){
+    var d=new Date(iso); if(isNaN(d.getTime())) return '';
+    var s=(Date.now()-d.getTime())/1000;
+    if(s<3600) return Math.floor(s/60)+(showCN?' 分钟前':'m ago');
+    if(s<86400) return Math.floor(s/3600)+(showCN?' 小时前':'h ago');
+    if(s<604800) return Math.floor(s/86400)+(showCN?' 天前':'d ago');
+    return d.toISOString().slice(0,10);
+  }
+  Promise.all([
+    sb.from('forum_topics').select('id,category,title,author_name,upvotes,flagged,hidden,created_at').eq('flagged',true),
+    sb.from('forum_replies').select('id,topic_id,author_name,body,flagged,hidden,created_at').eq('flagged',true)
+  ]).then(function(res){
+    if(res[0].error){
+      say('<div class="adm-empty" style="color:var(--red)">'+escT(res[0].error.message||'error')+'</div>');
+      box.innerHTML='';
+      return;
+    }
+    var topics=res[0].data||[], replies=res[1].data||[];
+    say(topics.length+replies.length
+      ? (showCN?'共 '+(topics.length+replies.length)+' 条举报':' '+ (topics.length+replies.length) +' reports')
+      : (showCN?'没有举报，干干净净 🎉':' No reports — squeaky clean 🎉'));
+    if(!topics.length && !replies.length){ box.innerHTML='<div class="adm-empty">'+t('Nothing flagged. Members are behaving.','暂无举报内容。会员表现良好。')+'</div>'; return; }
+    var h='';
+    topics.forEach(function(x){
+      h+='<div class="adm-row" style="border:1px solid '+(x.hidden?'var(--border)':'var(--red)')+';border-radius:var(--radius-sm);padding:.8rem 1rem;margin-bottom:.6rem">'
+        +'<div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:.3rem">'
+        +'<span class="adm-badge">🚩 '+(showCN?'主题':'Topic')+'</span>'
+        +'<span style="font-weight:800">'+escT(x.title||'(untitled)')+'</span>'
+        +'<span style="font-size:.76rem;color:var(--text3)">'+escT(x.author_name||'?')+' · '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +'<span style="font-size:.76rem">▲ '+(x.upvotes||0)+' · 💬 '+(showCN?'回复数见下方':'replies below')+'</span>'
+        +'</div>'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        +'<button class="adm-btn" onclick="forumModAction(\'topic\',\''+x.id+'\','+(x.hidden?'false':'true')+')">'+(x.hidden?t('👁 Restore','👁 恢复'):t('🙈 Hide','🙈 隐藏'))+'</button>'
+        +'<button class="adm-btn" style="background:var(--red);color:#fff" onclick="forumModDelete(\'topic\',\''+x.id+'\')">🗑 '+t('Delete','删除')+'</button>'
+        +'</div></div>';
+    });
+    replies.forEach(function(x){
+      h+='<div class="adm-row" style="border:1px solid '+(x.hidden?'var(--border)':'var(--red)')+';border-radius:var(--radius-sm);padding:.8rem 1rem;margin-bottom:.6rem">'
+        +'<div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:.3rem">'
+        +'<span class="adm-badge">💬 '+(showCN?'回复':'Reply')+'</span>'
+        +'<span style="font-weight:800">'+escT(x.author_name||'?')+'</span>'
+        +'<span style="font-size:.76rem;color:var(--text3)">· '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +'</div>'
+        +'<div style="font-size:.85rem;color:var(--text2);white-space:pre-wrap;word-wrap:break-word;max-height:90px;overflow:hidden;margin-bottom:.5rem">'+escT(x.body)+'</div>'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        +'<button class="adm-btn" onclick="forumModAction(\'reply\',\''+x.id+'\','+(x.hidden?'false':'true')+')">'+(x.hidden?t('👁 Restore','👁 恢复'):t('🙈 Hide','🙈 隐藏'))+'</button>'
+        +'<button class="adm-btn" style="background:var(--red);color:#fff" onclick="forumModDelete(\'reply\',\''+x.id+'\')">🗑 '+t('Delete','删除')+'</button>'
+        +'</div></div>';
+    });
+    box.innerHTML=h;
+  }).catch(function(e){
+    say('<div class="adm-empty" style="color:var(--red)">'+escT(e&&e.message||'error')+'</div>');
+    box.innerHTML='';
+  });
+}
+function forumModAction(kind,id,hidden){
+  var tbl=kind==='topic'?'forum_topics':'forum_replies';
+  sb.from(tbl).update({hidden:hidden,flagged:false}).eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('forumModMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadForumMod();
+  });
+}
+function forumModDelete(kind,id){
+  if(!confirm(t('Delete permanently? This cannot be undone.','永久删除？此操作无法撤销。'))) return;
+  var tbl=kind==='topic'?'forum_topics':'forum_replies';
+  sb.from(tbl).delete().eq('id',id).then(function(r){
+    if(!r.error && kind==='topic'){
+      sb.from('forum_replies').delete().eq('topic_id',id).then(function(){ loadForumMod(); });
+      return;
+    }
+    loadForumMod();
   });
 }
 

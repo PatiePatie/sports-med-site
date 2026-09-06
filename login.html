@@ -723,14 +723,13 @@ body.dark h1,body.dark h2,body.dark h3{
   <div style="text-align:center;padding:2.5rem 0 .5rem">
     <span class="hero-badge"><span class="dot"></span><span data-en="Secure Accounts · 安全账号" data-zh="安全账号 · Secure Accounts">Secure Accounts · 安全账号</span></span>
     <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin:.6rem 0" data-en="Sign In or Create an Account" data-zh="登录或创建账号">Sign In or Create an Account</h1>
-    <p style="color:var(--text2)" data-en="Log in, reset your password, or create a free account to track your progress on any device." data-zh="登录、重置密码，或创建免费账号，在任意设备上同步学习进度。">Log in, reset your password, or create a free account to track your progress on any device.</p>
+    <p style="color:var(--text2)" data-en="Log in or create a free account to track your progress on any device." data-zh="登录或创建免费账号，在任意设备上同步学习进度。">Log in or create a free account to track your progress on any device.</p>
   </div>
 
   <div class="acct-wrap">
     <div class="acct-tabs">
       <button class="acct-tab active" id="tabLogin" onclick="switchTab('login')" data-en="Log In" data-zh="登录">Log In</button>
       <button class="acct-tab" id="tabSignup" onclick="switchTab('signup')" data-en="Sign Up" data-zh="注册">Sign Up</button>
-      <button class="acct-tab" id="tabReset" onclick="switchTab('reset')" data-en="Reset Password" data-zh="重置密码">Reset Password</button>
     </div>
     <div class="acct-msg" id="acctMsg"></div>
 
@@ -742,6 +741,8 @@ body.dark h1,body.dark h2,body.dark h3{
         <input id="liEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
       <div class="acct-field"><label for="liPass" id="liPassLbl" data-en="Password" data-zh="密码">Password</label>
         <input id="liPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+
+      <div style="text-align:right;margin:-.2rem 0 .9rem"><a href="javascript:void(0)" onclick="switchTab('reset')" style="font-size:.85rem;color:var(--accent);text-decoration:none;font-weight:600" data-en="Forgot password?" data-zh="忘记密码？">Forgot password?</a></div>
 
       <button class="qo-btn next" id="liBtn" style="width:100%;font-size:1rem;padding:.75rem" data-en="Log In" data-zh="登录">Log In</button>
       <div class="soc-divider"><span data-en="or continue with" data-zh="或使用以下方式">or continue with</span></div>
@@ -864,7 +865,7 @@ function switchTab(t){
   ['login','signup','reset'].forEach(function(x){
     document.getElementById('pane'+(x[0].toUpperCase()+x.slice(1))).style.display=(x===t)?'block':'none';
     var btn=document.getElementById('tab'+(x[0].toUpperCase()+x.slice(1)));
-    btn.classList.toggle('active',x===t);
+    if(btn) btn.classList.toggle('active',x===t);
   });
 }
 

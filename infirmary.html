@@ -789,9 +789,38 @@ body.dark h1,body.dark h2,body.dark h3{
   body.sbcompact .sidebar:hover .part-icon{width:1.5rem;font-size:1.05rem}
   body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
 }
+
+/* ═══ Recovery Plan ═══ */
+#plan{scroll-margin-top:1rem}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.5rem auto 0;max-width:920px}
+.plan-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.15rem;text-align:left;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:.35rem;box-shadow:var(--shadow-sm)}
+.plan-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+.plan-card.active{border-color:var(--accent);background:var(--accent-bg)}
+.plan-card .pc-icon{font-size:1.6rem;line-height:1.1}
+.plan-card .pc-title{font-weight:800;font-size:1.02rem;font-family:var(--font-heading)}
+.plan-card .pc-meta{font-size:.76rem;color:var(--text3)}
+.plan-progress{height:6px;border-radius:99px;background:var(--surface3);overflow:hidden;margin-top:.35rem}
+.plan-progress>i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .3s;width:0}
+body.dark .plan-progress{background:rgba(255,255,255,.12)}
+.plan-detail{max-width:920px;margin:1.5rem auto 0;text-align:left}
+.plan-detail-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+.plan-detail-head h3{font-family:var(--font-heading);font-size:1.4rem;font-weight:800}
+.plan-detail-head .pd-sub{font-size:.85rem;color:var(--text3);margin-top:.15rem}
+.plan-reset{background:none;border:1px solid var(--border);color:var(--text3);font-size:.75rem;padding:.32rem .75rem;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;font-family:var(--font)}
+.plan-reset:hover{color:var(--red);border-color:var(--red)}
+.plan-phase{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:1rem;box-shadow:var(--shadow-sm)}
+.plan-phase.done{border-color:var(--green)}
+.plan-phase-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.35rem}
+.plan-phase-head .ph-name{font-weight:800;font-size:.95rem}
+.plan-phase-head .ph-days{font-size:.72rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.14rem .55rem;border-radius:99px;border:1px solid var(--border2);white-space:nowrap}
+.plan-phase-head .ph-pct{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--text3)}
+.plan-item{display:flex;gap:.6rem;align-items:flex-start;padding:.42rem 0;font-size:.88rem;line-height:1.5;cursor:pointer;border-radius:var(--radius-sm);transition:background .15s}
+.plan-item:hover{background:var(--surface2)}
+.plan-item input{accent-color:var(--green);margin-top:.34rem;flex-shrink:0;width:16px;height:16px;cursor:pointer}
+.plan-item.done{color:var(--text3);text-decoration:line-through}
 </style>
 <link rel="stylesheet" href="auth-widget.css">
-<script src="auth-widget.js?v=3"></script>
+<script src="auth-widget.js?v=4"></script>
 <script src="auth-gate.js"></script>
 
 <script>
@@ -864,12 +893,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
-      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
@@ -885,7 +910,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link active" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
-      <a class="sidebar-link sub" href="guide.html" data-en="← Back to Knowledge" data-zh="← 返回知识库">← Back to Knowledge</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
+      
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -895,7 +921,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link" href="social.html" data-en="💬 Forum" data-zh="💬 论坛">💬 Forum</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
@@ -950,6 +976,18 @@ body.dark h1,body.dark h2,body.dark h3{
   <div style="margin-top:1.5rem;text-align:center">
     <a class="qo-btn next" href="guide.html" data-en="🧭 Back to Vitalite Knowledge" data-zh="🧭 返回 Vitalite 知识库">🧭 Back to Vitalite Knowledge</a>
   </div>
+</div>
+</section>
+
+<!-- ═══ Recovery Plan ═══ -->
+<section class="chapter" id="plan">
+<div class="container">
+  <div class="hero-badge"><span class="dot"></span><span data-en="Recovery Plan · 康复计划" data-zh="康复计划 · Recovery Plan">Recovery Plan · 康复计划</span></div>
+  <h1 data-en="Follow a Plan, Step by Step" data-zh="按部就班，完成康复">Follow a Plan, Step by Step</h1>
+  <p style="max-width:640px;margin:.75rem auto 0" data-en="Pick an injury or recovery scenario, work through each phase day by day, and check off every step. Progress is saved to this browser for your account." data-zh="选择一个损伤或恢复场景，按阶段逐日推进并勾选每一步。进度会为此账户保存在当前浏览器中。">Pick an injury or recovery scenario, work through each phase day by day, and check off every step. Progress is saved to this browser for your account.</p>
+  <div class="plan-grid" id="planScenarios"></div>
+  <div class="plan-detail" id="planDetail"></div>
+  <div class="chat-disclaimer" data-en="Education only, not medical advice. If pain increases or persists, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛加重或持续，请及时就医。">Education only, not medical advice. If pain increases or persists, see a professional.</div>
 </div>
 </section>
 
@@ -1112,6 +1150,282 @@ document.addEventListener('click', function(e){
   function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }
   if(btn){ btn.addEventListener('click',function(){ setCompact(!document.body.classList.contains('sbcompact')); }); }
   try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
+})();
+</script>
+
+<script>
+/* ═══ Recovery Plan builder — scenarios, phases, checklists (local, per-account) ═══ */
+(function(){
+  var SCENARIOS=[
+    {
+      id:'ankle-sprain', icon:'🦶',
+      title:['Ankle Sprain','脚踝扭伤'],
+      tag:['5 phases · RICE to return','5 阶段 · 从 RICE 到回归运动'],
+      phases:[
+        { name:['Acute','急性期'], days:['Day 0–3','第 0–3 天'], items:[
+          ['Rest — avoid putting weight on the ankle','休息 — 避免患侧负重'],
+          ['Ice 15–20 min every 2–3 h for the first 48–72 h','冰敷：每次 15–20 分钟，每 2–3 小时一次（前 48–72 小时）'],
+          ['Compress with an elastic wrap — snug, not tight','弹性绷带加压包扎 — 贴合但不勒紧'],
+          ['Elevate the ankle above heart level when resting','休息时抬高脚踝至心脏以上'],
+          ['Avoid heat, vigorous stretching, and massage in the first 48 h','前 48 小时避免热敷、剧烈拉伸与按摩']
+        ]},
+        { name:['Sub-acute','亚急性期'], days:['Day 4–14','第 4–14 天'], items:[
+          ['When pain drops to 3/10 or less, start gentle motion','疼痛降至 3/10 或以下时，开始轻柔活动'],
+          ['Trace the alphabet with your toe, twice a day','每日两次，用脚尖描字母表'],
+          ['Circle the ankle slowly in both directions','缓慢转动脚踝，两个方向各做若干圈'],
+          ['Gentle calf stretch once comfortable','无痛后轻柔拉伸小腿'],
+          ['Isometric ankle pushes against a wall or hand','靠墙或用手对抗的踝部等长收缩']
+        ]},
+        { name:['Rehab','康复期'], days:['Week 2–4','第 2–4 周'], items:[
+          ['Balance: single-leg stand 20–30 s, hold the wall if needed','平衡：单腿站立 20–30 秒，必要时扶墙'],
+          ['Calf raises: both legs first, then single leg','提踵：先双腿，再单腿'],
+          ['Walk with no pain before adding any jogging','无痛行走后，再尝试慢跑'],
+          ['Stop if pain spikes — step back one stage','疼痛突然加重立即停止 — 退回上一阶段']
+        ]},
+        { name:['Return to Sport','回归运动'], days:['Week 4+','第 4 周起'], items:[
+          ['Full pain-free range of motion before return','回归前活动范围完整且无痛'],
+          ['Single-leg balance 30 s+ without support','不扶墙单腿站立 30 秒以上'],
+          ['Hop in place, then hop forward at half speed, then full speed','原地跳跃 → 半速向前跳 → 全速'],
+          ['Ease back into sport at half intensity, build up over sessions','以一半强度回归运动，逐渐加量']
+        ]}
+      ]
+    },
+    {
+      id:'low-back', icon:'🦴',
+      title:['Low Back Strain','腰背拉伤'],
+      tag:['4 phases · protect to rebuild','4 阶段 · 从保护到重建'],
+      phases:[
+        { name:['Acute','急性期'], days:['Day 0–3','第 0–3 天'], items:[
+          ['Keep moving gently — bed rest makes it worse','保持轻柔活动 — 卧床反而更糟'],
+          ['Ice or heat, whichever feels better, 15–20 min','冰敷或热敷皆可（感觉舒适为准），每次 15–20 分钟'],
+          ['Avoid bending, lifting, and twisting','避免弯腰、提重物与扭转动作'],
+          ['Sleep with a pillow between your knees','睡觉时在膝间夹一个枕头'],
+          ['If pain radiates down the leg or you feel weak, see a professional','若疼痛放射至腿部或感到无力，请及时就医']
+        ]},
+        { name:['Sub-acute','亚急性期'], days:['Day 4–14','第 4–14 天'], items:[
+          ['Short, frequent walks — 10 min every few hours','短时多次散步 — 每几小时走 10 分钟'],
+          ['Pelvic tilts in a comfortable position','舒适姿势下的骨盆倾斜'],
+          ['Knee-to-chest stretch, one leg at a time','单侧膝抱胸拉伸'],
+          ['Cat–camel mobility, slow and pain-free','猫牛式活动度练习，缓慢且无痛']
+        ]},
+        { name:['Rebuild','重建期'], days:['Week 2–4','第 2–4 周'], items:[
+          ['Bird-dog and dead-bug core drills','鸟狗式与死虫式核心训练'],
+          ['Glute bridges with a pause at the top','臀桥（顶端停顿）'],
+          ['Side planks, short holds to start','侧平板支撑（短时维持起步）'],
+          ['Braced core during daily bending and lifting','日常弯腰提物时保持核心收紧']
+        ]},
+        { name:['Return','回归期'], days:['Week 4+','第 4 周起'], items:[
+          ['Return to full daily activity without pain','无痛恢复正常日常活动'],
+          ['Add progressive strength: squats, hinges, carries','渐进力量：深蹲、髋铰链、负重行走'],
+          ['Practice good lifting mechanics every time','每次提物都使用正确的发力姿势'],
+          ['Warm up with core activation before sport','运动前先激活核心再开始']
+        ]}
+      ]
+    },
+    {
+      id:'shoulder', icon:'🏋️',
+      title:['Shoulder Strain','肩部劳损'],
+      tag:['4 phases · rest to reload','4 阶段 · 从休息到负重'],
+      phases:[
+        { name:['Acute','急性期'], days:['Day 0–3','第 0–3 天'], items:[
+          ['Rest from overhead reaching and lifting','暂停过顶伸手与举重动作'],
+          ['Ice the shoulder 15–20 min, a few times a day','肩部冰敷 15–20 分钟，每日数次'],
+          ['Sling only if it genuinely helps, and briefly','仅在有帮助时短时间使用吊带'],
+          ['Keep the shoulder moving gently within comfort','在舒适范围内轻柔活动肩部']
+        ]},
+        { name:['Sub-acute','亚急性期'], days:['Day 4–14','第 4–14 天'], items:[
+          ['Pendulum swings — let the arm hang and sway','钟摆练习 — 手臂自然下垂并摆动'],
+          ['Finger wall walks, up and down, pain-free','手指爬墙，向上向下，全程无痛'],
+          ['Doorway pectoral stretch, 30 s per side','门框胸肌拉伸，每侧 30 秒'],
+          ['Scapular squeezes: pinch shoulder blades together','肩胛夹紧：将两侧肩胛骨向中间并拢']
+        ]},
+        { name:['Rehab','康复期'], days:['Week 2–4','第 2–4 周'], items:[
+          ['Resistance-band external rotation','弹力带肩外旋'],
+          ['Band rows focusing on the shoulder blade','弹力带划船（专注于肩胛发力）'],
+          ['Cross-body and sleeper stretches','过身体与侧卧肩部拉伸'],
+          ['Light overhead pressing with a dowel or band','用木杆或弹力带做轻量过顶推举']
+        ]},
+        { name:['Return','回归期'], days:['Week 4+','第 4 周起'], items:[
+          ['Pain-free full range of motion before return','回归前活动范围完整且无痛'],
+          ['Gradually reload overhead work at 50% first','过顶动作先以 50% 强度逐步加回'],
+          ['Sport-specific drills before full competition','先做专项动作热身，再上强度'],
+          ['Keep shoulder strength work 2× per week ongoing','持续每周 2 次肩部力量训练']
+        ]}
+      ]
+    },
+    {
+      id:'post-workout', icon:'💪',
+      title:['Post-Workout Recovery','练后恢复'],
+      tag:['4 phases · refuel to deload','4 阶段 · 从补能到减量'],
+      phases:[
+        { name:['Right After','练后即刻'], days:['0–2 h','0–2 小时'], items:[
+          ['5–10 min easy cool-down walk or cycling','5–10 分钟轻松放松走或骑行'],
+          ['Rehydrate with water or electrolyte drink','补充水分或电解质饮料'],
+          ['Protein + carbohydrate meal within 2 hours','2 小时内摄入蛋白质 + 碳水'],
+          ['Light static stretching optional — keep it gentle','可做轻度静态拉伸 — 保持轻柔']
+        ]},
+        { name:['Next 24 h','次日 24 小时内'], days:['Day 1','第 1 天'], items:[
+          ['Light movement: walk, swim, or easy cycling','轻度活动：散步、游泳或轻松骑行'],
+          ['Foam roll or gentle massage of sore muscles','酸痛部位泡沫轴放松或轻柔按摩'],
+          ['Aim for 7–9 h of sleep tonight','今晚保证 7–9 小时睡眠'],
+          ['Eat normally — refuel with real food','正常饮食 — 用真实食物补充能量']
+        ]},
+        { name:['Day 2–3','第 2–3 天'], days:['48–72 h','48–72 小时'], items:[
+          ['Expect DOMS — muscle soreness peaks around 48 h','预期出现迟发性肌肉酸痛 — 48 小时左右达峰'],
+          ['Active recovery session: light cardio + mobility','主动恢复训练：轻度有氧 + 活动度'],
+          ['Gentle stretching of stiff muscles','僵硬肌肉的轻柔拉伸'],
+          ['Move through full soreness ranges without forcing','在酸痛范围内活动，不强行用力']
+        ]},
+        { name:['Ongoing','长期规律'], days:['Weekly','每周'], items:[
+          ['Take 2–3 full rest days per week','每周安排 2–3 个完整休息日'],
+          ['Increase training volume by no more than ~10% per week','每周训练量增幅不超过约 10%'],
+          ['Schedule a deload week every 6–8 weeks','每 6–8 周安排一个减量周'],
+          ['Sleep 7–9 h every night — recovery happens there','每晚保证 7–9 小时睡眠 — 恢复发生在睡眠中']
+        ]}
+      ]
+    },
+    {
+      id:'runners-knee', icon:'🦵',
+      title:["Runner's Knee","跑步膝"],
+      tag:['4 phases · unload to strengthen','4 阶段 · 从减负到强化'],
+      phases:[
+        { name:['Acute','急性期'], days:['Day 0–3','第 0–3 天'], items:[
+          ['Cut mileage and skip hills or speed work','减少跑量，暂停坡跑与速度训练'],
+          ['Ice the knee 15–20 min after activity','活动后膝部冰敷 15–20 分钟'],
+          ['Stretch the quadriceps gently','轻柔拉伸股四头肌'],
+          ['Switch to lower-impact cross-training if needed','必要时改用低冲击交叉训练']
+        ]},
+        { name:['Sub-acute','亚急性期'], days:['Day 4–14','第 4–14 天'], items:[
+          ['Quad sets: squeeze the thigh, 10 s holds','股四头肌静力收缩，保持 10 秒'],
+          ['Straight-leg raises, both legs','直腿抬高，双腿交替'],
+          ['Clamshells for the glutes','蚌式开合练臀肌'],
+          ['Foam roll the outer thigh and IT band area','泡沫轴放松大腿外侧与髂胫束区域']
+        ]},
+        { name:['Rebuild','重建期'], days:['Week 2–4','第 2–4 周'], items:[
+          ['Step-downs from a low box, slow and controlled','低台阶慢速下台阶（控制力）'],
+          ['Single-leg squats to a chair height','单腿深蹲至椅面高度'],
+          ['Wall sits building to 30–60 s','靠墙静蹲，逐步到 30–60 秒'],
+          ['Hip-strengthening: side-lying abductions','髋部强化：侧卧髋外展']
+        ]},
+        { name:['Return to Running','回归跑步'], days:['Week 4+','第 4 周起'], items:[
+          ['Return to flat, easy, pain-free runs','回归平地轻松跑，全程无痛'],
+          ['Increase mileage by no more than 10% per week','每周跑量增幅不超过 10%'],
+          ['Aim for a cadence of 170–180 steps/min','步频控制在每分钟 170–180 步'],
+          ['Keep lower-body strength work 2× per week','持续每周 2 次下肢力量训练']
+        ]}
+      ]
+    }
+  ];
+  var STORE='vitalite_plan_v1';
+  var selected=null;
+
+  function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+  function T(en,zh){ return lang()==='zh'?zh:en; }
+  function userKey(){
+    var u=null;
+    try{ u=JSON.parse(localStorage.getItem('sm_user')||'null'); }catch(e){}
+    return (u&&u.email)?u.email.replace(/[^a-z0-9@._-]/gi,'_'):'_guest';
+  }
+  function loadStore(){
+    var all=null;
+    try{ all=JSON.parse(localStorage.getItem(STORE)||'null'); }catch(e){}
+    if(!all || all.user!==userKey()) all={ user:userKey(), data:{}, last:null };
+    return all;
+  }
+  function saveStore(all){ try{ localStorage.setItem(STORE, JSON.stringify(all)); }catch(e){} }
+  function scenarioStats(sc){
+    var all=loadStore(); var d=all.data[sc.id]||{};
+    var total=0, done=0;
+    sc.phases.forEach(function(p,pIdx){
+      p.items.forEach(function(it,iIdx){
+        total++;
+        if(d[pIdx+':'+iIdx]) done++;
+      });
+    });
+    return { total:total, done:done, pct: total?Math.round(done/total*100):0 };
+  }
+  function renderCards(){
+    var box=document.getElementById('planScenarios'); if(!box) return;
+    box.innerHTML=SCENARIOS.map(function(sc){
+      var st=scenarioStats(sc);
+      var open=selected===sc.id;
+      return '<button type="button" class="plan-card'+(open?' active':'')+'" data-sc="'+sc.id+'">'
+        +'<div class="pc-icon">'+sc.icon+'</div>'
+        +'<div class="pc-title">'+T(sc.title[0],sc.title[1])+'</div>'
+        +'<div class="pc-meta">'+T(sc.tag[0],sc.tag[1])+' · '+st.done+'/'+st.total+'</div>'
+        +'<div class="plan-progress"><i style="width:'+st.pct+'%"></i></div>'
+        +'</button>';
+    }).join('');
+  }
+  function renderDetail(){
+    var box=document.getElementById('planDetail'); if(!box) return;
+    var sc=SCENARIOS.find(function(s){ return s.id===selected; });
+    if(!sc){ box.innerHTML=''; return; }
+    var all=loadStore(); var d=all.data[sc.id]||{};
+    var st=scenarioStats(sc);
+    var name=document.createElement('div');
+    box.innerHTML=''
+      +'<div class="plan-detail-head">'
+      +  '<div><h3>'+sc.icon+' '+T(sc.title[0],sc.title[1])+'</h3>'
+      +  '<div class="pd-sub">'+T(sc.tag[0],sc.tag[1])+' · '+st.done+'/'+st.total+' ('+st.pct+'%)</div></div>'
+      +  '<button type="button" class="plan-reset" id="planReset">↺ '+T('Reset progress','重置进度')+'</button>'
+      +'</div>'
+      +sc.phases.map(function(p,pIdx){
+        var t=0,n=0;
+        p.items.forEach(function(it,iIdx){ t++; if(d[pIdx+':'+iIdx]) n++; });
+        var pp=t?Math.round(n/t*100):0;
+        return '<div class="plan-phase'+(t&&n===t?' done':'')+'">'
+          +'<div class="plan-phase-head"><span class="ph-name">'+T(p.name[0],p.name[1])+'</span>'
+          +'<span class="ph-days">'+T(p.days[0],p.days[1])+'</span>'
+          +'<span class="ph-pct">'+n+'/'+t+'</span></div>'
+          +p.items.map(function(it,iIdx){
+            var key=pIdx+':'+iIdx, checked=!!d[key];
+            return '<label class="plan-item'+(checked?' done':'')+'" data-key="'+key+'">'
+              +'<input type="checkbox" '+(checked?'checked':'')+'>'
+              +'<span>'+T(it[0],it[1])+'</span></label>';
+          }).join('')
+          +'</div>';
+      }).join('');
+    var reset=document.getElementById('planReset');
+    if(reset){ reset.addEventListener('click',function(){
+      var a=loadStore(); delete a.data[sc.id]; saveStore(a);
+      renderCards(); renderDetail();
+    }); }
+  }
+  document.addEventListener('click',function(e){
+    var card=e.target&&e.target.closest?e.target.closest('.plan-card'):null;
+    if(card){
+      selected=(selected===card.getAttribute('data-sc'))?null:card.getAttribute('data-sc');
+      renderCards(); renderDetail();
+      var detail=document.getElementById('planDetail');
+      if(detail && detail.innerHTML && detail.scrollIntoView) detail.scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+    var item=e.target&&e.target.closest?e.target.closest('.plan-item'):null;
+    if(!item) return;
+    var key=item.getAttribute('data-key');
+    var a=loadStore(); if(!a.data[selected]) a.data[selected]={};
+    if(item.querySelector('input').checked){
+      delete a.data[selected][key];
+      item.classList.remove('done');
+      item.querySelector('input').checked=false;
+    }else{
+      a.data[selected][key]=true;
+      item.classList.add('done');
+      item.querySelector('input').checked=true;
+    }
+    a.last=selected;
+    saveStore(a);
+    renderCards(); renderDetail();
+  });
+  var langBtn=document.getElementById('langToggle');
+  if(langBtn) langBtn.addEventListener('click',function(){ renderCards(); renderDetail(); });
+  renderCards();
+  var hash=String(location.hash||'').replace('#','');
+  if(hash==='plan' || (loadStore().last && SCENARIOS.some(function(s){return s.id===loadStore().last;}))){
+    selected=loadStore().last || null;
+    if(selected) renderDetail();
+  }
 })();
 </script>
 <script src="site-content.js"></script>

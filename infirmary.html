@@ -883,6 +883,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="qna-widget.js?v=1" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=1">
 <script src="notif-bell.js?v=1" defer></script>
+<link rel="stylesheet" href="checkup.css?v=1">
+<script src="checkup.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
 </head>
 <body>
@@ -917,6 +919,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
+      <a class="sidebar-link" href="infirmary.html#checkup" data-en="🩺 Checkup" data-zh="🩺 自查">🩺 Checkup</a>
       <a class="sidebar-link active" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
       <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
       
@@ -999,6 +1002,67 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
     <a class="qo-btn next" href="#plan" data-en="📋 Go to my recovery plan" data-zh="📋 查看我的康复计划">📋 Go to my recovery plan</a>
   </div>
 </div>
+</section>
+
+<section class="chapter" id="checkup">
+  <div class="container">
+    <div class="checkup-wrap">
+      <div class="checkup-badge" data-en="CHECKUP · 自检" data-zh="自检 · CHECKUP">CHECKUP · 自检</div>
+      <h1 data-en="🩺 AI Body Checkup" data-zh="🩺 AI 身体自检">🩺 AI Body Checkup</h1>
+      <p class="checkup-intro" data-en="Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis." data-zh="点击人体图上对应的部位 — 自检会列出可能的症状，勾选符合的项，即可获得实用指导。仅供学习参考，绝不构成诊断。">Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis.</p>
+
+      <div class="checkup-steps" aria-hidden="true">
+        <span class="checkup-step on" id="ckStep1"><span class="cdot">1</span><span data-en="Body part" data-zh="选择部位">Body part</span></span>
+        <span class="checkup-step" id="ckStep2"><span class="cdot">2</span><span data-en="Symptoms" data-zh="勾选症状">Symptoms</span></span>
+        <span class="checkup-step" id="ckStep3"><span class="cdot">3</span><span data-en="Guidance" data-zh="获取指导">Guidance</span></span>
+      </div>
+
+      <div class="checkup-panel">
+        <!-- Step 1: body map -->
+        <div class="checkup-stepbody active" id="ckBody1">
+          <h3>1 · <span data-en="Where does it hurt?" data-zh="哪里不舒服？">Where does it hurt?</span></h3>
+          <div class="ch-ctx" data-en="Tap the body part on the map, or pick it below. You can also take a photo on supported devices." data-zh="点击人体图上的部位，或从下方选择。支持的设备也可以拍照识别。">Tap the body part on the map, or pick it below. You can also take a photo on supported devices.</div>
+          <div class="checkup-bodymap">
+            <div class="checkup-map" id="checkupMap"></div>
+            <div class="checkup-camrow">
+              <button type="button" class="checkup-cam" id="camBtn" data-en="📷 Scan with camera" data-zh="📷 拍照扫描">📷 Scan with camera</button>
+              <input type="file" id="camInput" accept="image/*" hidden>
+            </div>
+            <div class="checkup-cam-err" id="camErr" role="status"></div>
+            <div class="checkup-map-hint" data-en="Or pick from the list:" data-zh="或从列表中选择：">Or pick from the list:</div>
+            <div class="checkup-parts" id="checkupParts"></div>
+          </div>
+          <div class="checkup-btnrow">
+            <button type="button" class="checkup-btn ghost" id="restartBtn" data-en="↻ Start over" data-zh="↻ 重新开始">↻ Start over</button>
+          </div>
+        </div>
+
+        <!-- Step 2: symptoms -->
+        <div class="checkup-stepbody" id="ckBody2">
+          <h3>2 · <span data-en="Tick what matches" data-zh="勾选相符的症状">Tick what matches</span></h3>
+          <div class="ch-ctx"><span id="checkupPartName"></span> — <span data-en="leave blank what you don't have" data-zh="没有的症状请留空">leave blank what you don't have</span></div>
+          <div class="checkup-sym" id="symList"></div>
+          <div class="checkup-btnrow">
+            <button type="button" class="checkup-btn ghost" id="backBtn" data-en="← Body part" data-zh="← 选择部位">← Body part</button>
+            <button type="button" class="checkup-btn primary" id="analyzeBtn" data-en="✨ Analyze" data-zh="✨ 分析" disabled>✨ Analyze</button>
+          </div>
+        </div>
+
+        <!-- Step 3: output -->
+        <div class="checkup-stepbody" id="ckBody3">
+          <h3>3 · <span data-en="Guidance" data-zh="指导建议">Guidance</span></h3>
+          <div class="ch-ctx" data-en="General possibilities, not a diagnosis." data-zh="仅为可能性参考，不构成诊断。">General possibilities, not a diagnosis.</div>
+          <div id="ckOut"><div class="checkup-none" data-en="Pick a body part and symptoms to begin." data-zh="请先选择部位并勾选症状。">Pick a body part and symptoms to begin.</div></div>
+          <div class="checkup-btnrow">
+            <button type="button" class="checkup-btn ghost" id="editBtn" data-en="← Edit" data-zh="← 修改">← Edit</button>
+            <button type="button" class="checkup-btn ghost" id="restartBtn2" data-en="↻ New checkup" data-zh="↻ 新一次自检">↻ New checkup</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkup-disclaimer" data-en="Education only — not medical advice. If you're in serious pain or injured, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛严重或受伤，请及时就医。">Education only — not medical advice. If you're in serious pain or injured, see a professional.</div>
+    </div>
+  </div>
 </section>
 
 <section id="plan">

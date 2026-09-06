@@ -1,0 +1,89 @@
+/* ═══ Checkup — body-part symptom triage (infirmary) ═══
+   Education only. Never a medical diagnosis.
+   Bilingual EN/ZH via data-en / data-zh. Self-contained; cache-pinned ?v=1. */
+
+.checkup-wrap{max-width:820px;margin:0 auto}
+.checkup-badge{display:inline-block;background:var(--accent-bg);border:1px solid var(--border2);color:var(--accent);border-radius:99px;padding:.35rem 1.1rem;font-size:.8rem;font-weight:700;letter-spacing:.02em;margin-bottom:.8rem}
+.checkup-intro{font-size:.95rem;color:var(--text2);max-width:640px;margin:0 auto 1.5rem;line-height:1.6}
+
+/* ── Step pills ── */
+.checkup-steps{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.checkup-step{display:flex;align-items:center;gap:.45rem;padding:.4rem .9rem;border-radius:99px;border:1px solid var(--border);background:var(--surface);color:var(--text3);font-size:.8rem;font-weight:600;transition:all .2s}
+.checkup-step .cdot{width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--text3);display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex:none}
+.checkup-step.on{color:var(--accent);border-color:var(--accent);background:var(--accent-bg)}
+.checkup-step.on .cdot{background:var(--accent);color:#fff}
+.checkup-step.done{color:var(--green);border-color:var(--green)}
+.checkup-step.done .cdot{background:var(--green);color:#fff}
+
+/* ── Panel card ── */
+.checkup-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;box-shadow:var(--shadow-sm)}
+.checkup-panel h3{font-size:1.05rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.checkup-panel .ch-ctx{font-size:.8rem;color:var(--text3);margin-bottom:1.1rem}
+.checkup-stepbody{display:none}
+.checkup-stepbody.active{display:block;animation:checkupFade .25s ease}
+
+@keyframes checkupFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ── Step 1: body map ── */
+.checkup-bodymap{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.checkup-map{position:relative;width:220px;max-width:80vw}
+.checkup-map svg{width:100%;height:auto;display:block}
+.checkup-map .bp-hot{fill:var(--surface);stroke:var(--accent);stroke-width:1.4;cursor:pointer;transition:fill .15s,filter .15s}
+.checkup-map .bp-hot:hover{fill:var(--accent-bg);filter:brightness(1.05)}
+.checkup-map .bp-hot.sel{fill:var(--accent);stroke:#fff}
+.checkup-map .bp-label{font-size:10px;fill:var(--text3);pointer-events:none;text-anchor:middle}
+.checkup-map .bp-lbl-txt{fill:var(--text2);font-size:11px;font-weight:600}
+.checkup-map-hint{font-size:.78rem;color:var(--text3);text-align:center}
+
+/* Camera chip */
+.checkup-camrow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center}
+.checkup-cam{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:99px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .18s}
+.checkup-cam:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.checkup-cam.on{background:var(--green);color:#fff;border-color:var(--green)}
+.checkup-cam-err{font-size:.75rem;color:var(--danger,#c0392b);text-align:center;margin-top:.4rem;max-width:420px}
+
+/* Part legend chips */
+.checkup-parts{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.4rem}
+.checkup-part{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:99px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .18s}
+.checkup-part:hover{background:var(--accent-bg);border-color:var(--accent)}
+.checkup-part.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Step 2: symptoms ── */
+.checkup-sym{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem;margin-top:.4rem}
+.checkup-sym label{display:flex;align-items:flex-start;gap:.5rem;padding:.6rem .7rem;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface)}
+.checkup-sym label:hover{border-color:var(--accent)}
+.checkup-sym label.ticked{background:var(--accent-bg);border-color:var(--accent)}
+.checkup-sym input{margin-top:.15rem;accent-color:var(--accent);flex:none}
+.checkup-sym .sym-txt{font-size:.82rem;line-height:1.35;color:var(--text2)}
+.checkup-sym .sym-zh{display:block;font-size:.72rem;color:var(--text3)}
+.checkup-none{font-size:.8rem;color:var(--text3);text-align:center;padding:.6rem}
+
+/* ── Step 3: analyze / output ── */
+.checkup-out{font-size:.92rem;line-height:1.6;color:var(--text)}
+.checkup-out>div{margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px dashed var(--border)}
+.checkup-out>div:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.checkup-out h4{font-size:.86rem;margin-bottom:.35rem;color:var(--accent);display:flex;align-items:center;gap:.4rem}
+.checkup-out ol,.checkup-out ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.checkup-out li{margin:.25rem 0}
+.checkup-red{background:color-mix(in srgb,var(--danger,#c0392b) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--danger,#c0392b) 40%,transparent);border-radius:var(--radius-sm);padding:.7rem .8rem;margin-bottom:.9rem!important;font-size:.85rem}
+.checkup-disclaimer{font-size:.72rem;color:var(--text3);text-align:center;margin-top:1rem;font-style:italic}
+
+/* Buttons */
+.checkup-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.4rem;border-radius:var(--radius-sm);border:none;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .18s;box-shadow:var(--shadow-sm)}
+.checkup-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.checkup-btn.primary:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.checkup-btn.ghost{background:var(--surface);border:1px solid var(--border);color:var(--text2)}
+.checkup-btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.checkup-btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+.checkup-btnrow{display:flex;gap:.6rem;justify-content:center;margin-top:1.1rem;flex-wrap:wrap}
+
+/* Guarded chars */
+.checkup-busy{display:flex;align-items:center;gap:.5rem;justify-content:center;color:var(--text3);font-size:.85rem;padding:1rem}
+.checkup-spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:checkupSpin .7s linear infinite}
+@keyframes checkupSpin{to{transform:rotate(360deg)}}
+
+@media(max-width:600px){
+  .checkup-sym{grid-template-columns:1fr}
+  .checkup-panel{padding:1rem}
+  .checkup-map{width:180px}
+}

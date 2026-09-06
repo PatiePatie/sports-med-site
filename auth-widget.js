@@ -26,11 +26,20 @@
     return headActions;
   }
 
-  /* ---- Logout: clear local session + hand off to login.html with ?out=1.
-     login.html then kills the live Supabase session — otherwise its auth
-     listener re-imports the session and auto-logs the user straight back in. ---- */
+  /* ---- Logout: clear local session, then kill the Supabase session.
+     If the Supabase lib + keys are loaded here (login/admin pages), sign out
+     FIRST — then even a stale cached login.html can't resurrect the session.
+     Elsewhere, hand off to login.html?out=1 which signs out on arrival. ---- */
   function logout(){
     try{ localStorage.removeItem('sm_user'); }catch(e){}
+    try{
+      if(window.supabase && window.SB_URL && window.SB_ANON && window.SB_URL.indexOf('PASTE')===-1){
+        var t=window.supabase.createClient(window.SB_URL, window.SB_ANON);
+        var done=function(){ window.location.href='login.html'; };
+        t.auth.signOut().then(done).catch(done);
+        return;
+      }
+    }catch(e){}
     window.location.href='login.html?out=1';
   }
   window.vLogout = logout;

@@ -949,14 +949,22 @@ if(sb){
     }
     else if(ev==='SIGNED_OUT'){ localStorage.removeItem('sm_user'); setStatus(); }
   }); }catch(e){}
-  /* On initial load, if an OAuth session came back via the redirect, capture it */
+  /* On initial load: capture an OAuth session that came back via the redirect.
+     On ?out=1, deliberately SKIP this. getSession() does not emit auth events, so
+     the listener guard above cannot see it — a still-live session would re-apply
+     the user and goNext() bounce. Must be blocked here at the source. */
   sb.auth.getSession().then(function(d){
+    if(outReq){
+      localStorage.removeItem('sm_user');
+      setStatus();
+      return;
+    }
     if(d && d.data && d.data.session && d.data.session.user){
       applySociUser(d.data.session.user);
       goNext();
     }
     setStatus();
-  }).catch(function(){ setStatus(); });
+  }).catch(function(){ if(outReq){ localStorage.removeItem('sm_user'); } setStatus(); });
 }
 
 /* Freeze / deletion enforcement: if this email is frozen or deleted in the moderation table, block sign-in. */

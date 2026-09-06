@@ -26,21 +26,30 @@
     return headActions;
   }
 
-  /* ---- Logout: clear local session, then kill the Supabase session.
-     If the Supabase lib + keys are loaded here (login/admin pages), sign out
-     FIRST — then even a stale cached login.html can't resurrect the session.
-     Elsewhere, hand off to login.html?out=1 which signs out on arrival. ---- */
+  /* ---- Logout. Works from ANY page, no supabase lib required:
+     1) clear local sm_user
+     2) revoke the Supabase session via plain fetch (anon key is public by
+        design — it's in every page's source anyway) and purge the stored
+        token so NOTHING can resurrect the session — even a stale cached
+        login.html will find no session to re-import
+     3) hand off to login.html?out=1 (the guards there are belt+braces) ---- */
+  var V_SB={ url:'https://iftuqkfjwqnythhwencx.supabase.co', ref:'iftuqkfjwqnythhwencx', anon:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHVxa2Zqd3FueXRoaHdlbmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwODM2MDMsImV4cCI6MjEwMzY1OTYwM30.VFB8ZKFOKTPsgyw_IQNH_HGN1JDo44XWAJQPz1MZ8VQ' };
   function logout(){
-    try{ localStorage.removeItem('sm_user'); }catch(e){}
+    var done=function(){
+      try{ localStorage.removeItem('sm_user'); }catch(e){}
+      try{ localStorage.removeItem('sb-'+V_SB.ref+'-auth-token'); }catch(e){}
+      window.location.href='login.html?out=1';
+    };
     try{
-      if(window.supabase && window.SB_URL && window.SB_ANON && window.SB_URL.indexOf('PASTE')===-1){
-        var t=window.supabase.createClient(window.SB_URL, window.SB_ANON);
-        var done=function(){ window.location.href='login.html'; };
-        t.auth.signOut().then(done).catch(done);
+      var raw=localStorage.getItem('sb-'+V_SB.ref+'-auth-token');
+      var tok=null; if(raw){ try{ tok=JSON.parse(raw); }catch(e){} }
+      if(tok && tok.access_token){
+        fetch(V_SB.url+'/auth/v1/logout',{ method:'POST', headers:{ apikey:V_SB.anon, 'Authorization':'Bearer '+tok.access_token } })
+          .then(done).catch(done);
         return;
       }
     }catch(e){}
-    window.location.href='login.html?out=1';
+    done();
   }
   window.vLogout = logout;
 

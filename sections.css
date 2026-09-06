@@ -43,6 +43,18 @@ body.dark .sec-pill.active{color:#1a1300}
   .sec-ico{font-size:.95rem}
 }
 
+/* ── Flat section rail — subcategories listed, no collapsible header ──
+   The current section's sidebar shows its links flat. The part-toggle is
+   the accordion header — redundant when exactly one group is visible, and
+   clickable, which would collapse the whole section's links. Keep it in
+   compact mode: the rail renders as icon buttons and hover-expands. */
+body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
+body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+
 /* Study tabs are the Knowledge identity — keep them off other sections. */
 body.sec-infirmary .lin-pagetabs,
 body.sec-social .lin-pagetabs{display:none}

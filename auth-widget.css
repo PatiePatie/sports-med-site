@@ -15,3 +15,33 @@
 .log-item:hover{background:var(--surface2);text-decoration:none;color:var(--accent)}
 .log-menu .log-item:last-child{border-top:1px solid var(--border);border-radius:8px;margin-top:.15rem;padding-top:.6rem;color:var(--red,#C05A74)}
 .log-menu .log-item:last-child:hover{background:color-mix(in srgb,var(--red,#C05A74) 10%,transparent);color:var(--red,#C05A74)}
+
+/* ═══ Settings panel ═══
+   Opened from the account dropdown. Overlay + centered card, styled with the
+   same surface/border tokens as the rest of the app. */
+.v-settings-overlay{position:fixed;inset:0;background:rgba(10,20,36,.45);backdrop-filter:blur(2px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s}
+.v-settings-overlay.open{opacity:1;visibility:visible}
+body.v-settings-lock{overflow:hidden}
+.v-settings{width:min(420px,calc(100vw - 2rem));background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 60px rgba(10,20,36,.3);transform:translateY(6px) scale(.985);transition:transform .18s}
+.v-settings-overlay.open .v-settings{transform:translateY(0) scale(1)}
+.v-settings-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.15rem;border-bottom:1px solid var(--border)}
+.v-settings-title{font-size:1.02rem;font-weight:800;letter-spacing:-.01em}
+.v-settings-close{flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--text3);font-size:.95rem;cursor:pointer;transition:all .15s}
+.v-settings-close:hover{background:var(--surface2);color:var(--text)}
+.v-settings-body{padding:.35rem .5rem}
+.v-set-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem .65rem;border-bottom:1px solid var(--border)}
+.v-set-row:last-of-type{border-bottom:none}
+.v-set-info{min-width:0}
+.v-set-name{font-size:.88rem;font-weight:650;line-height:1.3}
+.v-set-desc{font-size:.74rem;color:var(--text3);margin-top:.15rem;line-height:1.35}
+.v-set-btn{flex:none;padding:.42rem .85rem;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.8rem;font-weight:650;cursor:pointer;transition:all .15s}
+.v-set-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.v-set-foot{padding:.7rem .65rem .9rem;font-size:.7rem;color:var(--text3);letter-spacing:.01em;text-align:center}
+/* Switch control */
+.v-switch{position:relative;flex:none;width:42px;height:24px;cursor:pointer}
+.v-switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.v-switch-knob{position:absolute;inset:0;border-radius:999px;background:var(--surface3,#d9dee6);transition:background .18s}
+.v-switch-knob::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s}
+.v-switch input:checked + .v-switch-knob{background:var(--accent,#3b82f6)}
+.v-switch input:checked + .v-switch-knob::after{transform:translateX(18px)}
+.v-switch input:focus-visible + .v-switch-knob{outline:2px solid var(--accent);outline-offset:2px}

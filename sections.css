@@ -54,6 +54,11 @@ body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"]
 body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
 body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
 body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+/* Developer Tools group: same escape hatch, but not tied to a section —
+   admin.html carries no sec-* class and must show Moderation/Site Designer/
+   Content Editor links on hover (admin inline .part-body{max-height:0} would
+   otherwise crush this group's body to nothing on every page). */
+body:not(.sbcompact) .sidebar-group.part[data-part="vitalite-dev"] > .part-body{max-height:none;overflow:visible}
 
 /* Study tabs are the Knowledge identity — keep them off other sections. */
 body.sec-infirmary .lin-pagetabs,

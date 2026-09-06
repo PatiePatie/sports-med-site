@@ -163,19 +163,29 @@ body.lin-v2 .sidebar-logo a:focus{
 body.lin-v2 .lin-pagetabs{display:none}
 body.lin-v2 .lin-context{display:none}
 
-/* ── Search: a centered field under the top bar + a dropdown of results ──
-   The layout script creates .lin-search inside the top bar; these rules style
-   it. Production does NOT load linear-theme.css, so they live here — the
-   shipped skin that gold-blue is the base of. */
+/* ── Patrick: no sidebar toggle ─────────────────────────────────────────
+   The ☰ drawer/rail button is removed — the sidebar is always present and
+   never collapsed, so there is nothing to toggle. */
+body.lin-v2 .sidebar-toggle{display:none!important}
 
-body.lin-v2 .lin-search{
+/* ── Search: a centered field in the top bar + a dropdown of results ──────
+   The layout script creates a .lin-search-cluster inside the top bar
+   holding the search field and the page's dark/language toggles; these
+   rules style it. Production does NOT load linear-theme.css, so they live
+   here — the shipped skin that gold-blue is the base of. */
+
+body.lin-v2 .lin-search-cluster{
   position:absolute;
   left:50%;
   transform:translateX(-50%);
   top:0;height:100%;
-  display:flex;align-items:center;
-  width:clamp(240px,min(34vw,400px),400px);
+  display:flex;align-items:center;gap:8px;
   z-index:10;
+}
+body.lin-v2 .lin-search{
+  position:relative;
+  display:flex;align-items:center;
+  width:clamp(220px,min(30vw,380px),380px);
 }
 body.lin-v2 .lin-search > .lin-ico{
   position:absolute;left:12px;top:50%;margin-top:-8px;
@@ -214,6 +224,26 @@ body.lin-v2 .lin-search-kbd{
   pointer-events:none;
 }
 body.lin-v2 .lin-search:focus-within .lin-search-kbd{display:none}
+
+/* The toggles beside the field — round icon buttons matching the field's
+   quiet surface instead of the loud floating pills elsewhere. */
+body.lin-v2 .lin-search-toggles{display:flex;align-items:center;gap:6px}
+body.lin-v2 .lin-search-toggles .btn-icon{
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1px solid var(--border2);
+  background:var(--surface2);
+  color:var(--text2);
+  font-size:.95rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background var(--lin-t) ease,border-color var(--lin-t) ease,color var(--lin-t) ease,transform var(--lin-t) ease,box-shadow var(--lin-t) ease;
+}
+body.lin-v2 .lin-search-toggles .btn-icon:hover{
+  background:var(--accent-bg);
+  border-color:var(--accent);
+  color:var(--accent);
+}
 body.lin-v2 .lin-search-dd{
   position:absolute;
   top:calc(100% + 6px);
@@ -271,10 +301,14 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
 @keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
 @media (max-width:768px){
-  body.lin-v2 .lin-search{width:clamp(170px,min(38vw,240px),240px)}
+  body.lin-v2 .lin-search{width:clamp(150px,min(34vw,220px),220px)}
   body.lin-v2 .lin-search-kbd{display:none}
+  body.lin-v2 .lin-search-cluster{gap:6px}
 }
 @media (max-width:600px){
-  body.lin-v2 .lin-search{width:min(50vw,220px)}
-  body.lin-v2 .lin-search-dd{width:min(88vw,320px)}
+  body.lin-v2 .lin-search{width:min(44vw,200px)}
+  body.lin-v2 .lin-search-cluster{left:auto;right:8px;transform:none;gap:4px}
+  body.lin-v2 .lin-search-toggles{gap:4px}
+  body.lin-v2 .lin-search-toggles .btn-icon{width:28px;height:28px}
+  body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
 }

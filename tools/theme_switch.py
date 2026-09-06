@@ -41,7 +41,7 @@ END = "<!-- DRAFT-THEME:END -->"
 # (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
 # sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
 # for the bare Editorial Surgical layer.
-THEME_CSS = "vitalite-skin.css?v=3"
+THEME_CSS = "vitalite-skin.css?v=4"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a

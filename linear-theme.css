@@ -1439,8 +1439,8 @@ body.lin-v2 .lin-topbar-inner{
   width:100%;
   height:var(--lin-topbar-h);
   margin:0;
-  padding:0 12px 0 16px;
-  display:flex;align-items:center;gap:8px;
+  padding:0 20px;
+  display:flex;align-items:center;gap:20px;
 }
 body.lin-v2 .lin-topbar-inner > .header-actions{margin-left:auto}
 
@@ -1471,13 +1471,13 @@ body.lin-v2 .lin-search-cluster{
   transform:translateX(-50%);
   top:0;
   height:var(--lin-topbar-h);
-  display:flex;align-items:center;gap:8px;
+  display:flex;align-items:center;gap:20px;
   z-index:10;
 }
 body.lin-v2 .lin-search{
   position:relative;
   display:flex;align-items:center;
-  width:clamp(220px,min(30vw,380px),380px);
+  width:clamp(260px,min(32vw,420px),420px);
 }
 body.lin-v2 .lin-search > .lin-ico{
   position:absolute;left:10px;top:50%;
@@ -1485,9 +1485,9 @@ body.lin-v2 .lin-search > .lin-ico{
   color:var(--text3);
   pointer-events:none;
 }
-body.lin-v2 .lin-search-toggles{display:flex;align-items:center;gap:6px}
+body.lin-v2 .lin-search-toggles{display:flex;align-items:center;gap:12px}
 body.lin-v2 .lin-search-toggles .btn-icon{
-  width:30px;height:30px;
+  width:32px;height:32px;
   border-radius:50%;
   border:1px solid var(--border);
   background:var(--lin-hover);
@@ -2111,9 +2111,10 @@ body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);borde
 
 @media (max-width:768px){
   body.lin-v2{--lin-gutter:16px}
-  body.lin-v2 .lin-search{width:clamp(150px,min(34vw,220px),220px)}
+  body.lin-v2 .lin-search{width:clamp(160px,min(34vw,230px),230px)}
   body.lin-v2 .lin-search-kbd{display:none}
-  body.lin-v2 .lin-search-cluster{gap:6px}
+  body.lin-v2 .lin-search-cluster{gap:12px}
+  body.lin-v2 .lin-search-toggles{gap:10px}
   body.lin-v2 .lin-crumb{max-width:38vw}
   body.lin-v2 .lin-filterbar{padding:0 16px}
 }
@@ -2123,10 +2124,10 @@ body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);borde
   body.lin-v2 .lin-topbar-inner{padding:0 8px 0 8px;gap:4px}
   body.lin-v2 .lin-topbar-inner > .logo{font-size:.8125rem}
   body.lin-v2 .lin-context{display:none}        /* the wordmark carries it */
-  body.lin-v2 .lin-search-cluster{left:auto;right:6px;transform:none;gap:4px}
+  body.lin-v2 .lin-search-cluster{left:auto;right:10px;transform:none;gap:10px}
   body.lin-v2 .lin-search{width:min(44vw,200px)}
-  body.lin-v2 .lin-search-toggles{gap:4px}
-  body.lin-v2 .lin-search-toggles .btn-icon{width:28px;height:28px}
+  body.lin-v2 .lin-search-toggles{gap:8px}
+  body.lin-v2 .lin-search-toggles .btn-icon{width:30px;height:30px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
   /* Dense rows survive on a phone — this is a study surface, not a brochure.
      Only the tap targets in chrome grow. */

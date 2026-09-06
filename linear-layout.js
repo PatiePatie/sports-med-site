@@ -221,10 +221,9 @@
     if (!inner) return;
     inner.classList.add('lin-topbar-inner');
 
-    /* The drawer toggle stops being a floating tile and becomes the first
-       thing in the bar. Its inline onclick is untouched. */
-    var toggle = $('#sidebarToggle');
-    if (toggle && toggle.parentNode !== inner) inner.insertBefore(toggle, inner.firstChild);
+    /* No sidebar toggle in the bar — Patrick keeps the sidebar as is and
+       never toggles it, so the ☰ is left where the page put it (and hidden
+       by the skin on desktop). */
 
     /* Page context. The wordmark lives in the rail on desktop, so the top-left
        is free for the breadcrumb Linear puts there. */
@@ -244,9 +243,11 @@
 
     /* Search — a centered, always-visible field whose dropdown sits under it.
        The field is created here; the Search module binds behaviour when it
-       initialises later in this file. */
+       initialises later in this file. Dark-mode + language toggles ride
+       beside the field (moved, not cloned, so their page listeners survive). */
     var actions = $('.header-actions', inner) || $('.header-actions', header);
     if (actions && !$('.lin-search', inner) && !$('.lin-search', header)) {
+      var cluster = el('div', 'lin-search-cluster');
       var sw = el('div', 'lin-search');
       sw.setAttribute('role', 'search');
       sw.appendChild(icon('search'));
@@ -265,7 +266,16 @@
       var dd = el('div', 'lin-search-dd');
       dd.hidden = true;
       sw.appendChild(dd);
-      inner.appendChild(sw);
+      cluster.appendChild(sw);
+
+      var toggles = el('div', 'lin-search-toggles');
+      var langBtn = document.getElementById('langToggle');
+      var darkBtn = document.getElementById('darkToggle');
+      if (langBtn) toggles.appendChild(langBtn);
+      if (darkBtn) toggles.appendChild(darkBtn);
+      if (toggles.childNodes.length) cluster.appendChild(toggles);
+
+      inner.appendChild(cluster);
       SEARCH_UI = { wrap: sw, input: inp, dd: dd };
     }
   });

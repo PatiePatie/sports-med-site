@@ -262,8 +262,6 @@
 
   /* ─── 5 · The view header — tabs, then a context row ─────────────────── */
 
-  var filterMain = null, filterMeta = null;
-
   safe(function mountViewHeader() {
     if (isMarketing || !header || !header.parentNode) return;
     if ($('.lin-viewheader')) return;
@@ -291,14 +289,6 @@
       });
       if (strip.childNodes.length) vh.appendChild(strip);
     }
-
-    /* 5b · The 40px context row. One calm line; no marketing copy. */
-    var bar = el('div', 'lin-filterbar');
-    filterMain = el('span', 'lin-filter-main');
-    filterMeta = el('span', 'lin-filter-meta');
-    bar.appendChild(filterMain);
-    bar.appendChild(filterMeta);
-    vh.appendChild(bar);
 
     header.parentNode.insertBefore(vh, header.nextSibling);
   });
@@ -330,35 +320,14 @@
   }
 
   function syncContext() {
+    /* Kept only to refresh the breadcrumb; the chapter-title + section-count
+       context row was removed, so there is no filterMeta/filterMain anymore. */
     safe(function () {
-      var crumbText, metaText = '';
-
       if (isGuide) {
         var n = currentChapter();
-        var title = chapterTitle(n);
-        crumbText = (isCN() ? '第' + n + '章' : 'Chapter ' + n);
-        if (filterMain) filterMain.textContent = title || crumbText;
-        var sec = document.getElementById('ch' + n);
-        var count = sec ? $$('.acc-item', sec).length : 0;
-        if (count) metaText = count + ' ' + (isCN() ? '节' : (count === 1 ? 'section' : 'sections'));
-      } else {
-        crumbText = here ? t(here.en, here.zh) : (document.title || '').split('—')[0].trim();
-        var n2 = 0, unit = '';
-        if (file === 'toc.html')      { n2 = $$('.chip-link, .ch-card').length; unit = isCN() ? '章' : 'chapters'; }
-        else if (file === 'exam.html'){ n2 = $$('.exam-q, .qo-question').length; unit = isCN() ? '题' : 'questions'; }
-        if (n2) metaText = n2 + ' ' + unit;
-        /* Off the guide the crumb already says the page name; repeating it in
-           the context row is noise, so the row carries only the count — and
-           hides itself when there is no count to carry. */
-        if (filterMain) filterMain.textContent = '';
+        var crumb = context && $('.lin-crumb', context);
+        if (crumb) crumb.textContent = (isCN() ? '第' + n + '章' : 'Chapter ' + n);
       }
-
-      var crumb = context && $('.lin-crumb', context);
-      if (crumb && isGuide) crumb.textContent = crumbText;
-      if (filterMeta) filterMeta.textContent = metaText;
-
-      var bar = filterMain && filterMain.parentNode;
-      if (bar) bar.hidden = !(filterMain.textContent || metaText);
     });
   }
 

@@ -745,12 +745,23 @@ body.dark h1,body.dark h2,body.dark h3{
       <div style="text-align:right;margin:-.2rem 0 .9rem"><a href="javascript:void(0)" onclick="switchTab('reset')" style="font-size:.85rem;color:var(--accent);text-decoration:none;font-weight:600" data-en="Forgot password?" data-zh="忘记密码？">Forgot password?</a></div>
 
       <button class="qo-btn next" id="liBtn" style="width:100%;font-size:1rem;padding:.75rem" data-en="Log In" data-zh="登录">Log In</button>
+      <button class="mini" id="liResend" style="display:none" data-en="↻ Resend verification email" data-zh="↻ 重新发送验证邮件">↻ Resend verification email</button>
       <div class="soc-divider"><span data-en="or continue with" data-zh="或使用以下方式">or continue with</span></div>
       <div class="social-login">
         <button class="soc-btn soc-google" onclick="socLogin('google')"><span class="soc-ico" aria-hidden="true"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg></span><span data-en="Continue with Google" data-zh="使用 Google 登录">Continue with Google</span></button>
         <button class="soc-btn soc-github" onclick="socLogin('github')"><span class="soc-ico" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span><span data-en="Continue with GitHub" data-zh="使用 GitHub 登录">Continue with GitHub</span></button>
       </div>
       <p class="acct-hint" data-en="Email verification may be required if you signed up with an unverified email." data-zh="若你用未验证的邮箱注册，可能需先验证邮箱。">Email verification may be required if you signed up with an unverified email.</p>
+
+      <div class="soc-divider"><span data-en="or use phone number" data-zh="或使用手机号">or use phone number</span></div>
+      <div class="acct-field"><label for="liPhone" id="liPhoneLbl" data-en="Phone number" data-zh="手机号">Phone number</label>
+        <input id="liPhone" type="tel" autocomplete="tel" placeholder="+86 138 0000 0000">
+        <div class="acct-hint" data-en="New number? A code will be sent and an account created automatically." data-zh="新号码？发送验证码后自动创建账号。">New number? A code will be sent and an account created automatically.</div>
+      </div>
+      <button class="qo-btn" id="liSendCode" style="width:100%;margin-bottom:.9rem;background:var(--surface2);color:var(--text);border:1px solid var(--border)" data-en="Send code" data-zh="发送验证码">Send code</button>
+      <div class="acct-field" id="liOtpField" style="display:none"><label for="liOtp" data-en="Verification code" data-zh="验证码">Verification code</label>
+        <input id="liOtp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••"></div>
+      <button class="qo-btn next" id="liOtpBtn" style="display:none;width:100%;font-size:1rem;padding:.75rem" data-en="Verify &amp; Sign In" data-zh="验证并登录">Verify &amp; Sign In</button>
     </div>
 
     <!-- SIGNUP -->
@@ -874,7 +885,7 @@ function setStatus(){
   var out=document.getElementById('logoutBtn');
   var u=null;
   try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
-  if(u&&u.email){ var dname=u.name||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
+  if(u&&u.email){ var dname=u.name||u.phone||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
   else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 和 EmailJS 的密钥。':'Not configured. Add your Supabase and EmailJS keys on this login page.'); out.style.display='none'; }
   else { line.textContent=(showCN?'未登录':'Not signed in'); out.style.display='none'; }
   /* keep the header widget in sync — otherwise the header keeps showing the
@@ -883,15 +894,26 @@ function setStatus(){
   if(window.refreshAuthWidget){ try{ window.refreshAuthWidget(); }catch(e){} }
 }
 
+/* Build the sm_user record. Phone-only accounts have an empty email, but
+   every consumer (auth-gate, header widget, index bounce, infirmary) treats
+   a truthy .email as "signed in" — so synthesize a stable pseudo-address. */
+function smEmail(u){
+  if(u.email) return u.email;
+  if(u.phone) return 'phone:'+String(u.phone).replace(/[^0-9]/g,'')+'@users.noreply.vitaliteplan.com';
+  return null;
+}
+function smUserFrom(u){
+  var meta=u.user_metadata||{};
+  var nm=meta.full_name||meta.name||null;
+  if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
+  return { email: smEmail(u), name: nm, phone: meta.phone||u.phone||null, status: (u.email_confirmed_at||u.phone_confirmed_at)?1:0 };
+}
+
 function handleAuth(resp){
   if(resp.error){ myMsg((showCN?'出错了：':'Error: ')+resp.error.message,false); return false; }
   var u=resp.data.user||resp.data.session&&resp.data.session.user;
   if(u){
-    var meta=u.user_metadata||{};
-    var nm=meta.full_name||meta.name||null;
-    if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
-    var ph=meta.phone||null;
-    localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
+    localStorage.setItem('sm_user', JSON.stringify(smUserFrom(u)));
     touchMember(u);
   }
   return true;
@@ -910,7 +932,7 @@ function goNext(){
 function touchMember(u){
   if(!sb || !u) return;
   var nm=(u.user_metadata&&(u.user_metadata.full_name||u.user_metadata.name))||null;
-  sb.from('members').upsert({ id:u.id, email:u.email, name:nm, last_seen:new Date().toISOString() }, { onConflict:'id' }).then(function(){}).catch(function(){});
+  sb.from('members').upsert({ id:u.id, email:smEmail(u), name:nm, last_seen:new Date().toISOString() }, { onConflict:'id' }).then(function(){}).catch(function(){});
 }
 
 
@@ -926,11 +948,7 @@ function socLogin(provider){
 /* Apply a Supabase user/identity into local sm_user (shared with handleAuth) */
 function applySociUser(u){
   if(!u) return;
-  var meta=u.user_metadata||{};
-  var nm=meta.full_name||meta.name||null;
-  if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
-  var ph=meta.phone||null;
-  localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
+  localStorage.setItem('sm_user', JSON.stringify(smUserFrom(u)));
   touchMember(u);
 }
 
@@ -974,6 +992,7 @@ if(sb){
 
 /* Freeze / deletion enforcement: if this email is frozen or deleted in the moderation table, block sign-in. */
 function checkBlocked(email){
+  if(!email) return Promise.resolve(null); /* phone-only / no email: nothing to look up */
   if(!sb) return Promise.resolve(null);
   return sb.from('moderation').select('frozen,deleted,note').eq('email',email).maybeSingle()
     .then(function(r){
@@ -991,12 +1010,19 @@ function blockSignIn(text){
 }
 
 /* LOGIN */
+var liResend=document.getElementById('liResend');
 document.getElementById('liBtn').addEventListener('click',function(){
   if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
   var em=document.getElementById('liEmail').value.trim();
   var pw=document.getElementById('liPass').value;
   if(!em||!pw){ myMsg(showCN?'请输入邮箱和密码。':'Please enter email and password.',false); return; }
-  sb.auth.signInWithPassword({email:em,password:pw}).then(handleAuth).then(function(ok){
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(resp){
+    /* Unverified email? Offer a resend instead of leaving the user stranded. */
+    if(resp.error && /not.?confirmed|unverified/i.test(resp.error.message||'')){
+      if(liResend){ liResend.style.display='inline-block'; liResend.setAttribute('data-email',em); }
+    } else if(liResend){ liResend.style.display='none'; }
+    return handleAuth(resp);
+  }).then(function(ok){
     if(!ok) return;
     checkBlocked(em).then(function(mod){
       if(mod && mod.deleted){
@@ -1005,6 +1031,62 @@ document.getElementById('liBtn').addEventListener('click',function(){
         blockSignIn(showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.');
       } else {
         myMsg(showCN?'登录成功！'+em:'Signed in! '+em,true); setStatus(); goNext();
+      }
+    });
+  });
+});
+if(liResend) liResend.addEventListener('click',function(){
+  var em=liResend.getAttribute('data-email');
+  if(!em||!sb){ return; }
+  var p = (sb.auth.resend)
+    ? sb.auth.resend({type:'signup', email:em})
+    : sb.auth.signInWithOtp({email:em, options:{shouldCreateUser:false}}); /* older SDK fallback */
+  p.then(function(r){
+    myMsg(r.error ? (showCN?'出错了：':'Error: ')+r.error.message
+      : (showCN?'验证邮件已重新发送到 '+em+'。':'Verification email resent to '+em+'.'), !r.error);
+  });
+});
+
+/* PHONE OTP LOGIN */
+function normPhone(v){
+  v=(v||'').trim().replace(/[\s-()]/g,'');
+  if(!v) return '';
+  if(v.indexOf('+')!==0) v='+86'+v; /* default region: China; type +1 etc. explicitly for others */
+  return v;
+}
+var liPhoneField=document.getElementById('liPhone');
+var liOtpField=document.getElementById('liOtpField');
+var liOtpBtn=document.getElementById('liOtpBtn');
+document.getElementById('liSendCode').addEventListener('click',function(){
+  if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
+  var ph=normPhone(liPhoneField.value);
+  if(!ph){ myMsg(showCN?'请输入手机号。':'Please enter a phone number.',false); return; }
+  liSendCode.disabled=true;
+  sb.auth.signInWithOtp({phone:ph}).then(function(r){
+    liSendCode.disabled=false;
+    if(r.error){
+      myMsg((showCN?'出错了：':'Error: ')+r.error.message,false);
+      return;
+    }
+    liOtpField.style.display='block'; liOtpBtn.style.display='block';
+    myMsg(showCN?'验证码已发送到 '+ph+'。':'Code sent to '+ph+'.',true);
+  });
+});
+liOtpBtn.addEventListener('click',function(){
+  if(!sb) return;
+  var ph=normPhone(liPhoneField.value);
+  var tok=document.getElementById('liOtp').value.trim();
+  if(!ph||!tok){ myMsg(showCN?'请输入验证码。':'Please enter the verification code.',false); return; }
+  sb.auth.verifyOtp({phone:ph,token:tok,type:'sms'}).then(handleAuth).then(function(ok){
+    if(!ok) return;
+    /* No email on phone accounts, so moderation lookup just won't match. */
+    checkBlocked(ph).then(function(mod){
+      if(mod && mod.deleted){
+        blockSignIn(showCN?'此账号已被删除。':'This account has been deleted.');
+      } else if(mod && mod.frozen){
+        blockSignIn(showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.');
+      } else {
+        myMsg(showCN?'登录成功！'+ph:'Signed in! '+ph,true); setStatus(); goNext();
       }
     });
   });

@@ -13,7 +13,7 @@
   }
   function displayName(u){
     var n=(u&&u.name)?u.name:chosenName();
-    return n?n:((u&&u.email)?u.email:null);
+    return n?n:((u&&u.phone)?u.phone:((u&&u.email)?u.email:null));
   }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function isDev(u){ return !!(u&&u.email && DEV_EMAILS.indexOf(String(u.email).toLowerCase())!==-1); }
@@ -131,7 +131,7 @@
     b.setAttribute('href','account.html');
     b.setAttribute('aria-haspopup','true');
     var cu=currentUser();
-    b.title=(cu&&cu.email)?cu.email:'';
+    b.title=(cu&&(cu.phone||cu.email))?(cu.phone||cu.email):'';
     b.textContent='';
     var n=document.createElement('span');
     n.className='bl-name';

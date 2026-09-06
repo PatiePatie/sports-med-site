@@ -770,6 +770,10 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
   font-size:.95rem;border-bottom:1px solid var(--border)}
 .sidebar-logo .logo-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sb-mark{flex:none;width:20px;height:20px;border-radius:5px;margin-right:.45rem;display:block}
+/* Legacy duplicate: some pages still carry the pre-rail inline img next to
+   .sb-mark (introduced by 3da6830, which added the mark but never removed
+   the original). Hide it — the mark is the single sidebar icon. */
+.sidebar-logo img:not(.sb-mark){display:none}
 .sb-compact-btn{
   flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;
   border:1px solid transparent;border-radius:6px;background:transparent;

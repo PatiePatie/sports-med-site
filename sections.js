@@ -39,7 +39,7 @@
   if (!file || file.indexOf('.') === -1) file = 'index.html';
 
   function sectionFor(f) {
-    if (f === 'infirmary.html') return 'infirmary';
+    if (f === 'infirmary.html' || f === 'plan.html') return 'infirmary';
     if (f === 'social.html')    return 'social';
     if (f === 'admin.html')     return 'admin';
     if (KNOWLEDGE.indexOf(f) > -1) return 'knowledge';

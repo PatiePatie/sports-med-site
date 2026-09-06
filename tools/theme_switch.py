@@ -79,9 +79,9 @@ EXCLUDE = {"login.html", "admin.html", "social.html"}
 # the script outside the block (operator surface).
 SECTIONS_JS_PAGES = {
     "account.html", "cn-cert.html", "exam.html", "g10-bio.html", "guide.html",
-    "index.html", "infirmary.html", "toc.html", "usabo.html",
+    "index.html", "infirmary.html", "plan.html", "toc.html", "usabo.html",
 }
-SECTIONS_JS_PIN = "?v=2"
+SECTIONS_JS_PIN = "?v=3"
 
 BLOCK = (
     f"{BEGIN}\n"

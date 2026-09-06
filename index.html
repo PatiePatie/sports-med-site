@@ -872,6 +872,7 @@ body:not(.dark) #v-splash{
 </style>
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=1">
+<script src="sections.js?v=1" defer></script>
 <script src="draft.js" defer></script>
 <script src="linear-layout.js?v=2" defer></script>
 <link rel="stylesheet" href="qna-widget.css">
@@ -879,6 +880,7 @@ body:not(.dark) #v-splash{
 <link rel="stylesheet" href="notif-bell.css">
 <script src="notif-bell.js" defer></script>
 <!-- DRAFT-THEME:END -->
+<link rel="stylesheet" href="sections.css?v=2">
 </head>
 <body class="landing">
 <script>
@@ -1055,14 +1057,14 @@ body:not(.dark) #v-splash{
 </div>
 </section>
 
-<!-- Two doors: Knowledge vs Infirmary -->
+<!-- Three section doors: Knowledge · Infirmary · Social -->
 <section id="landing-fork">
 <div class="container">
-  <span class="section-label" data-en="Two wings of Vitalité" data-zh="Vitalité 的两翼">Two wings of Vitalité</span>
-  <h2 data-en="Learn the science — or ask the assistant" data-zh="学习科学 — 或询问助手">Learn the science — or ask the assistant</h2>
+  <span class="section-label" data-en="Three sections of Vitalité" data-zh="Vitalité 的三大版块">Three sections of Vitalité</span>
+  <h2 data-en="Learn it · Heal it · Talk it over" data-zh="学知识 · 治伤痛 · 聊社区">Learn it · Heal it · Talk it over</h2>
   <div class="fork-grid">
     <a class="fork-card" href="login.html?next=guide.html">
-      <div class="fork-ico">🧭</div>
+      <div class="fork-ico">📚</div>
       <h4 data-en="Vitalite Knowledge" data-zh="Vitalite 知识库">Vitalite Knowledge</h4>
       <p data-en="13 bilingual chapters, flashcards, adaptive quizzes, NPTE & 运动康复师 exam prep." data-zh="十三个双语章节、闪卡、自适应刷题、NPTE 与运动康复师备考。">13 bilingual chapters, flashcards, adaptive quizzes, NPTE &amp; 运动康复师 exam prep.</p>
       <span class="fork-go" data-en="Enter Knowledge →" data-zh="进入知识库 →">Enter Knowledge →</span>
@@ -1070,8 +1072,14 @@ body:not(.dark) #v-splash{
     <a class="fork-card" href="login.html?next=infirmary.html">
       <div class="fork-ico">🩺</div>
       <h4 data-en="Vitalite Infirmary" data-zh="Vitalite 诊所">Vitalite Infirmary</h4>
-      <p data-en="The AI Recovery Assistant — describe an injury or ache, get practical guidance in seconds." data-zh="AI 恢复助手 — 描述损伤或酸痛，几秒内获得实用指导。">The AI Recovery Assistant — describe an injury or ache, get practical guidance in seconds.</p>
+      <p data-en="Recovery dashboard — the AI assistant, your rehab plan, and progress at a glance." data-zh="康复看板 — AI 助手、康复计划与进度总览。">Recovery dashboard — the AI assistant, your rehab plan, and progress at a glance.</p>
       <span class="fork-go" data-en="Enter Infirmary →" data-zh="进入诊所 →">Enter Infirmary →</span>
+    </a>
+    <a class="fork-card" href="login.html?next=social.html">
+      <div class="fork-ico">💬</div>
+      <h4 data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</h4>
+      <p data-en="The community forum — discuss injuries and recovery, share wins, ask the group." data-zh="社区论坛 — 讨论伤病与康复、分享进展、向群友提问。">The community forum — discuss injuries and recovery, share wins, ask the group.</p>
+      <span class="fork-go" data-en="Enter Social →" data-zh="进入社区 →">Enter Social →</span>
     </a>
   </div>
 </div>

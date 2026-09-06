@@ -877,6 +877,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   <script src="loader.js?v=6"></script>
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=1">
+<script src="sections.js?v=1" defer></script>
 <script src="draft.js" defer></script>
 <script src="linear-layout.js?v=2" defer></script>
 <link rel="stylesheet" href="qna-widget.css">
@@ -884,6 +885,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <link rel="stylesheet" href="notif-bell.css">
 <script src="notif-bell.js" defer></script>
 <!-- DRAFT-THEME:END -->
+<link rel="stylesheet" href="sections.css?v=2">
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -964,6 +966,20 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Infirmary · 诊所" data-zh="Vitalite 诊所 · Infirmary">Vitalite Infirmary · 诊所</span></div>
   <h1 data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</h1>
   <p data-en="Describe an injury, ache, or recovery question — get practical guidance in seconds. Bilingual, evidence-informed, and never a medical diagnosis." data-zh="描述你的损伤、酸痛或恢复问题 — 几秒内获得实用指导。双语、循证、且绝不替代专业诊断。">Describe an injury, ache, or recovery question — get practical guidance in seconds. Bilingual, evidence-informed, and never a medical diagnosis.</p>
+  <div class="dash-strip" id="dashStrip" role="region" aria-label="Recovery status">
+    <div class="dash-card">
+      <div class="dash-label" data-en="Recovery plan" data-zh="康复计划">Recovery plan</div>
+      <div class="dash-value" id="dashPlan">—</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label" data-en="Progress" data-zh="进度">Progress</div>
+      <div class="dash-value" id="dashProg">—</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label" data-en="Status" data-zh="状态">Status</div>
+      <div class="dash-value" id="dashStatus">—</div>
+    </div>
+  </div>
   <div class="chat-window" style="max-width:760px;margin:1.25rem auto 0">
     <div class="chat-header"><span class="status-dot"></span><span data-en="🩺 Recovery Assistant" data-zh="🩺 恢复助手">🩺 Recovery Assistant</span></div>
     <div class="chat-suggestions">
@@ -982,7 +998,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   </div>
   <div class="chat-disclaimer" data-en="Education only, not medical advice. If you're in serious pain or injured, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛严重或受伤，请及时就医。">Education only, not medical advice. If you're in serious pain or injured, see a professional.</div>
   <div style="margin-top:1.5rem;text-align:center">
-    <a class="qo-btn next" href="guide.html" data-en="🧭 Back to Vitalite Knowledge" data-zh="🧭 返回 Vitalite 知识库">🧭 Back to Vitalite Knowledge</a>
+    <a class="qo-btn next" href="#plan" data-en="📋 Go to my recovery plan" data-zh="📋 查看我的康复计划">📋 Go to my recovery plan</a>
   </div>
 </div>
 </section>
@@ -1394,6 +1410,43 @@ document.addEventListener('click', function(e){
     SCENARIOS.forEach(function(s){ if(s.id===loadStore().last) found=true; });
     if(found){ selected=loadStore().last; renderDetail(); }
   }
+  /* Expose the store so the dashboard strip above can read live progress. */
+  window.VitalPlan={ scenarios:SCENARIOS, load:loadStore };
+})();
+</script>
+<script>
+/* Dashboard strip — live read of the recovery plan store (VitalPlan handle). */
+(function(){
+  var strip=document.getElementById('dashStrip');
+  var ok=!!(window.VitalPlan && window.VitalPlan.scenarios && window.VitalPlan.load);
+  if(!ok){ if(strip) strip.style.display='none'; return; }
+  var S=window.VitalPlan.scenarios, load=window.VitalPlan.load;
+  function T(en,zh){ try{ return localStorage.getItem('sm_lang')==='zh'?zh:en; }catch(e){ return en; } }
+  function renderDash(){
+    var elP=document.getElementById('dashPlan');
+    var elG=document.getElementById('dashProg');
+    var elS=document.getElementById('dashStatus');
+    if(!elP||!elG||!elS) return;
+    var a=load(); if(!a) return;
+    var sid=a.last, s=null;
+    for(var i=0;i<S.length;i++){ if(S[i].id===sid){ s=S[i]; break; } }
+    var d=sid?((a.data||{})[sid]||{}):{};
+    var done=0; Object.keys(d).forEach(function(k){ if(d[k]) done++; });
+    if(!s||!done){
+      elP.textContent=T('No plan yet','暂无计划');
+      elG.textContent=T('Not started','未开始');
+      elS.innerHTML='<a href="#plan" data-en="Build one below ↓" data-zh="在下方制定 ↓">Build one below ↓</a>';
+      return;
+    }
+    var total=0; s.phases.forEach(function(p){ total+=p.items.length; });
+    var pct=Math.min(100,total?Math.round(done/total*100):0);
+    elP.textContent=s.icon+' '+T(s.en,s.zh);
+    elG.innerHTML=pct+'% <small>· '+done+' / '+total+' '+T('steps','步')+'</small>';
+    elS.classList.add('dash-ok');
+    elS.textContent=T('On track','进行中');
+  }
+  renderDash();
+  window.addEventListener('storage',renderDash);
 })();
 </script>
 <script src="site-content.js"></script>

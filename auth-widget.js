@@ -226,8 +226,24 @@
       var t=oldT.cloneNode(true);                 /* drops the one-at-a-time handler */
       oldT.parentNode.replaceChild(t,oldT);
       t.setAttribute('aria-expanded', g.classList.contains('collapsed')?'false':'true');
+
+      /* In the compact rail the label is hidden, so the icon needs a tooltip. */
+      var nm=t.querySelector('.part-name');
+      if(nm) t.setAttribute('title', (nm.textContent||'').trim());
+
       t.addEventListener('click',function(e){
         e.preventDefault();
+        /* In the icon rail a group icon means "take me there": leave compact
+           and open that group, rather than toggling a body nobody can see. */
+        if(document.body.classList.contains('sbcompact')){
+          document.body.classList.remove('sbcompact');
+          try{ localStorage.setItem('sm_sbcompact','0'); }catch(err){}
+          g.classList.remove('collapsed');
+          state[id]=0;
+          try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(err){}
+          t.setAttribute('aria-expanded','true');
+          return;
+        }
         var closed=g.classList.toggle('collapsed');
         t.setAttribute('aria-expanded', closed?'false':'true');
         state[id]=closed?1:0;

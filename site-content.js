@@ -63,7 +63,7 @@ var KILL_TAGS = {SCRIPT:1,STYLE:1,IFRAME:1,OBJECT:1,EMBED:1,LINK:1,META:1,BASE:1
   SOURCE:1,BUTTON:1,CANVAS:1,PORTAL:1,FRAME:1,FRAMESET:1};
 var OK_ATTRS = {'class':1,'style':1,'href':1,'src':1,'alt':1,'title':1,'colspan':1,'rowspan':1,
   'id':1,'target':1,'rel':1,'width':1,'height':1,'loading':1,'aria-label':1,'role':1};
-var OK_DATA = {'data-en':1,'data-zh':1,'data-lang':1,'data-se-hidden':1};
+var OK_DATA = {'data-en':1,'data-zh':1,'data-lang':1,'data-se-hidden':1,'data-se-lock':1};
 
 function badUrl(v){
   var s=String(v||'').replace(/[\u0000-\u0020]/g,'').toLowerCase();

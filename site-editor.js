@@ -120,7 +120,7 @@ var KILL_TAGS = {SCRIPT:1,STYLE:1,IFRAME:1,OBJECT:1,EMBED:1,LINK:1,META:1,BASE:1
   SOURCE:1,BUTTON:1,CANVAS:1,PORTAL:1,FRAME:1,FRAMESET:1};
 var OK_ATTRS = {'class':1,'style':1,'href':1,'src':1,'alt':1,'title':1,'colspan':1,'rowspan':1,
   'id':1,'target':1,'rel':1,'width':1,'height':1,'loading':1,'aria-label':1,'role':1};
-var OK_DATA = {'data-en':1,'data-zh':1,'data-lang':1,'data-se-hidden':1};
+var OK_DATA = {'data-en':1,'data-zh':1,'data-lang':1,'data-se-hidden':1,'data-se-lock':1};
 
 var lastStripCount = 0;
 
@@ -403,6 +403,16 @@ function injectCSS(){
   +'.se-canvas.edit .se-free{background-image:radial-gradient(color-mix(in srgb,var(--text3) 34%,transparent) 1px,transparent 1px);background-size:8px 8px}'
   +'.se-canvas.edit .se-free > *{cursor:move}'
   +'.se-canvas.edit .se-free > *.se-dragging{opacity:.85;box-shadow:var(--shadow-lg);z-index:99}'
+  +'#seGuides{position:absolute;inset:0;pointer-events:none;z-index:80}'
+  +'.se-guide{position:absolute;background:var(--accent);opacity:.9}'
+  +'.se-guide.v{width:1px}'
+  +'.se-guide.h{height:1px}'
+  +'.se-layer{display:flex;align-items:center;gap:.35rem;padding:.3rem .45rem;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:.75rem}'
+  +'.se-layer:hover{border-color:var(--accent)}'
+  +'.se-layer.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}'
+  +'.se-layer-n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+  +'.se-canvas.edit .se-free > *[data-se-lock=\"1\"]{cursor:not-allowed}'
+  +'.se-canvas.edit .se-free > *[data-se-lock=\"1\"]:hover{outline:1px dashed var(--text3)}'
   +'.se-rs{position:absolute;right:-6px;bottom:-6px;width:13px;height:13px;border-radius:3px;background:var(--accent);border:2px solid var(--surface);cursor:nwse-resize;z-index:100}'
   +'.se-canvas.preview .se-free{background-image:none}'
   +'.se-canvas.preview .se-hidden{display:none}'
@@ -613,8 +623,8 @@ function ensureModal(){
 
   content().addEventListener('click', onCanvasClick);
   content().addEventListener('pointerdown', onCanvasPointerDown);
-  $('seStage').addEventListener('scroll', positionTools);
-  window.addEventListener('resize', positionTools);
+  $('seStage').addEventListener('scroll', function(){ positionTools(); placeResizeGrip(); });
+  window.addEventListener('resize', function(){ positionTools(); placeResizeGrip(); });
 
   var tools=$('seBlockTools').querySelectorAll('button');
   for(var i=0;i<tools.length;i++){
@@ -638,6 +648,12 @@ function onKey(e){
     if(e.shiftKey) redo(); else undo();
   }
   if(mod && String(e.key).toLowerCase()==='s'){ e.preventDefault(); saveDraft(); }
+  if(mod && String(e.key).toLowerCase()==='c' && selEl && !window.getSelection().toString()){ copySel(); return; }
+  if(mod && String(e.key).toLowerCase()==='v' && clipboard){ e.preventDefault(); pasteSel(); return; }
+  if(mod && String(e.key).toLowerCase()==='d' && selEl){ e.preventDefault(); blockAction('dup'); return; }
+  if((e.key==='Delete'||e.key==='Backspace') && selEl && !(document.activeElement && document.activeElement.isContentEditable)){
+    e.preventDefault(); blockAction('del'); return;
+  }
   if(!mod && /^Arrow(Up|Down|Left|Right)$/.test(e.key)){
     if(document.activeElement && document.activeElement.isContentEditable) return;
     var dx = e.key==='ArrowLeft' ? -1 : e.key==='ArrowRight' ? 1 : 0;
@@ -674,7 +690,18 @@ function openEditor(page,id){
     var d=getDraft(meta.page,meta.id);
     content().innerHTML = d ? (cn() ? (d.zh||d.en) : (d.en||d.zh)) : html;
     markBlocks();
+    /* Everything is movable by default: a section opens ready to drag unless
+       its saved draft deliberately went back to flow. Layout stays reversible
+       from the palette. */
+    if(!isFree()){
+      try{ enterFreeMode(true); }catch(e){}
+    }
+    markBlocks();
     snapshot(true);
+    /* the palette first rendered against an empty canvas — refresh it now that
+       the section (and its layers) actually exist */
+    renderPalette();
+    placeResizeGrip();
     setStatus(d
       ? (t('Draft loaded · ','已载入草稿 · ')+fmtTime(d.updated_at)+' · '+(d.updated_by||'')+(d.migrated?t(' (migrated from the legacy editor)',' （由旧编辑器迁移）'):''))
       : t('Original content · no draft yet','原始内容 · 尚无草稿'));
@@ -1003,11 +1030,11 @@ function growWrap(){
 }
 
 /* ── flow -> free: freeze what is already on screen so nothing jumps ── */
-function enterFreeMode(){
+function enterFreeMode(quiet){
   var c=content();
   if(!c || isFree()) return;
   var kids=Array.prototype.slice.call(c.children);
-  if(!kids.length){ toast(t('Nothing to position yet — add a block first.','还没有可定位的内容 — 请先添加区块。'),false); return; }
+  if(!kids.length){ if(!quiet) toast(t('Nothing to position yet — add a block first.','还没有可定位的内容 — 请先添加区块。'),false); return; }
 
   var cRect=c.getBoundingClientRect();
   var geo=[];
@@ -1035,9 +1062,11 @@ function enterFreeMode(){
   }
   growWrap();
   markBlocks();
-  snapshot();
-  renderPalette();
-  toast(t('Free layout on — drag any block to move it, drag its corner to resize.','自由布局已开启 — 拖动区块移动，拖动右下角调整大小。'), true);
+  if(!quiet){
+    snapshot();
+    renderPalette();
+    toast(t('Free layout on — drag any block to move it, drag its corner to resize.','自由布局已开启 — 拖动区块移动，拖动右下角调整大小。'), true);
+  }
 }
 
 /* ── free -> flow: drop positioning, keep the visual top-to-bottom order ── */
@@ -1085,9 +1114,23 @@ function onCanvasPointerDown(e){
   if(el && el.getAttribute && el.getAttribute('contenteditable')==='true') return;
   if(el && el.closest && el.closest('[contenteditable="true"]')) return;
 
-  var resizing = !!(el && el.classList && el.classList.contains('se-rs'));
-  var b = resizing ? blockOf(el.parentNode) || el.parentNode : blockOf(el);
+  var b = blockOf(el);
   if(!b) return;
+  var resizing = false;
+  if(b.getAttribute('data-se-lock')==='1') return;   /* locked in the layers panel */
+
+  /* Alt-drag duplicates, the way a design tool does. */
+  if(!resizing && e.altKey){
+    var dupe=b.cloneNode(true);
+    dupe.classList.remove('se-sel','se-sel-blk');
+    var dg=dupe.querySelectorAll('.se-rs');
+    for(var q=0;q<dg.length;q++) dg[q].parentNode.removeChild(dg[q]);
+    dupe.style.zIndex=String(topZ()+1);
+    b.parentNode.insertBefore(dupe, b.nextSibling);
+    markBlocks();
+    select(dupe);
+    b=dupe;
+  }
 
   var wrap=freeWrap();
   var wRect=wrap.getBoundingClientRect();
@@ -1113,8 +1156,9 @@ function onCanvasPointerMove(e){
     closeLangPop();
   }
   e.preventDefault();
-  var snap = !e.altKey;
+  var snap = !(e.metaKey || e.ctrlKey);   /* Alt duplicates, so Cmd/Ctrl bypasses snapping */
   var b=dragState.b, wpx=dragState.wrapW;
+  clearGuides();
 
   if(dragState.resizing){
     var wPx = (dragState.origW/100*wpx) + dx;
@@ -1124,7 +1168,22 @@ function onCanvasPointerMove(e){
   } else {
     var lPx = (dragState.origLeft/100*wpx) + dx;
     var tPx = dragState.origTop + dy;
-    if(snap){ lPx=Math.round(lPx/GRID)*GRID; tPx=Math.round(tPx/GRID)*GRID; }
+    if(snap){
+      /* Edges and centres of the neighbours win over the plain grid — that is
+         what makes things line up the way you meant. */
+      var tg=snapTargets(b), hx=[], hy=[];
+      var bw=b.offsetWidth, bh=b.offsetHeight;
+      var sl=snapAxis(lPx, bw, tg.x, hx);
+      var st2=snapAxis(tPx, bh, tg.y, hy);
+      lPx = hx.length ? sl : Math.round(lPx/GRID)*GRID;
+      tPx = hy.length ? st2 : Math.round(tPx/GRID)*GRID;
+      if(hx.length || hy.length){
+        var wrp=freeWrap().getBoundingClientRect();
+        var stg=$('seStage').getBoundingClientRect();
+        for(var gi=0;gi<hx.length;gi++) drawGuide(true, hx[gi], wrp, stg);
+        for(var gj=0;gj<hy.length;gj++) drawGuide(false, hy[gj], wrp, stg);
+      }
+    }
     lPx = Math.max(-wpx*0.25, Math.min(wpx*0.98, lPx));
     tPx = Math.max(0, tPx);
     b.style.left = round2(lPx/wpx*100)+'%';
@@ -1132,6 +1191,7 @@ function onCanvasPointerMove(e){
   }
   growWrap();
   positionTools();
+  placeResizeGrip();
   updateGeoReadout();
 }
 function onCanvasPointerUp(){
@@ -1141,6 +1201,7 @@ function onCanvasPointerUp(){
   var moved=dragState.moved;
   dragState.b.classList.remove('se-dragging');
   dragState=null;
+  clearGuides();
   if(moved){
     justDragged=true;
     setTimeout(function(){ justDragged=false; }, 0);
@@ -1172,17 +1233,294 @@ function updateGeoReadout(){
   if(!b || !isFree()){ el.textContent=''; return; }
   el.textContent='x '+Math.round(pctLeft(b))+'%  ·  y '+Math.round(parseFloat(b.style.top)||0)+'px  ·  w '+Math.round(parseFloat(b.style.width)||0)+'%';
 }
-/* The resize grip lives on the selected block only. */
+/* The resize grip is an overlay in the stage, never a child of the block.
+   Putting it inside the element made that element stop counting as a leaf,
+   which silently broke text edits and polluted snapshots and exports. */
 function placeResizeGrip(){
-  var old=content()?content().querySelectorAll('.se-rs'):[];
-  for(var i=0;i<old.length;i++) old[i].parentNode.removeChild(old[i]);
+  var st=$('seStage');
+  if(!st) return;
+  var g=$('seGrip');
+  if(!g){
+    g=document.createElement('div');
+    g.id='seGrip';
+    g.className='se-rs';
+    g.title=t('Drag to resize','拖动调整大小');
+    g.addEventListener('pointerdown', onGripPointerDown);
+    st.appendChild(g);
+  }
+  var b=(!previewMode && isFree() && selEl) ? blockOf(selEl) : null;
+  if(!b){ g.style.display='none'; return; }
+  var br=b.getBoundingClientRect(), sr=st.getBoundingClientRect();
+  g.style.display='block';
+  g.style.left=(br.right-sr.left+st.scrollLeft-6)+'px';
+  g.style.top=(br.bottom-sr.top+st.scrollTop-6)+'px';
+}
+function onGripPointerDown(e){
   if(previewMode || !isFree() || !selEl) return;
   var b=blockOf(selEl);
+  if(!b || b.getAttribute('data-se-lock')==='1') return;
+  e.preventDefault();
+  e.stopPropagation();
+  var wrap=freeWrap();
+  var wRect=wrap.getBoundingClientRect();
+  dragState={
+    b:b, resizing:true, moved:false,
+    startX:e.clientX, startY:e.clientY,
+    wrapW:wRect.width||1,
+    origLeft:pctLeft(b),
+    origTop:parseFloat(b.style.top)||0,
+    origW:parseFloat(b.style.width)|| (b.offsetWidth/(wRect.width||1)*100)
+  };
+  document.addEventListener('pointermove', onCanvasPointerMove);
+  document.addEventListener('pointerup', onCanvasPointerUp);
+}
+
+/* ═══════════════════════════ Canvas superpowers ═══════════════════════════
+   The editing model people expect from a visual design tool, implemented for
+   this site's markup: smart alignment guides, align + distribute, a layers
+   panel with lock, per-element styling (background / padding / radius /
+   opacity / rotation), alt-drag duplication, clipboard, and lifting a nested
+   element out so anything on the page can be positioned, not just top-level
+   blocks.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+var SNAP_TOL = 6;             /* px within which an edge grabs a guide */
+var clipboard = null;
+
+/* ── Guides ─────────────────────────────────────────────────────────────── */
+function guideLayer(){
+  var st=$('seStage');
+  if(!st) return null;
+  var g=$('seGuides');
+  if(!g){
+    g=document.createElement('div');
+    g.id='seGuides';
+    st.appendChild(g);
+  }
+  return g;
+}
+function clearGuides(){
+  var g=$('seGuides');
+  if(g) g.innerHTML='';
+}
+function drawGuide(vertical, pos, wrapRect, stageRect){
+  var g=guideLayer();
+  if(!g) return;
+  var st=$('seStage');
+  var d=document.createElement('div');
+  d.className='se-guide '+(vertical?'v':'h');
+  if(vertical){
+    d.style.left=(wrapRect.left-stageRect.left+st.scrollLeft+pos)+'px';
+    d.style.top=(wrapRect.top-stageRect.top+st.scrollTop)+'px';
+    d.style.height=wrapRect.height+'px';
+  } else {
+    d.style.top=(wrapRect.top-stageRect.top+st.scrollTop+pos)+'px';
+    d.style.left=(wrapRect.left-stageRect.left+st.scrollLeft)+'px';
+    d.style.width=wrapRect.width+'px';
+  }
+  g.appendChild(d);
+}
+/* Candidate edges/centres from every other block, plus the wrapper itself. */
+function snapTargets(moving){
+  var w=freeWrap();
+  var out={x:[],y:[]};
+  if(!w) return out;
+  var wr=w.getBoundingClientRect();
+  out.x.push(0, wr.width/2, wr.width);
+  out.y.push(0);
+  for(var i=0;i<w.children.length;i++){
+    var b=w.children[i];
+    if(b===moving || b.classList.contains('se-rs')) continue;
+    var l=(parseFloat(b.style.left)||0)/100*wr.width;
+    var t=parseFloat(b.style.top)||0;
+    var bw=b.offsetWidth, bh=b.offsetHeight;
+    out.x.push(l, l+bw/2, l+bw);
+    out.y.push(t, t+bh/2, t+bh);
+  }
+  return out;
+}
+/* Returns the adjusted px value, and records a guide when it snaps. */
+function snapAxis(value, extent, targets, hits){
+  var best=null;
+  var edges=[value, value+extent/2, value+extent];
+  for(var e=0;e<edges.length;e++){
+    for(var i=0;i<targets.length;i++){
+      var d=targets[i]-edges[e];
+      if(Math.abs(d)<=SNAP_TOL && (!best || Math.abs(d)<Math.abs(best.d))){
+        best={d:d, at:targets[i]};
+      }
+    }
+  }
+  if(best){ hits.push(best.at); return value+best.d; }
+  return value;
+}
+
+/* ── Align + distribute across the whole section ────────────────────────── */
+function alignBlocks(how){
+  var w=freeWrap();
+  if(!w){ toast(t('Free layout only.','仅适用于自由布局。'),false); return; }
+  var wr=w.getBoundingClientRect(), W=wr.width||1;
+  var kids=Array.prototype.slice.call(w.children).filter(function(b){ return !b.classList.contains('se-rs'); });
+  if(kids.length<2){ toast(t('Need at least two blocks.','至少需要两个区块。'),false); return; }
+
+  if(how==='left'||how==='centre'||how==='right'){
+    for(var i=0;i<kids.length;i++){
+      var b=kids[i], bw=b.offsetWidth;
+      var l = how==='left' ? 0 : how==='right' ? (W-bw) : (W-bw)/2;
+      b.style.left=round2(l/W*100)+'%';
+    }
+  } else if(how==='vdist'||how==='hdist'){
+    var key = how==='vdist' ? 'top' : 'left';
+    kids.sort(function(a,b){
+      return (key==='top')
+        ? (parseFloat(a.style.top)||0)-(parseFloat(b.style.top)||0)
+        : pctLeft(a)-pctLeft(b);
+    });
+    if(key==='top'){
+      var first=parseFloat(kids[0].style.top)||0;
+      var last=parseFloat(kids[kids.length-1].style.top)||0;
+      var step=(last-first)/(kids.length-1);
+      for(var k=1;k<kids.length-1;k++) kids[k].style.top=Math.round(first+step*k)+'px';
+    } else {
+      var f=pctLeft(kids[0]), l2=pctLeft(kids[kids.length-1]);
+      var st2=(l2-f)/(kids.length-1);
+      for(var m=1;m<kids.length-1;m++) kids[m].style.left=round2(f+st2*m)+'%';
+    }
+  }
+  growWrap();
+  snapshot();
+  positionTools();
+  toast(t('Aligned.','已对齐。'), true);
+}
+
+/* ── Lift a nested element into the free layer ──────────────────────────── */
+/* Lets you position something that is buried inside a table cell or a card,
+   not just the top-level blocks. */
+function liftSelection(){
+  var w=freeWrap();
+  if(!w){ toast(t('Switch to Free drag first.','请先切换到自由拖动。'),false); return; }
+  if(!selEl){ toast(t('Select something first.','请先选择元素。'),false); return; }
+  if(selEl.parentNode===w){ toast(t('Already a top-level block.','已是顶层区块。'),false); return; }
+
+  var r=selEl.getBoundingClientRect(), wr=w.getBoundingClientRect();
+  var W=wr.width||1;
+  var el=selEl;
+  el.parentNode.removeChild(el);
+  el.style.position='absolute';
+  el.style.left=round2((r.left-wr.left)/W*100)+'%';
+  el.style.top=Math.round(r.top-wr.top)+'px';
+  el.style.width=round2(r.width/W*100)+'%';
+  el.style.margin='0';
+  el.style.zIndex=String(topZ()+1);
+  w.appendChild(el);
+  growWrap();
+  markBlocks();
+  snapshot();
+  select(el);
+  toast(t('Lifted out — it can now be placed anywhere.','已提取 — 现在可任意摆放。'), true);
+}
+
+/* ── Clipboard + alt-drag duplicate ─────────────────────────────────────── */
+function copySel(){
+  var b=selEl?blockOf(selEl):null;
   if(!b) return;
-  var g=document.createElement('div');
-  g.className='se-rs';
-  g.title=t('Drag to resize','拖动调整大小');
-  b.appendChild(g);
+  clipboard=b.cloneNode(true);
+  clipboard.classList.remove('se-sel','se-sel-blk','se-dragging');
+  var g=clipboard.querySelectorAll('.se-rs');
+  for(var i=0;i<g.length;i++) g[i].parentNode.removeChild(g[i]);
+  toast(t('Copied.','已复制。'), true);
+}
+function pasteSel(){
+  if(!clipboard){ toast(t('Nothing copied yet.','剪贴板为空。'),false); return; }
+  var host=blockParent();
+  var cp=clipboard.cloneNode(true);
+  host.appendChild(cp);
+  if(isFree()){
+    cp.style.left=round2(pctLeft(cp)+3)+'%';
+    cp.style.top=((parseFloat(cp.style.top)||0)+28)+'px';
+    cp.style.zIndex=String(topZ()+1);
+    growWrap();
+  }
+  markBlocks();
+  snapshot();
+  select(cp);
+  toast(t('Pasted.','已粘贴。'), true);
+}
+
+/* ── Layers panel ───────────────────────────────────────────────────────── */
+function layerLabel(b){
+  var txt=(b.getAttribute('data-en') || b.textContent || '').replace(/\s+/g,' ').trim();
+  if(!txt) txt='<'+b.nodeName.toLowerCase()+'>';
+  return txt.length>28 ? txt.slice(0,28)+'…' : txt;
+}
+function renderLayers(){
+  var box=$('seLayers');
+  if(!box) return;
+  var w=freeWrap();
+  if(!w){ box.innerHTML='<div class="se-hint">'+t('Layers appear in Free drag mode.','图层在自由拖动模式下显示。')+'</div>'; return; }
+  var kids=Array.prototype.slice.call(w.children).filter(function(b){ return !b.classList.contains('se-rs'); });
+  kids.sort(function(a,b){ return (parseInt(b.style.zIndex,10)||0)-(parseInt(a.style.zIndex,10)||0); });
+  var h='';
+  for(var i=0;i<kids.length;i++){
+    var b=kids[i];
+    var idx=Array.prototype.indexOf.call(w.children,b);
+    var locked=b.getAttribute('data-se-lock')==='1';
+    var hid=b.getAttribute('data-se-hidden')==='1';
+    h+='<div class="se-layer'+(b===blockOf(selEl)?' on':'')+'" data-se-layer="'+idx+'">'
+      +  '<span class="se-layer-n">'+esc(layerLabel(b))+'</span>'
+      +  '<button type="button" class="se-b sm" data-se-lock="'+idx+'" title="'+t('Lock','锁定')+'">'+(locked?'🔒':'🔓')+'</button>'
+      +  '<button type="button" class="se-b sm" data-se-eye="'+idx+'" title="'+t('Hide','隐藏')+'">'+(hid?'🚫':'👁')+'</button>'
+      +'</div>';
+  }
+  box.innerHTML=h||'<div class="se-hint">'+t('No blocks yet.','暂无区块。')+'</div>';
+  var rows=box.querySelectorAll('[data-se-layer]');
+  for(var r=0;r<rows.length;r++){
+    rows[r].addEventListener('click',function(e){
+      if(e.target.hasAttribute('data-se-lock')||e.target.hasAttribute('data-se-eye')) return;
+      var el=freeWrap().children[parseInt(this.getAttribute('data-se-layer'),10)];
+      if(el) select(el);
+    });
+  }
+  var lk=box.querySelectorAll('[data-se-lock]');
+  for(var l=0;l<lk.length;l++){
+    lk[l].addEventListener('click',function(e){
+      e.stopPropagation();
+      var el=freeWrap().children[parseInt(this.getAttribute('data-se-lock'),10)];
+      if(!el) return;
+      if(el.getAttribute('data-se-lock')==='1') el.removeAttribute('data-se-lock');
+      else el.setAttribute('data-se-lock','1');
+      snapshot(); renderLayers();
+    });
+  }
+  var ey=box.querySelectorAll('[data-se-eye]');
+  for(var y=0;y<ey.length;y++){
+    ey[y].addEventListener('click',function(e){
+      e.stopPropagation();
+      var el=freeWrap().children[parseInt(this.getAttribute('data-se-eye'),10)];
+      if(!el) return;
+      if(el.getAttribute('data-se-hidden')==='1'){ el.removeAttribute('data-se-hidden'); el.classList.remove('se-hidden'); }
+      else { el.setAttribute('data-se-hidden','1'); el.classList.add('se-hidden'); }
+      snapshot(); renderLayers();
+    });
+  }
+}
+
+/* ── Per-element appearance ─────────────────────────────────────────────── */
+function setBoxStyle(prop, value){
+  if(!selEl) return;
+  selEl.style[prop]=value;
+  if(prop==='padding'||prop==='fontSize') growWrap();
+  snapshot();
+  positionTools();
+}
+function rotateSel(deg){
+  if(!selEl) return;
+  selEl.style.transform = deg ? ('rotate('+deg+'deg)') : '';
+  snapshot();
+}
+function currentRotation(el){
+  var m=/rotate\((-?[\d.]+)deg\)/.exec((el && el.style.transform)||'');
+  return m ? parseFloat(m[1]) : 0;
 }
 
 /* ═══════════════════════════ Tool palette ═══════════════════════════ */
@@ -1271,9 +1609,51 @@ function renderPalette(){
       +'</div>';
   }
   h+='<div class="se-hint" style="margin-top:.4rem">'
-    + (free ? t('Drag a block to move it, drag its corner to resize. Arrow keys nudge, Shift+arrows move by 8px, hold Alt to ignore the grid.','拖动区块移动，拖动右下角调整大小。方向键微调，Shift+方向键按 8px 移动，按住 Alt 忽略网格。')
+    + (free ? t('Drag to move, drag the corner to resize. Alt-drag duplicates. Hold Cmd/Ctrl to ignore snapping. Arrows nudge, Shift+arrows by 8px.','拖动移动，拖动右下角缩放。Alt+拖动可复制。按住 Cmd/Ctrl 忽略吸附。方向键微调，Shift+方向键按 8px。')
             : t('Blocks stack in order. Switch to Free drag to place them anywhere.','区块按顺序排列。切换到自由拖动可任意摆放。'))
     +'</div></div>';
+
+  if(free){
+    h+='<div class="se-grp"><h4>'+t('Align','对齐')+'</h4><div class="se-row">'
+      +'<button type="button" class="se-b sm" data-se-align2="left" title="'+t('Align left','左对齐')+'">⇤</button>'
+      +'<button type="button" class="se-b sm" data-se-align2="centre" title="'+t('Centre','居中')+'">⇔</button>'
+      +'<button type="button" class="se-b sm" data-se-align2="right" title="'+t('Align right','右对齐')+'">⇥</button>'
+      +'<button type="button" class="se-b sm" data-se-align2="vdist" title="'+t('Distribute vertically','垂直分布')+'">⇕</button>'
+      +'<button type="button" class="se-b sm" data-se-align2="hdist" title="'+t('Distribute horizontally','水平分布')+'">⇹</button>'
+      +'</div>'
+      +'<div class="se-row" style="margin-top:.4rem">'
+      +'<button type="button" class="se-b sm" id="seLift">⤴ '+t('Lift out','提取')+'</button>'
+      +'<button type="button" class="se-b sm" id="seCopy">⧉ '+t('Copy','复制')+'</button>'
+      +'<button type="button" class="se-b sm" id="sePaste">⎘ '+t('Paste','粘贴')+'</button>'
+      +'</div>'
+      +'<div class="se-hint" style="margin-top:.3rem">'+t('Lift out makes a nested element (a cell, a card) freely placeable.','「提取」可让嵌套元素（单元格、卡片）独立摆放。')+'</div>'
+      +'</div>';
+  }
+
+  if(has){
+    var padNow=parseFloat(st.padding)||0;
+    var radNow=parseFloat(st.borderRadius)||0;
+    var opNow=st.opacity===''?1:parseFloat(st.opacity);
+    var rotNow=currentRotation(selEl);
+    h+='<div class="se-grp"><h4>'+t('Appearance','外观')+'</h4>'
+      +'<div class="se-row"><span class="se-hint" style="min-width:4.2rem">'+t('Fill','填充')+'</span>'
+      +'<button type="button" class="se-sw" data-se-bg="var(--surface2)" style="background:var(--surface2)"></button>'
+      +'<button type="button" class="se-sw" data-se-bg="var(--accent-bg)" style="background:var(--accent-bg)"></button>'
+      +'<button type="button" class="se-sw" data-se-bg="var(--surface3)" style="background:var(--surface3)"></button>'
+      +'<input type="color" id="seBg" class="se-sw" style="padding:0">'
+      +'<button type="button" class="se-b sm" data-se-bg="">'+t('None','无')+'</button></div>'
+      +'<div class="se-row" style="margin-top:.45rem"><span class="se-hint" style="min-width:4.2rem">'+t('Padding','内边距')+'</span>'
+      +'<input class="se-range" style="flex:1" type="range" id="sePad" min="0" max="48" step="2" value="'+padNow+'"></div>'
+      +'<div class="se-row" style="margin-top:.35rem"><span class="se-hint" style="min-width:4.2rem">'+t('Corners','圆角')+'</span>'
+      +'<input class="se-range" style="flex:1" type="range" id="seRad" min="0" max="40" step="2" value="'+radNow+'"></div>'
+      +'<div class="se-row" style="margin-top:.35rem"><span class="se-hint" style="min-width:4.2rem">'+t('Opacity','不透明度')+'</span>'
+      +'<input class="se-range" style="flex:1" type="range" id="seOp" min="0.1" max="1" step="0.05" value="'+(isNaN(opNow)?1:opNow)+'"></div>'
+      +'<div class="se-row" style="margin-top:.35rem"><span class="se-hint" style="min-width:4.2rem">'+t('Rotate','旋转')+'</span>'
+      +'<input class="se-range" style="flex:1" type="range" id="seRot" min="-45" max="45" step="1" value="'+rotNow+'"></div>'
+      +'</div>';
+  }
+
+  h+='<div class="se-grp"><h4>'+t('Layers','图层')+'</h4><div id="seLayers" class="se-vlist"></div></div>';
 
   h+='<div class="se-grp"><h4>'+t('Add block','添加区块')+'</h4><div class="se-row">'
     +'<button type="button" class="se-b sm" data-se-add="heading">H '+t('Heading','标题')+'</button>'
@@ -1301,6 +1681,21 @@ function renderPalette(){
     if(this.getAttribute('data-se-layout')==='free') enterFreeMode(); else exitFreeMode();
   });
   var fx=$('seFixed'); if(fx) fx.addEventListener('change', toggleMobileFixed);
+  els=q('[data-se-align2]'); for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){ alignBlocks(this.getAttribute('data-se-align2')); });
+  els=q('[data-se-bg]');     for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){ setBoxStyle('background', this.getAttribute('data-se-bg')); renderPalette(); });
+  var bg=$('seBg');  if(bg)  bg.addEventListener('change',function(){ setBoxStyle('background', this.value); });
+  var pd=$('sePad'); if(pd)  pd.addEventListener('input',function(){ if(selEl) selEl.style.padding=this.value+'px'; growWrap(); positionTools(); });
+  if(pd) pd.addEventListener('change',function(){ snapshot(); });
+  var rd=$('seRad'); if(rd)  rd.addEventListener('input',function(){ if(selEl) selEl.style.borderRadius=this.value+'px'; });
+  if(rd) rd.addEventListener('change',function(){ snapshot(); });
+  var op=$('seOp');  if(op)  op.addEventListener('input',function(){ if(selEl) selEl.style.opacity=this.value; });
+  if(op) op.addEventListener('change',function(){ snapshot(); });
+  var rt=$('seRot'); if(rt)  rt.addEventListener('input',function(){ if(selEl) selEl.style.transform=this.value==='0'?'':'rotate('+this.value+'deg)'; });
+  if(rt) rt.addEventListener('change',function(){ snapshot(); });
+  var lf=$('seLift');  if(lf) lf.addEventListener('click', liftSelection);
+  var cp2=$('seCopy'); if(cp2) cp2.addEventListener('click', copySel);
+  var pt=$('sePaste'); if(pt) pt.addEventListener('click', pasteSel);
+  renderLayers();
   updateGeoReadout();
   var col=$('seColor'); if(col) col.addEventListener('change',function(){ setColor(this.value); });
   var fs=$('seFs');

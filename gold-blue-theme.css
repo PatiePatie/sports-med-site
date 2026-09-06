@@ -882,3 +882,19 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
 @media(max-width:900px){
   .page-wrapper{margin-left:0}
 }
+
+/* ─── ne-badge-chip: KEY/要点 marker on the deep-revision knowledge
+   chapters (Ch3-13 of guide.html). No skins styled it, so it rendered as
+   bare unstyled text. Match this skin's gold accent pill language. */
+.ne-badge-chip{
+  display:inline-block;vertical-align:.12em;
+  font-family:var(--font-caps,var(--font));
+  font-size:.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;line-height:1.5;
+  color:var(--accent);background:var(--accent-bg);
+  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  border-radius:999px;padding:.13rem .6rem;margin-right:.45rem;
+}
+body.lang-zh .ne-badge-chip{letter-spacing:.03em}
+/* ne-acc-body is only an extra wrapper on the notes body; keep content clean. */
+.ne-acc-body .facts,.ne-acc-body ul,.ne-acc-body p{max-width:100%}

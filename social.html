@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
-<title>Vitalité Social — Coming Soon · 敬请期待</title>
+<title>Vitalité Forum — Community · 社区论坛</title>
+<link rel="stylesheet" href="forum.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -785,12 +787,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice &amp; Diagnose" data-zh="📝 刷题与诊断">📝 Practice &amp; Diagnose</a>
-      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
@@ -806,6 +804,7 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
     </div>
   </div>
   <div class="sidebar-group part open" data-part="vitalite-social">
@@ -815,7 +814,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link active" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link active" href="social.html" data-en="💬 Forum" data-zh="💬 论坛">💬 Forum</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
@@ -843,17 +842,59 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </header>
 
-<section id="social" class="hero" style="min-height:70vh;display:flex;align-items:center">
+<section id="forum" class="chapter" style="min-height:72vh">
   <div class="container">
-    <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</span></div>
-    <h1 data-en="A Community Is on the Way" data-zh="社区正在筹备中"><span>👥 A Community Is on the Way</span></h1>
-    <p style="max-width:620px;margin:1rem auto;color:var(--text2);font-size:1.05rem" data-en="Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together." data-zh="Vitalite 社区将成为会员们交流的场所 — 分享学习心得、互相提问，并一起讨论运动医学与恢复。">Vitalite Social will be a place for members to connect, share study tips, ask questions and discuss sports medicine &amp; recovery together.</p>
-    <div class="hero-actions">
-      <button class="qo-btn next" onclick="openAiModal()" style="background:var(--text3)" data-en="🤖 Ask the AI" data-zh="🤖 咨询 AI">🤖 Ask the AI</button>
+    <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Social · Community Forum" data-zh="Vitalite 社区 · 社区论坛">Vitalite Social · Community Forum</span></div>
+    <div class="forum-head">
+      <div class="forum-head-text">
+        <h1 data-en="💬 Community Forum" data-zh="💬 社区论坛">💬 Community Forum</h1>
+        <p data-en="Ask questions, share study tips, and discuss sports medicine, recovery &amp; nutrition with other members." data-zh="向其他成员提问、分享学习心得，一起讨论运动医学、恢复与营养。">Ask questions, share study tips, and discuss sports medicine, recovery &amp; nutrition with other members.</p>
+      </div>
+      <button type="button" class="qo-btn next" id="forumNewBtn" onclick="Forum.openComposer()" data-en="＋ New Topic" data-zh="＋ 发新帖">＋ New Topic</button>
     </div>
-    <p style="margin-top:2rem;font-size:.85rem;color:var(--text3)" data-en="To be continued…" data-zh="敬请期待…">To be continued…</p>
+    <div class="forum-cats" id="forumCats"></div>
+    <div class="forum-status" id="forumStatus"></div>
+    <div class="forum-list" id="forumList"></div>
   </div>
 </section>
+
+<!-- Thread modal -->
+<div class="forum-overlay" id="forumOverlay" aria-hidden="true">
+  <div class="forum-modal">
+    <div class="for-modal-head" id="threadHead"></div>
+    <div class="for-modal-body" id="threadBody"></div>
+    <div class="for-modal-foot" id="threadFoot"></div>
+  </div>
+</div>
+
+<!-- Composer modal -->
+<div class="forum-overlay" id="composerOverlay" aria-hidden="true">
+  <div class="forum-modal narrow">
+    <div class="for-modal-head">
+      <h3 id="composerTitle"></h3>
+      <button type="button" class="for-close" onclick="Forum.closeComposer()" aria-label="Close">✕</button>
+    </div>
+    <div class="for-modal-body">
+      <div class="for-login-note" id="composerLoginNote" style="display:none"></div>
+      <label class="for-field" id="composerCatWrap">
+        <span id="composerCatLabel"></span>
+        <select id="composerCat"></select>
+      </label>
+      <label class="for-field">
+        <span id="composerTitleLabel"></span>
+        <input type="text" id="composerTitleInput" maxlength="120">
+      </label>
+      <label class="for-field">
+        <span id="composerBodyLabel"></span>
+        <textarea id="composerBody" rows="7" maxlength="4000"></textarea>
+      </label>
+      <div class="for-error" id="composerError"></div>
+    </div>
+    <div class="for-modal-foot">
+      <button type="button" class="qo-btn next" id="composerSubmit" onclick="Forum.submitTopic()"></button>
+    </div>
+  </div>
+</div>
 </div><!-- /page-wrapper -->
 
 <button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
@@ -943,5 +984,6 @@ document.getElementById('aiInput').addEventListener('keydown',function(e){ if(e.
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAiModal(); });
 </script>
 <script src="site-content.js"></script>
+<script src="forum.js"></script>
 </body>
 </html>

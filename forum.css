@@ -1,0 +1,90 @@
+/* ═══ Vitalité Forum — social.html styles ═══
+   Uses the page theme vars (--surface, --accent, etc.). Dark overrides included. */
+
+#forum{padding:2.5rem 0 3rem;scroll-margin-top:1rem}
+#forum .container{max-width:860px}
+
+.forum-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1.25rem;flex-wrap:wrap;margin-top:1.1rem;text-align:left}
+.forum-head h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1.2;color:var(--accent)}
+.forum-head p{margin-top:.4rem;font-size:.95rem;color:var(--text2);max-width:560px}
+.forum-head-text{flex:1;min-width:240px}
+
+.forum-cats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.4rem}
+.for-cat{border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:.82rem;font-weight:600;padding:.38rem .9rem;border-radius:99px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.for-cat:hover{border-color:var(--accent);color:var(--accent)}
+.for-cat.active{background:var(--accent);border-color:var(--accent);color:#fff}
+body.dark .for-cat.active{color:#1a1300}
+
+.forum-status{min-height:1.6rem;margin-top:.9rem;font-size:.8rem;color:var(--text3)}
+
+.forum-list{display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem;text-align:left}
+.for-topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.15rem;display:flex;gap:.95rem;align-items:flex-start;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
+.for-topic:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+.for-topic-av{width:38px;height:38px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--border2);color:var(--accent);font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-heading)}
+.for-topic-body{flex:1;min-width:0}
+.for-topic-title{font-weight:800;font-size:.98rem;line-height:1.35}
+.for-topic-title:hover{color:var(--accent)}
+.for-topic-meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.35rem;font-size:.76rem;color:var(--text3)}
+.for-chip{font-size:.7rem;font-weight:700;padding:.1rem .5rem;border-radius:99px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--border2);white-space:nowrap}
+.for-topic-side{display:flex;align-items:center;gap:1rem;flex-shrink:0;font-size:.78rem;color:var(--text3);margin-top:.15rem}
+.for-topic-side .fs{display:flex;align-items:center;gap:.3rem}
+.for-excerpt{font-size:.83rem;color:var(--text2);margin-top:.4rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.forum-empty{text-align:center;padding:3.5rem 1rem;color:var(--text3);font-size:.95rem}
+.forum-empty .fe-icon{font-size:2.2rem;display:block;margin-bottom:.6rem}
+
+/* ── Modals ── */
+.forum-overlay{position:fixed;inset:0;z-index:300;background:rgba(10,24,40,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.25rem}
+.forum-overlay.open{display:flex}
+.forum-modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:min(680px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg)}
+.forum-modal.narrow{width:min(560px,100%)}
+.for-modal-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.35rem;border-bottom:1px solid var(--border);background:var(--surface2)}
+.for-modal-head h3{font-family:var(--font-heading);font-weight:800;font-size:1.15rem}
+.for-close{background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;color:var(--text3);font-size:.95rem;flex-shrink:0;transition:all .15s}
+.for-close:hover{color:var(--red);border-color:var(--red)}
+.for-modal-body{flex:1;overflow-y:auto;padding:1.25rem 1.35rem;text-align:left}
+.for-modal-foot{display:flex;justify-content:flex-end;gap:.6rem;padding:1rem 1.35rem;border-top:1px solid var(--border);background:var(--surface2)}
+
+/* Thread view */
+.for-thread-head .ft-title{font-family:var(--font-heading);font-weight:800;font-size:1.35rem;line-height:1.3}
+.for-thread-head .ft-meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.5rem;font-size:.8rem;color:var(--text3)}
+.for-post{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.15rem;margin-bottom:1rem}
+.for-post .fp-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.55rem}
+.for-post .fp-who{font-weight:800;font-size:.88rem}
+.for-post .fp-meta{font-size:.74rem;color:var(--text3)}
+.for-post .fp-body{font-size:.9rem;line-height:1.65;color:var(--text);white-space:pre-wrap;word-wrap:break-word}
+.for-post .fp-acts{display:flex;gap:.5rem;margin-top:.7rem}
+.for-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:.3rem .7rem;font-size:.76rem;font-weight:600;cursor:pointer;color:var(--text2);transition:all .15s;font-family:var(--font)}
+.for-btn:hover{border-color:var(--accent);color:var(--accent)}
+.for-btn.voted{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.for-btn.flag:hover{border-color:var(--red);color:var(--red)}
+.for-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+body.dark .for-btn.primary{color:#1a1300}
+
+/* Replies */
+.for-reply{margin-bottom:.75rem}
+.for-reply .fp-body{font-size:.87rem}
+
+/* Composer */
+.for-field{display:block;margin-bottom:1rem}
+.for-field span{display:block;font-size:.78rem;font-weight:700;color:var(--text3);margin-bottom:.35rem}
+.for-field input,.for-field select,.for-field textarea{width:100%;padding:.6rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-family:var(--font);font-size:.9rem;transition:border .15s}
+.for-field input:focus,.for-field select:focus,.for-field textarea:focus{outline:none;border-color:var(--accent)}
+.for-field textarea{resize:vertical;line-height:1.55}
+.for-error{font-size:.82rem;color:var(--red);min-height:1.2rem;margin-bottom:.2rem}
+.for-login-note{background:var(--accent-bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.7rem .9rem;font-size:.85rem;color:var(--text2);margin-bottom:1rem}
+.for-login-note a{font-weight:700}
+
+.for-banner{background:var(--accent-bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.6rem .9rem;font-size:.8rem;color:var(--text2);margin-top:.5rem}
+
+/* ── Dark overrides ── */
+body.dark .for-cat{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:var(--text2)}
+body.dark .for-topic,body.dark .forum-modal{background:var(--surface)}
+body.dark .for-modal-head,body.dark .for-modal-foot{background:rgba(255,255,255,.04)}
+body.dark .for-post{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+body.dark .for-field input,body.dark .for-field select,body.dark .for-field textarea{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:var(--text)}
+
+@media (max-width:640px){
+  .for-topic-side{gap:.7rem}
+  .for-topic{padding:.85rem .95rem}
+}

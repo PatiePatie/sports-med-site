@@ -741,16 +741,26 @@ body.dark h1,body.dark h2,body.dark h3{
 <style>
 
 /* ═══════ ADMIN CONSOLE ═══════ */
-.adm{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:2rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
-.adm h1{font-size:1.5rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
+.adm{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:1.4rem;box-shadow:var(--shadow)}
+.adm h1{font-size:1.1rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
 .adm .sub{color:var(--text3);font-size:.9rem}
-.adm-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin:.8rem 0;font-size:.9rem;font-weight:600}
+.adm-shell{max-width:1180px;margin:0 auto;padding:1.4rem 1.5rem 3rem;display:flex;flex-direction:column;gap:1.2rem}
+.adm-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:linear-gradient(135deg,#0f2238,#4f46e5 70%,#7c3aed);border-radius:var(--radius-lg);padding:1.15rem 1.5rem;color:#fff;box-shadow:var(--shadow-lg)}
+.adm-top h1{color:#fff;font-size:1.4rem;font-weight:800;margin:0;font-family:var(--font-heading)}
+.adm-top-sub{color:rgba(255,255,255,.78);font-size:.85rem;margin-top:.15rem}
+.adm-top-right{display:flex;gap:.45rem;flex-wrap:wrap}
+.adm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+.adm-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;box-shadow:var(--shadow)}
+.adm-stat .v{font-size:1.3rem;font-weight:800;color:var(--accent);font-family:var(--font-heading);line-height:1}
+.adm-stat .k{font-size:.78rem;color:var(--text3);font-weight:600}
+.adm-cols{display:grid;grid-template-columns:1.35fr 1fr;gap:1.2rem;align-items:start}
+@media(max-width:920px){.adm-cols{grid-template-columns:1fr}}
+.adm-col{display:flex;flex-direction:column;gap:1.2rem;min-width:0}
+.adm-card-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.9rem}
+.adm-card-head h1{font-size:1.05rem;font-weight:800;margin:0;font-family:var(--font-heading);display:flex;align-items:center;gap:.5rem}
+.adm-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin:0 0 .8rem;font-size:.85rem;font-weight:600}
 .adm-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
 .adm-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
-.adm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-top:1.1rem}
-.adm-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
-.adm-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
 .adm-kad{width:160px}
 .adm-frozen .adm-stat{background:#fef3c7;border-color:#fcd34d}
 .adm-frozen .adm-stat .v{color:#b45309}
@@ -761,6 +771,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-tbl tr:hover td{background:var(--surface2)}
 .adm-chip{display:inline-block;padding:.15rem .55rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap}
 .adm-chip.dev{background:#e0e7ff;color:#3730a3}
+.adm-chip.local{background:var(--accent-bg);color:var(--accent)}
 .adm-chip.ok{background:#dcfce7;color:#166534}
 .adm-chip.frozen{background:#fef3c7;color:#92400e}
 .adm-chip.deleted{background:#fee2e2;color:#991b1b}
@@ -945,34 +956,51 @@ function renderConsole(u){
   var who='';
   for(var i=0;i<DEV_EMAILS.length;i++){
     var d=DEV_EMAILS[i];
-    who+='<span class="adm-badge" style="margin-right:.5rem">'+(DEV_NAMES[d]||d)+'</span>';
+    who+='<span class="adm-badge">'+(DEV_NAMES[d]||d)+'</span>';
   }
-  var html='<div class="adm" style="background:linear-gradient(135deg,#0f2238,#4f46e5 60%,#7c3aed);color:#fff;box-shadow:var(--shadow-lg)">'
-    +'<h1 style="color:#fff">🛠 '+(showCN?'开发者控制台':'Developer Console')+'</h1>'
-    +'<p class="sub" style="color:rgba(255,255,255,.8)">'+(showCN?'欢迎回来，':'Welcome back, ')+esc(u.name||u.email)+'</p>'
-    +'<div style="margin-top:1rem">'+who+'</div>'
-    +'<div class="adm-grid">'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Users','用户')+'</div><div class="k" id="stUsers" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Frozen','冻结')+'</div><div class="k" id="stFrozen" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">Dr7</div><div class="k" id="stDr7" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'</div></div>';
+  var html='<div class="adm-shell">'
 
-  html+='<div class="adm"><h1>👥 '+t('Members','用户管理')+'</h1>'
+    /* Slim header */
+    +'<div class="adm-top">'
+    +'<div><h1>🛠 '+(showCN?'开发者控制台':'Developer Console')+'</h1>'
+    +'<div class="adm-top-sub">'+(showCN?'欢迎回来，':'Welcome back, ')+esc((u.name||u.email).split(' ')[0])+' · '+(showCN?'仅限开发者':'developers only')+'</div></div>'
+    +'<div class="adm-top-right">'+who+'</div>'
+    +'</div>'
+
+    /* Live stats */
+    +'<div class="adm-stats">'
+    +'<div class="adm-stat"><div class="k">'+t('Users','用户')+'</div><div class="v" id="stUsers">—</div></div>'
+    +'<div class="adm-stat"><div class="k">'+t('Developers','开发者')+'</div><div class="v">'+DEV_EMAILS.length+'</div></div>'
+    +'<div class="adm-stat"><div class="k">Dr7.ai</div><div class="v" id="stDr7">—</div></div>'
+    +'</div>'
+
+    /* Two columns: Members | Content Editor + Dr7 */
+    +'<div class="adm-cols">'
+
+    +'<div class="adm-col">'
+    +'<div class="adm"><div class="adm-card-head"><h1>👥 '+t('Members','用户管理')+'</h1>'
+    +'<span class="adm-chip ok" id="memberCountChip" style="display:none"></span></div>'
     +'<div class="adm-msg" id="admMsg"></div>'
     +'<div id="usersTable"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'加载用户…':'Loading users…')+'</span></div></div>'
-    +'<p class="adm-note">'+t('Freezing blocks the user from signing in and using the AI. Deleting permanently removes the account.','冻结可阻止用户登录并使用 AI；删除将永久移除账号。')+'</p>'
-    +'</div>';
+    +'<p class="adm-note">'+t('Freeze = block sign-in & AI. Delete = permanent removal.','冻结=阻止登录并使用AI；删除=永久移除账号。')+'</p>'
+    +'</div>'
+    +'</div>'
 
-  html+='<div class="adm"><h1>🤖 Dr7.ai '+t('Usage · API Remaining','用量 · 剩余额度')+'</h1>'
-    +'<div class="adm-dr7row" id="dr7Stats"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
-    +'<p class="adm-note">'+t('Usage is logged server-side when the AI helper is used. The live remaining-quota number comes from your Dr7.ai dashboard.','AI 助手被使用时会在服务端记录用量；实时剩余额度请查看 Dr7.ai 控制台。')+'</p>'
-    +'<div class="adm-dr7row" style="margin-top:1rem">'
-    +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
-    +'</div></div>';
-
-  html+='<div class="adm" id="editor"><h1>📝 '+t('Content Editor','内容编辑')+'</h1>'
-    +'<p class="adm-note">'+t('Edit chapter content directly. Changes save to THIS browser and override the original content on the study guide page — visible only to you, for quick drafting before a real edit.','直接编辑章节内容。更改保存在此浏览器，并覆盖学习指南页面的原始内容——仅对你可见，用于正式编辑前快速起草。')+'</p>'
+    +'<div class="adm-col">'
+    +'<div class="adm" id="editor"><div class="adm-card-head"><h1>📝 '+t('Content Editor','内容编辑')+'</h1>'
+    +'<span class="adm-chip local">'+t('LOCAL','本地')+'</span></div>'
+    +'<p class="adm-note" style="margin:0 0 .6rem">'+t('Quick draft — saves to this browser only, overrides the guide page.','快速起草——仅保存于此浏览器，覆盖指南页面内容。')+'</p>'
     +'<div id="contentEditorList"></div>'
+    +'</div>'
+
+    +'<div class="adm"><div class="adm-card-head"><h1>🤖 Dr7.ai '+t('Usage','用量')+'</h1></div>'
+    +'<div class="adm-dr7row" id="dr7Stats"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
+    +'<a class="adm-btn ghost" style="margin-top:1rem" target="_blank" rel="noopener" href="https://dr7.ai">📊 '+t('Open Dr7.ai Dashboard','打开 Dr7.ai 控制台')+'</a>'
+    +'</div>'
+    +'</div>'
+
+    +'</div>'
+
     +'<div id="contentEditModal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center">'
     +'<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);max-width:900px;width:95%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">'
     +'<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border)">'
@@ -989,6 +1017,7 @@ function renderConsole(u){
     +'<button onclick="saveContentChapter()" style="padding:.5rem 1.25rem;border-radius:6px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer">💾 '+t('Save','保存')+'</button>'
     +'</div></div>'
     +'</div></div>'
+
     +'</div>';
 
   showRoot(html);
@@ -1011,6 +1040,7 @@ function loadUsers(u){
     var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[d.email]=1; });
 
     var stUsers=document.getElementById('stUsers'); if(stUsers) stUsers.textContent=mem.length;
+    var chip=document.getElementById('memberCountChip'); if(chip){ chip.style.display='inline-block'; chip.textContent=mem.length+' '+t('members','成员'); }
 
     if(!mem.length){ box.innerHTML='<div class="adm-empty">'+t('No members yet.','还没有用户。')+(res[0]&&res[0].error?' '+(res[0].error.message||''):'')+'</div>'; return; }
 
@@ -1147,13 +1177,13 @@ function renderContentEditor(){
   var html='';
   CHAPTER_META.forEach(function(ch){
     var modified=!!localStorage.getItem('sm_content_'+ch.id);
-    html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.6rem .5rem;border-bottom:1px solid var(--border)">';
-    html+='  <div style="min-width:2rem;height:2rem;border-radius:8px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem">'+ch.id.replace('ch','')+'</div>';
+    html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.42rem .5rem;border-bottom:1px solid var(--border)">';
+    html+='  <div style="min-width:1.7rem;height:1.7rem;border-radius:7px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem">'+ch.id.replace('ch','')+'</div>';
     html+='  <div style="flex:1">';
-    html+='    <div style="font-weight:600;font-size:.9rem">'+ch.en+' · '+ch.zh+'</div>';
-    html+='    <div style="font-size:.72rem;color:'+(modified?'var(--green)':'var(--text3)')+'">'+(modified?(showCN?'● 已修改 — 使用自定义内容':'● Modified — using custom content'):(showCN?'● 原始内容':'● Original content'))+'</div>';
+    html+='    <div style="font-weight:600;font-size:.85rem">'+ch.en+' · '+ch.zh+'</div>';
+    html+='    <div style="font-size:.7rem;color:'+(modified?'var(--green)':'var(--text3)')+'">'+(modified?(showCN?'● 已修改 — 使用自定义内容':'● Modified — using custom content'):(showCN?'● 原始内容':'● Original content'))+'</div>';
     html+='  </div>';
-    html+='  <button onclick="openContentEditor(\''+ch.id+'\')" style="padding:.4rem .9rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:.82rem;cursor:pointer">'+(showCN?'编辑':'Edit')+'</button>';
+    html+='  <button onclick="openContentEditor(\''+ch.id+'\')" style="padding:.3rem .75rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:.78rem;cursor:pointer">'+(showCN?'编辑':'Edit')+'</button>';
     html+='</div>';
   });
   box.innerHTML=html;

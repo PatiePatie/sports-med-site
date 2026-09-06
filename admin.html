@@ -888,7 +888,7 @@ var DEV_NAMES  = { 'goldensword.gt@gmail.com':'Oliver', 'P54992163@gmail.com':'P
 var showCN = localStorage.getItem('sm_lang')==='zh';
 var bodyEl=document.body;
 var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')==='true'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
+if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
 darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
 function applyLang(){
   bodyEl.classList.toggle('lang-zh',showCN);

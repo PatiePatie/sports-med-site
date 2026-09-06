@@ -974,7 +974,7 @@ body.dark h1,body.dark h2,body.dark h3{
     darkBtn.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
     localStorage.setItem('dark',document.body.classList.contains('dark'));
   });
-  if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');if(darkBtn)darkBtn.textContent='☀️';}
+  if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');if(darkBtn)darkBtn.textContent='☀️';}
 })();
 
 // ── Language toggle ──

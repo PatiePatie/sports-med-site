@@ -1379,7 +1379,7 @@ darkBtn.addEventListener('click',()=>{
   darkBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
   localStorage.setItem('dark', document.body.classList.contains('dark'));
 });
-if(localStorage.getItem('dark')==='true'){document.body.classList.add('dark');darkBtn.textContent='☀️';}
+if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');darkBtn.textContent='☀️';}
 
 // ════════════════════════════════════════
 // LANGUAGE TOGGLE

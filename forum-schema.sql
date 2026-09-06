@@ -53,10 +53,25 @@ create index if not exists forum_topics_live_idx
   on public.forum_topics (created_at desc) where not hidden;
 
 -- ── Row Level Security ────────────────────────────────────────────────────
--- Visitors read the public forum anonymously; posting is done with the anon
--- key today (same trade-off as site_sections) — the console authenticates the
--- author only via sm_user metadata. Tighten once a real Supabase session
--- exists on the site.
+-- Visitors read the public forum anonymously (not hidden rows only).
+-- POSTING is REQUIRED to be signed in: the server locks author_email to the
+-- caller's JWT email via the policies below (hardened by
+-- supabase-hardening.sql — run BOTH files, in order, for the full lock).
+-- is_dev() is (re)created here so this file is self-sufficient; it is
+-- idempotent with the copy in supabase-hardening.sql.
+create or replace function public.is_dev()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists(
+    select 1 from public.devs
+    where email = nullif(auth.jwt() ->> 'email', '')
+  );
+$$;
+
 alter table public.forum_topics  enable row level security;
 alter table public.forum_replies enable row level security;
 
@@ -67,13 +82,21 @@ create policy forum_topics_read
   to anon, authenticated
   using (not hidden);
 
-drop policy if exists forum_topics_write on public.forum_topics;
-create policy forum_topics_write
+drop policy if exists forum_topics_manage on public.forum_topics;
+create policy forum_topics_manage
   on public.forum_topics
   for all
-  to anon, authenticated
+  to authenticated
+  using (public.is_dev() or author_email = nullif(auth.jwt() ->> 'email', ''))
+  with check (public.is_dev() or author_email = nullif(auth.jwt() ->> 'email', ''));
+
+drop policy if exists forum_topics_interact on public.forum_topics;
+create policy forum_topics_interact
+  on public.forum_topics
+  for update
+  to authenticated
   using (true)
-  with check (true);
+  with check (upvotes between 0 and 1000000);
 
 drop policy if exists forum_replies_read on public.forum_replies;
 create policy forum_replies_read
@@ -82,19 +105,20 @@ create policy forum_replies_read
   to anon, authenticated
   using (not hidden);
 
-drop policy if exists forum_replies_write on public.forum_replies;
-create policy forum_replies_write
+drop policy if exists forum_replies_manage on public.forum_replies;
+create policy forum_replies_manage
   on public.forum_replies
   for all
-  to anon, authenticated
-  using (true)
-  with check (true);
+  to authenticated
+  using (public.is_dev() or author_email = nullif(auth.jwt() ->> 'email', ''))
+  with check (public.is_dev() or author_email = nullif(auth.jwt() ->> 'email', ''));
 
 -- ── Grants ────────────────────────────────────────────────────────────────
 grant usage on schema public to anon, authenticated;
-grant select, insert, update, delete on public.forum_topics  to anon, authenticated;
-grant select, insert, update, delete on public.forum_replies to anon, authenticated;
-grant usage on all sequences in schema public to anon, authenticated;
+grant select on public.forum_topics, public.forum_replies to anon;
+grant select, insert, update, delete on public.forum_topics  to authenticated;
+grant select, insert, update, delete on public.forum_replies to authenticated;
+grant usage on all sequences in schema public to authenticated;
 
 -- ── Clear the stale PostgREST schema cache ────────────────────────────────
 notify pgrst, 'reload schema';

@@ -154,14 +154,34 @@
     status('');
   }
 
+  /* ── firewall: sign-in gates + device-local action rate limits ──
+     Client-side courtesy layer; the real walls are RLS (writes need a
+     signed-in JWT) and Supabase's own auth rate limits. */
+  function rate(action, max, windowMs){
+    var now=Date.now(), key='vitalite_forum_limits_'+action;
+    var arr=[]; try{ arr=JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
+    arr=arr.filter(function(t){ return now-t<windowMs; });
+    if(arr.length>=max) return Math.ceil((windowMs-(now-arr[0]))/1000);
+    arr.push(now);
+    try{ localStorage.setItem(key, JSON.stringify(arr)); }catch(e){}
+    return 0;
+  }
+  function loginCTA(){
+    return T('Please <a href="login.html">log in</a> to do that.','请先<a href="login.html">登录</a>后再操作。');
+  }
+  function authErrCode(c){
+    return (c==='401'||c==='403'||c==='42501'||c==='PGRST301');
+  }
+
   /* ── composer ── */
   function openComposer(){
     var u=user();
-    var note=document.getElementById('composerLoginNote');
-    if(note){
-      note.style.display=u?'none':'block';
-      note.innerHTML=u?'':('👤 '+T('Please <a href="login.html">log in</a> to start a topic.','请先<a href="login.html">登录</a>后再发帖。'));
+    if(!u){
+      status('<span class="for-banner">👤 '+loginCTA()+'</span>');
+      return;
     }
+    var note=document.getElementById('composerLoginNote');
+    if(note){ note.style.display='none'; }
     var sel=document.getElementById('composerCat');
     if(sel && !sel.options.length){
       CATS.forEach(function(c){
@@ -189,7 +209,9 @@
   }
   function submitTopic(){
     var u=user();
-    if(!u){ closeComposer(); return; }
+    if(!u){ closeComposer(); status('<span class="for-banner">👤 '+loginCTA()+'</span>'); return; }
+    var rem=rate('topic',3,60000);
+    if(rem>0){ document.getElementById('composerError').textContent=T('Posting too fast — try again in '+rem+'s.','发帖过于频繁 — 请 '+rem+' 秒后再试。'); return; }
     var title=document.getElementById('composerTitleInput').value.trim();
     var body=document.getElementById('composerBody').value.trim();
     var cat=document.getElementById('composerCat').value||'general';
@@ -204,6 +226,11 @@
     if(state.mode==='cloud' && sb){
       sb.from('forum_topics').insert(row).select().then(function(res){
         if(res.error){
+          if(authErrCode(res.error.code)){
+            /* RLS refused: session missing/expired. Tell them, keep the draft. */
+            document.getElementById('composerError').textContent=loginCTA();
+            return;
+          }
           saveLocalTopic(row);
         }else{
           state.topics.unshift(res.data[0]);
@@ -342,7 +369,9 @@
   }
   function submitReply(id){
     var u=user();
-    if(!u){ return; }
+    if(!u){ var e0=document.getElementById('replyError'); if(e0) e0.textContent=T('Please log in to reply.','请先登录后再回复。'); return; }
+    var rem=rate('reply',8,60000);
+    if(rem>0){ var er=document.getElementById('replyError'); if(er) er.textContent=T('Replying too fast — try again in '+rem+'s.','回复过于频繁 — 请 '+rem+' 秒后再试。'); return; }
     var inp=document.getElementById('replyInput');
     var body=(inp?inp.value:'').trim();
     var err=document.getElementById('replyError');
@@ -359,7 +388,11 @@
     }
     if(state.mode==='cloud' && sb){
       sb.from('forum_replies').insert(row).then(function(res){
-        if(!res.error){ state.replyCounts[id]=(state.replyCounts[id]||0)+1; }
+        if(res.error){
+          var c=res.error.code||'';
+          if(authErrCode(c)){ var el=document.getElementById('replyError'); if(el) el.textContent=T('Please log in to reply.','请先登录后再回复。'); return; }
+          state.replyCounts[id]=(state.replyCounts[id]||0)+1;
+        }
         finish();
       }).catch(finish);
     }else{
@@ -376,6 +409,9 @@
   function hasUpvoted(id){ try{ var s=JSON.parse(localStorage.getItem(UPVOTE_KEY)||'[]'); return s.indexOf(String(id))!==-1; }catch(e){ return false; } }
   function markUpvoted(id){ try{ var s=JSON.parse(localStorage.getItem(UPVOTE_KEY)||'[]'); if(s.indexOf(String(id))===-1){ s.push(String(id)); localStorage.setItem(UPVOTE_KEY, JSON.stringify(s)); } }catch(e){} }
   function vote(id){
+    if(!user()){ status('<span class="for-banner">👤 '+loginCTA()+'</span>'); load(); return; }
+    var rem=rate('vote',10,60000);
+    if(rem>0){ status('<span class="for-banner">'+T('Voting too fast — try again in '+rem+'s.','点赞过于频繁 — 请 '+rem+' 秒后再试。')+'</span>'); load(); return; }
     if(hasUpvoted(id)){ load(); return; }
     var t=null;
     state.topics.forEach(function(x){ if(x.id===id) t=x; });
@@ -393,7 +429,9 @@
   }
   function flag(id){
     var u=user();
-    if(!u){ return; }
+    if(!u){ status('<span class="for-banner">👤 '+loginCTA()+'</span>'); return; }
+    var rem=rate('flag',3,60000);
+    if(rem>0){ status('<span class="for-banner">'+T('Reporting too fast — try again in '+rem+'s.','举报过于频繁 — 请 '+rem+' 秒后再试。')+'</span>'); return; }
     if(state.mode==='cloud' && state.sb){
       state.sb.from('forum_topics').update({ flagged:true }).eq('id',id).then(function(){
         status('<span class="for-banner">'+T('Reported — a moderator will take a look.','已举报 — 管理员会尽快查看。')+'</span>');

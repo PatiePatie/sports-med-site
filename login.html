@@ -3,6 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
@@ -966,7 +967,20 @@ if(sb){
     }
     if(d && d.data && d.data.session && d.data.session.user){
       applySociUser(d.data.session.user);
-      goNext();
+      /* firewall: a re-imported session must ALSO pass the freeze/deletion
+         check — before, only the fresh-login path checked, so a frozen or
+         deleted account could keep hopping pages with a still-live session. */
+      checkBlocked(d.data.session.user.email).then(function(mod){
+        if(mod && (mod.frozen || mod.deleted)){
+          blockSignIn(mod.deleted
+            ? (showCN?'此账号已被删除。':'This account has been deleted.')
+            : (showCN?'此账号已被冻结。如有疑问请联系管理员。':'This account has been frozen. If you believe this is a mistake, please contact an administrator.'));
+        } else {
+          goNext();
+        }
+        setStatus();
+      });
+      return;
     }
     setStatus();
   }).catch(function(){ if(outReq){ localStorage.removeItem('sm_user'); } setStatus(); });
@@ -990,13 +1004,46 @@ function blockSignIn(text){
   setStatus();
 }
 
+/* ═══ Firewall: device-local sign-in rate limiter ═══
+   5 failed password attempts → 60s lockout; 10+ → 5 minutes.
+   Device-local (defeats casual spray; the server-side walls are Supabase's
+   own auth rate limits + the RLS policies). */
+var RL_KEY='vitalite_login_rl';
+function rlState(){ try{ return JSON.parse(localStorage.getItem(RL_KEY)||'null')||{fails:0,until:0}; }catch(e){ return {fails:0,until:0}; } }
+function rlSave(s){ try{ localStorage.setItem(RL_KEY,JSON.stringify(s)); }catch(e){} }
+function rlLockedRemaining(){
+  var s=rlState();
+  if(s.until && s.until>Date.now()) return Math.ceil((s.until-Date.now())/1000);
+  if(s.until && s.until<=Date.now()){ s.fails=0; s.until=0; rlSave(s); }
+  return 0;
+}
+function rlFail(){ var s=rlState(); s.fails=(s.fails||0)+1; if(s.fails>=10){ s.until=Date.now()+300000; } else if(s.fails>=5){ s.until=Date.now()+60000; } rlSave(s); }
+function rlReset(){ rlSave({fails:0,until:0}); }
+/* Signup throttle: max 3 signup attempts per 10 minutes per device. */
+var SU_KEY='vitalite_signup_throttle';
+function suThrottle(){
+  var now=Date.now();
+  var arr=[]; try{ arr=JSON.parse(localStorage.getItem(SU_KEY)||'[]'); }catch(e){}
+  arr=arr.filter(function(t){ return now-t<600000; });
+  if(arr.length>=3) return Math.ceil((600000-(now-arr[0]))/1000);
+  arr.push(now);
+  try{ localStorage.setItem(SU_KEY,JSON.stringify(arr)); }catch(e){}
+  return 0;
+}
+
 /* LOGIN */
 document.getElementById('liBtn').addEventListener('click',function(){
   if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
+  var rem=rlLockedRemaining();
+  if(rem>0){ myMsg(showCN?'尝试次数过多，请 '+rem+' 秒后再试。':'Too many attempts. Try again in '+rem+'s.',false); return; }
   var em=document.getElementById('liEmail').value.trim();
   var pw=document.getElementById('liPass').value;
   if(!em||!pw){ myMsg(showCN?'请输入邮箱和密码。':'Please enter email and password.',false); return; }
-  sb.auth.signInWithPassword({email:em,password:pw}).then(handleAuth).then(function(ok){
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(resp){
+    if(resp && resp.error){ rlFail(); return handleAuth(resp); }
+    rlReset();
+    return handleAuth(resp);
+  }).then(function(ok){
     if(!ok) return;
     checkBlocked(em).then(function(mod){
       if(mod && mod.deleted){
@@ -1013,6 +1060,8 @@ document.getElementById('liBtn').addEventListener('click',function(){
 /* SIGNUP */
 document.getElementById('suBtn').addEventListener('click',function(){
   if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
+  var rem=suThrottle();
+  if(rem>0){ myMsg(showCN?'注册尝试过于频繁，请 '+rem+' 秒后再试。':'Too many signup attempts. Try again in '+rem+'s.',false); return; }
   var em=document.getElementById('suEmail').value.trim();
   var pw=document.getElementById('suPass').value;
   var nm=document.getElementById('suName').value.trim();

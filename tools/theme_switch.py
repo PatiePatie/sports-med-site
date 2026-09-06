@@ -51,6 +51,14 @@ LAYOUT_JS = "linear-layout.js"
 # (PR #64 bumped it past poisoned v6/v7 variants).
 LAYOUT_JS_PIN = "?v=2" if LAYOUT_JS else ""
 
+# Cache-bust pins for the Q&A widget + notification bell (CSS + JS). These were
+# previously unversioned, so a change here silently lingered in CF/browser caches.
+# Bump the numbers whenever the corresponding file changes.
+QNA_CSS_PIN = "?v=1"
+QNA_JS_PIN  = "?v=1"
+BELL_CSS_PIN = "?v=1"
+BELL_JS_PIN  = "?v=1"
+
 # Pages the draft never touches — auth/account surfaces keep their own chrome
 # (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
 # these; `status` leaves them out of the report. admin.html/social.html are the
@@ -58,15 +66,25 @@ LAYOUT_JS_PIN = "?v=2" if LAYOUT_JS else ""
 # gold-blue theme directly, not the skin.
 EXCLUDE = {"login.html", "admin.html", "social.html"}
 
+# Pages that run the section-interfaces script (PR #67). The lane added the
+# <script> inside the DRAFT-THEME block by hand; it belongs in the template so
+# off/on cycles can't silently drop it. social.html is excluded above and links
+# the script outside the block (operator surface).
+SECTIONS_JS_PAGES = {
+    "account.html", "cn-cert.html", "exam.html", "g10-bio.html", "guide.html",
+    "index.html", "infirmary.html", "toc.html", "usabo.html",
+}
+SECTIONS_JS_PIN = "?v=2"
+
 BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
     + (f'<script src="{LAYOUT_JS}{LAYOUT_JS_PIN}" defer></script>\n' if LAYOUT_JS else "")
-    + '<link rel="stylesheet" href="qna-widget.css">\n'
-    + '<script src="qna-widget.js" defer></script>\n'
-    + '<link rel="stylesheet" href="notif-bell.css">\n'
-    + '<script src="notif-bell.js" defer></script>\n'
+    + '<link rel="stylesheet" href="qna-widget.css'+QNA_CSS_PIN+'">\n'
+    + '<script src="qna-widget.js'+QNA_JS_PIN+'" defer></script>\n'
+    + '<link rel="stylesheet" href="notif-bell.css'+BELL_CSS_PIN+'">\n'
+    + '<script src="notif-bell.js'+BELL_JS_PIN+'" defer></script>\n'
     + f"{END}\n"
 )
 
@@ -123,8 +141,17 @@ def apply_on(path):
 
     new, n_fonts = fonts_off(text)
 
+    block = BLOCK
+    if path.name in SECTIONS_JS_PAGES:
+        block = block.replace(
+            '<script src="draft.js" defer></script>',
+            '<script src="sections.js' + SECTIONS_JS_PIN + '" defer></script>\n'
+            + '<script src="draft.js" defer></script>',
+            1,
+        )
+
     head_close = new.rindex("</head>")
-    new = new[:head_close] + BLOCK + new[head_close:]
+    new = new[:head_close] + block + new[head_close:]
 
     path.write_text(new, encoding="utf-8")
     linked = ", ".join(x for x in (THEME_CSS, "draft.js", LAYOUT_JS) if x)
@@ -146,8 +173,8 @@ def apply_off(path):
 # A page rewritten from a pre-skin copy keeps the markers but links the old
 # stylesheet, so `on` skips it and the page silently falls back to another skin.
 # `status` calls that out by name.
-LINK_RE = re.compile(r'<link\b[^>]*href="([^"]+\.css)"[^>]*>')
-SCRIPT_RE = re.compile(r'<script\b[^>]*src="([^"]+\.js)"[^>]*>')
+LINK_RE = re.compile(r'<link\b[^>]*href="([^"]+\.css(?:\?[^"]*)?)"[^>]*>')
+SCRIPT_RE = re.compile(r'<script\b[^>]*src="([^"]+\.js(?:\?[^"]*)?)"[^>]*>')
 
 
 def block_of(text):
@@ -160,8 +187,14 @@ def linked_theme(text):
     block = block_of(text)
     if not block:
         return None
-    link = LINK_RE.search(block)
-    return link.group(1) if link else None
+    # The block now carries several stylesheets (skin, qna-widget, notif-bell).
+    # The skin is the one whose bare name matches THEME_CSS — match it rather
+    # than blindly grabbing the first .css (which would be a widget).
+    want = THEME_CSS.split("?")[0]
+    for link in LINK_RE.findall(block):
+        if link.split("?")[0] == want:
+            return link
+    return None
 
 
 def linked_scripts(text):
@@ -176,10 +209,13 @@ def report(path):
         return "off", ("" if "</head>" in text else "  (!) no </head>")
 
     linked = linked_theme(text)
-    if linked and linked != THEME_CSS:
+    if linked and linked.split("?")[0] != THEME_CSS.split("?")[0]:
         return "ON ", f"  (!) links {linked}, not {THEME_CSS} — run: off then on"
-    if LAYOUT_JS and LAYOUT_JS not in linked_scripts(text):
-        return "ON ", f"  (!) missing {LAYOUT_JS} — run: off then on"
+    if LAYOUT_JS:
+        # Scripts come with a ?v= pin (linear-layout.js?v=2); compare bare names.
+        bare = {s.split("?")[0] for s in linked_scripts(text)}
+        if LAYOUT_JS not in bare:
+            return "ON ", f"  (!) missing {LAYOUT_JS} — run: off then on"
     return "ON ", ("" if "</head>" in text else "  (!) no </head>")
 
 

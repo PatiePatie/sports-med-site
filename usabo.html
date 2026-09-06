@@ -749,6 +749,11 @@ body.dark .usq-label select option{background:var(--surface);color:var(--text)}
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css?v=2">
   <script src="loader.js"></script>
+<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
+<link rel="stylesheet" href="vitalite-skin.css">
+<script src="draft.js" defer></script>
+<script src="linear-layout.js" defer></script>
+<!-- DRAFT-THEME:END -->
 </head>
 <body>
 <!-- Sidebar Toggle (mobile) -->
@@ -767,12 +772,8 @@ body.dark .usq-label select option{background:var(--surface);color:var(--text)}
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
-      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
@@ -788,6 +789,7 @@ body.dark .usq-label select option{background:var(--surface);color:var(--text)}
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -797,7 +799,7 @@ body.dark .usq-label select option{background:var(--surface);color:var(--text)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link" href="social.html" data-en="💬 Forum" data-zh="💬 论坛">💬 Forum</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">

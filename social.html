@@ -835,8 +835,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="container header-inner">
   <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+    <button class="btn-icon" id="langToggle" title="Switch 中文 / English">中文</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark / light mode">🌙 Dark</button>
     <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
   </div>
 </div>
@@ -950,19 +950,19 @@ body.dark h1,body.dark h2,body.dark h3{
 })();
 
 /* ═══ Language + dark mode ═══ */
-var showCN=false; try{ showCN=localStorage.getItem('sm_lang')==='zh'; }catch(e){}
+var showCN=false; try{ showCN=localStorage.getItem('sm_lang')!=='en'; }catch(e){}
 var dark=false; try{ dark=localStorage.getItem('dark')!=='false'; }catch(e){}
 function applyLang(){
   var lang=showCN?'zh':'en';
   document.body.classList.toggle('lang-zh', showCN);
   document.body.classList.toggle('lang-en', !showCN);
   document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+lang); });
-  document.getElementById('langToggle').textContent=showCN?'中':'EN';
+  document.getElementById('langToggle').textContent=showCN?'中文':'English';
 }
 function applyDark(){
   var darkEl=document.getElementById('darkToggle');
   document.body.classList.toggle('dark', dark);
-  if(darkEl) darkEl.textContent=dark?'☀️':'🌙';
+  if(darkEl) darkEl.textContent=dark?'☀️ Light':'🌙 Dark';
 }
 document.getElementById('langToggle').addEventListener('click',function(){ showCN=!showCN; try{ localStorage.setItem('sm_lang', showCN?'zh':'en'); }catch(e){} applyLang(); });
 document.getElementById('darkToggle').addEventListener('click',function(){ dark=!dark; try{ localStorage.setItem('dark', dark?'true':'false'); }catch(e){} applyDark(); });
@@ -970,7 +970,7 @@ applyLang(); applyDark();
 
 /* ═══ Medical AI ═══ */
 var MEDAI_URL='https://api.vitaliteplan.com';
-function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')!=='en'?'zh':'en'; }catch(e){ return 'en'; } }
 function medaiRender(raw){ var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>'); s=s.replace(/\n/g,'<br/>'); return s; }
 function medaiAppend(boxId,raw){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.innerHTML=medaiRender(raw); div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); box.scrollTop=box.scrollHeight; }
 function medaiThinking(boxId){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.textContent='Thinking… 思考中…'; div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); return div; }

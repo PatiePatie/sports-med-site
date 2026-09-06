@@ -868,8 +868,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="container header-inner">
   <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+    <button class="btn-icon" id="langToggle" title="Switch 中文 / English">中文</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark / light mode">🌙 Dark</button>
     <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
   </div>
 </div>
@@ -964,17 +964,17 @@ body.dark h1,body.dark h2,body.dark h3{
 <script>
 
 /* ===== Theme + language (mirrors site: dark / sm_lang) ===== */
-var showCN = localStorage.getItem('sm_lang')==='zh';
+var showCN = localStorage.getItem('sm_lang')!=='en';
 var bodyEl=document.body;
 var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
-darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
+if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️ Light'; }
+darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️ Light' : '🌙 Dark'; });
 function applyLang(){
   bodyEl.classList.toggle('lang-zh',showCN);
   bodyEl.classList.toggle('lang-en',!showCN);
   document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+ (showCN?'zh':'en')); });
   document.querySelectorAll('[data-en-placeholder]').forEach(function(el){ el.placeholder=el.getAttribute('data-'+ ((showCN?'zh':'en'))+'-placeholder'); });
-  document.getElementById('langToggle').textContent=showCN?'中':'EN';
+  document.getElementById('langToggle').textContent=showCN?'中文':'English';
   renderCountryOptions();
   renderChapters();
 }

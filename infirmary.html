@@ -953,8 +953,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <div class="container header-inner">
   <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
-    <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
-    <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
+    <button class="btn-icon" id="langToggle" title="Switch 中文 / English">中文</button>
+    <button class="btn-icon" id="darkToggle" title="Toggle dark / light mode">🌙 Dark</button>
     <a class="btn-login" id="loginBtn" href="login.html">👤 Log In</a>
   </div>
 </div>
@@ -1031,23 +1031,23 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   const darkBtn=document.getElementById('darkToggle');
   if(darkBtn) darkBtn.addEventListener('click',()=>{
     document.body.classList.toggle('dark');
-    darkBtn.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+    darkBtn.textContent=document.body.classList.contains('dark')?'☀️ Light':'🌙 Dark';
     localStorage.setItem('dark',document.body.classList.contains('dark'));
   });
-  if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');if(darkBtn)darkBtn.textContent='☀️';}
+  if(localStorage.getItem('dark')!=='false'){document.body.classList.add('dark');if(darkBtn)darkBtn.textContent='☀️ Light';}
 })();
 
 // ── Language toggle ──
 (function(){
   const langBtn=document.getElementById('langToggle');
-  let showCN=localStorage.getItem('sm_lang')==='zh';
+  let showCN=localStorage.getItem('sm_lang')!=='en';
   function applyLang(){
     const lang=showCN?'zh':'en';
     document.body.classList.toggle('lang-zh',showCN);
     document.body.classList.toggle('lang-en',!showCN);
     document.querySelectorAll('[data-en][data-zh]').forEach(el=>{ el.textContent=el.getAttribute('data-'+lang); });
     document.querySelectorAll('[data-en-placeholder]').forEach(el=>{ el.placeholder=el.getAttribute('data-'+lang+'-placeholder'); });
-    if(langBtn) langBtn.textContent=showCN?'中':'EN';
+    if(langBtn) langBtn.textContent=showCN?'中文':'English';
   }
   if(langBtn) langBtn.addEventListener('click',()=>{
     showCN=!showCN;
@@ -1065,7 +1065,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 
 // ── Medical AI (Dr7.ai via Cloudflare Worker) ──
 var MEDAI_URL='https://api.vitaliteplan.com';
-function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+function medaiLang(){ try{ return localStorage.getItem('sm_lang')!=='en'?'zh':'en'; }catch(e){ return 'en'; } }
 function medaiRender(raw){
   var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
   s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
@@ -1182,7 +1182,7 @@ document.addEventListener('click', function(e){
     try{ var u=JSON.parse(localStorage.getItem('sm_user')||'null'); if(u&&u.email) return u.email; }catch(e){}
     return 'guest';
   }
-  function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+  function lang(){ try{ return localStorage.getItem('sm_lang')!=='en'?'zh':'en'; }catch(e){ return 'en'; } }
   function T(en,zh){ return lang()==='zh'?zh:en; }
   function loadStore(){
     try{ var a=JSON.parse(localStorage.getItem(KEY+'|'+userKey())||'null'); if(a&&a.data) return a; }catch(e){}

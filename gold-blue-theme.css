@@ -882,3 +882,37 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
 @media(max-width:900px){
   .page-wrapper{margin-left:0}
 }
+
+/* ── Wide toggle pills: language + dark/light ────────────────────────────
+   The pages ship #langToggle / #darkToggle as 36px `.btn-icon` circles; the
+   Linear shell mounts them into the top bar next to ⌘K and Log In. These
+   rules widen them into labelled pills ("中文 / English", "🌙 Dark /
+   ☀️ Light"). ID selectors beat the page's `.btn-icon` block regardless of
+   cascade order, and the dark-mode vars (--surface/--border/--text) make
+   them self-adapting. Below 601px they compact so the top bar doesn't
+   overflow beside ⌘K's label. */
+#langToggle,
+#darkToggle{
+  width:auto;
+  height:34px;
+  min-width:0;
+  padding:0 .95rem;
+  border-radius:999px;
+  font-size:.85rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  line-height:1;
+  white-space:nowrap;
+  gap:.35rem;
+}
+/* Stable pill across both language states: "中文" is short, "English" is not. */
+#langToggle{min-width:76px}
+@media(max-width:600px){
+  #langToggle,
+  #darkToggle{
+    height:32px;
+    padding:0 .55rem;
+    font-size:.78rem;
+  }
+  #langToggle{min-width:0}
+}

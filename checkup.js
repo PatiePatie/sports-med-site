@@ -273,8 +273,10 @@ function onSymChange(e){
   var lab=cb.closest('label'); if(lab) lab.classList.toggle('ticked',cb.checked);
 }
 
-/* ── camera: live getUserMedia preview + steady-detect single frame ── */
-var camState={stream:null,timer:null,prev:null,stable:0,busy:false}, camGen=0;
+/* ── camera: live getUserMedia preview + continuous steady-detect scanning ── */
+var camState={stream:null,timer:null,prev:null,stable:0,busy:false,tries:0,coolUntil:0}, camGen=0;
+var SCAN_COOLDOWN=1000,   /* ms between capture attempts after a miss */
+    SCAN_MAX_TRIES=15;    /* hard cap so we never loop forever */
 
 function startLiveScan(){
   var cv=$('camView'), vid=$('camVideo');
@@ -292,7 +294,7 @@ function startLiveScan(){
     camState.stream=stream;
     vid.srcObject=stream;
     var p=vid.play(); if(p&&p.catch) p.catch(function(){});
-    camState.prev=null; camState.stable=0;
+    camState.prev=null; camState.stable=0; camState.tries=0; camState.coolUntil=0;
     camState.timer=setInterval(sampleFrame,200);
   }).catch(function(){
     if(myGen!==camGen) return;
@@ -307,6 +309,7 @@ function sampleFrame(){
   var vid=$('camVideo');
   if(!camState.stream||!vid||!vid.videoWidth) return;
   if(camState.busy) return;
+  if(Date.now()<camState.coolUntil) return;   /* pacing: brief pause between attempts */
   if(!camCanvas){ camCanvas=document.createElement('canvas'); }
   var ctx=camCanvas.getContext('2d');
   var sw=96, sh=Math.max(1,Math.round(sw*vid.videoHeight/vid.videoWidth));
@@ -333,7 +336,8 @@ function sampleFrame(){
   }
 }
 
-/* One frame, resized, one request. Results only land if the scan still current. */
+/* One frame, resized, one request. Results only land if the scan still current.
+   Continuous: miss -> keep scanning; vision-unavailable -> 2 strikes then fall back. */
 function captureFrame(){
   var vid=$('camVideo');
   if(!camState.stream||!vid||!vid.videoWidth) return;
@@ -352,20 +356,46 @@ function captureFrame(){
     body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
   }).then(function(res){ return res.json(); }).then(function(d){
     if(capGen!==camGen) return;
-    camState.busy=false; stopLiveScan();
-    if(d&&d.ok&&d.part&&PART_MAP[d.part]){ selectPart(d.part); return; }
-    visionFail();
+    camState.busy=false;
+    if(d&&d.ok&&d.part&&PART_MAP[d.part]){ stopLiveScan(); selectPart(d.part); return; }
+    camState.tries++;
+    if(d&&d.ok===true){
+      /* Vision is alive but no part seen -> keep scanning. */
+      if(camState.tries>=SCAN_MAX_TRIES){
+        setCamStatus(T('Still not detected — tap your body part on the map','仍未识别到 — 请在人体图上点击部位'));
+        visionFail();
+        return;
+      }
+      camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
+      setCamStatus(T('Not detected yet — keep scanning…','尚未识别到 — 继续扫描…'));
+      return;
+    }
+    /* Vision branch unavailable / bad reply / error -> 2 strikes, then graceful fallback. */
+    if(camState.tries>=2){
+      setCamStatus(T('Camera scan unavailable — tap your body part on the map','相机扫描不可用 — 请在人体图上点击部位'));
+      visionFail();
+      return;
+    }
+    camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
+    setCamStatus(T('Scanning again…','重新扫描中…'));
   }).catch(function(){
     if(capGen!==camGen) return;
-    camState.busy=false; stopLiveScan();
-    visionFail();
+    camState.busy=false;
+    camState.tries++;
+    if(camState.tries>=2){
+      setCamStatus(T('Camera scan unavailable — tap your body part on the map','相机扫描不可用 — 请在人体图上点击部位'));
+      visionFail();
+      return;
+    }
+    camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
+    setCamStatus(T('Scanning again…','重新扫描中…'));
   });
 }
 
 function stopLiveScan(){
   if(camState.timer){ clearInterval(camState.timer); camState.timer=null; }
   if(camState.stream){ camState.stream.getTracks().forEach(function(t){t.stop();}); camState.stream=null; }
-  camState.prev=null; camState.stable=0; camState.busy=false;
+  camState.prev=null; camState.stable=0; camState.busy=false; camState.tries=0; camState.coolUntil=0;
   var vid=$('camVideo'); if(vid) vid.srcObject=null;
   var cv=$('camView'); if(cv){ cv.hidden=true; cv.classList.remove('snap'); }
   var cb=$('camBtn'); if(cb) cb.classList.remove('on');

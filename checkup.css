@@ -43,6 +43,7 @@
 .checkup-cam-alt{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:99px;border:1px dashed var(--border);background:transparent;color:var(--text3);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .18s}
 .checkup-cam-alt:hover{border-color:var(--accent);color:var(--accent)}
 .checkup-cam-err{font-size:.75rem;color:var(--danger,#c0392b);text-align:center;margin-top:.4rem;max-width:420px}
+.checkup-cam-priv{font-size:.72rem;color:var(--muted,#6b7280);text-align:center;margin-top:.5rem;max-width:420px;line-height:1.35}
 
 /* ── Live camera view (getUserMedia HUD) ── */
 .checkup-camview{position:relative;width:min(340px,100%);aspect-ratio:4/3;margin:.9rem auto 0;border-radius:14px;overflow:hidden;background:#0b0f14;border:1px solid var(--border);box-shadow:var(--shadow);transform:translateZ(0)}

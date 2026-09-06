@@ -16,8 +16,20 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-# User-confirmed site-wide skin: gold-blue (2026-09-01). All pages must link this.
-THEME_CSS = "gold-blue-theme.css"
+# Site-wide skin, read from the same config the switch tool uses so the two
+# can never drift apart. vitalite-skin.css = gold-blue brand + the collapsible
+# rail mechanics (it @imports gold-blue-theme.css).
+_SWITCH = pathlib.Path(ROOT / "tools" / "theme_switch.py").read_text(encoding="utf-8")
+_THEME_M = re.search(r'^THEME_CSS\s*=\s*"([^"]+)"', _SWITCH, re.MULTILINE)
+THEME_CSS = _THEME_M.group(1) if _THEME_M else "gold-blue-theme.css"
+# Pages the draft never touches (must mirror tools/theme_switch.py EXCLUDE) —
+# auth surfaces own their chrome and legitimately link no site skin.
+_EXCL_M = re.search(r"^EXCLUDE\s*=\s*\{([^}]*)\}", _SWITCH, re.MULTILINE)
+EXCLUDE = {
+    w.strip().strip('"').strip("'")
+    for w in (_EXCL_M.group(1).split(",") if _EXCL_M else [])
+    if w.strip()
+}
 
 LINK_RE = re.compile(r"<link[^>]+rel=[\"']stylesheet[\"'][^>]*>", re.IGNORECASE)
 HREF_RE = re.compile(r"href=[\"']([^\"']+)[\"']", re.IGNORECASE)
@@ -34,7 +46,8 @@ def audit_page(html: pathlib.Path):
     text = COMMENT_RE.sub("", html.read_text(encoding="utf-8", errors="replace"))
     problems = []
     links = [m.group(1) for m in (HREF_RE.search(lnk) for lnk in LINK_RE.findall(text)) if m]
-    css = [lnk for lnk in links if lnk.endswith(".css")]
+    # Cache-busting (?v=3) must not hide a stylesheet from the audit.
+    css = [lnk.split("?")[0] for lnk in links if lnk.split("?")[0].endswith(".css")]
     if THEME_CSS not in css:
         problems.append(("skin", f"links {css or 'NO CSS'} — expected {THEME_CSS}"))
     if any(FONTS_RE.search(lnk) for lnk in links):
@@ -43,7 +56,7 @@ def audit_page(html: pathlib.Path):
 
 
 def main() -> int:
-    pages = sorted(ROOT.glob("*.html"))
+    pages = sorted(p for p in ROOT.glob("*.html") if p.name not in EXCLUDE)
     failures = 0
     for page in pages:
         for kind, msg in audit_page(page):
@@ -52,7 +65,8 @@ def main() -> int:
     if failures:
         print(f"\n{failures} violation(s) across {len(pages)} pages — skin is drifting. Fix before merge.")
         return 1
-    print(f"OK — all {len(pages)} pages link {THEME_CSS}; zero active webfont links.")
+    excluded = ", ".join(sorted(EXCLUDE)) or "none"
+    print(f"OK — all {len(pages)} pages link {THEME_CSS}; zero active webfont links. Excluded: {excluded}")
     return 0
 
 

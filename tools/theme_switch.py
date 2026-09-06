@@ -41,7 +41,7 @@ END = "<!-- DRAFT-THEME:END -->"
 # (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
 # sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
 # for the bare Editorial Surgical layer.
-THEME_CSS = "vitalite-skin.css"
+THEME_CSS = "vitalite-skin.css?v=1"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
@@ -190,7 +190,9 @@ def main(argv):
         return 1
 
     required = [THEME_CSS, "draft-theme.css", "draft.js"] + ([LAYOUT_JS] if LAYOUT_JS else [])
-    missing = [n for n in required if not (ROOT / n).exists()]
+    # THEME_CSS may carry a cache-busting query (vitalite-skin.css?v=1) — the
+    # existence check must look at the file, not the URL.
+    missing = [n for n in required if not (ROOT / n.split("?")[0]).exists()]
     if cmd == "on" and missing:
         print(f"Refusing to run: missing {', '.join(missing)} in {ROOT}")
         return 1

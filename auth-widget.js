@@ -198,6 +198,19 @@
     if(!side || side.getAttribute('data-sb-init')==='1') return;
     side.setAttribute('data-sb-init','1');
 
+    /* One-time reset of compact mode. The compact button shipped long before
+       any CSS backed it, so it looked inert and people clicked it — leaving
+       sm_sbcompact='1' stored as a choice nobody knowingly made. Once the
+       styles landed those stale flags snapped the sidebar into an icon rail
+       with no labels. Clear it once, then respect the setting from here on. */
+    try{
+      if(localStorage.getItem('sm_sbcompact_v2')!=='1'){
+        localStorage.removeItem('sm_sbcompact');
+        document.body.classList.remove('sbcompact');
+        localStorage.setItem('sm_sbcompact_v2','1');
+      }
+    }catch(e){}
+
     var KEY='sm_sbparts';
     var state={};
     try{ state=JSON.parse(localStorage.getItem('sm_sbparts')||'{}')||{}; }catch(e){ state={}; }

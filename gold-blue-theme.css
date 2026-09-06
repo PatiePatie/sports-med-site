@@ -750,99 +750,130 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
 .landing .hero p,.hero p,.section-label{font-family:var(--font-subhead);font-style:italic;letter-spacing:.01em}
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Sidebar: accordion parts + compact rail
-   The markup (.part-toggle / .part-icon / .part-name / .part-caret /
-   .part-body / .sb-compact-btn) shipped on every sidebar page with no styles
-   behind it. This is that layer.
+   Sidebar — Linear-style rail
+   Quiet by default: muted labels, subtle rounded hover pills, tiny uppercase
+   section heads, no accent bars. Emphasis is reserved for the active row.
 
-   Collapsing is keyed on .collapsed, which sidebar.js adds — never on the
-   absence of a class. With no JS, or if anything goes wrong, every group
-   stays fully visible rather than the nav disappearing.
+   Collapsing keys on .collapsed, which sidebar JS adds — never on a class
+   being absent. With no JS every group stays open, so the nav can't vanish.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.sidebar{overscroll-behavior:contain;padding-bottom:2rem}
+.sidebar{
+  width:224px;padding:.5rem 0 2rem;overscroll-behavior:contain;
+  background:var(--surface);border-right:1px solid var(--border)}
+.page-wrapper{margin-left:224px}
 
-/* ---- logo row ---- */
-.sidebar-logo{display:flex;align-items:center;gap:.5rem}
+/* ---- wordmark row ---- */
+.sidebar-logo{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.35rem .75rem .6rem;margin-bottom:.35rem;
+  font-size:.95rem;border-bottom:1px solid var(--border)}
 .sidebar-logo .logo-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sb-compact-btn{
-  flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--border);border-radius:8px;background:var(--surface2);
-  color:var(--text3);font-size:.8rem;line-height:1;cursor:pointer;
-  transition:color .18s,border-color .18s,background .18s}
-.sb-compact-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-bg)}
-.sb-compact-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  border:1px solid transparent;border-radius:6px;background:transparent;
+  color:var(--text3);font-size:.78rem;line-height:1;cursor:pointer;
+  transition:background .14s,color .14s}
+.sb-compact-btn:hover{background:var(--surface2);color:var(--text)}
+.sb-compact-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
-/* ---- part header ---- */
-.sidebar-group.part{margin:0 .5rem .2rem}
+/* ---- group header ---- */
+.sidebar-group.part{margin:0 .4rem .1rem}
 .part-toggle{
-  width:100%;display:flex;align-items:center;gap:.55rem;
-  padding:.5rem .6rem;border:1px solid transparent;border-radius:var(--radius-sm);
-  background:transparent;color:var(--text);font:inherit;font-size:.86rem;font-weight:700;
-  text-align:left;cursor:pointer;transition:background .18s,color .18s}
-.part-toggle:hover{background:var(--surface2);color:var(--accent)}
-.part-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.part-icon{flex:none;width:20px;text-align:center;font-size:1rem;line-height:1}
+  width:100%;display:flex;align-items:center;gap:.5rem;
+  padding:.34rem .5rem;border:0;border-radius:6px;
+  background:transparent;color:var(--text2);font:inherit;
+  font-size:.795rem;font-weight:600;letter-spacing:-.005em;
+  text-align:left;cursor:pointer;transition:background .14s,color .14s}
+.part-toggle:hover{background:var(--surface2);color:var(--text)}
+.part-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
+.part-icon{flex:none;width:17px;text-align:center;font-size:.87rem;line-height:1;opacity:.85}
 .part-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.part-caret{flex:none;font-size:.7rem;color:var(--text3);transition:transform .22s ease}
+.part-caret{
+  flex:none;font-size:.6rem;color:var(--text3);opacity:0;
+  transition:transform .16s ease,opacity .14s ease}
+.sidebar-group.part:hover .part-caret,
+.part-toggle:focus-visible .part-caret{opacity:.8}
 
-/* ---- part body: OPEN is the default; only .collapsed closes it ---- */
-.part-body{padding:.1rem 0 .4rem .25rem}
+/* ---- group body: OPEN by default, only .collapsed closes it ---- */
+.part-body{padding:.05rem 0 .3rem}
 .sidebar-group.part.collapsed > .part-body{display:none}
-.sidebar-group.part.collapsed > .part-toggle .part-caret{transform:rotate(-90deg)}
-.sidebar-group.part:not(.collapsed) > .part-toggle{color:var(--accent)}
+.sidebar-group.part.collapsed > .part-toggle .part-caret{transform:rotate(-90deg);opacity:.8}
 
-.part-body .sidebar-link{padding:.35rem .6rem .35rem 1.15rem;border-radius:6px}
-.part-body .sidebar-link.sub{padding-left:1.7rem}
-.part-body .sidebar-label{padding:.45rem .6rem .2rem 1.15rem}
+/* ---- rows ---- */
+.sidebar-link{
+  display:block;position:relative;
+  margin:1px .4rem;padding:.32rem .5rem .32rem 1.85rem;
+  border-left:0;border-radius:6px;
+  font-size:.795rem;font-weight:500;line-height:1.35;
+  color:var(--text2);text-decoration:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:background .14s,color .14s}
+.sidebar-link:hover{
+  background:var(--surface2);color:var(--text);
+  border-left:0;transform:none;text-decoration:none}
+.sidebar-link.active{
+  background:var(--surface3);color:var(--text);font-weight:650;
+  border-left:0}
+.sidebar-link.active::before{
+  content:"";position:absolute;left:.72rem;top:50%;transform:translateY(-50%);
+  width:3px;height:3px;border-radius:50%;background:var(--accent)}
+.sidebar-link.sub{padding-left:2.35rem;font-size:.775rem}
+.sidebar-link:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 
-/* ═══ Compact rail: icons only, hover or keyboard focus expands ═══ */
-body.sbcompact .sidebar{width:64px}
-body.sbcompact .page-wrapper{margin-left:64px}
+.sidebar-label{
+  padding:.6rem .9rem .2rem 1.15rem;
+  font-size:.635rem;font-weight:700;text-transform:uppercase;letter-spacing:.075em;
+  color:var(--text3)}
+
+/* ═══ Compact rail — icons only; the toggle STAYS reachable ═══ */
+body.sbcompact .sidebar{width:56px}
+body.sbcompact .page-wrapper{margin-left:56px}
 body.sbcompact .sidebar .logo-text,
-body.sbcompact .sidebar .sb-compact-btn,
 body.sbcompact .sidebar .part-name,
 body.sbcompact .sidebar .part-caret,
 body.sbcompact .sidebar .part-body{display:none}
 body.sbcompact .sidebar .sidebar-logo{justify-content:center;padding-left:0;padding-right:0}
-body.sbcompact .part-toggle{justify-content:center;padding:.55rem .3rem}
-body.sbcompact .part-icon{width:auto;font-size:1.15rem}
+/* never hide the way out of compact mode */
+body.sbcompact .sidebar .sb-compact-btn{display:flex;margin:0 auto}
+body.sbcompact .part-toggle{justify-content:center;padding:.42rem .3rem}
+body.sbcompact .part-icon{width:auto;font-size:1.02rem;opacity:1}
 
 body.sbcompact .sidebar:hover,
-body.sbcompact .sidebar:focus-within{width:240px;box-shadow:var(--shadow-lg);z-index:200}
+body.sbcompact .sidebar:focus-within{width:224px;box-shadow:var(--shadow-lg);z-index:200}
 body.sbcompact .sidebar:hover .logo-text,
-body.sbcompact .sidebar:focus-within .logo-text{display:block}
-body.sbcompact .sidebar:hover .sb-compact-btn,
-body.sbcompact .sidebar:focus-within .sb-compact-btn{display:flex}
+body.sbcompact .sidebar:focus-within .logo-text,
 body.sbcompact .sidebar:hover .part-name,
-body.sbcompact .sidebar:focus-within .part-name{display:block}
+body.sbcompact .sidebar:focus-within .part-name,
 body.sbcompact .sidebar:hover .part-caret,
 body.sbcompact .sidebar:focus-within .part-caret{display:block}
 body.sbcompact .sidebar:hover .sidebar-group.part:not(.collapsed) > .part-body,
 body.sbcompact .sidebar:focus-within .sidebar-group.part:not(.collapsed) > .part-body{display:block}
 body.sbcompact .sidebar:hover .sidebar-logo,
-body.sbcompact .sidebar:focus-within .sidebar-logo{justify-content:flex-start;padding-left:1rem;padding-right:1rem}
+body.sbcompact .sidebar:focus-within .sidebar-logo{justify-content:flex-start;padding:.35rem .75rem .6rem}
+body.sbcompact .sidebar:hover .sb-compact-btn,
+body.sbcompact .sidebar:focus-within .sb-compact-btn{margin:0}
 body.sbcompact .sidebar:hover .part-toggle,
-body.sbcompact .sidebar:focus-within .part-toggle{justify-content:flex-start;padding:.5rem .6rem}
+body.sbcompact .sidebar:focus-within .part-toggle{justify-content:flex-start;padding:.34rem .5rem}
 body.sbcompact .sidebar:hover .part-icon,
-body.sbcompact .sidebar:focus-within .part-icon{width:20px;font-size:1rem}
+body.sbcompact .sidebar:focus-within .part-icon{width:17px;font-size:.87rem;opacity:.85}
 
-.sidebar{transition:transform .3s,width .22s ease,box-shadow .22s ease}
-.page-wrapper{transition:margin-left .22s ease}
+.sidebar{transition:transform .3s,width .14s cubic-bezier(.16,1,.3,1),box-shadow .14s ease}
+.page-wrapper{transition:margin-left .14s cubic-bezier(.16,1,.3,1)}
 @media (prefers-reduced-motion:reduce){
-  .sidebar,.page-wrapper,.part-caret,.sb-compact-btn{transition:none}
+  .sidebar,.page-wrapper,.part-caret,.sb-compact-btn,.sidebar-link{transition:none}
 }
 
-/* Phones: the sidebar is a drawer, the rail idea does not apply */
+/* Phones: drawer, never a rail */
 @media(max-width:900px){
-  body.sbcompact .sidebar{width:240px}
+  .page-wrapper{margin-left:0}
+  body.sbcompact .sidebar{width:224px}
   body.sbcompact .page-wrapper{margin-left:0}
-  body.sbcompact .sidebar .logo-text{display:block}
-  body.sbcompact .sidebar .sb-compact-btn{display:flex}
+  body.sbcompact .sidebar .logo-text,
   body.sbcompact .sidebar .part-name,
   body.sbcompact .sidebar .part-caret{display:block}
   body.sbcompact .sidebar .sidebar-group.part:not(.collapsed) > .part-body{display:block}
-  body.sbcompact .sidebar .sidebar-logo{justify-content:flex-start;padding-left:1rem;padding-right:1rem}
-  body.sbcompact .part-toggle{justify-content:flex-start;padding:.5rem .6rem}
-  body.sbcompact .part-icon{width:20px;font-size:1rem}
+  body.sbcompact .sidebar .sidebar-logo{justify-content:flex-start;padding:.35rem .75rem .6rem}
+  body.sbcompact .part-toggle{justify-content:flex-start;padding:.34rem .5rem}
+  body.sbcompact .part-icon{width:17px;font-size:.87rem}
 }

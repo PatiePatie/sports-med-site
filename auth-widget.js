@@ -152,6 +152,7 @@
     menu.classList.remove('open');
     menu.innerHTML=
       '<a class="log-item" href="account.html">👤 '+t('My Account','我的账户')+'</a>'+
+      '<button type="button" class="log-item" id="logSettings" onclick="vOpenSettings(event)">⚙ <span>'+t('Settings','设置')+'</span></button>'+
       '<button type="button" class="log-item" onclick="vLogout()">↺ '+t('Log Out','退出登录')+'</button>';
 
     b.onclick=function(e){
@@ -237,7 +238,126 @@
     side.classList.add('sb-js');
   }
 
-  function build(){ var u=currentUser(); updateHeaderBtn(u); initSidebarParts(); }
+  /* ---- Sidebar auto-collapse (hover rail) preference ----
+     Default ON: the sidebar rests as a 56px icon rail and expands on hover.
+     Turning it OFF adds body.sb-rail-fixed, which gold-blue-theme.css uses to
+     force the full sidebar open permanently. Centralized here so one flag
+     drives every page. */
+  var RAIL_KEY='sm_rail_autohide';
+  function railAutohideEnabled(){
+    try{ var v=localStorage.getItem(RAIL_KEY); if(v!=null) return v!=='0'; }catch(e){}
+    return true; /* default: auto-collapse on */
+  }
+  function applyRailPref(){
+    try{
+      if(railAutohideEnabled()) document.body.classList.remove('sb-rail-fixed');
+      else document.body.classList.add('sb-rail-fixed');
+    }catch(e){}
+  }
+  function setRailAutohide(on){
+    try{ localStorage.setItem(RAIL_KEY, on?'1':'0'); }catch(e){}
+    applyRailPref();
+  }
+
+  /* Actual language the page is DISPLAYING (body.lang-zh wins; fall back to
+     the widget's sm_lang reading when the page hasn't marked its body). */
+  function pageIsZh(){
+    try{
+      if(document.body && document.body.classList.contains('lang-zh')) return true;
+      if(document.body && document.body.classList.contains('lang-en')) return false;
+    }catch(e){}
+    return showCN();
+  }
+
+  /* ---- Settings panel ----
+     A small modal reached from the account dropdown. For now it hosts the
+     sidebar auto-collapse toggle and the EN/中文 language switch (language is
+     owned by the page, so we flip via the page's own #langToggle when present,
+     then refresh this widget). */
+  function buildSettingsPanel(){
+    var panel=document.getElementById('vSettings');
+    if(panel){ buildSettingsUI(panel); return panel; }
+    var overlay=document.createElement('div');
+    overlay.id='vSettingsOv';
+    overlay.className='v-settings-overlay';
+    overlay.addEventListener('click',function(e){ if(e.target===overlay) closeSettings(); });
+    var box=document.createElement('div');
+    box.id='vSettings';
+    box.className='v-settings';
+    box.setAttribute('role','dialog');
+    box.setAttribute('aria-modal','true');
+    var head=document.createElement('div');
+    head.className='v-settings-head';
+    var title=document.createElement('div');
+    title.className='v-settings-title';
+    title.textContent='⚙ '+t('Settings','设置');
+    var close=document.createElement('button');
+    close.type='button';
+    close.className='v-settings-close';
+    close.setAttribute('aria-label',t('Close','关闭'));
+    close.textContent='✕';
+    close.addEventListener('click',closeSettings);
+    head.appendChild(title);
+    head.appendChild(close);
+    var body=document.createElement('div');
+    body.className='v-settings-body';
+    box.appendChild(head);
+    box.appendChild(body);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    buildSettingsUI(box);
+    return box;
+  }
+  function buildSettingsUI(box){
+    var title=box.querySelector('.v-settings-title');
+    if(title) title.textContent='⚙ '+t('Settings','设置');
+    var body=box.querySelector('.v-settings-body');
+    var railOn=railAutohideEnabled();
+    body.innerHTML=
+      '<div class="v-set-row">'+
+        '<div class="v-set-info"><div class="v-set-name">'+t('Auto-collapse sidebar','侧边栏自动折叠')+'</div>'+
+        '<div class="v-set-desc">'+t('Keep the nav as a slim icon rail and expand on hover.','导航收成窄图标栏，鼠标悬停时展开。')+'</div></div>'+
+        '<label class="v-switch"><input type="checkbox" id="vSettingsRail"'+(railOn?' checked':'')+'><span class="v-switch-knob"></span></label>'+
+      '</div>'+
+      '<div class="v-set-row">'+
+        '<div class="v-set-info"><div class="v-set-name">'+t('Language / 语言','Language / 语言')+'</div>'+
+        '<div class="v-set-desc" id="vSettingsLangDesc">'+(pageIsZh()?'Currently: 中文':'Currently: English')+'</div></div>'+
+        '<button type="button" class="v-set-btn" id="vSettingsLang">'+(pageIsZh()?'English':'中文')+'</button>'+
+      '</div>'+
+      '<div class="v-set-foot">Vitalité · '+t('Settings live on this device.','设置仅保存在本设备。')+'</div>';
+    var rail=document.getElementById('vSettingsRail');
+    rail.addEventListener('change',function(){ setRailAutohide(rail.checked); });
+    var langBtn=document.getElementById('vSettingsLang');
+    langBtn.addEventListener('click',function(){
+      /* Flip sm_lang first so anything reading it agrees even before the page
+         catches up. Then click the page's own #langToggle when it exists —
+         that flips the page's private showCN closure and re-applies its own
+         applyLang. Only fall back to window.applyLang for pages without one. */
+      var goZh=!pageIsZh();
+      try{ localStorage.setItem('sm_lang', goZh?'zh':'en'); }catch(e){}
+      var lt=null; try{ lt=document.getElementById('langToggle'); }catch(e){}
+      if(lt && !lt.disabled){ try{ lt.click(); }catch(e){} }
+      else { try{ if(typeof window.applyLang==='function') window.applyLang(); }catch(e){} }
+      try{ if(typeof window.refreshAuthWidget==='function') window.refreshAuthWidget(); }catch(e){}
+      buildSettingsUI(box); /* refresh labels */
+    });
+  }
+  function openSettings(e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    var m=document.getElementById('logMenu'); if(m) m.classList.remove('open');
+    buildSettingsPanel();
+    document.getElementById('vSettingsOv').classList.add('open');
+    document.body.classList.add('v-settings-lock');
+  }
+  function closeSettings(){
+    var ov=document.getElementById('vSettingsOv'); if(ov) ov.classList.remove('open');
+    document.body.classList.remove('v-settings-lock');
+  }
+  window.vOpenSettings=openSettings;
+  window.vCloseSettings=closeSettings;
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeSettings(); });
+
+  function build(){ var u=currentUser(); updateHeaderBtn(u); initSidebarParts(); applyRailPref(); }
   function init(){
     if(document.body){ build(); return; }
     document.addEventListener('DOMContentLoaded',build);

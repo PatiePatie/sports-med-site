@@ -868,6 +868,28 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
   .sidebar:focus-within .part-icon{width:17px;font-size:.87rem;opacity:.85}
 }
 
+/* ═══ Settings toggle: disable auto-collapse ═══
+   body.sb-rail-fixed (set by the Settings panel) kills the hover rail and
+   forces the full sidebar to always stay open — no collapse, no reflow on
+   hover. Specificity is tuned so it only re-shows OPEN groups (respects
+   .collapsed part-headers) and overrides the rail's :hover/:focus states.
+   Gated ≥901px: below that the sidebar is an off-canvas drawer, and the
+   rail (and this override) must stay out of its way. */
+@media (min-width:901px){
+  body.sb-rail-fixed .sidebar,
+  body.sb-rail-fixed .sidebar:hover,
+  body.sb-rail-fixed .sidebar:focus-within{width:224px;box-shadow:none}
+  body.sb-rail-fixed .page-wrapper{margin-left:224px}
+  body.sb-rail-fixed .logo-text,
+  body.sb-rail-fixed .part-name,
+  body.sb-rail-fixed .part-caret{display:block}
+  body.sb-rail-fixed .sidebar-group.part:not(.collapsed) > .part-body{display:block}
+  body.sb-rail-fixed .sidebar-logo{justify-content:flex-start;padding:.35rem .75rem .6rem}
+  body.sb-rail-fixed .sb-mark{margin-right:.45rem}
+  body.sb-rail-fixed .part-toggle{justify-content:flex-start;padding:.34rem .5rem}
+  body.sb-rail-fixed .part-icon{width:17px;font-size:.87rem;opacity:.85}
+}
+
 /* The old toggle is retired — hovering replaced it. */
 .sb-compact-btn{display:none!important}
 

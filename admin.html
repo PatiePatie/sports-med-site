@@ -744,33 +744,72 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:2rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
 .adm h1{font-size:1.5rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
 .adm .sub{color:var(--text3);font-size:.9rem}
+/* Status tokens — derived from the theme so light and dark both read correctly.
+   These replace the hardcoded pastels the admin styles used to carry, which
+   were invisible/garish against the dark surface the site defaults to. */
+:root{
+  --adm-ok-bg:color-mix(in srgb,var(--green) 14%,var(--surface));
+  --adm-ok-fg:var(--green);
+  --adm-ok-bd:color-mix(in srgb,var(--green) 45%,var(--border));
+  --adm-err-bg:color-mix(in srgb,var(--red) 14%,var(--surface));
+  --adm-err-fg:var(--red);
+  --adm-err-bd:color-mix(in srgb,var(--red) 45%,var(--border));
+  --adm-warn-bg:color-mix(in srgb,var(--amber) 16%,var(--surface));
+  --adm-warn-fg:var(--amber);
+  --adm-warn-bd:color-mix(in srgb,var(--amber) 45%,var(--border));
+  --adm-dev-bg:var(--accent-bg);
+  --adm-dev-fg:var(--accent);
+  --adm-dev-bd:color-mix(in srgb,var(--accent) 45%,var(--border));
+}
 .adm-msg{display:none;padding:.7rem 1rem;border-radius:var(--radius-sm);margin:.8rem 0;font-size:.9rem;font-weight:600}
-.adm-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
-.adm-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.adm-msg.ok{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border:1px solid var(--adm-ok-bd)}
+.adm-msg.err{background:var(--adm-err-bg);color:var(--adm-err-fg);border:1px solid var(--adm-err-bd)}
 .adm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-top:1.1rem}
 .adm-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
 .adm-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
 .adm-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
 .adm-kad{width:160px}
-.adm-frozen .adm-stat{background:#fef3c7;border-color:#fcd34d}
-.adm-frozen .adm-stat .v{color:#b45309}
+.adm-frozen .adm-stat{background:var(--adm-warn-bg);border-color:var(--adm-warn-bd)}
+.adm-frozen .adm-stat .v{color:var(--adm-warn-fg)}
 .adm-table-wrap{overflow-x:auto;margin-top:1rem}
 .adm-tbl{width:100%;border-collapse:collapse;font-size:.88rem}
 .adm-tbl th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);padding:.5rem .7rem;border-bottom:2px solid var(--border);text-align:left}
 .adm-tbl td{padding:.55rem .7rem;border-bottom:1px solid var(--border);vertical-align:middle}
 .adm-tbl tr:hover td{background:var(--surface2)}
 .adm-chip{display:inline-block;padding:.15rem .55rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap}
-.adm-chip.dev{background:#e0e7ff;color:#3730a3}
-.adm-chip.ok{background:#dcfce7;color:#166534}
-.adm-chip.frozen{background:#fef3c7;color:#92400e}
-.adm-chip.deleted{background:#fee2e2;color:#991b1b}
+.adm-chip.dev{background:var(--adm-dev-bg);color:var(--adm-dev-fg);border:1px solid var(--adm-dev-bd)}
+.adm-chip.ok{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border:1px solid var(--adm-ok-bd)}
+.adm-chip.frozen{background:var(--adm-warn-bg);color:var(--adm-warn-fg);border:1px solid var(--adm-warn-bd)}
+.adm-chip.deleted{background:var(--adm-err-bg);color:var(--adm-err-fg);border:1px solid var(--adm-err-bd)}
 .adm-tbl .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .6rem;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap}
 .adm-tbl .btn:hover{transform:translateY(-1px);border-color:var(--accent)}
-.adm-tbl .btn.danger{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
-.adm-tbl .btn.green{background:#dcfce7;color:#166534;border-color:#86efac}
+.adm-tbl .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
+.adm-tbl .btn.green{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border-color:var(--adm-ok-bd)}
 .adm-tbl .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .adm-empty{color:var(--text3);text-align:center;padding:2rem;font-size:.9rem}
 .adm-actions{display:flex;gap:.5rem;justify-content:flex-end}
+/* Report card in the Forum Moderation panel — used by loadForumMod(), which
+   previously rendered against a class that had no styles at all. */
+.adm-row{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);
+  padding:.8rem .9rem;margin-bottom:.6rem;transition:border-color .18s,box-shadow .18s}
+.adm-row:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--border));box-shadow:var(--shadow-sm)}
+.adm-row.flagged{border-left:3px solid var(--red)}
+.adm-row.hidden-post{opacity:.62;border-left:3px solid var(--text3)}
+.adm-row .adm-row-head{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:.4rem}
+.adm-row .adm-row-body{font-size:.85rem;color:var(--text2);white-space:pre-wrap;word-wrap:break-word;
+  max-height:8rem;overflow:auto;margin:.35rem 0 .6rem;padding:.5rem .6rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.adm-row .adm-row-meta{font-size:.74rem;color:var(--text3)}
+/* Small, quiet action buttons — the pill .adm-btn is too loud inside a card */
+.adm-row .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .65rem;border-radius:8px;
+  font-size:.76rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);transition:all .16s;font-family:inherit}
+.adm-row .btn:hover{transform:translateY(-1px);border-color:var(--accent);color:var(--accent)}
+.adm-row .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
+.adm-row .btn.danger:hover{color:var(--adm-err-fg);border-color:var(--adm-err-fg)}
+.adm-row .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.adm-badge.sm{font-size:.68rem;padding:.2rem .55rem}
+.adm-badge.muted{background:var(--surface3);color:var(--text2)}
 .adm-note{font-size:.8rem;color:var(--text3);margin-top:1rem}
 .adm-loading{display:flex;align-items:center;gap:.6rem;color:var(--text3);font-size:.9rem;padding:2rem;justify-content:center}
 .spin{width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:admSpin .8s linear infinite}
@@ -789,8 +828,8 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-url{width:100%;padding:.6rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:.9rem;font-family:monospace;margin:.5rem 0 1rem}
 .adm-hint{font-size:.82rem;color:var(--text3);line-height:1.6}
 
-</style><link rel="stylesheet" href="gold-blue-theme.css?v=3">
-  <script src="loader.js"></script>
+</style><link rel="stylesheet" href="gold-blue-theme.css?v=4">
+  <script src="loader.js?v=6"></script>
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav class="sidebar" id="sidebar">
@@ -805,12 +844,8 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <a class="sidebar-link" href="account.html" data-en="👤 My Account" data-zh="👤 我的账户">👤 My Account</a>
       <a class="sidebar-link" href="guide.html" data-en="📖 Full Guide" data-zh="📖 完整指南">📖 Full Guide</a>
       <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources & Learning" data-zh="🎬 资源与学习">🎬 Resources & Learning</a>
-      <a class="sidebar-link" href="toc.html#practice" data-en="📝 Practice & Diagnose" data-zh="📝 刷题与诊断">📝 Practice & Diagnose</a>
-      <a class="sidebar-link" href="toc.html#progress" data-en="📊 Progress" data-zh="📊 学习进度">📊 Progress</a>
-      <a class="sidebar-link" href="toc.html#refs" data-en="📚 References" data-zh="📚 参考文献">📚 References</a>
       <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
@@ -826,6 +861,7 @@ body.dark h1,body.dark h2,body.dark h3{
     </button>
     <div class="part-body">
       <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
@@ -835,7 +871,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="social.html" data-en="👥 Social (Coming Soon)" data-zh="👥 社区（敬请期待）">👥 Social (Coming Soon)</a>
+      <a class="sidebar-link" href="social.html" data-en="💬 Forum" data-zh="💬 论坛">💬 Forum</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
@@ -970,10 +1006,17 @@ function renderConsole(u){
     +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
     +'</div></div>';
 
-  html+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
+html+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
     +'<div class="adm-msg" id="qnaInboxMsg"></div>'
     +'<div id="qnaInboxBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取消息…':'Loading messages…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Messages and reports from the Q&amp;A button (bottom-left of every page). Open a message to mark it read; Delete removes it permanently.','来自各页左下角问答按钮的消息与举报。打开消息即标记为已读；删除将永久移除。')+'</p>'
+    +'</div>';
+
+  html+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
+    +'<div class="adm-msg" id="forumModMsg"></div>'
+    +'<div id="forumModBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取举报…':'Loading reports…')+'</span></div></div>'
+    +'<p class="adm-note">'+t('Reported topics and replies land here. Hide keeps the post (and its replies) out of the public forum; Delete removes it permanently.','被举报的主题与回复会出现在这里。隐藏会让帖子及其回复从公开论坛中消失；删除将永久移除。')+'</p>'
+    +'</div>';
     +'</div>';
 
   html+='<div class="adm" id="siteEditor"><h1>🎨 '+t('Site Editor','站点编辑器')+'</h1>'
@@ -1008,6 +1051,7 @@ function renderConsole(u){
   loadUsers(u);
   loadDr7Usage();
   loadQnaInbox();
+  loadForumMod();
   applyLang();
 }
 
@@ -1216,9 +1260,101 @@ function qnaInboxDelete(id){
   sb.from('qna_messages').delete().eq('id',id).then(function(r){
     if(r.error){ var m=document.getElementById('qnaInboxMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
     loadQnaInbox();
+
   });
 }
 
+/* ============ Forum Moderation (topics + replies reported by users) ============ */
+function loadForumMod(){
+  var box=document.getElementById('forumModBox');
+  if(!box) return;
+  if(!sb){
+    box.innerHTML='<div class="adm-empty">'+t('Forum not connected. Run forum-schema.sql in the Supabase SQL editor to enable it.','论坛未连接。请在 Supabase SQL 编辑器中运行 forum-schema.sql 以启用。')+'</div>';
+    return;
+  }
+  var msg=document.getElementById('forumModMsg');
+  function say(s){ if(msg) msg.innerHTML=s; }
+  function escT(x){
+    return String(x==null?'':x).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  }
+  function fmt(iso){
+    var d=new Date(iso); if(isNaN(d.getTime())) return '';
+    var s=(Date.now()-d.getTime())/1000;
+    if(s<3600) return Math.floor(s/60)+(showCN?' 分钟前':'m ago');
+    if(s<86400) return Math.floor(s/3600)+(showCN?' 小时前':'h ago');
+    if(s<604800) return Math.floor(s/86400)+(showCN?' 天前':'d ago');
+    return d.toISOString().slice(0,10);
+  }
+  Promise.all([
+    sb.from('forum_topics').select('id,category,title,author_name,upvotes,flagged,hidden,created_at').eq('flagged',true),
+    sb.from('forum_replies').select('id,topic_id,author_name,body,flagged,hidden,created_at').eq('flagged',true)
+  ]).then(function(res){
+    if(res[0].error){
+      say('<div class="adm-empty" style="color:var(--red)">'+escT(res[0].error.message||'error')+'</div>');
+      box.innerHTML='';
+      return;
+    }
+    var topics=res[0].data||[], replies=res[1].data||[];
+    say(topics.length+replies.length
+      ? (showCN?'共 '+(topics.length+replies.length)+' 条举报':' '+ (topics.length+replies.length) +' reports')
+      : (showCN?'没有举报，干干净净 🎉':' No reports — squeaky clean 🎉'));
+    if(!topics.length && !replies.length){ box.innerHTML='<div class="adm-empty">'+t('Nothing flagged. Members are behaving.','暂无举报内容。会员表现良好。')+'</div>'; return; }
+    var h='';
+    topics.forEach(function(x){
+      h+='<div class="adm-row '+(x.hidden?'hidden-post':'flagged')+'">'
+        +'<div class="adm-row-head">'
+        +'<span class="adm-badge sm">\ud83d\udea9 '+t('Topic','\u4e3b\u9898')+'</span>'
+        +'<span style="font-weight:800">'+escT(x.title||t('(untitled)','(\u65e0\u6807\u9898)'))+'</span>'
+        +'<span class="adm-row-meta">'+escT(x.author_name||'?')+' \u00b7 '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +(x.hidden?'<span class="adm-chip frozen">'+t('Hidden','\u5df2\u9690\u85cf')+'</span>':'')
+        +'<span class="adm-row-meta">\u25b2 '+(x.upvotes||0)+'</span>'
+        +'</div>'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        +'<button class="btn" onclick="forumModAction(\'topic\',\''+x.id+'\','+(x.hidden?'false':'true')+')">'+(x.hidden?t('\ud83d\udc41 Restore','\ud83d\udc41 \u6062\u590d'):t('\ud83d\ude48 Hide','\ud83d\ude48 \u9690\u85cf'))+'</button>'
+        +'<button class="btn danger" onclick="forumModDelete(\'topic\',\''+x.id+'\')">\ud83d\uddd1 '+t('Delete','\u5220\u9664')+'</button>'
+        +'</div></div>';
+    });
+    replies.forEach(function(x){
+      h+='<div class="adm-row '+(x.hidden?'hidden-post':'flagged')+'">'
+        +'<div class="adm-row-head">'
+        +'<span class="adm-badge sm muted">\ud83d\udcac '+t('Reply','\u56de\u590d')+'</span>'
+        +'<span style="font-weight:800">'+escT(x.author_name||'?')+'</span>'
+        +'<span class="adm-row-meta">\u00b7 '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +(x.hidden?'<span class="adm-chip frozen">'+t('Hidden','\u5df2\u9690\u85cf')+'</span>':'')
+        +'</div>'
+        +'<div class="adm-row-body">'+escT(x.body)+'</div>'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        +'<button class="btn" onclick="forumModAction(\'reply\',\''+x.id+'\','+(x.hidden?'false':'true')+')">'+(x.hidden?t('\ud83d\udc41 Restore','\ud83d\udc41 \u6062\u590d'):t('\ud83d\ude48 Hide','\ud83d\ude48 \u9690\u85cf'))+'</button>'
+        +'<button class="btn danger" onclick="forumModDelete(\'reply\',\''+x.id+'\')">\ud83d\uddd1 '+t('Delete','\u5220\u9664')+'</button>'
+        +'</div></div>';
+    });
+    box.innerHTML=h;
+  }).catch(function(e){
+    say('<div class="adm-empty" style="color:var(--red)">'+escT(e&&e.message||'error')+'</div>');
+    box.innerHTML='';
+  });
+}
+function forumModAction(kind,id,hidden){
+  var tbl=kind==='topic'?'forum_topics':'forum_replies';
+  sb.from(tbl).update({hidden:hidden,flagged:false}).eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('forumModMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadForumMod();
+  });
+}
+function forumModDelete(kind,id){
+  if(!confirm(t('Delete permanently? This cannot be undone.','永久删除？此操作无法撤销。'))) return;
+  var tbl=kind==='topic'?'forum_topics':'forum_replies';
+  sb.from(tbl).delete().eq('id',id).then(function(r){
+    if(!r.error && kind==='topic'){
+      sb.from('forum_replies').delete().eq('topic_id',id).then(function(){ loadForumMod(); });
+      return;
+    }
+    loadForumMod();
+
+  });
+}
 /* ============ Content Editor (same quick-draft tool, moved from the profile page) ============ */
 var CHAPTER_META = [
   {id:'ch1',en:'The Body as a Machine',zh:'身体如机器'},

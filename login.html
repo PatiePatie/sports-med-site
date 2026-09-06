@@ -651,10 +651,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 .acct-msg.err{display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
 .acct-row{display:flex;gap:.75rem;flex-wrap:wrap}
 .acct-hint{font-size:.82rem;color:var(--text3);margin:.4rem 0 .9rem}
-.auth-hr{margin:1.6rem 0;border:0;border-top:1px solid var(--border)}
-.acc-out{font-size:.9rem;color:var(--text2);line-height:1.8}
 .mini{font-size:.82rem;color:var(--accent);cursor:pointer;background:none;border:none;text-decoration:underline;padding:0}
-#logoutBtn{margin-top:.4rem}
 
 
 /* Social login buttons */
@@ -705,8 +702,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="auth-widget.css?v=3">
 <script src="auth-widget.js?v=5"></script>
 <!-- THEME: Gold/Blue palette -->
-<link rel="stylesheet" href="gold-blue-theme.css?v=3">
-  <script src="loader.js"></script>
+<link rel="stylesheet" href="gold-blue-theme.css?v=4">
+  <script src="loader.js?v=6"></script>
 </head>
 
 <body>
@@ -783,13 +780,6 @@ body.dark h1,body.dark h2,body.dark h3{
       <p class="acct-hint" data-en="A password-reset email will be sent to the address above." data-zh="密码重置邮件将发送到上述邮箱。">A password-reset email will be sent to the address above.</p>
     </div>
 
-    <!-- ACCOUNT STATUS -->
-    <hr class="auth-hr">
-    <div id="acctStatus">
-      <div style="font-weight:700;margin-bottom:.5rem" data-en="Account status" data-zh="账号状态">Account status</div>
-      <div class="acc-out" id="statusLine">—</div>
-      <button class="qo-btn next" id="logoutBtn" style="display:none;margin-top:.6rem;background:var(--surface2);color:var(--text);border:1px solid var(--border)" data-en="↺ Log Out" data-zh="↺ 退出登录">↺ Log Out</button>
-    </div>
   </div>
 
   <!-- CONTACT / Q&A WIDGET -->
@@ -861,9 +851,9 @@ function setStatus(){
   var out=document.getElementById('logoutBtn');
   var u=null;
   try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
-  if(u&&u.email){ var dname=u.name||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
-  else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 密钥。':'Not configured. Add your Supabase key on this login page.'); out.style.display='none'; }
-  else { line.textContent=(showCN?'未登录':'Not signed in'); out.style.display='none'; }
+if(u&&u.email){ var dname=u.name||u.email; if(line) line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); if(out) out.style.display='inline-block'; }
+  else if(!sb){ if(line) line.textContent=(showCN?'未连接。请在登录页填入 Supabase 密钥。':'Not configured. Add your Supabase key on this login page.'); if(out) out.style.display='none'; }
+  else { if(line) line.textContent=(showCN?'未登录':'Not signed in'); if(out) out.style.display='none'; }
   /* keep the header widget in sync — otherwise the header keeps showing the
      logged-in name after a logout handled on this page (it only listens to
      DOMContentLoaded). */
@@ -1027,13 +1017,9 @@ document.getElementById('rsBtn').addEventListener('click',function(){
   });
 });
 
-/* LOGOUT */
-document.getElementById('logoutBtn').addEventListener('click',function(){
-  if(!sb){ localStorage.removeItem('sm_user'); setStatus(); return; }
-  sb.auth.signOut().then(function(){ localStorage.removeItem('sm_user'); myMsg(showCN?'已退出登录。':'Signed out.',true); setStatus(); });
-});
-
 /* Q&A widget endpoints are handled by qna-widget.js (bottom-left button). */
+
+applyLang();
 
 applyLang();
 setStatus();

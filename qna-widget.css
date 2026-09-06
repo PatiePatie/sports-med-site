@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Vitalité — Q&A widget (bottom-left)
+   Replaces the old "Send us a message" contact form with a site-wide
+   Q&A / FAQ / Report / Contact-Devs panel.
+   Self-contained: everything inside qna-widget.js builds the DOM, this file
+   only paints it. Uses the site's CSS custom properties so it skins with
+   light/dark and the gold-blue brand automatically.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Floating launcher (bottom-LEFT — deliberately clear of the bottom-right AI FAB) ── */
+#qnaFab{
+  position:fixed;
+  bottom:1.5rem;
+  left:1.5rem;
+  z-index:299;
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.7rem 1.15rem .7rem .75rem;
+  border:none;
+  border-radius:40px;
+  font-size:.9rem;
+  font-weight:700;
+  font-family:var(--font-heading,inherit);
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--accent,#B8860B),var(--accent2,#7c3aed));
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
+  transition:transform .18s,box-shadow .18s;
+}
+#qnaFab:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.3); }
+#qnaFab .qna-fab-x{ width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:none; }
+#qnaFab .qna-fab-badge{ position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:10px;background:var(--green,#059669);color:#fff;font-size:.68rem;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff; }
+body.dark #qnaFab .qna-fab-badge{ border-color:#0A1828; }
+
+/* ── Panel ── */
+#qnaPanel{
+  position:fixed;
+  bottom:5.4rem;
+  left:1.5rem;
+  z-index:299;
+  width:min(380px,calc(100vw - 3rem));
+  max-height:min(560px,calc(100vh - 7rem));
+  display:none;
+  flex-direction:column;
+  border:1px solid var(--border2,var(--border));
+  border-radius:16px;
+  background:var(--surface,#fff);
+  color:var(--text,#1a1a1a);
+  box-shadow:0 18px 50px rgba(0,0,0,.28);
+  overflow:hidden;
+  font-size:.9rem;
+  line-height:1.55;
+}
+#qnaPanel.open{ display:flex; animation:qnaIn .22s ease; }
+@keyframes qnaIn{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+
+/* ── Header ── */
+#qnaPanel .qna-head{
+  padding:.85rem 1rem;
+  background:linear-gradient(135deg,var(--accent,#B8860B),var(--accent2,#7c3aed));
+  color:#fff;
+  display:flex;
+  align-items:flex-start;
+  gap:.6rem;
+}
+#qnaPanel .qna-head .qna-title{ font-weight:800;font-size:1rem;font-family:var(--font-heading,inherit); }
+#qnaPanel .qna-head .qna-sub{ font-size:.74rem;opacity:.9; }
+#qnaPanel .qna-close{ margin-left:auto;background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:.9rem;flex:none; }
+#qnaPanel .qna-close:hover{ background:rgba(255,255,255,.35); }
+
+/* ── Tab bar ── */
+#qnaPanel .qna-tabs{ display:flex;border-bottom:1px solid var(--border);background:var(--surface); }
+#qnaPanel .qna-tab{
+  flex:1;
+  padding:.55rem .3rem;
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  font-size:.8rem;
+  font-weight:700;
+  font-family:inherit;
+  color:var(--text3,#777);
+  cursor:pointer;
+  transition:color .15s,border-color .15s;
+}
+#qnaPanel .qna-tab.active{ color:var(--accent,#B8860B);border-bottom-color:var(--accent,#B8860B); }
+
+/* ── Body ── */
+#qnaPanel .qna-body{ flex:1;overflow-y:auto;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.6rem; }
+#qnaPanel .qna-empty{ font-size:.8rem;color:var(--text3,#999);text-align:center;padding:1rem; }
+
+/* ── FAQ accordion ── */
+#qnaPanel .qna-faq{ border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface2,var(--surface)); }
+#qnaPanel .qna-faq-q{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  padding:.6rem .75rem;
+  font-size:.83rem;
+  font-weight:700;
+  font-family:inherit;
+  color:var(--text,#1a1a1a);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+#qnaPanel .qna-faq-q .qna-faq-ic{ margin-left:auto;flex:none;transition:transform .18s;color:var(--text3,#999); }
+#qnaPanel .qna-faq.open .qna-faq-q .qna-faq-ic{ transform:rotate(45deg); }
+#qnaPanel .qna-faq-a{ display:none;padding:.1rem .75rem .7rem;font-size:.8rem;color:var(--text2,#555); }
+#qnaPanel .qna-faq.open .qna-faq-a{ display:block; }
+
+/* ── Form ── */
+#qnaPanel .qna-field{ display:flex;flex-direction:column;gap:.25rem; }
+#qnaPanel .qna-field label{ font-size:.74rem;font-weight:700;color:var(--text2,#666); }
+#qnaPanel .qna-field input,
+#qnaPanel .qna-field textarea,
+#qnaPanel .qna-field select{
+  padding:.5rem .65rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:.84rem;
+  font-family:inherit;
+  background:var(--bg,var(--surface));
+  color:var(--text,#1a1a1a);
+  outline:none;
+  transition:border-color .15s;
+  width:100%;
+  box-sizing:border-box;
+}
+#qnaPanel .qna-field input:focus,
+#qnaPanel .qna-field textarea:focus,
+#qnaPanel .qna-field select:focus{ border-color:var(--accent,#B8860B); }
+#qnaPanel .qna-field textarea{ resize:vertical;min-height:76px; }
+#qnaPanel .qna-report-why{ display:flex;gap:.5rem;flex-wrap:wrap; }
+#qnaPanel .qna-reason{
+  flex:1;
+  min-width:100px;
+  padding:.4rem .5rem;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:var(--surface2,var(--surface));
+  color:var(--text2,#666);
+  font-size:.72rem;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:all .15s;
+  text-align:center;
+}
+#qnaPanel .qna-reason.sel{ background:var(--accent,#B8860B);border-color:var(--accent,#B8860B);color:#fff; }
+
+/* ── Send button ── */
+#qnaPanel .qna-send{
+  padding:.55rem 1rem;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(135deg,var(--accent,#B8860B),var(--accent2,#7c3aed));
+  color:#fff;
+  font-size:.84rem;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:transform .15s,box-shadow .15s,opacity .15s;
+}
+#qnaPanel .qna-send:hover{ transform:translateY(-1px); box-shadow:0 4px 14px rgba(0,0,0,.2); }
+#qnaPanel .qna-send:disabled{ opacity:.55;cursor:default;transform:none; }
+
+/* ── Status / toast ── */
+#qnaPanel .qna-status{ font-size:.76rem;border-radius:8px;padding:.5rem .65rem;display:none; }
+#qnaPanel .qna-status.ok{ display:block;background:color-mix(in srgb,var(--green,#059669) 12%,transparent);color:var(--green,#059669); }
+#qnaPanel .qna-status.err{ display:block;background:color-mix(in srgb,var(--red,#dc2626) 12%,transparent);color:var(--red,#dc2626); }
+
+/* ── Footer note ── */
+#qnaPanel .qna-foot{ padding:.45rem .75rem;font-size:.68rem;color:var(--text3,#999);border-top:1px solid var(--border);text-align:center;background:var(--surface); }
+
+/* ── Mobile ── */
+@media (max-width:640px){
+  #qnaFab{ bottom:.9rem;left:.9rem;padding:.6rem .9rem .6rem .6rem;font-size:.82rem; }
+  #qnaPanel{ bottom:4.6rem;left:.9rem;width:calc(100vw - 1.8rem);max-height:calc(100vh - 6rem);border-radius:14px; }
+}

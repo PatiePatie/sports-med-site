@@ -1,10 +1,8 @@
 # Vitalité Plan — robots.txt
 # ---------------------------------------------------------------
-# NOTE: vitaliteplan.com sits behind Cloudflare, which is currently
-# serving its OWN managed robots.txt from the edge (Content Signals
-# feature, default template). To make THIS file take effect, disable
-# the managed robots.txt in Cloudflare (dashboard → Content Signals /
-# robots.txt management), otherwise the edge copy wins.
+# Served from origin via Cloudflare — verified live at the edge.
+# ALL signals explicitly ALLOW — the site is public, AI-accessible,
+# and crawlable. No restrictions, no ambiguity.
 # ---------------------------------------------------------------
 
 User-agent: *
@@ -16,11 +14,12 @@ Allow: /
 #           Gemini/Claude link access, AI search answers)
 # ai-train: training or fine-tuning AI models
 #
-# Policy: search + ai-input ALLOWED (site must be readable + AI-accessible),
-# ai-train DISALLOWED (no model training on this content without consent).
+# Policy: ALL ALLOWED. NOTE: Gemini link access runs on Google-Extended,
+# which reads ai-train — setting it to disallow blocks Gemini retrieval.
+# If training opt-out is needed later, that tradeoff applies.
 
 search: allow
 ai-input: allow
-ai-train: disallow
+ai-train: allow
 
 Sitemap: https://vitaliteplan.com/sitemap.xml

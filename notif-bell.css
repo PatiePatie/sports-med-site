@@ -1,0 +1,84 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Vitalité — Notification bell styles (notif-bell.js)
+   The bell sits in .header-actions (top-right); the popup drops below it.
+   Uses the site's CSS variables with neutral fallbacks.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#nbBell{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--border,#e5e7eb);
+  background:var(--surface,#fff);
+  color:var(--text,#111);
+  cursor:pointer;
+  font-size:1rem;
+  transition:all .2s;
+  flex:none;
+}
+#nbBell:hover, #nbBell.nb-has-unread{
+  background:var(--accent-bg,#f7f2e7);
+  border-color:var(--accent,#B8860B);
+}
+#nbBell .nb-badge{
+  position:absolute;top:-4px;right:-4px;
+  min-width:18px;height:18px;
+  border-radius:10px;
+  background:var(--red,#dc2626);
+  color:#fff;
+  font-size:.66rem;font-weight:800;
+  align-items:center;justify-content:center;
+  padding:0 4px;
+  border:2px solid #fff;
+}
+.nb-bell-fixed{ position:fixed;top:.65rem;right:.65rem;z-index:9000; }
+
+#nbPop{
+  position:fixed;
+  top:4.1rem;right:.75rem;
+  width:320px;
+  max-width:calc(100vw - 1.5rem);
+  background:var(--surface,#fff);
+  border:1px solid var(--border,#e5e7eb);
+  border-radius:14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+  z-index:9999;
+  display:none;
+  overflow:hidden;
+}
+#nbPop.open{ display:block; }
+#nbPop .nb-pop-head{
+  font-weight:800;font-size:.85rem;
+  padding:.65rem .85rem;
+  border-bottom:1px solid var(--border,#e5e7eb);
+  background:var(--surface2,var(--surface,#fff));
+}
+#nbPop .nb-pop-list{ max-height:min(60vh,420px);overflow-y:auto; }
+#nbPop .nb-item{ padding:.65rem .85rem;border-bottom:1px solid var(--border,#e5e7eb); }
+#nbPop .nb-item:last-child{ border-bottom:none; }
+#nbPop .nb-item-head{
+  font-size:.72rem;font-weight:700;
+  color:var(--accent,#B8860B);
+  display:flex;align-items:center;gap:.4rem;
+}
+#nbPop .nb-new{
+  font-size:.6rem;font-weight:800;
+  background:var(--red,#dc2626);color:#fff;
+  border-radius:6px;padding:1px 5px;
+}
+#nbPop .nb-item-body{
+  font-size:.8rem;color:var(--text2,#444);
+  margin:.2rem 0 .25rem;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+#nbPop .nb-item-meta{ font-size:.66rem;color:var(--text3,#999); }
+#nbPop .nb-empty{ font-size:.78rem;color:var(--text3,#999);padding:1.2rem .85rem;text-align:center; }
+
+body.dark #nbBell{ border-color:rgba(255,255,255,.18); background:var(--surface,#0B1B2B); }
+body.dark #nbBell .nb-badge{ border-color:var(--surface,#0B1B2B); }
+body.dark #nbPop{ border-color:rgba(255,255,255,.14); box-shadow:0 12px 40px rgba(0,0,0,.5); }
+body.dark #nbPop .nb-item{ border-color:rgba(255,255,255,.08); }

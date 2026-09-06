@@ -47,6 +47,9 @@ THEME_CSS = "vitalite-skin.css?v=1"
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
 # skin that is paint only — `off` strips either shape.
 LAYOUT_JS = "linear-layout.js"
+# Cache-bust pin for the layout script — matches the ?v=2 pin on origin/main
+# (PR #64 bumped it past poisoned v6/v7 variants).
+LAYOUT_JS_PIN = "?v=2" if LAYOUT_JS else ""
 
 # Pages the draft never touches — auth/account surfaces keep their own chrome
 # (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
@@ -59,9 +62,11 @@ BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
-    + (f'<script src="{LAYOUT_JS}" defer></script>\n' if LAYOUT_JS else "")
+    + (f'<script src="{LAYOUT_JS}{LAYOUT_JS_PIN}" defer></script>\n' if LAYOUT_JS else "")
     + '<link rel="stylesheet" href="qna-widget.css">\n'
     + '<script src="qna-widget.js" defer></script>\n'
+    + '<link rel="stylesheet" href="notif-bell.css">\n'
+    + '<script src="notif-bell.js" defer></script>\n'
     + f"{END}\n"
 )
 

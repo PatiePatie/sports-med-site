@@ -1054,6 +1054,12 @@ function renderConsole(u){
     +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
     +'</div></div>';
 
+  html+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
+    +'<div class="adm-msg" id="qnaInboxMsg"></div>'
+    +'<div id="qnaInboxBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取消息…':'Loading messages…')+'</span></div></div>'
+    +'<p class="adm-note">'+t('Messages and reports from the Q&amp;A button (bottom-left of every page). Open a message to mark it read; Delete removes it permanently; Reply sends a notification back to that user.','来自各页左下角问答按钮的消息与举报。打开消息即标记为已读；删除将永久移除；回复会向该用户发送通知。')+'</p>'
+    +'</div>';
+
   html+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
     +'<div class="adm-msg" id="forumModMsg"></div>'
     +'<div id="forumModBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取举报…':'Loading reports…')+'</span></div></div>'
@@ -1091,6 +1097,7 @@ function renderConsole(u){
   showRoot(html);
   loadUsers(u);
   loadDr7Usage();
+  loadQnaInbox();
   loadForumMod();
   applyLang();
 }
@@ -1289,6 +1296,133 @@ function loadDr7Usage(){
       +'<div class="adm-dr7card"><div class="v">$'+cost.toFixed(4)+'</div><div class="k">'+t('Logged cost · 记录费用','记录费用')+'</div></div>'
       +'<div class="adm-dr7card"><div class="v">🤖</div><div class="k">'+t('Model · baichuan-m3','模型')+'</div></div>';
     document.getElementById('dr7Stats').className='adm-dr7row';
+  });
+}
+
+/* ============ Q&A Inbox (messages/reports from the bottom-left Q&A widget) ============ */
+function loadQnaInbox(){
+  var box=document.getElementById('qnaInboxBox');
+  if(!box) return;
+  if(!sb){
+    box.innerHTML='<div class="adm-empty">'+t('Q&A not connected. Run qna-widget-schema.sql in the Supabase SQL editor to enable it.','问答未连接。请在 Supabase SQL 编辑器中运行 qna-widget-schema.sql 以启用。')+'</div>';
+    return;
+  }
+  var msg=document.getElementById('qnaInboxMsg');
+  function say(s){ if(msg) msg.innerHTML=s; }
+  function escT(x){
+    return String(x==null?'':x).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  }
+  function fmt(iso){
+    var d=new Date(iso); if(isNaN(d.getTime())) return '';
+    var s=(Date.now()-d.getTime())/1000;
+    if(s<3600) return Math.floor(s/60)+(showCN?' 分钟前':'m ago');
+    if(s<86400) return Math.floor(s/3600)+(showCN?' 小时前':'h ago');
+    if(s<604800) return Math.floor(s/86400)+(showCN?' 天前':'d ago');
+    return d.toISOString().slice(0,10);
+  }
+  function kindLabel(k){
+    if(k==='report') return showCN?'🚩 举报':'🚩 Report';
+    if(k==='question') return showCN?'❓ 提问':'❓ Question';
+    return showCN?'💬 留言':'💬 Message';
+  }
+  function render(rows,replies){
+    var unread=rows.filter(function(x){ return !x.read; }).length;
+    say(unread
+      ? (showCN?('📬 '+unread+' 条未读'):('📬 '+unread+' unread'))
+      : (showCN?'没有未读消息 🎉':'No unread messages 🎉'));
+    if(!rows.length){ box.innerHTML='<div class="adm-empty">'+t('Nothing here yet. Messages from the Q&amp;A button on any page will appear here.','暂无消息。任何页面左下角问答按钮发来的消息都会显示在这里。')+'</div>'; return; }
+    var replyMap={};
+    (replies||[]).forEach(function(rp){ (replyMap[rp.message_id]=replyMap[rp.message_id]||[]).push(rp); });
+    var h='';
+    rows.forEach(function(x){
+      var un=x.read?'':'<span class="adm-chip dev" style="margin-right:.4rem">'+t('NEW','新')+'</span>';
+      var detail='';
+      if(x.category) detail+='<span class="adm-badge" style="margin-right:.4rem">'+escT(x.category)+'</span>';
+      if(x.reported_item) detail+='<span class="adm-badge" style="margin-right:.4rem">🚩 '+escT(x.reported_item)+'</span>';
+      if(x.page) detail+='<span style="font-size:.72rem;color:var(--text3)">📍 '+escT(x.page)+'</span>';
+      var rps=replyMap[x.id]||[];
+      var replyHtml='';
+      if(rps.length){
+        replyHtml='<div style="margin:.4rem 0 0;padding:.5rem .7rem;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0">';
+        rps.forEach(function(rp){
+          replyHtml+='<div style="font-size:.78rem;color:var(--text3)">💬 <b>'+t('Dev reply','开发回复')+'</b> · '+fmt(rp.created_at)+(rp.read?'':' · <span style="color:var(--accent)">'+t('NEW for user','对用户未读')+'</span>')+'</div>'
+            +'<div style="font-size:.85rem;color:var(--text2);white-space:pre-wrap;word-wrap:break-word">'+escT(rp.body)+'</div>';
+        });
+        replyHtml+='</div>';
+      }
+      h+='<div class="adm-row" style="border:1px solid '+(x.read?'var(--border)':'var(--accent)')+';border-radius:var(--radius-sm);padding:.8rem 1rem;margin-bottom:.6rem">'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.3rem">'
+        +kindLabel(x.kind)+' '+un
+        +'<span style="font-weight:800">'+escT(x.name||'(anonymous)')+'</span>'
+        +(x.email?'<span style="font-size:.76rem;color:var(--text3)">'+escT(x.email)+'</span>':'')
+        +'<span style="font-size:.76rem;color:var(--text3)">· '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +'</div>'
+        +'<div style="margin-bottom:.4rem">'+detail+'</div>'
+        +'<div style="font-size:.85rem;color:var(--text2);white-space:pre-wrap;word-wrap:break-word;max-height:110px;overflow:hidden;margin-bottom:.5rem">'+escT(x.message)+'</div>'
+        +replyHtml
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">'
+        +(x.read
+          ?'<span class="adm-note" style="margin:0">'+t('✓ Read','✓ 已读')+'</span>'
+          :'<button class="adm-btn" onclick="qnaInboxMarkRead(\''+x.id+'\')">'+t('✓ Mark read','✓ 标记已读')+'</button>')
+        +'<button class="adm-btn" onclick="qnaInboxReplyToggle(\''+x.id+'\')">'+t('↩ Reply','↩ 回复')+'</button>'
+        +'<button class="adm-btn" style="background:var(--red);color:#fff" onclick="qnaInboxDelete(\''+x.id+'\')">🗑 '+t('Delete','删除')+'</button>'
+        +'</div>'
+        +'<div id="qnaReplyCom_'+x.id+'" style="display:none;margin-top:.6rem;padding:.6rem;background:var(--surface2);border-radius:var(--radius-sm)">'
+        +'<textarea id="qnaReplyTxt_'+x.id+'" rows="2" style="width:100%;box-sizing:border-box;font:inherit;font-size:.82rem;padding:.5rem .6rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);resize:vertical" placeholder="'+t('Reply to sender…','回复发送者…')+'"></textarea>'
+        +'<div style="margin-top:.4rem;display:flex;gap:.5rem">'
+        +'<button class="adm-btn" style="background:var(--accent);color:#fff" onclick="qnaInboxSendReply(\''+x.id+'\')">'+t('Send reply','发送回复')+'</button>'
+        +'<button class="adm-btn" onclick="qnaInboxReplyToggle(\''+x.id+'\')">'+t('Cancel','取消')+'</button>'
+        +'</div></div>'
+        +'</div>';
+    });
+    box.innerHTML=h;
+  }
+  function both(){
+    sb.from('qna_messages').select('id,kind,category,name,email,message,reported_item,page,read,created_at').order('created_at',{ascending:false}).limit(100).then(function(res){
+      if(res.error){ say('<div class="adm-empty" style="color:var(--red)">'+escT(res.error.message||'error')+'</div>'); box.innerHTML=''; return; }
+      sb.from('qna_replies').select('id,message_id,body,read,created_at').then(function(r2){
+        if(r2.error){ say('<div class="adm-empty" style="color:var(--red)">'+escT(r2.error.message||'error')+'</div>'); box.innerHTML=''; return; }
+        render(res.data||[],r2.data||[]);
+      });
+    }).catch(function(e){
+      say('<div class="adm-empty" style="color:var(--red)">'+escT(e&&e.message||'error')+'</div>');
+      box.innerHTML='';
+    });
+  }
+  both();
+}
+function qnaInboxMarkRead(id){
+  sb.from('qna_messages').update({read:true}).eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('qnaInboxMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadQnaInbox();
+  });
+}
+function qnaInboxReplyToggle(id){
+  var c=document.getElementById('qnaReplyCom_'+id);
+  if(!c) return;
+  var was=c.style.display!=='none';
+  c.style.display=was?'none':'block';
+  if(!was){ var tx=document.getElementById('qnaReplyTxt_'+id); if(tx) tx.focus(); }
+}
+function qnaInboxSendReply(id){
+  var tx=document.getElementById('qnaReplyTxt_'+id);
+  var body=(tx?tx.value:'').trim();
+  if(!body){ if(tx) tx.focus(); return; }
+  var dev=null;
+  try{ dev=(JSON.parse(localStorage.sm_user||'null')||{}).email||null; }catch(e){}
+  sb.from('qna_replies').insert({message_id:id, body:body, dev_email:dev||'dev@vitaliteplan.com'}).then(function(r){
+    var m=document.getElementById('qnaInboxMsg');
+    if(r.error){ if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadQnaInbox();
+  });
+}
+function qnaInboxDelete(id){
+  if(!confirm(t('Delete this message permanently? Replies to it will also be removed.','永久删除此消息？其下的回复也会一并删除。'))) return;
+  sb.from('qna_messages').delete().eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('qnaInboxMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadQnaInbox();
+
   });
 }
 

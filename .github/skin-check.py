@@ -48,8 +48,10 @@ def audit_page(html: pathlib.Path):
     links = [m.group(1) for m in (HREF_RE.search(lnk) for lnk in LINK_RE.findall(text)) if m]
     # Cache-busting (?v=3) must not hide a stylesheet from the audit.
     css = [lnk.split("?")[0] for lnk in links if lnk.split("?")[0].endswith(".css")]
-    if THEME_CSS not in css:
-        problems.append(("skin", f"links {css or 'NO CSS'} — expected {THEME_CSS}"))
+    # THEME_CSS may carry a cache-bust pin (?v=1) — compare bare names.
+    expected = THEME_CSS.split("?")[0]
+    if expected not in css:
+        problems.append(("skin", f"links {css or 'NO CSS'} — expected {expected}"))
     if any(FONTS_RE.search(lnk) for lnk in links):
         problems.append(("fonts", "active Google Fonts link — zero-webfont rule violated"))
     return problems

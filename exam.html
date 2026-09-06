@@ -1050,7 +1050,7 @@ var showCN = localStorage.getItem('sm_lang')==='zh';
 var langBtn=document.getElementById('langToggle');
 var darkBtn=document.getElementById('darkToggle');
 var bodyEl=document.body;
-if(localStorage.getItem('dark')==='true'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
+if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
 darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark') ? '☀️' : '🌙'; });
 
 function applyLangEP(){

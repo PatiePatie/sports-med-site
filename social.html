@@ -910,7 +910,7 @@ body.dark h1,body.dark h2,body.dark h3{
 
 /* ═══ Language + dark mode ═══ */
 var showCN=false; try{ showCN=localStorage.getItem('sm_lang')==='zh'; }catch(e){}
-var dark=false; try{ dark=localStorage.getItem('dark')==='true'; }catch(e){}
+var dark=false; try{ dark=localStorage.getItem('dark')!=='false'; }catch(e){}
 function applyLang(){
   var lang=showCN?'zh':'en';
   document.body.classList.toggle('lang-zh', showCN);

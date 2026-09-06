@@ -155,3 +155,10 @@ body.lin-v2 .sidebar-logo a:focus{
   text-decoration:none;
   background:transparent;
 }
+/* ── Oliver: quiet top edge — no study-surface tab strip, no breadcrumb ──
+   The shell mounts Guide/Contents/NPTE/CN-Cert tabs (lin-pagetabs) plus a
+   page-name crumb (lin-crumb inside .lin-context) at the top of shell pages.
+   Both are chrome noise Oliver wants gone. The ⌘K palette and guide chapter
+   tabs (lin-tabstrip without lin-pagetabs) are untouched. */
+body.lin-v2 .lin-pagetabs{display:none}
+body.lin-v2 .lin-context{display:none}

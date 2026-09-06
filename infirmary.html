@@ -792,14 +792,6 @@ body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
 .plan-badge{display:inline-block;background:var(--accent-bg);border:1px solid var(--border2);color:var(--accent);border-radius:99px;padding:.35rem 1.1rem;font-size:.8rem;font-weight:700;margin-bottom:.8rem;letter-spacing:.02em}
 #plan .container{max-width:860px}
 .plan-intro{font-size:.95rem;color:var(--text2);max-width:640px;margin:0 auto 1.5rem;line-height:1.6}
-.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
-.plan-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.15rem 1.25rem;cursor:pointer;text-align:left;transition:all .15s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
-.plan-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
-.plan-card .pc-icon{font-size:1.7rem;line-height:1}
-.plan-card .pc-title{font-weight:800;margin-top:.6rem;font-size:.98rem;line-height:1.35}
-.plan-card .pc-desc{font-size:.8rem;color:var(--text2);margin-top:.35rem;line-height:1.55}
-.plan-card .pc-tag{display:inline-block;margin-top:.6rem;font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-bg);border:1px solid var(--border2);border-radius:99px;padding:.12rem .6rem}
-.plan-card .pc-prog{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0;transition:width .2s}
 .plan-detail{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.6rem;text-align:left;box-shadow:var(--shadow-sm);margin-top:1.5rem}
 .plan-detail h3{font-family:var(--font-heading);font-weight:800;font-size:1.3rem}
 .plan-detail .pd-sub{font-size:.82rem;color:var(--text3);margin-top:.35rem}
@@ -814,6 +806,26 @@ body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
 .plan-item.done .pi-t{text-decoration:line-through;color:var(--text3)}
 .pd-back{margin-top:1.4rem}
 .pd-footnote{font-size:.78rem;color:var(--text3);margin-top:1rem;border-top:1px dashed var(--border);padding-top:.8rem;line-height:1.6}
+/* ── Habit-driven plan builder ── */
+#plan .hero-panel,.plan-holder{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.6rem;text-align:left;box-shadow:var(--shadow-sm)}
+.habit-input-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.habit-input{flex:1;min-width:220px;padding:.7rem .9rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:.95rem}
+.habit-input:focus{outline:none;border-color:var(--accent)}
+.habit-suggest{margin-top:.9rem;display:flex;flex-wrap:wrap;align-items:center;gap:.45rem}
+.habit-sug-label{font-size:.78rem;color:var(--text3);font-weight:700;margin-right:.15rem}
+.habit-chip{font-size:.8rem;padding:.3rem .7rem;border:1px solid var(--border2);border-radius:99px;background:var(--accent-bg);color:var(--text);cursor:pointer;transition:all .15s}
+.habit-chip:hover{border-color:var(--accent);color:var(--accent)}
+.habit-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.habit-pill{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .8rem;background:var(--accent-bg);border:1px solid var(--border2);border-radius:99px;font-size:.88rem}
+.habit-pill .hp-rm{cursor:pointer;color:var(--text3);font-weight:800;line-height:1;padding:0 .15rem;border:0;background:none}
+.habit-pill .hp-rm:hover{color:var(--danger,#d33)}
+.plan-actions{margin-top:1.2rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+.plan-hint{font-size:.8rem;color:var(--text3)}
+#planStatus{margin-top:.8rem;min-height:1rem;font-size:.85rem;color:var(--text2)}
+#planStatus.plan-err{color:var(--danger,#d33)}
+.plan-loading{display:flex;align-items:center;gap:.6rem;color:var(--accent);font-weight:700}
+.plan-loading .spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:planSpin .8s linear infinite}
+@keyframes planSpin{to{transform:rotate(360deg)}}
 body.dark .plan-card,body.dark .plan-detail{background:var(--surface)}
 body.dark .plan-item{background:rgba(255,255,255,.05)}
 </style>
@@ -1003,10 +1015,36 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 
 <section id="plan">
   <div class="container">
-    <div class="plan-badge" data-en="RECOVERY PLAN · 恢复计划" data-zh="恢复计划 · RECOVERY PLAN">RECOVERY PLAN · 恢复计划</div>
-    <h1 data-en="📋 Build Your Recovery Plan" data-zh="📋 制定你的恢复计划">📋 Build Your Recovery Plan</h1>
-    <p class="plan-intro" data-en="Pick a scenario, get a phased day-by-day recovery road map with checklists you can tick off. Progress saves to your account automatically. Education only — not medical advice." data-zh="选择一种场景，即可获得分阶段、逐日的恢复路线图与可勾选清单。进度会自动保存到你的账户。仅供学习参考，不构成医疗建议。">Pick a scenario, get a phased day-by-day recovery road map with checklists you can tick off. Progress saves to your account automatically. Education only — not medical advice.</p>
-    <div class="plan-grid" id="planScenarios"></div>
+    <div class="plan-badge" data-en="MAKE HEALTHY &amp; ACTIVE · 健康活跃计划" data-zh="健康活跃计划 · MAKE HEALTHY &amp; ACTIVE">MAKE HEALTHY &amp; ACTIVE · 健康活跃计划</div>
+    <h1 data-en="🏃 Build Your Health Plan" data-zh="🏃 制定你的健康计划">🏃 Build Your Health Plan</h1>
+    <p class="plan-intro" data-en="Add the daily habits you actually have (a few is fine — add more anytime). Our engine turns them into a personalized step-by-step plan to get you healthier and more active. Progress saves to your account automatically. Education only — not medical advice." data-zh="添加你真实的日常习惯（几个就够 — 随时可再加）。引擎会根据它们为你生成个性化的逐步计划，助你更健康、更活跃。进度会自动保存到你的账户。仅供学习参考，不构成医疗建议。">Add the daily habits you actually have (a few is fine — add more anytime). Our engine turns them into a personalized step-by-step plan to get you healthier and more active. Progress saves to your account automatically. Education only — not medical advice.</p>
+
+    <div class="plan-holder" id="planHolder">
+      <!-- Habit entry -->
+      <div class="habit-input-row">
+        <input class="habit-input" id="habitInput" type="text" maxlength="80"
+               data-en-placeholder="e.g. drink 8 glasses of water, walk 30 min, sleep 7h…"
+               data-zh-placeholder="例如：喝 8 杯水、步行 30 分钟、睡 7 小时…"
+               placeholder="e.g. drink 8 glasses of water, walk 30 min, sleep 7h…">
+        <button class="qo-btn" id="habitAdd" data-en="＋ Add habit" data-zh="＋ 添加习惯">＋ Add habit</button>
+      </div>
+      <div class="habit-suggest" id="habitSuggest">
+        <span class="habit-sug-label" data-en="Try:" data-zh="试试：">Try:</span>
+        <button class="habit-chip" data-en="💧 drink enough water" data-zh="💧 多喝水">💧 drink enough water</button>
+        <button class="habit-chip" data-en="🚶 walk 30 minutes" data-zh="🚶 步行 30 分钟">🚶 walk 30 minutes</button>
+        <button class="habit-chip" data-en="😴 sleep 7+ hours" data-zh="😴 睡满 7 小时">😴 sleep 7+ hours</button>
+        <button class="habit-chip" data-en="💪 strength train 3×/week" data-zh="💪 每周力量训练 3 次">💪 strength train 3×/week</button>
+        <button class="habit-chip" data-en="🥗 eat more vegetables" data-zh="🥗 多吃蔬菜">🥗 eat more vegetables</button>
+      </div>
+      <div class="habit-list" id="habitList"></div>
+      <div class="plan-actions">
+        <button class="qo-btn next" id="planGenerate" disabled
+                data-en="🤖 Generate My Plan" data-zh="🤖 生成我的计划">🤖 Generate My Plan</button>
+        <span class="plan-hint" id="planHint" data-en="Add a few habits first" data-zh="请先添加几个习惯">Add a few habits first</span>
+      </div>
+      <div id="planStatus"></div>
+    </div>
+
     <div id="planDetail"></div>
   </div>
 </section>
@@ -1173,9 +1211,27 @@ document.addEventListener('click', function(e){
 })();
 </script>
 <script>
-/* ── Recovery Plan builder — localStorage keyed per user ── */
+/* ── Health Plan builder — habit-driven, AI-generated, localStorage per user ──
+ *
+ * Architecture:
+ *   PlanEngine.generate(habits, lang) → Promise<plan>
+ *   - AIEngine (current): Cloudflare Worker via api.vitaliteplan.com.
+ *       Sends a structured prompt, expects a structured JSON plan back.
+ *   - AlgorithmEngine (future, free tier): same interface, local rules engine.
+ *       Seam is here — swap via PlanEngine.factory() when ready.
+ *
+ * Plan shape (shared with renderer):
+ *   { id, icon, title_en, title_zh, summary_en, summary_zh,
+ *     phases: [ { title_en, title_zh, desc_en, desc_zh,
+ *                 items: [ {en, zh}, ... ] } ] }
+ */
 (function(){
   var KEY='vitalite_plan_v1';
+  var MEDAI_URL='https://api.vitaliteplan.com';
+  var _habits=[];          // current habit list in UI
+  var selected=null;       // active plan id
+  var generating=false;
+
   function userKey(){
     try{ var u=JSON.parse(localStorage.getItem('sm_user')||'null'); if(u&&u.email) return u.email; }catch(e){}
     return 'guest';
@@ -1184,188 +1240,193 @@ document.addEventListener('click', function(e){
   function T(en,zh){ return lang()==='zh'?zh:en; }
   function loadStore(){
     try{ var a=JSON.parse(localStorage.getItem(KEY+'|'+userKey())||'null'); if(a&&a.data) return a; }catch(e){}
-    return {data:{},last:null};
+    return {data:{},last:null,habits:[]};
   }
   function saveStore(a){ try{ localStorage.setItem(KEY+'|'+userKey(), JSON.stringify(a)); }catch(e){} }
-  var SCENARIOS=[
-    {id:'ankle-sprain',icon:'🦶',en:'Sprained Ankle',zh:'脚踝扭伤',desc_en:'Ligament sprain recovery — RICE first, then progressive loading.',desc_zh:'韧带扭伤恢复 — 先 RICE，再渐进负重。',tag_en:'Common · 常见',tag_zh:'常见'
-      ,phases:[
-        {en:'Phase 1 · Protect (Days 0–3)',zh:'第一阶段 · 保护（第 0–3 天）',en_d:'RICE: rest, ice, compression, elevation. Protect the joint.',zh_d:'RICE：休息、冰敷、加压、抬高。保护关节。'
-          ,items:[
-            {en:'Rest the ankle — no running, jumping, or heavy loads',zh:'让脚踝休息 — 不跑步、不跳跃、不负重'},
-            {en:'Ice 15–20 min every 2–3 hours (wrap the ice pack)',zh:'每 2–3 小时冰敷 15–20 分钟（用毛巾包裹冰袋）'},
-            {en:'Compression wrap + elevate above heart level',zh:'加压包扎，并抬高至心脏水平以上'},
-            {en:'Gentle ankle alphabet circles, pain-free range only',zh:'温和的脚踝字母画圈，仅在无痛活动范围内'}
-          ]},
-        {en:'Phase 2 · Restore Motion (Days 4–7)',zh:'第二阶段 · 恢复活动度（第 4–7 天）',en_d:'Regain full pain-free range of motion before loading.',zh_d:'在负重前恢复无痛的全范围活动度。'
-          ,items:[
-            {en:'Double-leg calf raises on flat ground',zh:'平地双腿提踵'},
-            {en:'Towel ankle pulls for dorsiflexion stretch',zh:'毛巾牵拉踝关节背屈拉伸'},
-            {en:'Standing balance on both feet, then one foot (30s)',zh:'双脚站立平衡，再单脚站立（30 秒）'},
-            {en:'Ice if swollen after activity',zh:'活动后如有肿胀则冰敷'}
-          ]},
-        {en:'Phase 3 · Rebuild Strength (Days 8–21)',zh:'第三阶段 · 重建力量（第 8–21 天）',en_d:'Progressive resistance and balance training.',zh_d:'渐进抗阻与平衡训练。'
-          ,items:[
-            {en:'Single-leg calf raises (15×3)',zh:'单腿提踵（15 次 × 3 组）'},
-            {en:'Band-resisted ankle eversion/inversion',zh:'弹力带踝关节外翻/内翻训练'},
-            {en:'Single-leg balance with eyes closed (20s)',zh:'闭眼单脚站立平衡（20 秒）'},
-            {en:'Bodyweight squats progressing to lunge walk',zh:'自重深蹲，进阶为弓步走'}
-          ]},
-        {en:'Phase 4 · Return to Sport (Weeks 3–6)',zh:'第四阶段 · 回归运动（第 3–6 周）',en_d:'Sport-specific drills once jumping and cutting are pain-free.',zh_d:'当跳跃与变向无痛后，进行专项训练。'
-          ,items:[
-            {en:'Light jog on flat ground, pain-free',zh:'平地慢跑，无痛为前提'},
-            {en:'Side-to-side hops and small jumps',zh:'左右单脚跳与小幅度跳跃'},
-            {en:'Agility ladder or figure-8 runs',zh:'敏捷梯或八字跑'},
-            {en:'Get cleared by a professional before full return',zh:'完全回归前请专业人员评估'}
-          ]}
-      ]},
-    {id:'low-back',icon:'🦴',en:'Low Back Strain',zh:'腰背拉伤',desc_en:'Muscular back strain — gentle movement, not bed rest.',desc_zh:'腰部肌肉拉伤 — 温和活动，而非卧床不动。',tag_en:'Common · 常见',tag_zh:'常见'
-      ,phases:[
-        {en:'Phase 1 · Settle the Spasm (Days 0–2)',zh:'第一阶段 · 缓解痉挛（第 0–2 天）',en_d:'Reduce pain while keeping the spine moving gently.',zh_d:'在保持脊柱温和活动的同时缓解疼痛。'
-          ,items:[
-            {en:'Short rest in comfortable positions — avoid prolonged bed rest',zh:'在舒适姿势下短暂休息 — 避免长时间卧床'},
-            {en:'Ice first 24h, then heat for muscle spasm',zh:'前 24 小时冰敷，之后热敷缓解肌肉痉挛'},
-            {en:'Gentle walking every hour or two',zh:'每一到两小时温和行走一次'},
-            {en:'Knee-to-chest rocks, pain-free range',zh:'抱膝摇摆，无痛活动范围'}
-          ]},
-        {en:'Phase 2 · Restore Motion (Days 3–7)',zh:'第二阶段 · 恢复活动度（第 3–7 天）',en_d:'Gradually build pain-free mobility.',zh_d:'逐步建立无痛活动度。'
-          ,items:[
-            {en:'Cat-cow spinal mobility (10 reps)',zh:'猫牛式脊柱活动（10 次）'},
-            {en:'Child\'s pose hold 30s ×2',zh:'婴儿式保持 30 秒 × 2 组'},
-            {en:'Standing back extensions (10 reps)',zh:'站立后伸（10 次）'},
-            {en:'Daily walking increasing to 20 min',zh:'每天步行增至 20 分钟'}
-          ]},
-        {en:'Phase 3 · Stabilize (Weeks 2–4)',zh:'第三阶段 · 稳定核心（第 2–4 周）',en_d:'Core and glute work to protect the spine.',zh_d:'核心与臀部训练以保护脊柱。'
-          ,items:[
-            {en:'Bird-dog holds (10s × 6/side)',zh:'鸟狗式保持（每侧 6 次 × 10 秒）'},
-            {en:'Dead bug exercises (10×3)',zh:'死虫式（10 次 × 3 组）'},
-            {en:'Glute bridges (15×3)',zh:'臀桥（15 次 × 3 组）'},
-            {en:'Side planks progressing to 20s holds',zh:'侧平板支撑，进阶至保持 20 秒'}
-          ]},
-        {en:'Phase 4 · Rebuild Capacity (Weeks 4–8)',zh:'第四阶段 · 重建能力（第 4–8 周）',en_d:'Progressive loading before returning to sports.',zh_d:'回归运动前进行渐进负荷训练。'
-          ,items:[
-            {en:'Walking lunges and step-ups',zh:'弓步走与台阶训练'},
-            {en:'Plank variations (30–60s holds)',zh:'平板支撑变式（保持 30–60 秒）'},
-            {en:'Light deadlift/hip-hinge pattern with bodyweight',zh:'自重髋铰链模式（轻量硬拉动作模式）'},
-            {en:'Return to sport only when pain-free with full motion',zh:'仅当无痛且活动范围完全时回归运动'}
-          ]}
-      ]},
-    {id:'shoulder',icon:'💪',en:'Shoulder Strain',zh:'肩部拉伤',desc_en:'Shoulder muscle strain — protect, restore, rebuild.',desc_zh:'肩部肌肉拉伤 — 保护、恢复、重建。',tag_en:'Common · 常见',tag_zh:'常见'
-      ,phases:[
-        {en:'Phase 1 · Protect (Days 0–3)',zh:'第一阶段 · 保护（第 0–3 天）',en_d:'Reduce pain and inflammation while protecting the shoulder.',zh_d:'缓解疼痛与炎症，同时保护肩关节。'
-          ,items:[
-            {en:'Avoid overhead lifting and heavy carrying',zh:'避免过头举物与负重搬运'},
-            {en:'Ice 15 min every 2–3 hours',zh:'每 2–3 小时冰敷 15 分钟'},
-            {en:'Pendulum swings — gentle circles (30s each way)',zh:'钟摆摆动 — 每个方向温和画圈 30 秒'},
-            {en:'Sleep with a pillow under the arm for support',zh:'睡觉时手臂下垫枕头支撑'}
-          ]},
-        {en:'Phase 2 · Restore Motion (Days 4–10)',zh:'第二阶段 · 恢复活动度（第 4–10 天）',en_d:'Pain-free range of motion in all planes.',zh_d:'在各个平面恢复无痛活动范围。'
-          ,items:[
-            {en:'Wall walks / finger ladder for flexion',zh:'爬墙训练 / 手指爬梯（前屈）'},
-            {en:'Doorway chest stretch (30s ×2)',zh:'门框胸部拉伸（30 秒 × 2 组）'},
-            {en:'Towel-assisted internal/external rotation',zh:'毛巾辅助肩关节内/外旋'},
-            {en:'Scapular retractions seated (15×3)',zh:'坐姿肩胛后缩（15 次 × 3 组）'}
-          ]},
-        {en:'Phase 3 · Rebuild Strength (Weeks 2–5)',zh:'第三阶段 · 重建力量（第 2–5 周）',en_d:'Light resistance, perfect form.',zh_d:'轻阻力、标准动作。'
-          ,items:[
-            {en:'Band external rotation (15×3)',zh:'弹力带肩外旋（15 次 × 3 组）'},
-            {en:'Prone Y-T-W raises (10 each × 2)',zh:'俯卧 Y-T-W 伸展（每个 10 次 × 2 组）'},
-            {en:'Isometric shoulder press against wall (10s ×5)',zh:'靠墙静力肩推（10 秒 × 5 组）'},
-            {en:'Light dumbbell rows (12×3)',zh:'轻哑铃划船（12 次 × 3 组）'}
-          ]},
-        {en:'Phase 4 · Return (Weeks 5–8)',zh:'第四阶段 · 回归（第 5–8 周）',en_d:'Sport-specific movement, pain-free.',zh_d:'专项动作训练，全程无痛。'
-          ,items:[
-            {en:'Push-up progressions from incline to full',zh:'俯卧撑进阶 — 从斜撑到标准'},
-            {en:'Overhead press progression with light weights',zh:'过头推举进阶（轻重量）'},
-            {en:'Catch-and-throw drills',zh:'接抛球训练'},
-            {en:'Return only when full strength is pain-free',zh:'仅当力量完全恢复且无痛时回归'}
-          ]}
-      ]},
-    {id:'post-workout',icon:'🔥',en:'Post-Workout Recovery',zh:'练后恢复',desc_en:'Muscle soreness & fatigue — active recovery protocol.',desc_zh:'肌肉酸痛与疲劳 — 主动恢复方案。',tag_en:'Self-care · 自我照护',tag_zh:'自我照护'
-      ,phases:[
-        {en:'Day 0 · Right After Training',zh:'第 0 天 · 训练刚结束',en_d:'Immediate steps to kick-start recovery.',zh_d:'训练后立即进行的恢复步骤。'
-          ,items:[
-            {en:'Cool down 5–10 min: light jog + walking',zh:'冷却 5–10 分钟：慢跑 + 步行'},
-            {en:'Stretch major muscles — 20–30s each, no bouncing',zh:'拉伸主要肌群 — 每个 20–30 秒，避免弹震'},
-            {en:'Eat protein + carbs within 60 min (e.g. milk & banana)',zh:'60 分钟内补充蛋白质 + 碳水（如牛奶与香蕉）'},
-            {en:'Drink water — aim ~500–750 ml',zh:'补充水分 — 约 500–750 毫升'}
-          ]},
-        {en:'Day 1–2 · Manage Soreness',zh:'第 1–2 天 · 缓解酸痛',en_d:'Reduce delayed-onset muscle soreness (DOMS).',zh_d:'缓解延迟性肌肉酸痛（DOMS）。'
-          ,items:[
-            {en:'Light activity — walk, swim, or cycle gently',zh:'轻度活动 — 慢走、游泳或轻松骑行'},
-            {en:'Foam roll / massage sore muscles (avoid bone)',zh:'泡沫轴 / 按摩酸痛的肌肉（避开骨骼）'},
-            {en:'Sleep 7–9 hours — growth happens at rest',zh:'保证 7–9 小时睡眠 — 修复发生在休息时'},
-            {en:'Anti-inflammatory foods: berries, fish, greens',zh:'抗炎食物：浆果、鱼类、绿叶蔬菜'}
-          ]},
-        {en:'Day 3 · Progressive Return',zh:'第 3 天 · 渐进回归',en_d:'Reintroduce intensity gradually.',zh_d:'逐步恢复训练强度。'
-          ,items:[
-            {en:'Train the same muscles at ~70% intensity',zh:'以约 70% 强度训练同一肌群'},
-            {en:'Warm up 10 min before the session',zh:'训练前热身 10 分钟'},
-            {en:'Light cardio 15–20 min post-session',zh:'训练后 15–20 分钟轻量有氧'},
-            {en:'Reassess soreness — if severe, take another rest day',zh:'评估酸痛程度 — 若仍严重，再休息一天'}
-          ]}
-      ]},
-    {id:'runners-knee',icon:'🦿',en:"Runner's Knee",zh:'跑步膝',desc_en:'Patellofemoral pain — unload the joint, retrain the chain.',desc_zh:'髌股关节疼痛 — 为关节减负，重建动力链。',tag_en:'Sport · 运动',tag_zh:'运动'
-      ,phases:[
-        {en:'Phase 1 · Offload (Days 0–3)',zh:'第一阶段 · 减负（第 0–3 天）',en_d:'Drop painful mileage, manage swelling.',zh_d:'减少引发疼痛的跑量，控制肿胀。'
-          ,items:[
-            {en:'Reduce or stop running; use cycling/swimming for cardio',zh:'减少或暂停跑步；以骑行/游泳替代有氧'},
-            {en:'Ice around the knee 15 min after activity',zh:'活动后膝周冰敷 15 分钟'},
-            {en:'Pain-free quad sets sitting (20×3)',zh:'坐姿无痛股四头肌静力收缩（20 次 × 3 组）'},
-            {en:'Avoid stairs and deep squats while painful',zh:'疼痛期间避免爬楼梯与深蹲'}
-          ]},
-        {en:'Phase 2 · Reset the Chain (Days 4–10)',zh:'第二阶段 · 重建动力链（第 4–10 天）',en_d:'Strengthen quads, glutes, and hips.',zh_d:'强化股四头肌、臀肌与髋部。'
-          ,items:[
-            {en:'Straight-leg raises (15×3)',zh:'直腿抬高（15 次 × 3 组）'},
-            {en:'Clamshells with band (15×3)',zh:'弹力带蚌式开合（15 次 × 3 组）'},
-            {en:'Wall sits to 45s',zh:'靠墙静蹲，进阶至 45 秒'},
-            {en:'Step-downs from a low step (10×3)',zh:'低台阶下台阶训练（10 次 × 3 组）'}
-          ]},
-        {en:'Phase 3 · Reload (Weeks 2–4)',zh:'第三阶段 · 重新负重（第 2–4 周）',en_d:'Gradual return to running, pain-guarded.',zh_d:'以疼痛为警戒线，逐步恢复跑步。'
-          ,items:[
-            {en:'Walk-run intervals: 3:1 min ratio',zh:'走跑交替：3 分钟走 : 1 分钟跑'},
-            {en:'Increase total time by ≤10% per week',zh:'每周总时间增幅不超过 10%'},
-            {en:'Run on soft, flat surfaces',zh:'在平坦柔软的场地跑步'},
-            {en:'Foam roll quads and IT band after running',zh:'跑后泡沫轴放松股四头肌与髂胫束'}
-          ]},
-        {en:'Phase 4 · Return (Weeks 4–6)',zh:'第四阶段 · 回归（第 4–6 周）',en_d:'Rebuild speed and hill tolerance.',zh_d:'重建速度与坡道适应能力。'
-          ,items:[
-            {en:'Gradual hill repeats (short, gentle)',zh:'渐进坡道重复跑（短距离、缓坡）'},
-            {en:'Continue hip/glute strength 2×/week',zh:'每周 2 次髋臀力量训练'},
-            {en:'Shoes: replace if midsole is worn',zh:'跑鞋：中底磨损严重时及时更换'},
-            {en:'Knee pain during run = step down and reassess',zh:'跑步中出现膝痛 = 降阶并重新评估'}
-          ]}
-      ]}
-  ];
-  var selected=null;
-  function renderCards(){
-    var box=document.getElementById('planScenarios'); if(!box) return;
-    var a=loadStore();
-    box.innerHTML=SCENARIOS.map(function(s){
-      var items=s.phases.reduce(function(n,p){ return n+p.items.length; },0);
-      var done=0, key=s.id;
-      var d=a.data[key]||{};
-      Object.keys(d).forEach(function(k){ if(d[k]) done++; });
-      var pct=items?Math.round(done/items*100):0;
-      return '<div class="plan-card" data-key="'+s.id+'">'
-        +'<div class="pc-icon">'+s.icon+'</div>'
-        +'<div class="pc-title">'+T(s.en,s.zh)+'</div>'
-        +'<div class="pc-desc">'+T(s.desc_en,s.desc_zh)+'</div>'
-        +'<span class="pc-tag">'+T(s.tag_en,s.tag_zh)+'</span>'
-        +(pct?'<div class="pc-prog" style="width:'+pct+'%"></div>':'')
-        +'</div>';
-    }).join('');
+
+  /* ── PlanEngine: pluggable seam ── */
+  var PlanEngine={
+    providers:{},
+    register:function(name,impl){ this.providers[name]=impl; },
+    generate:function(habits){
+      var p=this.providers[this.active||'ai'];
+      if(!p) return Promise.resolve({ok:false,error:'no_engine'});
+      return p.generate(habits, lang());
+    },
+    /* Which engine runs now. ai = paid-capable; algorithm = future free tier. */
+    active:'ai'
+  };
+
+  /* ── AI engine: Cloudflare Worker, structured JSON response ── */
+  PlanEngine.register('ai',{
+    generate:function(habits, lng){
+      return new Promise(function(resolve){
+        if(!MEDAI_URL || !habits || !habits.length){ resolve({ok:false,error:'not_configured'}); return; }
+        var l=lng||'en';
+        var habitList=habits.map(function(h,i){ return (i+1)+'. '+h; }).join('\n');
+        var prompt=(l==='zh'
+          ? '你是健康与运动康复教练。根据用户列出的日常习惯，生成一份个性化的“更健康、更活跃”计划。'
+            + '必须严格返回 JSON，不要输出任何其他文字。JSON 结构：'
+            + '{"title_zh":"计划标题","summary_zh":"一句话概述","phases":[{"title_zh":"阶段标题","desc_zh":"阶段说明","items":["步骤1","步骤2","步骤3"]}]}'
+            + '要求：3-4 个阶段；每阶段 3-5 个具体可执行步骤；步骤要结合用户现有习惯，循序渐进、安全、无需器械或仅需简单器械；'
+            + '风格像康复/健身教练的建议；不要诊断疾病；总步骤数适中。\n用户的习惯：\n'+habitList
+          : 'You are a health & sports-rehab coach. Based on the daily habits the user listed, build a personalized "healthier & more active" plan. '
+            + 'You MUST respond with JSON only — no prose, no markdown fences. JSON shape: '
+            + '{"title_en":"plan title","summary_en":"one-line summary","phases":[{"title_en":"phase title","desc_en":"phase note","items":["step 1","step 2","step 3"]}]}'
+            + 'Rules: 3-4 phases; 3-5 concrete actionable steps per phase; tie steps to the user\'s actual habits; progressive, safe, bodyweight or minimal equipment; '
+            + 'tone like a rehab/fitness coach; do not diagnose illness. Examples: habit "walk 30 min" -> phase on consistency, then progressive load, then active rest.\nUser\'s habits:\n'+habitList);
+        fetch(MEDAI_URL,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({question:prompt, lang:l})
+        }).then(function(r){ return r.json(); }).then(function(d){
+          if(d && d.reply){ resolve({ok:true, reply:d.reply}); }
+          else { resolve({ok:false, error:(d&&d.error)||'unknown'}); }
+        }).catch(function(){ resolve({ok:false,error:'network'}); });
+      });
+    }
+  });
+
+  /* ── Future AlgorithmEngine (free tier) — implement generate(habits, lang) here.
+   *    It returns the same plan shape as parsePlan. No network, deterministic. */
+  // PlanEngine.register('algorithm', { generate: function(habits, lng){ /* TODO */ } });
+
+  /* ── Parse AI reply → plan object (tolerant of fences / prose wrapping) ── */
+  function extractJSON(raw){
+    if(!raw) return null;
+    var s=String(raw).trim();
+    // strip ```json ... ``` fences
+    var fm=s.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if(fm) s=fm[1].trim();
+    else {
+      var ob=s.indexOf('{');
+      if(ob>0) s=s.slice(ob);
+      var cb=s.lastIndexOf('}');
+      if(cb>0 && cb<s.length-1) s=s.slice(0,cb+1);
+    }
+    try{ return JSON.parse(s); }catch(e){ return null; }
   }
+  function normItems(arr){
+    if(!Array.isArray(arr)) return [];
+    return arr.map(function(x){
+      if(typeof x==='string') return {en:x,zh:x};
+      if(x&&typeof x==='object') return {en:String(x.en||x.text||''),zh:String(x.zh||x.en||x.text||'')};
+      return {en:String(x),zh:String(x)};
+    }).filter(function(x){ return x.en&&x.en.trim(); });
+  }
+  function parsePlan(raw, habits){
+    var j=extractJSON(raw); if(!j||!j.phases) return null;
+    var isZh=lang()==='zh';
+    var phases=(Array.isArray(j.phases)?j.phases:[]).filter(function(p){ return p&&(p.items||p.steps); }).map(function(p,i){
+      var items=normItems(p.items||p.steps||[]);
+      return {
+        en:p.title_en||p.title||('Phase '+(i+1)),
+        zh:p.title_zh||p.title||p.title_en||('阶段 '+(i+1)),
+        en_d:p.desc_en||p.desc||'',
+        zh_d:p.desc_zh||p.desc||p.desc_en||'',
+        items:items
+      };
+    });
+    if(!phases.length||!phases[0].items.length) return null;
+    return {
+      id:'habits-'+new Date().getTime().toString(36),
+      icon:isZh?(j.icon_zh||'🏃'):(j.icon||'🏃'),
+      title_en:j.title_en||'My Health Plan',
+      title_zh:j.title_zh||j.title_en||'我的健康计划',
+      summary_en:j.summary_en||'Personalized plan built from your habits.',
+      summary_zh:j.summary_zh||j.summary_en||'根据你的习惯生成的个性化计划。',
+      phases:phases
+    };
+  }
+
+  /* ── Habit list UI ── */
+  function renderHabits(){
+    var box=document.getElementById('habitList'); if(!box) return;
+    box.innerHTML=_habits.map(function(h,i){
+      return '<span class="habit-pill">'+h
+        +'<button type="button" class="hp-rm" data-i="'+i+'" aria-label="remove">✕</button></span>';
+    }).join('');
+    var gen=document.getElementById('planGenerate');
+    var hint=document.getElementById('planHint');
+    if(gen) gen.disabled=!_habits.length;
+    if(hint){
+      var enReady='Ready — generate your plan', zhReady='准备就绪 — 生成你的计划';
+      var enWait='Add a few habits first', zhWait='请先添加几个习惯';
+      var en=_habits.length?enReady:enWait, zh=_habits.length?zhReady:zhWait;
+      hint.setAttribute('data-en', en);
+      hint.setAttribute('data-zh', zh);
+      hint.textContent=T(en,zh);
+    }
+  }
+  function addHabit(text){
+    var v=(text||'').trim().replace(/\s+/g,' ');
+    if(!v) return;
+    var low=v.toLowerCase();
+    if(_habits.some(function(h){ return h.toLowerCase()===low; })) return;
+    _habits.push(v);
+    var a=loadStore(); a.habits=_habits; saveStore(a);
+    renderHabits();
+  }
+  function removeHabit(i){
+    if(i<0||i>=_habits.length) return;
+    _habits.splice(i,1);
+    var a=loadStore(); a.habits=_habits; saveStore(a);
+    renderHabits();
+  }
+
+  /* ── Generation flow ── */
+  function showStatus(html, cls){
+    var el=document.getElementById('planStatus'); if(!el) return;
+    el.className=cls||'';
+    el.innerHTML=html;
+  }
+  function setGenerating(on){
+    generating=on;
+    var btn=document.getElementById('planGenerate');
+    if(btn) btn.disabled=on||!_habits.length;
+  }
+  function generatePlan(){
+    if(generating||!_habits.length) return;
+    setGenerating(true);
+    showStatus('<span class="plan-loading"><span class="spinner"></span> '+T('Building your plan…','正在生成你的计划…')+'</span>');
+    PlanEngine.generate(_habits).then(function(res){
+      setGenerating(false);
+      if(!res.ok){
+        showStatus('⚠️ '+T('Could not generate right now — '+(res.error==='network'?'check your connection.':'the engine is unavailable.')+' Try again in a moment.','暂时无法生成 — '+(res.error==='network'?'请检查网络连接。':'引擎暂不可用。')+' 请稍后再试。'),'plan-err');
+        return;
+      }
+      var plan=parsePlan(res.reply,_habits);
+      if(!plan){
+        // Fallback: none generated — surface what the AI said so it's not a dead end.
+        var s=String(res.reply||'').slice(0,400);
+        showStatus(T('The engine returned something unexpected. Here is the raw response:','引擎返回了意外内容。以下是原始回复：')+'<br><pre style="white-space:pre-wrap;font-size:.78rem">'+s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</pre>','plan-err');
+        return;
+      }
+      // persist plan
+      var a=loadStore();
+      a.data[plan.id]=plan;
+      a.last=plan.id;
+      a.habits=_habits;
+      saveStore(a);
+      selected=plan.id;
+      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+      showStatus('✓ '+T('Plan ready! Check off steps as you complete them.','计划已生成！完成步骤时请打勾。'));
+      renderDetail();
+      document.getElementById('planDetail').scrollIntoView({behavior:'smooth'});
+    });
+  }
+
+  /* ── Detail renderer (same contract as before: checkboxes persist per plan) ── */
+  function currentPlan(){ return selected?((loadStore().data||{})[selected]||null):null; }
   function renderDetail(){
     var box=document.getElementById('planDetail'); if(!box) return;
-    var s=null;
-    SCENARIOS.forEach(function(x){ if(x.id===selected) s=x; });
+    var s=currentPlan();
     if(!s){ box.innerHTML=''; return; }
     var a=loadStore();
     var d=a.data[selected]||{};
-    var ph=s.phases.map(function(p){
+    var ph=s.phases.map(function(p,pi){
       var items=p.items.map(function(it,i){
-        var k=selected+':'+i;
+        var k=selected+':'+pi+':'+i;
         var on=!!d[k];
         return '<label class="plan-item'+(on?' done':'')+'" data-key="'+k+'">'
           +'<input type="checkbox" '+(on?'checked':'')+'>'
@@ -1374,51 +1435,85 @@ document.addEventListener('click', function(e){
       return '<div class="pd-phase"><h4>'+T(p.en,p.zh)+'</h4>'
         +'<p class="pd-days">'+T(p.en_d,p.zh_d)+'</p>'+items+'</div>';
     }).join('');
-    box.innerHTML='<div class="plan-detail"><h3>'+s.icon+' '+T(s.en,s.zh)+'</h3>'
-      +'<p class="pd-sub">'+T('Check off each step as you complete it — progress is saved automatically.','每完成一步请打勾 — 进度将自动保存。')+'</p>'
+    box.innerHTML='<div class="plan-detail"><h3>'+s.icon+' '+T(s.title_en,s.title_zh)+'</h3>'
+      +'<p class="pd-sub">'+T(s.summary_en,s.summary_zh)+'</p>'
       +ph
-      +'<button class="qo-btn next pd-back" onclick="document.getElementById(\'plan\').scrollIntoView({behavior:\'smooth\'})">← '+T('Back to scenarios','返回场景列表')+'</button>'
+      +'<button class="qo-btn next pd-back" data-en="🗑 Delete this plan" data-zh="🗑 删除此计划" onclick="document.getElementById(\'plan\').scrollIntoView({behavior:\'smooth\'})" >🗑 Delete this plan</button>'
       +'<p class="pd-footnote">⚠️ '+T('Educational guidance only, not medical advice. If pain is severe or lasts more than a week, see a professional.','仅供学习参考，不构成医疗建议。若疼痛剧烈或持续超过一周，请及时就医。')+'</p>'
       +'</div>';
   }
-  document.getElementById('planScenarios').addEventListener('click',function(e){
-    var card=e.target&&e.target.closest?e.target.closest('.plan-card'):null;
-    if(!card) return;
-    selected=card.getAttribute('data-key');
-    var a=loadStore(); a.last=selected; saveStore(a);
-    renderDetail();
-    document.getElementById('planDetail').scrollIntoView({behavior:'smooth'});
+  function deletePlan(){
+    if(!selected) return;
+    var a=loadStore(); delete a.data[selected]; a.last=null; saveStore(a);
+    selected=null;
+    document.getElementById('planDetail').innerHTML='';
+    try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+    showStatus('🗑 '+T('Plan deleted.','计划已删除。'));
+  }
+
+  /* ── Wire up ── */
+  document.getElementById('habitAdd').addEventListener('click',function(){
+    var inp=document.getElementById('habitInput');
+    addHabit(inp.value); inp.value='';
   });
+  document.getElementById('habitInput').addEventListener('keydown',function(e){
+    if(e.key==='Enter'){ e.preventDefault(); addHabit(this.value); this.value=''; }
+  });
+  document.getElementById('habitSuggest').addEventListener('click',function(e){
+    var chip=e.target&&e.target.closest?e.target.closest('.habit-chip'):null;
+    if(chip) addHabit(chip.getAttribute('data-en')||chip.textContent);
+  });
+  document.getElementById('habitList').addEventListener('click',function(e){
+    var rm=e.target&&e.target.closest?e.target.closest('.hp-rm'):null;
+    if(rm) removeHabit(parseInt(rm.getAttribute('data-i'),10));
+  });
+  document.getElementById('planGenerate').addEventListener('click',generatePlan);
   document.getElementById('planDetail').addEventListener('click',function(e){
     var item=e.target&&e.target.closest?e.target.closest('.plan-item'):null;
-    if(!item) return;
-    var a=loadStore(); var d=a.data[selected]||{}; a.data[selected]=d;
-    var cb=item.querySelector('input');
-    if(cb&&cb.checked){ delete d[item.getAttribute('data-key')]; cb.checked=false; item.classList.remove('done'); }
-    else{ d[item.getAttribute('data-key')]=true; if(cb) cb.checked=true; item.classList.add('done'); }
-    a.last=selected; saveStore(a);
-    renderCards(); renderDetail();
+    if(item){
+      var a=loadStore(); var d=a.data[selected]||{}; a.data[selected]=d;
+      var key=item.getAttribute('data-key');
+      var cb=item.querySelector('input');
+      // Key off the STORED state, not the pre-click checkbox state (the browser
+      // toggles checked before handlers run when the input itself is clicked,
+      // but NOT when the label text is clicked — store-first is deterministic).
+      if(d[key]){ delete d[key]; if(cb) cb.checked=false; item.classList.remove('done'); }
+      else{ d[key]=true; if(cb) cb.checked=true; item.classList.add('done'); }
+      a.last=selected; saveStore(a); renderDetail();
+      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+      return;
+    }
+    // Delete CTA (plain button, not plan-item)
+    var del=e.target.closest&&e.target.closest('button.pd-back');
+    if(del && del.textContent.indexOf('🗑')!==-1){ deletePlan(); }
   });
   var langBtn=document.getElementById('langToggle');
-  if(langBtn) langBtn.addEventListener('click',function(){ renderCards(); renderDetail(); });
-  renderCards();
+  if(langBtn) langBtn.addEventListener('click',function(){ renderHabits(); renderDetail(); });
+
+  /* ── Restore state ── */
+  var a=loadStore();
+  if(a.habits&&a.habits.length){ _habits=a.habits.slice(); }
+  renderHabits();
   var hash=String(location.hash||'').replace('#','');
-  if(hash==='plan' && loadStore().last){
-    var found=false;
-    SCENARIOS.forEach(function(s){ if(s.id===loadStore().last) found=true; });
-    if(found){ selected=loadStore().last; renderDetail(); }
+  if(hash==='plan' && a.last && a.data[a.last]){
+    selected=a.last; renderDetail();
   }
-  /* Expose the store so the dashboard strip above can read live progress. */
-  window.VitalPlan={ scenarios:SCENARIOS, load:loadStore };
+  if(!_habits.length && a.last && a.data[a.last]){
+    // user has a plan but wiped habit list — keep it accessible
+    selected=a.last; renderDetail();
+  }
+
+  /* Expose store + engine so the dashboard strip can read live progress. */
+  window.VitalPlan={ load:loadStore, engine:PlanEngine, habits:function(){ return _habits.slice(); } };
 })();
 </script>
 <script>
 /* Dashboard strip — live read of the recovery plan store (VitalPlan handle). */
 (function(){
   var strip=document.getElementById('dashStrip');
-  var ok=!!(window.VitalPlan && window.VitalPlan.scenarios && window.VitalPlan.load);
+  var ok=!!(window.VitalPlan && window.VitalPlan.load);
   if(!ok){ if(strip) strip.style.display='none'; return; }
-  var S=window.VitalPlan.scenarios, load=window.VitalPlan.load;
+  var load=window.VitalPlan.load;
   function T(en,zh){ try{ return localStorage.getItem('sm_lang')==='zh'?zh:en; }catch(e){ return en; } }
   function renderDash(){
     var elP=document.getElementById('dashPlan');
@@ -1427,24 +1522,26 @@ document.addEventListener('click', function(e){
     if(!elP||!elG||!elS) return;
     var a=load(); if(!a) return;
     var sid=a.last, s=null;
-    for(var i=0;i<S.length;i++){ if(S[i].id===sid){ s=S[i]; break; } }
-    var d=sid?((a.data||{})[sid]||{}):{};
-    var done=0; Object.keys(d).forEach(function(k){ if(d[k]) done++; });
-    if(!s||!done){
+    if(sid) s=((a.data||{})[sid])||null;
+    var d=sid?(((a.data||{})[sid])||{}):{};
+    var done=0; Object.keys(d).forEach(function(k){ if(d[k] && k.indexOf(':')>0) done++; });
+    if(!s||!s.phases){
       elP.textContent=T('No plan yet','暂无计划');
       elG.textContent=T('Not started','未开始');
       elS.innerHTML='<a href="#plan" data-en="Build one below ↓" data-zh="在下方制定 ↓">Build one below ↓</a>';
       return;
     }
-    var total=0; s.phases.forEach(function(p){ total+=p.items.length; });
+    var total=0; s.phases.forEach(function(p){ total+=(p.items||[]).length; });
     var pct=Math.min(100,total?Math.round(done/total*100):0);
-    elP.textContent=s.icon+' '+T(s.en,s.zh);
+    if(!total){ elP.textContent='—'; elG.textContent='—'; elS.textContent=T('Empty plan','空计划'); return; }
+    elP.textContent=s.icon+' '+T(s.title_en||s.title,s.title_zh||s.title);
     elG.innerHTML=pct+'% <small>· '+done+' / '+total+' '+T('steps','步')+'</small>';
     elS.classList.add('dash-ok');
-    elS.textContent=T('On track','进行中');
+    elS.textContent=pct===0?T('Ready to start','准备开始'):T('On track','进行中');
   }
   renderDash();
   window.addEventListener('storage',renderDash);
+  window.addEventListener('vitalite:plan',renderDash);
 })();
 </script>
 <script src="site-content.js"></script>

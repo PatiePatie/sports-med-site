@@ -26,10 +26,12 @@
     return headActions;
   }
 
-  /* ---- Logout: clear local session (source of truth = sm_user) + go to login ---- */
+  /* ---- Logout: clear local session + hand off to login.html with ?out=1.
+     login.html then kills the live Supabase session — otherwise its auth
+     listener re-imports the session and auto-logs the user straight back in. ---- */
   function logout(){
     try{ localStorage.removeItem('sm_user'); }catch(e){}
-    window.location.href='login.html';
+    window.location.href='login.html?out=1';
   }
   window.vLogout = logout;
 

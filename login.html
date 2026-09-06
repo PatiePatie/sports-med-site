@@ -845,6 +845,14 @@ try{
   }
 }catch(e){ console.error('Supabase init error', e); }
 
+/* Logout handoff: the header Log Out bounces here as ?out=1. Kill any live
+   Supabase session NOW — before onAuthStateChange subscribes (below), which
+   would otherwise re-import the session and auto-log the user back in. */
+var outReq = /[?&]out=1/.test(location.search);
+if(outReq && sb){
+  sb.auth.signOut().then(function(){}).catch(function(){});
+}
+
 function myMsg(text,ok){
   var m=document.getElementById('acctMsg');
   m.className='acct-msg '+(ok?'ok':'err');
@@ -924,6 +932,12 @@ function applySociUser(u){
 /* React to OAuth redirect back (token in URL hash) + future auth changes */
 if(sb){
   try{ sb.auth.onAuthStateChange(function(ev, sess){
+    if(outReq){
+      /* deliberate logout: suppress any re-import + auto-bounce for this visit */
+      if(ev==='SIGNED_IN'||ev==='INITIAL_SESSION'){ localStorage.removeItem('sm_user'); }
+      if(ev==='SIGNED_OUT'){ localStorage.removeItem('sm_user'); setStatus(); }
+      return;
+    }
     if(ev==='SIGNED_IN' && sess && sess.user){
       applySociUser(sess.user); setStatus();
       checkBlocked(sess.user.email).then(function(mod){

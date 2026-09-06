@@ -13,6 +13,7 @@
   bottom:1.5rem;
   left:1.5rem;
   z-index:299;
+  overflow:hidden;
   display:flex;
   align-items:center;
   gap:.55rem;
@@ -28,8 +29,26 @@
   box-shadow:0 6px 20px rgba(0,0,0,.22);
   transition:transform .18s,box-shadow .18s;
 }
-#qnaFab:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.3); }
-#qnaFab .qna-fab-x{ width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:none; }
+#qnaFab::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:38px;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+  background-size:220% 100%;
+  background-position:130% 0;
+  transition:background-position .5s ease;
+  pointer-events:none;
+  opacity:0;
+}
+#qnaFab:hover::after{
+  opacity:1;
+  background-position:-30% 0;
+}
+#qnaFab:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.12) inset; }
+#qnaFab:active{ transform:translateY(0) scale(.97); transition-duration:.08s; }
+#qnaFab .qna-fab-x{ width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:none; transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .25s; }
+#qnaFab:hover .qna-fab-x{ transform:rotate(-12deg) scale(1.12); background:rgba(255,255,255,.32); }
 #qnaFab .qna-fab-badge{ position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:10px;background:var(--green,#059669);color:#fff;font-size:.68rem;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff; }
 body.dark #qnaFab .qna-fab-badge{ border-color:#0A1828; }
 

@@ -156,7 +156,10 @@
     var menu=document.getElementById('logMenu');
     if(menu && menu.parentNode){ menu.parentNode.removeChild(menu); }
     var wrap=document.getElementById('logWrap');
-    if(wrap && wrap.parentNode && !wrap.querySelector('.log-menu')){ wrap.parentNode.removeChild(wrap); }
+    /* Only remove the empty wrapper if the button is NOT inside it — otherwise
+       logging out in place (login page's own #logoutBtn) would delete the
+       header login button along with the wrapper. */
+    if(wrap && wrap.parentNode && !wrap.contains(document.getElementById('loginBtn')) && !wrap.querySelector('.log-menu')){ wrap.parentNode.removeChild(wrap); }
   }
 
   function updateHeaderBtn(user){

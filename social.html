@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="icons/vitalite-32.png">
+<link rel="apple-touch-icon" href="icons/vitalite-180.png">
 <title>Vitalité Social — Coming Soon · 敬请期待</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -765,13 +767,14 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="auth-widget.css">
 <script src="auth-widget.js"></script>
 <script src="auth-gate.js"></script>
+  <script src="loader.js"></script>
 </head>
 <body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><span class="logo-text">Vital<span>ité</span></span>
+  <div class="sidebar-logo"><a href="index.html" style="color:var(--text);text-decoration:none;display:flex;align-items:center;flex:1;min-width:0"><span class="logo-text">Vital<span>ité</span></span></a>
     <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
   </div>
   <div class="sidebar-group part" data-part="vitalite-knowledge">
@@ -803,7 +806,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="#" data-infirmary data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
     </div>
   </div>
   <div class="sidebar-group part open" data-part="vitalite-social">
@@ -821,7 +824,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="page-wrapper">
 <header>
 <div class="container header-inner">
-  <div class="logo" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></div>
+  <a class="logo" href="index.html" style="color:var(--text);text-decoration:none" data-en="Vitalité" data-zh="Vitalité">Vital<span>ité</span></a>
   <div class="header-actions">
     <button class="btn-icon" id="langToggle" title="Toggle 中文/EN">中</button>
     <button class="btn-icon" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -889,8 +892,6 @@ body.dark h1,body.dark h2,body.dark h3{
   if(act){ toOpen=act.closest('.sidebar-group.part'); }
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
-  var ai=side.querySelector('[data-infirmary]');
-  if(ai){ ai.addEventListener('click',function(e){ e.preventDefault(); if(typeof openAiModal==='function') openAiModal(); }); }
   var btn=document.getElementById('sbCompact');
   var KEY='sm_sbcompact';
   function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }

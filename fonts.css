@@ -1,0 +1,99 @@
+/* Self-hosted font kit — Beijing-proof. Source: Google Fonts (SIL OFL). */
+@font-face{
+font-family:'Bodoni Moda SC';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/bodoni-moda-sc-normal-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Bodoni Moda SC';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/bodoni-moda-sc-normal-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Cinzel';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/cinzel-normal-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Cinzel';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/cinzel-normal-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'EB Garamond';
+font-style:italic;
+font-weight:400 800;
+src:url('fonts/eb-garamond-italic-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'EB Garamond';
+font-style:italic;
+font-weight:400 800;
+src:url('fonts/eb-garamond-italic-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'EB Garamond';
+font-style:normal;
+font-weight:400 800;
+src:url('fonts/eb-garamond-normal-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'EB Garamond';
+font-style:normal;
+font-weight:400 800;
+src:url('fonts/eb-garamond-normal-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Playfair Display';
+font-style:italic;
+font-weight:400 900;
+src:url('fonts/playfair-display-italic-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Playfair Display';
+font-style:italic;
+font-weight:400 900;
+src:url('fonts/playfair-display-italic-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Playfair Display';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/playfair-display-normal-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Playfair Display';
+font-style:normal;
+font-weight:400 900;
+src:url('fonts/playfair-display-normal-latin.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Pinyon Script';
+font-style:normal;
+font-weight:400;
+src:url('fonts/pinyon-script-normal-latin-ext.woff2') format('woff2');
+font-display:swap;
+}
+@font-face{
+font-family:'Pinyon Script';
+font-style:normal;
+font-weight:400;
+src:url('fonts/pinyon-script-normal-latin.woff2') format('woff2');
+font-display:swap;
+}

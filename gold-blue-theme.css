@@ -1,3 +1,4 @@
+@import url('fonts.css');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
@@ -9,8 +10,11 @@
   --shadow:0 4px 14px rgba(10,24,40,.08),0 1px 3px rgba(10,24,40,.04);
   --shadow-lg:0 16px 40px rgba(10,24,40,.13),0 4px 10px rgba(10,24,40,.05);
   --radius:16px;--radius-sm:10px;--radius-lg:22px;
-  --font:"Avenir Next","Avenir Next Condensed","Helvetica Neue",Arial,"Songti SC","SimSun","宋体",sans-serif;
-  --font-heading:"Cormorant Garamond","Copernicus","Georgia","Times New Roman","Songti SC","SimSun","宋体",serif;
+  --font:"EB Garamond","Songti SC","SimSun","宋体",serif;
+  --font-heading:"Bodoni Moda SC","Playfair Display","Songti SC","SimSun","宋体",serif;
+  --font-script:"Pinyon Script","Snell Roundhand",cursive;
+  --font-caps:"Cinzel","Songti SC","SimSun","宋体",serif;
+  --font-subhead:"Playfair Display","Bodoni Moda SC","Songti SC","SimSun","宋体",serif;
   --max-w:820px;
 }
 html{scroll-behavior:smooth;font-size:16px}
@@ -736,3 +740,11 @@ body.dark .adm-frozen .adm-stat .v{color:#f7d794}
 body.dark .aq-diff-2,body.dark .mastery-level.proficient,body.dark .q-mechanism{background:#182a4a;color:#93c5fd}
 body.dark .q-transfer{background:#0c2a26;color:#5eead4}
 body.dark .adm-tbl .btn.green{background:#0c2a1a;color:#86efac;border-color:#1f7a4d}
+
+/* ═══ FONT STACK — self-hosted (Beijing-proof): Bodoni Moda SC (heads) · Pinyon Script (logo, Bickham-proxy) · EB Garamond (body, Sabon-proxy) · Cinzel (buttons) · Playfair italic (subheads) ═══
+   All families live in fonts/ + fonts.css — zero external requests, no Google
+   CDN, no VPN needed. CJK falls through to system Songti/SimSun. */
+.logo{font-family:var(--font-script);font-weight:400;letter-spacing:0}
+.sidebar-logo{font-family:var(--font-script);font-weight:400;letter-spacing:0;font-size:1.12rem}
+button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(--font-caps);letter-spacing:.06em}
+.landing .hero p,.hero p,.section-label{font-family:var(--font-subhead);font-style:italic;letter-spacing:.01em}

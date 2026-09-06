@@ -50,8 +50,10 @@ LAYOUT_JS = "linear-layout.js"
 
 # Pages the draft never touches — auth/account surfaces keep their own chrome
 # (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
-# these; `status` leaves them out of the report.
-EXCLUDE = {"login.html"}
+# these; `status` leaves them out of the report. admin.html/social.html are the
+# operator surfaces (forum moderation) — they intentionally link the base
+# gold-blue theme directly, not the skin.
+EXCLUDE = {"login.html", "admin.html", "social.html"}
 
 BLOCK = (
     f"{BEGIN}\n"

@@ -733,7 +733,7 @@ body.dark h1,body.dark h2,body.dark h3{
 }
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=3">
-<script src="auth-widget.js?v=5"></script>
+<script src="auth-widget.js?v=6"></script>
 <script src="auth-gate.js"></script>
 <style>
 
@@ -810,6 +810,55 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-row .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .adm-badge.sm{font-size:.68rem;padding:.2rem .55rem}
 .adm-badge.muted{background:var(--surface3);color:var(--text2)}
+
+/* ═══ Members / moderation list ═══
+   Replaces the six-column table, which could not breathe at console width.
+   One comfortable row per member, stacking cleanly on narrow screens. */
+.mem-bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.9rem 0 1rem}
+.mem-search{flex:1;min-width:190px;padding:.55rem .8rem;border:1px solid var(--border);
+  border-radius:999px;background:var(--surface2);color:var(--text);font:inherit;font-size:.86rem}
+.mem-search:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.mem-filters{display:flex;gap:.35rem;flex-wrap:wrap}
+.mem-f{padding:.4rem .8rem;border:1px solid var(--border);border-radius:999px;background:var(--surface2);
+  color:var(--text2);font:inherit;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .16s}
+.mem-f:hover{border-color:var(--accent);color:var(--accent)}
+.mem-f.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.mem-f:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mem-count{font-size:.78rem;color:var(--text3);font-weight:700;white-space:nowrap}
+
+.mem-list{display:flex;flex-direction:column;gap:.55rem}
+.mem{display:grid;grid-template-columns:auto 1fr auto;gap:.9rem;align-items:center;
+  padding:.85rem 1rem;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);transition:border-color .18s,box-shadow .18s,transform .18s}
+.mem:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--border));box-shadow:var(--shadow-sm)}
+.mem.is-dev{border-left:3px solid var(--accent)}
+.mem.is-frozen{border-left:3px solid var(--amber)}
+.mem.is-deleted{border-left:3px solid var(--red);opacity:.72}
+
+.mem-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--accent-bg);color:var(--accent);font-weight:800;font-size:.95rem;
+  font-family:var(--font-heading);flex:none;text-transform:uppercase}
+.mem-main{min-width:0}
+.mem-name{font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.mem-mail{font-size:.79rem;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-family:"SF Mono",Menlo,Consolas,monospace}
+.mem-meta{font-size:.72rem;color:var(--text3);margin-top:.25rem;display:flex;gap:.75rem;flex-wrap:wrap}
+.mem-act{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.mem-act .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.35rem .7rem;border-radius:8px;
+  font-size:.76rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);transition:all .16s;font-family:inherit;white-space:nowrap}
+.mem-act .btn:hover:not(:disabled){transform:translateY(-1px);border-color:var(--accent);color:var(--accent)}
+.mem-act .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
+.mem-act .btn.green{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border-color:var(--adm-ok-bd)}
+.mem-act .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.mem-act .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mem-tag{font-size:.7rem;font-weight:800;color:var(--text3)}
+
+@media(max-width:720px){
+  .mem{grid-template-columns:auto 1fr;row-gap:.6rem}
+  .mem-act{grid-column:1 / -1;justify-content:flex-start}
+  .mem-meta{gap:.5rem}
+}
 .adm-note{font-size:.8rem;color:var(--text3);margin-top:1rem}
 .adm-loading{display:flex;align-items:center;gap:.6rem;color:var(--text3);font-size:.9rem;padding:2rem;justify-content:center}
 .spin{width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:admSpin .8s linear infinite}
@@ -828,7 +877,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-url{width:100%;padding:.6rem .85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:.9rem;font-family:monospace;margin:.5rem 0 1rem}
 .adm-hint{font-size:.82rem;color:var(--text3);line-height:1.6}
 
-</style><link rel="stylesheet" href="gold-blue-theme.css?v=4">
+</style><link rel="stylesheet" href="gold-blue-theme.css?v=5">
   <script src="loader.js?v=6"></script>
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
@@ -1047,6 +1096,13 @@ function renderConsole(u){
   applyLang();
 }
 
+/* ============ Members ============ */
+/* Rendered as a filterable list rather than a six-column table — the table
+   could not breathe at console width and wrapped into an unreadable mess. */
+var MEM_CACHE=null;
+var memFilter='all';
+var memQuery='';
+
 function loadUsers(u){
   var box=document.getElementById('usersTable');
   if(!box) return;
@@ -1060,52 +1116,116 @@ function loadUsers(u){
     var mod={}; (res[1]&&res[1].data||[]).forEach(function(m){ mod[m.email]=m; });
     var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[d.email]=1; });
 
+    /* developers with no member row still belong in the list */
+    var seen={}; mem.forEach(function(m){ seen[m.email]=1; });
+    for(var k in devs){ if(devs.hasOwnProperty(k) && !seen[k]) mem.push({email:k,name:DEV_NAMES[k]||'',created_at:'',last_seen:''}); }
+
+    MEM_CACHE={list:mem, mod:mod, devs:devs};
     var stUsers=document.getElementById('stUsers'); if(stUsers) stUsers.textContent=mem.length;
 
-    if(!mem.length){ box.innerHTML='<div class="adm-empty">'+t('No members yet.','还没有用户。')+(res[0]&&res[0].error?' '+(res[0].error.message||''):'')+'</div>'; return; }
+    if(!mem.length){
+      box.innerHTML='<div class="adm-empty">'+t('No members yet.','还没有用户。')+(res[0]&&res[0].error?' '+esc(res[0].error.message||''):'')+'</div>';
+      return;
+    }
+    renderMembers();
+  }).catch(function(e){
+    box.innerHTML='<div class="adm-empty">'+t('Failed to load users.','加载用户失败。')+'<br><span style="font-size:.8rem">'+esc(e.message||String(e))+'</span></div>';
+  });
+}
 
-    var rows='';
-    mem.forEach(function(m){
-      var md=mod[m.email]||{};
-      var isDev=!!devs[m.email];
-      var status = isDev
-        ? '<span class="adm-chip dev">DEV</span>'
-        : md.deleted
-          ? '<span class="adm-chip deleted">'+t('Deleted','已删除')+'</span>'
-          : md.frozen
-            ? '<span class="adm-chip frozen">'+t('Frozen','已冻结')+'</span>'
-            : '<span class="adm-chip ok">'+t('Active','正常')+'</span>';
-      var name=m.name||t('(no name)','（未填名）');
-      var joined=(m.created_at||'').slice(0,10);
-      var seen=(m.last_seen||'—').slice(0,10);
-      var d='';
-      d+='<div class="adm-actions">';
-      if(isDev){
-        d+='<span class="adm-note" style="margin:0;font-weight:700">'+t('Developer','开发者')+'</span>';
-      } else if(md.deleted){
-        d+='<button class="btn danger" onclick="modUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',\'restore\',this)">'+t('↺ Restore','↺ 恢复')+'</button>';
-      } else {
-        d+='<button class="btn '+(md.frozen?'green':'')+'" onclick="modUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',\''+(md.frozen?'unfreeze':'freeze')+'\',this)">'+(md.frozen?t('🔓 Unfreeze','🔓 解冻'):t('❄ Freeze','❄ 冻结'))+'</button>';
-        d+='<button class="btn danger" onclick="delUser(\''+esc(m.email).replace(/'/g,"\\'")+'\',this)">'+t('🗑 Delete','🗑 删除')+'</button>';
-      }
-      d+='</div>';
+function memStatus(email){
+  if(!MEM_CACHE) return 'active';
+  if(MEM_CACHE.devs[email]) return 'dev';
+  var md=MEM_CACHE.mod[email]||{};
+  if(md.deleted) return 'deleted';
+  if(md.frozen) return 'frozen';
+  return 'active';
+}
 
-      rows+='<tr><td><strong>'+esc(name)+'</strong>'+(isDev?' <span>⭐</span>':'')+'</td>'
-        +'<td>'+esc(m.email)+'</td>'
-        +'<td>'+status+'</td>'
-        +'<td>'+joined+'</td>'
-        +'<td>'+seen+'</td>'
-        +'<td style="text-align:right">'+d+'</td></tr>';
+function renderMembers(){
+  var box=document.getElementById('usersTable');
+  if(!box || !MEM_CACHE) return;
+  var q=memQuery.toLowerCase();
+  var counts={all:0,active:0,frozen:0,deleted:0,dev:0};
+  MEM_CACHE.list.forEach(function(m){ counts.all++; counts[memStatus(m.email)]++; });
+
+  var shown=MEM_CACHE.list.filter(function(m){
+    var st=memStatus(m.email);
+    if(memFilter!=='all' && st!==memFilter) return false;
+    if(!q) return true;
+    return String(m.email||'').toLowerCase().indexOf(q)!==-1
+        || String(m.name||'').toLowerCase().indexOf(q)!==-1;
+  });
+
+  var FILTERS=[['all',t('All','全部')],['active',t('Active','正常')],['frozen',t('Frozen','已冻结')],
+               ['deleted',t('Deleted','已删除')],['dev',t('Developers','开发者')]];
+  var chips='';
+  FILTERS.forEach(function(f){
+    chips+='<button type="button" class="mem-f'+(memFilter===f[0]?' on':'')+'" data-mem-f="'+f[0]+'">'
+         + esc(f[1])+' <span style="opacity:.7">'+counts[f[0]]+'</span></button>';
+  });
+
+  var rows='';
+  shown.forEach(function(m){
+    var st=memStatus(m.email);
+    var isDev=st==='dev';
+    var md=MEM_CACHE.mod[m.email]||{};
+    var name=m.name||t('(no name)','（未填名）');
+    var initial=(name.charAt(0)||m.email.charAt(0)||'?');
+    var chip = isDev ? '<span class="adm-chip dev">DEV</span>'
+             : st==='deleted' ? '<span class="adm-chip deleted">'+t('Deleted','已删除')+'</span>'
+             : st==='frozen'  ? '<span class="adm-chip frozen">'+t('Frozen','已冻结')+'</span>'
+             : '<span class="adm-chip ok">'+t('Active','正常')+'</span>';
+    var em=esc(m.email).replace(/'/g,"\\'");
+    var act='';
+    if(isDev){
+      act='<span class="mem-tag">'+t('Developer','开发者')+'</span>';
+    } else if(md.deleted){
+      act='<button class="btn" onclick="modUser(\''+em+'\',\'restore\',this)">'+t('↺ Restore','↺ 恢复')+'</button>';
+    } else {
+      act='<button class="btn '+(md.frozen?'green':'')+'" onclick="modUser(\''+em+'\',\''+(md.frozen?'unfreeze':'freeze')+'\',this)">'
+        + (md.frozen?t('✓ Unfreeze','✓ 解冻'):t('❄ Freeze','❄ 冻结'))+'</button>'
+        + '<button class="btn danger" onclick="delUser(\''+em+'\',this)">'+t('🗑 Delete','🗑 删除')+'</button>';
+    }
+    var meta='';
+    if(m.created_at) meta+='<span>'+t('Joined ','注册 ')+esc(String(m.created_at).slice(0,10))+'</span>';
+    if(m.last_seen)  meta+='<span>'+t('Last seen ','最近 ')+esc(String(m.last_seen).slice(0,10))+'</span>';
+    if(m.sign_in_count) meta+='<span>'+esc(m.sign_in_count)+t(' sign-ins',' 次登录')+'</span>';
+    if(md.note) meta+='<span>📝 '+esc(md.note)+'</span>';
+
+    rows+='<div class="mem'+(isDev?' is-dev':'')+(st==='frozen'?' is-frozen':'')+(st==='deleted'?' is-deleted':'')+'">'
+       +  '<div class="mem-av">'+esc(initial)+'</div>'
+       +  '<div class="mem-main">'
+       +    '<div class="mem-name">'+esc(name)+chip+'</div>'
+       +    '<div class="mem-mail">'+esc(m.email)+'</div>'
+       +    (meta?'<div class="mem-meta">'+meta+'</div>':'')
+       +  '</div>'
+       +  '<div class="mem-act">'+act+'</div>'
+       +'</div>';
+  });
+
+  box.innerHTML='<div class="mem-bar">'
+    + '<input type="search" class="mem-search" id="memSearch" placeholder="'+t('Search name or email…','搜索姓名或邮箱…')+'" value="'+esc(memQuery)+'">'
+    + '<div class="mem-filters">'+chips+'</div>'
+    + '<span class="mem-count">'+shown.length+' / '+counts.all+'</span>'
+    + '</div>'
+    + (rows ? '<div class="mem-list">'+rows+'</div>'
+            : '<div class="adm-empty">'+t('Nobody matches that.','没有匹配的用户。')+'</div>');
+
+  var si=document.getElementById('memSearch');
+  if(si){
+    si.addEventListener('input',function(){
+      memQuery=this.value;
+      var pos=this.selectionStart;
+      renderMembers();
+      var again=document.getElementById('memSearch');
+      if(again){ again.focus(); try{ again.setSelectionRange(pos,pos); }catch(e){} }
     });
-
-    var extraDevs='';
-    for(var k in devs){ if(!mem.some(function(m){return m.email===k;})){ extraDevs+='<tr><td><strong>'+(DEV_NAMES[k]||k)+'</strong> <span>⭐</span></td><td>'+esc(k)+'</td><td><span class="adm-chip dev">DEV</span></td><td>—</td><td>—</td><td style="text-align:right"><span class="adm-note" style="margin:0;font-weight:700">Developer</span></td></tr>'; } }
-    rows+=extraDevs;
-
-    box.innerHTML='<div class="adm-table-wrap"><table class="adm-tbl">'
-      +'<thead><tr><th>'+t('Name','姓名')+'</th><th>'+t('Email','邮箱')+'</th><th>'+t('Status','状态')+'</th><th>'+t('Joined','注册')+'</th><th>'+t('Last Seen','最近登录')+'</th><th style="text-align:right">'+t('Actions','操作')+'</th></tr></thead>'
-      +'<tbody>'+rows+'</tbody></table></div>';
-  }).catch(function(e){ box.innerHTML='<div class="adm-empty">'+t('Failed to load users.','加载用户失败。')+'<br><span style="font-size:.8rem">'+esc(e.message||String(e))+'</span></div>'; });
+  }
+  var fs=box.querySelectorAll('[data-mem-f]');
+  for(var i=0;i<fs.length;i++){
+    fs[i].addEventListener('click',function(){ memFilter=this.getAttribute('data-mem-f'); renderMembers(); });
+  }
 }
 
 function modUser(email, action, btn){

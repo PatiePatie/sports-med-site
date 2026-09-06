@@ -242,21 +242,31 @@
       context = $('.lin-context', inner);
     }
 
-    /* Actions. ⌘K goes in front of the toggles the page already owns. */
+    /* Search — a centered, always-visible field whose dropdown sits under it.
+       The field is created here; the Search module binds behaviour when it
+       initialises later in this file. */
     var actions = $('.header-actions', inner) || $('.header-actions', header);
-    if (actions && !$('.lin-cmdk-btn', actions)) {
-      var k = el('button', 'lin-cmdk-btn');
-      k.type = 'button';
-      k.appendChild(icon('search'));
-      var lbl = el('span', 'lin-cmdk-label');
-      bi(lbl, 'Search', '搜索');
-      k.appendChild(lbl);
-      var kbd = el('kbd', 'lin-kbd', /Mac|iPhone|iPad/.test(navigator.platform || '') ? '⌘K' : 'Ctrl K');
-      k.appendChild(kbd);
-      k.title = t('Search and jump — ⌘K', '搜索与跳转 — ⌘K');
-      k.setAttribute('aria-label', t('Open command palette', '打开命令面板'));
-      k.addEventListener('click', function () { Palette.open(); });
-      actions.insertBefore(k, actions.firstChild);
+    if (actions && !$('.lin-search', inner) && !$('.lin-search', header)) {
+      var sw = el('div', 'lin-search');
+      sw.setAttribute('role', 'search');
+      sw.appendChild(icon('search'));
+      var inp = el('input', 'lin-search-input');
+      inp.type = 'text';
+      inp.autocomplete = 'off';
+      inp.spellcheck = false;
+      inp.setAttribute('aria-label', t('Search', '搜索'));
+      inp.setAttribute('aria-haspopup', 'listbox');
+      inp.setAttribute('aria-expanded', 'false');
+      inp.placeholder = t('Search…', '搜索…');
+      sw.appendChild(inp);
+      var kk = el('kbd', 'lin-kbd lin-search-kbd',
+                  /Mac|iPhone|iPad/.test(navigator.platform || '') ? '⌘K' : 'Ctrl K');
+      sw.appendChild(kk);
+      var dd = el('div', 'lin-search-dd');
+      dd.hidden = true;
+      sw.appendChild(dd);
+      inner.appendChild(sw);
+      SEARCH_UI = { wrap: sw, input: inp, dd: dd };
     }
   });
 
@@ -328,6 +338,9 @@
         var crumb = context && $('.lin-crumb', context);
         if (crumb) crumb.textContent = (isCN() ? '第' + n + '章' : 'Chapter ' + n);
       }
+      if (SEARCH_UI && SEARCH_UI.input) {
+        SEARCH_UI.input.placeholder = t('Search…', '搜索…');
+      }
     });
   }
 
@@ -347,11 +360,14 @@
      deliberately no scroll fix-up here. The guide replaceState()s "#chN" on
      load, and re-scrolling to it would jump the reader past the intro. */
 
-  /* ─── 7 · The command palette ────────────────────────────────────────── */
+  /* ─── 7 · Search — a dropdown under the top-bar field ────────────────── */
 
-  var Palette = (function () {
-    var overlay = null, input = null, list = null, empty = null;
-    var items = [], filtered = [], cursor = 0, lastFocus = null, built = false;
+  var SEARCH_UI;
+
+  var Search = (function () {
+    var input = null, dd = null, wrap = null;
+    var items = [], filtered = [], cursor = 0;
+    var ready = false;
 
     /* --- the index ---------------------------------------------------- */
 
@@ -435,7 +451,6 @@
         group: t('Actions', '操作'), icon: 'panel',
         label: t('Toggle sidebar', '切换侧栏'), alt: 'sidebar collapse 侧栏',
         run: function () {
-          /* the single collapse control — see 3c */
           var b = document.getElementById('sbCompact');
           if (b) b.click(); else sidebar.classList.toggle('open');
         }
@@ -472,9 +487,7 @@
       }
     }
 
-    /* --- matching -------------------------------------------------------
-       Substring first (cheap, predictable), then an in-order subsequence so
-       "ch3 card" still finds "Ch 3 · Cardiovascular System". */
+    /* --- matching ------------------------------------------------------- */
 
     function score(item, q) {
       if (!q) return 1;
@@ -489,53 +502,60 @@
       return i === q.length ? Math.max(1, 400 - gaps) : 0;
     }
 
+    /* --- rendering into the dropdown ------------------------------------ */
+
     function render() {
-      list.innerHTML = '';
+      if (!dd) return;
+      dd.innerHTML = '';
       if (!filtered.length) {
-        empty.hidden = false;
-        list.hidden = true;
+        var none = el('div', 'lin-search-empty');
+        none.textContent = t('Nothing matches.', '没有匹配结果。');
+        dd.appendChild(none);
         return;
       }
-      empty.hidden = true;
-      list.hidden = false;
-
       var group = null;
       filtered.forEach(function (item, i) {
         if (item.group !== group) {
           group = item.group;
           var g = el('li', 'lin-cmdk-group', group);
           g.setAttribute('role', 'presentation');
-          list.appendChild(g);
+          dd.appendChild(g);
         }
         var li = el('li', 'lin-cmdk-item' + (i === cursor ? ' on' : ''));
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', i === cursor ? 'true' : 'false');
-        li.id = 'lin-cmdk-opt-' + i;
+        li.id = 'lin-search-opt-' + i;
         li.appendChild(icon(item.icon));
         li.appendChild(el('span', 'lin-cmdk-label', item.label));
         if (item.hint) li.appendChild(el('span', 'lin-cmdk-hint', item.hint));
-        li.addEventListener('mousemove', function () { if (cursor !== i) { cursor = i; paint(); } });
-        li.addEventListener('click', function () { run(i); });
-        list.appendChild(li);
+        li.addEventListener('mousemove', function (idx) {
+          return function () { if (cursor !== idx) { cursor = idx; paint(); } };
+        }(i));
+        li.addEventListener('click', function (idx) {
+          return function () { run(idx); };
+        }(i));
+        dd.appendChild(li);
       });
       paint();
     }
 
     function paint() {
-      $$('.lin-cmdk-item', list).forEach(function (li, i) {
+      if (!dd) return;
+      $$('.lin-cmdk-item', dd).forEach(function (li, i) {
         var on = i === cursor;
         li.classList.toggle('on', on);
         li.setAttribute('aria-selected', on ? 'true' : 'false');
         if (on) {
           input.setAttribute('aria-activedescendant', li.id);
-          var r = li.getBoundingClientRect(), p = list.getBoundingClientRect();
-          if (r.top < p.top) list.scrollTop -= (p.top - r.top) + 8;
-          else if (r.bottom > p.bottom) list.scrollTop += (r.bottom - p.bottom) + 8;
+          var r = li.getBoundingClientRect(), p = dd.getBoundingClientRect();
+          if (r.top < p.top) dd.scrollTop -= (p.top - r.top) + 8;
+          else if (r.bottom > p.bottom) dd.scrollTop += (r.bottom - p.bottom) + 8;
         }
       });
     }
 
     function filter() {
+      if (!input) return;
       var q = (input.value || '').trim().toLowerCase();
       filtered = items
         .map(function (it) { return { it: it, s: score(it, q) }; })
@@ -554,98 +574,106 @@
       setTimeout(function () { safe(item.run); }, 0);
     }
 
-    /* --- shell ---------------------------------------------------------- */
-
-    function build() {
-      if (built) return;
-      built = true;
-
-      overlay = el('div', 'lin-cmdk');
-      overlay.hidden = true;
-      overlay.innerHTML = '';
-
-      var panel = el('div', 'lin-cmdk-panel');
-      panel.setAttribute('role', 'dialog');
-      panel.setAttribute('aria-modal', 'true');
-      panel.setAttribute('aria-label', t('Search and jump', '搜索与跳转'));
-
-      var row = el('div', 'lin-cmdk-input-row');
-      row.appendChild(icon('search'));
-      input = el('input', 'lin-cmdk-input');
-      input.type = 'text';
-      input.setAttribute('role', 'combobox');
-      input.setAttribute('aria-expanded', 'true');
-      input.setAttribute('aria-controls', 'lin-cmdk-list');
-      input.setAttribute('aria-autocomplete', 'list');
-      input.autocomplete = 'off';
-      input.spellcheck = false;
-      row.appendChild(input);
-      var esc = el('kbd', 'lin-kbd', 'ESC');
-      row.appendChild(esc);
-      panel.appendChild(row);
-
-      list = el('ul', 'lin-cmdk-list');
-      list.id = 'lin-cmdk-list';
-      list.setAttribute('role', 'listbox');
-      panel.appendChild(list);
-
-      empty = el('div', 'lin-cmdk-empty');
-      empty.hidden = true;
-      panel.appendChild(empty);
-
-      var foot = el('div', 'lin-cmdk-foot');
-      foot.appendChild(el('span', null, '↑↓ ' + t('navigate', '选择')));
-      foot.appendChild(el('span', null, '↵ ' + t('open', '打开')));
-      foot.appendChild(el('span', null, 'esc ' + t('close', '关闭')));
-      panel.appendChild(foot);
-
-      overlay.appendChild(panel);
-      body.appendChild(overlay);
-
-      overlay.addEventListener('mousedown', function (e) {
-        if (e.target === overlay) close();
-      });
-      input.addEventListener('input', filter);
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowDown') { e.preventDefault(); if (filtered.length) { cursor = (cursor + 1) % filtered.length; paint(); } }
-        else if (e.key === 'ArrowUp') { e.preventDefault(); if (filtered.length) { cursor = (cursor - 1 + filtered.length) % filtered.length; paint(); } }
-        else if (e.key === 'Home') { e.preventDefault(); cursor = 0; paint(); }
-        else if (e.key === 'End') { e.preventDefault(); cursor = Math.max(0, filtered.length - 1); paint(); }
-        else if (e.key === 'Enter') { e.preventDefault(); run(cursor); }
-        else if (e.key === 'Escape') { e.preventDefault(); close(); }
-        else if (e.key === 'Tab') { e.preventDefault(); }   /* the palette is the whole tab stop */
-      });
-    }
-
-    function isOpen() { return overlay && !overlay.hidden; }
+    /* --- open / close --------------------------------------------------- */
 
     function open() {
-      build();
-      if (isOpen()) return;
-      lastFocus = document.activeElement;
-      items = collect();
-      input.value = '';
-      input.placeholder = t('Search chapters, sections, pages…', '搜索章节、小节、页面…');
-      empty.textContent = t('Nothing matches.', '没有匹配结果。');
-      overlay.hidden = false;
-      body.classList.add('lin-cmdk-open');
-      filter();
-      input.focus();
+      if (!ready || !dd) return;
+      if (dd.hidden) {
+        items = collect();
+        if (!input.value) {
+          /* No query yet — offer the top level only, so the sheet does not
+             dump every section on the reader. Typing runs the full index. */
+          var gPages = t('Pages', '页面'), gAct = t('Actions', '操作');
+          filtered = items.filter(function (it) {
+            return it.group === gPages || it.group === gAct;
+          }).slice(0, 40);
+          cursor = 0;
+        } else {
+          filter();
+        }
+        dd.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        render();
+      }
     }
 
     function close() {
-      if (!isOpen()) return;
-      overlay.hidden = true;
-      body.classList.remove('lin-cmdk-open');
-      if (lastFocus && lastFocus.focus) safe(function () { lastFocus.focus(); });
-      lastFocus = null;
+      if (!dd || dd.hidden) return;
+      dd.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
     }
 
-    return { open: open, close: close, isOpen: isOpen };
+    function isOpen() {
+      return !!dd && !dd.hidden;
+    }
+
+    function bind() {
+      if (ready || !SEARCH_UI) return;
+      wrap = SEARCH_UI.wrap;
+      input = SEARCH_UI.input;
+      dd = SEARCH_UI.dd;
+      if (!wrap || !input || !dd) return;
+
+      input.addEventListener('focus', function () { open(); });
+      input.addEventListener('input', function () {
+        if (input.value) {
+          if (dd.hidden) open();
+          else { items = collect(); filter(); }
+        } else {
+          /* Cleared the field — back to the compact home list. */
+          items = collect();
+          var gPages = t('Pages', '页面'), gAct = t('Actions', '操作');
+          filtered = items.filter(function (it) {
+            return it.group === gPages || it.group === gAct;
+          }).slice(0, 40);
+          cursor = 0;
+          dd.hidden = false;
+          input.setAttribute('aria-expanded', 'true');
+          render();
+        }
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (filtered.length) { cursor = (cursor + 1) % filtered.length; paint(); }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (filtered.length) { cursor = (cursor - 1 + filtered.length) % filtered.length; paint(); }
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          cursor = 0; paint();
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          cursor = Math.max(0, filtered.length - 1); paint();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          run(cursor);
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          close();
+          input.blur();
+        }
+      });
+
+      document.addEventListener('mousedown', function (e) {
+        if (isOpen() && wrap && !wrap.contains(e.target)) close();
+      });
+      document.addEventListener('focusin', function (e) {
+        if (isOpen() && wrap && !wrap.contains(e.target)) close();
+      });
+
+      ready = true;
+    }
+
+    return { bind: bind, open: open, close: close, isOpen: isOpen };
   })();
 
   /* Global keys. "/" only when the reader is not typing, and we never take a
-     key away from an existing overlay that is already up. */
+     key away from an existing overlay that is already up. Both focus the
+     top-bar field. */
+  safe(function () {
+    Search.bind();
+  });
   safe(function () {
     function typing(node) {
       if (!node) return false;
@@ -656,16 +684,20 @@
       var k = (e.key || '').toLowerCase();
       if (k === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        Palette.isOpen() ? Palette.close() : Palette.open();
+        if (Search.isOpen()) Search.close();
+        else { Search.open(); var si = $('#lin-search-input') || (SEARCH_UI && SEARCH_UI.input); if (si && si.focus) si.focus(); }
         return;
       }
-      if (k === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typing(e.target) && !Palette.isOpen()) {
+      if (k === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typing(e.target) && !Search.isOpen()) {
         e.preventDefault();
-        Palette.open();
+        Search.open();
+        var si2 = $('#lin-search-input') || (SEARCH_UI && SEARCH_UI.input);
+        if (si2 && si2.focus) si2.focus();
       }
     }, true);
   });
 
   /* ─── 8 · First paint ────────────────────────────────────────────────── */
   syncContext();
+  Search.bind();
 })();

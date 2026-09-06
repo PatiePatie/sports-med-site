@@ -1474,22 +1474,45 @@ body.lin-v2 .lin-topbar-inner > .sidebar-toggle{
 }
 body.lin-v2 .lin-topbar-inner > .sidebar-toggle:hover{background:var(--lin-hover);color:var(--text)}
 
-/* ── ⌘K affordance ── */
-body.lin-v2 .lin-cmdk-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  height:28px;padding:0 8px;
+/* ── Search field — centered in the top bar, dropdown under it ── */
+body.lin-v2 .lin-search{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:0;
+  height:100%;
+  display:flex;align-items:center;
+  width:clamp(240px,min(34vw,400px),400px);
+  z-index:10;
+}
+body.lin-v2 .lin-search > .lin-ico{
+  position:absolute;left:10px;top:50%;
+  margin-top:-8px;
+  color:var(--text3);
+  pointer-events:none;
+}
+body.lin-v2 .lin-search-input{
+  width:100%;height:28px;
+  padding:0 34px 0 30px;
   border:1px solid var(--border);
   border-radius:var(--radius-sm);
   background:var(--lin-hover);
-  color:var(--text3);
+  color:var(--text);
   font-family:var(--font);
-  font-size:.8125rem;font-weight:460;letter-spacing:-.006em;
-  cursor:pointer;
-  transition:background var(--lin-t) ease,border-color var(--lin-t) ease,color var(--lin-t) ease;
+  font-size:.8125rem;font-weight:440;letter-spacing:-.006em;
+  outline:none;
+  transition:background var(--lin-t) ease,border-color var(--lin-t) ease,box-shadow var(--lin-t) ease;
 }
-body.lin-v2 .lin-cmdk-btn:hover{background:var(--lin-active);border-color:var(--border2);color:var(--text)}
-body.lin-v2 .lin-cmdk-btn .lin-cmdk-label{min-width:76px;text-align:left}
-body.lin-v2 .lin-kbd{
+body.lin-v2 .lin-search-input::placeholder{color:var(--text3)}
+body.lin-v2 .lin-search-input:focus{
+  background:var(--surface);
+  border-color:var(--accent-line);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent);
+}
+body.dark.lin-v2 .lin-search-input:focus{background:var(--surface3)}
+body.lin-v2 .lin-search-kbd{
+  position:absolute;right:8px;top:50%;
+  margin-top:-9px;
   font-family:var(--font-mono);
   font-size:.6875rem;font-weight:500;
   font-variant-numeric:tabular-nums;
@@ -1499,6 +1522,33 @@ body.lin-v2 .lin-kbd{
   padding:1px 4px;
   background:var(--bg);
   line-height:1.25;
+  pointer-events:none;
+}
+body.lin-v2 .lin-search:focus-within .lin-search-kbd{display:none}
+body.lin-v2 .lin-search-dd{
+  position:absolute;
+  top:calc(100% + 6px);
+  left:50%;
+  transform:translateX(-50%);
+  width:min(560px,calc(100vw - 32px));
+  max-height:min(62vh,480px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  margin:0;padding:6px;
+  list-style:none;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  z-index:500;
+  animation:lin-rise .14s var(--lin-ease);
+}
+body.dark.lin-v2 .lin-search-dd{background:var(--surface3)}
+body.lin-v2 .lin-search-dd[hidden]{display:none}
+body.lin-v2 .lin-search-empty{
+  padding:24px 16px;
+  color:var(--text3);
+  font-size:.8125rem;
 }
 
 /* ── View header: tab strip + a 40px context row ── */
@@ -1750,63 +1800,10 @@ body.lin-v2.lin-rail-collapsed .sidebar-logo{cursor:default}
 
 /* ─── 25 · The command palette — the one thing that floats ────────────────── */
 
-body.lin-cmdk-open{overflow:hidden}
-.lin-cmdk{
-  position:fixed;inset:0;z-index:400;
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:12vh 16px 16px;
-  background:rgba(8,9,10,.4);
-  -webkit-backdrop-filter:blur(2px);
-  backdrop-filter:blur(2px);
-  animation:lin-fade .12s ease-out;
-}
-body.dark .lin-cmdk{background:rgba(0,0,0,.62)}
-.lin-cmdk[hidden]{display:none}
 @keyframes lin-fade{from{opacity:0}to{opacity:1}}
 @keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
-.lin-cmdk-panel{
-  width:min(620px,100%);
-  max-height:min(64vh,520px);
-  display:flex;flex-direction:column;
-  background:var(--surface3);
-  border:1px solid var(--border2);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-lg);
-  overflow:hidden;
-  animation:lin-rise .14s var(--lin-ease);
-}
-body.dark .lin-cmdk-panel{background:var(--surface3)}
-
-.lin-cmdk-input-row{
-  display:flex;align-items:center;gap:10px;
-  height:48px;flex:none;
-  padding:0 12px 0 14px;
-  border-bottom:1px solid var(--line);
-  color:var(--text3);
-}
-.lin-cmdk-input{
-  flex:1;min-width:0;
-  height:100%;
-  border:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  outline:none;
-  color:var(--text);
-  font-family:var(--font);
-  font-size:.9375rem;
-  letter-spacing:-.01em;
-  padding:0;
-}
-.lin-cmdk-input::placeholder{color:var(--text3)}
-
-.lin-cmdk-list{
-  flex:1;
-  margin:0;padding:6px;
-  list-style:none;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
+/* Group + row styles are shared with the dropdown under the top-bar field. */
 .lin-cmdk-group{
   padding:10px 8px 4px;
   font-size:.6875rem;font-weight:560;
@@ -1835,16 +1832,6 @@ body.dark .lin-cmdk-panel{background:var(--surface3)}
   font-variant-numeric:tabular-nums;
   color:var(--text3);
 }
-.lin-cmdk-empty{padding:24px 16px;color:var(--text3);font-size:.8125rem}
-.lin-cmdk-foot{
-  flex:none;
-  display:flex;gap:16px;
-  padding:8px 14px;
-  border-top:1px solid var(--line);
-  font-size:.6875rem;
-  color:var(--text3);
-}
-
 
 /* ─── 26 · Density pass — 32/40 rows, list discipline, tabular figures ────── */
 
@@ -2117,9 +2104,8 @@ body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);borde
 
 @media (max-width:768px){
   body.lin-v2{--lin-gutter:16px}
-  body.lin-v2 .lin-cmdk-btn .lin-cmdk-label,
-  body.lin-v2 .lin-cmdk-btn .lin-kbd{display:none}
-  body.lin-v2 .lin-cmdk-btn{width:28px;padding:0;justify-content:center}
+  body.lin-v2 .lin-search{width:clamp(180px,min(38vw,260px),260px)}
+  body.lin-v2 .lin-search-kbd{display:none}
   body.lin-v2 .lin-crumb{max-width:38vw}
   body.lin-v2 .lin-filterbar{padding:0 16px}
 }
@@ -2129,8 +2115,8 @@ body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);borde
   body.lin-v2 .lin-topbar-inner{padding:0 8px 0 8px;gap:4px}
   body.lin-v2 .lin-topbar-inner > .logo{font-size:.8125rem}
   body.lin-v2 .lin-context{display:none}        /* the wordmark carries it */
-  body.lin-v2 .lin-cmdk{padding:8vh 8px 8px}
-  body.lin-v2 .lin-cmdk-panel{max-height:78vh}
+  body.lin-v2 .lin-search{width:min(46vw,220px)}
+  body.lin-v2 .lin-search-dd{width:min(88vw,320px)}
   /* Dense rows survive on a phone — this is a study surface, not a brochure.
      Only the tap targets in chrome grow. */
   body.lin-v2 .btn-icon{width:32px;height:32px}
@@ -2143,11 +2129,11 @@ body.lin-v2 .chat-input,body.lin-v2 .ai-input{min-height:var(--lin-row-lg);borde
 }
 
 @media (prefers-reduced-motion:reduce){
-  .lin-cmdk,.lin-cmdk-panel,body.lin-v2 .q-reveal{animation:none!important}
+  body.lin-v2 .lin-search-dd,body.lin-v2 .q-reveal{animation:none!important}
 }
 
 @media print{
-  body.lin-v2 .lin-viewheader,.lin-cmdk,body.lin-v2 .lin-cmdk-btn{display:none!important}
+  body.lin-v2 .lin-viewheader,body.lin-v2 .lin-search{display:none!important}
   body.lin-v2 .page-wrapper{margin-left:0}
 }
 
@@ -2264,11 +2250,10 @@ body.lin-v2 .acct-level .lvl-lv{color:var(--text)}
 /* The landing headline already has one red thing on it: the CTA. */
 body.lin-v2 .landing-hero h1 em{color:var(--text)}
 
-/* The palette's input is the whole panel's focus. Ringing the field inside an
-   already-floating dialog reads as an error state, so move the indicator out
-   to the panel edge — visible, but not a red box round the text. */
-.lin-cmdk-input:focus-visible{outline:none}
-.lin-cmdk-panel:focus-within{border-color:var(--accent-line)}
+/* The search field carries its own focus ring, so the input itself stays
+   clean while the sheet's edge picks up the accent. */
+body.lin-v2 .lin-search-input:focus{outline:none}
+body.lin-v2 .lin-search-dd:focus-within{border-color:var(--accent-line)}
 
 
 /* ─── 31 · Two details the screenshots caught ─────────────────────────────── */

@@ -162,3 +162,119 @@ body.lin-v2 .sidebar-logo a:focus{
    tabs (lin-tabstrip without lin-pagetabs) are untouched. */
 body.lin-v2 .lin-pagetabs{display:none}
 body.lin-v2 .lin-context{display:none}
+
+/* ── Search: a centered field under the top bar + a dropdown of results ──
+   The layout script creates .lin-search inside the top bar; these rules style
+   it. Production does NOT load linear-theme.css, so they live here — the
+   shipped skin that gold-blue is the base of. */
+
+body.lin-v2 .lin-search{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:0;height:100%;
+  display:flex;align-items:center;
+  width:clamp(240px,min(34vw,400px),400px);
+  z-index:10;
+}
+body.lin-v2 .lin-search > .lin-ico{
+  position:absolute;left:12px;top:50%;margin-top:-8px;
+  color:var(--text3);
+  pointer-events:none;
+}
+body.lin-v2 .lin-search-input{
+  width:100%;height:32px;
+  padding:0 34px 0 32px;
+  border:1px solid var(--border2);
+  border-radius:var(--radius-sm);
+  background:var(--surface2);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:.8125rem;letter-spacing:-.006em;
+  outline:none;
+  transition:background var(--lin-t) ease,border-color var(--lin-t) ease,box-shadow var(--lin-t) ease;
+}
+body.lin-v2 .lin-search-input::placeholder{color:var(--text3)}
+body.lin-v2 .lin-search-input:focus{
+  background:var(--surface);
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
+}
+body.lin-v2 .lin-search-kbd{
+  position:absolute;right:10px;top:50%;margin-top:-10px;
+  font-family:var(--font-mono,monospace);
+  font-size:.6875rem;font-weight:600;
+  font-variant-numeric:tabular-nums;
+  color:var(--text3);
+  border:1px solid var(--border2);
+  border-radius:4px;
+  padding:2px 5px;
+  background:var(--bg);
+  line-height:1.25;
+  pointer-events:none;
+}
+body.lin-v2 .lin-search:focus-within .lin-search-kbd{display:none}
+body.lin-v2 .lin-search-dd{
+  position:absolute;
+  top:calc(100% + 6px);
+  left:50%;
+  transform:translateX(-50%);
+  width:min(560px,calc(100vw - 32px));
+  max-height:min(62vh,480px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  margin:0;padding:6px;
+  list-style:none;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  z-index:500;
+  animation:lin-rise .14s var(--lin-ease);
+}
+body.lin-v2 .lin-search-dd[hidden]{display:none}
+body.lin-v2 .lin-search-empty{
+  padding:24px 16px;
+  color:var(--text3);
+  font-size:.8125rem;
+}
+/* Group + row styles inside the dropdown. */
+body.lin-v2 .lin-search-dd .lin-cmdk-group{
+  padding:10px 8px 4px;
+  font-size:.6875rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);
+}
+body.lin-v2 .lin-search-dd .lin-cmdk-item{
+  display:flex;align-items:center;gap:10px;
+  min-height:32px;
+  padding:0 8px;
+  border-radius:var(--radius-sm);
+  color:var(--text2);
+  font-size:.8125rem;
+  cursor:pointer;
+}
+body.lin-v2 .lin-search-dd .lin-cmdk-item.on{background:var(--accent-bg);color:var(--text)}
+body.lin-v2 .lin-search-dd .lin-cmdk-item.on .lin-ico{color:var(--accent)}
+body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-label{
+  flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
+  flex:none;
+  font-family:var(--font-mono,monospace);
+  font-size:.6875rem;
+  font-variant-numeric:tabular-nums;
+  color:var(--text3);
+}
+
+@keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+@media (max-width:768px){
+  body.lin-v2 .lin-search{width:clamp(170px,min(38vw,240px),240px)}
+  body.lin-v2 .lin-search-kbd{display:none}
+}
+@media (max-width:600px){
+  body.lin-v2 .lin-search{width:min(50vw,220px)}
+  body.lin-v2 .lin-search-dd{width:min(88vw,320px)}
+}

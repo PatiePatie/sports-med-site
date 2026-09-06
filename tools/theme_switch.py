@@ -48,6 +48,11 @@ THEME_CSS = "vitalite-skin.css"
 # skin that is paint only — `off` strips either shape.
 LAYOUT_JS = "linear-layout.js"
 
+# Pages the draft never touches — auth/account surfaces keep their own chrome
+# (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
+# these; `status` leaves them out of the report.
+EXCLUDE = {"login.html"}
+
 BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
@@ -75,7 +80,7 @@ FONT_OFF_RE = re.compile(
 
 
 def pages():
-    return sorted(p for p in ROOT.glob("*.html"))
+    return sorted(p for p in ROOT.glob("*.html") if p.name not in EXCLUDE)
 
 
 def has_draft(text):

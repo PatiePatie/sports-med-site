@@ -36,9 +36,12 @@ END = "<!-- DRAFT-THEME:END -->"
 
 # The active skin. A skin is a cosmetic layer that starts with
 # `@import url('draft-theme.css');` and then restates the tokens, so swapping
-# this one name re-skins every page. "linear-theme.css" is the Linear.app skin;
-# set it back to "draft-theme.css" for the bare Editorial Surgical layer.
-THEME_CSS = "gold-blue-theme.css"
+# this one name re-skins every page. "linear-theme.css" is the full Linear.app
+# skin (white paper + Vitalite Red); "vitalite-skin.css" is the production skin
+# (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
+# sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
+# for the bare Editorial Surgical layer.
+THEME_CSS = "vitalite-skin.css"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a

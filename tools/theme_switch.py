@@ -41,7 +41,7 @@ END = "<!-- DRAFT-THEME:END -->"
 # (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
 # sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
 # for the bare Editorial Surgical layer.
-THEME_CSS = "vitalite-skin.css?v=1"
+THEME_CSS = "vitalite-skin.css?v=2"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
@@ -49,7 +49,7 @@ THEME_CSS = "vitalite-skin.css?v=1"
 LAYOUT_JS = "linear-layout.js"
 # Cache-bust pin for the layout script — matches the ?v=2 pin on origin/main
 # (PR #64 bumped it past poisoned v6/v7 variants).
-LAYOUT_JS_PIN = "?v=2" if LAYOUT_JS else ""
+LAYOUT_JS_PIN = "?v=4" if LAYOUT_JS else ""
 
 # Cache-bust pins for the Q&A widget + notification bell (CSS + JS). These were
 # previously unversioned, so a change here silently lingered in CF/browser caches.

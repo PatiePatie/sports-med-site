@@ -58,6 +58,13 @@ QNA_CSS_PIN = "?v=1"
 QNA_JS_PIN  = "?v=1"
 BELL_CSS_PIN = "?v=1"
 BELL_JS_PIN  = "?v=1"
+CHECKUP_CSS_PIN = "?v=2"
+CHECKUP_JS_PIN  = "?v=2"
+
+# Pages that run the Checkup symptom-triage app (PR: body checkup).
+# infirmary.html hosts the <section id="checkup">; every other page would just
+# load two dead files, so scope the includes like SECTIONS_JS_PAGES above.
+CHECKUP_PAGES = {"infirmary.html"}
 
 # Pages the draft never touches — auth/account surfaces keep their own chrome
 # (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
@@ -86,6 +93,13 @@ BLOCK = (
     + '<link rel="stylesheet" href="notif-bell.css'+BELL_CSS_PIN+'">\n'
     + '<script src="notif-bell.js'+BELL_JS_PIN+'" defer></script>\n'
     + f"{END}\n"
+)
+
+# Extra includes only for pages that host the Checkup app (see CHECKUP_PAGES).
+# Kept separate from BLOCK so one `on` can't spray them across every page.
+CHECKUP_BLOCK = (
+    '<link rel="stylesheet" href="checkup.css'+CHECKUP_CSS_PIN+'">\n'
+    + '<script src="checkup.js'+CHECKUP_JS_PIN+'" defer></script>\n'
 )
 
 # Whole-block matcher used by `off` / idempotence checks.
@@ -147,6 +161,12 @@ def apply_on(path):
             '<script src="draft.js" defer></script>',
             '<script src="sections.js' + SECTIONS_JS_PIN + '" defer></script>\n'
             + '<script src="draft.js" defer></script>',
+            1,
+        )
+    if path.name in CHECKUP_PAGES:
+        block = block.replace(
+            f"{END}",
+            CHECKUP_BLOCK + f"{END}",
             1,
         )
 

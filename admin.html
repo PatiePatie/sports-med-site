@@ -929,7 +929,8 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="admin.html" data-en="🛠 Moderation" data-zh="🛠 用户管理">🛠 Moderation</a>
+      <a class="sidebar-link" href="admin.html#moderation" data-en="🛠 Moderation" data-zh="🛠 用户管理">🛠 Moderation</a>
+      <a class="sidebar-link" href="admin.html#designer" data-en="🎨 Site Designer" data-zh="🎨 站点设计器">🎨 Site Designer</a>
       <a class="sidebar-link" href="admin.html#editor" data-en="📝 Content Editor" data-zh="📝 内容编辑">📝 Content Editor</a>
     </div>
   </div>
@@ -1041,37 +1042,43 @@ function renderConsole(u){
     +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">Dr7</div><div class="k" id="stDr7" style="color:rgba(255,255,255,.7)">—</div></div>'
     +'</div></div>';
 
-  html+='<div class="adm"><h1>👥 '+t('Members','用户管理')+'</h1>'
+  /* ══ Tab 1 · Moderation (Members + Dr7 + Q&A Inbox + Forum Moderation) ══ */
+  var modView=''
+    +'<div class="adm"><h1>👥 '+t('Members','用户管理')+'</h1>'
     +'<div class="adm-msg" id="admMsg"></div>'
     +'<div id="usersTable"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'加载用户…':'Loading users…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Freezing blocks the user from signing in and using the AI. Deleting permanently removes the account.','冻结可阻止用户登录并使用 AI；删除将永久移除账号。')+'</p>'
     +'</div>';
 
-  html+='<div class="adm"><h1>🤖 Dr7.ai '+t('Usage · API Remaining','用量 · 剩余额度')+'</h1>'
+  modView+='<div class="adm"><h1>🤖 Dr7.ai '+t('Usage · API Remaining','用量 · 剩余额度')+'</h1>'
     +'<div class="adm-dr7row" id="dr7Stats"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Usage is logged server-side when the AI helper is used. The live remaining-quota number comes from your Dr7.ai dashboard.','AI 助手被使用时会在服务端记录用量；实时剩余额度请查看 Dr7.ai 控制台。')+'</p>'
     +'<div class="adm-dr7row" style="margin-top:1rem">'
     +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
     +'</div></div>';
 
-  html+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
+  modView+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
     +'<div class="adm-msg" id="qnaInboxMsg"></div>'
     +'<div id="qnaInboxBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取消息…':'Loading messages…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Messages and reports from the Q&amp;A button (bottom-left of every page). Open a message to mark it read; Delete removes it permanently; Reply sends a notification back to that user.','来自各页左下角问答按钮的消息与举报。打开消息即标记为已读；删除将永久移除；回复会向该用户发送通知。')+'</p>'
     +'</div>';
 
-  html+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
+  modView+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
     +'<div class="adm-msg" id="forumModMsg"></div>'
     +'<div id="forumModBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取举报…':'Loading reports…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Reported topics and replies land here. Hide keeps the post (and its replies) out of the public forum; Delete removes it permanently.','被举报的主题与回复会出现在这里。隐藏会让帖子及其回复从公开论坛中消失；删除将永久移除。')+'</p>'
     +'</div>';
 
-  html+='<div class="adm" id="siteEditor"><h1>🎨 '+t('Site Editor','站点编辑器')+'</h1>'
+  /* ══ Tab 2 · Site Designer (visual canvas editor) ══ */
+  var desView=''
+    +'<div class="adm" id="siteEditor"><h1>🎨 '+t('Site Designer','站点设计器')+'</h1>'
     +'<p class="adm-note" style="margin-top:.15rem">'+t('Pick a page, pick a section, then edit it visually on a live canvas. Drafts stay on this device only; Publish pushes the section live for every visitor, in English and 中文.','选择页面与区块，在实时画布上进行可视化编辑。草稿仅保存在本机；发布后该区块的中英文内容将对所有访客生效。')+'</p>'
     +'<div id="siteEditorRoot"></div>'
     +'</div>';
 
-  html+='<div class="adm" id="editor">'
+  /* ══ Tab 3 · Content Editor (legacy text editor) ══ */
+  var edView=''
+    +'<div class="adm" id="editor">'
     +'<details><summary style="cursor:pointer;font-size:1.05rem;font-weight:800;font-family:var(--font-heading);list-style:revert">📝 '+t('Legacy text editor','旧版文本编辑器')+'</summary>'
     +'<p class="adm-note">'+t('Edit chapter content directly. Changes save to THIS browser and override the original content on the study guide page — visible only to you, for quick drafting before a real edit.','直接编辑章节内容。更改保存在此浏览器，并覆盖学习指南页面的原始内容——仅对你可见，用于正式编辑前快速起草。')+'</p>'
     +'<div id="contentEditorList"></div>'
@@ -1094,13 +1101,33 @@ function renderConsole(u){
     +'</div></div>'
     +'</div>';
 
+  html+='<div class="adm-view" id="view-moderation">'+modView+'</div>'
+    +'<div class="adm-view" id="view-designer" style="display:none">'+desView+'</div>'
+    +'<div class="adm-view" id="view-editor" style="display:none">'+edView+'</div>';
+
   showRoot(html);
+  applyView();
   loadUsers(u);
   loadDr7Usage();
   loadQnaInbox();
   loadForumMod();
   applyLang();
 }
+
+/* ============ Tab routing — Dev Tools views are hash-driven ============ */
+function applyView(){
+  var hash=String(location.hash||'').replace('#','').split('?')[0];
+  var view=(hash==='designer')?'designer':((hash==='editor')?'editor':'moderation');
+  ['moderation','designer','editor'].forEach(function(v){
+    var el=document.getElementById('view-'+v);
+    if(el) el.style.display=(v===view)?'':'none';
+  });
+  document.querySelectorAll('.sidebar-group[data-part="vitalite-dev"] .sidebar-link').forEach(function(a){
+    var h=String(a.getAttribute('href')||'').split('#')[1]||'moderation';
+    a.classList.toggle('active', h===view);
+  });
+}
+window.addEventListener('hashchange',applyView);
 
 /* ============ Members ============ */
 /* Rendered as a filterable list rather than a six-column table — the table

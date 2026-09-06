@@ -34,17 +34,30 @@
         login.html will find no session to re-import
      3) hand off to login.html?out=1 (the guards there are belt+braces) ---- */
   var V_SB={ url:'https://iftuqkfjwqnythhwencx.supabase.co', ref:'iftuqkfjwqnythhwencx', anon:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdHVxa2Zqd3FueXRoaHdlbmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwODM2MDMsImV4cCI6MjEwMzY1OTYwM30.VFB8ZKFOKTPsgyw_IQNH_HGN1JDo44XWAJQPz1MZ8VQ' };
+  /* If the page itself declares Supabase config (login/admin do), prefer it —
+     so a project switch keeps logout working without touching this file.
+     Otherwise fall back to the embedded public config. */
+  function sbCfg(){
+    try{
+      if(window.SB_URL && window.SB_ANON && String(window.SB_URL).indexOf('PASTE')===-1){
+        var m=String(window.SB_URL).match(/https:\/\/([a-z0-9]+)\.supabase\.co/);
+        if(m && m[1]) return { url:String(window.SB_URL), ref:m[1], anon:String(window.SB_ANON) };
+      }
+    }catch(e){}
+    return V_SB;
+  }
   function logout(){
+    var cfg=sbCfg();
     var done=function(){
       try{ localStorage.removeItem('sm_user'); }catch(e){}
-      try{ localStorage.removeItem('sb-'+V_SB.ref+'-auth-token'); }catch(e){}
+      try{ localStorage.removeItem('sb-'+cfg.ref+'-auth-token'); }catch(e){}
       window.location.href='login.html?out=1';
     };
     try{
-      var raw=localStorage.getItem('sb-'+V_SB.ref+'-auth-token');
+      var raw=localStorage.getItem('sb-'+cfg.ref+'-auth-token');
       var tok=null; if(raw){ try{ tok=JSON.parse(raw); }catch(e){} }
       if(tok && tok.access_token){
-        fetch(V_SB.url+'/auth/v1/logout',{ method:'POST', headers:{ apikey:V_SB.anon, 'Authorization':'Bearer '+tok.access_token } })
+        fetch(cfg.url+'/auth/v1/logout',{ method:'POST', headers:{ apikey:cfg.anon, 'Authorization':'Bearer '+tok.access_token } })
           .then(done).catch(done);
         return;
       }

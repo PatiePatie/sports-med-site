@@ -397,6 +397,14 @@ function injectCSS(){
   +'.se-canvas.edit .se-blk{position:relative}'
   +'.se-canvas.edit .se-blk.se-sel-blk{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent);border-radius:var(--radius-sm)}'
   +'.se-canvas .se-hidden{opacity:.34;outline:1px dashed var(--red);outline-offset:3px}'
+  /* ---- free layout ---- */
+  +'.se-free{position:relative;width:100%}'
+  +'.se-free > *{position:absolute}'
+  +'.se-canvas.edit .se-free{background-image:radial-gradient(color-mix(in srgb,var(--text3) 34%,transparent) 1px,transparent 1px);background-size:8px 8px}'
+  +'.se-canvas.edit .se-free > *{cursor:move}'
+  +'.se-canvas.edit .se-free > *.se-dragging{opacity:.85;box-shadow:var(--shadow-lg);z-index:99}'
+  +'.se-rs{position:absolute;right:-6px;bottom:-6px;width:13px;height:13px;border-radius:3px;background:var(--accent);border:2px solid var(--surface);cursor:nwse-resize;z-index:100}'
+  +'.se-canvas.preview .se-free{background-image:none}'
   +'.se-canvas.preview .se-hidden{display:none}'
   +'.se-canvas [contenteditable="true"]{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;background:color-mix(in srgb,var(--accent) 8%,transparent)}'
   /* ---- floating block toolbar ---- */
@@ -419,6 +427,8 @@ function injectCSS(){
   +'.se-empty{padding:2rem 1rem;text-align:center;color:var(--text3);font-size:.86rem}'
   /* ---- responsive: palette drops under the canvas below 920px ---- */
   +'@media(max-width:920px){'
+  +'.se-free:not(.se-free-fixed){min-height:0!important}'
+  +'.se-free:not(.se-free-fixed) > *{position:static!important;left:auto!important;top:auto!important;width:auto!important;margin:0 0 1rem!important}'
   +'#seModal{padding:0}'
   +'.se-shell{width:100vw;height:100vh;border-radius:0;border:none}'
   +'.se-body{flex-direction:column}'
@@ -602,6 +612,7 @@ function ensureModal(){
   $('sePublish').addEventListener('click', publish);
 
   content().addEventListener('click', onCanvasClick);
+  content().addEventListener('pointerdown', onCanvasPointerDown);
   $('seStage').addEventListener('scroll', positionTools);
   window.addEventListener('resize', positionTools);
 
@@ -627,6 +638,12 @@ function onKey(e){
     if(e.shiftKey) redo(); else undo();
   }
   if(mod && String(e.key).toLowerCase()==='s'){ e.preventDefault(); saveDraft(); }
+  if(!mod && /^Arrow(Up|Down|Left|Right)$/.test(e.key)){
+    if(document.activeElement && document.activeElement.isContentEditable) return;
+    var dx = e.key==='ArrowLeft' ? -1 : e.key==='ArrowRight' ? 1 : 0;
+    var dy = e.key==='ArrowUp'   ? -1 : e.key==='ArrowDown'  ? 1 : 0;
+    if(nudge(dx,dy,e.shiftKey)) e.preventDefault();
+  }
 }
 
 function openEditor(page,id){
@@ -678,7 +695,8 @@ function setStatus(s){ var el=$('seStatus'); if(el) el.textContent=s; }
 function markBlocks(){
   var c=content();
   if(!c) return;
-  var kids=c.children;
+  var host=c.querySelector(':scope > .se-free') || c;
+  var kids=host.children;
   for(var i=0;i<kids.length;i++) kids[i].classList.add('se-blk');
   var all=c.querySelectorAll('*');
   for(var k=0;k<all.length;k++){
@@ -689,8 +707,13 @@ function markBlocks(){
 }
 
 /* ═══════════════════════ Selection + floating toolbar ═══════════════════ */
+/* In free-layout mode the blocks are children of the .se-free wrapper rather
+   than of #seContent, so every block operation goes through this. */
+function freeWrap(){ var c=content(); return c ? c.querySelector(':scope > .se-free') : null; }
+function isFree(){ return !!freeWrap(); }
+function blockParent(){ return freeWrap() || content(); }
 function blockOf(el){
-  var c=content();
+  var c=blockParent();
   while(el && el.parentNode!==c){ el=el.parentNode; if(!el || el===document.body) return null; }
   return el;
 }
@@ -709,6 +732,7 @@ function select(el){
   if(b) b.classList.add('se-sel-blk');
   positionTools();
   renderPalette();
+  placeResizeGrip();
 }
 function hideTools(){ var tb=$('seBlockTools'); if(tb) tb.classList.remove('on'); }
 function positionTools(){
@@ -728,6 +752,7 @@ function positionTools(){
 
 function onCanvasClick(e){
   if(previewMode) return;
+  if(justDragged) return;          /* the pointerup that ended a drag */
   var el=e.target;
   if(el===content()) { select(null); closeLangPop(); return; }
   e.preventDefault();
@@ -821,10 +846,22 @@ function applyLangPop(){
 }
 
 /* ═══════════════════════════ Undo / redo ═══════════════════════════ */
+/* Snapshots must hold content only — never editor chrome. The resize grip is a
+   live DOM decoration, so strip it from the captured string or undo/redo can
+   bake it in or duplicate it. */
+function cleanHTML(){
+  var c=content();
+  if(!c) return '';
+  if(!c.querySelector('.se-rs')) return c.innerHTML;
+  var clone=c.cloneNode(true);
+  var g=clone.querySelectorAll('.se-rs');
+  for(var i=0;i<g.length;i++) g[i].parentNode.removeChild(g[i]);
+  return clone.innerHTML;
+}
 function snapshot(initial){
   var c=content();
   if(!c) return;
-  var html=c.innerHTML;
+  var html=cleanHTML();
   if(!initial && undoAt>=0 && undoStack[undoAt]===html) return;
   undoStack = undoStack.slice(0, undoAt+1);
   undoStack.push(html);
@@ -842,6 +879,7 @@ function restore(i){
   hideTools();
   closeLangPop();
   renderPalette();
+  placeResizeGrip();
   syncUndoBtns();
 }
 function undo(){ if(undoAt>0) restore(undoAt-1); }
@@ -856,13 +894,20 @@ function syncUndoBtns(){
 function blockAction(act){
   var b=selEl?blockOf(selEl):null;
   if(!b){ toast(t('Select a block first.','请先选择一个区块。'),false); return; }
-  var c=content();
+  var c=blockParent();
+  if(act==='front'){ b.style.zIndex=String(topZ()+1); markBlocks(); snapshot(); return; }
+  if(act==='back'){ b.style.zIndex='0'; markBlocks(); snapshot(); return; }
   if(act==='up'){ if(b.previousElementSibling) c.insertBefore(b, b.previousElementSibling); }
   else if(act==='down'){ if(b.nextElementSibling) c.insertBefore(b.nextElementSibling, b); }
   else if(act==='dup'){
     var cp=b.cloneNode(true);
     cp.classList.remove('se-sel','se-sel-blk');
     c.insertBefore(cp, b.nextSibling);
+    if(isFree()){
+      cp.style.left = (pctLeft(b) + 2) + '%';
+      cp.style.top  = (parseFloat(b.style.top||0) + 24) + 'px';
+      cp.style.zIndex = String(topZ()+1);
+    }
   }
   else if(act==='hide'){
     if(b.getAttribute('data-se-hidden')==='1'){ b.removeAttribute('data-se-hidden'); b.classList.remove('se-hidden'); }
@@ -888,7 +933,7 @@ var BLOCK_TPL = {
   image:    function(url,alt){ return '<img class="inline-img" src="'+esc(url)+'" alt="'+esc(alt||'')+'" loading="lazy">'; }
 };
 function addBlock(kind){
-  var c=content();
+  var c=blockParent();
   if(!c || !cur) return;
   var html;
   if(kind==='image'){
@@ -907,11 +952,237 @@ function addBlock(kind){
   if(!node) return;
   var b=selEl?blockOf(selEl):null;
   if(b && b.nextSibling) c.insertBefore(node, b.nextSibling);
-  else if(b) c.appendChild(node);
   else c.appendChild(node);
+  if(isFree()){
+    node.style.position='absolute';
+    node.style.left = (b ? pctLeft(b)+2 : 6) + '%';
+    node.style.top  = (b ? parseFloat(b.style.top||0)+40 : 24) + 'px';
+    node.style.width = (b ? (parseFloat(b.style.width)||46) : 46) + '%';
+    node.style.zIndex = String(topZ()+1);
+    growWrap();
+  }
   markBlocks();
   snapshot();
-  select(node.hasAttribute('data-se-hit')?node:node);
+  select(node);
+}
+
+/* ═══════════════════════════ Free layout mode ═══════════════════════════ */
+/* Opt-in per section. Blocks become absolutely positioned inside a .se-free
+   wrapper and can be dragged to any x/y and resized. Geometry is stored as
+   left/width in % of the wrapper and top in px, so the layout scales with the
+   container width instead of being pinned to one screen size.
+
+   The wrapper carries the geometry in inline styles, so it survives the
+   sanitizer and round-trips through en_html / zh_html untouched. */
+
+var GRID = 8;                 /* snap step in px; hold Alt to place freely */
+var dragState = null;
+var justDragged = false;      /* suppresses the click that follows a drag   */
+
+function pctLeft(b){ return parseFloat(b.style.left) || 0; }
+function topZ(){
+  var host=blockParent(), max=0;
+  if(!host) return 0;
+  for(var i=0;i<host.children.length;i++){
+    var z=parseInt(host.children[i].style.zIndex,10);
+    if(!isNaN(z) && z>max) max=z;
+  }
+  return max;
+}
+/* Keep the wrapper tall enough to contain the lowest block. */
+function growWrap(){
+  var w=freeWrap();
+  if(!w) return;
+  var low=0;
+  for(var i=0;i<w.children.length;i++){
+    var b=w.children[i];
+    var bottom=(parseFloat(b.style.top)||0) + b.offsetHeight;
+    if(bottom>low) low=bottom;
+  }
+  w.style.minHeight=Math.max(200, Math.ceil(low)+40)+'px';
+}
+
+/* ── flow -> free: freeze what is already on screen so nothing jumps ── */
+function enterFreeMode(){
+  var c=content();
+  if(!c || isFree()) return;
+  var kids=Array.prototype.slice.call(c.children);
+  if(!kids.length){ toast(t('Nothing to position yet — add a block first.','还没有可定位的内容 — 请先添加区块。'),false); return; }
+
+  var cRect=c.getBoundingClientRect();
+  var geo=[];
+  for(var i=0;i<kids.length;i++){
+    var r=kids[i].getBoundingClientRect();
+    geo.push({
+      left: cRect.width ? ((r.left-cRect.left)/cRect.width*100) : 0,
+      top:  r.top-cRect.top,
+      width:cRect.width ? (r.width/cRect.width*100) : 100
+    });
+  }
+  var wrap=document.createElement('div');
+  wrap.className='se-free';
+  wrap.style.position='relative';
+  while(c.firstChild) wrap.appendChild(c.firstChild);
+  c.appendChild(wrap);
+
+  for(var k=0;k<kids.length;k++){
+    var b=kids[k], g=geo[k];
+    b.style.position='absolute';
+    b.style.left=round2(g.left)+'%';
+    b.style.top=Math.round(g.top)+'px';
+    b.style.width=round2(g.width)+'%';
+    b.style.margin='0';
+  }
+  growWrap();
+  markBlocks();
+  snapshot();
+  renderPalette();
+  toast(t('Free layout on — drag any block to move it, drag its corner to resize.','自由布局已开启 — 拖动区块移动，拖动右下角调整大小。'), true);
+}
+
+/* ── free -> flow: drop positioning, keep the visual top-to-bottom order ── */
+function exitFreeMode(){
+  var c=content(), w=freeWrap();
+  if(!c || !w) return;
+  var kids=Array.prototype.slice.call(w.children);
+  kids.sort(function(a,b){
+    var d=(parseFloat(a.style.top)||0)-(parseFloat(b.style.top)||0);
+    return d!==0 ? d : (pctLeft(a)-pctLeft(b));
+  });
+  for(var i=0;i<kids.length;i++){
+    var b=kids[i];
+    b.style.position=''; b.style.left=''; b.style.top='';
+    b.style.width=''; b.style.zIndex=''; b.style.margin='';
+    if(!b.getAttribute('style')) b.removeAttribute('style');
+    c.appendChild(b);
+  }
+  c.removeChild(w);
+  markBlocks();
+  snapshot();
+  renderPalette();
+  toast(t('Back to flow layout — blocks stack in order again.','已恢复流式布局 — 区块重新按顺序排列。'), true);
+}
+function round2(n){ return Math.round(n*100)/100; }
+
+/* Positions fixed at every width, vs reflowing to a readable stack on phones.
+   Default is to reflow; this toggle pins them instead. */
+function toggleMobileFixed(){
+  var w=freeWrap();
+  if(!w) return;
+  w.classList.toggle('se-free-fixed');
+  snapshot();
+  renderPalette();
+  toast(w.classList.contains('se-free-fixed')
+    ? t('Positions now fixed at every screen width — check narrow screens yourself.','已在所有屏幕宽度固定位置 — 请自行检查窄屏效果。')
+    : t('Narrow screens will stack these blocks in order again.','窄屏将重新按顺序堆叠这些区块。'), true);
+}
+
+/* ═══════════════════════════ Drag + resize ═══════════════════════════ */
+function onCanvasPointerDown(e){
+  if(previewMode || !isFree()) return;
+  if(e.button !== 0 && e.pointerType === 'mouse') return;
+  var el=e.target;
+  if(el && el.getAttribute && el.getAttribute('contenteditable')==='true') return;
+  if(el && el.closest && el.closest('[contenteditable="true"]')) return;
+
+  var resizing = !!(el && el.classList && el.classList.contains('se-rs'));
+  var b = resizing ? blockOf(el.parentNode) || el.parentNode : blockOf(el);
+  if(!b) return;
+
+  var wrap=freeWrap();
+  var wRect=wrap.getBoundingClientRect();
+  dragState={
+    b:b, resizing:resizing, moved:false,
+    startX:e.clientX, startY:e.clientY,
+    wrapW:wRect.width||1,
+    origLeft:pctLeft(b),
+    origTop:parseFloat(b.style.top)||0,
+    origW:parseFloat(b.style.width)|| (b.offsetWidth/(wRect.width||1)*100)
+  };
+  try{ e.target.setPointerCapture && e.target.setPointerCapture(e.pointerId); }catch(err){}
+  document.addEventListener('pointermove', onCanvasPointerMove);
+  document.addEventListener('pointerup', onCanvasPointerUp);
+}
+function onCanvasPointerMove(e){
+  if(!dragState) return;
+  var dx=e.clientX-dragState.startX, dy=e.clientY-dragState.startY;
+  if(!dragState.moved && Math.abs(dx)<4 && Math.abs(dy)<4) return;  /* click, not drag */
+  if(!dragState.moved){
+    dragState.moved=true;
+    dragState.b.classList.add('se-dragging');
+    closeLangPop();
+  }
+  e.preventDefault();
+  var snap = !e.altKey;
+  var b=dragState.b, wpx=dragState.wrapW;
+
+  if(dragState.resizing){
+    var wPx = (dragState.origW/100*wpx) + dx;
+    if(snap) wPx = Math.round(wPx/GRID)*GRID;
+    wPx = Math.max(GRID*4, Math.min(wpx, wPx));
+    b.style.width = round2(wPx/wpx*100)+'%';
+  } else {
+    var lPx = (dragState.origLeft/100*wpx) + dx;
+    var tPx = dragState.origTop + dy;
+    if(snap){ lPx=Math.round(lPx/GRID)*GRID; tPx=Math.round(tPx/GRID)*GRID; }
+    lPx = Math.max(-wpx*0.25, Math.min(wpx*0.98, lPx));
+    tPx = Math.max(0, tPx);
+    b.style.left = round2(lPx/wpx*100)+'%';
+    b.style.top  = Math.round(tPx)+'px';
+  }
+  growWrap();
+  positionTools();
+  updateGeoReadout();
+}
+function onCanvasPointerUp(){
+  document.removeEventListener('pointermove', onCanvasPointerMove);
+  document.removeEventListener('pointerup', onCanvasPointerUp);
+  if(!dragState) return;
+  var moved=dragState.moved;
+  dragState.b.classList.remove('se-dragging');
+  dragState=null;
+  if(moved){
+    justDragged=true;
+    setTimeout(function(){ justDragged=false; }, 0);
+    growWrap();
+    markBlocks();
+    snapshot();
+    renderPalette();
+  }
+}
+/* Arrow keys nudge the selected block: 1px, or one grid step with Shift. */
+function nudge(dx,dy,big){
+  var b=selEl?blockOf(selEl):null;
+  if(!b || !isFree()) return false;
+  var wrap=freeWrap();
+  var wpx=wrap.getBoundingClientRect().width||1;
+  var step=big?GRID:1;
+  b.style.left = round2(((pctLeft(b)/100*wpx)+dx*step)/wpx*100)+'%';
+  b.style.top  = Math.max(0,(parseFloat(b.style.top)||0)+dy*step)+'px';
+  growWrap();
+  positionTools();
+  updateGeoReadout();
+  snapshot();
+  return true;
+}
+function updateGeoReadout(){
+  var el=$('seGeo');
+  if(!el) return;
+  var b=selEl?blockOf(selEl):null;
+  if(!b || !isFree()){ el.textContent=''; return; }
+  el.textContent='x '+Math.round(pctLeft(b))+'%  ·  y '+Math.round(parseFloat(b.style.top)||0)+'px  ·  w '+Math.round(parseFloat(b.style.width)||0)+'%';
+}
+/* The resize grip lives on the selected block only. */
+function placeResizeGrip(){
+  var old=content()?content().querySelectorAll('.se-rs'):[];
+  for(var i=0;i<old.length;i++) old[i].parentNode.removeChild(old[i]);
+  if(previewMode || !isFree() || !selEl) return;
+  var b=blockOf(selEl);
+  if(!b) return;
+  var g=document.createElement('div');
+  g.className='se-rs';
+  g.title=t('Drag to resize','拖动调整大小');
+  b.appendChild(g);
 }
 
 /* ═══════════════════════════ Tool palette ═══════════════════════════ */
@@ -975,6 +1246,35 @@ function renderPalette(){
       +'</div></div>';
   }
 
+  var free=isFree();
+  h+='<div class="se-grp"><h4>'+t('Layout','布局')+'</h4>'
+    +'<div class="se-row">'
+    +'<button type="button" class="se-b sm'+(!free?' on':'')+'" data-se-layout="flow">'+t('Flow','流式')+'</button>'
+    +'<button type="button" class="se-b sm'+(free?' on':'')+'" data-se-layout="free">'+t('Free drag','自由拖动')+'</button>'
+    +'</div>';
+  if(free){
+    var fw=freeWrap();
+    var fixed=fw && fw.classList.contains('se-free-fixed');
+    if(has){
+      h+='<div class="se-row" style="margin-top:.4rem">'
+        +'<button type="button" class="se-b sm" data-se-blk="front">'+t('Bring to front','置于顶层')+'</button>'
+        +'<button type="button" class="se-b sm" data-se-blk="back">'+t('Send to back','置于底层')+'</button>'
+        +'</div>'
+        +'<div class="se-selinfo" id="seGeo" style="margin-top:.4rem"></div>';
+    }
+    h+='<label style="display:flex;align-items:flex-start;gap:.4rem;font-size:.74rem;font-weight:600;color:var(--text2);margin-top:.5rem;cursor:pointer">'
+      +'<input type="checkbox" id="seFixed"'+(fixed?' checked':'')+' style="margin-top:.15rem">'
+      +'<span>'+t('Keep exact positions on phones','在手机上保持精确位置')+'</span></label>'
+      +'<div class="se-hint" style="margin-top:.25rem">'
+      + (fixed ? t('Positions are pinned at every width. Narrow screens may overlap or clip — check them.','位置在所有宽度下固定。窄屏可能重叠或裁切 — 请自行检查。')
+               : t('Below 920px these blocks stack in top-to-bottom order so the page stays readable.','在 920px 以下，这些区块将按从上到下的顺序堆叠，以保证可读性。'))
+      +'</div>';
+  }
+  h+='<div class="se-hint" style="margin-top:.4rem">'
+    + (free ? t('Drag a block to move it, drag its corner to resize. Arrow keys nudge, Shift+arrows move by 8px, hold Alt to ignore the grid.','拖动区块移动，拖动右下角调整大小。方向键微调，Shift+方向键按 8px 移动，按住 Alt 忽略网格。')
+            : t('Blocks stack in order. Switch to Free drag to place them anywhere.','区块按顺序排列。切换到自由拖动可任意摆放。'))
+    +'</div></div>';
+
   h+='<div class="se-grp"><h4>'+t('Add block','添加区块')+'</h4><div class="se-row">'
     +'<button type="button" class="se-b sm" data-se-add="heading">H '+t('Heading','标题')+'</button>'
     +'<button type="button" class="se-b sm" data-se-add="para">¶ '+t('Paragraph','段落')+'</button>'
@@ -996,6 +1296,12 @@ function renderPalette(){
   els=q('[data-se-align]'); for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){ setAlign(this.getAttribute('data-se-align')); });
   els=q('[data-se-blk]');  for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){ blockAction(this.getAttribute('data-se-blk')); });
   els=q('[data-se-add]');  for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){ addBlock(this.getAttribute('data-se-add')); });
+  els=q('[data-se-layout]');
+  for(i=0;i<els.length;i++) els[i].addEventListener('click',function(){
+    if(this.getAttribute('data-se-layout')==='free') enterFreeMode(); else exitFreeMode();
+  });
+  var fx=$('seFixed'); if(fx) fx.addEventListener('change', toggleMobileFixed);
+  updateGeoReadout();
   var col=$('seColor'); if(col) col.addEventListener('change',function(){ setColor(this.value); });
   var fs=$('seFs');
   if(fs){
@@ -1033,6 +1339,7 @@ function togglePreview(){
   $('sePreview').classList.toggle('on',previewMode);
   $('sePreview').textContent = previewMode ? ('✎ '+t('Back to editing','返回编辑')) : ('👁 '+t('Preview','预览'));
   if(previewMode){ clearSel(); hideTools(); closeLangPop(); }
+  placeResizeGrip();
   setStatus(previewMode
     ? t('Preview — this is how the section reads with the draft applied. Visitors do NOT see this.','预览 — 这是应用草稿后的效果。访客看不到此内容。')
     : t('Editing','编辑中'));
@@ -1042,13 +1349,15 @@ function togglePreview(){
 /* Strip every editor-only artefact, then sanitize, then split into EN + ZH. */
 function exportPair(){
   var clone=content().cloneNode(true);
+  var grips=clone.querySelectorAll('.se-rs');
+  for(var g=0;g<grips.length;g++) grips[g].parentNode.removeChild(grips[g]);
   var all=clone.querySelectorAll('*');
   for(var i=0;i<all.length;i++){
     var el=all[i];
     el.removeAttribute('contenteditable');
     el.removeAttribute('spellcheck');
     el.removeAttribute('data-se-hit');
-    el.classList.remove('se-sel','se-sel-blk','se-blk','se-hidden');
+    el.classList.remove('se-sel','se-sel-blk','se-blk','se-hidden','se-dragging');
     if(el.getAttribute('class')==='') el.removeAttribute('class');
     if(el.getAttribute('data-se-hidden')==='1'){
       var s=el.getAttribute('style')||'';

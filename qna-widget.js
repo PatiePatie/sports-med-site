@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Vitalité — Q&A widget (bottom-left)
    Replaces the old "Send us a message" contact form with a site-wide
-   Q&A panel: FAQ answers, Report an issue, and a Contact-Devs form.
+   Q&A panel: FAQ answers plus a combined contact/report form.
    Messages land in the `qna_messages` Supabase table → Dev Console inbox.
 
    Self-contained IIFE: builds its own DOM, loads its own supabase client,
@@ -30,16 +30,15 @@
     sub:            { en:'Answers, reports & dev contact', zh:'常见问题、举报与联系开发者' },
     close:          { en:'Close',           zh:'关闭' },
     tabFaq:         { en:'FAQ',             zh:'常见问题' },
-    tabReport:      { en:'Report',          zh:'举报' },
-    tabContact:     { en:'Contact Devs',    zh:'联系开发者' },
+    tabContact:     { en:'Contact / Report', zh:'联系 / 举报' },
     faqHint:        { en:'Common questions, answered.', zh:'常见问题答疑。' },
-    reportTitle:    { en:'Report a problem',zh:'举报问题' },
-    reportHint:     { en:'Found something wrong — a broken link, wrong answer, offensive content? Tell us and we\'ll fix it.', zh:'发现错误——链接失效、答案有误、内容不当？告诉我们，我们会修复。' },
+    contactTitle:   { en:'Contact us or report a problem', zh:'联系我们或举报问题' },
+    contactHint:    { en:'Pick a mode below — send the dev team a message, or report something wrong. Every message lands in the developer inbox.', zh:'选择下方模式——给开发团队留言，或举报问题。每条消息都会进入开发者收件箱。' },
+    modeReport:     { en:'Report a problem', zh:'举报问题' },
+    modeContact:    { en:'Message the developers', zh:'联系开发者' },
     reportWhat:     { en:'What are you reporting?', zh:'你要举报什么？' },
     reportReasons:  [ {en:'Broken link / page',zh:'失效链接/页面'}, {en:'Wrong answer / content',zh:'答案/内容有误'}, {en:'Offensive / spam',zh:'不当内容/垃圾信息'}, {en:'Other',zh:'其他'} ],
-    reportDetail:   { en:'Details (optional)', zh:'详情（选填）' },
-    contactTitle:   { en:'Send a message to the developers', zh:'给开发者留言' },
-    contactHint:    { en:'Questions, suggestions, or feedback — the dev team reads every message.', zh:'问题、建议或反馈——开发团队会阅读每一条消息。' },
+    reportDetail:   { en:'Details',          zh:'详情' },
     contactName:    { en:'Your name (optional)', zh:'你的姓名（选填）' },
     contactEmail:   { en:'Your email (optional)', zh:'你的邮箱（选填）' },
     contactType:    { en:'Type',             zh:'类型' },
@@ -71,8 +70,8 @@
       zh:['网站内容支持双语吗？','支持——全站提供英文和简体中文。点击顶栏的 中 / EN 按钮即可切换。'] },
     { en:['How do I use the forum?','Open the 💬 Forum from the sidebar. Pick a category, read threads, and sign in to post or reply. You can upvote helpful posts and report anything inappropriate.'],
       zh:['如何使用论坛？','从侧边栏打开 💬 论坛。选择分类、浏览帖子，登录后即可发帖或回复。你可以为有用的帖子点赞，也可以举报不当内容。'] },
-    { en:['How do I reach the developers directly?','Use the "Contact Devs" tab in this panel, or email the dev team directly. Every message lands in the developer inbox.'],
-      zh:['如何直接联系开发者？','使用本面板中的“联系开发者”标签，或直接给开发团队发邮件。每条消息都会进入开发者收件箱。'] }
+    { en:['How do I reach the developers directly?','Use the "Contact / Report" tab in this panel — send a message or report a problem. Every message lands in the developer inbox.'],
+      zh:['如何直接联系开发者？','使用本面板中的“联系 / 举报”标签——发送消息或举报问题。每条消息都会进入开发者收件箱。'] }
   ];
 
   /* ── DOM build ── */
@@ -100,7 +99,6 @@
     +'</div>'
     +'<div class="qna-tabs">'
     +'<button class="qna-tab" data-tab="faq"></button>'
-    +'<button class="qna-tab" data-tab="report"></button>'
     +'<button class="qna-tab" data-tab="contact"></button>'
     +'</div>'
     +'<div class="qna-body"></div>'
@@ -111,8 +109,7 @@
   panel.querySelector('.qna-foot').textContent=tr(T.devNote);
   var tabs=panel.querySelectorAll('.qna-tab');
   tabs[0].textContent=tr(T.tabFaq);
-  tabs[1].textContent=tr(T.tabReport);
-  tabs[2].textContent=tr(T.tabContact);
+  tabs[1].textContent=tr(T.tabContact);
 
   body.appendChild(fab);
   body.appendChild(panel);
@@ -157,16 +154,25 @@
         reported_item: payload.reported_item||null,
         category: payload.category||null
       };
-      sb.from('qna_messages').insert(row).then(function(res){
-        if(res.error){
-          statusBox.className='qna-status err'; statusBox.textContent=tr(T.fail)+' ('+esc(res.error.message||'')+')'; statusBox.style.display='block';
+      var doInsert=function(){
+        sb.from('qna_messages').insert(row).then(function(res){
+          if(res.error){
+            statusBox.className='qna-status err'; statusBox.textContent=tr(T.fail)+' ('+esc(res.error.message||'')+')'; statusBox.style.display='block';
+            if(btn){ btn.disabled=false; btn.textContent=tr(T.send); }
+            return;
+          }
+          statusBox.className='qna-status ok'; statusBox.textContent=tr(T.sent); statusBox.style.display='block';
           if(btn){ btn.disabled=false; btn.textContent=tr(T.send); }
-          return;
-        }
-        statusBox.className='qna-status ok'; statusBox.textContent=tr(T.sent); statusBox.style.display='block';
-        if(btn){ btn.disabled=false; btn.textContent=tr(T.send); }
-        if(payload.reset) payload.reset();
-      });
+          if(payload.reset) payload.reset();
+        });
+      };
+      /* Link the message to the signed-in user so the notification bell can route dev replies back. */
+      if(sb.auth && sb.auth.getSession){
+        sb.auth.getSession().then(function(s){
+          if(s && s.data && s.data.session && s.data.session.user) row.user_id=s.data.session.user.id;
+          doInsert();
+        }).catch(doInsert);
+      } else doInsert();
     });
   }
 
@@ -200,13 +206,33 @@
     return f;
   }
 
-  var reportSel=null;
-  function renderReport(){
+  var reportSel=null, formMode='contact';
+  function renderContact(){
     bodyEl.innerHTML='';
-    bodyEl.appendChild(makeEl('div','','<div style="font-weight:800;font-size:.9rem">'+tr(T.reportTitle)+'</div>'));
-    bodyEl.appendChild(makeEl('div','qna-empty',tr(T.reportHint)));
+    bodyEl.appendChild(makeEl('div','','<div style="font-weight:800;font-size:.9rem">'+tr(T.contactTitle)+'</div>'));
+    bodyEl.appendChild(makeEl('div','qna-empty',tr(T.contactHint)));
+
+    /* Mode toggle: Message the developers | Report a problem */
+    var modeRow=makeEl('div','qna-report-why');
+    function modeBtn(label,mode){
+      var b=makeEl('button','qna-reason',esc(tr(label)));
+      b.type='button';
+      b.addEventListener('click',function(){ setMode(mode); });
+      modeRow.appendChild(b);
+      return b;
+    }
+    var modeBtns={ contact:modeBtn(T.modeContact,'contact'), report:modeBtn(T.modeReport,'report') };
+
+    bodyEl.appendChild(modeRow);
+    bodyEl.appendChild(field(tr(T.contactName),'<input id="qnaCtName" type="text" maxlength="80" placeholder="Jane">','qnaCtName'));
+    bodyEl.appendChild(field(tr(T.contactEmail),'<input id="qnaCtEmail" type="email" maxlength="120" placeholder="you@example.com">','qnaCtEmail'));
+
+    /* Report-only block: reason chips */
+    var repBlock=makeEl('div','','');
+    repBlock.id='qnaRepBlock';
+    repBlock.appendChild(makeEl('div','','<div style="font-size:.74rem;font-weight:700;color:var(--text2,#666)">'+tr(T.reportWhat)+'</div>'));
     var what=makeEl('div','qna-report-why');
-    T.reportReasons.forEach(function(r,i){
+    T.reportReasons.forEach(function(r){
       var b=makeEl('button','qna-reason',esc(tr(r)));
       b.type='button';
       b.addEventListener('click',function(){
@@ -215,62 +241,68 @@
       });
       what.appendChild(b);
     });
-    bodyEl.appendChild(what);
-    bodyEl.appendChild(field(tr(T.reportDetail),'<textarea id="qnaRepMsg" placeholder="'+tr(T.msgPh).replace(/"/g,'&quot;')+'" rows="3"></textarea>','qnaRepMsg'));
+    repBlock.appendChild(what);
+    bodyEl.appendChild(repBlock);
 
-    var status=makeEl('div','qna-status','');
-    var send=makeEl('button','qna-send',tr(T.send));
-    send.type='button';
-    send.addEventListener('click',function(){
-      submit('report',{
-        email:null, name:null,
-        message:document.getElementById('qnaRepMsg').value,
-        reported_item: reportSel||null,
-        category:'report',
-        reset:function(){ document.getElementById('qnaRepMsg').value=''; }
-      },send,status);
-    });
-    bodyEl.appendChild(status);
-    bodyEl.appendChild(send);
-  }
-
-  function renderContact(){
-    bodyEl.innerHTML='';
-    bodyEl.appendChild(makeEl('div','','<div style="font-weight:800;font-size:.9rem">'+tr(T.contactTitle)+'</div>'));
-    bodyEl.appendChild(makeEl('div','qna-empty',tr(T.contactHint)));
-    bodyEl.appendChild(field(tr(T.contactName),'<input id="qnaCtName" type="text" maxlength="80" placeholder="Jane">','qnaCtName'));
-    bodyEl.appendChild(field(tr(T.contactEmail),'<input id="qnaCtEmail" type="email" maxlength="120" placeholder="you@example.com">','qnaCtEmail'));
+    /* Contact-only block: type select */
+    var ctBlock=makeEl('div','','');
+    ctBlock.id='qnaCtBlock';
     var typeOpts='<select id="qnaCtType">';
     T.types.forEach(function(tp){ typeOpts+='<option value="'+esc(tr(tp))+'">'+esc(tr(tp))+'</option>'; });
     typeOpts+='</select>';
-    bodyEl.appendChild(field(tr(T.contactType),typeOpts,'qnaCtType'));
+    ctBlock.appendChild(field(tr(T.contactType),typeOpts,'qnaCtType'));
+    bodyEl.appendChild(ctBlock);
+
+    /* Shared message field */
     bodyEl.appendChild(field(tr(T.contactMsg),'<textarea id="qnaCtMsg" rows="3" placeholder="'+tr(T.msgPh).replace(/"/g,'&quot;')+'"></textarea>','qnaCtMsg'));
 
     var status=makeEl('div','qna-status','');
     var send=makeEl('button','qna-send',tr(T.send));
     send.type='button';
+    function resetForm(){
+      document.getElementById('qnaCtMsg').value='';
+      document.getElementById('qnaCtName').value='';
+      document.getElementById('qnaCtEmail').value='';
+      reportSel=null;
+      what.querySelectorAll('.qna-reason').forEach(function(x){ x.classList.remove('sel'); });
+    }
     send.addEventListener('click',function(){
-      submit('message',{
-        name:document.getElementById('qnaCtName').value,
-        email:document.getElementById('qnaCtEmail').value,
-        message:document.getElementById('qnaCtMsg').value,
-        category:document.getElementById('qnaCtType').value,
-        reset:function(){
-          document.getElementById('qnaCtMsg').value='';
-          document.getElementById('qnaCtName').value='';
-          document.getElementById('qnaCtEmail').value='';
-        }
-      },send,status);
+      if(formMode==='report'){
+        submit('report',{
+          name:document.getElementById('qnaCtName').value,
+          email:document.getElementById('qnaCtEmail').value,
+          message:document.getElementById('qnaCtMsg').value,
+          reported_item: reportSel||null,
+          category:'report',
+          reset:resetForm
+        },send,status);
+      } else {
+        submit('message',{
+          name:document.getElementById('qnaCtName').value,
+          email:document.getElementById('qnaCtEmail').value,
+          message:document.getElementById('qnaCtMsg').value,
+          category:document.getElementById('qnaCtType').value,
+          reset:resetForm
+        },send,status);
+      }
     });
     bodyEl.appendChild(status);
     bodyEl.appendChild(send);
+
+    function setMode(m){
+      formMode=m;
+      modeBtns.contact.classList.toggle('sel',m==='contact');
+      modeBtns.report.classList.toggle('sel',m==='report');
+      repBlock.style.display=(m==='report')?'':'none';
+      ctBlock.style.display=(m==='contact')?'':'none';
+    }
+    setMode('contact');
   }
 
   function renderTab(){
     tabs.forEach(function(t){ t.classList.toggle('active',t.getAttribute('data-tab')===currentTab); });
     bodyEl.innerHTML='';
     if(currentTab==='faq') renderFaq();
-    else if(currentTab==='report') renderReport();
     else renderContact();
   }
 

@@ -2,7 +2,7 @@
 -- Vitalité — Q&A widget messages (qna_messages)
 -- Backing table for the bottom-left Q&A panel (qna-widget.js):
 --   * FAQ answers are static (in the widget); this table stores the
---     "Report" entries and "Contact Devs" messages visitors submit.
+--     merged "Contact / Report" submissions (kind=message|report).
 --   * The Developer Console (admin.html) reads them in the 📥 Inbox card.
 --
 -- Run this in the Supabase dashboard -> SQL Editor, top to bottom.

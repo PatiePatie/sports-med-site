@@ -136,3 +136,22 @@ body.lin-v2.lin-rail-collapsed .part-toggle .part-caret{
   }
   body.lin-v2.lin-rail-collapsed .part-toggle .part-caret{font-size:inherit;color:inherit}
 }
+
+/* ── Wordmark lives in the rail only ─────────────────────────────────────
+   The Linear shell skin hides the top-bar `.logo` via
+   `body.lin-v2 .lin-topbar-inner > .logo{display:none}`, but that rule is in
+   linear-theme.css which production does NOT load (we ship gold-blue via this
+   file). Mirror it here so the top bar shows no duplicate wordmark.
+   The rail wordmark stays: click → homepage (index.html), zero hover
+   feedback — static logo, no cursor/color/underline change on hover. */
+body.lin-v2 .lin-topbar-inner > .logo{display:none}
+body.lin-v2 .logo,
+body.lin-v2 .sidebar-logo a{cursor:default}
+body.lin-v2 .logo:hover,
+body.lin-v2 .logo:focus,
+body.lin-v2 .sidebar-logo a:hover,
+body.lin-v2 .sidebar-logo a:focus{
+  color:var(--text);
+  text-decoration:none;
+  background:transparent;
+}

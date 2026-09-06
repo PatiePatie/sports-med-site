@@ -190,40 +190,16 @@
       if (fallback) fallback.classList.add('active');
     }
 
-    /* 3c · Collapse to a 56px icon rail. Persisted, and only ever offered at
-       desktop width — below 1024px the rail is already a drawer. */
-    var COLLAPSE_KEY = 'lin_rail_collapsed';
-    /* Default to collapsed (Zen compact). Only expand if user explicitly chose to. */
-    if (store(COLLAPSE_KEY) !== '0') body.classList.add('lin-rail-collapsed');
-
-    var logo = $('.sidebar-logo', sidebar);
-    if (logo && !$('.lin-rail-collapse', sidebar)) {
-      var btn = el('button', 'lin-rail-collapse');
-      btn.type = 'button';
-      btn.appendChild(icon('panel'));
-      btn.title = t('Collapse sidebar', '收起侧栏');
-      btn.setAttribute('aria-label', t('Collapse sidebar', '收起侧栏'));
-      btn.setAttribute('aria-controls', sidebar.id || 'sidebar');
-      var label = function (collapsed) {
-        var s = collapsed ? t('Expand sidebar', '展开侧栏') : t('Collapse sidebar', '收起侧栏');
-        btn.title = s;
-        btn.setAttribute('aria-label', s);
-        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-      };
-      btn.addEventListener('click', function () {
-        var next = !body.classList.contains('lin-rail-collapsed');
-        body.classList.toggle('lin-rail-collapsed', next);
-        store(COLLAPSE_KEY, next ? '1' : '0');
-        label(next);
-      });
-      label(body.classList.contains('lin-rail-collapsed'));
-      /* Insert the expand button as the first child of the sidebar,
-         outside .sidebar-logo, so it stays visible when the logo is hidden
-         in collapsed (Zen compact) mode. */
-      var firstGroup = $('.sidebar-group', sidebar);
-      if (firstGroup) sidebar.insertBefore(btn, firstGroup);
-      else sidebar.appendChild(btn);
-    }
+    /* 3c · Rail collapsing is owned by the shared #sbCompact button
+       (body.sbcompact, styled in gold-blue-theme.css and wired in
+       auth-widget.js). This block used to inject a SECOND collapse button
+       next to it and default the sidebar to collapsed, which gave every
+       skinned page two controls doing the same job and a nav that started
+       with no labels. Single control, expanded by default. */
+    if (body.classList.contains('lin-rail-collapsed')) body.classList.remove('lin-rail-collapsed');
+    try { if (store('lin_rail_collapsed') !== null) store('lin_rail_collapsed', '0'); } catch (e) {}
+    var strayRail = $('.lin-rail-collapse', sidebar);
+    if (strayRail && strayRail.parentNode) strayRail.parentNode.removeChild(strayRail);
 
     /* 3d · Collapsed rows need their label as a tooltip. */
     $$('.sidebar-link', sidebar).forEach(function (link) {
@@ -490,7 +466,8 @@
         group: t('Actions', '操作'), icon: 'panel',
         label: t('Toggle sidebar', '切换侧栏'), alt: 'sidebar collapse 侧栏',
         run: function () {
-          var b = $('.lin-rail-collapse');
+          /* the single collapse control — see 3c */
+          var b = document.getElementById('sbCompact');
           if (b) b.click(); else sidebar.classList.toggle('open');
         }
       });

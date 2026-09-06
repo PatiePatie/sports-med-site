@@ -703,7 +703,7 @@ body.dark h1,body.dark h2,body.dark h3{
 </style>
 
 <link rel="stylesheet" href="auth-widget.css">
-<script src="auth-widget.js"></script>
+<script src="auth-widget.js?v=3"></script>
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css">
   <script src="loader.js"></script>
@@ -876,6 +876,10 @@ function setStatus(){
   if(u&&u.email){ var dname=u.name||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
   else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 和 EmailJS 的密钥。':'Not configured. Add your Supabase and EmailJS keys on this login page.'); out.style.display='none'; }
   else { line.textContent=(showCN?'未登录':'Not signed in'); out.style.display='none'; }
+  /* keep the header widget in sync — otherwise the header keeps showing the
+     logged-in name after a logout handled on this page (it only listens to
+     DOMContentLoaded). */
+  if(window.refreshAuthWidget){ try{ window.refreshAuthWidget(); }catch(e){} }
 }
 
 function handleAuth(resp){

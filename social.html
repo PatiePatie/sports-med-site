@@ -765,7 +765,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <link rel="stylesheet" href="auth-widget.css">
-<script src="auth-widget.js"></script>
+<script src="auth-widget.js?v=3"></script>
 <script src="auth-gate.js"></script>
   <script src="loader.js"></script>
 </head>
@@ -942,5 +942,6 @@ function sendAiChat(){ var input=document.getElementById('aiInput'); var q=(inpu
 document.getElementById('aiInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendAiChat(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAiModal(); });
 </script>
+<script src="site-content.js"></script>
 </body>
 </html>

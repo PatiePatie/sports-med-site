@@ -46,14 +46,44 @@ body.dark .sec-pill.active{color:#1a1300}
 /* ── Flat section rail — subcategories listed, no collapsible header ──
    The current section's sidebar shows its links flat. The part-toggle is
    the accordion header — redundant when exactly one group is visible, and
-   clickable, which would collapse the whole section's links. Keep it in
-   compact mode: the rail renders as icon buttons and hover-expands. */
-body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
-body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
-body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
-body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
-body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
-body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+   clickable, which would collapse the whole section's links.
+
+   BUT: with the hover rail (gold-blue-theme.css), the sidebar rests as a
+   56px icon strip. In that rest state the part-toggle IS the visible icon
+   — hiding it unconditionally leaves a blank strip. So the toggle is
+   hidden only when the rail is EXPANDED (hover / keyboard focus), and
+   stays visible as the icon at rest. Touch/narrow screens never get the
+   hover rail (full drawer instead) — there the toggle is always hidden
+   and the links render flat. */
+
+/* Touch devices & narrow screens: rail is always full — flat, no header. */
+@media (hover:none), (max-width:900px){
+  body.sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body.sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body.sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
+}
+
+/* Hover-capable wide screens: rest = icon rail (keep toggle = the icon),
+   expanded (hover/focus) = flat links, no collapsible header. */
+@media (hover:hover) and (min-width:901px){
+  body.sec-knowledge .sidebar:hover .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body.sec-knowledge .sidebar:focus-within .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body.sec-infirmary .sidebar:hover .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body.sec-infirmary .sidebar:focus-within .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body.sec-social .sidebar:hover .sidebar-group.part[data-part="vitalite-social"] > .part-toggle,
+  body.sec-social .sidebar:focus-within .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
+}
+
+/* The scoped section's own group can never be collapsed: it is the only
+   navigation on the rail. Override any persisted .collapsed state so the
+   links always render (auth-widget's accordion memory is for the
+   one-mega-rail fallback, not for a section-scoped rail). */
+body.sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+body.sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+body.sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+body.sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"].collapsed > .part-body,
+body.sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"].collapsed > .part-body,
+body.sec-social .sidebar-group.part[data-part="vitalite-social"].collapsed > .part-body{display:block}
 
 /* Study tabs are the Knowledge identity — keep them off other sections. */
 body.sec-infirmary .lin-pagetabs,

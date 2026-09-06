@@ -56,6 +56,7 @@
       try{ localStorage.removeItem('sm_profile'); }catch(e){}
       try{ localStorage.removeItem('sb-'+cfg.ref+'-auth-token'); }catch(e){}
       try{ localStorage.removeItem('sb-'+V_SB.ref+'-auth-token'); }catch(e){}
+      try{ localStorage.removeItem('sb-iftuqkfjwqnythhwencx-auth-token'); }catch(e){}
       window.location.href='index.html';
     };
     try{

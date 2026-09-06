@@ -883,8 +883,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="qna-widget.js?v=1" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=1">
 <script src="notif-bell.js?v=1" defer></script>
-<link rel="stylesheet" href="checkup.css?v=1">
-<script src="checkup.js?v=1" defer></script>
+<link rel="stylesheet" href="checkup.css?v=2">
+<script src="checkup.js?v=2" defer></script>
 <!-- DRAFT-THEME:END -->
 </head>
 <body>
@@ -1025,8 +1025,16 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
           <div class="checkup-bodymap">
             <div class="checkup-map" id="checkupMap"></div>
             <div class="checkup-camrow">
-              <button type="button" class="checkup-cam" id="camBtn" data-en="📷 Scan with camera" data-zh="📷 拍照扫描">📷 Scan with camera</button>
+              <button type="button" class="checkup-cam" id="camBtn" data-en="📷 Live scan" data-zh="📷 实时扫描">📷 Live scan</button>
+              <button type="button" class="checkup-cam-alt" id="camFileBtn" data-en="🖼️ Use a photo" data-zh="🖼️ 选择照片">🖼️ Use a photo</button>
               <input type="file" id="camInput" accept="image/*" hidden>
+            </div>
+            <div class="checkup-camview" id="camView" hidden>
+              <video id="camVideo" autoplay playsinline muted></video>
+              <div class="checkup-reticle" aria-hidden="true"></div>
+              <div class="checkup-scanline" aria-hidden="true"></div>
+              <div class="checkup-camstatus" id="camStatus" role="status"></div>
+              <button type="button" class="checkup-camstop" id="camStop" aria-label="Cancel scan">✕</button>
             </div>
             <div class="checkup-cam-err" id="camErr" role="status"></div>
             <div class="checkup-map-hint" data-en="Or pick from the list:" data-zh="或从列表中选择：">Or pick from the list:</div>

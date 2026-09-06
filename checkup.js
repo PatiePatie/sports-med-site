@@ -195,13 +195,14 @@ function init(){
   el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){
     h.addEventListener('click',function(){ selectPart(h.getAttribute('data-part')); });
   });
-  var ci=$('camInput'), cb=$('camBtn'), an=$('analyzeBtn');
+  var ci=$('camInput'), cb=$('camBtn'), fb=$('camFileBtn'), cs=$('camStop'), an=$('analyzeBtn');
   if(ci) ci.addEventListener('change',handleCamera);
-  if(cb) cb.addEventListener('click',function(){ ci&&ci.click(); });
+  if(cb) cb.addEventListener('click',startLiveScan);
+  if(fb) fb.addEventListener('click',function(){ ci&&ci.click(); });
+  if(cs) cs.addEventListener('click',function(){ camGen++; stopLiveScan(); });
   if(an) an.addEventListener('click',analyze);
-  var rb1=$('restartBtn'), rb2=$('restartBtn2');
-  if(rb1) rb1.addEventListener('click',reset);
-  if(rb2) rb2.addEventListener('click',reset);
+  var rbs=$('restartBtn'); if(rbs) rbs.addEventListener('click',reset);
+  var rb2=$('restartBtn2'); if(rb2) rb2.addEventListener('click',reset);
   var bb=$('backBtn'); if(bb) bb.addEventListener('click',function(){ step(1); window.scrollTo({top:0,behavior:'smooth'}); });
   var eb=$('editBtn'); if(eb) eb.addEventListener('click',function(){ step(2); window.scrollTo({top:0,behavior:'smooth'}); });
   var sl=$('symList'); if(sl) sl.addEventListener('change',onSymChange);
@@ -272,13 +273,113 @@ function onSymChange(e){
   var lab=cb.closest('label'); if(lab) lab.classList.toggle('ticked',cb.checked);
 }
 
-/* ── camera: try vision, fall back to body map ── */
+/* ── camera: live getUserMedia preview + steady-detect single frame ── */
+var camState={stream:null,timer:null,prev:null,stable:0,busy:false}, camGen=0;
+
+function startLiveScan(){
+  var cv=$('camView'), vid=$('camVideo');
+  if(!cv||!vid||camState.stream||camState.busy) return;
+  if(!window.navigator.mediaDevices||!window.navigator.mediaDevices.getUserMedia){ visionFail(); return; }
+  var err=$('camErr'); if(err) err.textContent='';
+  cv.hidden=false;
+  setCamStatus(T('Point at the injured area','对准受伤部位'));
+  var myGen=++camGen;
+  navigator.mediaDevices.getUserMedia({
+    video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}},
+    audio:false
+  }).then(function(stream){
+    if(myGen!==camGen){ stream.getTracks().forEach(function(t){t.stop();}); return; }
+    camState.stream=stream;
+    vid.srcObject=stream;
+    var p=vid.play(); if(p&&p.catch) p.catch(function(){});
+    camState.prev=null; camState.stable=0;
+    camState.timer=setInterval(sampleFrame,200);
+  }).catch(function(){
+    if(myGen!==camGen) return;
+    stopLiveScan();
+    visionFail();
+  });
+}
+
+/* Downscale frame, compare to previous, count consecutive steady frames. */
+var camCanvas=null;
+function sampleFrame(){
+  var vid=$('camVideo');
+  if(!camState.stream||!vid||!vid.videoWidth) return;
+  if(camState.busy) return;
+  if(!camCanvas){ camCanvas=document.createElement('canvas'); }
+  var ctx=camCanvas.getContext('2d');
+  var sw=96, sh=Math.max(1,Math.round(sw*vid.videoHeight/vid.videoWidth));
+  camCanvas.width=sw; camCanvas.height=sh;
+  ctx.drawImage(vid,0,0,sw,sh);
+  var px=ctx.getImageData(0,0,sw,sh).data;
+  var diff=0;
+  if(camState.prev){
+    var sum=0,n=0;
+    for(var i=0;i<px.length;i+=16){
+      sum+=Math.abs(px[i]-camState.prev[i])+Math.abs(px[i+1]-camState.prev[i+1])+Math.abs(px[i+2]-camState.prev[i+2]);
+      n++;
+    }
+    diff=n?sum/n:0;
+  }
+  camState.prev=new Uint8ClampedArray(px);
+  if(diff<16){
+    camState.stable++;
+    if(camState.stable>=4){ captureFrame(); }
+    else { setCamStatus(T('Hold steady…','请保持不动…')); }
+  } else {
+    camState.stable=0;
+    setCamStatus(T('Point at the injured area','对准受伤部位'));
+  }
+}
+
+/* One frame, resized, one request. Results only land if the scan still current. */
+function captureFrame(){
+  var vid=$('camVideo');
+  if(!camState.stream||!vid||!vid.videoWidth) return;
+  var capGen=camGen;
+  var cnv=document.createElement('canvas');
+  var MAX=800, sc=Math.min(1,MAX/Math.max(vid.videoWidth,vid.videoHeight));
+  cnv.width=Math.round(vid.videoWidth*sc); cnv.height=Math.round(vid.videoHeight*sc);
+  cnv.getContext('2d').drawImage(vid,0,0,cnv.width,cnv.height);
+  var data=cnv.toDataURL('image/jpeg',0.8);
+  camState.busy=true;
+  var cv=$('camView'); if(cv) cv.classList.add('snap');
+  setCamStatus(T('Identifying…','正在识别…'));
+  fetch(MEDAI_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
+  }).then(function(res){ return res.json(); }).then(function(d){
+    if(capGen!==camGen) return;
+    camState.busy=false; stopLiveScan();
+    if(d&&d.ok&&d.part&&PART_MAP[d.part]){ selectPart(d.part); return; }
+    visionFail();
+  }).catch(function(){
+    if(capGen!==camGen) return;
+    camState.busy=false; stopLiveScan();
+    visionFail();
+  });
+}
+
+function stopLiveScan(){
+  if(camState.timer){ clearInterval(camState.timer); camState.timer=null; }
+  if(camState.stream){ camState.stream.getTracks().forEach(function(t){t.stop();}); camState.stream=null; }
+  camState.prev=null; camState.stable=0; camState.busy=false;
+  var vid=$('camVideo'); if(vid) vid.srcObject=null;
+  var cv=$('camView'); if(cv){ cv.hidden=true; cv.classList.remove('snap'); }
+  var cb=$('camBtn'); if(cb) cb.classList.remove('on');
+}
+
+function setCamStatus(t){ var s=$('camStatus'); if(s) s.textContent=t; }
+
+/* Fallback: pick a photo from disk (still sent through the same vision path). */
 function handleCamera(ev){
   var file=ev.target.files&&ev.target.files[0]; if(!file) return;
   var cb=$('camBtn'); if(!cb) return;
   cb.classList.add('on');
   var err=$('camErr'); if(err) err.textContent='';
-  // prefer base64 upload
+  var myGen=++camGen; stopLiveScan();
   var r=new FileReader();
   r.onload=function(){
     var data=r.result;
@@ -287,6 +388,7 @@ function handleCamera(ev){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
     }).then(function(res){ return res.json(); }).then(function(d){
+      if(myGen!==camGen) return;
       if(d&&d.ok&&d.part&&PART_MAP[d.part]){
         cb.classList.remove('on');
         selectPart(d.part);
@@ -296,10 +398,11 @@ function handleCamera(ev){
     }).catch(visionFail);
   };
   // If FileReader fails quickly, give up gracefully too
-  try{ r.readAsDataURL(file); }catch(e){ visionFail(); }
+  try{ r.readAsDataURL(file); }catch(e){ myGen++; visionFail(); }
 }
 
 function visionFail(){
+  camGen++; stopLiveScan();
   var cb=$('camBtn'); if(cb) cb.classList.remove('on');
   var err=$('camErr'); if(err){
     err.textContent=T('Couldn\u2019t read the image yet \u2014 tap your body part on the map instead.','暂时无法识别图片 — 请直接在人体图上点击相应部位。');
@@ -353,6 +456,7 @@ function analyze(){
 }
 
 function reset(){
+  camGen++; stopLiveScan();
   state={ part:null, syms:[], vision:false };
   el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){ h.classList.remove('sel'); });
   if($('checkupParts')) $('checkupParts').querySelectorAll('.checkup-part').forEach(function(b){ b.classList.remove('sel'); });

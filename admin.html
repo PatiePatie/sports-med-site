@@ -1055,10 +1055,17 @@ function renderConsole(u){
     +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
     +'</div></div>';
 
+html+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
+    +'<div class="adm-msg" id="qnaInboxMsg"></div>'
+    +'<div id="qnaInboxBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取消息…':'Loading messages…')+'</span></div></div>'
+    +'<p class="adm-note">'+t('Messages and reports from the Q&amp;A button (bottom-left of every page). Open a message to mark it read; Delete removes it permanently.','来自各页左下角问答按钮的消息与举报。打开消息即标记为已读；删除将永久移除。')+'</p>'
+    +'</div>';
+
   html+='<div class="adm"><h1>🛡️ '+t('Forum Moderation','论坛审核')+'</h1>'
     +'<div class="adm-msg" id="forumModMsg"></div>'
     +'<div id="forumModBox"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取举报…':'Loading reports…')+'</span></div></div>'
     +'<p class="adm-note">'+t('Reported topics and replies land here. Hide keeps the post (and its replies) out of the public forum; Delete removes it permanently.','被举报的主题与回复会出现在这里。隐藏会让帖子及其回复从公开论坛中消失；删除将永久移除。')+'</p>'
+    +'</div>';
     +'</div>';
 
   html+='<div class="adm" id="siteEditor"><h1>🎨 '+t('Site Editor','站点编辑器')+'</h1>'
@@ -1092,6 +1099,7 @@ function renderConsole(u){
   showRoot(html);
   loadUsers(u);
   loadDr7Usage();
+  loadQnaInbox();
   loadForumMod();
   applyLang();
 }
@@ -1293,6 +1301,89 @@ function loadDr7Usage(){
   });
 }
 
+/* ============ Q&A Inbox (messages/reports from the bottom-left Q&A widget) ============ */
+function loadQnaInbox(){
+  var box=document.getElementById('qnaInboxBox');
+  if(!box) return;
+  if(!sb){
+    box.innerHTML='<div class="adm-empty">'+t('Q&A not connected. Run qna-widget-schema.sql in the Supabase SQL editor to enable it.','问答未连接。请在 Supabase SQL 编辑器中运行 qna-widget-schema.sql 以启用。')+'</div>';
+    return;
+  }
+  var msg=document.getElementById('qnaInboxMsg');
+  function say(s){ if(msg) msg.innerHTML=s; }
+  function escT(x){
+    return String(x==null?'':x).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  }
+  function fmt(iso){
+    var d=new Date(iso); if(isNaN(d.getTime())) return '';
+    var s=(Date.now()-d.getTime())/1000;
+    if(s<3600) return Math.floor(s/60)+(showCN?' 分钟前':'m ago');
+    if(s<86400) return Math.floor(s/3600)+(showCN?' 小时前':'h ago');
+    if(s<604800) return Math.floor(s/86400)+(showCN?' 天前':'d ago');
+    return d.toISOString().slice(0,10);
+  }
+  function kindLabel(k){
+    if(k==='report') return showCN?'🚩 举报':'🚩 Report';
+    if(k==='question') return showCN?'❓ 提问':'❓ Question';
+    return showCN?'💬 留言':'💬 Message';
+  }
+  sb.from('qna_messages').select('id,kind,category,name,email,message,reported_item,page,read,created_at').order('created_at',{ascending:false}).limit(100).then(function(res){
+    if(res.error){
+      say('<div class="adm-empty" style="color:var(--red)">'+escT(res.error.message||'error')+'</div>');
+      box.innerHTML='';
+      return;
+    }
+    var rows=res.data||[];
+    var unread=rows.filter(function(x){ return !x.read; }).length;
+    say(unread
+      ? (showCN?('📬 '+unread+' 条未读'):('📬 '+unread+' unread'))
+      : (showCN?'没有未读消息 🎉':'No unread messages 🎉'));
+    if(!rows.length){ box.innerHTML='<div class="adm-empty">'+t('Nothing here yet. Messages from the Q&amp;A button on any page will appear here.','暂无消息。任何页面左下角问答按钮发来的消息都会显示在这里。')+'</div>'; return; }
+    var h='';
+    rows.forEach(function(x){
+      var un=x.read?'':'<span class="adm-chip dev" style="margin-right:.4rem">'+t('NEW','新')+'</span>';
+      var detail='';
+      if(x.category) detail+='<span class="adm-badge" style="margin-right:.4rem">'+escT(x.category)+'</span>';
+      if(x.reported_item) detail+='<span class="adm-badge" style="margin-right:.4rem">🚩 '+escT(x.reported_item)+'</span>';
+      if(x.page) detail+='<span style="font-size:.72rem;color:var(--text3)">📍 '+escT(x.page)+'</span>';
+      h+='<div class="adm-row" style="border:1px solid '+(x.read?'var(--border)':'var(--accent)')+';border-radius:var(--radius-sm);padding:.8rem 1rem;margin-bottom:.6rem">'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.3rem">'
+        +kindLabel(x.kind)+' '+un
+        +'<span style="font-weight:800">'+escT(x.name||'(anonymous)')+'</span>'
+        +(x.email?'<span style="font-size:.76rem;color:var(--text3)">'+escT(x.email)+'</span>':'')
+        +'<span style="font-size:.76rem;color:var(--text3)">· '+fmt(x.created_at)+'</span>'
+        +'<span style="flex:1"></span>'
+        +'</div>'
+        +'<div style="margin-bottom:.4rem">'+detail+'</div>'
+        +'<div style="font-size:.85rem;color:var(--text2);white-space:pre-wrap;word-wrap:break-word;max-height:110px;overflow:hidden;margin-bottom:.5rem">'+escT(x.message)+'</div>'
+        +'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        +(x.read
+          ?'<span class="adm-note" style="margin:0">'+t('✓ Read','✓ 已读')+'</span>'
+          :'<button class="adm-btn" onclick="qnaInboxMarkRead(\''+x.id+'\')">'+t('✓ Mark read','✓ 标记已读')+'</button>')
+        +'<button class="adm-btn" style="background:var(--red);color:#fff" onclick="qnaInboxDelete(\''+x.id+'\')">🗑 '+t('Delete','删除')+'</button>'
+        +'</div></div>';
+    });
+    box.innerHTML=h;
+  }).catch(function(e){
+    say('<div class="adm-empty" style="color:var(--red)">'+escT(e&&e.message||'error')+'</div>');
+    box.innerHTML='';
+  });
+}
+function qnaInboxMarkRead(id){
+  sb.from('qna_messages').update({read:true}).eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('qnaInboxMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadQnaInbox();
+  });
+}
+function qnaInboxDelete(id){
+  if(!confirm(t('Delete this message permanently?','永久删除此消息？'))) return;
+  sb.from('qna_messages').delete().eq('id',id).then(function(r){
+    if(r.error){ var m=document.getElementById('qnaInboxMsg'); if(m) m.innerHTML='<span style="color:var(--red)">'+esc(r.error.message)+'</span>'; }
+    loadQnaInbox();
+
+  });
+}
+
 /* ============ Forum Moderation (topics + replies reported by users) ============ */
 function loadForumMod(){
   var box=document.getElementById('forumModBox');
@@ -1381,9 +1472,9 @@ function forumModDelete(kind,id){
       return;
     }
     loadForumMod();
+
   });
 }
-
 /* ============ Content Editor (same quick-draft tool, moved from the profile page) ============ */
 var CHAPTER_META = [
   {id:'ch1',en:'The Body as a Machine',zh:'身体如机器'},
@@ -1521,5 +1612,7 @@ function resetContentChapter(){
 </script>
 
 <script src="site-editor.js"></script>
+<link rel="stylesheet" href="qna-widget.css">
+<script src="qna-widget.js" defer></script>
 </body>
 </html>

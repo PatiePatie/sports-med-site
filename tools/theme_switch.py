@@ -60,6 +60,8 @@ BLOCK = (
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
     + (f'<script src="{LAYOUT_JS}" defer></script>\n' if LAYOUT_JS else "")
+    + '<link rel="stylesheet" href="qna-widget.css">\n'
+    + '<script src="qna-widget.js" defer></script>\n'
     + f"{END}\n"
 )
 

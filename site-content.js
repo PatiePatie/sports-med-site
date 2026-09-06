@@ -126,6 +126,33 @@ function paintLang(box){
   }
 }
 
+/* Free-layout sections published by the Site Editor carry their geometry in
+   inline styles, but the positioning context and the narrow-screen fallback
+   have to come from a stylesheet. Injected once, and only when such a section
+   is actually applied, so pages using none of this pay nothing.
+
+   Default is to reflow into document order below 920px; a section marked
+   .se-free-fixed keeps its exact positions at every width (the editor's
+   "Keep exact positions on phones" option). */
+var cssDone=false;
+function ensureFreeCSS(){
+  if(cssDone) return;
+  cssDone=true;
+  var css='.se-free{position:relative;width:100%}'
+        + '.se-free > *{position:absolute}'
+        + '@media(max-width:920px){'
+        +   '.se-free:not(.se-free-fixed){min-height:0!important}'
+        +   '.se-free:not(.se-free-fixed) > *{position:static!important;left:auto!important;'
+        +     'top:auto!important;width:auto!important;margin:0 0 1rem!important}'
+        + '}';
+  try{
+    var st=document.createElement('style');
+    st.id='se-free-css';
+    st.textContent=css;
+    document.head.appendChild(st);
+  }catch(e){}
+}
+
 function applyRow(row){
   if(!row || !row.published) return false;
   if(hasLegacyOverride(row.section)) return false;   /* local dev override wins */
@@ -135,6 +162,7 @@ function applyRow(row){
   var html = isZh() ? (row.zh_html || row.en_html) : (row.en_html || row.zh_html);
   if(!html) return false;
   box.innerHTML = sanitize(html);
+  if(box.querySelector('.se-free')) ensureFreeCSS();
   paintLang(box);
   return true;
 }

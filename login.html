@@ -792,37 +792,24 @@ body.dark h1,body.dark h2,body.dark h3{
     </div>
   </div>
 
-  <!-- CONTACT / EMAILJS -->
+  <!-- CONTACT / Q&A WIDGET -->
   <div class="acct-wrap" id="contactBox" style="margin-top:0">
-    <span class="section-label" data-en="Contact &amp; Feedback · 联系我们" data-zh="联系我们 · Contact &amp; Feedback">Contact &amp; Feedback · 联系我们</span>
-    <h2 style="font-size:1.3rem;font-weight:700;margin:.5rem 0 1rem" data-en="Send us a message" data-zh="给我们留言">Send us a message</h2>
-    <div class="acct-field"><label for="ctName" data-en="Your name" data-zh="你的姓名">Your name</label>
-      <input id="ctName" type="text" placeholder="Jane"></div>
-    <div class="acct-field"><label for="ctEmail" data-en="Your email" data-zh="你的邮箱">Your email</label>
-      <input id="ctEmail" type="email" placeholder="you@example.com"></div>
-    <div class="acct-field"><label for="ctMsg" data-en="Message" data-zh="内容">Message</label>
-      <textarea id="ctMsg" rows="4" style="width:100%;padding:.7rem .95rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:1rem;background:var(--bg);color:var(--text);outline:none;resize:vertical"></textarea></div>
-    <button class="qo-btn next" id="ctBtn" style="width:100%;font-size:1rem;padding:.75rem;background:var(--green,#059669)" data-en="✉ Send Message" data-zh="✉ 发送消息">✉ Send Message</button>
-    <div class="acct-msg" id="ctMsgBox"></div>
+    <span class="section-label" data-en="Questions, feedback &amp; reports · 问答与反馈" data-zh="问答与反馈 · Questions &amp; feedback">Questions, feedback &amp; reports · 问答与反馈</span>
+    <p style="font-size:.9rem;color:var(--text2)" data-en="Use the Q&amp;A button at the bottom-left of the screen for answers to common questions, to report a problem, or to message the developers. We read every message." data-zh="请使用屏幕左下角的问答按钮：查看常见问题解答、举报问题或给开发者留言。我们会阅读每一条消息。">Use the Q&amp;A button at the bottom-left of the screen for answers to common questions, to report a problem, or to message the developers. We read every message.</p>
   </div>
 
   <div style="text-align:center;padding:2rem 0 3rem">
-    <p style="font-size:.8rem;color:var(--text3)" data-en="Accounts and email are powered by Supabase and EmailJS. Educational use only." data-zh="账号与邮件由 Supabase 和 EmailJS 提供。仅供学习使用。">Accounts and email are powered by Supabase and EmailJS. Educational use only.</p>
+    <p style="font-size:.8rem;color:var(--text3)" data-en="Accounts are powered by Supabase. Educational use only." data-zh="账号由 Supabase 提供支持。仅供学习使用。">Accounts are powered by Supabase. Educational use only.</p>
   </div>
 </div>
 
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 /* ===== Supabase config ===== */
 var SB_URL = 'https://eytmbftrjvsntyzwbtzl.supabase.co';
   var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc';
-/* ===== EmailJS config ===== */
-var EJ_PUBLIC = '2mxPBFiEqUSsKsD1O';
-var EJ_SERVICE = 'service_y839frd';
-var EJ_TEMPLATE = 'template_n6ea1bd';
 
 /* Language + theme (mirrors site) */
 var showCN = localStorage.getItem('sm_lang')==='zh';
@@ -875,7 +862,7 @@ function setStatus(){
   var u=null;
   try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
   if(u&&u.email){ var dname=u.name||u.email; line.textContent=(showCN?'已登录：':'Signed in: ')+dname+(u.status?(' · '+(showCN?'已验证':'verified')):''); out.style.display='inline-block'; }
-  else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 和 EmailJS 的密钥。':'Not configured. Add your Supabase and EmailJS keys on this login page.'); out.style.display='none'; }
+  else if(!sb){ line.textContent=(showCN?'未连接。请在登录页填入 Supabase 密钥。':'Not configured. Add your Supabase key on this login page.'); out.style.display='none'; }
   else { line.textContent=(showCN?'未登录':'Not signed in'); out.style.display='none'; }
   /* keep the header widget in sync — otherwise the header keeps showing the
      logged-in name after a logout handled on this page (it only listens to
@@ -1046,28 +1033,12 @@ document.getElementById('logoutBtn').addEventListener('click',function(){
   sb.auth.signOut().then(function(){ localStorage.removeItem('sm_user'); myMsg(showCN?'已退出登录。':'Signed out.',true); setStatus(); });
 });
 
-/* EMAILJS contact */
-var ctReady=false;
-if(typeof emailjs!=='undefined' && EJ_PUBLIC.indexOf('PASTE')===-1){
-  try{ emailjs.init(EJ_PUBLIC); ctReady=true; }catch(e){ ctReady=false; }
-}
-document.getElementById('ctBtn').addEventListener('click',function(){
-  var box=document.getElementById('ctMsgBox');
-  box.style.display='none';
-  if(!ctReady){ box.className='acct-msg err'; box.textContent=showCN?'尚未配置 EmailJS。请先填入公开密钥。':'EmailJS not configured. Add your public key first.'; box.style.display='block'; return; }
-  var nm=document.getElementById('ctName').value.trim();
-  var em=document.getElementById('ctEmail').value.trim();
-  var m=document.getElementById('ctMsg').value.trim();
-  if(!nm||!em||!m){ box.className='acct-msg err'; box.textContent=showCN?'请填写姓名、邮箱和内容。':'Please fill in name, email, and message.'; box.style.display='block'; return; }
-  emailjs.send(EJ_SERVICE,EJ_TEMPLATE,{from_name:nm,reply_to:em,message:m}).then(function(){
-    box.className='acct-msg ok'; box.textContent=showCN?'消息已发送，谢谢！':'Message sent — thank you!'; box.style.display='block'; document.getElementById('ctMsg').value='';
-  },function(err){
-    box.className='acct-msg err'; box.textContent=showCN?'发送失败：'+err.text:'Send failed: '+err.text; box.style.display='block';
-  });
-});
+/* Q&A widget endpoints are handled by qna-widget.js (bottom-left button). */
 
 applyLang();
 setStatus();
 </script>
+<link rel="stylesheet" href="qna-widget.css">
+<script src="qna-widget.js" defer></script>
 </body>
 </html>

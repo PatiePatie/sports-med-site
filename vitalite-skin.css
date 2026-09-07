@@ -331,3 +331,56 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }
+
+/* ── Rail icons: equal spacing, always fit ────────────────────────────────────────
+   At rest the sidebar is a thin icon rail — the gold-blue 56px hover rail
+   ((hover:hover) desktops ≥901px) by default, or the sbcompact 62px rail
+   when the user opts into compact mode (desktops only). Both rail states
+   show ONLY the part-group toggles. Give every row a uniform 30px height
+   with equal, near-zero gaps so the icons fit any window height and are
+   evenly spaced. On hover/focus the rail expands to the flyout — unify
+   EVERY row there (part toggles, links, sub-links) to one 30px height and
+   a single gap so the whole nav shares one rhythm. Scoped strictly to the
+   rail/hover contexts so medium windows (601–900px, full 240px label
+   sidebar) and touch layouts are untouched. */
+
+/* ── sbcompact compact rail (opt-in, affects the 62px rail + its hover) ── */
+body.sbcompact .part-toggle{
+  min-height:30px;height:30px;padding:.35rem 0;justify-content:center;
+}
+body.sbcompact .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
+body.sbcompact .sidebar:hover .part-toggle,
+body.sbcompact .sidebar:focus-within .part-toggle{
+  height:auto;min-height:30px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:.15rem 0;
+}
+body.sbcompact .sidebar:hover .part-icon,
+body.sbcompact .sidebar:focus-within .part-icon{width:1.25rem;font-size:1rem}
+body.sbcompact .sidebar:hover .sidebar-group.part > .part-body .sidebar-link,
+body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link{
+  display:block;min-height:30px;padding:.32rem 1rem .32rem 1.7rem;margin:.15rem 0;line-height:1.15;
+}
+
+/* ── gold-blue hover rail (the DEFAULT desktop state) ──────────────── */
+@media (hover:hover) and (min-width:901px){
+  body.lin-v2 .sidebar .part-toggle{
+    min-height:30px;height:30px;padding:.35rem 0;justify-content:center;
+  }
+  body.lin-v2 .sidebar .part-toggle .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
+  body.lin-v2 .sidebar .part-toggle .part-caret{display:none}
+
+  body.lin-v2 .sidebar:hover .part-toggle,
+  body.lin-v2 .sidebar:focus-within .part-toggle{
+    height:auto;min-height:30px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:.15rem 0;
+  }
+  body.lin-v2 .sidebar:hover .part-toggle .part-icon,
+  body.lin-v2 .sidebar:focus-within .part-toggle .part-icon{width:1.25rem;font-size:1rem}
+  body.lin-v2 .sidebar:hover .part-toggle .part-caret,
+  body.lin-v2 .sidebar:focus-within .part-toggle .part-caret{display:inline-block;opacity:.6}
+
+  body.lin-v2 .sidebar:hover .sidebar-group.part > .part-body .sidebar-link,
+  body.lin-v2 .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link{
+    display:block;min-height:30px;padding:.32rem 1rem .32rem 1.7rem;margin:.15rem 0;line-height:1.15;
+  }
+  body.lin-v2 .sidebar:hover .sidebar-link.lin-has-ico .lin-ico,
+  body.lin-v2 .sidebar:focus-within .sidebar-link.lin-has-ico .lin-ico{width:16px;height:16px}
+}

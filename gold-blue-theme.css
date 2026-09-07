@@ -827,74 +827,42 @@ button,.btn,.btn-login,.qo-btn,.aq-btn,.ai-send-btn,.chat-send{font-family:var(-
   font-size:.635rem;font-weight:700;text-transform:uppercase;letter-spacing:.075em;
   color:var(--text3)}
 
-/* ═══ Hover rail ═══
-   The sidebar rests as a 56px icon rail and expands when you point at it.
-   No toggle button: hovering IS the interaction. Expanding overlays the page
-   rather than reflowing it, so content never shifts under the cursor.
+/* ═══ Compact rail — icons only; the toggle STAYS reachable ═══ */
+body.sbcompact .sidebar{width:56px}
+body.sbcompact .page-wrapper{margin-left:56px}
+body.sbcompact .sidebar .logo-text,
+body.sbcompact .sidebar .part-name,
+body.sbcompact .sidebar .part-caret,
+body.sbcompact .sidebar .part-body{display:none}
+body.sbcompact .sidebar .sidebar-logo{justify-content:center;padding-left:0;padding-right:0}
+/* never hide the way out of compact mode */
+body.sbcompact .sidebar .sb-compact-btn{display:flex;margin:0 auto}
+body.sbcompact .part-toggle{justify-content:center;padding:.42rem .3rem}
+body.sbcompact .part-icon{width:auto;font-size:1.02rem;opacity:1}
 
-   Gated on (hover:hover): a touch device has no hover to expand with, so it
-   keeps the full sidebar. Below 901px the sidebar is a drawer already. */
-@media (hover:hover) and (min-width:901px){
-  .sidebar{width:56px}
-  .page-wrapper{margin-left:56px}
-
-  .sidebar .logo-text,
-  .sidebar .part-name,
-  .sidebar .part-caret,
-  .sidebar .part-body{display:none}
-  .sidebar .sidebar-logo{justify-content:center;padding-left:0;padding-right:0}
-  .sidebar .sb-mark{margin-right:0}
-  .part-toggle{justify-content:center;padding:.42rem .3rem}
-  .part-icon{width:auto;font-size:1.02rem;opacity:1}
-
-  /* pointed at, or holding keyboard focus -> full rail, floating over content */
-  .sidebar:hover,
-  .sidebar:focus-within{width:224px;box-shadow:var(--shadow-lg);z-index:200}
-  .sidebar:hover .logo-text,
-  .sidebar:focus-within .logo-text,
-  .sidebar:hover .part-name,
-  .sidebar:focus-within .part-name,
-  .sidebar:hover .part-caret,
-  .sidebar:focus-within .part-caret{display:block}
-  .sidebar:hover .sidebar-group.part:not(.collapsed) > .part-body,
-  .sidebar:focus-within .sidebar-group.part:not(.collapsed) > .part-body{display:block}
-  .sidebar:hover .sidebar-logo,
-  .sidebar:focus-within .sidebar-logo{justify-content:flex-start;padding:.35rem .75rem .6rem}
-  .sidebar:hover .sb-mark,
-  .sidebar:focus-within .sb-mark{margin-right:.45rem}
-  .sidebar:hover .part-toggle,
-  .sidebar:focus-within .part-toggle{justify-content:flex-start;padding:.34rem .5rem}
-  .sidebar:hover .part-icon,
-  .sidebar:focus-within .part-icon{width:17px;font-size:.87rem;opacity:.85}
-}
-
-/* The old toggle is retired — hovering replaced it. */
-.sb-compact-btn{display:none!important}
+/* No hover or focus expansion: compact stays compact, showing icons only.
+   Clicking a group icon leaves compact mode and opens that group (sidebar JS),
+   and every icon carries a title so its name is still reachable on hover. */
+body.sbcompact .sidebar .sb-mark{margin-right:0}
+body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border);padding-bottom:.5rem;gap:.3rem;flex-direction:column}
+body.sbcompact .part-toggle{position:relative}
 
 .sidebar{transition:transform .3s,width .14s cubic-bezier(.16,1,.3,1),box-shadow .14s ease}
 .page-wrapper{transition:margin-left .14s cubic-bezier(.16,1,.3,1)}
 @media (prefers-reduced-motion:reduce){
-  .sidebar,.page-wrapper,.part-caret,.sidebar-link{transition:none}
+  .sidebar,.page-wrapper,.part-caret,.sb-compact-btn,.sidebar-link{transition:none}
 }
 
-/* Phones: drawer, never a rail. The hover rail above is already gated on
-   (hover:hover) and (min-width:901px), so nothing to undo here. */
+/* Phones: drawer, never a rail */
 @media(max-width:900px){
   .page-wrapper{margin-left:0}
+  body.sbcompact .sidebar{width:224px}
+  body.sbcompact .page-wrapper{margin-left:0}
+  body.sbcompact .sidebar .logo-text,
+  body.sbcompact .sidebar .part-name,
+  body.sbcompact .sidebar .part-caret{display:block}
+  body.sbcompact .sidebar .sidebar-group.part:not(.collapsed) > .part-body{display:block}
+  body.sbcompact .sidebar .sidebar-logo{justify-content:flex-start;padding:.35rem .75rem .6rem}
+  body.sbcompact .part-toggle{justify-content:flex-start;padding:.34rem .5rem}
+  body.sbcompact .part-icon{width:17px;font-size:.87rem}
 }
-
-/* ─── ne-badge-chip: KEY/要点 marker on the deep-revision knowledge
-   chapters (Ch3-13 of guide.html). No skins styled it, so it rendered as
-   bare unstyled text. Match this skin's gold accent pill language. */
-.ne-badge-chip{
-  display:inline-block;vertical-align:.12em;
-  font-family:var(--font-caps,var(--font));
-  font-size:.7rem;font-weight:700;text-transform:uppercase;
-  letter-spacing:.07em;line-height:1.5;
-  color:var(--accent);background:var(--accent-bg);
-  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
-  border-radius:999px;padding:.13rem .6rem;margin-right:.45rem;
-}
-body.lang-zh .ne-badge-chip{letter-spacing:.03em}
-/* ne-acc-body is only an extra wrapper on the notes body; keep content clean. */
-.ne-acc-body .facts,.ne-acc-body ul,.ne-acc-body p{max-width:100%}

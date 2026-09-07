@@ -351,13 +351,19 @@ body.sbcompact .part-toggle{
 body.sbcompact .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
 body.sbcompact .sidebar:hover .part-toggle,
 body.sbcompact .sidebar:focus-within .part-toggle{
-  height:auto;min-height:30px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:.15rem 0;
+  height:32px;min-height:32px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:2px 0;line-height:1;
 }
 body.sbcompact .sidebar:hover .part-icon,
 body.sbcompact .sidebar:focus-within .part-icon{width:1.25rem;font-size:1rem}
 body.sbcompact .sidebar:hover .sidebar-group.part > .part-body .sidebar-link,
-body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link{
-  display:block;min-height:30px;padding:.32rem 1rem .32rem 1.7rem;margin:.15rem 0;line-height:1.15;
+body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link,
+body.sbcompact .sidebar:hover .sidebar-group.part > .part-body .sidebar-label,
+body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-label{
+  display:block;height:32px;min-height:32px;padding:.32rem 1rem .32rem 1.7rem;margin:2px 0;line-height:1;
+}
+body.sbcompact .sidebar:hover .sidebar-group.part > .part-body .sidebar-label,
+body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-label{
+  padding:.32rem 1rem .32rem 1rem;display:flex;align-items:center;
 }
 
 /* ── gold-blue hover rail (the DEFAULT desktop state) ──────────────── */
@@ -370,7 +376,7 @@ body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-l
 
   body.lin-v2 .sidebar:hover .part-toggle,
   body.lin-v2 .sidebar:focus-within .part-toggle{
-    height:auto;min-height:30px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:.15rem 0;
+    height:32px;min-height:32px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:2px 0;line-height:1;
   }
   body.lin-v2 .sidebar:hover .part-toggle .part-icon,
   body.lin-v2 .sidebar:focus-within .part-toggle .part-icon{width:1.25rem;font-size:1rem}
@@ -378,8 +384,14 @@ body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-l
   body.lin-v2 .sidebar:focus-within .part-toggle .part-caret{display:inline-block;opacity:.6}
 
   body.lin-v2 .sidebar:hover .sidebar-group.part > .part-body .sidebar-link,
-  body.lin-v2 .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link{
-    display:block;min-height:30px;padding:.32rem 1rem .32rem 1.7rem;margin:.15rem 0;line-height:1.15;
+  body.lin-v2 .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-link,
+  body.lin-v2 .sidebar:hover .sidebar-group.part > .part-body .sidebar-label,
+  body.lin-v2 .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-label{
+    display:block;height:32px;min-height:32px;padding:.32rem 1rem .32rem 1.7rem;margin:2px 0;line-height:1;
+  }
+  body.lin-v2 .sidebar:hover .sidebar-group.part > .part-body .sidebar-label,
+  body.lin-v2 .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-label{
+    padding:.32rem 1rem .32rem 1rem;display:flex;align-items:center;text-transform:uppercase;
   }
   body.lin-v2 .sidebar:hover .sidebar-link.lin-has-ico .lin-ico,
   body.lin-v2 .sidebar:focus-within .sidebar-link.lin-has-ico .lin-ico{width:16px;height:16px}

@@ -19,7 +19,13 @@
 /* ── Section switcher — three pills in every header ── */
 
 .sec-switcher{
-  display:flex;align-items:center;gap:2px;
+  /* HARDENED: the pills are a single horizontal row, always. Older themes
+     and stale cached stylesheets styled this as a column/block, which
+     stacked the three pills over the account chip. flex-direction:row +
+     nowrap + width:max-content make a stacked render impossible even if a
+     stale .sec-switcher rule from an old sections.css is still applied. */
+  display:flex;flex-direction:row;align-items:center;gap:2px;
+  width:max-content;max-width:none;
   margin-left:.25rem;
   background:var(--surface2);
   border:1px solid var(--border);

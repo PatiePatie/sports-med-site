@@ -151,7 +151,8 @@
         +'</div>'
         +'</div>';
     }).join('');
-    status('');
+    var se=document.getElementById('forumStatus');
+    if(se && !se.querySelector('.for-banner')) se.innerHTML='';
   }
 
   /* ── composer ── */
@@ -291,7 +292,7 @@
   }
   function localRepliesOf(id){
     var loc=localLoad();
-    return loc.replies.filter(function(r){ return r.topic_id===id; });
+    return loc.replies.filter(function(r){ return String(r.topic_id)===String(id); });
   }
   function renderReplies(id){
     var box=document.getElementById('threadBody');
@@ -306,27 +307,18 @@
   function renderRepliesList(reps){
     var box=document.getElementById('threadBody');
     var oldBox=document.getElementById('replyBox');
-    if(!reps.length){
-      var base=oldBox?oldBox.outerHTML:'';
-      if(oldBox && oldBox.parentNode) oldBox.parentNode.removeChild(oldBox);
-      var empty=document.createElement('div');
-      empty.className='for-reply';
-      empty.innerHTML='<div class="for-post" style="text-align:center;color:var(--text3)">'+T('No replies yet. Start the conversation!','还没有回复。来开启对话吧！')+'</div>';
-      box.insertBefore(empty, box.lastChild);
-      if(base){ box.insertAdjacentHTML('beforeend', base); }
-      return;
-    }
-    var html='';
-    reps.forEach(function(r){
+    if(oldBox && oldBox.parentNode) oldBox.parentNode.removeChild(oldBox);
+    var empty = (reps&&reps.length) ? '' : '<div class="for-reply"><div class="for-post" style="text-align:center;color:var(--text3)">'+T('No replies yet. Start the conversation!','还没有回复。来开启对话吧！')+'</div></div>';
+    var html=empty;
+    (reps||[]).forEach(function(r){
       html+='<div class="for-reply"><div class="for-post" style="margin-bottom:0">'
         +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span></div>'
         +'<div class="fp-body">'+esc(r.body)+'</div></div></div>';
     });
-    if(oldBox && oldBox.parentNode) oldBox.parentNode.removeChild(oldBox);
+    html+=replyBoxEl().outerHTML;
     var wrap=document.createElement('div');
     wrap.innerHTML=html;
     while(wrap.firstChild) box.appendChild(wrap.firstChild);
-    box.appendChild(oldBox||replyBoxEl());
   }
   function replyBoxEl(){
     var u=user();
@@ -343,31 +335,38 @@
   function submitReply(id){
     var u=user();
     if(!u){ return; }
+    var tid=(/^\d+$/.test(String(id)))?Number(id):id;
     var inp=document.getElementById('replyInput');
     var body=(inp?inp.value:'').trim();
     var err=document.getElementById('replyError');
     if(!body){ if(err) err.textContent=T('Write something first.','请先写点内容。'); return; }
     if(body.length>2000){ if(err) err.textContent=T('Reply is too long (2000 max).','回复过长（最多 2000 字）。'); return; }
-    var row={ topic_id:id, author_email:u.email, author_name:userName(u)||u.email, body:body };
+    var row={ topic_id:tid, author_email:u.email, author_name:userName(u)||u.email, body:body };
     var sb=sbClient();
     function finish(){
       var inp2=document.getElementById('replyInput');
       if(inp2) inp2.value='';
       if(err) err.textContent='';
-      loadReplies(id);
+      loadReplies(tid);
       load();
     }
-    if(state.mode==='cloud' && sb){
-      sb.from('forum_replies').insert(row).then(function(res){
-        if(!res.error){ state.replyCounts[id]=(state.replyCounts[id]||0)+1; }
-        finish();
-      }).catch(finish);
-    }else{
+    function saveLocalReply(){
       var loc=localLoad();
       row.id='local_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
       row.created_at=new Date().toISOString();
       loc.replies.push(row);
       localSave(loc);
+      state.mode='local';
+      status('<span class="for-banner">'+T('Published on this device — cloud sync will connect soon.','已在本机发布 — 云端同步即将接入。')+'</span>');
+    }
+    if(state.mode==='cloud' && sb){
+      sb.from('forum_replies').insert(row).then(function(res){
+        if(!res.error){ state.replyCounts[tid]=(state.replyCounts[tid]||0)+1; }
+        else { saveLocalReply(); }
+        finish();
+      }).catch(function(){ saveLocalReply(); finish(); });
+    }else{
+      saveLocalReply();
       finish();
     }
   }
@@ -378,7 +377,7 @@
   function vote(id){
     if(hasUpvoted(id)){ load(); return; }
     var t=null;
-    state.topics.forEach(function(x){ if(x.id===id) t=x; });
+    state.topics.forEach(function(x){ if(String(x.id)===String(id)) t=x; });
     if(!t) return;
     markUpvoted(id);
     t.upvotes=(t.upvotes||0)+1;

@@ -175,20 +175,26 @@ body.lin-v2 .sidebar-toggle{display:none!important}
    here — the shipped skin that gold-blue is the base of. */
 
 /* Roomier bar: more vertical padding and side air so the top doesn't feel
-   squeezed. The cluster is anchored to the RIGHT of the content column so
-   the login button at the top-left is never covered by the search field on
-   narrower windows (a centered cluster slid over it below ~1364px wide). */
-body.lin-v2 .lin-topbar-inner{position:relative;padding:.9375rem 20px}
+   squeezed. The cluster is an IN-FLOW flex child (never absolutely floats
+   over anything): it right-docks via margin-left:auto and the profile /
+   login button rides beside it at the very RIGHT of the bar. The cluster
+   comes after .header-actions in the DOM, so order:1 (cluster) / order:2
+   (header-actions) swap them so the profile is the last, rightmost item
+   and every button stays visible + spaced at any window width. */
+body.lin-v2 .lin-topbar-inner{padding:.9375rem 20px}
 
 body.lin-v2 .lin-search-cluster{
-  position:absolute;
-  left:auto;
-  right:0;
-  transform:none;
-  top:0;height:100%;
+  order:1;
+  margin-left:auto;
   display:flex;align-items:center;gap:20px;
   z-index:10;
 }
+body.lin-v2 .header-actions{
+  order:2;
+  margin-left:12px;
+  min-width:0;
+}
+body.lin-v2 .header-actions .btn-login .bl-name{max-width:min(26vw,160px)}
 body.lin-v2 .lin-search{
   position:relative;
   display:flex;align-items:center;
@@ -312,12 +318,16 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .lin-search-kbd{display:none}
   body.lin-v2 .lin-search-cluster{gap:12px}
   body.lin-v2 .lin-search-toggles{gap:10px}
+  body.lin-v2 .header-actions{margin-left:10px}
   body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
 }
 @media (max-width:600px){
   body.lin-v2 .lin-search{width:min(44vw,200px)}
-  body.lin-v2 .lin-search-cluster{left:auto;right:10px;transform:none;gap:10px}
+  body.lin-v2 .lin-search-cluster{gap:10px}
   body.lin-v2 .lin-search-toggles{gap:8px}
   body.lin-v2 .lin-search-toggles .btn-icon{width:30px;height:30px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
+  body.lin-v2 .header-actions{margin-left:8px}
+  body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}
+  body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }

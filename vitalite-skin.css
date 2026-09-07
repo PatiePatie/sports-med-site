@@ -173,7 +173,9 @@ body.lin-v2 .sidebar-toggle{display:none!important}
      .lin-topleft    — the bilingual + dark/light toggles, FIRST child so
                        they sit at the very top-LEFT of the bar (Patrick)
      <logo>/<crumb>  — hidden on the shipped skin
-     .lin-search-cluster — the search field, right-docked via margin-left:auto
+     .lin-search-cluster — the search field, right beside the toggles with the
+                       SAME gap as between the two toggles (12px), so the
+                       spacing reads equal (dark↔search == dark↔lang)
      .header-actions — the profile / login button, last and rightmost
    The cluster comes after .header-actions in the DOM, so order:1 (cluster)
    / order:2 (header-actions) swap them so the profile is rightmost and
@@ -186,13 +188,13 @@ body.lin-v2 .lin-topbar-inner{padding:.9375rem 20px}
 
 body.lin-v2 .lin-search-cluster{
   order:1;
-  margin-left:auto;
+  margin-left:12px;
   display:flex;align-items:center;gap:20px;
   z-index:10;
 }
 body.lin-v2 .header-actions{
   order:2;
-  margin-left:12px;
+  margin-left:auto;
   min-width:0;
 }
 body.lin-v2 .header-actions .btn-login .bl-name{max-width:min(26vw,160px)}
@@ -324,19 +326,19 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .lin-search{width:clamp(150px,min(30vw,200px),200px)}
   body.lin-v2.lang-zh .lin-search{width:clamp(180px,min(36vw,230px),230px)}
   body.lin-v2 .lin-search-kbd{display:none}
-  body.lin-v2 .lin-search-cluster{gap:12px}
+  body.lin-v2 .lin-search-cluster{margin-left:10px;gap:12px}
   body.lin-v2 .lin-topleft{gap:10px}
-  body.lin-v2 .header-actions{margin-left:10px}
+  body.lin-v2 .header-actions{margin-left:auto}
   body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
 }
 @media (max-width:600px){
   body.lin-v2 .lin-search{width:min(40vw,170px)}
   body.lin-v2.lang-zh .lin-search{width:min(44vw,200px)}
-  body.lin-v2 .lin-search-cluster{gap:10px}
+  body.lin-v2 .lin-search-cluster{margin-left:8px;gap:10px}
   body.lin-v2 .lin-topleft{gap:8px}
   body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
-  body.lin-v2 .header-actions{margin-left:8px}
+  body.lin-v2 .header-actions{margin-left:auto}
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }

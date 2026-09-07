@@ -742,15 +742,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .acct-msg.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
 .acct-msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
 .acct-hero{background:linear-gradient(135deg,var(--accent),#7c3aed);border-radius:var(--radius-lg);padding:2rem;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
-.acct-avatar{width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.22);border:3px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;color:#fff;cursor:pointer;overflow:hidden}
-.acct-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
-.av-wrap{position:relative;width:92px;margin-bottom:1rem}
-.av-badge{position:absolute;right:-4px;bottom:-4px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .15s;z-index:2}
-.av-badge:hover{transform:scale(1.12)}
-.acct-photo{display:flex;align-items:center;gap:1rem;margin-top:1rem}
-.ph-box{width:72px;height:72px;border-radius:50%;background:var(--surface2);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:1.8rem;overflow:hidden;flex-shrink:0}
-.ph-box img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.ph-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.acct-avatar{width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.22);border:3px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:1rem}
 .acct-name{font-size:1.6rem;font-weight:800;font-family:var(--font-heading);margin:0}
 .acct-email{font-size:.95rem;opacity:.9;margin:.3rem 0 .6rem;word-break:break-all}
 .acct-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;background:rgba(255,255,255,.2)}
@@ -807,7 +799,7 @@ body.dark h1,body.dark h2,body.dark h3{
   <script src="loader.js?v=6"></script>
 <link rel="stylesheet" href="sections.css?v=4">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="vitalite-skin.css?v=3">
+<link rel="stylesheet" href="vitalite-skin.css?v=4">
 <script src="sections.js?v=3" defer></script>
 <script src="draft.js" defer></script>
 <script src="linear-layout.js?v=5" defer></script>
@@ -889,11 +881,7 @@ body.dark h1,body.dark h2,body.dark h3{
     <div class="acct-msg" id="acctMsg"></div>
 
     <section class="acct-hero" id="heroProfile">
-      <div class="av-wrap" id="avWrap" title="Profile photo / 头像">
-        <div class="acct-avatar" id="avInitials">?</div>
-        <button type="button" class="av-badge" onclick="document.getElementById('pfPhoto').click()" aria-label="Upload profile photo">📷</button>
-        <input type="file" id="pfPhoto" accept="image/*" style="display:none">
-      </div>
+      <div class="acct-avatar" id="avInitials">?</div>
       <h1 class="acct-name" id="acctName">—</h1>
       <div class="acct-email" id="acctEmail"></div>
       <div><span class="acct-badge no" id="acctVerified">● Unverified</span></div>
@@ -938,15 +926,6 @@ body.dark h1,body.dark h2,body.dark h3{
       <div class="acct-form">
         <label data-en="Display Name" data-zh="显示名称">Display Name</label>
         <input id="pfName" type="text" data-en-placeholder="Your name" data-zh-placeholder="你的昵称">
-        <label data-en="Profile Photo" data-zh="头像照片">Profile Photo</label>
-        <div class="acct-photo">
-          <div class="ph-box" id="phPreview">📷</div>
-          <div class="ph-actions">
-            <button type="button" class="btn-acc primary" onclick="document.getElementById('pfPhoto').click()" data-en="📷 Upload Photo" data-zh="📷 上传照片">📷 Upload Photo</button>
-            <button type="button" class="btn-acc" id="phRemove" onclick="removePhoto()" style="display:none" data-en="🗑 Remove" data-zh="🗑 移除">🗑 Remove</button>
-          </div>
-        </div>
-        <p class="acct-hint" data-en="JPG/PNG/WebP up to 5 MB. Photos are stored privately in this browser only — nothing is uploaded to a server." data-zh="支持 JPG/PNG/WebP，最大 5 MB。照片仅保存在此浏览器中——不会上传到任何服务器。">JPG/PNG/WebP up to 5 MB. Photos are stored privately in this browser only — nothing is uploaded to a server.</p>
         <div class="row">
           <div>
             <label data-en="Country" data-zh="国家/地区">Country</label>
@@ -1042,13 +1021,7 @@ function initials(name,email){
 function renderProfile(){
   var u=currentUser(); var p=profile();
   var name=(u&&u.name)||p.name||(u&&u.email)||'—';
-  var av=document.getElementById('avInitials');
-  if(p.avatar && /^data:image\//.test(p.avatar)){
-    var safe=(name||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-    av.innerHTML='<img src="'+p.avatar+'" alt="'+safe+'">';
-  } else {
-    av.textContent=initials(name,u&&u.email);
-  }
+  document.getElementById('avInitials').textContent=initials(name,u&&u.email);
   document.getElementById('acctName').textContent=name;
   document.getElementById('acctEmail').textContent=(u&&u.email)||'';
   var vb=document.getElementById('acctVerified');
@@ -1100,7 +1073,6 @@ function selectEdit(){
   document.getElementById('pfAge').value=p.age||'';
   document.getElementById('pfBio').value=p.bio||'';
   document.getElementById('pfPublic').checked=!!p.public;
-  syncPhotoPreview();
   document.getElementById('editCard').style.display='block';
   document.getElementById('editCard').scrollIntoView({behavior:'smooth'});
 }
@@ -1128,58 +1100,7 @@ function doSignOut(){
 }
 function showMsg(txt,ok){ var m=document.getElementById('acctMsg'); m.className='acct-msg '+(ok?'ok':'err'); m.textContent=txt; m.style.display='block'; }
 
-/* ===== Profile photo (stored in sm_profile.avatar as a compressed data URL) ===== */
-function syncPhotoPreview(){
-  var p=profile(); var pre=document.getElementById('phPreview'); var rm=document.getElementById('phRemove');
-  if(!pre||!rm) return;
-  if(p.avatar && /^data:image\//.test(p.avatar)){ pre.innerHTML='<img src="'+p.avatar+'" alt="">'; rm.style.display='inline-flex'; }
-  else { pre.textContent='📷'; rm.style.display='none'; }
-}
-function handlePhotoFile(file){
-  if(!file) return;
-  if(file.type.indexOf('image/')!==0){ showMsg(t('Please choose an image file.','请选择图片文件。'),false); return; }
-  if(file.size>5*1024*1024){ showMsg(t('Image is too large (max 5 MB).','图片过大（最大 5 MB）。'),false); return; }
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var img=new Image();
-    img.onload=function(){
-      try{
-        var S=256, min=Math.min(img.width,img.height);
-        var cv=document.createElement('canvas'); cv.width=S; cv.height=S;
-        var ctx=cv.getContext('2d');
-        ctx.drawImage(img,(img.width-min)/2,(img.height-min)/2,min,min,0,0,S,S);
-        var p=profile();
-        p.avatar=cv.toDataURL('image/jpeg',0.85);
-        p.updatedAt=new Date().toISOString();
-        localStorage.setItem('sm_profile',JSON.stringify(p));
-        renderProfile(); syncPhotoPreview();
-        showMsg(t('Profile photo updated!','头像已更新！'),true);
-      }catch(err){ showMsg(t('Could not process that image.','无法处理该图片。'),false); }
-    };
-    img.onerror=function(){ showMsg(t('Could not read that image.','无法读取该图片。'),false); };
-    img.src=e.target.result;
-  };
-  reader.onerror=function(){ showMsg(t('Could not read that file.','无法读取该文件。'),false); };
-  reader.readAsDataURL(file);
-}
-function removePhoto(){
-  if(!confirm(t('Remove your profile photo?','确定要移除头像吗？'))) return;
-  var p=profile();
-  delete p.avatar;
-  p.updatedAt=new Date().toISOString();
-  localStorage.setItem('sm_profile',JSON.stringify(p));
-  renderProfile(); syncPhotoPreview();
-  showMsg(t('Profile photo removed.','头像已移除。'),true);
-}
-var pfPhoto=document.getElementById('pfPhoto');
-if(pfPhoto){
-  pfPhoto.addEventListener('change',function(){ if(this.files&&this.files[0]) handlePhotoFile(this.files[0]); this.value=''; });
-  var avWrap=document.getElementById('avWrap');
-  if(avWrap) avWrap.addEventListener('click',function(){ pfPhoto.click(); });
-}
-
 /* ===== Init ===== */
-syncPhotoPreview();
 renderProfile();
 renderLevel();
 renderStats();

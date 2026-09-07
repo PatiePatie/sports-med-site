@@ -887,7 +887,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   <script src="loader.js?v=6"></script>
 <link rel="stylesheet" href="sections.css?v=4">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="vitalite-skin.css?v=3">
+<link rel="stylesheet" href="vitalite-skin.css?v=4">
 <script src="sections.js?v=3" defer></script>
 <script src="draft.js" defer></script>
 <script src="linear-layout.js?v=5" defer></script>
@@ -895,8 +895,6 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="qna-widget.js?v=1" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=1">
 <script src="notif-bell.js?v=1" defer></script>
-<link rel="stylesheet" href="checkup.css?v=3">
-<script src="checkup.js?v=3" defer></script>
 <!-- DRAFT-THEME:END -->
 </head>
 <body>
@@ -931,9 +929,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="infirmary.html#checkup" data-en="🩺 Checkup" data-zh="🩺 自查">🩺 Checkup</a>
       <a class="sidebar-link active" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
-      <a class="sidebar-link sub" href="plan.html" data-en="📋 Plan Builder" data-zh="📋 计划生成器">📋 Plan Builder</a>
+      <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
       
     </div>
   </div>
@@ -1012,82 +1009,46 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
   </div>
   <div class="chat-disclaimer" data-en="Education only, not medical advice. If you're in serious pain or injured, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛严重或受伤，请及时就医。">Education only, not medical advice. If you're in serious pain or injured, see a professional.</div>
   <div style="margin-top:1.5rem;text-align:center">
-    <a class="qo-btn next" href="plan.html" data-en="📋 Go to my recovery plan" data-zh="📋 查看我的康复计划">📋 Go to my recovery plan</a>
+    <a class="qo-btn next" href="#plan" data-en="📋 Go to my recovery plan" data-zh="📋 查看我的康复计划">📋 Go to my recovery plan</a>
   </div>
 </div>
 </section>
 
-<section class="chapter" id="checkup">
+<section id="plan">
   <div class="container">
-    <div class="checkup-wrap">
-      <div class="checkup-badge" data-en="CHECKUP · 自检" data-zh="自检 · CHECKUP">CHECKUP · 自检</div>
-      <h1 data-en="🩺 AI Body Checkup" data-zh="🩺 AI 身体自检">🩺 AI Body Checkup</h1>
-      <p class="checkup-intro" data-en="Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis." data-zh="点击人体图上对应的部位 — 自检会列出可能的症状，勾选符合的项，即可获得实用指导。仅供学习参考，绝不构成诊断。">Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis.</p>
+    <div class="plan-badge" data-en="MAKE HEALTHY &amp; ACTIVE · 健康活跃计划" data-zh="健康活跃计划 · MAKE HEALTHY &amp; ACTIVE">MAKE HEALTHY &amp; ACTIVE · 健康活跃计划</div>
+    <h1 data-en="🏃 Build Your Health Plan" data-zh="🏃 制定你的健康计划">🏃 Build Your Health Plan</h1>
+    <p class="plan-intro" data-en="Add the daily habits you actually have (a few is fine — add more anytime). Our engine turns them into a personalized step-by-step plan to get you healthier and more active. Progress saves to your account automatically. Education only — not medical advice." data-zh="添加你真实的日常习惯（几个就够 — 随时可再加）。引擎会根据它们为你生成个性化的逐步计划，助你更健康、更活跃。进度会自动保存到你的账户。仅供学习参考，不构成医疗建议。">Add the daily habits you actually have (a few is fine — add more anytime). Our engine turns them into a personalized step-by-step plan to get you healthier and more active. Progress saves to your account automatically. Education only — not medical advice.</p>
 
-      <div class="checkup-steps" aria-hidden="true">
-        <span class="checkup-step on" id="ckStep1"><span class="cdot">1</span><span data-en="Body part" data-zh="选择部位">Body part</span></span>
-        <span class="checkup-step" id="ckStep2"><span class="cdot">2</span><span data-en="Symptoms" data-zh="勾选症状">Symptoms</span></span>
-        <span class="checkup-step" id="ckStep3"><span class="cdot">3</span><span data-en="Guidance" data-zh="获取指导">Guidance</span></span>
+    <div class="plan-holder" id="planHolder">
+      <!-- Habit entry -->
+      <div class="habit-input-row">
+        <input class="habit-input" id="habitInput" type="text" maxlength="80"
+               data-en-placeholder="e.g. drink 8 glasses of water, walk 30 min, sleep 7h…"
+               data-zh-placeholder="例如：喝 8 杯水、步行 30 分钟、睡 7 小时…"
+               placeholder="e.g. drink 8 glasses of water, walk 30 min, sleep 7h…">
+        <button class="qo-btn" id="habitAdd" data-en="＋ Add habit" data-zh="＋ 添加习惯">＋ Add habit</button>
       </div>
-
-      <div class="checkup-panel">
-        <!-- Step 1: body map -->
-        <div class="checkup-stepbody active" id="ckBody1">
-          <h3>1 · <span data-en="Where does it hurt?" data-zh="哪里不舒服？">Where does it hurt?</span></h3>
-          <div class="ch-ctx" data-en="Tap the body part on the map, or pick it below. You can also take a photo on supported devices." data-zh="点击人体图上的部位，或从下方选择。支持的设备也可以拍照识别。">Tap the body part on the map, or pick it below. You can also take a photo on supported devices.</div>
-          <div class="checkup-bodymap">
-            <div class="checkup-map" id="checkupMap"></div>
-            <div class="checkup-camrow">
-              <button type="button" class="checkup-cam" id="camBtn" data-en="📷 Live scan" data-zh="📷 实时扫描">📷 Live scan</button>
-              <button type="button" class="checkup-cam-alt" id="camFileBtn" data-en="🖼️ Use a photo" data-zh="🖼️ 选择照片">🖼️ Use a photo</button>
-              <input type="file" id="camInput" accept="image/*" hidden>
-            </div>
-            <div class="checkup-camview" id="camView" hidden>
-              <video id="camVideo" autoplay playsinline muted></video>
-              <div class="checkup-reticle" aria-hidden="true"></div>
-              <div class="checkup-scanline" aria-hidden="true"></div>
-              <div class="checkup-camstatus" id="camStatus" role="status"></div>
-              <button type="button" class="checkup-camstop" id="camStop" aria-label="Cancel scan">✕</button>
-            </div>
-            <div class="checkup-cam-err" id="camErr" role="status"></div>
-            <div class="checkup-cam-priv" data-en="🔒 Privacy: photos are analyzed in real time and never stored or shared."
-                              data-zh="🔒 隐私保护：照片仅供实时分析，不会保存或分享。">🔒 Privacy: photos are analyzed in real time and never stored or shared.</div>
-            <div class="checkup-map-hint" data-en="Or pick from the list:" data-zh="或从列表中选择：">Or pick from the list:</div>
-            <div class="checkup-parts" id="checkupParts"></div>
-          </div>
-          <div class="checkup-btnrow">
-            <button type="button" class="checkup-btn ghost" id="restartBtn" data-en="↻ Start over" data-zh="↻ 重新开始">↻ Start over</button>
-          </div>
-        </div>
-
-        <!-- Step 2: symptoms -->
-        <div class="checkup-stepbody" id="ckBody2">
-          <h3>2 · <span data-en="Tick what matches" data-zh="勾选相符的症状">Tick what matches</span></h3>
-          <div class="ch-ctx"><span id="checkupPartName"></span> — <span data-en="leave blank what you don't have" data-zh="没有的症状请留空">leave blank what you don't have</span></div>
-          <div class="checkup-sym" id="symList"></div>
-          <div class="checkup-btnrow">
-            <button type="button" class="checkup-btn ghost" id="backBtn" data-en="← Body part" data-zh="← 选择部位">← Body part</button>
-            <button type="button" class="checkup-btn primary" id="analyzeBtn" data-en="✨ Analyze" data-zh="✨ 分析" disabled>✨ Analyze</button>
-          </div>
-        </div>
-
-        <!-- Step 3: output -->
-        <div class="checkup-stepbody" id="ckBody3">
-          <h3>3 · <span data-en="Guidance" data-zh="指导建议">Guidance</span></h3>
-          <div class="ch-ctx" data-en="General possibilities, not a diagnosis." data-zh="仅为可能性参考，不构成诊断。">General possibilities, not a diagnosis.</div>
-          <div id="ckOut"><div class="checkup-none" data-en="Pick a body part and symptoms to begin." data-zh="请先选择部位并勾选症状。">Pick a body part and symptoms to begin.</div></div>
-          <div class="checkup-btnrow">
-            <button type="button" class="checkup-btn ghost" id="editBtn" data-en="← Edit" data-zh="← 修改">← Edit</button>
-            <button type="button" class="checkup-btn ghost" id="restartBtn2" data-en="↻ New checkup" data-zh="↻ 新一次自检">↻ New checkup</button>
-          </div>
-        </div>
+      <div class="habit-suggest" id="habitSuggest">
+        <span class="habit-sug-label" data-en="Try:" data-zh="试试：">Try:</span>
+        <button class="habit-chip" data-en="💧 drink enough water" data-zh="💧 多喝水">💧 drink enough water</button>
+        <button class="habit-chip" data-en="🚶 walk 30 minutes" data-zh="🚶 步行 30 分钟">🚶 walk 30 minutes</button>
+        <button class="habit-chip" data-en="😴 sleep 7+ hours" data-zh="😴 睡满 7 小时">😴 sleep 7+ hours</button>
+        <button class="habit-chip" data-en="💪 strength train 3×/week" data-zh="💪 每周力量训练 3 次">💪 strength train 3×/week</button>
+        <button class="habit-chip" data-en="🥗 eat more vegetables" data-zh="🥗 多吃蔬菜">🥗 eat more vegetables</button>
       </div>
-
-      <div class="checkup-disclaimer" data-en="Education only — not medical advice. If you're in serious pain or injured, see a professional." data-zh="仅供学习参考，不构成医疗建议。若疼痛严重或受伤，请及时就医。">Education only — not medical advice. If you're in serious pain or injured, see a professional.</div>
+      <div class="habit-list" id="habitList"></div>
+      <div class="plan-actions">
+        <button class="qo-btn next" id="planGenerate" disabled
+                data-en="🤖 Generate My Plan" data-zh="🤖 生成我的计划">🤖 Generate My Plan</button>
+        <span class="plan-hint" id="planHint" data-en="Add a few habits first" data-zh="请先添加几个习惯">Add a few habits first</span>
+      </div>
+      <div id="planStatus"></div>
     </div>
+
+    <div id="planDetail"></div>
   </div>
 </section>
-
 
 <footer>
 <div class="container">
@@ -1250,22 +1211,310 @@ document.addEventListener('click', function(e){
   try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
 })();
 </script>
-
 <script>
-/* Dashboard strip — self-contained read of the recovery plan store.
-   Reads localStorage directly so it works on any page, no VitalPlan dependency. */
+/* ── Health Plan builder — habit-driven, AI-generated, localStorage per user ──
+ *
+ * Architecture:
+ *   PlanEngine.generate(habits, lang) → Promise<plan>
+ *   - AIEngine (current): Cloudflare Worker via api.vitaliteplan.com.
+ *       Sends a structured prompt, expects a structured JSON plan back.
+ *   - AlgorithmEngine (future, free tier): same interface, local rules engine.
+ *       Seam is here — swap via PlanEngine.factory() when ready.
+ *
+ * Plan shape (shared with renderer):
+ *   { id, icon, title_en, title_zh, summary_en, summary_zh,
+ *     phases: [ { title_en, title_zh, desc_en, desc_zh,
+ *                 items: [ {en, zh}, ... ] } ] }
+ */
 (function(){
-  var strip=document.getElementById('dashStrip');
-  if(!strip) return;
   var KEY='vitalite_plan_v1';
+  var MEDAI_URL='https://api.vitaliteplan.com';
+  var _habits=[];          // current habit list in UI
+  var selected=null;       // active plan id
+  var generating=false;
+
   function userKey(){
     try{ var u=JSON.parse(localStorage.getItem('sm_user')||'null'); if(u&&u.email) return u.email; }catch(e){}
     return 'guest';
   }
-  function load(){
+  function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
+  function T(en,zh){ return lang()==='zh'?zh:en; }
+  function loadStore(){
     try{ var a=JSON.parse(localStorage.getItem(KEY+'|'+userKey())||'null'); if(a&&a.data) return a; }catch(e){}
-    return {data:{},last:null};
+    return {data:{},last:null,habits:[]};
   }
+  function saveStore(a){ try{ localStorage.setItem(KEY+'|'+userKey(), JSON.stringify(a)); }catch(e){} }
+
+  /* ── PlanEngine: pluggable seam ── */
+  var PlanEngine={
+    providers:{},
+    register:function(name,impl){ this.providers[name]=impl; },
+    generate:function(habits){
+      var p=this.providers[this.active||'ai'];
+      if(!p) return Promise.resolve({ok:false,error:'no_engine'});
+      return p.generate(habits, lang());
+    },
+    /* Which engine runs now. ai = paid-capable; algorithm = future free tier. */
+    active:'ai'
+  };
+
+  /* ── AI engine: Cloudflare Worker, structured JSON response ── */
+  PlanEngine.register('ai',{
+    generate:function(habits, lng){
+      return new Promise(function(resolve){
+        if(!MEDAI_URL || !habits || !habits.length){ resolve({ok:false,error:'not_configured'}); return; }
+        var l=lng||'en';
+        var habitList=habits.map(function(h,i){ return (i+1)+'. '+h; }).join('\n');
+        var prompt=(l==='zh'
+          ? '你是健康与运动康复教练。根据用户列出的日常习惯，生成一份个性化的“更健康、更活跃”计划。'
+            + '必须严格返回 JSON，不要输出任何其他文字。JSON 结构：'
+            + '{"title_zh":"计划标题","summary_zh":"一句话概述","phases":[{"title_zh":"阶段标题","desc_zh":"阶段说明","items":["步骤1","步骤2","步骤3"]}]}'
+            + '要求：3-4 个阶段；每阶段 3-5 个具体可执行步骤；步骤要结合用户现有习惯，循序渐进、安全、无需器械或仅需简单器械；'
+            + '风格像康复/健身教练的建议；不要诊断疾病；总步骤数适中。\n用户的习惯：\n'+habitList
+          : 'You are a health & sports-rehab coach. Based on the daily habits the user listed, build a personalized "healthier & more active" plan. '
+            + 'You MUST respond with JSON only — no prose, no markdown fences. JSON shape: '
+            + '{"title_en":"plan title","summary_en":"one-line summary","phases":[{"title_en":"phase title","desc_en":"phase note","items":["step 1","step 2","step 3"]}]}'
+            + 'Rules: 3-4 phases; 3-5 concrete actionable steps per phase; tie steps to the user\'s actual habits; progressive, safe, bodyweight or minimal equipment; '
+            + 'tone like a rehab/fitness coach; do not diagnose illness. Examples: habit "walk 30 min" -> phase on consistency, then progressive load, then active rest.\nUser\'s habits:\n'+habitList);
+        fetch(MEDAI_URL,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({question:prompt, lang:l})
+        }).then(function(r){ return r.json(); }).then(function(d){
+          if(d && d.reply){ resolve({ok:true, reply:d.reply}); }
+          else { resolve({ok:false, error:(d&&d.error)||'unknown'}); }
+        }).catch(function(){ resolve({ok:false,error:'network'}); });
+      });
+    }
+  });
+
+  /* ── Future AlgorithmEngine (free tier) — implement generate(habits, lang) here.
+   *    It returns the same plan shape as parsePlan. No network, deterministic. */
+  // PlanEngine.register('algorithm', { generate: function(habits, lng){ /* TODO */ } });
+
+  /* ── Parse AI reply → plan object (tolerant of fences / prose wrapping) ── */
+  function extractJSON(raw){
+    if(!raw) return null;
+    var s=String(raw).trim();
+    // strip ```json ... ``` fences
+    var fm=s.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if(fm) s=fm[1].trim();
+    else {
+      var ob=s.indexOf('{');
+      if(ob>0) s=s.slice(ob);
+      var cb=s.lastIndexOf('}');
+      if(cb>0 && cb<s.length-1) s=s.slice(0,cb+1);
+    }
+    try{ return JSON.parse(s); }catch(e){ return null; }
+  }
+  function normItems(arr){
+    if(!Array.isArray(arr)) return [];
+    return arr.map(function(x){
+      if(typeof x==='string') return {en:x,zh:x};
+      if(x&&typeof x==='object') return {en:String(x.en||x.text||''),zh:String(x.zh||x.en||x.text||'')};
+      return {en:String(x),zh:String(x)};
+    }).filter(function(x){ return x.en&&x.en.trim(); });
+  }
+  function parsePlan(raw, habits){
+    var j=extractJSON(raw); if(!j||!j.phases) return null;
+    var isZh=lang()==='zh';
+    var phases=(Array.isArray(j.phases)?j.phases:[]).filter(function(p){ return p&&(p.items||p.steps); }).map(function(p,i){
+      var items=normItems(p.items||p.steps||[]);
+      return {
+        en:p.title_en||p.title||('Phase '+(i+1)),
+        zh:p.title_zh||p.title||p.title_en||('阶段 '+(i+1)),
+        en_d:p.desc_en||p.desc||'',
+        zh_d:p.desc_zh||p.desc||p.desc_en||'',
+        items:items
+      };
+    });
+    if(!phases.length||!phases[0].items.length) return null;
+    return {
+      id:'habits-'+new Date().getTime().toString(36),
+      icon:isZh?(j.icon_zh||'🏃'):(j.icon||'🏃'),
+      title_en:j.title_en||'My Health Plan',
+      title_zh:j.title_zh||j.title_en||'我的健康计划',
+      summary_en:j.summary_en||'Personalized plan built from your habits.',
+      summary_zh:j.summary_zh||j.summary_en||'根据你的习惯生成的个性化计划。',
+      phases:phases
+    };
+  }
+
+  /* ── Habit list UI ── */
+  function renderHabits(){
+    var box=document.getElementById('habitList'); if(!box) return;
+    box.innerHTML=_habits.map(function(h,i){
+      return '<span class="habit-pill">'+h
+        +'<button type="button" class="hp-rm" data-i="'+i+'" aria-label="remove">✕</button></span>';
+    }).join('');
+    var gen=document.getElementById('planGenerate');
+    var hint=document.getElementById('planHint');
+    if(gen) gen.disabled=!_habits.length;
+    if(hint){
+      var enReady='Ready — generate your plan', zhReady='准备就绪 — 生成你的计划';
+      var enWait='Add a few habits first', zhWait='请先添加几个习惯';
+      var en=_habits.length?enReady:enWait, zh=_habits.length?zhReady:zhWait;
+      hint.setAttribute('data-en', en);
+      hint.setAttribute('data-zh', zh);
+      hint.textContent=T(en,zh);
+    }
+  }
+  function addHabit(text){
+    var v=(text||'').trim().replace(/\s+/g,' ');
+    if(!v) return;
+    var low=v.toLowerCase();
+    if(_habits.some(function(h){ return h.toLowerCase()===low; })) return;
+    _habits.push(v);
+    var a=loadStore(); a.habits=_habits; saveStore(a);
+    renderHabits();
+  }
+  function removeHabit(i){
+    if(i<0||i>=_habits.length) return;
+    _habits.splice(i,1);
+    var a=loadStore(); a.habits=_habits; saveStore(a);
+    renderHabits();
+  }
+
+  /* ── Generation flow ── */
+  function showStatus(html, cls){
+    var el=document.getElementById('planStatus'); if(!el) return;
+    el.className=cls||'';
+    el.innerHTML=html;
+  }
+  function setGenerating(on){
+    generating=on;
+    var btn=document.getElementById('planGenerate');
+    if(btn) btn.disabled=on||!_habits.length;
+  }
+  function generatePlan(){
+    if(generating||!_habits.length) return;
+    setGenerating(true);
+    showStatus('<span class="plan-loading"><span class="spinner"></span> '+T('Building your plan…','正在生成你的计划…')+'</span>');
+    PlanEngine.generate(_habits).then(function(res){
+      setGenerating(false);
+      if(!res.ok){
+        showStatus('⚠️ '+T('Could not generate right now — '+(res.error==='network'?'check your connection.':'the engine is unavailable.')+' Try again in a moment.','暂时无法生成 — '+(res.error==='network'?'请检查网络连接。':'引擎暂不可用。')+' 请稍后再试。'),'plan-err');
+        return;
+      }
+      var plan=parsePlan(res.reply,_habits);
+      if(!plan){
+        // Fallback: none generated — surface what the AI said so it's not a dead end.
+        var s=String(res.reply||'').slice(0,400);
+        showStatus(T('The engine returned something unexpected. Here is the raw response:','引擎返回了意外内容。以下是原始回复：')+'<br><pre style="white-space:pre-wrap;font-size:.78rem">'+s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</pre>','plan-err');
+        return;
+      }
+      // persist plan
+      var a=loadStore();
+      a.data[plan.id]=plan;
+      a.last=plan.id;
+      a.habits=_habits;
+      saveStore(a);
+      selected=plan.id;
+      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+      showStatus('✓ '+T('Plan ready! Check off steps as you complete them.','计划已生成！完成步骤时请打勾。'));
+      renderDetail();
+      document.getElementById('planDetail').scrollIntoView({behavior:'smooth'});
+    });
+  }
+
+  /* ── Detail renderer (same contract as before: checkboxes persist per plan) ── */
+  function currentPlan(){ return selected?((loadStore().data||{})[selected]||null):null; }
+  function renderDetail(){
+    var box=document.getElementById('planDetail'); if(!box) return;
+    var s=currentPlan();
+    if(!s){ box.innerHTML=''; return; }
+    var a=loadStore();
+    var d=a.data[selected]||{};
+    var ph=s.phases.map(function(p,pi){
+      var items=p.items.map(function(it,i){
+        var k=selected+':'+pi+':'+i;
+        var on=!!d[k];
+        return '<label class="plan-item'+(on?' done':'')+'" data-key="'+k+'">'
+          +'<input type="checkbox" '+(on?'checked':'')+'>'
+          +'<span class="pi-t">'+T(it.en,it.zh)+'</span></label>';
+      }).join('');
+      return '<div class="pd-phase"><h4>'+T(p.en,p.zh)+'</h4>'
+        +'<p class="pd-days">'+T(p.en_d,p.zh_d)+'</p>'+items+'</div>';
+    }).join('');
+    box.innerHTML='<div class="plan-detail"><h3>'+s.icon+' '+T(s.title_en,s.title_zh)+'</h3>'
+      +'<p class="pd-sub">'+T(s.summary_en,s.summary_zh)+'</p>'
+      +ph
+      +'<button class="qo-btn next pd-back" data-en="🗑 Delete this plan" data-zh="🗑 删除此计划" onclick="document.getElementById(\'plan\').scrollIntoView({behavior:\'smooth\'})" >🗑 Delete this plan</button>'
+      +'<p class="pd-footnote">⚠️ '+T('Educational guidance only, not medical advice. If pain is severe or lasts more than a week, see a professional.','仅供学习参考，不构成医疗建议。若疼痛剧烈或持续超过一周，请及时就医。')+'</p>'
+      +'</div>';
+  }
+  function deletePlan(){
+    if(!selected) return;
+    var a=loadStore(); delete a.data[selected]; a.last=null; saveStore(a);
+    selected=null;
+    document.getElementById('planDetail').innerHTML='';
+    try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+    showStatus('🗑 '+T('Plan deleted.','计划已删除。'));
+  }
+
+  /* ── Wire up ── */
+  document.getElementById('habitAdd').addEventListener('click',function(){
+    var inp=document.getElementById('habitInput');
+    addHabit(inp.value); inp.value='';
+  });
+  document.getElementById('habitInput').addEventListener('keydown',function(e){
+    if(e.key==='Enter'){ e.preventDefault(); addHabit(this.value); this.value=''; }
+  });
+  document.getElementById('habitSuggest').addEventListener('click',function(e){
+    var chip=e.target&&e.target.closest?e.target.closest('.habit-chip'):null;
+    if(chip) addHabit(chip.getAttribute('data-en')||chip.textContent);
+  });
+  document.getElementById('habitList').addEventListener('click',function(e){
+    var rm=e.target&&e.target.closest?e.target.closest('.hp-rm'):null;
+    if(rm) removeHabit(parseInt(rm.getAttribute('data-i'),10));
+  });
+  document.getElementById('planGenerate').addEventListener('click',generatePlan);
+  document.getElementById('planDetail').addEventListener('click',function(e){
+    var item=e.target&&e.target.closest?e.target.closest('.plan-item'):null;
+    if(item){
+      var a=loadStore(); var d=a.data[selected]||{}; a.data[selected]=d;
+      var key=item.getAttribute('data-key');
+      var cb=item.querySelector('input');
+      // Key off the STORED state, not the pre-click checkbox state (the browser
+      // toggles checked before handlers run when the input itself is clicked,
+      // but NOT when the label text is clicked — store-first is deterministic).
+      if(d[key]){ delete d[key]; if(cb) cb.checked=false; item.classList.remove('done'); }
+      else{ d[key]=true; if(cb) cb.checked=true; item.classList.add('done'); }
+      a.last=selected; saveStore(a); renderDetail();
+      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
+      return;
+    }
+    // Delete CTA (plain button, not plan-item)
+    var del=e.target.closest&&e.target.closest('button.pd-back');
+    if(del && del.textContent.indexOf('🗑')!==-1){ deletePlan(); }
+  });
+  var langBtn=document.getElementById('langToggle');
+  if(langBtn) langBtn.addEventListener('click',function(){ renderHabits(); renderDetail(); });
+
+  /* ── Restore state ── */
+  var a=loadStore();
+  if(a.habits&&a.habits.length){ _habits=a.habits.slice(); }
+  renderHabits();
+  var hash=String(location.hash||'').replace('#','');
+  if(hash==='plan' && a.last && a.data[a.last]){
+    selected=a.last; renderDetail();
+  }
+  if(!_habits.length && a.last && a.data[a.last]){
+    // user has a plan but wiped habit list — keep it accessible
+    selected=a.last; renderDetail();
+  }
+
+  /* Expose store + engine so the dashboard strip can read live progress. */
+  window.VitalPlan={ load:loadStore, engine:PlanEngine, habits:function(){ return _habits.slice(); } };
+})();
+</script>
+<script>
+/* Dashboard strip — live read of the recovery plan store (VitalPlan handle). */
+(function(){
+  var strip=document.getElementById('dashStrip');
+  var ok=!!(window.VitalPlan && window.VitalPlan.load);
+  if(!ok){ if(strip) strip.style.display='none'; return; }
+  var load=window.VitalPlan.load;
   function T(en,zh){ try{ return localStorage.getItem('sm_lang')==='zh'?zh:en; }catch(e){ return en; } }
   function renderDash(){
     var elP=document.getElementById('dashPlan');
@@ -1280,10 +1529,7 @@ document.addEventListener('click', function(e){
     if(!s||!s.phases){
       elP.textContent=T('No plan yet','暂无计划');
       elG.textContent=T('Not started','未开始');
-      var self=location.pathname.split('/').pop()==='plan.html';
-      elS.innerHTML=self
-        ? '<a href="#plan" data-en="Build your plan below ↓" data-zh="在下方制定计划 ↓">Build your plan below ↓</a>'
-        : '<a href="plan.html" data-en="Build your plan →" data-zh="去制定计划 →">Build your plan →</a>';
+      elS.innerHTML='<a href="#plan" data-en="Build one below ↓" data-zh="在下方制定 ↓">Build one below ↓</a>';
       return;
     }
     var total=0; s.phases.forEach(function(p){ total+=(p.items||[]).length; });

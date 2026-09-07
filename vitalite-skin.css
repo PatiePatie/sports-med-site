@@ -344,11 +344,29 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
    rail/hover contexts so medium windows (601–900px, full 240px label
    sidebar) and touch layouts are untouched. */
 
-/* ── sbcompact compact rail (opt-in, affects the 62px rail + its hover) ── */
-body.sbcompact .part-toggle{
-  min-height:30px;height:30px;padding:.35rem 0;justify-content:center;
+/* ── All states: every sidebar row equally lengthed ──────────────────────────────
+   The rail/flyout rules below only cover the icon-rail states. The full
+   240px label sidebar (medium windows 601-900px + touch/no-hover) kept the
+   inline accordion heights — part-toggles ~42px, sidebar links 29px,
+   separator labels 30px — so an OPENED group read as squeezed/ragged and
+   the Knowledge group (the longest) showed it worst. Equalize EVERY row in
+   every state to one 32px box with equal 2px gaps. The 30px rest-rail and
+   sbcompact rules below re-assert (same-height selectors, later in file). */
+body.lin-v2 .sidebar .part-toggle,
+body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link,
+body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.sub,
+body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label{
+  height:32px;min-height:32px;margin:2px 0;line-height:1;
 }
-body.sbcompact .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
+body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label{
+  display:flex;align-items:center;
+}
+
+/* ── sbcompact compact rail (opt-in, affects the 62px rail + its hover) ── */
+body.sbcompact .sidebar-group.part > .part-toggle{
+  min-height:30px;height:30px;padding:.35rem 0;justify-content:center;margin:0;
+}
+body.sbcompact .sidebar .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
 body.sbcompact .sidebar:hover .part-toggle,
 body.sbcompact .sidebar:focus-within .part-toggle{
   height:32px;min-height:32px;padding:.34rem .5rem;justify-content:flex-start;gap:.5rem;margin:2px 0;line-height:1;
@@ -368,8 +386,8 @@ body.sbcompact .sidebar:focus-within .sidebar-group.part > .part-body .sidebar-l
 
 /* ── gold-blue hover rail (the DEFAULT desktop state) ──────────────── */
 @media (hover:hover) and (min-width:901px){
-  body.lin-v2 .sidebar .part-toggle{
-    min-height:30px;height:30px;padding:.35rem 0;justify-content:center;
+  body.lin-v2 .sidebar .sidebar-group.part > .part-toggle{
+    min-height:30px;height:30px;padding:.35rem 0;justify-content:center;margin:0;
   }
   body.lin-v2 .sidebar .part-toggle .part-icon{width:1.25rem;font-size:1rem;opacity:.9}
   body.lin-v2 .sidebar .part-toggle .part-caret{display:none}

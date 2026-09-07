@@ -1464,11 +1464,12 @@ body.lin-v2 .lin-topbar-inner > .sidebar-toggle{
   display:none!important;
 }
 
-/* ── Search cluster — centered field + toggles in the top bar, dropdown ── */
+/* ── Search cluster — right-anchored field + toggles in the top bar, dropdown ── */
 body.lin-v2 .lin-search-cluster{
   position:absolute;
-  left:50%;
-  transform:translateX(-50%);
+  left:auto;
+  right:0;
+  transform:none;
   top:0;
   height:var(--lin-topbar-h);
   display:flex;align-items:center;gap:20px;

@@ -168,19 +168,20 @@ body.lin-v2 .lin-context{display:none}
    never collapsed, so there is nothing to toggle. */
 body.lin-v2 .sidebar-toggle{display:none!important}
 
-/* ── Search: a centered field in the top bar + a dropdown of results ──────
-   The layout script creates a .lin-search-cluster inside the top bar
-   holding the search field and the page's dark/language toggles; these
-   rules style it. Production does NOT load linear-theme.css, so they live
-   here — the shipped skin that gold-blue is the base of. */
+/* ── Top bar layout + toggles ─────────────────────────────────────────────
+   The layout script builds a .lin-topbar-inner with (left→right):
+     .lin-topleft    — the bilingual + dark/light toggles, FIRST child so
+                       they sit at the very top-LEFT of the bar (Patrick)
+     <logo>/<crumb>  — hidden on the shipped skin
+     .lin-search-cluster — the search field, right-docked via margin-left:auto
+     .header-actions — the profile / login button, last and rightmost
+   The cluster comes after .header-actions in the DOM, so order:1 (cluster)
+   / order:2 (header-actions) swap them so the profile is rightmost and
+   every item stays visible + spaced at any window width. All in-flow flex
+   children — never absolutely floated, so nothing is ever covered. */
 
 /* Roomier bar: more vertical padding and side air so the top doesn't feel
-   squeezed. The cluster is an IN-FLOW flex child (never absolutely floats
-   over anything): it right-docks via margin-left:auto and the profile /
-   login button rides beside it at the very RIGHT of the bar. The cluster
-   comes after .header-actions in the DOM, so order:1 (cluster) / order:2
-   (header-actions) swap them so the profile is the last, rightmost item
-   and every button stays visible + spaced at any window width. */
+   squeezed. */
 body.lin-v2 .lin-topbar-inner{padding:.9375rem 20px}
 
 body.lin-v2 .lin-search-cluster{
@@ -240,8 +241,8 @@ body.lin-v2 .lin-search:focus-within .lin-search-kbd{display:none}
 
 /* The toggles beside the field — round icon buttons matching the field's
    quiet surface instead of the loud floating pills elsewhere. */
-body.lin-v2 .lin-search-toggles{display:flex;align-items:center;gap:12px}
-body.lin-v2 .lin-search-toggles .btn-icon{
+body.lin-v2 .lin-topleft{display:flex;align-items:center;gap:12px}
+body.lin-v2 .lin-topleft .btn-icon{
   width:34px;height:34px;
   border-radius:50%;
   border:1px solid var(--border2);
@@ -252,7 +253,7 @@ body.lin-v2 .lin-search-toggles .btn-icon{
   cursor:pointer;
   transition:background var(--lin-t) ease,border-color var(--lin-t) ease,color var(--lin-t) ease,transform var(--lin-t) ease,box-shadow var(--lin-t) ease;
 }
-body.lin-v2 .lin-search-toggles .btn-icon:hover{
+body.lin-v2 .lin-topleft .btn-icon:hover{
   background:var(--accent-bg);
   border-color:var(--accent);
   color:var(--accent);
@@ -317,15 +318,15 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .lin-search{width:clamp(160px,min(34vw,230px),230px)}
   body.lin-v2 .lin-search-kbd{display:none}
   body.lin-v2 .lin-search-cluster{gap:12px}
-  body.lin-v2 .lin-search-toggles{gap:10px}
+  body.lin-v2 .lin-topleft{gap:10px}
   body.lin-v2 .header-actions{margin-left:10px}
   body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
 }
 @media (max-width:600px){
   body.lin-v2 .lin-search{width:min(44vw,200px)}
   body.lin-v2 .lin-search-cluster{gap:10px}
-  body.lin-v2 .lin-search-toggles{gap:8px}
-  body.lin-v2 .lin-search-toggles .btn-icon{width:30px;height:30px}
+  body.lin-v2 .lin-topleft{gap:8px}
+  body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
   body.lin-v2 .header-actions{margin-left:8px}
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}

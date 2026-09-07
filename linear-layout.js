@@ -243,8 +243,9 @@
 
     /* Search — a centered, always-visible field whose dropdown sits under it.
        The field is created here; the Search module binds behaviour when it
-       initialises later in this file. Dark-mode + language toggles ride
-       beside the field (moved, not cloned, so their page listeners survive). */
+       initialises later in this file. The page's bilingual + dark/light
+       toggles are moved to a .lin-topleft as the bar's FIRST child (the far
+       top-left), so they never hide under the field on narrow windows. */
     var actions = $('.header-actions', inner) || $('.header-actions', header);
     if (actions && !$('.lin-search', inner) && !$('.lin-search', header)) {
       var cluster = el('div', 'lin-search-cluster');
@@ -268,12 +269,12 @@
       sw.appendChild(dd);
       cluster.appendChild(sw);
 
-      var toggles = el('div', 'lin-search-toggles');
       var langBtn = document.getElementById('langToggle');
       var darkBtn = document.getElementById('darkToggle');
-      if (langBtn) toggles.appendChild(langBtn);
-      if (darkBtn) toggles.appendChild(darkBtn);
-      if (toggles.childNodes.length) cluster.appendChild(toggles);
+      var topleft = el('div', 'lin-topleft');
+      if (langBtn) topleft.appendChild(langBtn);
+      if (darkBtn) topleft.appendChild(darkBtn);
+      if (topleft.childNodes.length) inner.insertBefore(topleft, inner.firstChild);
 
       inner.appendChild(cluster);
       SEARCH_UI = { wrap: sw, input: inp, dd: dd };

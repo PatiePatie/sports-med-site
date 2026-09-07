@@ -709,10 +709,12 @@ body.dark h1,body.dark h2,body.dark h3{
 .sidebar-group.part.open>.part-toggle .part-caret{transform:rotate(180deg)}
 .part-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
 .sidebar-group.part.open .part-body{max-height:700px}
-/* Developer Tools group stays open — this page doesn't load sections.css
-   (the section pages' escape hatch for the accordion), so if this group
-   relied on .open it would render as a crushed 0-height body and its
-   Moderation/Site Designer/Content Editor links would be invisible. */
+/* Developer Tools group stays open. admin.html now loads sections.css
+   (whose body:not(.sbcompact) rule provides the same escape hatch), but
+   this inline rule is kept as belt-and-braces so Moderation/Site Designer/
+   Content Editor links render even if the stylesheet pin is stale in some
+   cache — a crushed 0-height .part-body would bury the group on the
+   operator rail. */
 .sidebar-group.part[data-part="vitalite-dev"] > .part-body{max-height:none;overflow:visible}
 .part-body .sidebar-link{padding-left:1.7rem}
 .part-body .sidebar-link.sub{padding-left:2.2rem}
@@ -738,8 +740,10 @@ body.dark h1,body.dark h2,body.dark h3{
 }
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=3">
+<link rel="stylesheet" href="sections.css?v=6">
 <script src="auth-widget.js?v=11"></script>
 <script src="auth-gate.js"></script>
+<script src="sections.js?v=5" defer></script>
 <style>
 
 

@@ -83,6 +83,7 @@
       var a = document.createElement('a');
       a.className = 'sec-pill' + (s.key === cur ? ' active' : '');
       a.href = s.file;
+      a.setAttribute('aria-label', zh ? s.zh : s.en);
       if (s.key === cur) a.setAttribute('aria-current', 'page');
       var ico = document.createElement('span');
       ico.className = 'sec-ico';
@@ -97,6 +98,12 @@
       a.appendChild(lbl);
       sw.appendChild(a);
     }
-    actions.insertBefore(sw, actions.firstChild);
+    /* Ride AFTER the account cluster so the pills land at the bar's far
+       right corner and are never covered or squeezed. Inside
+       .header-actions they sat directly under the centred search field and
+       inherited the cluster's flex stretch (a 48px-tall capsule around a
+       ~27px pill row). The sections.css margin/order rules glue actions +
+       switcher to the right on shell AND base headers (incl. admin.html). */
+    actions.parentNode.insertBefore(sw, actions.nextSibling);
   }
 })();

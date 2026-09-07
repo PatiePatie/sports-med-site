@@ -81,7 +81,7 @@ SECTIONS_JS_PAGES = {
     "account.html", "cn-cert.html", "exam.html", "g10-bio.html", "guide.html",
     "index.html", "infirmary.html", "plan.html", "toc.html", "usabo.html",
 }
-SECTIONS_JS_PIN = "?v=3"
+SECTIONS_JS_PIN = "?v=5"
 
 BLOCK = (
     f"{BEGIN}\n"

@@ -7,7 +7,7 @@
        🩺 Infirmary  ·  📚 Knowledge  ·  💬 Social
 
    This file styles the shared chrome the split needs:
-     · the section switcher pills (every page header)
+     · the section switcher pills (every page header, incl. admin.html)
      · the infirmary dashboard strip (recovery status cards)
      · hub polish on the landing doors
 
@@ -20,16 +20,27 @@
 
 .sec-switcher{
   display:flex;align-items:center;gap:2px;
-  margin-right:.25rem;
+  margin-left:.25rem;
   background:var(--surface2);
   border:1px solid var(--border);
   border-radius:99px;padding:2px;
+  /* Never shrink or stretch: the pills must stay fully visible with every
+     element to their left pushed over, not squeezed off the bar. The base
+     themes' generic `nav` rules would otherwise stretch this box and blow
+     the header height (a 48px-tall switcher wrapping a ~27px pill row). */
+  flex:0 0 auto;
+  align-self:center;
+  line-height:1.2;
 }
+/* Generic nav rules in the origin themes paint their own backdrop on any
+   <nav> — beat them so the pill capsule keeps its own surface + border. */
+header .sec-switcher{background:var(--surface2);border:1px solid var(--border)}
 .sec-pill{
   display:inline-flex;align-items:center;gap:.35rem;
   padding:.3rem .65rem;border-radius:99px;
   font-size:.78rem;font-weight:700;line-height:1.2;
   color:var(--text2);text-decoration:none;white-space:nowrap;
+  flex:0 0 auto;
   transition:background .15s,color .15s;
 }
 .sec-pill:hover{color:var(--accent);background:var(--surface);text-decoration:none}
@@ -37,10 +48,40 @@
 body.dark .sec-pill.active{color:#1a1300}
 .sec-ico{font-size:.85rem;line-height:1}
 
-@media (max-width:700px){
+/* ── Placement: the switcher is injected AFTER .header-actions ──────────
+   The account cluster glues right (margin-left:auto) and the pills follow
+   it to the bar's far-right corner — the chooser is the rightmost thing on
+   the bar, so every element sits LEFT of it and nothing covers it. Without
+   these rules the base header's justify-content:space-between parks
+   actions+switcher at the LEFT edge — directly under (and covered by) the
+   centred search field. */
+header .header-inner > .header-actions{margin-left:auto}
+header .header-inner > .sec-switcher{margin-left:.5rem}
+/* On the shell bar (.lin-topbar-inner) the search owns order:1 and the
+   account cluster order:2; the switcher joins as order:3, past the profile,
+   in the far-right corner. */
+body.lin-v2 .lin-topbar-inner > .sec-switcher{
+  order:3;position:relative;z-index:20;
+  margin-left:12px;
+}
+
+/* Labels only where they fit. The search field is centred across the whole
+   header (window centre = rail offset), so on skin pages a labelled
+   switcher slides under it below ~1280px; icon-only pills clear it down to
+   ~700px. Icon mode keeps aria-labels from sections.js. */
+@media (max-width:1280px){
   .sec-pill-label{display:none}
   .sec-pill{padding:.3rem .45rem}
   .sec-ico{font-size:.95rem}
+}
+
+/* ≤600px the search field shrinks (skin media query) — move the pills to the
+   far left so the field, account cluster and profile own the right stretch
+   untouched. The skin already glues .header-actions right (margin-left:auto);
+   do NOT fight it — pulling actions left only opens a dead gap at the edge.
+   Non-shell pages keep the base right-aligned layout. */
+@media (max-width:600px){
+  body.lin-v2 .lin-topbar-inner > .sec-switcher{order:-10;margin-left:0}
 }
 
 /* ── Flat section rail — subcategories listed, no collapsible header ──

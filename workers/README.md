@@ -1,5 +1,11 @@
 # Vitalité API Worker — `api.vitaliteplan.com`
 
+> **⚠️ DEPLOY OWNER: Patrick (PatiePatie) or Oliver — whoever holds the
+> `api.vitaliteplan.com` Cloudflare account.** The original worker source was
+> never in a repo and there are **no local CF credentials/wrangler** — this
+> file IS the source of truth and must be pasted into the CF dashboard to
+> activate the clinical/site split. Ping on PR #111.
+
 Two assistants, one Cloudflare Worker.
 
 ## Assistant routing

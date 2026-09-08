@@ -1,8 +1,11 @@
-@import url('gold-blue-theme.css');
-
 /* ══════════════════════════════════════════════════════════════════════════════
    vitalite-skin.css — the active skin for theme_switch.py
    ------------------------------------------------------------------------------
+   NOTE: the old `@import url('gold-blue-theme.css')` was REMOVED — it re-loaded
+   the theme UNPINNED, and browsers caching that URL served a stale pre-rail copy
+   that landed AFTER the pinned ?v=12 link in the cascade, overriding the rail
+   media rule (sidebar stuck at 224px). Every page links gold-blue-theme.css
+   directly, so the import was pure duplication.
    Gold/Blue brand + the Linear v2 shell mechanics (the collapsible 36px rail).
    The shell's interaction (linear-layout.js) toggles `lin-rail-collapsed` on
    <body>; this file is the CSS that makes that class DO something while keeping

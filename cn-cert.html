@@ -738,8 +738,6 @@ body.dark h1,body.dark h2,body.dark h3{
 /* ══════════════════════════════════════════
    VITALITE SIDEBAR — 4-part accordion + compact mode
    ══════════════════════════════════════════ */
-.sb-compact-btn{display:flex;align-items:center;justify-content:center;width:26px;height:26px;margin-left:.4rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text3);font-size:1rem;line-height:1;cursor:pointer;transition:all .15s;flex:none}
-.sb-compact-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-bg)}
 .sidebar-logo{display:flex;align-items:center;gap:0}
 .sidebar-logo .logo-text{flex:1;min-width:0}
 .sidebar-group.part{margin-bottom:.25rem}
@@ -754,38 +752,18 @@ body.dark h1,body.dark h2,body.dark h3{
 .sidebar-group.part.open .part-body{max-height:700px}
 .part-body .sidebar-link{padding-left:1.7rem}
 .part-body .sidebar-link.sub{padding-left:2.2rem}
-/* compact mode (desktop only) */
-@media (min-width:601px){
-  body.sbcompact .sidebar{width:62px;overflow:visible}
-  body.sbcompact .page-wrapper{margin-left:62px}
-  body.sbcompact .sidebar-logo{padding:.6rem 0;justify-content:center;border-bottom:none}
-  body.sbcompact .logo-text,body.sbcompact .sb-compact-btn,
-  body.sbcompact .part-name,body.sbcompact .part-caret,body.sbcompact .part-body,
-  body.sbcompact .sidebar .sidebar-link{display:none}
-  body.sbcompact .part-toggle{justify-content:center;padding:.7rem 0;border-left:none}
-  body.sbcompact .part-icon{width:auto;font-size:1.3rem}
-  body.sbcompact .sidebar:hover{width:240px;overflow-y:auto}
-  body.sbcompact .sidebar:hover .logo-text,body.sbcompact .sidebar:hover .sb-compact-btn,
-  body.sbcompact .sidebar:hover .part-name,body.sbcompact .sidebar:hover .part-caret,
-  body.sbcompact .sidebar:hover .part-body{display:flex}
-  body.sbcompact .sidebar:hover .sidebar-link{display:block}
-  body.sbcompact .sidebar:hover .logo-text{display:block}
-  body.sbcompact .sidebar:hover .part-toggle{justify-content:flex-start;padding:.6rem 1rem .6rem 1.15rem;border-left:3px solid transparent}
-  body.sbcompact .sidebar:hover .part-icon{width:1.5rem;font-size:1.05rem}
-  body.sbcompact .sidebar-logo{border-bottom:1px solid var(--border)}
-}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=3">
-<script src="auth-widget.js?v=12"></script>
+<script src="auth-widget.js?v=13"></script>
 <script src="auth-gate.js"></script>
-<link rel="stylesheet" href="gold-blue-theme.css?v=11">
+<link rel="stylesheet" href="gold-blue-theme.css?v=12">
   <script src="loader.js?v=6"></script>
-<link rel="stylesheet" href="sections.css?v=7">
+<link rel="stylesheet" href="sections.css?v=8">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="vitalite-skin.css?v=9">
+<link rel="stylesheet" href="vitalite-skin.css?v=10">
 <script src="sections.js?v=6" defer></script>
 <script src="draft.js" defer></script>
-<script src="linear-layout.js?v=6" defer></script>
+<script src="linear-layout.js?v=7" defer></script>
 <link rel="stylesheet" href="qna-widget.css?v=1">
 <script src="qna-widget.js?v=1" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=1">
@@ -798,7 +776,6 @@ body.dark h1,body.dark h2,body.dark h3{
 
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo"><a href="index.html" style="color:var(--text);text-decoration:none;display:flex;align-items:center;flex:1;min-width:0"><img class="sb-mark" src="icons/vitalite-32.png" alt="" width="20" height="20"><span class="logo-text">Vital<span>ité</span></span></a>
-    <button type="button" class="sb-compact-btn" id="sbCompact" title="Toggle compact mode" aria-label="Toggle compact mode">▤</button>
   </div>
   <div class="sidebar-group part" data-part="vitalite-knowledge">
     <button type="button" class="part-toggle">
@@ -2909,12 +2886,6 @@ document.addEventListener('keydown',function(e){
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
 
-  /* ---- Compact mode (Zen-style: collapse to icon rail, hover to expand) ---- */
-  var btn=document.getElementById('sbCompact');
-  var KEY='sm_sbcompact';
-  function setCompact(on){ document.body.classList.toggle('sbcompact', !!on); try{ localStorage.setItem(KEY, on?'1':'0'); }catch(e){} }
-  if(btn){ btn.addEventListener('click',function(){ setCompact(!document.body.classList.contains('sbcompact')); }); }
-  try{ if(localStorage.getItem(KEY)==='1') setCompact(true); }catch(e){}
 })();
 </script>
 

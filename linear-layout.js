@@ -190,12 +190,11 @@
       if (fallback) fallback.classList.add('active');
     }
 
-    /* 3c · Rail collapsing is owned by the shared #sbCompact button
-       (body.sbcompact, styled in gold-blue-theme.css and wired in
-       auth-widget.js). This block used to inject a SECOND collapse button
-       next to it and default the sidebar to collapsed, which gave every
-       skinned page two controls doing the same job and a nav that started
-       with no labels. Single control, expanded by default. */
+    /* 3c · Rail behaviour is pure CSS now: gold-blue-theme.css makes the
+       sidebar a 56px hover rail on desktops (expands to a 224px flyout on
+       hover/focus). The old ▤ toggle button is retired, so there is no
+       `sbcompact` state and no second collapse button to clean up. This
+       block merely sweeps the vestigial lin-rail-collapsed shell state. */
     if (body.classList.contains('lin-rail-collapsed')) body.classList.remove('lin-rail-collapsed');
     try { if (store('lin_rail_collapsed') !== null) store('lin_rail_collapsed', '0'); } catch (e) {}
     var strayRail = $('.lin-rail-collapse', sidebar);
@@ -462,8 +461,9 @@
         group: t('Actions', '操作'), icon: 'panel',
         label: t('Toggle sidebar', '切换侧栏'), alt: 'sidebar collapse 侧栏',
         run: function () {
-          var b = document.getElementById('sbCompact');
-          if (b) b.click(); else sidebar.classList.toggle('open');
+          /* Desktop rail expands on hover (pure CSS) — nothing to toggle.
+             On the mobile drawer this still flips .open. */
+          sidebar.classList.toggle('open');
         }
       });
 

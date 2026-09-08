@@ -2585,13 +2585,13 @@ function medaiThinking(boxId){
   box.appendChild(div);
   return div;
 }
-function medaiAsk(question){
+function medaiAsk(question, mode){
   return new Promise(function(resolve){
     if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
     fetch(MEDAI_URL, {
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ question:question, lang:medaiLang() })
+      body: JSON.stringify({ question:question, lang:medaiLang(), mode:mode||'clinical' })
     }).then(function(r){ return r.json(); }).then(function(d){
       if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
       else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
@@ -2651,7 +2651,7 @@ function sendAiChat(){
   addAiMsg(q, true, q);
   input.value='';
   const thinkEl=medaiThinking('aiModalBody');
-  medaiAsk(q).then(function(res){
+  medaiAsk(q,'site').then(function(res){
     if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
     if(res.ok){ medaiAppend('aiModalBody', res.reply); }
     else { medaiAppend('aiModalBody', medaiConfError(res)); }
@@ -2840,19 +2840,19 @@ document.addEventListener('keydown',function(e){
   <div class="ai-modal-header">
     <span class="status-dot"></span>
     <div>
-      <div class="ai-title" data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</div>
-      <div class="ai-sub" data-en="Ask about sports injuries &amp; recovery" data-zh="咨询运动损伤与恢复问题">Ask about sports injuries &amp; recovery</div>
+      <div class="ai-title" data-en="Site Helper" data-zh="网站助手">Site Helper</div>
+      <div class="ai-sub" data-en="Ask about this website — pages, features, navigation" data-zh="咨询网站功能、页面与使用方法">Ask about this website — pages, features, navigation</div>
     </div>
     <button class="ai-close" onclick="closeAiModal()" aria-label="Close">✕</button>
   </div>
   <div class="ai-suggestions">
-    <button class="chat-sug-btn" data-en="😴 我落枕了 / stiff neck" data-zh="😴 我落枕了 / 脖子僵硬">😴 我落枕了 / stiff neck</button>
-    <button class="chat-sug-btn" data-en="🦵 脚踝扭伤了 / sprained ankle" data-zh="🦵 脚踝扭伤了 / 踝扭伤">🦵 脚踝扭伤了 / sprained ankle</button>
-    <button class="chat-sug-btn" data-en="💪 练后肌肉酸痛 / muscle soreness" data-zh="💪 练后肌肉酸痛 / 肌肉酸痛">💪 练后肌肉酸痛 / muscle soreness</button>
-    <button class="chat-sug-btn" data-en="🦿 跑步膝盖疼 / knee pain while running" data-zh="🦿 跑步膝盖疼 / 跑步膝痛">🦿 跑步膝盖疼 / knee pain while running</button>
+    <button class="chat-sug-btn" data-en="🩺 身体检查怎么用？ / How does the Body Checkup work?" data-zh="🩺 身体检查怎么用？">🩺 身体检查怎么用？ / How does the Body Checkup work?</button>
+    <button class="chat-sug-btn" data-en="📖 知识库里有什么？ / What's in the Knowledge Base?" data-zh="📖 知识库里有什么？">📖 知识库里有什么？ / What's in the Knowledge Base?</button>
+    <button class="chat-sug-btn" data-en="🗺️ 恢复计划在哪里？ / Where is the Recovery Plan?" data-zh="🗺️ 恢复计划在哪里？">🗺️ 恢复计划在哪里？ / Where is the Recovery Plan?</button>
+    <button class="chat-sug-btn" data-en="🌐 怎么切换语言？ / How do I switch languages?" data-zh="🌐 怎么切换语言？">🌐 怎么切换语言？ / How do I switch languages?</button>
   </div>
   <div class="ai-modal-body" id="aiModalBody">
-    <div class="chat-msg bot" data-en="Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: &quot;我落枕了，该怎么办？&quot; Guidance (not a medical diagnosis) will appear here soon." data-zh="你好！我是你的恢复助手。请描述你的损伤或恢复问题 — 例如：&quot;我落枕了，该怎么办？&quot;这里将很快为你提供指导（非医疗诊断）。">Hi! I'm your recovery assistant. Describe your injury or recovery question — for example: "我落枕了，该怎么办？" Guidance (not a medical diagnosis) will appear here soon.</div>
+    <div class="chat-msg bot" data-en="Hi! I'm the site helper. Ask me about this website — pages, features, navigation, or how to use things. For injuries or recovery questions, use the Infirmary's AI assistant." data-zh="你好！我是网站助手。可以问我关于本站的问题 — 页面、功能、使用方法等。关于损伤与恢复的问题，请使用「诊所」页面的 AI 助手。">Hi! I'm the site helper. Ask me about this website — pages, features, navigation, or how to use things. For injuries or recovery questions, use the Infirmary's AI assistant.</div>
   </div>
   <div class="ai-modal-footer">
     <div class="ai-input-row">

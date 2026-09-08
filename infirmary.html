@@ -1154,13 +1154,13 @@ function medaiThinking(boxId){
   box.appendChild(div);
   return div;
 }
-function medaiAsk(question){
+function medaiAsk(question, mode){
   return new Promise(function(resolve){
     if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
     fetch(MEDAI_URL, {
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ question:question, lang:medaiLang() })
+      body: JSON.stringify({ question:question, lang:medaiLang(), mode:mode||'clinical' })
     }).then(function(r){ return r.json(); }).then(function(d){
       if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
       else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
@@ -1191,7 +1191,7 @@ function sendChat(){
   addChatMessage(q, true, q);
   input.value='';
   const thinkEl=medaiThinking('chatMessages');
-  medaiAsk(q).then(function(res){
+  medaiAsk(q,'clinical').then(function(res){
     if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
     if(res.ok){ medaiAppend('chatMessages', res.reply); }
     else { medaiAppend('chatMessages', medaiConfError(res)); }

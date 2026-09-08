@@ -167,7 +167,7 @@
     if(sel && !sel.options.length){
       CATS.forEach(function(c){
         var o=document.createElement('option');
-        o.value=c.id; o.textContent=c.icon+' '+T(c.en,c.zh);
+        o.value=c.id; o.textContent=T(c.en,c.zh);
         sel.appendChild(o);
       });
     }
@@ -255,7 +255,7 @@
       +'</div>'
       +'</div>';
     var foot=document.getElementById('threadFoot');
-    foot.innerHTML='<div style="flex:1;text-align:left;font-weight:800;font-size:.85rem;align-self:center">'+T('💬 Replies · ','💬 回复 · ')+(state.replyCounts[id]||0)+'</div>'
+    foot.innerHTML='<div class="ft-hd" style="flex:1;text-align:left;font-weight:800;font-size:.85rem;align-self:center">'+T('💬 Replies · ','💬 回复 · ')+(state.replyCounts[id]||0)+'</div>'
       +'<button type="button" class="for-close" onclick="Forum.closeThread()">✕</button>';
     renderReplies(id);
     document.getElementById('forumOverlay').classList.add('open');

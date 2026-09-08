@@ -681,7 +681,7 @@ img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;mar
 
 /* ── Dark theme palette overrides: night dark blue + gold ── */
 body.dark .hero h1 span{background:linear-gradient(135deg,#E8C87A,#BFA181);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-body.dark .ai-fab{background:linear-gradient(135deg,#E8C87A,#D9B24F)}
+body.dark .ai-fab{background:linear-gradient(135deg,#6E5209,#543E0C)}
 body.dark #readingBar{background:linear-gradient(90deg,#E8C87A,#F1DCA0,#BFA181)}
 body.dark .author-ava{background:linear-gradient(135deg,#E8C87A,#BFA181)}
 body.dark .test-prep{border-left-color:#BFA181;background:linear-gradient(180deg,color-mix(in srgb,#BFA181 12%,var(--surface)),var(--surface))}
@@ -692,7 +692,7 @@ body.dark .fc-front{background:linear-gradient(135deg,#0F2238 0%,#14304A 60%,#1A
 
 /* ── Light theme palette overrides: blue + gold (echoes dark) ── */
 body:not(.dark) .hero h1 span{background:linear-gradient(135deg,#A9741E,#B8860B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-body:not(.dark) .ai-fab{background:linear-gradient(135deg,#B8860B,#A9741E)}
+body:not(.dark) .ai-fab{background:linear-gradient(135deg,#5B4107,#46330A)}
 body:not(.dark) #readingBar{background:linear-gradient(90deg,#B8860B,#A9741E,#B8860B)}
 body:not(.dark) .author-ava{background:linear-gradient(135deg,#B8860B,#A9741E)}
 body:not(.dark) .test-prep{border-left-color:#B8860B;background:linear-gradient(180deg,color-mix(in srgb,#B8860B 8%,var(--surface)),var(--surface))}

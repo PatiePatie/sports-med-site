@@ -1,0 +1,48 @@
+/* ═══ vi-icons.css ── icon slots injected by vi-icons.js ═══
+ * Mirrors linear-layout's .lin-ico look: 16px stroked currentColor.
+ * Text-sized buttons use 1em so the icon scales with their font. */
+.vi-ico{
+  flex:none;
+  width:16px;height:16px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:currentColor;
+  opacity:.85;
+  line-height:1;
+  vertical-align:-.14em;
+}
+.vi-ico svg{display:block;width:100%;height:100%;flex:none}
+.vi-ico--ok{opacity:1;color:#16a34a}
+.vi-ico--no{opacity:1;color:#dc2626}
+.vi-ico--warn{opacity:1;color:#d97706}
+
+/* Text-sized inline controls — icon scales with label font. */
+.btn-login .vi-ico, .btn-acc .vi-ico, .log-item .vi-ico,
+.qo-btn .vi-ico, .aq-btn .vi-ico, .btn-icon .vi-ico,
+.chat-sug-btn .vi-ico, .habit-chip .vi-ico, .tab-btn .vi-ico,
+.for-cat .vi-ico, .for-btn .vi-ico, .qna-send .vi-ico,
+#composerLoginNote .vi-ico{width:1em;height:1em;vertical-align:-.12em}
+
+/* Slightly larger markers that traditionally ran at 1.2-1.4rem. */
+.co-ico .vi-ico, .part-icon .vi-ico, .sec-ico .vi-ico,
+.sidebar-label .vi-ico, .quiz-title .vi-ico,
+.resources-title .vi-ico, .rec-title .vi-ico,
+.pb-group-head .vi-ico, .fork-ico .vi-ico{width:1.15em;height:1.15em}
+
+/* Floating-assistant bubble runs big. */
+.ai-fab-ic .vi-ico{width:1.8rem;height:1.8rem}
+
+/* Certificate gate pass/fail checks. */
+.cert-check .vi-ico{width:1.1em;height:1.1em;vertical-align:-.18em;margin-right:.2em}
+
+/* Forum category buttons hold icon + text. */
+.for-cat .vi-ico, .for-chip .vi-ico{margin-right:.32em}
+.fs .vi-ico, .ft-hd .vi-ico{width:1em;height:1em;vertical-align:-.12em;margin-right:.28em}
+
+/* Tab pills keep their semantic color dots compact. */
+.tab-btn .vi-ico{width:1em;height:1em}
+
+/* Divider buttons (right-aligned arrows etc.) keep icon centered. */
+.se-tb .vi-ico{width:1em;height:1em}
+
+/* Site editor toolbar buttons. */
+.se-b .vi-ico{width:1em;height:1em;margin-right:.3em;vertical-align:-.12em}

@@ -11,7 +11,7 @@
  *
  *   mode: "site"      → Floating bottom-right 🤖 button.
  *                       Website guide: navigation, features, pages, how-to.
- *                       Uses Llama 3.3 70B (Cloudflare Workers AI binding),
+ *                       Uses Qwen3.8 27B (Cloudflare Workers AI binding),
  *                       falling back to glm-4.5-air if the binding isn't wired.
  *
  *   type: "checkup_vision" → Body Checkup camera scanning (unchanged contract).
@@ -40,8 +40,9 @@ const MODEL = {
   site: "glm-4.5-air",       // fallback site helper (Zhipu) — see SITE_MODEL_CF
   vision: "glm-4v-flash",    // free vision (Zhipu)
 };
-// Preferred site-helper model via Cloudflare Workers AI (70B dense > 30B ✓)
-const SITE_MODEL_CF = "@cf/meta/llama-3.3-70b-instruct";
+// Preferred site-helper model via Cloudflare Workers AI (Qwen3.8 27B — dense,
+// simpler + faster than 70B, still plenty smart for website guidance)
+const SITE_MODEL_CF = "@cf/qwen/qwen3.8-27b";
 
 // ── Hard clinical gate (deterministic fast-path) ─────────────────────────────
 // High-precision off-topic patterns — proven non-clinical domains. The model

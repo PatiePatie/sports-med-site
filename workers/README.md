@@ -7,7 +7,7 @@ Two assistants, one Cloudflare Worker.
 | `mode` field | Sends from | Behavior | Model |
 |---|---|---|---|
 | `clinical` (default) | Infirmary chat tab ("AI Assistant") | **Clinical-only.** Non-clinical questions auto-rejected (deterministic gate + strict system prompt). | `glm-4.5-air` (Zhipu, 106B MoE) |
-| `site` | Floating bottom-right 🤖 button (all pages) | Website guide: navigation, pages, features, how-to. | Llama 3.3 70B (Workers AI binding) → falls back to `glm-4.5-air` |
+| `site` | Floating bottom-right 🤖 button (all pages) | Website guide: navigation, pages, features, how-to. | Qwen3.8 27B (Workers AI binding) → falls back to `glm-4.5-air` |
 | `type:"checkup_vision"` | Infirmary AI Body Checkup camera | Identifies injured body part from photo. | `glm-4v-flash` (Zhipu) |
 
 The frontend sets the mode per entry point:

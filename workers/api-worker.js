@@ -4,21 +4,29 @@
  *
  * Two assistants, one deploy:
  *
- *   mode: "clinical"  → Infirmary chat tab / AI Assistant.
+ *   mode: "clinical"  → Infirmary chat tab / AI Assistant (Vitaxamine).
  *                       STRICT clinical-only gate: non-clinical questions are
  *                       auto-rejected (deterministic fast-path + ironclad
  *                       system prompt). Uses glm-4.5-air (Zhipu).
+ *                       RAG: retrieves the top-3 most relevant sections from
+ *                       the medical knowledge base (kb/medical-kb.json, hosted
+ *                       on the Pages site) and grounds the answer in them.
+ *                       Graceful degradation: if the KB or embedding call
+ *                       fails, answers from the model alone (previous behavior).
  *
  *   mode: "site"      → Floating bottom-right 🤖 button.
  *                       Website guide: navigation, features, pages, how-to.
- *                       Uses Qwen3.8 27B (Cloudflare Workers AI binding),
- *                       falling back to glm-4.5-air if the binding isn't wired.
+ *                       Uses Qwen3.8 27B → now Qwen3 30B-A3B (Cloudflare
+ *                       Workers AI binding), falling back to glm-4.5-air if
+ *                       the binding isn't wired.
  *
  *   type: "checkup_vision" → Body Checkup camera scanning (unchanged contract).
  *
  * Env:
  *   ZHIPU_API_KEY  (secret required) — open.bigmodel.cn key for text + vision
  *   AI binding     (optional) — Workers AI binding named "AI" for mode:"site"
+ *   KB_URL         (optional) — where to fetch the medical KB JSON
+ *                               (default https://vitaliteplan.com/kb/medical-kb.json)
  *
  * Deploy:
  *   wrangler deploy workers/api-worker.js --name <worker>
@@ -43,6 +51,68 @@ const MODEL = {
 // Preferred site-helper model via Cloudflare Workers AI (Qwen3 30B-A3B — MoE,
 // 30B total params: >30B floor, 3B active = fast, ~9x cheaper than Qwen3.8 27B)
 const SITE_MODEL_CF = "@cf/qwen/qwen3-30b-a3b-fp8";
+
+// ── RAG (retrieval-augmented generation) ─────────────────────────────────────
+// The medical knowledge base is a static JSON built by tools/build_kb.py and
+// deployed with the Pages site at https://vitaliteplan.com/kb/medical-kb.json.
+// Chunks are bilingual (EN/中文) and pre-embedded with Zhipu embedding-3
+// (512 dims, normalized). At query time we embed the user's question with the
+// SAME model, take the dot product (cosine on normalized vectors), and inject
+// the top matches into the clinical system prompt.
+const KB_URL_DEFAULT = "https://vitaliteplan.com/kb/medical-kb.json";
+const EMBED_MODEL = "embedding-3";
+const EMBED_DIMS = 512;
+const RAG_TOP_K = 3;          // how many chunks to inject
+const RAG_MIN_SCORE = 0.40;   // below this, skip RAG and answer from the model
+const KB_TTL_MS = 10 * 60 * 1000; // re-fetch KB at most every 10 min
+
+let kbCache = null;
+let kbCacheAt = 0;
+
+async function loadKb(env) {
+  const now = Date.now();
+  if (kbCache && now - kbCacheAt < KB_TTL_MS) return kbCache;
+  const url = env.KB_URL || KB_URL_DEFAULT;
+  const r = await fetch(url, { cf: { cacheTtl: 300 } });
+  if (!r.ok) throw new Error("kb_" + r.status);
+  const doc = await r.json();
+  if (!doc || !Array.isArray(doc.chunks)) throw new Error("kb_bad_shape");
+  kbCache = doc;
+  kbCacheAt = now;
+  return doc;
+}
+
+async function embedQuery(env, text) {
+  const r = await fetch("https://open.bigmodel.cn/api/paas/v4/embeddings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + env.ZHIPU_API_KEY,
+    },
+    body: JSON.stringify({ model: EMBED_MODEL, input: text, dimensions: EMBED_DIMS }),
+  });
+  if (!r.ok) throw new Error("embed_" + r.status);
+  const data = await r.json();
+  const vec = data.data && data.data[0] && data.data[0].embedding;
+  if (!vec || !vec.length) throw new Error("embed_empty");
+  // Normalize so dot product = cosine
+  let norm = 0;
+  for (const x of vec) norm += x * x;
+  norm = Math.sqrt(norm);
+  return norm ? vec.map((x) => x / norm) : vec;
+}
+
+function topChunks(doc, qvec, k) {
+  const scored = [];
+  for (const c of doc.chunks) {
+    if (!c.vec || c.vec.length !== qvec.length) continue;
+    let dot = 0;
+    for (let i = 0; i < qvec.length; i++) dot += qvec[i] * c.vec[i];
+    scored.push({ score: dot, chunk: c });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, k);
+}
 
 // ── Hard clinical gate (deterministic fast-path) ─────────────────────────────
 // High-precision off-topic patterns — proven non-clinical domains. The model
@@ -73,7 +143,7 @@ function isOffTopic(text) {
 
 // ── System prompts ────────────────────────────────────────────────────────────
 const CLINICAL_SYSTEM = [
-  "You are Vitalité Infirmary, the strict clinical assistant of Vitalité (vitaliteplan.com), a bilingual (English / 中文) sports-medicine and first-aid education site.",
+  "You are Vitaxamine, the strict clinical assistant of Vitalité (vitaliteplan.com), a bilingual (English / 中文) sports-medicine and first-aid education site.",
   "You answer ONLY clinical questions: injury assessment, symptoms, likely causes, first aid, treatment, rehabilitation, recovery planning, exercise technique related to injury, anatomy, physiology, and sports-medicine education.",
   "",
   "HARD RULE — AUTO-REJECT EVERYTHING OFF-TOPIC:",
@@ -83,6 +153,8 @@ const CLINICAL_SYSTEM = [
   'ZH: "我只能回答关于损伤、症状、诊断与恢复的问题 — 我是这里的临床助手。请提出与医疗或运动损伤相关的问题。"',
   "",
   "Medical ground rules: education only, never a formal diagnosis. If the user describes something serious (chest pain, breathing trouble, severe bleeding, possible fracture, head injury) tell them to seek professional care immediately. Keep answers clear, practical, and evidence-informed. Match the user's language.",
+  "",
+  "When a MEDICAL KNOWLEDGE BASE section is provided below, use it to ground your answer when it is relevant to the question — cite its guidance naturally (e.g. 'per standard sports-medicine first aid…'). Ignore any section that does NOT match the user's situation. If no section is relevant, answer from your own knowledge. Never invent citations.",
 ].join("\n");
 
 const SITE_SYSTEM = [
@@ -90,14 +162,14 @@ const SITE_SYSTEM = [
   "Answer questions about the site itself: what pages exist, what each page does, how to navigate, how to use features, where to find content.",
   "",
   "Website map:",
-  "- Infirmary (诊所): Recovery Assistant chat (clinical Q&A), AI Body Checkup (point camera at an injury — body map identifies the part, user picks symptoms for guidance), and Recovery Plan builder (phased day-by-day checklists for ankle sprain, low back strain, shoulder strain, etc., progress saved per account).",
+  "- Infirmary (诊所): Recovery Assistant chat (clinical Q&A with Vitaxamine), AI Body Checkup (point camera at an injury — body map identifies the part, user picks symptoms for guidance), and Recovery Plan builder (phased day-by-day checklists for ankle sprain, low back strain, shoulder strain, etc., progress saved per account).",
   "- Guide / Knowledge Base (知识库): learning content and study tools — chapter decks, flashcards, quizzes, adaptive quizzes, mastery dashboard, debate cards, exam prep (NPTE-style), certificate.",
   "- Community (社区): forum + recovery plan sharing.",
   "- Exam (考试): practice exams with explanations and certificates.",
   "- Account (账户): profile, avatar photo, language toggle (EN / 中文), settings.",
   "- Header has a section switcher (Home / Knowledge / Infirmary / Community / Admin) and a dark-mode toggle.",
   "",
-  "Keep answers short and practical, point the user to the exact page or button. Match the user's language. If asked about medical topics, say: for injuries or recovery questions, use the Infirmary's Recovery Assistant or Body Checkup — I only help with the website itself.",
+  "Keep answers short and practical, point the user to the exact page or button. Match the user's language. If asked about medical topics, say: for injuries or recovery questions, use the Infirmary's Recovery Assistant (Vitaxamine) or Body Checkup — I only help with the website itself.",
 ].join("\n");
 
 // ── Rejection template (worker-level, used by deterministic gate) ────────────
@@ -217,6 +289,35 @@ async function checkupVision(body, env) {
 }
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
+async function clinicalReply(env, question) {
+  // RAG path — best effort; any failure degrades to the plain model call
+  try {
+    const doc = await loadKb(env);
+    const qvec = await embedQuery(env, question);
+    const hits = topChunks(doc, qvec, RAG_TOP_K).filter((h) => h.score >= RAG_MIN_SCORE);
+    if (!hits.length) {
+      return { reply: await zhipuChat(env, MODEL.clinical, CLINICAL_SYSTEM, question, {
+        temperature: 0.4, maxTokens: 900,
+      }), rag: false };
+    }
+    const context = hits
+      .map((h, i) =>
+        `[${i + 1}] ${h.chunk.topic_en} / ${h.chunk.topic_zh}\n${h.chunk.en}\n${h.chunk.zh}`
+      )
+      .join("\n\n");
+    const system = CLINICAL_SYSTEM + "\n\nMEDICAL KNOWLEDGE BASE:\n" + context;
+    return { reply: await zhipuChat(env, MODEL.clinical, system, question, {
+      temperature: 0.4, maxTokens: 900,
+    }), rag: true, top: hits.map((h) => h.chunk.id) };
+  } catch (e) {
+    // Graceful degradation — answer from the model alone
+    const reply = await zhipuChat(env, MODEL.clinical, CLINICAL_SYSTEM, question, {
+      temperature: 0.4, maxTokens: 900,
+    });
+    return { reply, rag: false, ragError: String(e.message || e) };
+  }
+}
+
 async function handleText(body, env) {
   const question = String(body.question || "").trim();
   const lang = body.lang === "zh" ? "zh" : "en";
@@ -224,21 +325,18 @@ async function handleText(body, env) {
 
   const mode = body.mode === "site" ? "site" : "clinical";
 
-  // ── CLINICAL MODE — strict gate ──
+  // ── CLINICAL MODE — strict gate + RAG ──
   if (mode === "clinical") {
     if (isOffTopic(question)) {
       return json({ lang, reply: lang === "zh" ? REJECT_ZH : REJECT_EN, mode, rejected: true });
     }
-    let reply;
+    let out;
     try {
-      reply = await zhipuChat(env, MODEL.clinical, CLINICAL_SYSTEM, question, {
-        temperature: 0.4,
-        maxTokens: 900,
-      });
+      out = await clinicalReply(env, question);
     } catch (e) {
       return json({ lang, error: String(e.message || e), mode }, 502);
     }
-    return json({ lang, reply, mode, model: MODEL.clinical });
+    return json({ lang, reply: out.reply, mode, model: MODEL.clinical, rag: !!out.rag, ragTop: out.top });
   }
 
   // ── SITE MODE — website guide (smaller >30B model preferred) ──

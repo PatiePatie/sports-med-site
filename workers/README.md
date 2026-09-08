@@ -12,7 +12,7 @@ Two assistants, one Cloudflare Worker.
 
 | `mode` field | Sends from | Behavior | Model |
 |---|---|---|---|
-| `clinical` (default) | Infirmary chat tab ("AI Assistant") | **Clinical-only.** Non-clinical questions auto-rejected (deterministic gate + strict system prompt). | `glm-4.5-air` (Zhipu, 106B MoE) |
+| `clinical` (default) | Infirmary chat tab ("Vitaxamine") | **Clinical-only.** Non-clinical questions auto-rejected (deterministic gate + strict system prompt). **RAG:** top-3 relevant medical KB sections retrieved and injected to ground the answer; degrades gracefully to model-only if KB/embedding fails. | `glm-4.5-air` (Zhipu, 106B MoE) + `embedding-3` retrieval |
 | `site` | Floating bottom-right 🤖 button (all pages) | Website guide: navigation, pages, features, how-to. | Qwen3 30B-A3B (Workers AI binding) → falls back to `glm-4.5-air` |
 | `type:"checkup_vision"` | Infirmary AI Body Checkup camera | Identifies injured body part from photo. | `glm-4v-flash` (Zhipu) |
 
@@ -31,8 +31,10 @@ POST `https://api.vitaliteplan.com` with JSON:
 Response:
 
 ```json
-{ "lang": "en", "reply": "...", "mode": "clinical", "model": "glm-4.5-air" }
+{ "lang": "en", "reply": "...", "mode": "clinical", "model": "glm-4.5-air", "rag": true, "ragTop": ["ankle-sprain", "swelling-management", "ankle-sprain-rehab"] }
 ```
+
+`"rag": true` means the reply was grounded in retrieved KB sections (`ragTop` lists which chunk IDs); `"rag": false` means the model answered alone (off-topic-ish query, or KB/embedding degraded).
 
 Off-topic clinical-mode question → rejected reply with `"rejected": true`:
 
@@ -47,6 +49,32 @@ Off-topic clinical-mode question → rejected reply with `"rejected": true`:
 ```
 
 → `{ "ok": true, "part": "knee" }` or `{ "ok": true, "part": null }`.
+
+## Medical knowledge base (RAG)
+
+The clinical assistant grounds answers in `kb/medical-kb.json` — a bilingual
+(EN / 中文) sports-medicine / first-aid KB of 45 chunks, each pre-embedded with
+Zhipu `embedding-3` (512 dims, normalized).
+
+- **Source of truth:** `tools/build_kb.py` — edit the `CHUNKS` list, then:
+  ```bash
+  ZHIPU_API_KEY=... python3 tools/build_kb.py
+  ```
+  This regenerates `kb/medical-kb.json` (committed to the repo).
+- **Hosting:** the KB JSON is served as a static asset by the Pages site at
+  `https://vitaliteplan.com/kb/medical-kb.json` (deploy the repo → Pages as
+  usual; commit the regenerated JSON with any content change).
+- **Fetching:** the worker lazily fetches the KB on first clinical request and
+  caches it 10 min (module scope). Override the URL with `KB_URL` env if needed.
+- **Query flow:** embed the user's question (`embedding-3`, same model), dot
+  product against all chunks (cosine on normalized vectors), take top-3 with
+  score ≥ 0.40, inject into the system prompt as `MEDICAL KNOWLEDGE BASE`, and
+  let the model ground its answer in them (it is told to ignore non-matching
+  sections). Any failure in this chain degrades silently to model-only answers.
+
+> When you update the KB content in the future: edit `CHUNKS` in
+> `tools/build_kb.py`, regenerate, and commit — the Pages deploy serves the new
+> vectors. No worker redeploy needed (the URL is stable).
 
 ## Environment
 

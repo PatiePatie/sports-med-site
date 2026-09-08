@@ -13,12 +13,12 @@ Two assistants, one Cloudflare Worker.
 | `mode` field | Sends from | Behavior | Model |
 |---|---|---|---|
 | `clinical` (default) | Infirmary chat tab ("Vitaxamine") | **Clinical-only.** Non-clinical questions auto-rejected (deterministic gate + strict system prompt). **RAG:** top-3 relevant medical KB sections retrieved and injected to ground the answer; degrades gracefully to model-only if KB/embedding fails. | `glm-4.5-air` (Zhipu, 106B MoE) + `embedding-3` retrieval |
-| `site` | Floating bottom-right 🤖 button (all pages) | Website guide: navigation, pages, features, how-to. | Qwen3 30B-A3B (Workers AI binding) → falls back to `glm-4.5-air` |
+| `site` | Floating bottom-right 🤖 button **Vitaline** (all pages) | Website guide: navigation, pages, features, how-to. | Qwen3 30B-A3B (Workers AI binding) → falls back to `glm-4.5-air` |
 | `type:"checkup_vision"` | Infirmary AI Body Checkup camera | Identifies injured body part from photo. | `glm-4v-flash` (Zhipu) |
 
 The frontend sets the mode per entry point:
-- Chat tab / AI Assistant → `medaiAsk(q, "clinical")`
-- Floating button modal → `medaiAsk(q, "site")`
+- Chat tab / Infirmary AI → `medaiAsk(q, "clinical")`
+- Floating button (Vitaline) modal → `medaiAsk(q, "site")`
 
 ## Request / response
 

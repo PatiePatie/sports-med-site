@@ -45,10 +45,10 @@ const JSON_HEADERS = { "content-type": "application/json" };
 // ── Models ──────────────────────────────────────────────────────────────────
 const MODEL = {
   clinical: "glm-4.5-air",   // medical-grade text (Zhipu)
-  site: "glm-4.5-air",       // fallback site helper (Zhipu) — see SITE_MODEL_CF
+  site: "glm-4.5-air",       // fallback for Vitaline (Zhipu) — see SITE_MODEL_CF
   vision: "glm-4v-flash",    // free vision (Zhipu)
 };
-// Preferred site-helper model via Cloudflare Workers AI (Qwen3 30B-A3B — MoE,
+// Preferred Vitaline model via Cloudflare Workers AI (Qwen3 30B-A3B — MoE,
 // 30B total params: >30B floor, 3B active = fast, ~9x cheaper than Qwen3.8 27B)
 const SITE_MODEL_CF = "@cf/qwen/qwen3-30b-a3b-fp8";
 
@@ -158,18 +158,18 @@ const CLINICAL_SYSTEM = [
 ].join("\n");
 
 const SITE_SYSTEM = [
-  "You are the Vitalité website guide (vitaliteplan.com), a friendly bilingual (English / 中文) assistant that helps visitors use the website.",
+  "You are Vitaline, the Vitalité website guide (vitaliteplan.com), a friendly bilingual (English / 中文) assistant that helps visitors use the website.",
   "Answer questions about the site itself: what pages exist, what each page does, how to navigate, how to use features, where to find content.",
   "",
   "Website map:",
-  "- Infirmary (诊所): Recovery Assistant chat (clinical Q&A with Vitaxamine), AI Body Checkup (point camera at an injury — body map identifies the part, user picks symptoms for guidance), and Recovery Plan builder (phased day-by-day checklists for ankle sprain, low back strain, shoulder strain, etc., progress saved per account).",
+  "- Infirmary (诊所): Vitaxamine clinical chat (injury / first-aid / recovery Q&A grounded in the medical KB), AI Body Checkup (point camera at an injury — body map identifies the part, user picks symptoms for guidance), and Recovery Plan builder (phased day-by-day checklists for ankle sprain, low back strain, shoulder strain, etc., progress saved per account).",
   "- Guide / Knowledge Base (知识库): learning content and study tools — chapter decks, flashcards, quizzes, adaptive quizzes, mastery dashboard, debate cards, exam prep (NPTE-style), certificate.",
   "- Community (社区): forum + recovery plan sharing.",
   "- Exam (考试): practice exams with explanations and certificates.",
   "- Account (账户): profile, avatar photo, language toggle (EN / 中文), settings.",
   "- Header has a section switcher (Home / Knowledge / Infirmary / Community / Admin) and a dark-mode toggle.",
   "",
-  "Keep answers short and practical, point the user to the exact page or button. Match the user's language. If asked about medical topics, say: for injuries or recovery questions, use the Infirmary's Recovery Assistant (Vitaxamine) or Body Checkup — I only help with the website itself.",
+  "Keep answers short and practical, point the user to the exact page or button. Match the user's language. If asked about medical topics, say: for injuries or recovery questions, use the Infirmary's Vitaxamine or Body Checkup — I only help with the website itself.",
 ].join("\n");
 
 // ── Rejection template (worker-level, used by deterministic gate) ────────────

@@ -1309,6 +1309,21 @@ const flashcards = [
   {ch:13,term:"Tuina (推拿)",cn:"推拿",def:"TCM manual therapy applying pressing, kneading and rolling on soft tissue and meridians.",cnDef:"以按、揉、滚等手法施于软组织与经络的中医外治法。"},
   {ch:13,term:"Moxibustion (艾灸)",cn:"艾灸",def:"Burning moxa (Artemisia vulgaris) to warm acupoints/meridians; suits cold-deficiency patterns.",cnDef:"点燃艾绒温热穴位/经络；适用于虚寒证。"},
   {ch:13,term:"Nine Constitutions",cn:"九种体质",def:"The 9 TCM constitutions: 平和、气虚、阳虚、阴虚、痰湿、湿热、血瘀、气郁、特禀.",cnDef:"中医九种体质：平和、气虚、阳虚、阴虚、痰湿、湿热、血瘀、气郁、特禀。"},
+{ch:14,term:"Emergency Action Plan (EAP)",cn:"紧急行动预案",def:"A written, venue-specific plan for who does what, which equipment to use, and how EMS is activated — rehearsed before the season.",cnDef:"书面的、针对具体场馆的预案：谁做什么、用什么器材、如何呼叫急救——应在赛季前演练。"},
+{ch:14,term:"Chain of Survival",cn:"生存链",def:"Recognize + call → high-quality CPR → early AED/defibrillation → EMS/advanced care → post-arrest care.",cnDef:"识别并呼救→高质量CPR→尽早AED除颤→急救系统/高级生命支持→骤停后综合救治。"},
+{ch:14,term:"Agonal breathing",cn:"叹气样呼吸（濒死呼吸）",def:"Irregular gasping that can occur in cardiac arrest; it is a sign of arrest, not breathing — treat as SCA.",cnDef:"心脏骤停时可出现的不规律叹气样呼吸；属骤停征象而非呼吸——按心源性猝死处理。"},
+{ch:14,term:"Adult CPR",cn:"成人CPR",def:"30:2 ratio, 100–120 compressions/min, depth ≥5 cm (2 in), full chest recoil, minimal interruptions.",cnDef:"按压比30:2，频率100–120次/分，深度≥5厘米，胸廓完全回弹，尽量减少中断。"},
+{ch:14,term:"AED / defibrillation",cn:"AED / 除颤",def:"Shockable rhythms (V-Fib, V-Tach) are terminated by early defibrillation — the single most effective intervention in SCA (~3-min window).",cnDef:"可除颤心律（室颤、室速）通过早期电击终止——这是SCA中最有效的单项干预（约3分钟黄金窗口）。"},
+{ch:14,term:"Commotio cordis",cn:"心前区撞击",def:"A blunt precordial blow during the vulnerable repolarization window triggers V-Fib; treat exactly like SCA (CPR + defib).",cnDef:"钝击胸骨前区恰落在复极易损窗诱发室颤；处理与SCA完全相同（CPR+除颤）。"},
+{ch:14,term:"Heat exhaustion vs heat stroke",cn:"热衰竭 vs 热射病",def:"Heat exhaustion: heavy sweating, normal mental status. Heat stroke: CNS dysfunction (confusion/coma) + hyperthermia — true emergency.",cnDef:"热衰竭：大汗、神志正常。热射病：中枢神经障碍（意识模糊/昏迷）+高热——真正的急症。"},
+{ch:14,term:"Cold-water immersion (EHS)",cn:"冷水浸泡降温（热射病）",def:"Gold standard for exertional heat stroke: 1–5°C water, cool ≥0.155°C/min to <39°C within 30 min; cool first, transport after.",cnDef:"劳力性热射病降温金标准：1–5°C冷水，降温速率≥0.155°C/分钟，30分钟内降至39°C以下；先降温后转运。"},
+{ch:14,term:"Tourniquet",cn:"止血带",def:"For life-threatening limb bleeding: place 5–7 cm above the wound, tighten until bleeding stops, time-stamp, never removed in the field.",cnDef:"肢体致命性出血：置于伤口近端5–7厘米，拧至止血为止，记录时间，现场绝不松解。"},
+{ch:14,term:"Anaphylaxis first line",cn:"过敏性休克一线治疗",def:"Immediate IM epinephrine 0.3 mg (adult) / 0.15 mg (child) into the anterolateral thigh; repeat in 5–15 min; antihistamines are adjunct only.",cnDef:"立即在大腿前外侧肌注肾上腺素0.3毫克（成人）/0.15毫克（儿童）；5–15分钟可重复；抗组胺药仅为辅助。"},
+{ch:14,term:"Airway maneuvers",cn:"气道开放手法",def:"Head-tilt–chin-lift for no trauma; jaw-thrust if cervical spine injury suspected. Unconscious + breathing → recovery position.",cnDef:"无外伤用仰头抬颏法；疑似颈椎外伤用托颌法。意识丧失但呼吸正常→恢复体位。"},
+{ch:14,term:"Rule of 15 (hypoglycemia)",cn:"15法则（低血糖）",def:"Give ~15 g fast carbs, recheck in 15 min, repeat if still low (<3.9 mmol/L / 70 mg/dL); never give PO to an unconscious athlete.",cnDef:"给予约15克速效碳水化合物，15分钟后复查，仍低于3.9 mmol/L（70 mg/dL）则重复；意识丧失者禁口喂。"},
+{ch:14,term:"START triage",cn:"START检伤分类",def:"Assess in ~30 s using RPM (Respiratory → Perfusion → Mental status); colors: RED immediate, YELLOW delayed, GREEN minor/walking, BLACK deceased.",cnDef:"约30秒完成RPM评估（呼吸→灌注→意识）；分类颜色：红=立即、黄=延迟、绿=轻伤可走、黑=死亡/不可复苏。"},
+{ch:14,term:"Scene safety",cn:"现场安全",def:"First duty: do not become a second casualty — survey the scene, glove up, then approach; never enter an active danger zone.",cnDef:"第一要务：不要让自己成为第二受害者——先观察现场、戴手套再上前；绝不进入仍在危险的区域。"},
+
 ];
 
 let fcFiltered = [...flashcards];
@@ -1477,6 +1492,11 @@ const quizQuestions = [
   {ch:13,q:"Which TCM modality uses moxa (mugwort) over or near acupuncture points to warm and stimulate?",qCn:"哪种中医操作使用艾绒在穴位上方或附近温熏刺激？",opts:["Moxibustion (艾灸)","Tuina only","Cupping without heat","Gua sha"],optsCn:["艾灸","仅推拿","不加热的拔罐","刮痧"],correct:0,explain:"Moxibustion burns dried mugwort to warm points and meridians; it complements needling for conditions needing warmth.",explainCn:"艾灸燃烧干艾绒以温煦穴位和经络，与针刺配合用于需温补的病症。"},
   {ch:13,q:"A patient born with a lean, dry, thin frame and prone to dry skin and constipation best fits which TCM constitution?",qCn:"天生瘦削干薄、易皮肤干燥和便秘的患者最符合哪种中医体质？",opts:["Qi deficiency","Yin deficiency (阴虚质)","Phlegm-dampness","Blood stasis"],optsCn:["气虚质","阴虚质","痰湿质","血瘀质"],correct:1,explain:"Yin-deficiency constitution features thin build, dryness (skin, mouth), and constipation — a shortage of moistening yin.",explainCn:"阴虚质表现为形体偏瘦、干燥（皮肤、口）和便秘—阴津不足之象。"},
   {ch:13,q:"In designing a TCM-based exercise program for a sedentary office worker, the most balanced and safe initial approach is:",qCn:"为久坐办公者设计中医运动方案时，最平衡且安全的首要方法是：",opts:["Daily maximal-intensity sprints","Gentle, mindful movement such as tai chi, qigong, or walking that promotes circulation and breathing","Complete immobility with herbal tea only","Intense weightlifting without warm-up"],optsCn:["每日最大强度冲刺","太极、气功或散步等以促循环与调息为主的温和、专注运动","完全不动只喝花草茶","无热身的大重量举铁"],correct:1,explain:"For a sedentary beginner, TCM principles favor gentle, regular activity that moves qi and blood without exceeding capacity.",explainCn:"对久坐初学者，中医原则主张温和规律地活动气血、不过度耗竭体力的运动。"},
+{ch:14,q:"What is the MOST important reason an Emergency Action Plan must be rehearsed before the season?",qCn:"为什么EAP必须在赛季开始前演练？",opts:["It satisfies league paperwork requirements","Untrained staff freeze during a real emergency — rehearsal builds automatic responses","It is required to rent most stadiums","Rehearsal is optional if staff have CPR cards"],optsCn:["满足联赛文书要求","未受训练的工作人员在真实急症中会僵住——演练能形成下意识反应","大多数场馆租赁要求","只要有CPR证，演练就可选"],correct:1,explain:"The plan only works if people act without thinking; rehearsal converts knowledge into automatic, coordinated action.",explainCn:"预案只有转化为不经思考的行动才有效；演练把知识变成自动、协调的动作。"},
+{ch:14,q:"Which rhythm is most commonly treated by immediate defibrillation in sudden cardiac arrest?",qCn:"心源性猝死中，哪种心律最常通过立即除颤治疗？",opts:["Asystole (flatline)","Ventricular fibrillation","Sinus bradycardia","Supraventricular tachycardia"],optsCn:["心搏停止（直线）","心室颤动","窦性心动过缓","室上性心动过速"],correct:1,explain:"V-Fib is the shockable rhythm of SCA; early AED defibrillation is the single most effective intervention.",explainCn:"室颤是SCA中的可除颤心律；早期AED除颤是最有效的单项干预。"},
+{ch:14,q:"An athlete collapses, is unresponsive, and only makes occasional gasping sounds. The BEST immediate response is:",qCn:"一名运动员倒地、无反应、只是偶尔发出叹气样喘息声。最佳应对是：",opts:["Place them in the recovery position and wait","Treat gasping as a sign of arrest: call EMS, start CPR, and prepare the AED","Give oral glucose","Perform abdominal thrusts"],optsCn:["置于恢复体位并等待","把叹气样呼吸视为骤停征象：呼叫急救、开始CPR并准备AED","给予口服葡萄糖","实施腹部冲击"],correct:1,explain:"Agonal gasping IS a presentation of cardiac arrest. Immediate compressions + early defibrillation are priority.",explainCn:"叹气样呼吸就是心脏骤停的表现。立即按压+早期除颤是当务之急。"},
+{ch:14,q:"During exertional heat stroke, what is the recommended cooling approach?",qCn:"劳力性热射病的推荐降温方法是？",opts:["Wait for EMS before cooling","Cold-water immersion at 1–5°C, cooling ≥0.155°C/min to <39°C within 30 min","Oral antipyretics such as acetaminophen","Ice packs only on the axillae and groin"],optsCn:["等急救到达后再降温","1–5°C冷水浸泡，降温速率≥0.155°C/分钟，30分钟内降至39°C以下","口服对乙酰氨基酚等退热药","仅在腋窝与腹股沟放冰袋"],correct:1,explain:"Cooling is time-critical; CWI 1–5°C is the gold standard. Antipyretics are ineffective and can harm.",explainCn:"降温争分夺秒；1–5°C冷水浸泡是金标准。退热药无效且可能有害。"},
+{ch:14,q:"In an unresponsive athlete with hypoglycemia, the correct field action is:",qCn:"对意识丧失的低血糖运动员，正确的现场处理是：",opts:["Give oral glucose gel by mouth","Place in recovery position, give nothing by mouth, call EMS, and use glucagon kit if available","Wait for them to wake up","Encourage them to drink juice"],optsCn:["经口给予葡萄糖凝胶","恢复体位、禁口喂、呼叫急救，如有胰高血糖素包则使用","等其自行醒来","鼓励其喝果汁"],correct:1,explain:"Never give anything by mouth to an unconscious athlete. Glucagon + recovery position + EMS is the protocol.",explainCn:"意识丧失者绝不可口喂。恢复体位+胰高血糖素+急救才是正确流程。"},
 ];
 
 let qoCurrent = 0;
@@ -1508,7 +1528,7 @@ function renderQO(){
   }
   const q = quizQuestions[qoCurrent];
   const pct = Math.round(qoCurrent/quizQuestions.length*100);
-  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三'];
+  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四'];
   body.innerHTML = `
     <div class="qo-progress"><div class="qo-progress-bar" style="width:${pct}%"></div></div>
     <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+quizQuestions.length+'题':'Question '+(qoCurrent+1)+' of '+quizQuestions.length} · ${isZH?'第'+chNames[q.ch]+'章':'Chapter '+q.ch}</div>
@@ -1560,7 +1580,7 @@ const _origOpen = openQuizMode;
 // We'll simplify: mark a chapter as "done" if user finishes quiz mode
 
 function renderProgressBars(){
-  for(let i=1;i<=13;i++){
+  for(let i=1;i<=14;i++){
     const el=document.getElementById('prog-'+i), p=document.getElementById('pct-'+i);
     if(!el||!p) continue;
     const tops=TOPICS.filter(t=>t.ch===i);
@@ -1622,7 +1642,7 @@ function renderQOChapter(){
   }
   const q = pool[qoCurrent];
   const pct = Math.round(qoCurrent/pool.length*100);
-  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三'];
+  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四'];
   body.innerHTML = `
     <div class="qo-progress"><div class="qo-progress-bar" style="width:${pct}%"></div></div>
     <div class="qo-q-num">${isZH?'第'+(qoCurrent+1)+'题 / 共'+pool.length+'题':'Question '+(qoCurrent+1)+' of '+pool.length} · ${isZH?'第'+chNames[q.ch]+'章':'Chapter '+q.ch}</div>
@@ -1791,6 +1811,7 @@ const TOPICS = [
   {id:"t7",ch:11,name:"PT Career",nameCn:"物理治疗师职业",sub:["DPT Pathway","Salary & Growth","What PTs Do","NPTE","Specialization"],subCn:["DPT路径","薪资与增长","物理治疗师做什么","NPTE考试","专科方向"]},
   {id:"t12",ch:12,name:"Assessment",nameCn:"康复评定学",sub:["MMT Grading","ROM & Goniometry","Muscle Tone","Balance & Gait","Sensation & Cognition"],subCn:["徒手肌力分级","关节活动度与量角器","肌张力","平衡与步态","感觉与认知"]},
   {id:"t13",ch:13,name:"TCM Health",nameCn:"中医健康管理",sub:["Yin-Yang & Qi","Meridians & Acupoints","Tuina & Moxibustion","Nine Constitutions","TCM Program Design"],subCn:["阴阳与气","经络与穴位","推拿与艾灸","九种体质","中医方案设计"]},
+{id:"t14",ch:14,name:"Emergency Medicine & Field Care",nameCn:"急救医学与场边处置",sub:["EAP & Chain of Survival","SCA, CPR & AED","Exertional Heat Illness & CWI","Bleeding, Airway & Anaphylaxis","Hypoglycemia & Seizures","START Triage"],subCn:["EAP与生存链","SCA、CPR与AED","劳力性热病与冷水浸泡","出血、气道与过敏性休克","低血糖与癫痫","START检伤分类"]},
 ];
 
 // Mastery state (persisted)
@@ -2079,6 +2100,16 @@ t11:[
   {d:3,q:"For which condition is moxibustion most commonly selected?",qCn:"艾灸通常最常用于哪种情况？",opts:["Cold-stagnation and yang-deficiency patterns needing warming","Only acute massive bleeding","Fever with fresh wound bleeding","Severe heatstroke"],optsCn:["需要温通的寒凝、阳虚证","仅急性大出血","发热伴新鲜伤口出血","重度中暑"],correct:0,explain:"Moxibustion warms meridians and dispels cold, fitting cold/bi deficiency patterns; heat and bleeding are relative contraindications.",explainCn:"艾灸温经散寒，适合寒证与虚寒证；热证与出血为相对禁忌。"},
   {d:3,q:"The 'nine constitutions' (九种体质) serve TCM practitioners mainly to:",qCn:"“九种体质”主要帮助中医师：",opts:["Customize prevention, lifestyle, and treatment toward the individual's pattern","Predict exact lifespan","Select surgical incisions","Replace Western imaging"],optsCn:["针对个体体质定制预防、生活方式与治疗方案","预测确切寿命","选择手术切口","替代现代影像检查"],correct:0,explain:"Constitution typing guides individualized health management and treatment strategies in TCM.",explainCn:"体质分型用于指导个体化的健康管理与治疗策略。"},
   {d:4,q:"Which is a correct principle when combining TCM breath work (e.g., qigong breathing) with sports rehabilitation?",qCn:"将中医调息（如气功呼吸）与运动康复相结合时的正确原则是：",opts:["Use breathing practice as an adjunct for relaxation, autonomic regulation, and return-to-activity pacing — not a replacement for exercise","Replace all strengthening with breathing","Struggle to a maximal hold every breath","Only use it during acute liver failure"],optsCn:["把调息作为放松、自主神经调节和恢复节奏的辅助手段，而非替代运动","用呼吸完全替代力量训练","每次呼吸都用最大极限憋气","仅在急性肝衰竭时使用"],correct:0,explain:"Qigong breathing complements rehab by promoting calm, recovery, and gradual loading; it is adjunctive, not a substitute.",explainCn:"气功调息通过促进平静、恢复和渐进负荷补充康复；是辅助而非替代。"}
+  ],
+  t14:[
+{d:1,q:"What is the first step after confirming an adult cardiac arrest?",qCn:"确认成人心脏骤停后，第一步是什么？",opts:["Give two rescue breaths first","Call for help, get the AED, and start compressions","Give oral glucose","Apply the recovery position"],optsCn:["先给两次人工呼吸","呼救、取AED并立即开始按压","给予口服葡萄糖","摆放恢复体位"],correct:1,explain:"Activate EMS and start compressions immediately; early defibrillation with the AED is the life-saving step.",explainCn:"立即呼救并开始按压；早期AED除颤是救命关键。"},
+{d:1,q:"An EAP is considered complete ONLY when it is:",qCn:"一项EAP何时才算“完备”？",opts:["Written and filed","Written, venue-specific, and rehearsed","Approved by a physician","Stored in the athletic director's office"],optsCn:["书写并存档","书面化、针对场馆并经过演练","得到医生批准","存放在体育主管办公室"],correct:1,explain:"A written plan that is not rehearsed fails in real emergencies; venue-specific + rehearsed is the gold standard.",explainCn:"书面但未演练的预案在真实急症中会失效；针对场馆+演练才是金标准。"},
+{d:2,q:"Which finding best distinguishes exertional heat stroke from heat exhaustion?",qCn:"哪项发现最能区分劳力性热射病与热衰竭？",opts:["Skin temperature","Central nervous system dysfunction (confusion, agitation, coma)","Presence of sweating","Respiratory rate"],optsCn:["皮肤温度","中枢神经系统功能障碍（意识模糊、躁动、昏迷）","是否出汗","呼吸频率"],correct:1,explain:"Heat stroke is defined by hyperthermia PLUS CNS dysfunction; mental-status change is the key differentiator.",explainCn:"热射病=高热+中枢神经障碍；意识改变是关键的鉴别点。"},
+{d:2,q:"Where is epinephrine injected for anaphylaxis?",qCn:"过敏性休克的肾上腺素注射部位是？",opts:["Deltoid muscle","Anterolateral thigh (IM)","Sublingual","Subcutaneous abdomen"],optsCn:["三角肌","大腿前外侧（肌注）","舌下","腹部皮下"],correct:1,explain:"IM epinephrine into the anterolateral thigh (0.3 mg adult / 0.15 mg child) is first-line treatment.",explainCn:"大腿前外侧肌注肾上腺素（成0.3毫克/儿0.15毫克）是一线治疗。"},
+{d:3,q:"A 250 mL blood loss with a cleanly stopped wound is found on a hockey player who feels dizzy. Your priority action is:",qCn:"一位冰球运动员伤口已干净止血、失血约250毫升，但自觉头晕。你的优先处理是：",opts:["Return him to the game","Monitor vital signs and recheck; treat for possible syncope and do not clear for return","Immediately apply a tourniquet","Transport unassisted"],optsCn:["让其回到场上","监测生命体征并复查；按晕厥倾向处理，不批准重返赛场","立即上止血带","让其自行就医"],correct:1,explain:"Dizziness after even controlled bleeding suggests orthostatic/syncopal risk; monitor, hydrate, and hold from play.",explainCn:"即使出血已控制，头晕也提示体位性/晕厥风险；应监测、补水并暂停其比赛。"},
+{d:3,q:"Commotio cordis most often occurs when a projectile strikes the chest:",qCn:"心前区撞击通常发生在投射物击中胸部的：",opts:["During inspiration","During the vulnerable repolarization window (~10–30 ms before the T-wave peak)","Immediately after a breath hold","During maximal contraction only"],optsCn:["吸气期","复极易损窗（T波峰前约10–30毫秒）","屏气后即刻","仅在最大收缩期"],correct:1,explain:"The blow must land within the repolarization window to trigger V-Fib; management is identical to SCA.",explainCn:"击打必须落在复极易损窗内才会诱发室颤；处理与SCA完全相同。"},
+{d:4,q:"At a mass-casualty scene, a casualty is breathing, has a radial pulse, but is not following commands. START category?",qCn:"群发伤员现场，一名伤员有呼吸、有桡动脉搏动，但不能遵令行事。START分类是？",opts:["Green (Minor)","Red (Immediate) — altered mental status is life-threatening","Black (Deceased)","Yellow (Delayed)"],optsCn:["绿（轻伤）","红（立即）——意识改变危及生命","黑（死亡）","黄（延迟）"],correct:1,explain:"START triage: any altered mental status = RED (immediate) regardless of normal respiration/perfusion.",explainCn:"START检伤：只要有意识改变即为红（立即），即使呼吸与灌注正常。"},
+{d:4,q:"The recommended adult CPR compression rate and depth are:",qCn:"成人CPR推荐的按压频率与深度是？",opts:["60–80/min, 2–3 cm","100–120/min, at least 5 cm (2 in)","140–160/min, 4 cm","80–100/min, 3 cm"],optsCn:["60–80次/分，2–3厘米","100–120次/分，至少5厘米（2英寸）","140–160次/分，4厘米","80–100次/分，3厘米"],correct:1,explain:"Push hard (≥5 cm) and fast (100–120/min) with full recoil and minimal interruptions.",explainCn:"按压要深（≥5厘米）而快（100–120次/分），完全回弹、减少中断。"},
   ],
 };
 
@@ -2474,6 +2505,54 @@ var PARAM = {
       return _buildQ("t13",f.d,q,qCn,oe,oc,f.key,ex,exCn);
     }
   ],
+  t14:[
+
+    function(diff){
+      var scen=[
+        {h:"heat cramps",hCn:"热痉挛",t:"trembling painful muscle cramping in the calf after a hot afternoon practice",tCn:"炎热下午训练后小腿痛性肌肉痉挛",d:1,act:"rest, move to shade, electrolyte fluids, gentle stretching",actCn:"休息、移至阴凉处、补充电解质液体、轻柔拉伸"},
+        {h:"heat exhaustion",hCn:"热衰竭",t:"profuse sweating, nausea, dizziness with clear mental status after a long game",tCn:"长时间比赛后大汗、恶心、头晕但神志清楚",d:2,act:"rest in shade, active cooling, oral fluids, monitor vital signs, refer if no improvement",actCn:"阴凉处休息、主动降温、口服补液、监测生命体征，无改善则转诊"},
+        {h:"exertional heat stroke",hCn:"劳力性热射病",t:"confusion, combativeness and a core temperature of 41.2°C after a hard workout",tCn:"剧烈训练后意识混乱、躁动，核心体温41.2°C",d:3,act:"emergency: activate EMS and begin cold-water immersion within the first minutes — cool ≥0.155°C/min",actCn:"急症：呼叫急救并立即开始冷水浸泡——降温≥0.155°C/分钟"}
+      ];
+      var f=scen[_rr(scen.length)];
+      var oe=["Which condition best matches this field presentation?","Which condition does this presentation describe?","This presentation is most consistent with:"];
+      var oc=["该场边表现最符合哪种情况？","该表现描述的是哪种情况？","此表现最符合以下哪种诊断？"];
+      var qq=oe[_rr(oe.length)]+" "+f.t+".";
+      var qqCn=oc[_rr(oc.length)]+" "+f.tCn+"。";
+      var all=[["Heat cramps","热痉挛"],["Heat exhaustion","热衰竭"],["Exertional heat stroke","劳力性热射病"]];
+      var wrong=all.filter(function(x){return x[0]!==f.h;});
+      var w1=wrong[0];
+      var w2=wrong[1];
+      var w3=["Viral gastroenteritis","病毒性胃肠炎"];
+      var ex=f.h+" &mdash; "+f.act+".";
+      var exCn=f.hCn+" &mdash; "+f.actCn+"。";
+      return _buildQ("t14",f.d,qq,qqCn,[f.h,w1[0],w2[0],w3[0]],[f.hCn,w1[1],w2[1],w3[1]],0,ex,exCn);
+    },
+    function(diff){
+      var pats=[
+        {r:"agonal gasping after collapsing on the court",rCn:"倒地后出现叹气样呼吸",d:2,act:"treat as cardiac arrest: call EMS, start compressions, apply the AED",actCn:"按心脏骤停处理：呼救、开始按压、使用AED"},
+        {r:"a high-energy precordial chest blow during a baseball game then collapse",rCn:"棒球比赛中心前区被高速击中后倒地",d:2,act:"suspect commotio cordis — start CPR and defibrillate immediately, exactly as in SCA",actCn:"怀疑心前区撞击——立即CPR并使用AED除颤，处理与SCA完全相同"},
+        {r:"a witnessed collapse with immediate bystander CPR and defibrillation in under 3 minutes",rCn:"目击倒地，旁观者立即CPR并在3分钟内完成除颤",d:1,act:"this gives the best survival prognosis of any SCA scenario — survival can exceed 70%",actCn:"这是SCA中预后最好的场景——存活率可超70%"}
+      ];
+      var f=pats[_rr(pats.length)];
+      var ex=f.act+".";
+      var exCn=f.actCn+"。";
+      var q="A sideline responder sees "+f.r+". The correct response is:";
+      var qCn="场边急救员看到"+f.rCn+"。正确处理是：";
+      return _buildQ("t14",f.d,q,qCn,["Activate EMS and wait for advanced care","Start high-quality CPR and early defibrillation — and do not stop","Give oral glucose immediately","Place in recovery position and observe"],[f.actCn,"呼叫急救并等待高级生命支持","立即开始高质量CPR并尽早除颤——不要停止","立即口服葡萄糖","置于恢复体位并观察"],1,ex,exCn);
+    },
+    function(diff){
+      var bld=[
+        {loss:"~500 mL from a deep thigh laceration that is packed and compressed",lossCn:"大腿深部撕裂伤约500毫升，已填塞并加压",d:2,act:"continue direct pressure, monitor for shock, prepare transport",actCn:"持续直接加压、监测休克、准备转运"},
+        {loss:"uncontrollable arterial bleeding from an open forearm wound",lossCn:"前臂开放伤口不可控的动脉性出血",d:3,act:"apply a tourniquet 5–7 cm above the wound, tighten until bleeding stops, time-stamp it, never remove in the field",actCn:"在伤口近端5–7厘米处上止血带，拧至止血为止，记录时间，现场绝不松解"}
+      ];
+      var f=bld[_rr(bld.length)];
+      var oe=["A hockey player loses "+f.loss+". The correct field action is:","You are covering "+f.loss+". What should you do?"];
+      var oc=["一名冰球运动员"+f.lossCn+"。正确的现场处理是：","你正在处理"+f.lossCn+"。你应当："];
+      var ex=f.act+".";
+      var exCn=f.actCn+"。";
+      return _buildQ("t14",f.d,oe[_rr(oe.length)],oc[_rr(oc.length)],["Apply a tourniquet","Loosen dressing after 5 minutes","Recheck and continue pressure per protocol; escalate tourniquet if life-threatening"],["上止血带","5分钟后松解敷料","按流程复查并持续加压；若危及生命则升级使用止血带"],1,ex,exCn);
+    }
+  ],
 };
 
 // Pick a fresh parametric question for a topic at a given difficulty, avoiding repeats this session.
@@ -2826,7 +2905,7 @@ function renderMasteryGrid(){
   const grid=document.getElementById('masteryGrid');
   if(!grid) return;
   const isZH = showCN;
-  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三'];
+  const chNames=['','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四'];
   const levelLabels={beginner:isZH?'入门':'Beginner',learning:isZH?'学习中':'Learning',proficient:isZH?'熟练':'Proficient',mastery:isZH?'精通':'Mastery'};
   grid.innerHTML = TOPICS.map(t=>{
     const m=mastery[t.id]||{score:0,streak:0,totalQ:0,correctQ:0,difficulty:1};

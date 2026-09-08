@@ -166,9 +166,20 @@
     return raw.slice(i);
   }
 
-  var PROSE = '.acc-body,.facts,.test-prep,.table-wrap,.callout,.chart,.onthis,[class*="lin-"],[class*="vi-ico"]';
+  var PROSE = '.acc-body,.facts,.test-prep,.table-wrap,.callout,.chart,.onthis,[class*="vi-ico"]';
   function inProse(el) {
-    return el.closest && !!el.closest(PROSE);
+    if (!el.closest || !el.classList) return false;
+    if (el.closest(PROSE)) return true;
+    /* linear-layout chrome is named *-lin-*; protect it, but ignore the
+       lin-* on <body> itself (body.lin-v2 is the whole-page state flag and
+       would otherwise disable Rule A for every element on the page). */
+    if (/(^|\s)lin-/.test(el.className)) return true;
+    var n = el.parentElement;
+    while (n && n !== document.body && n !== document.documentElement) {
+      if (/(^|\s)lin-/.test(n.className || '')) return true;
+      n = n.parentElement;
+    }
+    return false;
   }
 
   /* Rule A: element's whole text is exactly ONE emoji (icon-only buttons). */

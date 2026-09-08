@@ -29,6 +29,11 @@
   box-shadow:0 6px 20px rgba(0,0,0,.22);
   transition:transform .18s,box-shadow .18s;
 }
+/* Non-linear (gold-blue) pages use a light --accent; darken the fab so the
+   white label stays legible. */
+body:not(.lin-v2) #qnaFab{
+  background:linear-gradient(135deg,#8A630F,#6E4F0C);
+}
 #qnaFab::after{
   content:"";
   position:absolute;

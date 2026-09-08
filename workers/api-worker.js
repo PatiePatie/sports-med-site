@@ -40,9 +40,9 @@ const MODEL = {
   site: "glm-4.5-air",       // fallback site helper (Zhipu) — see SITE_MODEL_CF
   vision: "glm-4v-flash",    // free vision (Zhipu)
 };
-// Preferred site-helper model via Cloudflare Workers AI (Qwen3.8 27B — dense,
-// simpler + faster than 70B, still plenty smart for website guidance)
-const SITE_MODEL_CF = "@cf/qwen/qwen3.8-27b";
+// Preferred site-helper model via Cloudflare Workers AI (Qwen3 30B-A3B — MoE,
+// 30B total params: >30B floor, 3B active = fast, ~9x cheaper than Qwen3.8 27B)
+const SITE_MODEL_CF = "@cf/qwen/qwen3-30b-a3b-fp8";
 
 // ── Hard clinical gate (deterministic fast-path) ─────────────────────────────
 // High-precision off-topic patterns — proven non-clinical domains. The model
@@ -243,7 +243,7 @@ async function handleText(body, env) {
 
   // ── SITE MODE — website guide (smaller >30B model preferred) ──
   let reply, used = MODEL.site;
-  // Try Cloudflare Workers AI binding first (Llama 3.3 70B — dense, simpler, >30B)
+  // Try Cloudflare Workers AI binding first (Qwen3 30B-A3B — MoE, >30B total, cheap)
   try {
     reply = await cfAiChat(env, SITE_MODEL_CF, SITE_SYSTEM, question, {
       temperature: 0.5,

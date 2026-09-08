@@ -783,7 +783,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="infirmary.html" data-en="🤖 AI Assistant" data-zh="🤖 AI 助手">🤖 AI Assistant</a>
+      <a class="sidebar-link" href="infirmary.html" data-en="🤖 Vitaxamine" data-zh="🤖 Vitaxamine">🤖 Vitaxamine</a>
       <a class="sidebar-link sub" href="infirmary.html#plan" data-en="📋 Plan" data-zh="📋 康复计划">📋 Plan</a>
     </div>
   </div>
@@ -878,7 +878,7 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </div><!-- /page-wrapper -->
 
-<button class="ai-fab" id="aiFab" onclick="openAiModal()" title="AI助手 / AI Helper" aria-label="Open AI helper">
+<button class="ai-fab" id="aiFab" onclick="openAiModal()" title="Vitaline" aria-label="Open Vitaline (site assistant)">
   <span>🤖</span>
   <span class="fab-badge"></span>
 </button>
@@ -887,13 +887,13 @@ body.dark h1,body.dark h2,body.dark h3{
   <div class="ai-modal-header">
     <span class="status-dot"></span>
     <div>
-      <div class="ai-title" data-en="Recovery Assistant" data-zh="恢复助手">Recovery Assistant</div>
-      <div class="ai-sub" data-en="Ask about sports injuries &amp; recovery" data-zh="咨询运动损伤与恢复问题">Ask about sports injuries &amp; recovery</div>
+      <div class="ai-title" data-en="Vitaline" data-zh="Vitaline">Vitaline</div>
+      <div class="ai-sub" data-en="Ask about this website — pages, features, navigation" data-zh="咨询网站功能、页面与使用方法">Ask about this website — pages, features, navigation</div>
     </div>
     <button class="ai-close" onclick="closeAiModal()" aria-label="Close">✕</button>
   </div>
   <div class="ai-modal-body" id="aiModalBody">
-    <div class="chat-msg bot" data-en="Hi! I'm your recovery assistant. Describe your injury or recovery question. This is guidance (not a medical diagnosis)." data-zh="你好！我是你的恢复助手。请描述你的损伤或恢复问题。此为学习参考（非医疗诊断）。">Hi! I'm your recovery assistant. Describe your injury or recovery question. This is guidance (not a medical diagnosis).</div>
+    <div class="chat-msg bot" data-en="Hi! I'm Vitaline — your site assistant. Ask me about this website — pages, features, navigation, or how to use things. For injuries or recovery questions, use the Infirmary's Vitaxamine." data-zh="你好！我是 Vitaline — 你的网站助手。可以问我关于本站的问题 — 页面、功能、使用方法等。关于损伤与恢复的问题，请使用「诊所」页面的 Vitaxamine。">Hi! I'm Vitaline — your site assistant. Ask me about this website — pages, features, navigation, or how to use things. For injuries or recovery questions, use the Infirmary's Vitaxamine.</div>
   </div>
   <div class="ai-modal-footer">
     <div class="ai-input-row">
@@ -950,12 +950,12 @@ function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'e
 function medaiRender(raw){ var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>'); s=s.replace(/\n/g,'<br/>'); return s; }
 function medaiAppend(boxId,raw){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.innerHTML=medaiRender(raw); div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); box.scrollTop=box.scrollHeight; }
 function medaiThinking(boxId){ var box=document.getElementById(boxId); if(!box) return; var div=document.createElement('div'); div.className='chat-msg bot'; var lbl=document.createElement('span'); lbl.className='msg-label'; lbl.textContent='ASSISTANT'; var sp=document.createElement('span'); sp.className='chat-msg-text'; sp.textContent='Thinking… 思考中…'; div.appendChild(lbl); div.appendChild(sp); box.appendChild(div); return div; }
-function medaiAsk(question){ return new Promise(function(resolve){ if(!MEDAI_URL){ resolve({ok:false,error:'not_configured'}); return; } fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question,lang:medaiLang()})}).then(function(r){return r.json();}).then(function(d){ if(d&&d.reply){ resolve({ok:true,reply:d.reply}); } else { resolve({ok:false,error:(d&&d.error)||'unknown'}); } }).catch(function(){ resolve({ok:false,error:'network'}); }); }); }
+function medaiAsk(question, mode){ return new Promise(function(resolve){ if(!MEDAI_URL){ resolve({ok:false,error:'not_configured'}); return; } fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question,lang:medaiLang(),mode:mode||'clinical'})}).then(function(r){return r.json();}).then(function(d){ if(d&&d.reply){ resolve({ok:true,reply:d.reply}); } else { resolve({ok:false,error:(d&&d.error)||'unknown'}); } }).catch(function(){ resolve({ok:false,error:'network'}); }); }); }
 function medaiConfError(res){ var rn='The AI is not configured yet. (Education only, not medical advice.)'; var rz='AI 助手尚未配置完成。（仅供学习参考，不能替代专业医疗建议。）'; if(res.error==='network'){ rn='Network error. Please try again.'; rz='网络错误，请稍后重试。'; } if(res.error===undefined||res.error==='upstream_error'){ rn='The AI is temporarily unavailable. Please try again later.'; rz='AI 暂时不可用，请稍后再试。'; } return medaiLang()==='zh'?rz:rn; }
 function openAiModal(){ document.getElementById('aiModal').classList.add('open'); document.body.style.overflow='hidden'; var inp=document.getElementById('aiInput'); if(inp) inp.focus(); }
 function closeAiModal(){ document.getElementById('aiModal').classList.remove('open'); document.body.style.overflow=''; }
 function addAiMsg(text,isUser,textZh){ var box=document.getElementById('aiModalBody'); if(!box) return; var div=document.createElement('div'); div.className='chat-msg '+(isUser?'user':'bot'); div.innerHTML='<span class="msg-label">'+(isUser?'YOU':'ASSISTANT')+'</span><span class="chat-msg-text">'+String(text).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];})+'</span>'; box.appendChild(div); box.scrollTop=box.scrollHeight; }
-function sendAiChat(){ var input=document.getElementById('aiInput'); var q=(input.value||'').trim(); if(!q) return; addAiMsg(q,true,q); input.value=''; var think=medaiThinking('aiModalBody'); medaiAsk(q).then(function(res){ if(think&&think.parentNode) think.parentNode.removeChild(think); if(res.ok) medaiAppend('aiModalBody',res.reply); else medaiAppend('aiModalBody',medaiConfError(res)); }); }
+function sendAiChat(){ var input=document.getElementById('aiInput'); var q=(input.value||'').trim(); if(!q) return; addAiMsg(q,true,q); input.value=''; var think=medaiThinking('aiModalBody'); medaiAsk(q,'site').then(function(res){ if(think&&think.parentNode) think.parentNode.removeChild(think); if(res.ok) medaiAppend('aiModalBody',res.reply); else medaiAppend('aiModalBody',medaiConfError(res)); }); }
 document.getElementById('aiInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendAiChat(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAiModal(); });
 </script>

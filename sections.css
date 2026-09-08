@@ -93,19 +93,43 @@ body.lin-v2 .lin-topbar-inner > .sec-switcher{
 /* ── Flat section rail — subcategories listed, no collapsible header ──
    The current section's sidebar shows its links flat. The part-toggle is
    the accordion header — redundant when exactly one group is visible, and
-   clickable, which would collapse the whole section's links. Keep it in
-   compact mode: the rail renders as icon buttons and hover-expands. */
-body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
-body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
-body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
-body:not(.sbcompact).sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
-body:not(.sbcompact).sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
-body:not(.sbcompact).sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+   clickable, which would collapse the whole section's links. It is hidden
+   everywhere EXCEPT the desktop rail's rest state, where the toggle IS the
+   rail icon (re-shown in the media query below). */
+body.sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+body.sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+body.sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
+body.sec-knowledge .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+body.sec-infirmary .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+body.sec-social .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
 /* Developer Tools group: same escape hatch, but not tied to a section —
    admin.html carries no sec-* class and must show Moderation/Site Designer/
    Content Editor links on hover (admin inline .part-body{max-height:0} would
    otherwise crush this group's body to nothing on every page). */
-body:not(.sbcompact) .sidebar-group.part[data-part="vitalite-dev"] > .part-body{max-height:none;overflow:visible}
+body .sidebar-group.part[data-part="vitalite-dev"] > .part-body{max-height:none;overflow:visible}
+
+/* Desktop rail, rest state: the section toggle is the rail icon — show it
+   again; the body stays hidden by the rail's own display rules. */
+@media (hover:hover) and (min-width:901px){
+  body .sidebar .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body .sidebar .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body .sidebar .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:flex}
+  body .sidebar .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+  body .sidebar .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+  body .sidebar .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:0;overflow:hidden}
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-social"] > .part-toggle,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-knowledge"] > .part-toggle,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-infirmary"] > .part-toggle,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-social"] > .part-toggle{display:none}
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+  body .sidebar:hover .sidebar-group.part[data-part="vitalite-social"] > .part-body,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-knowledge"] > .part-body,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-infirmary"] > .part-body,
+  body .sidebar:focus-within .sidebar-group.part[data-part="vitalite-social"] > .part-body{max-height:none;overflow:visible}
+}
 
 /* Study tabs are the Knowledge identity — keep them off other sections. */
 body.sec-infirmary .lin-pagetabs,

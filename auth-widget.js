@@ -198,18 +198,14 @@
     if(!side || side.getAttribute('data-sb-init')==='1') return;
     side.setAttribute('data-sb-init','1');
 
-    /* One-time reset of compact mode. The compact button shipped long before
-       any CSS backed it, so it looked inert and people clicked it — leaving
-       sm_sbcompact='1' stored as a choice nobody knowingly made. Once the
-       styles landed those stale flags snapped the sidebar into an icon rail
-       with no labels. Clear it once, then respect the setting from here on. */
-    try{
-      if(localStorage.getItem('sm_sbcompact_v2')!=='1'){
-        localStorage.removeItem('sm_sbcompact');
-        document.body.classList.remove('sbcompact');
-        localStorage.setItem('sm_sbcompact_v2','1');
-      }
-    }catch(e){}
+    /* The old ▤ compact rail (sm_sbcompact + body.sbcompact) is retired —
+       the hover rail is the default now. Sweep any stale state and the
+       dead button from older cached pages so nobody lands stuck in a
+       class nobody sets anymore. */
+    document.body.classList.remove('sbcompact');
+    try{ localStorage.removeItem('sm_sbcompact'); }catch(e){}
+    var deadBtn=document.getElementById('sbCompact');
+    if(deadBtn && deadBtn.parentNode){ deadBtn.parentNode.removeChild(deadBtn); }
 
     var KEY='sm_sbparts';
     var state={};
@@ -233,17 +229,6 @@
 
       t.addEventListener('click',function(e){
         e.preventDefault();
-        /* In the icon rail a group icon means "take me there": leave compact
-           and open that group, rather than toggling a body nobody can see. */
-        if(document.body.classList.contains('sbcompact')){
-          document.body.classList.remove('sbcompact');
-          try{ localStorage.setItem('sm_sbcompact','0'); }catch(err){}
-          g.classList.remove('collapsed');
-          state[id]=0;
-          try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(err){}
-          t.setAttribute('aria-expanded','true');
-          return;
-        }
         var closed=g.classList.toggle('collapsed');
         t.setAttribute('aria-expanded', closed?'false':'true');
         state[id]=closed?1:0;

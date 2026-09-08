@@ -936,7 +936,7 @@ body.dark h1,body.dark h2,body.dark h3{
 <div class="container">
   <span class="section-label" data-en="Your Study Path · 学习路径" data-zh="学习路径 · Your Study Path">Your Study Path · 学习路径</span>
   <h2 data-en="Seven Modules, Mapped to the Blueprint" data-zh="七个模块与蓝图对应">Seven Modules, Mapped to the Blueprint</h2>
-  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This site's 13 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all thirteen with mastery ≥60% to qualify for your certificate." data-zh="本站13章与NPTE蓝图直接对应。你在答题模式与自适应刷题中积累的每章精通度会体现在下方 — 全部13章达到60%以上精通即可获得证书资格。">This site’s 13 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all thirteen with mastery ≥60% to qualify for your certificate.</p>
+  <p style="color:var(--text2);margin-bottom:1.2rem" data-en="This site's 14 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all fourteen with mastery ≥60% to qualify for your certificate." data-zh="本站13章与NPTE蓝图直接对应。你在答题模式与自适应刷题中积累的每章精通度会体现在下方 — 全部14章达到60%以上精通即可获得证书资格。">This site’s 14 chapters map directly onto the NPTE blueprint. Your mastery score for each chapter (from Quiz Mode and Adaptive Practice) is reflected below — complete all fourteen with mastery ≥60% to qualify for your certificate.</p>
   <div class="std-grid" id="pathGrid">
     <a class="study-step" href="guide.html#ch1"><div class="step-num">1</div><div class="step-info"><h4 data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</h4><span data-en="Foundations · anatomy, physiology, energy systems" data-zh="基础 · 解剖、生理、供能系统">Foundations · anatomy, physiology, energy systems</span></div><span class="step-status" id="path1">Not started</span></a>
     <a class="study-step" href="guide.html#ch2"><div class="step-num">2</div><div class="step-info"><h4 data-en="Nervous System" data-zh="神经系统">Nervous System</h4><span data-en="Neuromuscular · UMN/LMN, stroke, SCI, vestibular" data-zh="神经肌肉 · 上/下运动神经元、卒中、脊髓损伤、前庭">Neuromuscular · UMN/LMN, stroke, SCI, vestibular</span></div><span class="step-status" id="path2">Not started</span></a>
@@ -951,6 +951,7 @@ body.dark h1,body.dark h2,body.dark h3{
     <a class="study-step" href="guide.html#ch11"><div class="step-num">11</div><div class="step-info"><h4 data-en="Rehab &amp; Career" data-zh="康复与职业">Rehab &amp; Career</h4><span data-en="Professional responsibilities · DPT pathway · licensure" data-zh="职业责任 · DPT路径 · 执业资格">Professional responsibilities · DPT pathway · licensure</span></div><span class="step-status" id="path11">Not started</span></a>
     <a class="study-step" href="guide.html#ch12"><div class="step-num">12</div><div class="step-info"><h4 data-en="Assessment · 康复评定学" data-zh="Assessment · 康复评定学">Assessment · 康复评定学</h4><span data-en="Muscle strength, ROM, tone, balance, gait, outcome measures" data-zh="肌力、关节活动度、肌张力、平衡、步态、结局评估">Muscle strength, ROM, tone, balance, gait, outcome measures</span></div><span class="step-status" id="path12">Not started</span></a>
     <a class="study-step" href="guide.html#ch13"><div class="step-num">13</div><div class="step-info"><h4 data-en="TCM · 中医健康管理" data-zh="TCM · 中医健康管理">TCM · 中医健康管理</h4><span data-en="Yin-yang, qi-blood, meridians, tuina, moxibustion, constitutions" data-zh="阴阳、气血、经络、推拿、艾灸、体质">Yin-yang, qi-blood, meridians, tuina, moxibustion, constitutions</span></div><span class="step-status" id="path13">Not started</span></a>
+    <a class="study-step" href="guide.html#ch14"><div class="step-num">14</div><div class="step-info"><h4 data-en="Emergency Medicine · 急诊医学" data-zh="Emergency Medicine · 急诊医学">Emergency Medicine · 急诊医学</h4><span data-en="EAP, SCA &amp; CPR, heat illness, bleeding, airway, anaphylaxis, triage" data-zh="应急预案、心脏骤停与CPR、热病、出血、气道、过敏、检伤分类">EAP, SCA &amp; CPR, heat illness, bleeding, airway, anaphylaxis, triage</span></div><span class="step-status" id="path14">Not started</span></a>
   </div>
 </div>
 </section>
@@ -1063,7 +1064,7 @@ function chScore(c){
   return t?Math.round(t.score||0):null;
 }
 function renderPath(){
-  for(var c=1;c<=13;c++){
+  for(var c=1;c<=14;c++){
     var el=document.getElementById('path'+c);
     var v=chScore(c);
     var step=el? el.closest('.study-step') : null;
@@ -1405,7 +1406,7 @@ var BANK=[
 {d:"integ",q:"Which position best offloads the sacrum in a bed-bound patient?",qcn:"卧床患者哪种体位最利于骶骨减压？",opts:["Side-lying at 30-45 degrees with pillows supporting spine and proper positioning","Sitting upright flat on the sacrum","Lying supine flat with no turns","Prone with knees flat and no pillows"],optscn:["侧卧30-45度并用枕头支撑脊柱和摆放好体位","完全坐起压住骶骨","完全仰卧平躺且不翻身","俯卧伸直双腿无枕头"],c:0,ex:"30-45 degree side-lying offloads the sacrum; supine flat increases peak sacral pressure over time.",excn:"侧卧30-45度可减轻骶骨压力；长期完全仰卧会增加骶骨峰值压力。"},
 ];
 
-var CHTOPIC=[null,'t1','t8','t9','t10','t2','t3','t4','t5','t6','t11','t7','t12','t13'];
+var CHTOPIC=[null,'t1','t8','t9','t10','t2','t3','t4','t5','t6','t11','t7','t12','t13','t14'];
 var sess=null;
 function shuffleEP(a){ var x=[].concat(a); for(var i=x.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=x[i]; x[i]=x[j]; x[j]=t; } return x; }
 function fmtTime(s){ var m=Math.floor(s/60), r=s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
@@ -1545,7 +1546,7 @@ function renderCert(){
   var ni=document.getElementById('certName');
   ni.disabled=!allok;
   document.getElementById('certGen').disabled=!allok;
-  document.getElementById('certGateMsg').textContent=allok?'':(showCN?'完成全部13章（精通≥60%）并在任一模拟考试中得分≥70%以解锁证书。':'Complete all 13 chapters (mastery ≥60%) and score ≥70% on a practice exam to unlock your certificate.');
+  document.getElementById('certGateMsg').textContent=allok?'':(showCN?'完成全部14章（精通≥60%）并在任一模拟考试中得分≥70%以解锁证书。':'Complete all 14 chapters (mastery ≥60%) and score ≥70% on a practice exam to unlock your certificate.');
   document.getElementById('certFlash').textContent='';
   var step=document.getElementById('cert').closest('section');
   applyLangEP();
@@ -1581,7 +1582,7 @@ function genCert(){
   // body
   dcenter(g,showCN?'兹证明':'This certifies that',520,'normal 26px '+FF,soft);
   dcenter(g,name,600,'italic 64px '+FF,ink);
-  dcenter(g,showCN?'已完成本课程全部十三个模块，并在独立模拟考试中达到':'has completed all thirteen modules of this study course and met the',655,'normal 24px '+FF,soft);
+  dcenter(g,showCN?'已完成本课程全部十四个模块，并在独立模拟考试中达到':'has completed all fourteen modules of this study course and met the',655,'normal 24px '+FF,soft);
   dcenter(g,showCN?'NPTE冲刺练习成绩标准。':'NPTE-Ready practice threshold in the independent practice simulator.',690,'normal 24px '+FF,soft);
   // date + signature
   var d=new Date();

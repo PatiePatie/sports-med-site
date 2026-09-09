@@ -3438,7 +3438,8 @@ function g10RenderScore(){
 /* Wire up on load */
 document.addEventListener('DOMContentLoaded', function(){
   g10RenderSetup();
-  document.addEventListener('click', function(){
+  document.addEventListener('click', function(e){
+    if(!e.target.closest || !e.target.closest('#langToggle')) return;
     var btn = document.getElementById('langToggle');
     if(btn) g10State.showCN = btn.textContent.trim() === 'EN';
     g10RenderSetup();

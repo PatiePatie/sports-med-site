@@ -160,8 +160,8 @@
     var u=user();
     var note=document.getElementById('composerLoginNote');
     if(note){
-      note.style.display=u?'none':'block';
-      note.innerHTML=u?'':('👤 '+T('Please <a href="login.html">log in</a> to start a topic.','请先<a href="login.html">登录</a>后再发帖。'));
+      note.style.display=(u&&u.email)?'none':'block';
+      note.innerHTML=(u&&u.email)?'':('👤 '+T('Please <a href="login.html">log in</a> to start a topic.','请先<a href="login.html">登录</a>后再发帖。'));
     }
     var sel=document.getElementById('composerCat');
     if(sel && !sel.options.length){
@@ -190,7 +190,7 @@
   }
   function submitTopic(){
     var u=user();
-    if(!u){ closeComposer(); return; }
+    if(!u || !u.email){ closeComposer(); return; }
     var title=document.getElementById('composerTitleInput').value.trim();
     var body=document.getElementById('composerBody').value.trim();
     var cat=document.getElementById('composerCat').value||'general';
@@ -334,7 +334,7 @@
   }
   function submitReply(id){
     var u=user();
-    if(!u){ return; }
+    if(!u || !u.email){ return; }
     var tid=(/^\d+$/.test(String(id)))?Number(id):id;
     var inp=document.getElementById('replyInput');
     var body=(inp?inp.value:'').trim();

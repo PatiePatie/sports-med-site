@@ -12,6 +12,7 @@
     try{ var p=JSON.parse(localStorage.getItem('sm_profile')||'null'); return (p&&p.name)?p.name:null; }catch(e){ return null; }
   }
   function displayName(u){
+    if(u && u.guest){ return t('Guest','游客'); }
     var n=(u&&u.name)?u.name:chosenName();
     return n?n:((u&&u.email)?u.email:null);
   }
@@ -151,7 +152,9 @@
     }
     menu.classList.remove('open');
     menu.innerHTML=
-      '<a class="log-item" href="account.html">👤 '+t('My Account','我的账户')+'</a>'+
+      (cu && cu.guest
+        ? '<a class="log-item" href="login.html">🔐 '+t('Create Account','创建账号')+'</a>'
+        : '<a class="log-item" href="account.html">👤 '+t('My Account','我的账户')+'</a>')+
       '<button type="button" class="log-item" onclick="vLogout()">↺ '+t('Log Out','退出登录')+'</button>';
 
     b.onclick=function(e){

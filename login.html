@@ -726,7 +726,7 @@ body.dark h1,body.dark h2,body.dark h3{
   </div>
 
   <div class="acct-wrap">
-    <div class="acct-tabs">
+    <div class="acct-tabs" id="tabsRow">
       <button class="acct-tab active" id="tabLogin" onclick="switchTab('login')" data-en="Log In" data-zh="登录">Log In</button>
       <button class="acct-tab" id="tabSignup" onclick="switchTab('signup')" data-en="Sign Up" data-zh="注册">Sign Up</button>
     </div>
@@ -786,6 +786,16 @@ body.dark h1,body.dark h2,body.dark h3{
       <p class="acct-hint" data-en="A password-reset email will be sent to the address above." data-zh="密码重置邮件将发送到上述邮箱。">A password-reset email will be sent to the address above.</p>
     </div>
 
+    <!-- RECOVER (set a new password after clicking the email link) -->
+    <div id="paneResetNew" style="display:none">
+      <div class="acct-field"><label for="rpPass" id="rpPassLbl" data-en="New password (min 6 characters)" data-zh="新密码（至少6位）">New password (min 6 characters)</label>
+        <input id="rpPass" type="password" autocomplete="new-password" placeholder="••••••••"></div>
+      <div class="acct-field"><label for="rpPass2" id="rpPass2Lbl" data-en="Repeat new password" data-zh="再次输入新密码">Repeat new password</label>
+        <input id="rpPass2" type="password" autocomplete="new-password" placeholder="••••••••"></div>
+      <button class="qo-btn next" id="rpBtn" style="width:100%;font-size:1rem;padding:.75rem" data-en="Save New Password" data-zh="保存新密码">Save New Password</button>
+      <p class="acct-hint" data-en="Choose a new password to complete the recovery." data-zh="设置新密码以完成密码重置。">Choose a new password to complete the recovery.</p>
+    </div>
+
   </div>
 
   <!-- CONTACT / Q&A WIDGET -->
@@ -836,6 +846,13 @@ var outReq = /[?&]out=1/.test(location.search);
 if(outReq && sb){
   sb.auth.signOut().then(function(){}).catch(function(){});
 }
+
+/* Password-recovery landing: Supabase appends #access_token=...&type=recovery
+   to the redirect URL from the reset email. Detect it so we show the
+   "set a new password" form instead of bouncing the recovery session to the
+   guide (which would leave the user unable to set a password). */
+var recoveryMode = false;
+try{ recoveryMode = location.hash.indexOf('type=recovery') !== -1; }catch(e){}
 
 function myMsg(text,ok){
   var m=document.getElementById('acctMsg');
@@ -940,6 +957,13 @@ if(sb){
       return;
     }
     if(ev==='SIGNED_IN' && sess && sess.user){
+      if(recoveryMode){
+        /* A password-recovery redirect signed us in with a temporal session —
+           do NOT bounce to the guide; show the "set a new password" form. */
+        applySociUser(sess.user); setStatus();
+        showRecoveryPane();
+        return;
+      }
       applySociUser(sess.user); setStatus();
       checkBlocked(sess.user.email).then(function(mod){
         if(mod && (mod.frozen || mod.deleted)) blockSignIn(mod.deleted
@@ -962,6 +986,7 @@ if(sb){
     }
     if(d && d.data && d.data.session && d.data.session.user){
       applySociUser(d.data.session.user);
+      if(recoveryMode){ showRecoveryPane(); setStatus(); return; }
       goNext();
     }
     setStatus();
@@ -1034,18 +1059,71 @@ document.getElementById('rsBtn').addEventListener('click',function(){
   if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
   var em=document.getElementById('rsEmail').value.trim();
   if(!em){ myMsg(showCN?'请输入邮箱。':'Please enter your email.',false); return; }
-  sb.auth.resetPasswordForEmail(em).then(function(r){
+  sb.auth.resetPasswordForEmail(em, { redirectTo: new URL('login.html', window.location.href).href }).then(function(r){
     if(r.error){ myMsg((showCN?'出错了：':'Error: ')+r.error.message,false); }
     else { myMsg(showCN?'重置链接已发送到 '+em+'。':'Reset link sent to '+em+'.',true); }
   });
 });
 
+/* RECOVER: land here via the reset email link (URL hash carries a recovery
+   session, see recoveryMode above). Show the new-password form. */
+function showRecoveryPane(){
+  switchTab('login');
+  ['login','signup','reset'].forEach(function(x){
+    var p=document.getElementById('pane'+(x[0].toUpperCase()+x.slice(1)));
+    if(p) p.style.display='none';
+    var b=document.getElementById('tab'+(x[0].toUpperCase()+x.slice(1)));
+    if(b) b.classList.remove('active');
+  });
+  var tb=document.getElementById('tabsRow');
+  if(tb) tb.style.display='none';
+  var pn=document.getElementById('paneResetNew');
+  if(pn) pn.style.display='block';
+  var m=document.getElementById('acctMsg');
+  if(m){ m.className='acct-msg ok'; m.textContent=showCN?'已确认您的身份，请设置新密码。':'Identity confirmed — set your new password below.'; m.style.display='block'; }
+}
+
+document.getElementById('rpBtn').addEventListener('click',function(){
+  if(!sb){ myMsg((showCN?'尚未配置 Supabase。请先填入密钥。':'Supabase not configured yet. Add your keys first.'),false); return; }
+  var p1=document.getElementById('rpPass').value;
+  var p2=document.getElementById('rpPass2').value;
+  if(!p1){ myMsg(showCN?'请输入新密码。':'Please enter a new password.',false); return; }
+  if(p1.length<6){ myMsg(showCN?'新密码至少6位。':'Password must be at least 6 characters.',false); return; }
+  if(p1!==p2){ myMsg(showCN?'两次输入的密码不一致。':'Passwords do not match.',false); return; }
+  sb.auth.updateUser({ password: p1 }).then(function(r){
+    if(r.error){ myMsg((showCN?'出错了：':'Error: ')+r.error.message,false); return; }
+    /* clear the recovery token from the URL so it isn't re-detected on reload */
+    try{ history.replaceState(null,'', location.pathname+location.search); }catch(e){}
+    if(sb){ sb.auth.signOut().then(function(){}).catch(function(){}); }
+    localStorage.removeItem('sm_user');
+    myMsg(showCN?'密码已更新！请使用新密码重新登录。':'Password updated! Sign in again with your new password.',true);
+    switchTab('login');
+    setStatus();
+  });
+});
+
 /* Q&A widget endpoints are handled by qna-widget.js (bottom-left button). */
 
-applyLang();
+/* If the visitor is already signed in (or browsing as guest) and just landed
+   on this page (e.g. they typed login.html, or a bookmarked tab), don't keep
+   them stuck here — jump straight to the knowledge guide. Skip on a deliberate
+   ?out=1 logout and during a password-recovery redirect (those have their own
+   flows). */
+function jumpIfAlreadySignedIn(){
+  if(outReq || recoveryMode) return;
+  var u=null;
+  try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
+  if(u && !u.suspended && (u.email || u.guest)){
+    var n=null;
+    try{ n=new URLSearchParams(location.search).get('next'); }catch(e){}
+    if(n){ location.replace(decodeURIComponent(n)); return; }
+    location.replace('guide.html');
+  }
+}
 
 applyLang();
 setStatus();
+jumpIfAlreadySignedIn();
 </script>
 <link rel="stylesheet" href="qna-widget.css?v=3">
 <script src="qna-widget.js" defer></script>

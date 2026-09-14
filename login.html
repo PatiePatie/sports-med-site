@@ -1119,7 +1119,15 @@ document.getElementById('suBtn').addEventListener('click',function(){
       setStatus();
       return;
     }
-    myMsg((showCN?'账号创建成功！':'Account created!'),true);
+    /* Email confirmation is off (mailer_autoconfirm): the session is live the
+       moment the account is created — persist sm_user and jump straight into
+       the guide so the user starts learning with no extra step. */
+    var meta=u.user_metadata||{};
+    var nm=meta.full_name||meta.name||null;
+    if(!nm){ var prn=null; try{ prn=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prn&&prn.name) nm=prn.name; }
+    var ph=meta.phone||null;
+    localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
+    touchMember(u);
     goNext();
   });
 });

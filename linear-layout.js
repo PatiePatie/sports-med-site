@@ -332,7 +332,7 @@
     return tt ? (isCN() ? tt.zh : tt.en) : null;
   }
   function currentChapter() {
-    var on = $('#guideTabs .guide-tab.on');
+    var on = $('.sidebar-link.gc.on');
     if (on) return parseInt(on.getAttribute('data-ch'), 10) || 1;
     var shown = $('section.chapter.shown');
     if (shown && shown.id) return parseInt(shown.id.replace('ch', ''), 10) || 1;
@@ -396,7 +396,7 @@
       });
 
       if (isGuide) {
-        for (var n = 1; n <= 13; n++) {
+        for (var n = 1; n <= 14; n++) {
           (function (n) {
             var tt = chapterTitles(n);
             if (!tt) return;
@@ -473,8 +473,8 @@
     /* --- navigation that reuses the page's own handlers ---------------- */
 
     function goChapter(n) {
-      var tab = $('#guideTabs .guide-tab[data-ch="' + n + '"]');
-      if (tab) { tab.click(); return true; }
+      var link = $('.sidebar-link.gc[data-ch="' + n + '"]');
+      if (link) { link.click(); return true; }
       location.hash = '#ch' + n;
       return false;
     }

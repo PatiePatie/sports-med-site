@@ -186,8 +186,19 @@ body.lin-v2 .sidebar-toggle{display:none!important}
    children — never absolutely floated, so nothing is ever covered. */
 
 /* Roomier bar: more vertical padding and side air so the top doesn't feel
-   squeezed. */
+   squeezed. On shell pages the bar spans the full content width (the 820px
+   content column below stays narrow), so the search, the bell, the account
+   pill and the section pills are never crushed into the 820 column. */
 body.lin-v2 .lin-topbar-inner{padding:.9375rem 20px}
+body.lin-v2:not(.lin-marketing) .lin-topbar-inner{max-width:none}
+
+/* Top bar rhythm — the four controls [search · bell · account · pills] are
+   spaced with ONE uniform gap (14px) between every pair, and all left-over
+   room is absorbed BEFORE the search field (margin-left:auto on the
+   cluster). Result: the bell sits centred between search and the account
+   pill, the smaller account pill sits centred between the bell and the
+   Infirmary pill, and the pills stay anchored at the far right. */
+body.lin-v2 .lin-topbar-inner{gap:14px}
 
 body.lin-v2 .lin-search-cluster{
   order:1;
@@ -195,12 +206,26 @@ body.lin-v2 .lin-search-cluster{
   display:flex;align-items:center;gap:20px;
   z-index:10;
 }
+/* Non-marketing pages: push the right-hand cluster to the bar's right edge
+   so the uniform 14px gaps stay intact and pills sit flush right. */
+body.lin-v2:not(.lin-marketing) .lin-search-cluster{margin-left:auto}
 body.lin-v2 .header-actions{
   order:2;
-  margin-left:auto;
+  margin-left:0;
+  gap:14px;
   min-width:0;
 }
-body.lin-v2 .header-actions .btn-login .bl-name{max-width:min(26vw,160px)}
+/* The section pills follow at the uniform 14px gap (sections.css pushes
+   them with 12px — reset so the rhythm reads even). */
+body.lin-v2 .lin-topbar-inner > .sec-switcher{margin-left:0}
+/* Smaller account pill: fits neatly between the bell and the Infirmary pill
+   without crowding either neighbour. */
+body.lin-v2 .header-actions .btn-login{
+  padding:.28rem .6rem;
+  font-size:.78rem;
+  gap:.35rem;
+}
+body.lin-v2 .header-actions .btn-login .bl-name{max-width:88px}
 /* ── Marketing landing (index): tuck the Log In between search + pills ──
    The section pills (.sec-switcher) follow the profile to the far-right
    corner with a fixed 12px left margin, so on the marketing page the Log In
@@ -346,19 +371,34 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .lin-search{width:clamp(150px,min(30vw,200px),200px)}
   body.lin-v2.lang-zh .lin-search{width:clamp(180px,min(36vw,230px),230px)}
   body.lin-v2 .lin-search-kbd{display:none}
-  body.lin-v2 .lin-search-cluster{margin-left:10px;gap:12px}
+  body.lin-v2 .lin-search-cluster{gap:12px}
   body.lin-v2 .lin-topleft{gap:10px}
-  body.lin-v2 .header-actions{margin-left:auto}
+  body.lin-v2 .header-actions{gap:12px}
+  body.lin-v2 .lin-topbar-inner{gap:12px}
   body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
+}
+/* Narrow-bar band: with a 224px sidebar the shell bar is genuinely short —
+   900→~500px of usable width. Keep the uniform-gap rhythm (bell centred
+   between search and the account, account between the bell and the pills)
+   but make the account icon-only and taper the search so nothing overlaps. */
+@media (max-width:900px){
+  body.lin-v2 .lin-search{width:clamp(130px,22vw,190px)}
+  body.lin-v2.lang-zh .lin-search{width:clamp(150px,27vw,220px)}
+  body.lin-v2 .header-actions .btn-login{
+    max-width:40px;
+    padding:.3rem .45rem;
+    gap:.3rem;
+  }
+  body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }
 @media (max-width:600px){
   body.lin-v2 .lin-search{width:min(40vw,170px)}
   body.lin-v2.lang-zh .lin-search{width:min(44vw,200px)}
-  body.lin-v2 .lin-search-cluster{margin-left:8px;gap:10px}
+  body.lin-v2 .lin-search-cluster{gap:10px}
   body.lin-v2 .lin-topleft{gap:8px}
   body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
-  body.lin-v2 .header-actions{margin-left:auto}
+  body.lin-v2 .header-actions{gap:10px}
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }

@@ -201,6 +201,23 @@ body.lin-v2 .header-actions{
   min-width:0;
 }
 body.lin-v2 .header-actions .btn-login .bl-name{max-width:min(26vw,160px)}
+/* ── Marketing landing (index): tuck the Log In between search + pills ──
+   The section pills (.sec-switcher) follow the profile to the far-right
+   corner with a fixed 12px left margin, so on the marketing page the Log In
+   pill was glued 1px from the Infirmary pill. Here the pills get plain 0
+   margin and the profile gets auto margins on BOTH sides, so the smaller
+   Log In button centres exactly in the gap between the search field and the
+   first pill at every window width. */
+body.lin-v2.lin-marketing .lin-topbar-inner > .header-actions{
+  margin-left:auto;
+  margin-right:auto;
+  flex:0 0 auto;
+}
+body.lin-v2.lin-marketing .lin-topbar-inner > .sec-switcher{margin-left:0}
+body.lin-v2.lin-marketing .lin-topbar-inner > .header-actions .btn-login{
+  padding:.3rem .65rem;
+  font-size:.78rem;
+}
 body.lin-v2 .lin-search{
   position:relative;
   display:flex;align-items:center;

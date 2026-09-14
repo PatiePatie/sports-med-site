@@ -769,11 +769,16 @@ body.dark h1,body.dark h2,body.dark h3{
 .landing .hero::after{width:360px;height:360px;bottom:-140px;right:-100px;background:color-mix(in srgb,var(--green) 30%,transparent)}
 .landing .hero .container{position:relative;z-index:1}
 .landing .hero-badge{font-size:.8rem;padding:.45rem 1rem}
-.landing .hero h1{font-family:var(--font-heading);font-weight:600;font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;letter-spacing:-.01em;margin:0 auto 1.1rem;max-width:21ch;background:linear-gradient(100deg,var(--text) 0 54%,var(--accent) 54% 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.landing .hero h1{font-family:var(--font-heading);font-weight:600;font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;letter-spacing:-.01em;margin:0 auto 1.1rem;max-width:21ch;color:var(--text);background:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:initial}
 .landing .hero p{font-size:1.12rem;color:var(--text2);max-width:56ch;margin:0 auto 1.9rem}
 .landing .hero-actions{gap:1rem}
 .landing .hero-actions .qo-btn.next{font-size:1rem;padding:.85rem 2.3rem;border-radius:999px;box-shadow:var(--shadow)}
 .landing .hero-actions .qo-btn.next:nth-child(2){background:var(--green)}
+/* Dark mode: keep the two CTAs distinct like light mode — the Infirmary
+   button stays green (sage #B8C97D) instead of being flattened to the same
+   gold as the Knowledge button; dark-navy text keeps the contrast high on
+   the light sage fill. */
+body.dark.landing .hero-actions .qo-btn.next:nth-child(2){background:var(--green) !important;color:#0A1828 !important;border-color:transparent !important}
 
 /* Section rhythm: alternate bands so it doesn't read as one flat app page */
 .landing #landing-stats{padding:2.8rem 0;background:color-mix(in srgb,var(--surface2) 55%,var(--bg))}

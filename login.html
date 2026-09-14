@@ -744,6 +744,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <div style="text-align:right;margin:-.2rem 0 .9rem"><a href="javascript:void(0)" onclick="switchTab('reset')" style="font-size:.85rem;color:var(--accent);text-decoration:none;font-weight:600" data-en="Forgot password?" data-zh="忘记密码？">Forgot password?</a></div>
 
       <button class="qo-btn next" id="liBtn" style="width:100%;font-size:1rem;padding:.75rem" data-en="Log In" data-zh="登录">Log In</button>
+      <button class="qo-btn" id="liResendBtn" style="display:none;width:100%;font-size:.9rem;padding:.6rem;margin-top:.6rem;background:var(--surface2);color:var(--accent);border:2px solid var(--accent)" data-en="📩 Resend verification email" data-zh="📩 重新发送验证邮件">📩 Resend verification email</button>
       <div class="soc-divider"><span data-en="or continue with" data-zh="或使用以下方式">or continue with</span></div>
       <div class="social-login">
         <button class="soc-btn soc-google" onclick="socLogin('google')"><span class="soc-ico" aria-hidden="true"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg></span><span data-en="Continue with Google" data-zh="使用 Google 登录">Continue with Google</span></button>
@@ -775,6 +776,7 @@ body.dark h1,body.dark h2,body.dark h3{
         <button class="soc-btn soc-github" onclick="socLogin('github')"><span class="soc-ico" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span><span data-en="Sign up with GitHub" data-zh="使用 GitHub 注册">Sign up with GitHub</span></button>
       </div>
       <button class="qo-btn next" id="suBtn" style="width:100%;font-size:1rem;padding:.75rem" data-en="Create Account" data-zh="创建账号">Create Account</button>
+      <button class="qo-btn" id="suResendBtn" style="display:none;width:100%;font-size:.9rem;padding:.6rem;margin-top:.6rem;background:var(--surface2);color:var(--accent);border:2px solid var(--accent)" data-en="📩 Resend verification email" data-zh="📩 重新发送验证邮件">📩 Resend verification email</button>
       <p class="acct-hint" data-en="You'll receive a verification email with a link to activate your account." data-zh="你会收到一封含激活链接的验证邮件。">You'll receive a verification email with a link to activate your account.</p>
     </div>
 
@@ -884,9 +886,25 @@ if(u&&u.email){ var dname=u.name||u.email; if(line) line.textContent=(showCN?'�
 }
 
 function handleAuth(resp){
-  if(resp.error){ myMsg((showCN?'出错了：':'Error: ')+resp.error.message,false); return false; }
+  if(resp.error){
+    var msg=resp.error.message||'';
+    var unconf=resp.error.code==='email_not_confirmed'||/email not confirmed/i.test(msg)||/confirm your email/i.test(msg);
+    if(unconf){
+      var rb=document.getElementById('liResendBtn');
+      if(rb) rb.style.display='block';
+      myMsg((showCN?'这个邮箱还没有验证完成。请打开注册时收到的验证邮件并点击里面的链接（如果找不到，请检查垃圾邮件文件夹）。验证完成后即可正常登录。':'This email has not been verified yet. Open the verification email you received when you signed up and click its link (check your spam folder too). Once verified you can sign in.'),false);
+    } else {
+      myMsg((showCN?'出错了：':'Error: ')+msg,false);
+    }
+    return false;
+  }
   var u=resp.data.user||resp.data.session&&resp.data.session.user;
-  if(u){
+  /* Email confirmation is REQUIRED on this project, so an unconfirmed signup
+     comes back with a user but NO usable session. Do NOT mark them signed-in
+     (the header would claim an account that cannot actually be re-logged-in
+     yet); the signup handler shows the verify-email flow instead. */
+  var confirmed = u && !!(u.email_confirmed_at || (resp.data.session&&resp.data.session.access_token));
+  if(u && confirmed){
     var meta=u.user_metadata||{};
     var nm=meta.full_name||meta.name||null;
     if(!nm){ var prev=null; try{ prev=JSON.parse(localStorage.getItem('sm_profile')||'null'); }catch(e){} if(prev&&prev.name) nm=prev.name; }
@@ -894,8 +912,46 @@ function handleAuth(resp){
     localStorage.setItem('sm_user', JSON.stringify({email:u.email, name:nm, phone:ph, status:u.email_confirmed_at?1:0}));
     touchMember(u);
   }
-  return true;
+  return !!u;
 }
+
+/* Resend-verification flow: this project requires email confirmation
+   (mailer_autoconfirm=false), so an unconfirmed account can't sign in until
+   the owner clicks the verification link. Give users a way to get the email
+   again instead of leaving them locked out. */
+var pendingVerifEmail=null;
+function resendVerif(email){
+  if(!email) return;
+  var liRb=document.getElementById('liResendBtn');
+  var suRb=document.getElementById('suResendBtn');
+  if(!sb){ myMsg((showCN?'尚未配置 Supabase。':'Supabase not configured yet.'),false); return; }
+  if(!sb.auth.resend){ myMsg((showCN?'请回到“创建账号”再提交一次，我们会重新发送验证邮件。':'Please submit the Sign Up form again — it resends the verification email.'),false); return; }
+  sb.auth.resend({ type:'signup', email:email }).then(function(r){
+    if(r && r.error){
+      if(/already|registered|not found|no user/i.test(r.error.message||'')){
+        myMsg((showCN?'这个邮箱看起来已经验证过，或者账号已存在。请直接登录；若仍无法登录，请使用“忘记密码？”重置密码后再试。':'That email appears to be verified already (or no such unverified account exists). Try signing in; if that fails, use "Forgot password?" to reset and try again.'),false);
+      } else {
+        myMsg((showCN?'重新发送失败：':'Resend failed: ')+r.error.message,false);
+      }
+      return;
+    }
+    if(liRb) liRb.style.display='none';
+    if(suRb) suRb.style.display='none';
+    myMsg((showCN?'验证邮件已重新发送到 '+email+'。请打开邮件并点击链接（记得检查垃圾邮件）。':'Verification email re-sent to '+email+'. Open it and click the link (check spam if needed).'),true);
+  }).catch(function(){ myMsg((showCN?'重新发送失败，请稍后再试。':'Resend failed — please try again in a moment.'),false); });
+}
+(function(){
+  var liRb=document.getElementById('liResendBtn');
+  var suRb=document.getElementById('suResendBtn');
+  if(liRb) liRb.addEventListener('click', function(){
+    var em=pendingVerifEmail || (document.getElementById('liEmail')&&document.getElementById('liEmail').value.trim());
+    resendVerif(em);
+  });
+  if(suRb) suRb.addEventListener('click', function(){
+    var em=pendingVerifEmail || (document.getElementById('suEmail')&&document.getElementById('suEmail').value.trim());
+    resendVerif(em);
+  });
+})();
 
 /* Guest mode: enter the site without an account. Writes a guest sm_user
    (no email, marked guest:true) so the auth gate + header treat them as
@@ -1049,8 +1105,22 @@ document.getElementById('suBtn').addEventListener('click',function(){
   if(nm) suData.full_name=nm;
   if(ph) suData.phone=ph;
   if(nm||ph) opts.options.data=suData;
-  sb.auth.signUp(opts).then(handleAuth).then(function(ok){
-    if(ok){ myMsg(showCN?'账号创建成功！请查看邮箱并点击验证链接激活账号。':'Account created! Check your email and click the verification link to activate it.',true); setStatus(); }
+  sb.auth.signUp(opts).then(function(resp){
+    if(resp.error){ myMsg((showCN?'出错了：':'Error: ')+resp.error.message,false); return; }
+    var u=resp.data && (resp.data.user || (resp.data.session&&resp.data.session.user));
+    var confirmed = !!(u && (u.email_confirmed_at || (resp.data.session&&resp.data.session.access_token)));
+    if(u && !confirmed){
+      /* Email confirmation is on: the account exists but needs the verify
+         link. Never claim "signed in" here — show the verification step. */
+      pendingVerifEmail=em;
+      var rb=document.getElementById('suResendBtn');
+      if(rb) rb.style.display='block';
+      myMsg((showCN?'账号已创建！我们向 '+em+' 发送了一封验证邮件。请打开邮件并点击链接激活账号（找不到的话请检查垃圾邮件文件夹）。激活后即可正常登录。':'Account created! We\u2019ve sent a verification email to '+em+'. Open it and click the link to activate your account (check the spam folder if you don\u2019t see it). You\u2019ll be able to sign in as soon as it\u2019s verified.'),true);
+      setStatus();
+      return;
+    }
+    myMsg((showCN?'账号创建成功！':'Account created!'),true);
+    goNext();
   });
 });
 
@@ -1114,6 +1184,10 @@ function jumpIfAlreadySignedIn(){
   var u=null;
   try{ u=JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){}
   if(u && !u.suspended && (u.email || u.guest)){
+    /* An UNVERIFIED email account still needs its confirmation link clicked —
+       don't bounce these users to the guide; let them reach the login pane
+       (and the resend-verification button) so they can actually get in. */
+    if(u.email && !u.status) return;
     var n=null;
     try{ n=new URLSearchParams(location.search).get('next'); }catch(e){}
     if(n){ location.replace(decodeURIComponent(n)); return; }

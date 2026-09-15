@@ -7,7 +7,7 @@
    light/dark and the gold-blue brand automatically.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Floating launcher (bottom-LEFT — deliberately clear of the bottom-right AI FAB) ── */
+/* ── Floating launcher (bottom-LEFT — compact circle, deliberately small + clear of the bottom-right AI FAB) ── */
 #qnaFab{
   position:fixed;
   bottom:1.5rem;
@@ -16,18 +16,20 @@
   overflow:hidden;
   display:flex;
   align-items:center;
-  gap:.55rem;
-  padding:.7rem 1.15rem .7rem .75rem;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  padding:0;
   border:none;
-  border-radius:40px;
-  font-size:.9rem;
+  border-radius:50%;
+  font-size:0;
   font-weight:700;
   font-family:var(--font-heading,inherit);
   color:#fff;
   cursor:pointer;
   background:linear-gradient(135deg,#981B1B,#4C1D95);
   box-shadow:0 6px 20px rgba(0,0,0,.22);
-  transition:transform .18s,box-shadow .18s;
+  transition:transform .18s,box-shadow .18s,opacity .25s;
 }
 /* Non-linear (gold-blue) pages: darker gold-brown so the white lines stay visible. */
 body:not(.lin-v2) #qnaFab{
@@ -36,8 +38,8 @@ body:not(.lin-v2) #qnaFab{
 #qnaFab::after{
   content:"";
   position:absolute;
-  inset:2px;
-  border-radius:38px;
+  inset:3px;
+  border-radius:50%;
   background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
   background-size:220% 100%;
   background-position:130% 0;
@@ -51,10 +53,24 @@ body:not(.lin-v2) #qnaFab{
 }
 #qnaFab:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.12) inset; }
 #qnaFab:active{ transform:translateY(0) scale(.97); transition-duration:.08s; }
-#qnaFab .qna-fab-x{ width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.20);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:none; transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .25s; }
+#qnaFab .qna-fab-label{ display:none; }
+#qnaFab .qna-fab-x{ width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.20);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex:none; transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .25s; }
 #qnaFab:hover .qna-fab-x{ transform:rotate(-12deg) scale(1.12); background:rgba(0,0,0,.30); }
 #qnaFab .qna-fab-badge{ position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:10px;background:var(--green,#059669);color:#fff;font-size:.68rem;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff; }
 body.dark #qnaFab .qna-fab-badge{ border-color:#0A1828; }
+
+/* ── Auto-hide during scroll: FABs fade out while scrolling, return on pause.
+   Keeps long chapters (like ch14) fully readable with nothing floating over the text. ── */
+html.qna-scroll-hide #qnaFab,
+html.qna-scroll-hide #aiFab,
+html.qna-scroll-hide .back-top{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(16px);
+}
+html.qna-scroll-hide #qnaFab,
+html.qna-scroll-hide #aiFab{ transition:transform .25s ease,box-shadow .25s ease,opacity .25s ease; }
+html.qna-scroll-hide .back-top{ transition:opacity .25s ease,transform .25s ease; }
 
 /* ── Panel ── */
 #qnaPanel{
@@ -201,6 +217,7 @@ body.dark #qnaFab .qna-fab-badge{ border-color:#0A1828; }
 
 /* ── Mobile ── */
 @media (max-width:640px){
-  #qnaFab{ bottom:.9rem;left:.9rem;padding:.6rem .9rem .6rem .6rem;font-size:.82rem; }
+  #qnaFab{ bottom:.9rem;left:.9rem;width:30px;height:30px; }
+  #qnaFab .qna-fab-x{ width:18px;height:18px;font-size:.72rem; }
   #qnaPanel{ bottom:4.6rem;left:.9rem;width:calc(100vw - 1.8rem);max-height:calc(100vh - 6rem);border-radius:14px; }
 }

@@ -328,3 +328,26 @@
   /* Don't double-fire on the FAB (it's outside the panel). */
   fab.addEventListener('click',function(e){ e.stopPropagation(); });
 })();
+
+/* ── Auto-hide floating buttons while scrolling ──
+   FABs (Q&A, AI, back-top) fade out the moment the user scrolls and fade back
+   in ~250ms after the scroll pauses, so nothing ever blocks the chapter text.
+   Applied site-wide via qna-widget.css `.qna-scroll-hide` rules. */
+(function(){
+  var rootEl=document.documentElement;
+  var timer=null;
+  var lastY=window.pageYOffset||0;
+  function show(){
+    rootEl.classList.remove('qna-scroll-hide');
+    timer=null;
+  }
+  window.addEventListener('scroll',function(){
+    var y=window.pageYOffset||0;
+    if(y!==lastY){
+      lastY=y;
+      rootEl.classList.add('qna-scroll-hide');
+      if(timer) clearTimeout(timer);
+      timer=window.setTimeout(show,250);
+    }
+  },{passive:true});
+})();

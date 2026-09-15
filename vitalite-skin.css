@@ -172,18 +172,20 @@ body.lin-v2 .lin-context{display:none}
 body.lin-v2 .sidebar-toggle{display:none!important}
 
 /* ── Top bar layout + toggles ─────────────────────────────────────────────
-   The layout script builds a .lin-topbar-inner with (left→right):
+   The layout script builds a .lin-topbar-inner with:
      .lin-topleft    — the bilingual + dark/light toggles, FIRST child so
                        they sit at the very top-LEFT of the bar (Patrick)
      <logo>/<crumb>  — hidden on the shipped skin
-     .lin-search-cluster — the search field, right beside the toggles with the
-                       SAME gap as between the two toggles (12px), so the
-                       spacing reads equal (dark↔search == dark↔lang)
-     .header-actions — the profile / login button, last and rightmost
-   The cluster comes after .header-actions in the DOM, so order:1 (cluster)
-   / order:2 (header-actions) swap them so the profile is rightmost and
-   every item stays visible + spaced at any window width. All in-flow flex
-   children — never absolutely floated, so nothing is ever covered. */
+     .header-actions — the profile / login button + notification bell plus
+                       the section pills (sections.js appends them there)
+     .lin-search-cluster — the search field
+   The search is the bar's CENTREPIECE. The bar is a plain flex row; the
+   toggles (left) and the control stack (right) are TWO EQUAL-WEIGHT flanks
+   — each flex:1 1 0 pinned to its own edge — and the field is an ordinary
+   middle child. Because both flanks grow from the same zero basis they
+   share the leftover room equally, so the field sits at the exact middle of
+   the bar at every window width, and being in-flow it can never overlap the
+   bell/pills (on very narrow windows the bar simply gets tight). */
 
 /* Roomier bar: more vertical padding and side air so the top doesn't feel
    squeezed. On shell pages the bar spans the full content width (the 820px
@@ -192,57 +194,49 @@ body.lin-v2 .sidebar-toggle{display:none!important}
 body.lin-v2 .lin-topbar-inner{padding:.9375rem 20px}
 body.lin-v2:not(.lin-marketing) .lin-topbar-inner{max-width:none}
 
-/* Top bar rhythm — the four controls [search · bell · account · pills] are
-   spaced with ONE uniform gap (14px) between every pair, and all left-over
-   room is absorbed BEFORE the search field (margin-left:auto on the
-   cluster). Result: the bell sits centred between search and the account
-   pill, the smaller account pill sits centred between the bell and the
-   Infirmary pill, and the pills stay anchored at the far right. */
+/* Top bar balance — the two flanks (toggles on the left, the control stack
+   on the right) each grow from a zero basis to fill half of the leftover
+   room, so the search field between them sits at the exact middle of the
+   bar. The uniform gap keeps a steady 14px rhythm around every control. */
 body.lin-v2 .lin-topbar-inner{gap:14px}
 
+/* Search: an ordinary middle flex child on a zero-basis flank row — the
+   equal flanks on both sides mathematically pin its centre to the bar's. */
 body.lin-v2 .lin-search-cluster{
   order:1;
-  margin-left:12px;
+  flex:0 0 auto;
+  position:relative;   /* the dropdown anchors its centre to the field */
   display:flex;align-items:center;gap:20px;
   z-index:10;
 }
-/* Non-marketing pages: push the right-hand cluster to the bar's right edge
-   so the uniform 14px gaps stay intact and pills sit flush right. */
-body.lin-v2:not(.lin-marketing) .lin-search-cluster{margin-left:auto}
+/* Left flank — the toggles grow to fill the left half, pinned to the edge. */
+body.lin-v2 .lin-topbar-inner > .lin-topleft{
+  flex:1 1 0;
+  min-width:0;
+  justify-content:flex-start;
+}
+/* Right flank — the whole control stack (bell · account pill · section
+   pills) grows to fill the right half, pinned to the bar's right edge. */
 body.lin-v2 .header-actions{
   order:2;
-  margin-left:0;
-  gap:14px;
+  flex:1 1 0;
   min-width:0;
+  justify-content:flex-end;
+  gap:14px;
+  margin-left:0;   /* cancel the base auto margin so the flank can grow */
 }
-/* The section pills follow at the uniform 14px gap (sections.css pushes
-   them with 12px — reset so the rhythm reads even). */
-body.lin-v2 .lin-topbar-inner > .sec-switcher{margin-left:0}
-/* Smaller account pill: fits neatly between the bell and the Infirmary pill
-   without crowding either neighbour. */
+/* The section pills (sections.js rides them inside this flank) keep the
+   uniform 14px gap — a leftover margin from the old right-corner placement
+   is zeroed so the rhythm reads even. */
+body.lin-v2 .header-actions .sec-switcher{margin-left:0}
+/* Smaller account pill: fits neatly under the field's flank without
+   crowding the bell or the section pills. */
 body.lin-v2 .header-actions .btn-login{
   padding:.28rem .6rem;
   font-size:.78rem;
   gap:.35rem;
 }
 body.lin-v2 .header-actions .btn-login .bl-name{max-width:88px}
-/* ── Marketing landing (index): tuck the Log In between search + pills ──
-   The section pills (.sec-switcher) follow the profile to the far-right
-   corner with a fixed 12px left margin, so on the marketing page the Log In
-   pill was glued 1px from the Infirmary pill. Here the pills get plain 0
-   margin and the profile gets auto margins on BOTH sides, so the smaller
-   Log In button centres exactly in the gap between the search field and the
-   first pill at every window width. */
-body.lin-v2.lin-marketing .lin-topbar-inner > .header-actions{
-  margin-left:auto;
-  margin-right:auto;
-  flex:0 0 auto;
-}
-body.lin-v2.lin-marketing .lin-topbar-inner > .sec-switcher{margin-left:0}
-body.lin-v2.lin-marketing .lin-topbar-inner > .header-actions .btn-login{
-  padding:.3rem .65rem;
-  font-size:.78rem;
-}
 body.lin-v2 .lin-search{
   position:relative;
   display:flex;align-items:center;
@@ -368,8 +362,8 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
 @keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
 @media (max-width:768px){
-  body.lin-v2 .lin-search{width:clamp(150px,min(30vw,200px),200px)}
-  body.lin-v2.lang-zh .lin-search{width:clamp(180px,min(36vw,230px),230px)}
+  body.lin-v2 .lin-search{width:clamp(100px,min(20vw,160px),160px)}
+  body.lin-v2.lang-zh .lin-search{width:clamp(120px,min(24vw,190px),190px)}
   body.lin-v2 .lin-search-kbd{display:none}
   body.lin-v2 .lin-search-cluster{gap:12px}
   body.lin-v2 .lin-topleft{gap:10px}
@@ -378,9 +372,10 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
 }
 /* Narrow-bar band: with a 224px sidebar the shell bar is genuinely short —
-   900→~500px of usable width. Keep the uniform-gap rhythm (bell centred
-   between search and the account, account between the bell and the pills)
-   but make the account icon-only and taper the search so nothing overlaps. */
+   900→~350px of usable width. The pills are hidden below 900px (sections.css)
+   so the bar boils down to toggles · centre search · bell · account; the
+   field is tapered a touch more so the equal-weight flanks can still give it
+   the exact geometric centre without anything slipping under it. */
 @media (max-width:900px){
   body.lin-v2 .lin-search{width:clamp(130px,22vw,190px)}
   body.lin-v2.lang-zh .lin-search{width:clamp(150px,27vw,220px)}
@@ -392,8 +387,8 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }
 @media (max-width:600px){
-  body.lin-v2 .lin-search{width:min(40vw,170px)}
-  body.lin-v2.lang-zh .lin-search{width:min(44vw,200px)}
+  body.lin-v2 .lin-search{width:min(38vw,150px)}
+  body.lin-v2.lang-zh .lin-search{width:min(40vw,160px)}
   body.lin-v2 .lin-search-cluster{gap:10px}
   body.lin-v2 .lin-topleft{gap:8px}
   body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}

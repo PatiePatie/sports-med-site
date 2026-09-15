@@ -54,21 +54,21 @@ header .sec-switcher{background:var(--surface2);border:1px solid var(--border)}
 body.dark .sec-pill.active{color:#1a1300}
 .sec-ico{font-size:.85rem;line-height:1}
 
-/* ── Placement: the switcher is injected AFTER .header-actions ──────────
-   The account cluster glues right (margin-left:auto) and the pills follow
-   it to the bar's far-right corner — the chooser is the rightmost thing on
-   the bar, so every element sits LEFT of it and nothing covers it. Without
-   these rules the base header's justify-content:space-between parks
-   actions+switcher at the LEFT edge — directly under (and covered by) the
-   centred search field. */
+/* ── Placement: the switcher lives INSIDE .header-actions ───────────────
+   sections.js appends the pills into the account cluster (after the bell +
+   profile). On the shell bar that cluster is the RIGHT flank of the centred
+  -search layout, so the pills ride at the bar's far-right corner by
+   construction — no margin/order juggling needed, and nothing ever sits
+   under the field. Base (non-shell) headers keep the plain right-aligned
+   cluster. */
 header .header-inner > .header-actions{margin-left:auto}
-header .header-inner > .sec-switcher{margin-left:.5rem}
-/* On the shell bar (.lin-topbar-inner) the search owns order:1 and the
-   account cluster order:2; the switcher joins as order:3, past the profile,
-   in the far-right corner. */
-body.lin-v2 .lin-topbar-inner > .sec-switcher{
-  order:3;position:relative;z-index:20;
-  margin-left:12px;
+/* On the shell bar the pills are the last element inside the right flank
+   (header-actions), so they ride at the far-right corner by construction.
+   The uniform 14px gap comes from the clone's gap — cap the capsule height
+   so a small sub-pixel stretch never shows as a tall pill on the bar. */
+body.lin-v2 .header-actions .sec-switcher{
+  align-self:center;flex:0 0 auto;position:relative;z-index:20;
+  margin-left:0;
 }
 
 /* Labels only where they fit. The search field is centred across the whole
@@ -81,13 +81,14 @@ body.lin-v2 .lin-topbar-inner > .sec-switcher{
   .sec-ico{font-size:.95rem}
 }
 
-/* ≤600px the search field shrinks (skin media query) — move the pills to the
-   far left so the field, account cluster and profile own the right stretch
-   untouched. The skin already glues .header-actions right (margin-left:auto);
-   do NOT fight it — pulling actions left only opens a dead gap at the edge.
-   Non-shell pages keep the base right-aligned layout. */
-@media (max-width:600px){
-  body.lin-v2 .lin-topbar-inner > .sec-switcher{order:-10;margin-left:0}
+/* Below 900px the bar has only ~350–500px to serve the centred search field,
+   the toggles, the bell and the account pill — the pill capsule (even
+   icon-only it is ~106px) does not fit beside a centred field. It is hidden
+   under 900px; the sidebar still carries the section links at those widths
+   (and is its big 224px label state there), so switching sections stays one
+   click away. Non-shell pages are untouched. */
+@media (max-width:900px){
+  body.lin-v2 .header-actions .sec-switcher{display:none}
 }
 
 /* ── Flat section rail — subcategories listed, no collapsible header ──

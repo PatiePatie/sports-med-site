@@ -58,8 +58,13 @@ body.dark .for-cat.active{color:#1a1300}
 .for-btn:hover{border-color:var(--accent);color:var(--accent)}
 .for-btn.voted{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
 .for-btn.flag:hover{border-color:var(--red);color:var(--red)}
+.for-btn.danger:hover{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.08)}
 .for-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 body.dark .for-btn.primary{color:#1a1300}
+.for-del{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);width:26px;height:26px;line-height:1;font-size:.8rem;cursor:pointer;color:var(--text3);transition:all .15s;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.for-del:hover{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.08)}
+.for-post .fp-top .for-del{margin-left:auto}
+.for-topic-side .for-del{margin-left:.2rem}
 
 /* Replies */
 .for-reply{margin-bottom:.75rem}

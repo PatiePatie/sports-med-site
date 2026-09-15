@@ -8,6 +8,8 @@
   var SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc';
   var LOCAL_KEY='vitalite_forum_v1';
   var UPVOTE_KEY='vitalite_forum_upvoted';
+  /* Developers/admins — mirrored from admin.html DEV_EMAILS. Admins may delete any post. */
+  var ADMIN_EMAILS=['goldensword.gt@gmail.com','p54992163@gmail.com'];
   var CATS=[
     { id:'general',  icon:'🏠', en:'General',            zh:'综合' },
     { id:'injury',   icon:'🦴', en:'Injuries & Recovery', zh:'损伤与恢复' },
@@ -25,6 +27,11 @@
     try{ return JSON.parse(localStorage.getItem('sm_user')||'null')||null; }catch(e){ return null; }
   }
   function userName(u){ return (u&&u.name)?u.name:((u&&u.email)?u.email.split('@')[0]:null); }
+  /* ── delete authorization ── */
+  function normEmail(e){ return String(e==null?'':e).trim().toLowerCase(); }
+  function isAdminU(u){ var e=normEmail(u&&u.email); return !!e && ADMIN_EMAILS.indexOf(e)!==-1; }
+  function isMine(row,u){ return !!row && normEmail(row.author_email)!=='' && normEmail(row.author_email)===normEmail(u&&u.email); }
+  function canDelete(row){ var u=user(); return !!u && u.email && (isMine(row,u) || isAdminU(u)); }
   function catById(id){ for(var i=0;i<CATS.length;i++){ if(CATS[i].id===id) return CATS[i]; } return CATS[0]; }
   function catIcon(id){ return catById(id).icon; }
   function catLabel(id){ var c=catById(id); return T(c.en,c.zh); }
@@ -148,6 +155,7 @@
         +'<div class="for-topic-side">'
         +  '<span class="fs">💬 '+(state.replyCounts[t.id]||0)+'</span>'
         +  '<span class="fs">▲ '+(t.upvotes||0)+'</span>'
+        +  (canDelete(t)?'<span class="fs"><button type="button" class="for-del" title="'+T('Delete topic','删除主题')+'" onclick="event.stopPropagation();Forum.delTopic(\''+sid+'\');return false;">🗑</button></span>':'')
         +'</div>'
         +'</div>';
     }).join('');
@@ -252,6 +260,7 @@
       +'<div class="fp-acts">'
       +  '<button type="button" class="for-btn'+(hasUpvoted(id)?' voted':'')+'" id="voteBtn" onclick="Forum.vote(\''+String(id)+'\')">▲ '+T((hasUpvoted(id)?'Upvoted':'Upvote'),(hasUpvoted(id)?'已点赞':'点赞'))+' ('+(t.upvotes||0)+')</button>'
       +  '<button type="button" class="for-btn flag" onclick="Forum.flag(\''+String(id)+'\')">⚑ '+T('Report','举报')+'</button>'
+      +  (canDelete(t)?'<button type="button" class="for-btn danger" onclick="Forum.delTopic(\''+String(id)+'\')">🗑 '+T('Delete','删除')+'</button>':'')
       +'</div>'
       +'</div>';
     var foot=document.getElementById('threadFoot');
@@ -311,8 +320,11 @@
     var empty = (reps&&reps.length) ? '' : '<div class="for-reply"><div class="for-post" style="text-align:center;color:var(--text3)">'+T('No replies yet. Start the conversation!','还没有回复。来开启对话吧！')+'</div></div>';
     var html=empty;
     (reps||[]).forEach(function(r){
+      var rid=String(r.id).replace(/'/g,"\\'");
       html+='<div class="for-reply"><div class="for-post" style="margin-bottom:0">'
-        +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span></div>'
+        +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span>'
+        +(canDelete(r)?'<button type="button" class="for-del" title="'+T('Delete reply','删除回复')+'" onclick="Forum.delReply(\''+rid+'\')">🗑</button>':'')
+        +'</div>'
         +'<div class="fp-body">'+esc(r.body)+'</div></div></div>';
     });
     html+=replyBoxEl().outerHTML;
@@ -408,6 +420,60 @@
     }
   }
 
+  /* ── delete (own posts; admins may delete any) ── */
+  function delTopic(raw){
+    var u=user();
+    if(!u || !u.email){ return; }
+    var id=(typeof raw==='string'&&/^\d+$/.test(raw))?Number(raw):raw;
+    var t=null;
+    for(var i=0;i<state.topics.length;i++){ if(state.topics[i].id===id){ t=state.topics[i]; break; } }
+    if(!canDelete(t)){ return; }
+    if(!confirm(T('Delete this topic, including all of its replies? This cannot be undone.','删除该主题及其全部回复？此操作无法撤销。'))) return;
+    var sb=sbClient();
+    if(state.mode==='cloud' && sb){
+      var q=sb.from('forum_topics').delete().eq('id',id);
+      if(!isAdminU(u)) q=q.eq('author_email',u.email);
+      q.then(function(res){
+        if(res.error){ status('<span class="for-banner">'+esc(res.error.message)+'</span>'); return; }
+        closeThread();
+        load();
+      }).catch(function(){
+        status('<span class="for-banner">'+T('Delete failed — please try again.','删除失败 — 请重试。')+'</span>');
+      });
+    }else{
+      var loc=localLoad();
+      loc.topics=loc.topics.filter(function(x){ return String(x.id)!==String(id); });
+      loc.replies=loc.replies.filter(function(r){ return String(r.topic_id)!==String(id); });
+      localSave(loc);
+      closeThread();
+      load();
+    }
+  }
+  function delReply(raw){
+    var u=user();
+    if(!u || !u.email){ return; }
+    var id=(typeof raw==='string'&&/^\d+$/.test(raw))?Number(raw):raw;
+    if(state.mode==='cloud' && state.sb){
+      var q=state.sb.from('forum_replies').delete().eq('id',id);
+      if(!isAdminU(u)) q=q.eq('author_email',u.email);
+      q.then(function(res){
+        if(res.error){ status('<span class="for-banner">'+esc(res.error.message)+'</span>'); return; }
+        state.replyCounts[state.threadId]=Math.max(0,(state.replyCounts[state.threadId]||0)-1);
+        loadReplies(state.threadId);
+        load();
+      }).catch(function(){
+        status('<span class="for-banner">'+T('Delete failed — please try again.','删除失败 — 请重试。')+'</span>');
+      });
+    }else{
+      var loc=localLoad();
+      loc.replies=loc.replies.filter(function(r){ return String(r.id)!==String(id); });
+      localSave(loc);
+      state.replyCounts[state.threadId]=Math.max(0,(state.replyCounts[state.threadId]||0)-1);
+      loadReplies(state.threadId);
+      load();
+    }
+  }
+
   /* ── wire up ── */
   function init(){
     var cats=document.getElementById('forumCats');
@@ -437,5 +503,5 @@
     document.addEventListener('DOMContentLoaded',init);
   } else { init(); }
 
-  window.Forum={ open:open, closeThread:closeThread, openComposer:openComposer, closeComposer:closeComposer, submitTopic:submitTopic, submitReply:submitReply, vote:vote, flag:flag, reload:load };
+  window.Forum={ open:open, closeThread:closeThread, openComposer:openComposer, closeComposer:closeComposer, submitTopic:submitTopic, submitReply:submitReply, vote:vote, flag:flag, delTopic:delTopic, delReply:delReply, reload:load };
 })();

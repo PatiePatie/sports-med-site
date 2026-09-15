@@ -542,10 +542,11 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:500;letter-spacing
 /* Comfortable reading measure + rhythm inside chapter bodies */
 .acc-body-inner{line-height:1.85}
 .acc-body-inner p{max-width:68ch}
-.inline-img{width:100%;border-radius:var(--radius);border:1px solid var(--border2);box-shadow:var(--shadow);margin:.9rem 0 .2rem}
-img.inline-img + img.inline-img{width:calc(50% - .5rem);display:inline-block;margin:0 0 .2rem .5rem;vertical-align:top}
-.ch-img-pair img.inline-img{margin-left:auto;margin-right:auto;display:block;margin-top:.5rem}
-p.ch-img-pair{margin-left:auto;margin-right:auto}
+.inline-img{width:100%;max-width:560px;aspect-ratio:16/10;object-fit:cover;display:block;margin:1.25rem auto;border-radius:var(--radius);border:1px solid var(--border2);box-shadow:var(--shadow);cursor:zoom-in}
+.ch-img-pair{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;align-items:flex-start;max-width:560px;margin:1.25rem auto}
+.acc-body-inner p.ch-img-pair{max-width:560px}
+p.ch-img-pair img.inline-img{width:calc(50% - .5rem);max-width:none;margin:0;flex:0 0 auto;display:block}
+.acc-body-inner p.ch-img-pair img.inline-img + img.inline-img{width:calc(50% - .5rem);max-width:none;margin:0;display:block}
 
 /* Tables — modern card look + hover + mobile horizontal scroll */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);margin:.4rem 0 .4rem}
@@ -2002,7 +2003,7 @@ body.dark h1,body.dark h2,body.dark h3{
           <li><span data-en="Systematically increase demand over time — add weight, reps, sets, or decrease rest." data-zh="随时间系统性地增加需求 — 增加重量、次数、组数或减少休息。">Systematically increase demand over time — add weight, reps, sets, or decrease rest.</span></li>
           <li><span data-en="Without progressive overload, the body has no reason to adapt." data-zh="没有渐进超负荷，身体没有适应的理由。">Without progressive overload, the body has no reason to adapt.</span></li>
         </ul>
-<img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop" alt="Progressive overload lifting">
+<p class="ch-img-pair" style="text-align:center"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop" alt="Resistance training"><img class="inline-img" loading="lazy" src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop" alt="Progressive overload lifting"></p>
         <div class="test-prep">
           <h4><span class="co-ico">🎯</span><span class="tp-tag" data-en="TEST PREP" data-zh="应试要点">TEST PREP</span><span data-en="Board-exam essentials" data-zh="考试必背要点">Board-exam essentials</span></h4>
           <ul>

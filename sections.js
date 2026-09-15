@@ -98,12 +98,13 @@
       a.appendChild(lbl);
       sw.appendChild(a);
     }
-    /* Ride AFTER the account cluster so the pills land at the bar's far
-       right corner and are never covered or squeezed. Inside
-       .header-actions they sat directly under the centred search field and
-       inherited the cluster's flex stretch (a 48px-tall capsule around a
-       ~27px pill row). The sections.css margin/order rules glue actions +
-       switcher to the right on shell AND base headers (incl. admin.html). */
-    actions.parentNode.insertBefore(sw, actions.nextSibling);
+    /* Ride INSIDE the account cluster (after the bell + profile) so the
+       pills become part of the ONE right-hand flank in the shell bar. The
+       flank is what balances the toggles on the left — flex:1 1 0 on both
+       sides keeps the search field dead-centre, and because the pills live
+       inside the flank there is never anything under/over the field. The
+       capsule keeps its own height: the flank is align-items:center, so the
+       pills never stretch into a 48px bar. */
+    actions.appendChild(sw);
   }
 })();

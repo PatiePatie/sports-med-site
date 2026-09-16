@@ -59,6 +59,57 @@ body:not(.lin-v2) #qnaFab{
 #qnaFab .qna-fab-badge{ position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:10px;background:var(--green,#059669);color:#fff;font-size:.68rem;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff; }
 body.dark #qnaFab .qna-fab-badge{ border-color:#0A1828; }
 
+/* ── Floating AI launcher (bottom-RIGHT) — matched to the Q&A launcher on the
+   left so the two corners read as a uniform pair: compact circle, same
+   gradient, inner dark disc behind the icon, sheen + hover lift. ── */
+#aiFab{
+  position:fixed;
+  bottom:1.5rem;
+  right:1.5rem;
+  z-index:300;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  padding:0;
+  border:none;
+  border-radius:50%;
+  font-size:0;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(135deg,#981B1B,#4C1D95);
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
+  transition:transform .18s,box-shadow .18s,opacity .25s;
+}
+/* Non-linear (gold-blue) pages: darker gold-brown so the white lines stay visible. */
+body:not(.lin-v2) #aiFab{
+  background:linear-gradient(135deg,#5C4208,#47360A);
+}
+#aiFab::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:50%;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+  background-size:220% 100%;
+  background-position:130% 0;
+  transition:background-position .5s ease;
+  pointer-events:none;
+  opacity:0;
+}
+#aiFab:hover::after{
+  opacity:1;
+  background-position:-30% 0;
+}
+#aiFab:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.12) inset; }
+#aiFab:active{ transform:translateY(0) scale(.97); transition-duration:.08s; }
+#aiFab .vi-ico{ width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.20); }
+#aiFab:hover .vi-ico{ background:rgba(0,0,0,.30); }
+#aiFab .vi-ico svg{ width:14px;height:14px; }
+#aiFab .fab-badge{ display:none; }
+
 /* ── Auto-hide during scroll: FABs fade out while scrolling, return on pause.
    Keeps long chapters (like ch14) fully readable with nothing floating over the text. ── */
 html.qna-scroll-hide #qnaFab,
@@ -219,5 +270,8 @@ html.qna-scroll-hide .back-top{ transition:opacity .25s ease,transform .25s ease
 @media (max-width:640px){
   #qnaFab{ bottom:.9rem;left:.9rem;width:30px;height:30px; }
   #qnaFab .qna-fab-x{ width:18px;height:18px;font-size:.72rem; }
+  #aiFab{ bottom:.9rem;right:.9rem;width:30px;height:30px; }
+  #aiFab .vi-ico{ width:18px;height:18px; }
+  #aiFab .vi-ico svg{ width:13px;height:13px; }
   #qnaPanel{ bottom:4.6rem;left:.9rem;width:calc(100vw - 1.8rem);max-height:calc(100vh - 6rem);border-radius:14px; }
 }

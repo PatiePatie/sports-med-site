@@ -41,7 +41,7 @@ END = "<!-- DRAFT-THEME:END -->"
 # (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
 # sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
 # for the bare Editorial Surgical layer.
-THEME_CSS = "vitalite-skin.css?v=6"
+THEME_CSS = "vitalite-skin.css?v=15"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
@@ -49,13 +49,13 @@ THEME_CSS = "vitalite-skin.css?v=6"
 LAYOUT_JS = "linear-layout.js"
 # Cache-bust pin for the layout script — matches the ?v=2 pin on origin/main
 # (PR #64 bumped it past poisoned v6/v7 variants).
-LAYOUT_JS_PIN = "?v=5" if LAYOUT_JS else ""
+LAYOUT_JS_PIN = "?v=8" if LAYOUT_JS else ""
 
 # Cache-bust pins for the Q&A widget + notification bell (CSS + JS). These were
 # previously unversioned, so a change here silently lingered in CF/browser caches.
 # Bump the numbers whenever the corresponding file changes.
-QNA_CSS_PIN = "?v=1"
-QNA_JS_PIN  = "?v=1"
+QNA_CSS_PIN = "?v=5"
+QNA_JS_PIN  = "?v=2"
 BELL_CSS_PIN = "?v=1"
 BELL_JS_PIN  = "?v=1"
 CHECKUP_CSS_PIN = "?v=3"
@@ -66,28 +66,31 @@ CHECKUP_JS_PIN  = "?v=3"
 # load two dead files, so scope the includes like SECTIONS_JS_PAGES above.
 CHECKUP_PAGES = {"infirmary.html"}
 
-# Pages the draft never touches — auth/account surfaces keep their own chrome
+# Pages the draft never touches — auth surfaces keep their own chrome
 # (the app rail + ⌘K palette make no sense on a sign-in screen). `on` skips
-# these; `status` leaves them out of the report. admin.html/social.html are the
-# operator surfaces (forum moderation) — they intentionally link the base
-# gold-blue theme directly, not the skin.
-EXCLUDE = {"login.html", "admin.html", "social.html"}
+# these; `status` leaves them out of the report. social.html is the operator
+# surface (forum moderation) — it intentionally links the base gold-blue theme
+# directly, not the skin. admin.html IS on the skin now (full Linear shell).
+EXCLUDE = {"login.html", "social.html"}
 
 # Pages that run the section-interfaces script (PR #67). The lane added the
 # <script> inside the DRAFT-THEME block by hand; it belongs in the template so
 # off/on cycles can't silently drop it. social.html is excluded above and links
 # the script outside the block (operator surface).
 SECTIONS_JS_PAGES = {
-    "account.html", "cn-cert.html", "exam.html", "g10-bio.html", "guide.html",
-    "index.html", "infirmary.html", "plan.html", "toc.html", "usabo.html",
+    "account.html", "admin.html", "cn-cert.html", "exam.html", "g10-bio.html",
+    "guide.html", "index.html", "infirmary.html", "plan.html", "toc.html",
+    "usabo.html",
 }
-SECTIONS_JS_PIN = "?v=6"
+SECTIONS_JS_PIN = "?v=7"
 
 BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
     '<script src="draft.js" defer></script>\n'
     + (f'<script src="{LAYOUT_JS}{LAYOUT_JS_PIN}" defer></script>\n' if LAYOUT_JS else "")
+    + '<link rel="stylesheet" href="vi-icons.css">\n'
+    + '<script src="vi-icons.js?v=2" defer></script>\n'
     + '<link rel="stylesheet" href="qna-widget.css'+QNA_CSS_PIN+'">\n'
     + '<script src="qna-widget.js'+QNA_JS_PIN+'" defer></script>\n'
     + '<link rel="stylesheet" href="notif-bell.css'+BELL_CSS_PIN+'">\n'

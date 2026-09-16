@@ -6,7 +6,7 @@
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
 <title>Vitalité Forum — Community · 社区论坛</title>
-<link rel="stylesheet" href="forum.css">
+<link rel="stylesheet" href="forum.css?v=1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -834,6 +834,7 @@ body.dark h1,body.dark h2,body.dark h3{
       <button type="button" class="qo-btn next" id="forumNewBtn" onclick="Forum.openComposer()" data-en="＋ New Topic" data-zh="＋ 发新帖">＋ New Topic</button>
     </div>
     <div class="forum-cats" id="forumCats"></div>
+    <div class="forum-tags" id="forumTags"></div>
     <div class="forum-status" id="forumStatus"></div>
     <div class="forum-list" id="forumList"></div>
   </div>
@@ -869,6 +870,7 @@ body.dark h1,body.dark h2,body.dark h3{
         <span id="composerBodyLabel"></span>
         <textarea id="composerBody" rows="7" maxlength="4000"></textarea>
       </label>
+      <div class="for-tag-suggest" id="composerTags"></div>
       <div class="for-error" id="composerError"></div>
     </div>
     <div class="for-modal-foot">
@@ -960,7 +962,7 @@ document.getElementById('aiInput').addEventListener('keydown',function(e){ if(e.
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAiModal(); });
 </script>
 <script src="site-content.js"></script>
-<script src="forum.js?v=3"></script>
+<script src="forum.js?v=4"></script>
 <link rel="stylesheet" href="qna-widget.css?v=4">
 <script src="qna-widget.js?v=2" defer></script>
 <link rel="stylesheet" href="notif-bell.css">

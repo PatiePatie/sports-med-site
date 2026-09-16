@@ -17,7 +17,7 @@
     { id:'training', icon:'🏋️', en:'Training',            zh:'训练' },
     { id:'study',    icon:'📚', en:'Study & Exams',       zh:'学习与备考' }
   ];
-  var state={ cat:'all', sort:'recent', mode:'cloud', topics:[], replyCounts:{}, seq:0, threadId:null };
+  var state={ cat:'all', sort:'recent', mode:'cloud', topics:[], replyCounts:{}, seq:0, threadId:null, tag:'' };
 
   /* ── helpers ── */
   function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
@@ -47,6 +47,37 @@
     return y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
   }
   function initial(name){ return String(name||'?').trim().charAt(0).toUpperCase(); }
+
+  /* ── Instagram-style hashtags ──
+     #tag in titles/bodies/replies becomes a clickable link that filters the
+     feed to that tag. Tags: letters, digits, underscores; at least one letter. */
+  var TAG_RE=/(?:^|[\s([{>])#([A-Za-z][A-Za-z0-9_]*)/g;
+  function tagName(s){ return String(s||'').replace(/^#/,'').trim().toLowerCase(); }
+  function extractTags(s){
+    var out=[], seen={}, m;
+    TAG_RE.lastIndex=0;
+    var str=String(s==null?'':s);
+    while((m=TAG_RE.exec(str))!==null){
+      var t=m[1].toLowerCase();
+      if(t && !seen[t]){ seen[t]=1; out.push(t); }
+      if(m.index===TAG_RE.lastIndex) TAG_RE.lastIndex++;
+    }
+    return out;
+  }
+  function tagTally(){
+    var c={};
+    state.topics.forEach(function(t){
+      extractTags((t.title||'')+' '+(t.body||'')).forEach(function(tg){ c[tg]=(c[tg]||0)+1; });
+    });
+    return c;
+  }
+  function linkTags(raw){
+    var s=esc(raw);
+    return s.replace(/(^|[\s([{>])#([A-Za-z][A-Za-z0-9_]*)/g,
+      function(all,pre,tag){
+        return pre+'<a class="for-tag" href="#'+tag.toLowerCase()+'" onclick="event.stopPropagation();Forum.byTag(\''+tag.replace(/'/g,"\\'")+'\');return false;">#'+tag+'</a>';
+      });
+  }
 
   /* ── persistence (cloud + local mirror) ── */
   function localLoad(){
@@ -128,14 +159,21 @@
   }
   function render(){
     renderCats();
+    renderTags();
     var el=document.getElementById('forumList'); if(!el) return;
     var list=state.topics.filter(function(t){ return state.cat==='all'||t.category===state.cat; });
+    if(state.tag){
+      var tg=state.tag;
+      list=list.filter(function(t){ return extractTags((t.title||'')+' '+(t.body||'')).indexOf(tg)!==-1; });
+    }
     if(state.sort==='top') list=list.slice().sort(function(a,b){ return (b.upvotes||0)-(a.upvotes||0); });
     else list=list.slice().sort(function(a,b){ return new Date(b.created_at)-new Date(a.created_at); });
     if(!list.length){
-      el.innerHTML='<div class="forum-empty"><span class="fe-icon">'+(state.topics.length?'🔍':'🗣️')+'</span>'
-        +(state.topics.length?T('Nothing here yet — try another category.','这里还没有内容 — 试试其他分类。')
-          :T('No discussions yet. Be the first to start one!','还没有讨论。来发第一帖吧！'))+'</div>';
+      var emptyTxt = state.tag
+        ? T('Nothing with #'+state.tag+' yet — be the first!','还没有 #'+state.tag+' — 来发第一帖吧！')
+        : (state.topics.length?T('Nothing here yet — try another category.','这里还没有内容 — 试试其他分类。')
+            :T('No discussions yet. Be the first to start one!','还没有讨论。来发第一帖吧！'));
+      el.innerHTML='<div class="forum-empty"><span class="fe-icon">'+(state.topics.length?'🔍':'🗣️')+'</span>'+emptyTxt+'</div>';
       return;
     }
     el.innerHTML=list.map(function(t){
@@ -144,13 +182,13 @@
       return '<div class="for-topic" data-id="'+sid+'" onclick="Forum.open(\''+sid+'\')">'
         +'<div class="for-topic-av">'+initial(t.author_name)+'</div>'
         +'<div class="for-topic-body">'
-        +  '<div class="for-topic-title">'+esc(t.title)+'</div>'
+        +  '<div class="for-topic-title">'+linkTags(t.title)+'</div>'
         +  '<div class="for-topic-meta">'
         +    '<span class="for-chip">'+c.icon+' '+T(c.en,c.zh)+'</span>'
         +    '<span>'+esc(t.author_name||'?')+'</span>'
         +    '<span>·</span><span>'+fmtTime(t.created_at)+'</span>'
         +  '</div>'
-        +  '<div class="for-excerpt">'+esc(t.body)+'</div>'
+        +  '<div class="for-excerpt">'+linkTags(t.body)+'</div>'
         +'</div>'
         +'<div class="for-topic-side">'
         +  '<span class="fs">💬 '+(state.replyCounts[t.id]||0)+'</span>'
@@ -161,6 +199,45 @@
     }).join('');
     var se=document.getElementById('forumStatus');
     if(se && !se.querySelector('.for-banner')) se.innerHTML='';
+  }
+
+  /* ── hashtag filter ── */
+  function byTag(raw){
+    var tg=tagName(raw);
+    state.tag=tg;
+    state.cat='all';
+    if(tg){
+      var el=document.getElementById('forumList');
+      if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+    }
+    render();
+    return false;
+  }
+  function renderTags(){
+    var el=document.getElementById('forumTags'); if(!el) return;
+    var tally=tagTally();
+    var arr=Object.keys(tally).sort(function(a,b){ return tally[b]-tally[a] || (a<b?-1:1); }).slice(0,12);
+    var html='';
+    if(state.tag){
+      html+='<button type="button" class="for-tag-chip active" onclick="event.stopPropagation();Forum.byTag(\'\');return false;">#'+esc(state.tag)+'&nbsp;✕</button>';
+    }
+    arr.forEach(function(tg){
+      html+='<button type="button" class="for-tag-chip'+(state.tag===tg?' on':'')+'" onclick="event.stopPropagation();Forum.filterTag(\''+tg.replace(/'/g,"\\'")+'\');return false;">#'+esc(tg)+' <span class="for-tag-n">'+tally[tg]+'</span></button>';
+    });
+    el.innerHTML=html;
+  }
+  function filterTag(tg){ state.tag=tagName(tg); render(); return false; }
+  function insertTag(tg){
+    var el=document.getElementById('composerBody');
+    if(!el) return;
+    tg=tagName(tg);
+    var v=el.value||'';
+    var want='#'+tg;
+    if(v.indexOf(want)===-1){
+      el.value=(v? (/\s$/.test(v)? v : v+' ') : '')+want;
+    }
+    el.focus();
+    return false;
   }
 
   /* ── composer ── */
@@ -188,6 +265,7 @@
     inp.value='';
     document.getElementById('composerBody').value='';
     document.getElementById('composerError').textContent='';
+    renderComposerTags();
     document.getElementById('composerOverlay').classList.add('open');
     document.body.style.overflow='hidden';
     setTimeout(function(){ inp.focus(); },50);
@@ -195,6 +273,19 @@
   function closeComposer(){
     document.getElementById('composerOverlay').classList.remove('open');
     document.body.style.overflow='';
+  }
+  function renderComposerTags(){
+    var el=document.getElementById('composerTags');
+    if(!el) return;
+    var tally=tagTally();
+    var arr=Object.keys(tally).sort(function(a,b){ return tally[b]-tally[a] || (a<b?-1:1); }).slice(0,8);
+    if(!arr.length){ el.style.display='none'; return; }
+    el.style.display='block';
+    var html='<div class="for-tag-label">'+T('Popular tags — tap to add','热门标签 — 点击添加')+'</div><div class="for-tag-list">';
+    arr.forEach(function(tg){
+      html+='<button type="button" class="for-tag-chip" onclick="Forum.insertTag(\''+tg.replace(/'/g,"\\'")+'\')">#'+esc(tg)+'</button>';
+    });
+    el.innerHTML=html+'</div>';
   }
   function submitTopic(){
     var u=user();
@@ -248,7 +339,7 @@
     state.threadId=id;
     var head=document.getElementById('threadHead');
     var c=catById(t.category);
-    head.innerHTML='<div class="for-thread-head"><div class="ft-title">'+esc(t.title)+'</div>'
+    head.innerHTML='<div class="for-thread-head"><div class="ft-title">'+linkTags(t.title)+'</div>'
       +'<div class="ft-meta"><span class="for-chip">'+c.icon+' '+T(c.en,c.zh)+'</span>'
       +'<span>'+esc(t.author_name||'?')+'</span><span>·</span><span>'+fmtTime(t.created_at)+'</span>'
       +'<span>·</span><span>▲ '+(t.upvotes||0)+'</span></div></div>'
@@ -256,7 +347,7 @@
     var body=document.getElementById('threadBody');
     body.innerHTML='<div class="for-post">'
       +'<div class="fp-top"><span class="fp-who">'+esc(t.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(t.created_at)+'</span></div>'
-      +'<div class="fp-body">'+esc(t.body)+'</div>'
+      +'<div class="fp-body">'+linkTags(t.body)+'</div>'
       +'<div class="fp-acts">'
       +  '<button type="button" class="for-btn'+(hasUpvoted(id)?' voted':'')+'" id="voteBtn" onclick="Forum.vote(\''+String(id)+'\')">▲ '+T((hasUpvoted(id)?'Upvoted':'Upvote'),(hasUpvoted(id)?'已点赞':'点赞'))+' ('+(t.upvotes||0)+')</button>'
       +  '<button type="button" class="for-btn flag" onclick="Forum.flag(\''+String(id)+'\')">⚑ '+T('Report','举报')+'</button>'
@@ -325,7 +416,7 @@
         +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span>'
         +(canDelete(r)?'<button type="button" class="for-del" title="'+T('Delete reply','删除回复')+'" onclick="Forum.delReply(\''+rid+'\')">🗑</button>':'')
         +'</div>'
-        +'<div class="fp-body">'+esc(r.body)+'</div></div></div>';
+        +'<div class="fp-body">'+linkTags(r.body)+'</div></div></div>';
     });
     html+=replyBoxEl().outerHTML;
     var wrap=document.createElement('div');
@@ -503,5 +594,5 @@
     document.addEventListener('DOMContentLoaded',init);
   } else { init(); }
 
-  window.Forum={ open:open, closeThread:closeThread, openComposer:openComposer, closeComposer:closeComposer, submitTopic:submitTopic, submitReply:submitReply, vote:vote, flag:flag, delTopic:delTopic, delReply:delReply, reload:load };
+  window.Forum={ open:open, closeThread:closeThread, openComposer:openComposer, closeComposer:closeComposer, submitTopic:submitTopic, submitReply:submitReply, vote:vote, flag:flag, delTopic:delTopic, delReply:delReply, reload:load, byTag:byTag, filterTag:filterTag, insertTag:insertTag };
 })();

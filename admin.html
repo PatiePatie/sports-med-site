@@ -955,8 +955,11 @@ var SB_URL = 'https://eytmbftrjvsntyzwbtzl.supabase.co';
   var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc';
 
 /* ===== Developer accounts (the only emails with console access) ===== */
-var DEV_EMAILS = ['goldensword.gt@gmail.com','P54992163@gmail.com'];
-var DEV_NAMES  = { 'goldensword.gt@gmail.com':'Oliver', 'P54992163@gmail.com':'Patrick Xie' };
+/* Emails are stored LOWERCASE: Supabase lowercases auth emails, so dev
+   matching must be case-insensitive. Patrick has two accounts (ISB email +
+   GitHub) — both are dev. */
+var DEV_EMAILS = ['goldensword.gt@gmail.com','p54992163@gmail.com','patrick.xie@student.isb.bj.edu.cn'];
+var DEV_NAMES  = { 'goldensword.gt@gmail.com':'Oliver', 'p54992163@gmail.com':'Patrick Xie', 'patrick.xie@student.isb.bj.edu.cn':'Patrick Xie' };
 
 /* ===== Language + theme (mirrors site) ===== */
 var showCN = localStorage.getItem('sm_lang')==='zh';
@@ -1136,11 +1139,11 @@ function loadUsers(u){
   ]).then(function(res){
     var mem=(res[0]&&res[0].data)||[];
     var mod={}; (res[1]&&res[1].data||[]).forEach(function(m){ mod[m.email]=m; });
-    var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[d.email]=1; });
+    var devs={}; (res[2]&&res[2].data||[]).forEach(function(d){ devs[String(d.email).toLowerCase()]=1; });
 
     /* developers with no member row still belong in the list */
-    var seen={}; mem.forEach(function(m){ seen[m.email]=1; });
-    for(var k in devs){ if(devs.hasOwnProperty(k) && !seen[k]) mem.push({email:k,name:DEV_NAMES[k]||'',created_at:'',last_seen:''}); }
+    var seen={}; mem.forEach(function(m){ seen[String(m.email).toLowerCase()]=1; });
+    for(var k in devs){ if(devs.hasOwnProperty(k) && !seen[String(k).toLowerCase()]) mem.push({email:k,name:DEV_NAMES[String(k).toLowerCase()]||'',created_at:'',last_seen:''}); }
 
     MEM_CACHE={list:mem, mod:mod, devs:devs};
     var stUsers=document.getElementById('stUsers'); if(stUsers) stUsers.textContent=mem.length;
@@ -1157,7 +1160,7 @@ function loadUsers(u){
 
 function memStatus(email){
   if(!MEM_CACHE) return 'active';
-  if(MEM_CACHE.devs[email]) return 'dev';
+  if(MEM_CACHE.devs[String(email).toLowerCase()]) return 'dev';
   var md=MEM_CACHE.mod[email]||{};
   if(md.deleted) return 'deleted';
   if(md.frozen) return 'frozen';

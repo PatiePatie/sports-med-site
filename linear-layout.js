@@ -220,6 +220,13 @@
     if (!inner) return;
     inner.classList.add('lin-topbar-inner');
 
+    /* Marketing landing keeps its own header — the logo, the feature nav and
+       the sign-in actions sit together in the 1120px column, and the search
+       cluster + toggle reorg the shell bar builds would cram the icons into
+       that column and push the login pill over the search field. Skip the
+       reorg here so the homepage renders its designed header. */
+    if (isMarketing) return;
+
     /* No sidebar toggle in the bar — Patrick keeps the sidebar as is and
        never toggles it, so the ☰ is left where the page put it (and hidden
        by the skin on desktop). */

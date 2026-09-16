@@ -721,7 +721,6 @@ body.dark h1,body.dark h2,body.dark h3{
 <link rel="stylesheet" href="sections.css?v=9">
 <script src="auth-widget.js?v=13"></script>
 <script src="auth-gate.js"></script>
-<script src="sections.js?v=7" defer></script>
 <style>
 
 
@@ -729,7 +728,7 @@ body.dark h1,body.dark h2,body.dark h3{
 
 /* ═══════ ADMIN CONSOLE ═══════ */
 .adm{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:2rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
-.adm h1{font-size:1.5rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
+.adm h1{font-size:1.35rem;font-weight:800;margin-bottom:.35rem;font-family:var(--font-heading)}
 .adm .sub{color:var(--text3);font-size:.9rem}
 /* Status tokens — derived from the theme so light and dark both read correctly.
    These replace the hardcoded pastels the admin styles used to carry, which
@@ -753,7 +752,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-msg.err{background:var(--adm-err-bg);color:var(--adm-err-fg);border:1px solid var(--adm-err-bd)}
 .adm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-top:1.1rem}
 .adm-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-stat .v{font-size:1.5rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
+.adm-stat .v{font-size:1.5rem;font-weight:700;color:var(--accent);font-family:var(--font-heading)}
 .adm-stat .k{font-size:.8rem;color:var(--text2);margin-top:.2rem}
 .adm-kad{width:160px}
 .adm-frozen .adm-stat{background:var(--adm-warn-bg);border-color:var(--adm-warn-bd)}
@@ -768,7 +767,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-chip.ok{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border:1px solid var(--adm-ok-bd)}
 .adm-chip.frozen{background:var(--adm-warn-bg);color:var(--adm-warn-fg);border:1px solid var(--adm-warn-bd)}
 .adm-chip.deleted{background:var(--adm-err-bg);color:var(--adm-err-fg);border:1px solid var(--adm-err-bd)}
-.adm-tbl .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .6rem;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap}
+.adm-tbl .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.42rem .9rem;border-radius:9px;font-size:.82rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap}
 .adm-tbl .btn:hover{transform:translateY(-1px);border-color:var(--accent)}
 .adm-tbl .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
 .adm-tbl .btn.green{background:var(--adm-ok-bg);color:var(--adm-ok-fg);border-color:var(--adm-ok-bd)}
@@ -788,8 +787,8 @@ body.dark h1,body.dark h2,body.dark h3{
   background:var(--surface);border:1px solid var(--border);border-radius:8px}
 .adm-row .adm-row-meta{font-size:.74rem;color:var(--text3)}
 /* Small, quiet action buttons — the pill .adm-btn is too loud inside a card */
-.adm-row .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .65rem;border-radius:8px;
-  font-size:.76rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
+.adm-row .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.42rem .9rem;border-radius:9px;
+  font-size:.82rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
   background:var(--surface);color:var(--text);transition:all .16s;font-family:inherit}
 .adm-row .btn:hover{transform:translateY(-1px);border-color:var(--accent);color:var(--accent)}
 .adm-row .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
@@ -831,8 +830,8 @@ body.dark h1,body.dark h2,body.dark h3{
   font-family:"SF Mono",Menlo,Consolas,monospace}
 .mem-meta{font-size:.72rem;color:var(--text3);margin-top:.25rem;display:flex;gap:.75rem;flex-wrap:wrap}
 .mem-act{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
-.mem-act .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.35rem .7rem;border-radius:8px;
-  font-size:.76rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
+.mem-act .btn{display:inline-flex;align-items:center;gap:.3rem;padding:.42rem .9rem;border-radius:9px;
+  font-size:.82rem;font-weight:700;cursor:pointer;border:1px solid var(--border);
   background:var(--surface2);color:var(--text);transition:all .16s;font-family:inherit;white-space:nowrap}
 .mem-act .btn:hover:not(:disabled){transform:translateY(-1px);border-color:var(--accent);color:var(--accent)}
 .mem-act .btn.danger{background:var(--adm-err-bg);color:var(--adm-err-fg);border-color:var(--adm-err-bd)}
@@ -855,9 +854,9 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:800;padding:.3rem .7rem;border-radius:20px;background:var(--accent);color:#fff}
 .adm-dr7row{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:.8rem}
 .adm-dr7card{flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-dr7card .v{font-size:1.25rem;font-weight:800;color:var(--accent);font-family:var(--font-heading)}
+.adm-dr7card .v{font-size:1.25rem;font-weight:700;color:var(--accent);font-family:var(--font-heading)}
 .adm-dr7card .k{font-size:.76rem;color:var(--text3);margin-top:.2rem}
-.adm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;text-decoration:none;transition:all .2s}
+.adm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;transition:all .2s}
 .adm-btn:hover{opacity:.92;transform:translateY(-1px);text-decoration:none}
 .adm-btn.ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
 .adm-btn.ghost:hover{border-color:var(--accent)}
@@ -866,8 +865,18 @@ body.dark h1,body.dark h2,body.dark h3{
 
 </style><link rel="stylesheet" href="gold-blue-theme.css?v=13">
   <script src="loader.js?v=6"></script>
+<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
+<link rel="stylesheet" href="vitalite-skin.css?v=15">
+<script src="sections.js?v=7" defer></script>
+<script src="draft.js" defer></script>
+<script src="linear-layout.js?v=8" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
+<link rel="stylesheet" href="qna-widget.css?v=5">
+<script src="qna-widget.js?v=2" defer></script>
+<link rel="stylesheet" href="notif-bell.css?v=1">
+<script src="notif-bell.js?v=1" defer></script>
+<!-- DRAFT-THEME:END -->
 </head><body>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav class="sidebar" id="sidebar">
@@ -1024,7 +1033,7 @@ function renderConsole(u){
     var d=DEV_EMAILS[i];
     who+='<span class="adm-badge" style="margin-right:.5rem">'+(DEV_NAMES[d]||d)+'</span>';
   }
-  var html='<div class="adm" style="background:linear-gradient(135deg,#0f2238,#4f46e5 60%,#7c3aed);color:#fff;box-shadow:var(--shadow-lg)">'
+  var html='<div class="adm" style="background:linear-gradient(135deg,#0f2238,#7c3aed);color:#fff;box-shadow:var(--shadow-lg)">'
     +'<h1 style="color:#fff">🛠 '+(showCN?'开发者控制台':'Developer Console')+'</h1>'
     +'<p class="sub" style="color:rgba(255,255,255,.8)">'+(showCN?'欢迎回来，':'Welcome back, ')+esc(u.name||u.email)+'</p>'
     +'<div style="margin-top:1rem">'+who+'</div>'

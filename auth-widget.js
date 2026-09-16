@@ -1,6 +1,7 @@
 /* Shared account widget — header account button with dropdown (My Account / Log Out) + Admin Console shortcut for devs. Reads sm_user set by login.html. */
 (function(){
-  var DEV_EMAILS=['goldensword.gt@gmail.com','P54992163@gmail.com'];
+  /* Emails LOWERCASE: Supabase lowercases auth emails — matching must be case-insensitive. */
+  var DEV_EMAILS=['goldensword.gt@gmail.com','p54992163@gmail.com','patrick.xie@student.isb.bj.edu.cn'];
   var headActions=null; /* stable ref to the header-actions group holding #loginBtn */
 
   function showCN(){ try{ return localStorage.getItem('sm_lang')==='zh'; }catch(e){ return false; } }

@@ -24,7 +24,7 @@
 #nbBell::after{
   content:"";
   position:absolute;
-  inset:0;
+  top:0;left:0;right:0;bottom:0;
   border-radius:50%;
   background:radial-gradient(circle at 50% 0%,rgba(184,134,11,.22),transparent 65%);
   opacity:0;

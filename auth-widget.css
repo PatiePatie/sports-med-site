@@ -14,4 +14,4 @@
 .log-item{display:flex;align-items:center;gap:.55rem;padding:.55rem .7rem;border-radius:8px;font-size:.85rem;font-weight:600;color:var(--text);text-decoration:none;background:none;border:none;cursor:pointer;text-align:left;width:100%;transition:background .15s}
 .log-item:hover{background:var(--surface2);text-decoration:none;color:var(--accent)}
 .log-menu .log-item:last-child{border-top:1px solid var(--border);border-radius:8px;margin-top:.15rem;padding-top:.6rem;color:var(--red,#C05A74)}
-.log-menu .log-item:last-child:hover{background:color-mix(in srgb,var(--red,#C05A74) 10%,transparent);color:var(--red,#C05A74)}
+.log-menu .log-item:last-child:hover{background:rgba(192,90,116,.10);background:color-mix(in srgb,var(--red,#C05A74) 10%,transparent);color:var(--red,#C05A74)}

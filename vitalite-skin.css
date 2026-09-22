@@ -269,7 +269,7 @@ body.lin-v2 .lin-search-input::placeholder{color:var(--text3)}
 body.lin-v2 .lin-search-input:focus{
   background:var(--surface);
   border-color:var(--accent);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
+  box-shadow:0 0 0 3px rgba(10,24,40,.15);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);
 }
 body.lin-v2 .lin-search-kbd{
   position:absolute;right:10px;top:50%;margin-top:-10px;

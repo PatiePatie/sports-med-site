@@ -38,7 +38,7 @@ body:not(.lin-v2) #qnaFab{
 #qnaFab::after{
   content:"";
   position:absolute;
-  inset:3px;
+  top:3px;left:3px;right:3px;bottom:3px;
   border-radius:50%;
   background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
   background-size:220% 100%;
@@ -90,7 +90,7 @@ body:not(.lin-v2) #aiFab{
 #aiFab::after{
   content:"";
   position:absolute;
-  inset:3px;
+  top:3px;left:3px;right:3px;bottom:3px;
   border-radius:50%;
   background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
   background-size:220% 100%;
@@ -260,8 +260,8 @@ html.qna-scroll-hide .back-top{ transition:opacity .25s ease,transform .25s ease
 
 /* ── Status / toast ── */
 #qnaPanel .qna-status{ font-size:.76rem;border-radius:8px;padding:.5rem .65rem;display:none; }
-#qnaPanel .qna-status.ok{ display:block;background:color-mix(in srgb,var(--green,#059669) 12%,transparent);color:var(--green,#059669); }
-#qnaPanel .qna-status.err{ display:block;background:color-mix(in srgb,var(--red,#dc2626) 12%,transparent);color:var(--red,#dc2626); }
+#qnaPanel .qna-status.ok{ display:block;background:rgba(5,150,105,.12);background:color-mix(in srgb,var(--green,#059669) 12%,transparent);color:var(--green,#059669); }
+#qnaPanel .qna-status.err{ display:block;background:rgba(220,38,38,.12);background:color-mix(in srgb,var(--red,#dc2626) 12%,transparent);color:var(--red,#dc2626); }
 
 /* ── Footer note ── */
 #qnaPanel .qna-foot{ padding:.45rem .75rem;font-size:.68rem;color:var(--text3,#999);border-top:1px solid var(--border);text-align:center;background:var(--surface); }

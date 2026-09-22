@@ -1,0 +1,38 @@
+# The Vitalité Plan
+
+> Sports Medicine, Recovery & Nutrition — a lifelong bilingual (English & 中文) educational program. 14 chapters, flashcards, adaptive quizzes, an AI recovery assistant, and NPTE / 运动康复师 exam prep. Free and public.
+
+## Purpose
+
+The Vitalité Plan teaches sports medicine, rehab science, and recovery as a structured arc: Foundations → Performance → Recovery → Mastery. Every chapter is bilingual, evidence-graded, and ends with flashcards and adaptive quiz questions. The site also hosts an AI recovery assistant (Vitalite Infirmary) and a community forum (Vitalite Social). Content is educational material only — not medical advice.
+
+## Contents
+
+- [Home](https://vitaliteplan.com/): landing, site map, and entry points
+- [Full Guide](https://vitaliteplan.com/guide.html): all 14 chapters in sequence
+- [Table of Contents](https://vitaliteplan.com/toc.html): chapter index
+- [Chapter 1 — The Body as a Machine](https://vitaliteplan.com/ch1.html): energy systems · muscle fibers · SAID principle
+- [Chapter 2 — Nervous System](https://vitaliteplan.com/ch2.html): motor control · reflexes · neurological exam
+- [Chapter 3 — Cardiovascular System](https://vitaliteplan.com/ch3.html): heart · vessels · blood · exercise response
+- [Chapter 4 — Integumentary System](https://vitaliteplan.com/ch4.html): skin · wound healing · burns · ulcers
+- [Chapter 5 — Training Principles](https://vitaliteplan.com/ch5.html): progressive overload · periodization · stretching
+- [Chapter 6 — Injury & Healing](https://vitaliteplan.com/ch6.html): inflammation · sprains · strains · healing phases
+- [Chapter 7 — Recovery Science](https://vitaliteplan.com/ch7.html): sleep · active recovery · cold & heat · repeated bouts
+- [Chapter 8 — Sports Nutrition](https://vitaliteplan.com/ch8.html): macros · timing · hydration · sports foods
+- [Chapter 9 — Supplements & Evidence Grading](https://vitaliteplan.com/ch9.html): evidence grades · creatine · caffeine · safety
+- [Chapter 10 — Ethics & Professional Responsibility](https://vitaliteplan.com/ch10.html): legal · HIPAA · delegation · billing
+- [Chapter 11 — Becoming a Physical Therapist](https://vitaliteplan.com/ch11.html): rehab plans · DPT path · NPTE · career growth
+- [Chapter 12 — Assessment · 康复评定学](https://vitaliteplan.com/ch12.html): MMT · goniometry · balance · gait
+- [Chapter 13 — TCM · 中医健康管理](https://vitaliteplan.com/ch13.html): yin-yang · meridians · tuina · constitutional medicine
+- [Chapter 14 — Emergency Medicine & Field Care](https://vitaliteplan.com/ch14.html): EAP · SCA, CPR & AED · heat illness · START triage
+- [Vitalite Infirmary](https://vitaliteplan.com/infirmary.html): AI recovery assistant + rehab dashboard
+- [Vitalite Social](https://vitaliteplan.com/social.html): community forum for injuries, recovery, and wins
+- [Exam & Certificate](https://vitaliteplan.com/exam.html): NPTE and 运动康复师 practice banks
+
+## Optional
+
+- [USABO Biology Prep](https://vitaliteplan.com/usabo.html): biology olympiad practice
+- [G10 Biology](https://vitaliteplan.com/g10-bio.html): grade-10 biology companion
+- [CN Certification · 康复师认证](https://vitaliteplan.com/cn-cert.html): 运动康复师 certification path
+
+Sitemap: https://vitaliteplan.com/sitemap.xml

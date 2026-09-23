@@ -60,6 +60,71 @@
     return n;
   }
 
+  /* Replay affordance: after the tour is done, a small ↻ button sits in the
+     top-left flank (or beside the logo on non-shell pages) and restarts it.
+     Shows only when the user finished/skipped the tour (sm_tutorial_done). */
+  var replayBtn=null;
+  var boundEvents=false;
+  var api={render:null,next:null,prev:null,finish:null,afterLang:null};
+  function syncReplayLabel(){
+    if(!replayBtn) return;
+    var cn=isCN();
+    replayBtn.title=cn?'重新播放新手教程':'Replay the tutorial';
+    replayBtn.innerHTML='↻ <span class="tut-replay-text">'+(cn?'教程':'Tutorial')+'</span>';
+  }
+  function mountReplay(){
+    if(replayBtn || !userDone() || (flag()==='1')) return;
+    var b=el('button','tut-replay');
+    b.id='tutReplay';
+    b.type='button';
+    b.addEventListener('click',replayUi);
+    replayBtn=b;
+    var tl=document.querySelector('.lin-topleft');
+    if(tl){ tl.appendChild(b); }
+    else {
+      var logo=document.querySelector('.header-inner .logo');
+      if(logo && logo.parentNode){
+        var wrap=logo.parentNode;
+        var box=wrap.parentNode;
+        if(box) box.insertBefore(b, wrap.nextSibling);
+        else if(wrap.parentNode) wrap.parentNode.appendChild(b);
+      } else {
+        var inn=document.querySelector('.header-inner')||document.querySelector('.lin-topbar-inner');
+        if(inn) inn.insertBefore(b, inn.firstChild);
+      }
+    }
+    syncReplayLabel();
+  }
+  function showReplay(){ if(replayBtn){ replayBtn.style.display=''; syncReplayLabel(); } }
+  function hideReplay(){ if(replayBtn) replayBtn.style.display='none'; }
+  function replayUi(){
+    if(document.getElementById('tutRoot')) return;
+    hideReplay();
+    build();
+  }
+  function bindUiEvents(){
+    if(boundEvents) return;
+    boundEvents=true;
+    window.addEventListener('resize',function(){
+      if(window._tutPlace) setTimeout(window._tutPlace,40);
+    });
+    document.addEventListener('keydown',function(ev){
+      if(!document.getElementById('tutRoot')||!api.next||!api.prev) return;
+      if(ev.key==='Escape'){ if(api.finish) api.finish(); }
+      else if(ev.key==='ArrowRight'){ api.next(); }
+      else if(ev.key==='ArrowLeft'){ api.prev(); }
+    });
+    document.addEventListener('click',function(ev){
+      var lb=ev.target.closest?ev.target.closest('#langToggle'):null;
+      if(lb){
+        if(api.afterLang) setTimeout(api.afterLang,40);
+        else setTimeout(syncReplayLabel,40);
+      }
+      var db=ev.target.closest?ev.target.closest('#darkToggle'):null;
+      if(db && window._tutPlace){ setTimeout(window._tutPlace,120); }
+    },true);
+  }
+
   function build(){
     if(document.getElementById('tutRoot')) return;
     var root=el('div','tut-root');
@@ -147,10 +212,14 @@
       try{ document.body.style.overflow=''; }catch(e){}
       if(root && root.parentNode) root.parentNode.removeChild(root);
       window._tutPlace=null;
-      if(window.removeEventListener){ window.removeEventListener('resize',onResize); }
+      /* stop dispatching to this instance */
+      if(api.render===render){ api.render=null; api.next=null; api.prev=null; api.finish=null; api.afterLang=null; }
+      /* the tour is finished → offer the replay button */
+      bindUiEvents();
+      setTimeout(mountReplay,120);
+      setTimeout(showReplay,120);
     }
     function onResize(){ if(window._tutPlace) setTimeout(window._tutPlace,40); }
-    window.addEventListener('resize',onResize);
 
     skip.addEventListener('click',finish);
     prev.addEventListener('click',function(){ if(i>0){ i--; render(); } });
@@ -158,33 +227,35 @@
       if(i<STEPS.length-1){ i++; render(); }
       else finish();
     });
-    document.addEventListener('keydown',function(ev){
-      if(ev.key==='Escape'){ finish(); }
-      else if(ev.key==='ArrowRight'){ if(i<STEPS.length-1){ i++; render(); } }
-      else if(ev.key==='ArrowLeft'){ if(i>0){ i--; render(); } }
-    });
+    api.render=render;
+    api.next=function(){ if(i<STEPS.length-1){ i++; render(); } };
+    api.prev=function(){ if(i>0){ i--; render(); } };
+    api.finish=finish;
+    api.afterLang=function(){ render(); syncReplayLabel(); };
+    bindUiEvents();
     try{ document.body.style.overflow='hidden'; }catch(e){}
 
     /* Live-follow the language toggle: if the user taps 中/EN mid-tour, re-render.
        deferred so the page's own handler runs first and sm_lang is already new. */
-    document.addEventListener('click',function(ev){
-      var lb=ev.target.closest?ev.target.closest('#langToggle'):null;
-      if(lb){ setTimeout(render,40); }
-      var db=ev.target.closest?ev.target.closest('#darkToggle'):null;
-      if(db){ setTimeout(place,120); }
-    },true);
-
     render();
     window.tutClose=finish; /* escape hatch */
   }
 
   function boot(){
-    /* Only for a brand-new account that hasn't seen the tour yet. */
-    if(flag()!=='1') return;
+    var go=function(){ bindUiEvents(); mountReplay(); };
+    /* New account that hasn't seen the tour → run it. Otherwise a returning
+       user who already finished gets the small ↻ replay button instead. */
+    if(flag()==='1'){
+      try{
+        var ff=function(){ build(); };
+        if(document.readyState==='complete'||document.readyState==='interactive'){ setTimeout(ff,450); }
+        else document.addEventListener('DOMContentLoaded',function(){ setTimeout(ff,450); });
+      }catch(e){}
+      return;
+    }
     try{
-      var ff=function(){ build(); };
-      if(document.readyState==='complete'||document.readyState==='interactive'){ setTimeout(ff,450); }
-      else document.addEventListener('DOMContentLoaded',function(){ setTimeout(ff,450); });
+      if(document.readyState==='complete'||document.readyState==='interactive'){ setTimeout(go,300); }
+      else document.addEventListener('DOMContentLoaded',function(){ setTimeout(go,300); });
     }catch(e){}
   }
   boot();

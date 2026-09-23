@@ -153,8 +153,13 @@
     function render(){
       var s=STEPS[i], cn=isCN();
       badge.textContent=s.icon;
-      title.textContent=s.t[cn?1:0];
-      body.textContent=s.b[cn?1:0];
+      /* Always show both languages: English on top, 中文 below. */
+      title.textContent='';
+      title.appendChild(el('span','tut-l-en',s.t[0]));
+      title.appendChild(el('span','tut-l-zh',s.t[1]));
+      body.textContent='';
+      body.appendChild(el('span','tut-l-en',s.b[0]));
+      body.appendChild(el('span','tut-l-zh',s.b[1]));
       dots.textContent='';
       for(var k=0;k<STEPS.length;k++){
         var d=el('span','tut-dot'+(k===i?' on':''));

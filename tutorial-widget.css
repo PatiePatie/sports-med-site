@@ -5,10 +5,11 @@
    Colors follow the page theme (falls back to neutral when vars absent).
    ════════════════════════════════════════════════════════════════════ */
 .tut-root{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;}
-.tut-veil{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(8,14,24,.55);
-  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+.tut-veil{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(8,14,24,.55);}
+.tut-root.has-spot .tut-veil{display:none;} /* the ring's giant shadow dims, no veil over the highlighted element */
 .tut-spot{position:fixed;border:2px solid #7c3aed;border-radius:12px;
-  box-shadow:0 0 0 4px rgba(124,58,237,.28),0 0 28px rgba(124,58,237,.35);
+  box-shadow:0 0 0 4px rgba(124,58,237,.28),0 0 28px rgba(124,58,237,.35),
+             0 0 0 9999px rgba(8,14,24,.55);
   transition:all .28s ease;display:none;pointer-events:none;z-index:2147483100;}
 .tut-card{position:fixed;width:min(92vw,460px);z-index:2147483200;
   background:var(--surface,#ffffff);color:var(--text,#1a2332);
@@ -19,7 +20,13 @@
   line-height:1.55;}
 .tut-badge{font-size:1.9rem;line-height:1;margin-bottom:.55rem;}
 .tut-title{font-size:1.18rem;font-weight:800;margin-bottom:.4rem;letter-spacing:.01em;}
+.tut-title .tut-l-en{display:block;}
+.tut-title .tut-l-zh{display:block;font-size:.92rem;font-weight:600;color:var(--accent,#7c3aed);
+  margin-top:.18rem;opacity:.9;}
 .tut-body{font-size:.95rem;opacity:.92;margin-bottom:.85rem;}
+.tut-body .tut-l-en{display:block;}
+.tut-body .tut-l-zh{display:block;margin-top:.35rem;padding-top:.3rem;color:var(--text2,#35435c);
+  border-top:1px dashed var(--border2,rgba(20,40,65,.15));opacity:1;}
 .tut-dots{display:flex;gap:.32rem;align-items:center;margin-bottom:.85rem;}
 .tut-dot{width:7px;height:7px;border-radius:50%;
   background:var(--border3,rgba(20,40,65,.25));

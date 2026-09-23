@@ -44,3 +44,23 @@ body.dark .tut-card{background:#151e2e;color:#eef2f8;
   border-color:rgba(160,180,215,.22);}
 body.dark .tut-dot{background:rgba(160,180,215,.28);}
 body.dark .tut-btn{background:#243248;color:#eef2f8;border-color:rgba(160,180,215,.25);}
+
+/* ═══ Replay affordance — small ↻ pill, top-left, after the tour is done ═══ */
+.tut-replay{
+  display:inline-flex;align-items:center;gap:.34rem;
+  border:1px solid var(--border,rgba(20,40,65,.2));
+  background:var(--surface2,#f4f6fa);color:var(--text,#1a2332);
+  border-radius:999px;padding:.28rem .62rem;font-size:.78rem;
+  font-weight:600;line-height:1;cursor:pointer;font-family:inherit;
+  white-space:nowrap;opacity:.92;transition:all .18s;
+}
+.tut-replay:hover{opacity:1;filter:brightness(.97);transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,.10);}
+.tut-replay:focus-visible{outline:2px solid var(--accent,#7c3aed);outline-offset:2px;}
+body.dark .tut-replay{background:#243248;color:#eef2f8;
+  border-color:rgba(160,180,215,.25);}
+/* Compact flanks on narrow screens: shrink the label away, keep the icon. */
+@media (max-width:600px){
+  .lin-topleft .tut-replay, .header-inner .tut-replay{padding:.3rem .42rem;}
+  .lin-topleft .tut-replay .tut-replay-text, .header-inner .tut-replay .tut-replay-text{display:none;}
+}

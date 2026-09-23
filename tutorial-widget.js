@@ -50,7 +50,6 @@
   function isCN(){ try{ return localStorage.getItem('sm_lang')==='zh'; }catch(e){ return false; } }
   function flag(){ try{ return localStorage.getItem('sm_tutorial'); }catch(e){ return null; } }
   function clearFlag(){ try{ localStorage.removeItem('sm_tutorial'); }catch(e){} }
-  function userDone(){ try{ return localStorage.getItem(DONE); }catch(e){ return null; } }
   function markDone(){ try{ localStorage.setItem(DONE,'1'); }catch(e){} }
 
   function el(tag,cls,txt){
@@ -60,20 +59,21 @@
     return n;
   }
 
-  /* Replay affordance: after the tour is done, a small ↻ button sits in the
-     top-left flank (or beside the logo on non-shell pages) and restarts it.
-     Shows only when the user finished/skipped the tour (sm_tutorial_done). */
-  var replayBtn=null;
-  var boundEvents=false;
-  var api={render:null,next:null,prev:null,finish:null,afterLang:null};
-  function syncReplayLabel(){
-    if(!replayBtn) return;
-    var cn=isCN();
-    replayBtn.title=cn?'重新播放新手教程':'Replay the tutorial';
-    replayBtn.innerHTML='↻ <span class="tut-replay-text">'+(cn?'教程':'Tutorial')+'</span>';
-  }
-  function mountReplay(){
-    if(replayBtn || !userDone() || (flag()==='1')) return;
+/* Replay affordance: a small ↻ button sits in the top-left flank (or beside
+      the logo on non-shell pages) so the walkthrough is one click away for
+      EVERY account of the site. It is only hidden while a fresh-account tour
+      is pending (sm_tutorial==='1') or already running. */
+   var replayBtn=null;
+   var boundEvents=false;
+   var api={render:null,next:null,prev:null,finish:null,afterLang:null};
+   function syncReplayLabel(){
+     if(!replayBtn) return;
+     var cn=isCN();
+     replayBtn.title=cn?'重新播放新手教程':'Replay the tutorial';
+     replayBtn.innerHTML='↻ <span class="tut-replay-text">'+(cn?'教程':'Tutorial')+'</span>';
+   }
+   function mountReplay(){
+     if(replayBtn || (flag()==='1')) return;
     var b=el('button','tut-replay');
     b.id='tutReplay';
     b.type='button';

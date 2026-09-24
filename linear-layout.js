@@ -77,7 +77,7 @@
 
   var PAGES = [
     { file: 'index.html',   en: 'Overview',       zh: '概览',              icon: 'home' },
-    { file: 'guide.html',   en: 'Guide',          zh: '学习指南',           icon: 'book' },
+    { file: 'guide.html',   en: 'Vitalite Textbook', zh: 'Vitalité 教材',       icon: 'book' },
     { file: 'toc.html',     en: 'Contents',       zh: '目录',              icon: 'list' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },

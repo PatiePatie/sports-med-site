@@ -28,17 +28,17 @@
      b:['Each chapter is a set of expandable cards. Click a section heading to open its content, click again to collapse — so you can study in bite-sized pieces.','每个章节由若干可展开的卡片组成。点击小节标题展开内容，再次点击收起——方便按小块学习。'],
      sel:'.chapter .acc-header, #guide .acc-header, .accordion .acc-header'},
     {icon:'🃏', t:['Flashcards','闪卡'],
-     b:['Under «Flashcards», flip each card to learn a key term, shuffle the deck, and mark the cards you already know so they leave your rotation.','在「闪卡」中翻面记忆关键术语、打乱牌组，并把自己已掌握的知识点标记熟练，让它退出轮换。'],
-     sel:null},
+     b:['Open «Study Tools» in the top bar → «Flashcards». Flip each card to learn a key term, shuffle the deck, and mark the cards you already know so they leave your rotation.','打开顶栏「备考工具」→「闪卡」。翻面记忆关键术语、打乱牌组，并把自己已掌握的知识点标记熟练，让它退出轮换。'],
+     sel:'#stFlash', menu:true},
     {icon:'✅', t:['Quizzes & adaptive practice','测验与自适应练习'],
-     b:['Every chapter ends with a quiz. The adaptive engine adjusts questions to your level, and the Mastery Dashboard tracks your progress chapter by chapter.','每章都配有测验。自适应引擎会根据您的水平调整出题，掌握度看板逐章记录学习进度。'],
-     sel:null},
+     b:['Open «Study Tools» → «Quizzes». Every chapter ends with a quiz. The adaptive engine adjusts questions to your level, and the Mastery Dashboard tracks your progress chapter by chapter.','打开「备考工具」→「测验」。每章都配有测验，自适应引擎会根据您的水平调整出题，掌握度看板逐章记录学习进度。'],
+     sel:'#stQuiz', menu:true},
     {icon:'🎓', t:['Exam prep & certification','备考冲刺与结业证书'],
-     b:['Under «Test Prep» you will find NPTE practice exams and the 运动康复师 qualification exam. Score ≥70% to earn a downloadable Certificate of Completion.','「备考专区」提供 NPTE 模拟考试与运动康复师资格证考试。成绩≥70%即可获得可下载的结业证书。'],
-     sel:null},
+     b:['Open «Study Tools» → «Exam prep» for NPTE practice exams and the 运动康复师 qualification exam. Score ≥70% to earn a downloadable Certificate of Completion.','打开「备考工具」→「备考冲刺」：提供 NPTE 模拟考试与运动康复师资格证考试。成绩≥70%即可获得可下载的结业证书。'],
+     sel:'#stExam', menu:true},
     {icon:'🤖', t:['The AI assistant · Vitaline','AI 助手 · Vitaline'],
-     b:['Need a quick explanation? Tap the 🤖 Vitaline button (bottom-right) to ask our AI, or use the Q&A bubble (bottom-left) to ask questions in English or 中文.','需要快速讲解？点击右下角的🤖按钮（Vitaline）向AI提问，或用左下角的问答气泡用中英文提问。'],
-     sel:'#aiFab'},
+     b:['Need a quick explanation? Open «Study Tools» → «Vitaline AI» to ask our AI, or use the Q&A bubble (bottom-left) to ask in English or 中文.','需要快速讲解？打开「备考工具」→「Vitaline AI」向AI提问，或用左下角的问答气泡用中英文提问。'],
+     sel:'#stAI, #aiFab', menu:true},
     {icon:'👤', t:['Your account','您的账户'],
      b:['Tap your name in the top bar to open My Account — edit your name, country, age and bio, and watch your level grow as you study.','点击顶栏中的姓名进入「我的账户」——编辑姓名、国家、年龄与简介，并看着您的等级随学习不断提升。'],
      sel:'#loginBtn, .btn-login'},
@@ -176,9 +176,17 @@
       if(s.sel){
         try{ target=document.querySelector(s.sel); }catch(e){}
       }
-      if(target){
+      if(target && !s.menu){
         target.scrollIntoView({behavior:'smooth',block:'center'});
       }
+      /* Study-step targets live inside the top-bar Study Tools dropdown —
+         open it FIRST so the flagged item (#stFlash/#stQuiz/#stExam/#stAI)
+         has a real rect for the spotlight; close it again off those steps
+         so a stale open menu never lingers behind the dim. Pages without
+         the menu (login/social) simply fall back to no ring / #aiFab. */
+      var stud=window.VitaliteStudyTools;
+      if(stud && stud.isOpen && stud.isOpen() && !s.menu){ try{ stud.close(); }catch(e){} }
+      if(stud && stud.open && s.menu){ try{ stud.open(); }catch(e){} }
       var place=function(){
         var cls='tut-root '+(target?'has-spot':'');
         root.className=cls;
@@ -214,6 +222,7 @@
 
     function finish(){
       clearFlag(); markDone();
+      try{ if(window.VitaliteStudyTools && window.VitaliteStudyTools.close) window.VitaliteStudyTools.close(); }catch(e){}
       try{ document.body.style.overflow=''; }catch(e){}
       if(root && root.parentNode) root.parentNode.removeChild(root);
       window._tutPlace=null;

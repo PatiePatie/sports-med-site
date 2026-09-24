@@ -287,6 +287,88 @@
     }
   });
 
+  /* ─── 4.5 · Study Tools — one pill, the four study surfaces ────────────
+     A single pill in the right flank of the shell bar opens a small menu
+     with Flashcards · Quizzes · Exam prep · Vitaline AI. It is what the
+     onboarding tour rings on its flashcards/quiz/exam/AI steps (steps 6-9
+     used to point at nothing), and it gives every visitor a one-tap path
+     to the study surfaces. The dropdown is plain chrome: absolute under
+     the pill, right-aligned, z above page content but far below the tour
+     spotlight layer (~2147483000+), which is what rings around it. The
+     pill keeps both language strings (data-en/data-zh) so the page's own
+     applyLang() keeps it in sync on every toggle. */
+  safe(function mountStudyTools() {
+    var actions = $('.header-actions', header);
+    if (!actions || $('.lin-study-wrap')) return;
+
+    function launch(fnName, href) {
+      try { if (fnName && typeof window[fnName] === 'function') { window[fnName](); return; } } catch (e) {}
+      if (href) location.href = href;
+    }
+
+    var wrap = el('div', 'lin-study-wrap');
+    var btn = el('button', 'lin-study-btn');
+    btn.type = 'button';
+    btn.id = 'studyToolsBtn';
+    btn.setAttribute('aria-haspopup', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.appendChild(icon('panel'));
+    var blbl = el('span', 'lin-study-label');
+    bi(blbl, 'Study Tools', '备考工具');
+    btn.appendChild(blbl);
+    var caret = icon('chevron');
+    caret.className = 'lin-ico lin-study-caret';
+    btn.appendChild(caret);
+
+    var menu = el('div', 'lin-study-menu');
+    menu.setAttribute('role', 'menu');
+    var ITEMS = [
+      { id: 'stFlash', ico: 'panel',   en: 'Flashcards',         zh: '闪卡',       act: function () { launch('openFlashcards', 'guide.html'); } },
+      { id: 'stQuiz',   ico: 'edit',   en: 'Quizzes & practice', zh: '测验与练习', act: function () { launch('openQuizMode', 'guide.html'); } },
+      { id: 'stExam',   ico: 'award',  en: 'Exam prep',         zh: '备考冲刺',   act: function () { location.href = 'exam.html'; } },
+      { id: 'stAI',     ico: 'message',en: 'Vitaline AI',       zh: 'AI 助手',    act: function () { launch('openAiModal', 'guide.html'); } }
+    ];
+    ITEMS.forEach(function (it) {
+      var a = el('button', 'lin-study-item');
+      a.type = 'button';
+      a.id = it.id;
+      a.setAttribute('role', 'menuitem');
+      a.appendChild(icon(it.ico));
+      var lbl = el('span', 'lin-study-item-label');
+      bi(lbl, it.en, it.zh);
+      a.appendChild(lbl);
+      a.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeMenu();
+        it.act();
+      });
+      menu.appendChild(a);
+    });
+
+    wrap.appendChild(btn);
+    wrap.appendChild(menu);
+    actions.appendChild(wrap);
+
+    function openMenu() { wrap.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { wrap.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    function isOpen() { return wrap.classList.contains('open'); }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (isOpen()) closeMenu(); else openMenu();
+    });
+    document.addEventListener('mousedown', function (e) {
+      if (isOpen() && wrap && !wrap.contains(e.target)) closeMenu();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    /* The onboarding tour opens this menu on its study steps so the flagged
+       element really is on screen (a closed dropdown has no rect). */
+    window.VitaliteStudyTools = { open: openMenu, close: closeMenu, isOpen: isOpen, toggle: function () { isOpen() ? closeMenu() : openMenu(); } };
+  });
+
   /* ─── 5 · The view header — tabs, then a context row ─────────────────── */
 
   safe(function mountViewHeader() {

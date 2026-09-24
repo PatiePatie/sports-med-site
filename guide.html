@@ -858,9 +858,11 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- SHAPES-THEME:END -->
 <style id="guide-semicircle-overflow">
 @media (hover:hover) and (min-width:901px){
-  html.os-semi body.lin-page-guide .sidebar.sidebar{overscroll-behavior:contain;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));mask-composite:intersect}
-  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-link.gc,
-  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-label.gc-label{min-width:0;max-width:100%}
+  html.os-semi body.lin-page-guide .sidebar.sidebar{overscroll-behavior:contain}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll{height:min(180px,calc(var(--os-semi-r) * .6));max-height:calc(var(--os-semi-r) * .6);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 55%,transparent) transparent;padding-right:.2rem;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll::-webkit-scrollbar{width:4px}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--accent) 55%,transparent);border-radius:99px}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll .sidebar-link.gc{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 </style>
 
@@ -890,6 +892,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
       <a class="sidebar-link sub" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
       <a class="sidebar-link sub" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
+      <div class="gc-scroll">
       <div class="sidebar-label gc-label" data-en="📖 Chapters" data-zh="📖 章节">📖 Chapters</div>
       <a class="sidebar-link sub gc" href="#ch1" data-ch="1" data-en="Ch 1 · The Body as a Machine" data-zh="第1章 · 身体如机器">Ch 1 · The Body as a Machine</a>
       <a class="sidebar-link sub gc" href="#ch2" data-ch="2" data-en="Ch 2 · Nervous System" data-zh="第2章 · 神经系统">Ch 2 · Nervous System</a>
@@ -905,6 +908,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
       <a class="sidebar-link sub gc" href="#ch12" data-ch="12" data-en="Ch 12 · Assessment · 康复评定学" data-zh="第12章 · Assessment · 康复评定学">Ch 12 · Assessment · 康复评定学</a>
       <a class="sidebar-link sub gc" href="#ch13" data-ch="13" data-en="Ch 13 · TCM · 中医健康管理" data-zh="第13章 · TCM · 中医健康管理">Ch 13 · TCM · 中医健康管理</a>
       <a class="sidebar-link sub gc" href="#ch14" data-ch="14" data-en="Ch 14 · Emergency Medicine &amp; Field Care" data-zh="第14章 · 急救医学与场边处置">Ch 14 · Emergency Medicine &amp; Field Care</a>
+      </div>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-infirmary">

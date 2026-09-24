@@ -49,7 +49,7 @@ THEME_CSS = "vitalite-skin.css?v=18"
 LAYOUT_JS = "linear-layout.js"
 # Cache-bust pin for the layout script — matches the ?v=2 pin on origin/main
 # (PR #64 bumped it past poisoned v6/v7 variants).
-LAYOUT_JS_PIN = "?v=9" if LAYOUT_JS else ""
+LAYOUT_JS_PIN = "?v=10" if LAYOUT_JS else ""
 
 # Cache-bust pins for the Q&A widget + notification bell (CSS + JS). These were
 # previously unversioned, so a change here silently lingered in CF/browser caches.
@@ -71,7 +71,7 @@ CHECKUP_PAGES = {"checkup.html"}
 # these; `status` leaves them out of the report. social.html used to be excluded
 # too, which gave the forum a different top bar from every other page; it is on
 # the skin now like admin.html.
-EXCLUDE = {"login.html"}
+EXCLUDE = {"login.html", "ib-sehs-workbook.html"}
 
 # Pages that run the section-interfaces script (PR #67). The lane added the
 # <script> inside the DRAFT-THEME block by hand; it belongs in the template so
@@ -79,7 +79,7 @@ EXCLUDE = {"login.html"}
 # the script outside the block (operator surface).
 SECTIONS_JS_PAGES = {
     "account.html", "admin.html", "checkup.html", "cn-cert.html", "exam.html", "g10-bio.html",
-    "guide.html", "index.html", "infirmary.html", "plan.html", "social.html",
+    "guide.html", "ib-sehs.html", "index.html", "infirmary.html", "plan.html", "social.html",
     "toc.html", "usabo.html",
 }
 SECTIONS_JS_PIN = "?v=8"

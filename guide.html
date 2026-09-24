@@ -856,6 +856,14 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>
 <style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>
 <!-- SHAPES-THEME:END -->
+<style id="guide-semicircle-overflow">
+@media (hover:hover) and (min-width:901px){
+  html.os-semi body.lin-page-guide .sidebar.sidebar{overscroll-behavior:contain;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));mask-composite:intersect}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-link.gc,
+  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-label.gc-label{min-width:0;max-width:100%}
+}
+</style>
+
 </head>
 <body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>

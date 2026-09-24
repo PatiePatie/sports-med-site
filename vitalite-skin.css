@@ -237,6 +237,63 @@ body.lin-v2 .header-actions .btn-login{
   gap:.35rem;
 }
 body.lin-v2 .header-actions .btn-login .bl-name{max-width:88px}
+/* ── Study Tools menu (the four study surfaces, one pill) ──────────────
+   linear-layout.js mounts #studyToolsBtn + #studyMenu inside the right
+   flank. The pill keeps the section-pill look so it reads as part of the
+   same capsule family; the dropdown hangs below the bar, right-aligned,
+   above page content but far below the tutorial spotlight layer
+   (2147483000+) — the spotlight ring floats over it and dims everything
+   outside its hole, which is exactly what the tour needs to highlight the
+   four menu items (#stFlash/#stQuiz/#stExam/#stAI). */
+body.lin-v2 .lin-study-wrap{
+  position:relative;
+  flex:0 0 auto;
+  align-self:center;
+  z-index:60;
+}
+body.lin-v2 .lin-study-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.3rem .65rem;border-radius:99px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text2);
+  font-family:var(--font);font-size:.78rem;font-weight:700;line-height:1.2;
+  white-space:nowrap;cursor:pointer;
+  flex:0 0 auto;
+  transition:color .15s,background .15s,border-color .15s;
+}
+body.lin-v2 .lin-study-btn:hover{color:var(--accent);background:var(--surface)}
+body.lin-v2 .lin-study-caret{opacity:.65;transform:rotate(90deg);font-size:.8rem}
+body.lin-v2 .lin-study-wrap.open .lin-study-btn{color:var(--accent);border-color:var(--accent)}
+body.lin-v2 .lin-study-menu{
+  position:absolute;top:calc(100% + 8px);right:0;
+  min-width:215px;
+  display:none;flex-direction:column;gap:2px;
+  padding:.35rem;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 12px 30px rgba(0,0,0,.14);
+}
+body.lin-v2 .lin-study-wrap.open .lin-study-menu{display:flex}
+body.lin-v2 .lin-study-item{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.5rem .7rem;border-radius:9px;
+  background:transparent;border:0;
+  color:var(--text2);
+  font-family:var(--font);font-size:.83rem;font-weight:600;line-height:1.2;
+  text-align:left;white-space:nowrap;cursor:pointer;
+  transition:background .15s,color .15s;
+}
+body.lin-v2 .lin-study-item:hover{background:var(--surface);color:var(--accent)}
+body.lin-v2 .lin-study-item .lin-ico{flex:0 0 auto}
+body.lin-v2 .lin-study-label{white-space:nowrap}
+/* Label collapses below 900px but the pill itself stays (it is the tour
+   anchor + the shortcut); mirror the .btn-login icon-only treatment. */
+@media (max-width:900px){
+  body.lin-v2 .lin-study-btn .lin-study-label{display:none}
+  body.lin-v2 .lin-study-btn{padding:.3rem .5rem}
+}
 body.lin-v2 .lin-search{
   position:relative;
   display:flex;align-items:center;

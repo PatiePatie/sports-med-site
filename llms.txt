@@ -9,7 +9,7 @@ The Vitalité Plan teaches sports medicine, rehab science, and recovery as a str
 ## Contents
 
 - [Home](https://vitaliteplan.com/): landing, site map, and entry points
-- [Full Guide](https://vitaliteplan.com/guide.html): all 14 chapters in sequence
+- [Vitalite Textbook](https://vitaliteplan.com/guide.html): all 14 chapters in sequence
 - [Table of Contents](https://vitaliteplan.com/toc.html): chapter index
 - [Chapter 1 — The Body as a Machine](https://vitaliteplan.com/ch1.html): energy systems · muscle fibers · SAID principle
 - [Chapter 2 — Nervous System](https://vitaliteplan.com/ch2.html): motor control · reflexes · neurological exam
@@ -34,7 +34,7 @@ The Vitalité Plan teaches sports medicine, rehab science, and recovery as a str
 
 - [USABO Biology Prep](https://vitaliteplan.com/usabo.html): biology olympiad practice
 - [G10 Biology](https://vitaliteplan.com/g10-bio.html): grade-10 biology companion
-- [IB SEHS Prep](https://vitaliteplan.com/ib-sehs.html): first-assessment-2026 essential revision and printable bilingual workbook
+- [IB SEHS Prep](https://vitaliteplan.com/ib-sehs.html): first-assessment-2026 essential revision and downloadable visual workbook PDF
 - [CN Certification · 康复师认证](https://vitaliteplan.com/cn-cert.html): 运动康复师 certification path
 
 Sitemap: https://vitaliteplan.com/sitemap.xml

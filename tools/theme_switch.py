@@ -71,7 +71,7 @@ CHECKUP_PAGES = {"checkup.html"}
 # these; `status` leaves them out of the report. social.html used to be excluded
 # too, which gave the forum a different top bar from every other page; it is on
 # the skin now like admin.html.
-EXCLUDE = {"login.html", "ib-sehs-workbook.html"}
+EXCLUDE = {"login.html"}
 
 # Pages that run the section-interfaces script (PR #67). The lane added the
 # <script> inside the DRAFT-THEME block by hand; it belongs in the template so

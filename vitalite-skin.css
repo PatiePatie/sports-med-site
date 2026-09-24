@@ -179,13 +179,16 @@ body.lin-v2 .sidebar-toggle{display:none!important}
      .header-actions — the profile / login button + notification bell plus
                        the section pills (sections.js appends them there)
      .lin-search-cluster — the search field
-   The search is the bar's CENTREPIECE. The bar is a plain flex row; the
-   toggles (left) and the control stack (right) are TWO EQUAL-WEIGHT flanks
-   — each flex:1 1 0 pinned to its own edge — and the field is an ordinary
-   middle child. Because both flanks grow from the same zero basis they
-   share the leftover room equally, so the field sits at the exact middle of
-   the bar at every window width, and being in-flow it can never overlap the
-   bell/pills (on very narrow windows the bar simply gets tight). */
+   The search is LEFT-DOCKED (not centered): toggles, then the field, then a
+   flex slab, then the control stack pinned to the far right. The control
+   stack keeps its natural content width (flex:0 0 auto — it never shrinks
+   below bell + account pill + section pills + study pill + dev gear), and
+   the field's margin-right:auto eats the slack, so the field always sits
+   safely LEFT of the stack and can never slide under it. An equal-weight
+   centered layout was tried first — it broke the moment the right flank's
+   content (≈406px when signed in as a dev) grew wider than half the bar
+   − the field, being a fixed middle child, let the stack overflow left
+   UNDER it. Left-docking removes that failure mode entirely. */
 
 /* Roomier bar: more vertical padding and side air so the top doesn't feel
    squeezed. On shell pages the bar spans the full content width (the 820px
@@ -200,30 +203,34 @@ body.lin-v2:not(.lin-marketing) .lin-topbar-inner{max-width:none}
    bar. The uniform gap keeps a steady 14px rhythm around every control. */
 body.lin-v2 .lin-topbar-inner{gap:14px}
 
-/* Search: an ordinary middle flex child on a zero-basis flank row — the
-   equal flanks on both sides mathematically pin its centre to the bar's. */
+/* Search: an ordinary in-flow child right after the toggles. The auto
+   right margin absorbs ALL the slack before the controls, pinning them to
+   the bar's far right and the field safely left of them. */
 body.lin-v2 .lin-search-cluster{
-  order:1;
+  order:0;
   flex:0 0 auto;
   position:relative;   /* the dropdown anchors its centre to the field */
   display:flex;align-items:center;gap:20px;
   z-index:10;
+  margin-right:auto;   /* slab: any leftover room goes here, after the field */
 }
-/* Left flank — the toggles grow to fill the left half, pinned to the edge. */
+/* Left flank — the toggles keep exactly their natural width; they are the
+   very first thing in the bar. */
 body.lin-v2 .lin-topbar-inner > .lin-topleft{
-  flex:1 1 0;
-  min-width:0;
+  order:-1;
+  flex:0 0 auto;
   justify-content:flex-start;
 }
 /* Right flank — the whole control stack (bell · account pill · section
-   pills) grows to fill the right half, pinned to the bar's right edge. */
+   pills · Study Tools · dev gear) keeps its natural content width, pinned
+   to the bar's right edge. Because it never shrinks, it can never slip
+   under the field — the field simply takes the leftover room. */
 body.lin-v2 .header-actions{
-  order:2;
-  flex:1 1 0;
-  min-width:0;
+  order:1;
+  flex:0 0 auto;
   justify-content:flex-end;
   gap:14px;
-  margin-left:0;   /* cancel the base auto margin so the flank can grow */
+  margin-left:0;   /* cancel the base auto margin */
 }
 /* The section pills (sections.js rides them inside this flank) keep the
    uniform 14px gap — a leftover margin from the old right-corner placement
@@ -418,21 +425,11 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
 
 @keyframes lin-rise{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
-@media (max-width:768px){
-  body.lin-v2 .lin-search{width:clamp(100px,min(20vw,160px),160px)}
-  body.lin-v2.lang-zh .lin-search{width:clamp(120px,min(24vw,190px),190px)}
-  body.lin-v2 .lin-search-kbd{display:none}
-  body.lin-v2 .lin-search-cluster{gap:12px}
-  body.lin-v2 .lin-topleft{gap:10px}
-  body.lin-v2 .header-actions{gap:12px}
-  body.lin-v2 .lin-topbar-inner{gap:12px}
-  body.lin-v2 .lin-topbar-inner{padding:.75rem 14px}
-}
-/* Narrow-bar band: with a 224px sidebar the shell bar is genuinely short —
-   900→~350px of usable width. The pills are hidden below 900px (sections.css)
-   so the bar boils down to toggles · centre search · bell · account; the
-   field is tapered a touch more so the equal-weight flanks can still give it
-   the exact geometric centre without anything slipping under it. */
+/* Narrow-bar band: with a 224px sidebar the shell bar is short (900→350px of
+   usable width). The pills are hidden below 900px (sections.css) so the bar
+   boils down to toggles · left-docked search · bell · account · Study Tools.
+   The left-dock means the flank never underlaps the field — but the field
+   must cede real estate, so ≤768 (below) tightens it further. */
 @media (max-width:900px){
   body.lin-v2 .lin-search{width:clamp(130px,22vw,190px)}
   body.lin-v2.lang-zh .lin-search{width:clamp(150px,27vw,220px)}
@@ -443,12 +440,29 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   }
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
 }
-@media (max-width:600px){
-  body.lin-v2 .lin-search{width:min(38vw,150px)}
-  body.lin-v2.lang-zh .lin-search{width:min(40vw,160px)}
+/* Tight band — deliberately AFTER the 900px band so these narrower values
+   win in ≤850. With the 224px sidebar the usable bar is as short as
+   ~350px, so the ↻ replay pill disappears from .lin-topleft, the toggles
+   shrink to 30px and the search clamps down hard — otherwise the right
+   control stack (bell · account · Study Tools · dev gear) clips past the
+   bar's right edge. */
+@media (max-width:850px){
+  body.lin-v2 .lin-topleft #tutReplay{display:none}
+  body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}
+  body.lin-v2 .lin-search{width:clamp(90px,min(16vw,140px),140px)}
+  body.lin-v2.lang-zh .lin-search{width:clamp(100px,min(18vw,150px),150px)}
+  body.lin-v2 .lin-search-kbd{display:none}
   body.lin-v2 .lin-search-cluster{gap:10px}
   body.lin-v2 .lin-topleft{gap:8px}
-  body.lin-v2 .lin-topleft .btn-icon{width:30px;height:30px}
+  body.lin-v2 .header-actions{gap:10px}
+  body.lin-v2 .lin-topbar-inner{gap:10px}
+  body.lin-v2 .lin-topbar-inner{padding:.6rem 12px}
+}
+@media (max-width:600px){
+  body.lin-v2 .lin-search{width:min(34vw,130px)}
+  body.lin-v2.lang-zh .lin-search{width:min(36vw,140px)}
+  body.lin-v2 .lin-search-cluster{gap:10px}
+  body.lin-v2 .lin-topleft{gap:8px}
   body.lin-v2 .lin-search-dd{width:min(92vw,320px)}
   body.lin-v2 .header-actions{gap:10px}
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}

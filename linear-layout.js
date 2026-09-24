@@ -81,6 +81,7 @@
     { file: 'toc.html',     en: 'Contents',       zh: '目录',              icon: 'list' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
+    { file: 'ib-sehs.html', en: 'IB SEHS',        zh: 'IB SEHS',             icon: 'activity' },
     { file: 'usabo.html',   en: 'USABO Biology',  zh: 'USABO 生物奥赛',       icon: 'dna' },
     { file: 'account.html', en: 'Account',        zh: '我的账户',           icon: 'user' },
     { file: 'login.html',   en: 'Sign in',        zh: '登录',              icon: 'login' }
@@ -114,6 +115,7 @@
     list:      '<path d="M6 4.5h7M6 8h7M6 11.5h7M3.2 4.5h.01M3.2 8h.01M3.2 11.5h.01"/>',
     clipboard: '<path d="M6 3.5H5a1 1 0 0 0-1 1V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.5a1 1 0 0 0-1-1h-1M6 3.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v.5M6 3.5h4M6 9l1.4 1.4L10 7.8"/>',
     award:     '<circle cx="8" cy="6.5" r="3.5"/><path d="M5.8 9.6 5 14l3-1.5L11 14l-.8-4.4"/>',
+    activity:  '<path d="M2.8 8h2.4l1.4-3.5 2.3 7 1.4-3.5h2.9"/>',
     user:      '<circle cx="8" cy="5.8" r="2.6"/><path d="M3.4 13.5a4.6 4.6 0 0 1 9.2 0"/>',
     login:     '<path d="M9.5 3.5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2M8.5 8h-6M5.5 5.5 3 8l2.5 2.5"/>',
     dna:       '<path d="M3.5 13.5C6 11 10 11 12.5 13.5M3.5 13.5C3.5 8.5 12.5 7.5 12.5 2.5M3.5 2.5C6 5 10 5 12.5 2.5M4 8l8 0M6 5l4 6"/>',
@@ -387,7 +389,9 @@
     } else {
       var strip = el('nav', 'lin-tabstrip lin-pagetabs');
       strip.setAttribute('aria-label', t('Study surfaces', '学习页面'));
-      ['guide.html', 'toc.html', 'exam.html', 'cn-cert.html'].forEach(function (f) {
+      var tabFiles = ['guide.html', 'toc.html', 'exam.html', 'cn-cert.html'];
+      if (here && tabFiles.indexOf(file) < 0) tabFiles.push(file);
+      tabFiles.forEach(function (f) {
         var pg = pageFor(f);
         if (!pg) return;
         var a = el('a', 'lin-tab');

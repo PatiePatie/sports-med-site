@@ -32,7 +32,7 @@
   ];
   var KNOWLEDGE = [
     'guide.html', 'toc.html', 'exam.html',
-    'cn-cert.html', 'usabo.html', 'g10-bio.html', 'account.html'
+    'cn-cert.html', 'ib-sehs.html', 'usabo.html', 'g10-bio.html', 'account.html'
   ];
 
   var file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();

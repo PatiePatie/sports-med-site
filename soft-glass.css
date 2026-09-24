@@ -1,0 +1,471 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   soft-glass.css — "Soft Glass" layer
+   ------------------------------------------------------------------------------
+   Sits on top of shapes-skin.css (Clinical Blue). Three ideas:
+
+     1. Soft UI    surfaces are pressed out of the page, not printed on it:
+                   raised pills and tiles with a light top-left edge and a
+                   soft bottom-right shadow; fields and tracks sink in.
+     2. Glass      chrome that floats (top bar, rail, menus, modals) is frosted
+                   glass with a bright rim, and everything that appears does so
+                   out of a blur, the way macOS and Linear bring things in.
+     3. Riso grain the stipple from the Optimal Shapes poster is much heavier,
+                   with light AND dark specks, and colour blocks get sprayed,
+                   speckled shading (soft-fx.js mounts the grain sheet).
+
+   Palette stays Clinical Blue: navy / cobalt / sky / ice, white and slate,
+   with the warm crimson as the one hot accent (like the coral in the refs).
+
+   Remove with: python3 tools/shapes_switch.py off
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tokens ────────────────────────────────────────────────────────────────── */
+:root{
+  --sg-warm:#C7434B;--sg-warm-2:#E0666C;--sg-warm-deep:#8E1F2A;
+  --bg:#E4E9F0;--surface:#E9EEF4;--surface2:#DEE5ED;--surface3:#D4DCE6;
+  --border:rgba(22,42,74,.10);--border2:rgba(22,42,74,.16);
+  --sg-hi:rgba(255,255,255,.92);
+  --sg-lo:rgba(24,44,78,.18);
+  --sg-lo2:rgba(24,44,78,.10);
+  --sg-rim:inset 0 1px 0 rgba(255,255,255,.75);
+  --sg-glass:rgba(233,238,245,.58);
+  --sg-glass-strong:rgba(236,241,247,.78);
+  --sg-glass-edge:rgba(255,255,255,.65);
+  --sg-glass-shadow:0 18px 50px -18px rgba(18,36,66,.35),0 2px 6px rgba(18,36,66,.06);
+  --sg-blur:blur(22px) saturate(1.7);
+  --radius:20px;--radius-sm:14px;--radius-lg:28px;
+  --sg-ease:cubic-bezier(.16,1,.3,1);
+  --sg-spring:cubic-bezier(.3,1.45,.5,1);
+  --os-grain-op:.34;
+}
+body.dark{
+  --bg:#0D1829;--surface:#12213A;--surface2:#0F1C31;--surface3:#182B48;
+  --border:rgba(141,182,226,.10);--border2:rgba(141,182,226,.18);
+  --sg-hi:rgba(120,162,218,.10);
+  --sg-lo:rgba(0,0,0,.55);
+  --sg-lo2:rgba(0,0,0,.32);
+  --sg-rim:inset 0 1px 0 rgba(170,200,240,.10);
+  --sg-glass:rgba(17,31,54,.52);
+  --sg-glass-strong:rgba(17,31,54,.78);
+  --sg-glass-edge:rgba(160,195,240,.16);
+  --sg-glass-shadow:0 22px 60px -20px rgba(0,0,0,.7),0 2px 8px rgba(0,0,0,.25);
+  --sg-warm:#D9545B;--sg-warm-2:#EE7A7F;
+  --os-grain-op:.4;
+}
+/* Composite shadows are declared on body, not :root: a custom property that
+   uses var() is resolved where it is declared, so on :root they would bake in
+   the LIGHT highlight and dark mode would get white halos. */
+body{
+  --sg-raise:-7px -7px 16px var(--sg-hi),8px 9px 20px var(--sg-lo);
+  --sg-raise-sm:-4px -4px 9px var(--sg-hi),4px 5px 11px var(--sg-lo);
+  --sg-raise-xs:-2px -2px 5px var(--sg-hi),2px 3px 6px var(--sg-lo);
+  --sg-press:inset 3px 3px 7px var(--sg-lo),inset -3px -3px 7px var(--sg-hi);
+  --sg-press-sm:inset 2px 2px 4px var(--sg-lo),inset -2px -2px 4px var(--sg-hi);
+  --shadow-sm:var(--sg-raise-xs);
+  --shadow:var(--sg-raise-sm);
+  --shadow-lg:var(--sg-raise);
+}
+html{background:var(--bg)}
+body{background-color:var(--bg)}
+
+/* ── Page transitions: cross-document, through a fog ───────────────────────── */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:sg-vt-out .28s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:sg-vt-in .42s var(--sg-ease) both}
+@keyframes sg-vt-out{to{opacity:0;filter:blur(10px);transform:scale(.992)}}
+@keyframes sg-vt-in{from{opacity:0;filter:blur(12px);transform:scale(1.006)}}
+/* the top bar holds still between pages instead of fading with them */
+body.lin-v2 .lin-topbar{view-transition-name:sg-topbar}
+::view-transition-group(sg-topbar){animation-duration:0s}
+
+/* ── Riso grain: soft-fx.js mounts .sg-grain; body::after is the no-JS fallback ── */
+html.sg-js body::after{display:none}
+.sg-grain{position:fixed;inset:-50px;z-index:2147483000;pointer-events:none}
+.sg-grain::before,.sg-grain::after{content:"";position:absolute;inset:0}
+/* dark specks */
+.sg-grain::before{
+  opacity:calc(var(--os-grain-op) * 1.05);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .06 0 0 0 0 .13 0 0 0 0 .24 0 0 0 1.9 -.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.42' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .14 0 0 0 0 .26 0 0 0 2.6 -1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:260px 260px,420px 420px;
+}
+/* light specks — the white stipple on the colour blocks */
+.sg-grain::after{
+  opacity:calc(var(--os-grain-op) * .9);mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .92 0 0 0 0 .95 0 0 0 0 1 0 0 0 2.1 -1.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:240px 240px;
+}
+body.dark .sg-grain::before{opacity:calc(var(--os-grain-op) * 1.1)}
+body.dark .sg-grain::after{opacity:calc(var(--os-grain-op) * .85)}
+@media (prefers-reduced-transparency:reduce){.sg-grain{opacity:.5}}
+/* print the page without the grain */
+@media print{.sg-grain{display:none}}
+
+/* Sprayed shading (the airbrush on the poster's shapes): a speckled gradient
+   made by masking a colour wash with noise. Used on colour blocks. */
+.sg-spray{position:relative;isolation:isolate}
+.sg-spray::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  background:
+    radial-gradient(120% 90% at 100% 100%,var(--sg-spray-dk,rgba(4,10,22,.55)),transparent 62%),
+    radial-gradient(90% 70% at 0% 0%,var(--sg-spray-lt,rgba(255,255,255,.5)),transparent 58%);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 -1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 -1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size:180px 180px;mask-size:180px 180px;
+}
+
+/* ── Glass chrome: top bar, header, menus ──────────────────────────────────── */
+header,
+body.lin-v2 .lin-topbar{
+  background:var(--sg-glass)!important;
+  -webkit-backdrop-filter:var(--sg-blur);backdrop-filter:var(--sg-blur);
+  border-bottom:1px solid var(--sg-glass-edge)!important;
+  box-shadow:0 10px 30px -18px rgba(18,36,66,.28),inset 0 -1px 0 rgba(255,255,255,.15);
+}
+body.dark header,body.dark.lin-v2 .lin-topbar{box-shadow:0 12px 34px -18px rgba(0,0,0,.6),inset 0 -1px 0 rgba(160,195,240,.06)}
+
+.log-menu,
+body.lin-v2 .lin-study-menu,
+body.lin-v2 .lin-search-dd,
+.nb-pop,.nb-popover,
+.sec-switcher .sec-menu{
+  background:var(--sg-glass-strong)!important;
+  -webkit-backdrop-filter:var(--sg-blur);backdrop-filter:var(--sg-blur);
+  border:1px solid var(--sg-glass-edge)!important;
+  border-radius:18px!important;
+  box-shadow:var(--sg-glass-shadow),var(--sg-rim)!important;
+}
+/* menus come in out of a blur */
+.log-menu{filter:blur(8px);transform:translateY(-6px) scale(.97);transform-origin:top right;
+  transition:opacity .28s var(--sg-ease),visibility .28s,transform .38s var(--sg-ease),filter .32s var(--sg-ease)!important}
+.log-menu.open{filter:none;transform:none}
+body.lin-v2 .lin-study-wrap.open .lin-study-menu,
+body.lin-v2 .lin-search-dd:not([hidden]){animation:sg-fog-drop .36s var(--sg-ease) both;transform-origin:top center}
+@keyframes sg-fog-drop{from{opacity:0;filter:blur(10px);transform:translateY(-8px) scale(.97)}}
+.log-item,.lin-study-item,.lin-cmdk-item{border-radius:11px!important;transition:background .2s,transform .25s var(--sg-ease)}
+.log-item:hover,.lin-study-item:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)!important;transform:translateX(2px)}
+
+/* ── Buttons: soft pills pressed out of the page ───────────────────────────── */
+.qo-btn,.aq-btn,.checkup-btn,.for-btn,.chat-sug-btn,.checkup-cam,.checkup-cam-alt,.checkup-part,
+.for-cat,.for-tag-chip,.fc-chip,.guide-chip,.guide-tab,.btn-login,.tut-replay,.lin-study-btn,
+.fc-nav button,.capture-btn,.acc-btn,.plan-btn,.pl-btn{
+  border-radius:999px!important;
+  border:0!important;
+  background:var(--surface)!important;
+  color:var(--text2)!important;
+  box-shadow:var(--sg-raise-xs),var(--sg-rim)!important;
+  transition:box-shadow .3s var(--sg-ease),transform .3s var(--sg-ease),color .2s,background .3s!important;
+}
+.qo-btn:hover,.aq-btn:hover,.checkup-btn:hover,.for-btn:hover,.chat-sug-btn:hover,.checkup-cam:hover,
+.checkup-cam-alt:hover,.checkup-part:hover,.for-cat:hover,.for-tag-chip:hover,.fc-chip:hover,.guide-chip:hover,
+.guide-tab:hover,.btn-login:hover,.tut-replay:hover,.lin-study-btn:hover,.fc-nav button:hover,.capture-btn:hover{
+  color:var(--text)!important;
+  box-shadow:var(--sg-raise-sm),var(--sg-rim)!important;
+  transform:translateY(-1px);
+}
+.qo-btn:active,.aq-btn:active,.checkup-btn:active,.for-btn:active,.chat-sug-btn:active,.checkup-part:active,
+.for-cat:active,.fc-chip:active,.guide-tab:active,.btn-login:active,.fc-nav button:active{
+  box-shadow:var(--sg-press-sm)!important;transform:translateY(0) scale(.98)}
+/* selected / on: sunk in, with a warm dot of colour like a lit switch */
+.checkup-part.sel,.for-cat.active,.fc-chip.active,.guide-tab.on,.for-tag-chip.active,.for-tag-chip.on,
+.checkup-step.on,.sec-pill.active,.for-btn.voted{
+  background:var(--surface2)!important;
+  color:var(--text)!important;
+  box-shadow:var(--sg-press-sm)!important;
+  border:0!important;
+}
+.checkup-part.sel::before,.for-cat.active::before,.fc-chip.active::before,.guide-tab.on::before,.sec-pill.active::before{
+  content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.45em;vertical-align:.1em;
+  background:var(--sg-warm);box-shadow:0 0 8px color-mix(in srgb,var(--sg-warm) 70%,transparent);
+}
+body.dark .for-cat.active{color:var(--text)!important}
+
+/* primary: a warm glossy lens set into a soft pill */
+.qo-btn.next,.aq-btn.primary,.checkup-btn.primary,.for-btn.primary,#composerSubmit,.chat-send,
+.fc-nav button.primary,.capture-btn,.ai-send-btn,.for-new-btn,#newTopicBtn,.forum-head .for-btn{
+  background:
+    radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.28),transparent 55%),
+    linear-gradient(180deg,var(--sg-warm-2),var(--sg-warm) 55%,var(--sg-warm-deep))!important;
+  color:#fff!important;
+  border:0!important;
+  border-radius:999px!important;
+  box-shadow:
+    -4px -4px 10px var(--sg-hi),
+    5px 7px 16px color-mix(in srgb,var(--sg-warm-deep) 38%,transparent),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -2px 4px rgba(80,10,20,.25)!important;
+  text-shadow:0 1px 1px rgba(80,10,20,.3);
+}
+body.dark .qo-btn.next,body.dark .aq-btn.primary,body.dark .fc-nav button.primary,body.dark .ai-send-btn,
+body.dark .chat-send,body.dark .capture-btn,body.dark .for-btn.primary,body.dark .checkup-btn.primary{
+  background:
+    radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.22),transparent 55%),
+    linear-gradient(180deg,var(--sg-warm-2),var(--sg-warm) 55%,var(--sg-warm-deep))!important;
+  color:#fff!important;
+  box-shadow:-3px -3px 8px var(--sg-hi),6px 8px 18px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 4px rgba(60,5,15,.35)!important;
+}
+.qo-btn.next:hover,.aq-btn.primary:hover,.checkup-btn.primary:hover,.for-btn.primary:hover,.chat-send:hover,
+.fc-nav button.primary:hover,.capture-btn:hover,.ai-send-btn:hover,#composerSubmit:hover{
+  transform:translateY(-2px);filter:brightness(1.06) saturate(1.05);
+}
+.qo-btn.next:active,.aq-btn.primary:active,.checkup-btn.primary:active,.for-btn.primary:active,.chat-send:active{
+  transform:translateY(0) scale(.97);
+  box-shadow:inset 2px 3px 6px rgba(70,8,18,.45),inset -1px -1px 3px rgba(255,255,255,.2)!important;
+}
+.checkup-btn:disabled{filter:grayscale(.6);opacity:.5}
+
+/* landing hero CTAs: the red one stays the lens, the blue one is a cobalt lens */
+.landing .hero .qo-btn,.landing .hero-ctas .qo-btn,.landing .hero a.qo-btn{padding:.95rem 1.8rem!important}
+.landing .hero .qo-btn:not(.next),.landing .hero-ctas .qo-btn:not(.next){
+  background:
+    radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.26),transparent 55%),
+    linear-gradient(180deg,#3F77BD,var(--os-cobalt) 55%,var(--os-navy))!important;
+  color:#fff!important;
+  box-shadow:-4px -4px 10px var(--sg-hi),5px 7px 16px rgba(18,41,74,.35),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 4px rgba(4,12,28,.3)!important;
+}
+
+.qo-btn .vi-ico,.qo-btn > svg,.qo-btn .lin-ico{margin-right:.5em}
+.landing nav.landing-nav{background:transparent!important;border:0!important;box-shadow:none!important}
+
+/* round icon buttons — the circle keys from the reference */
+.btn-icon,.for-close,.for-del,.back-top,.checkup-camstop,.sidebar-toggle,#darkToggle,#langToggle{
+  border-radius:50%!important;
+  border:0!important;
+  background:var(--surface)!important;
+  color:var(--text2)!important;
+  box-shadow:var(--sg-raise-xs),var(--sg-rim)!important;
+  transition:box-shadow .3s var(--sg-ease),transform .35s var(--sg-spring),color .2s!important;
+}
+.btn-icon:hover,.for-close:hover,.for-del:hover,.back-top:hover,#darkToggle:hover,#langToggle:hover{
+  box-shadow:var(--sg-raise-sm),var(--sg-rim)!important;transform:translateY(-1px) rotate(-6deg);color:var(--text)!important}
+.btn-icon:active,.for-close:active,.for-del:active,.back-top:active{box-shadow:var(--sg-press-sm)!important;transform:scale(.94)}
+.for-del:hover{color:var(--sg-warm)!important}
+
+/* ── Fields: sunk into the surface ─────────────────────────────────────────── */
+input[type=text],input[type=email],input[type=search],input[type=password],input[type=number],textarea,select,
+.chat-input,.for-field input,.for-field select,.for-field textarea,body.lin-v2 .lin-search{
+  background:var(--surface2)!important;
+  border:0!important;
+  border-radius:16px!important;
+  box-shadow:var(--sg-press)!important;
+  color:var(--text)!important;
+  transition:box-shadow .3s var(--sg-ease)!important;
+}
+.chat-input,body.lin-v2 .lin-search,input[type=search]{border-radius:999px!important}
+input[type=text]:focus,input[type=email]:focus,input[type=search]:focus,input[type=password]:focus,textarea:focus,select:focus,
+.chat-input:focus,.for-field input:focus,.for-field textarea:focus,body.lin-v2 .lin-search:focus-within{
+  outline:none!important;
+  box-shadow:var(--sg-press),0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)!important;
+}
+body.lin-v2 .lin-search input,body.lin-v2 .lin-search-input{background:transparent!important;box-shadow:none!important}
+input[type=checkbox],input[type=radio]{accent-color:var(--sg-warm)}
+
+/* ── Cards & panels: tiles pressed out of the page ─────────────────────────── */
+.feature-card,.fork-card,.stat-card,.ch-card,.acc-item,.quiz-card,.qo-card,.dash-card,.chat-window,
+.checkup-panel,.for-topic,.for-post,.plan-card,.phase-card,.pl-card,.rec-box,.callout,.fc-card,
+.progress-item,.res-card,.exam-card,.q-card{
+  border:0!important;
+  border-radius:var(--radius)!important;
+  background:var(--surface)!important;
+  box-shadow:var(--sg-raise),var(--sg-rim)!important;
+}
+.callout,.rec-box{background:color-mix(in srgb,var(--accent-bg) 30%,var(--surface))!important;box-shadow:var(--sg-raise-sm),var(--sg-rim)!important}
+.callout{border-left:0!important;position:relative}
+.callout::before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:4px;border-radius:4px;
+  background:linear-gradient(var(--sg-warm-2),var(--sg-warm))}
+.callout{padding-left:1.5rem!important}
+.for-post{box-shadow:var(--sg-press-sm)!important;background:var(--surface2)!important}
+.forum-modal{border:1px solid var(--sg-glass-edge)!important;border-radius:26px!important;
+  background:var(--sg-glass-strong)!important;-webkit-backdrop-filter:var(--sg-blur);backdrop-filter:var(--sg-blur);
+  box-shadow:var(--sg-glass-shadow),var(--sg-rim)!important}
+.for-modal-head,.for-modal-foot{background:transparent!important;border-color:var(--border)!important}
+.forum-overlay{background:color-mix(in srgb,var(--bg) 35%,rgba(8,18,34,.35))!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2)}
+.chat-window{overflow:hidden}
+.chat-window .chat-header,.chat-window .chat-suggestions{background:transparent!important;border-color:var(--border)!important}
+.chat-messages{background:var(--surface2)!important;box-shadow:var(--sg-press-sm);border-radius:18px;margin:0 .8rem}
+.chat-msg{border-radius:18px!important;border:0!important}
+.chat-msg.bot{background:var(--surface)!important;box-shadow:var(--sg-raise-xs)!important}
+.chat-input-row{border-top:0!important;background:transparent!important}
+.dash-card{padding:1rem 1.2rem!important}
+.checkup-sym label{border:0!important;border-radius:16px!important;background:var(--surface)!important;box-shadow:var(--sg-raise-xs)!important;transition:box-shadow .25s var(--sg-ease),transform .25s var(--sg-ease)!important}
+.checkup-sym label:hover{box-shadow:var(--sg-raise-sm)!important;transform:translateY(-1px)}
+.checkup-sym label.ticked{background:var(--surface2)!important;box-shadow:var(--sg-press-sm)!important}
+.checkup-steps{gap:.7rem}
+.checkup-step{border:0!important;background:var(--surface)!important;box-shadow:var(--sg-raise-xs)!important}
+.checkup-step .cdot{background:var(--surface2)!important;color:var(--text3)!important;box-shadow:var(--sg-press-sm)}
+.checkup-step.on .cdot{background:var(--sg-warm)!important;color:#fff!important;box-shadow:0 0 10px color-mix(in srgb,var(--sg-warm) 60%,transparent)}
+.checkup-wrap{text-align:center}
+.checkup-wrap h1{justify-content:center}
+.checkup-panel,.checkup-panel *{text-align:left}
+.checkup-panel .checkup-bodymap,.checkup-panel .checkup-btnrow,.checkup-panel .checkup-map-hint,.checkup-panel .checkup-cam-priv{text-align:center}
+.checkup-badge,.hero-badge,.section-label{
+  border:0!important;border-radius:999px!important;
+  box-shadow:var(--sg-raise-xs),var(--sg-rim)!important;
+}
+.hero-badge,.section-label{background:var(--surface)!important;color:var(--text)!important}
+.hero-badge .dot,.section-label::before{background:var(--sg-warm)!important;box-shadow:0 0 8px var(--sg-warm)!important}
+.checkup-badge{background:var(--surface)!important;color:var(--sg-warm)!important}
+
+/* chapter numbers & avatars: round soft keys with a coloured face */
+.ch-num,.author-ava,.for-topic-av{border-radius:50%!important;box-shadow:var(--sg-raise-xs),inset 0 1px 0 rgba(255,255,255,.3)!important}
+
+/* hover: lift + a glassy sheen that follows the pointer (soft-fx.js sets --sg-mx/--sg-my) */
+.sg-sheen{position:relative}
+.sg-sheen::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:0;
+  background:radial-gradient(420px circle at var(--sg-mx,50%) var(--sg-my,0%),rgba(255,255,255,.34),transparent 45%);
+  transition:opacity .45s var(--sg-ease);
+}
+body.dark .sg-sheen::before{background:radial-gradient(420px circle at var(--sg-mx,50%) var(--sg-my,0%),rgba(160,200,245,.12),transparent 45%)}
+.sg-sheen:hover::before{opacity:1}
+.feature-card,.fork-card,.ch-card,.for-topic,.stat-card,.qo-card,.res-card,.plan-card{
+  transition:transform .45s var(--sg-ease),box-shadow .45s var(--sg-ease)!important}
+.feature-card:hover,.fork-card:hover,.ch-card:hover,.for-topic:hover,.stat-card:hover,.qo-card:hover,.res-card:hover,.plan-card:hover{
+  transform:translateY(-4px)!important;
+  box-shadow:-9px -9px 20px var(--sg-hi),12px 16px 30px var(--sg-lo),var(--sg-rim)!important;
+}
+.landing .feature-card:hover,.landing .fork-card:hover,.landing .ch-card:hover{border-color:transparent!important}
+
+/* progress tracks: sunk channel, glowing warm fill */
+.prog-bar,.progress-bar,.pl-bar,.plan-progress,.qo-progress,.fc-progress{
+  background:var(--surface2)!important;border:0!important;border-radius:999px!important;box-shadow:var(--sg-press-sm)!important;overflow:hidden}
+.prog-bar > *,.progress-bar > *,.pl-bar > *,.plan-progress > *,.qo-progress > *,.fc-progress > *,.prog-fill,.progress-fill{
+  border-radius:999px!important;
+  background:linear-gradient(90deg,var(--sg-warm-2),var(--sg-warm))!important;
+  box-shadow:0 0 10px color-mix(in srgb,var(--sg-warm) 45%,transparent)}
+#readingBar{background:linear-gradient(90deg,var(--sg-warm-2),var(--sg-warm))!important;box-shadow:0 0 10px var(--sg-warm)}
+
+/* ── Top bar pieces ────────────────────────────────────────────────────────── */
+.sec-switcher{background:var(--surface2)!important;border:0!important;border-radius:999px!important;box-shadow:var(--sg-press-sm)!important;padding:3px!important}
+.sec-pill{border-radius:999px!important;transition:background .3s,box-shadow .3s,color .2s!important}
+.sec-pill.active{background:var(--surface)!important;color:var(--text)!important;box-shadow:var(--sg-raise-xs),var(--sg-rim)!important}
+.sec-pill.active::before{display:none}
+.sec-pill.active .sec-ico{color:var(--sg-warm)!important}
+body.lin-v2 .lin-kbd,body.lin-v2 .lin-search-kbd{border:0!important;border-radius:7px!important;background:var(--surface)!important;box-shadow:var(--sg-raise-xs)!important}
+
+/* ── Semicircle rail: re-glazed as liquid glass ────────────────────────────── */
+html.os-semi .sidebar.sidebar{
+  --os-semi-body:radial-gradient(circle at 0 50%,rgba(236,241,247,.66) 0,rgba(226,233,242,.56) 72%,rgba(214,224,236,.5) 100%);
+  -webkit-backdrop-filter:blur(24px) saturate(1.8)!important;backdrop-filter:blur(24px) saturate(1.8)!important;
+}
+body.dark .sidebar.sidebar{
+  --os-semi-body:radial-gradient(circle at 0 50%,rgba(22,40,68,.66) 0,rgba(15,28,49,.6) 72%,rgba(12,22,40,.55) 100%);
+}
+html.os-semi .sidebar .sidebar-link{border-radius:999px!important}
+html.os-semi .sidebar .sidebar-link.active{background:var(--surface)!important;box-shadow:var(--sg-raise-xs),var(--sg-rim)!important}
+html.os-semi .sidebar .sidebar-link.active::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--sg-warm);box-shadow:0 0 8px var(--sg-warm)}
+.sidebar-link{position:relative}
+.sidebar-link.active,body.lin-v2 .sidebar-link.active{box-shadow:none}
+
+/* ── Appear: things come in out of a fog (soft-fx.js arms .sg-fog) ─────────── */
+.sg-fog{opacity:0}
+.sg-fog.sg-in{animation:sg-fog-reveal .95s var(--sg-ease) var(--sg-d,0ms) both!important}
+@keyframes sg-fog-reveal{
+  from{opacity:0;filter:blur(14px);transform:translateY(16px) scale(.985)}
+  to{opacity:1;filter:blur(0);transform:none}
+}
+/* never leave a filter behind on content that has settled (it breaks
+   background-clip:text and costs paint) — soft-fx.js strips the classes */
+
+/* checkup + chat steps: each step fogs in */
+.checkup-stepbody.active{animation:sg-fog-up .55s var(--sg-ease) both!important}
+@keyframes sg-fog-up{from{opacity:0;filter:blur(10px);transform:translateY(10px)}}
+.chat-msg{animation:sg-fog-up .5s var(--sg-ease) both}
+
+/* ── Landing: the hero mosaic becomes soft, sprayed poster tiles ───────────── */
+.landing .os-mosaic{
+  gap:14px!important;padding:14px!important;border:0!important;border-radius:34px!important;
+  background:var(--surface)!important;
+  box-shadow:var(--sg-raise),var(--sg-rim)!important;
+}
+.landing .os-mosaic > *{border-radius:22px!important;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -8px 24px rgba(4,10,22,.18)}
+.landing .os-mosaic::after{display:none!important}
+
+/* ── Loading screens: the poster, full bleed ───────────────────────────────── */
+/* soft-fx.js builds .sg-poster inside #v-splash (landing) and #v-loader
+   (every other page): colour blocks, sprayed shading, the ribbon shapes, and
+   the mark on a glass lozenge. It leaves through a fog. */
+#v-splash.sg-dressed,#v-loader.sg-dressed{background:#0B1628!important}
+body:not(.dark) #v-splash.sg-dressed,body:not(.dark) #v-loader.sg-dressed{background:#DCE5EF!important}
+#v-splash.v-splash-off,#v-loader.v-loader-off{
+  opacity:0!important;filter:blur(18px);transform:scale(1.04);
+  transition:opacity .7s var(--sg-ease),filter .7s var(--sg-ease),transform .9s var(--sg-ease)!important}
+#v-splash.sg-dressed > :not(.sg-poster):not(.sg-mark),#v-loader.sg-dressed > :not(.sg-poster):not(.sg-mark){display:none!important}
+.sg-poster{position:absolute;inset:0;display:grid;gap:0;
+  grid-template-columns:1.25fr .8fr 1.15fr;grid-template-rows:1.15fr .85fr;
+  grid-template-areas:"a b c" "d d e"}
+.sg-poster > .sg-blk{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  opacity:0;animation:sg-blk-in .9s var(--sg-ease) both}
+.sg-poster > .sg-blk:nth-child(1){grid-area:a;animation-delay:.02s}
+.sg-poster > .sg-blk:nth-child(2){grid-area:b;animation-delay:.1s}
+.sg-poster > .sg-blk:nth-child(3){grid-area:c;animation-delay:.16s}
+.sg-poster > .sg-blk:nth-child(4){grid-area:d;animation-delay:.22s}
+.sg-poster > .sg-blk:nth-child(5){grid-area:e;animation-delay:.28s}
+@keyframes sg-blk-in{from{opacity:0;filter:blur(16px);transform:scale(1.05)}to{opacity:1}}
+.sg-blk .sg-shape{width:min(70%,300px);animation:sg-shape-in 1.2s var(--sg-ease) both,sg-bob 7s ease-in-out infinite;animation-delay:inherit,calc(var(--i,0) * -1.3s)}
+.sg-blk .sg-shape svg{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 20px rgba(4,10,22,.35))}
+.sg-poster > .sg-blk:nth-child(4) .sg-shape{width:min(52%,420px)}
+.sg-poster > .sg-blk:nth-child(2){align-items:flex-start;padding-top:7vh}
+.sg-poster > .sg-blk:nth-child(2) .sg-shape{width:min(56%,190px)}
+@keyframes sg-shape-in{from{opacity:0;transform:scale(.8) rotate(-12deg);filter:blur(10px)}}
+@keyframes sg-bob{50%{transform:translateY(-8px) rotate(2deg)}}
+.sg-mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:.7rem;
+  padding:1.6rem 2.4rem 1.4rem;border-radius:34px;
+  background:rgba(236,241,247,.42);
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 30px 70px -20px rgba(4,10,22,.55),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.15);
+  animation:sg-mark-in 1s .35s var(--sg-ease) both}
+body.dark .sg-mark{background:rgba(10,20,38,.6);border-color:rgba(170,200,240,.22);box-shadow:0 30px 70px -20px rgba(0,0,0,.7),inset 0 1px 0 rgba(170,200,240,.25)}
+@keyframes sg-mark-in{from{opacity:0;filter:blur(14px);transform:translate(-50%,-44%) scale(.94)}}
+.sg-mark img{width:64px;height:64px;border-radius:18px;box-shadow:0 10px 24px rgba(4,10,22,.35)}
+.sg-mark .sg-name{font-family:var(--font-heading),Georgia,serif;font-size:2rem;font-weight:700;letter-spacing:-.01em;color:#0E1E33}
+.sg-mark .sg-name span{color:var(--sg-warm)}
+body.dark .sg-mark .sg-name{color:#fff}
+body.dark .sg-mark .sg-name span{color:#A9C8EA}
+.sg-mark .sg-tag{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(14,30,51,.62)}
+body.dark .sg-mark .sg-tag{color:rgba(220,232,244,.7)}
+.sg-mark .sg-track{width:120px;height:6px;border-radius:99px;background:rgba(14,30,51,.14);box-shadow:inset 1px 1px 2px rgba(0,0,0,.2);overflow:hidden}
+body.dark .sg-mark .sg-track{background:rgba(0,0,0,.35)}
+.sg-mark .sg-track i{display:block;height:100%;width:40%;border-radius:inherit;background:linear-gradient(90deg,var(--sg-warm-2),var(--sg-warm));animation:sg-track 1.3s ease-in-out infinite}
+@keyframes sg-track{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+/* the grain on the loading screen: extra heavy, both inks */
+.sg-poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.55;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 2.2 -.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px}
+@media (max-width:640px){
+  .sg-poster{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;grid-template-areas:"a b" "c c" "d e"}
+  .sg-poster > .sg-blk:nth-child(3) .sg-shape{width:min(46%,200px)}
+  .sg-mark{padding:1.2rem 1.6rem 1.1rem;border-radius:26px}
+  .sg-mark .sg-name{font-size:1.6rem}
+  .sg-mark .sg-tag{font-size:.56rem;letter-spacing:.14em;white-space:nowrap}
+}
+
+/* ── Phones ────────────────────────────────────────────────────────────────── */
+@media (max-width:640px){
+  :root{--radius:18px;--radius-sm:12px}
+  .feature-card:hover,.fork-card:hover,.ch-card:hover,.for-topic:hover{transform:none!important}
+  .landing .os-mosaic{gap:10px!important;padding:10px!important;border-radius:26px!important}
+  .landing .os-mosaic > *{border-radius:16px!important}
+}
+@media (hover:none){
+  .sg-sheen::before{display:none}
+}
+
+/* ── Reduced motion: no fog, no bob, instant transitions ───────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .sg-fog{opacity:1!important;filter:none!important;transform:none!important}
+  .sg-blk,.sg-blk .sg-shape,.sg-mark,.chat-msg,.checkup-stepbody.active,
+  body.lin-v2 .lin-study-wrap.open .lin-study-menu,body.lin-v2 .lin-search-dd:not([hidden]){animation:none!important;opacity:1}
+  ::view-transition-old(root),::view-transition-new(root){animation:none}
+  .sg-mark .sg-track i{animation-duration:3s}
+}
+
+/* gold-blue paints `.hero h1 span` gold in light mode; the reveal splits those
+   headings into word spans, so every word came out gold. Clinical ink instead. */
+html body:not(.dark) .hero h1:not(.os-gradtext) span{
+  background:none!important;-webkit-text-fill-color:currentColor!important;color:var(--os-navy)!important}
+html body:not(.dark) .hero h1:not(.os-gradtext) span.os-w:last-child .os-wt,
+html body:not(.dark) .hero h1:not(.os-gradtext) > span:only-child:not(.os-w){color:var(--os-crimson)!important}

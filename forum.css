@@ -108,3 +108,49 @@ body.dark .for-field input,body.dark .for-field select,body.dark .for-field text
   .for-topic-side{gap:.7rem}
   .for-topic{padding:.85rem .95rem}
 }
+/* ── Motion: overlays fog in, posts land, deletes fold away ──────────────── */
+.forum-overlay.open{animation:for-fog-bg .32s ease both}
+.forum-overlay.open .forum-modal{animation:for-fog-in .42s cubic-bezier(.16,1,.3,1) both}
+@keyframes for-fog-bg{from{background:rgba(10,24,40,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}}
+@keyframes for-fog-in{from{opacity:0;transform:translateY(14px) scale(.965);filter:blur(10px)}}
+
+/* the composer lifts off when you publish */
+.forum-modal.for-launch{animation:for-launch .42s cubic-bezier(.5,0,.75,0) forwards!important}
+@keyframes for-launch{to{opacity:0;transform:translateY(-46px) scale(.9);filter:blur(12px)}}
+
+/* ...and the new topic drops into the list with a warm ring */
+.for-topic.for-new{animation:for-land .75s cubic-bezier(.16,1,.3,1) both,for-ring 2.2s ease .5s both}
+@keyframes for-land{
+  0%{opacity:0;transform:translateY(-26px) scale(.97);filter:blur(10px)}
+  60%{opacity:1;filter:blur(0)}
+  100%{transform:none}
+}
+@keyframes for-ring{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--red,#B3323A) 55%,transparent)}
+  40%{box-shadow:0 0 0 7px color-mix(in srgb,var(--red,#B3323A) 18%,transparent)}
+  100%{box-shadow:0 0 0 12px transparent}
+}
+
+/* replies: new ones rise out of the fog, deleted ones fold shut */
+.for-reply.for-in{animation:for-land .6s cubic-bezier(.16,1,.3,1) both}
+.for-reply.for-out,.for-topic.for-out{
+  overflow:hidden;pointer-events:none;
+  animation:for-fold .36s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes for-fold{
+  to{opacity:0;filter:blur(8px);transform:scale(.97);height:0;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}
+}
+.for-btn.for-sending,#composerSubmit.for-sending{position:relative;opacity:.85;cursor:progress}
+.for-btn.for-sending::after,#composerSubmit.for-sending::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%) -150% 0/250% 100% no-repeat;
+  animation:for-shimmer 1s linear infinite;
+}
+@keyframes for-shimmer{to{background-position:150% 0}}
+.for-reply-loading .for-post{opacity:.7}
+
+@media (prefers-reduced-motion:reduce){
+  .forum-overlay.open,.forum-overlay.open .forum-modal,.for-topic.for-new,.for-reply.for-in,
+  .forum-modal.for-launch,.for-btn.for-sending::after{animation:none!important}
+  .for-reply.for-out,.for-topic.for-out{animation-duration:.01s}
+}

@@ -25,7 +25,8 @@ The Vitalité Plan teaches sports medicine, rehab science, and recovery as a str
 - [Chapter 12 — Assessment · 康复评定学](https://vitaliteplan.com/ch12.html): MMT · goniometry · balance · gait
 - [Chapter 13 — TCM · 中医健康管理](https://vitaliteplan.com/ch13.html): yin-yang · meridians · tuina · constitutional medicine
 - [Chapter 14 — Emergency Medicine & Field Care](https://vitaliteplan.com/ch14.html): EAP · SCA, CPR & AED · heat illness · START triage
-- [Vitalite Infirmary](https://vitaliteplan.com/infirmary.html): AI recovery assistant + rehab dashboard
+- [Vitalite Infirmary](https://vitaliteplan.com/infirmary.html): Vitaxamine, the AI recovery assistant + rehab dashboard
+- [Vitalite Checkup](https://vitaliteplan.com/checkup.html): body-map symptom checker (education only)
 - [Vitalite Social](https://vitaliteplan.com/social.html): community forum for injuries, recovery, and wins
 - [Exam & Certificate](https://vitaliteplan.com/exam.html): NPTE and 运动康复师 practice banks
 

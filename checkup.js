@@ -118,52 +118,102 @@ var PARTS=[
 var PART_MAP={};
 PARTS.forEach(function(p){ PART_MAP[p.id]=p; });
 
-/* ── The body-map SVG (front silhouette, hotzones) ── */
-/* viewBox roughly human; each <path class="bp-hot" data-part="... "> is clickable */
-var MAP_SVG =
-'<svg viewBox="0 0 240 470" role="img" aria-label="Body map">'+
-'<defs><style>'+
-'  .bp-hot{fill:var(--surface);stroke:var(--accent);stroke-width:1.4;cursor:pointer;transition:fill .15s}'+
-'  .bp-hot:hover{fill:var(--accent-bg)}'+
-'  .bp-hot.sel{fill:var(--accent)}'+
-'  .lbl{font-size:9px;fill:var(--text3);pointer-events:none}'+
-'</style></defs>'+
-/* head */
-'<circle cx="120"  cy="30" r="22" class="bp-hot" data-part="head"/>'+
-/* neck */
-'<path d="M108 52 Q120 48 132 52 Q136 66 132 78 Q120 82 108 78 Q104 66 108 52 Z" class="bp-hot" data-part="neck"/>'+
-/* torso: chest+abdomen */
-'<path d="M88 78 Q90 150 88 235 L120 242 L152 235 Q150 150 152 78 Q120 70 88 78 Z" class="bp-hot" data-part="chest"/>'+
-'<path d="M88 178 Q90 235 88 235 L120 242 L152 235 Q150 210 150 178 Q120 172 88 178 Z" class="bp-hot" data-part="abdomen"/>'+
-/* shoulders */
-'<path d="M88 78 Q70 72 62 90 Q72 104 84 96 L88 84 Z" class="bp-hot" data-part="shoulder"/>'+
-'<path d="M152 78 Q170 72 178 90 Q168 104 156 96 L152 84 Z" class="bp-hot" data-part="shoulder"/>'+
-/* upper arms */
-'<path d="M62 90 Q50 130 52 168 Q62 168 68 162 Q72 130 76 108 Z" class="bp-hot" data-part="shoulder"/>'+
-'<path d="M178 90 Q190 130 188 168 Q178 168 172 162 Q168 130 164 108 Z" class="bp-hot" data-part="shoulder"/>'+
-/* elbows */
-'<path d="M50 168 Q46 180 52 190 Q60 188 62 178 Z" class="bp-hot" data-part="elbow"/>'+
-'<path d="M190 168 Q194 180 188 190 Q180 188 178 178 Z" class="bp-hot" data-part="elbow"/>'+
-/* forearms */
-'<path d="M52 190 Q50 226 54 250 Q62 250 66 242 Q66 216 64 196 Z" class="bp-hot" data-part="wrist"/>'+
-'<path d="M188 190 Q190 226 186 250 Q178 250 174 242 Q174 216 176 196 Z" class="bp-hot" data-part="wrist"/>'+
-/* hands */
-'<ellipse cx="60" cy="256" rx="12" ry="14" class="bp-hot" data-part="hand"/>'+
-'<ellipse cx="180" cy="256" rx="12" ry="14" class="bp-hot" data-part="hand"/>'+
-/* hips */
-'<path d="M88 235 Q84 250 96 260 Q120 266 144 260 Q156 250 152 235 Q120 242 88 235 Z" class="bp-hot" data-part="hip"/>'+
-/* thighs */
-'<path d="M96 260 Q90 320 96 356 Q120 360 144 356 Q150 320 144 260 Q120 266 96 260 Z" class="bp-hot" data-part="thigh"/>'+
-/* knees */
-'<ellipse cx="120" cy="362" rx="16" ry="12" class="bp-hot" data-part="knee"/>'+
-/* shins */
-'<path d="M104 372 Q100 430 106 452 Q120 456 134 452 Q140 430 136 372 Q120 368 104 372 Z" class="bp-hot" data-part="shin"/>'+
-/* ankles */
-'<path d="M106 452 Q104 460 110 466 Q130 468 130 466 Q136 460 134 452 Z" class="bp-hot" data-part="ankle"/>'+
-/* feet */
-'<ellipse cx="110" cy="472" rx="22" ry="8" class="bp-hot" data-part="foot"/>'+
-'<ellipse cx="150" cy="472" rx="22" ry="8" class="bp-hot" data-part="foot"/>'+
-'</svg>';
+/* ── The body map: an anatomical front/back silhouette with hot zones ── */
+/* One half-contour (viewer's right side, crown → crotch) is mirrored into the
+   full outline; zones are plain shapes clipped to that outline, so every hot
+   area follows the real body edge instead of a box. viewBox 0 0 240 520. */
+var HALF=[
+  [120,8],
+  [[131,8],[141,16],[142,30]],[[143,38],[142,46],[140,52]],[[139,60],[136,66],[132,70]],
+  [[131,75],[131,80],[133,85]],[[139,90],[151,92],[161,95]],[[172,98],[179,106],[180,119]],
+  [[181,133],[183,147],[184,160]],[[185,170],[186,178],[188,186]],[[191,202],[193,222],[194,240]],
+  [[194,246],[195,252],[196,256]],[[200,262],[203,272],[202,284]],[[201,293],[198,299],[193,300]],
+  [[189,301],[186,296],[186,288]],[[185,280],[184,272],[182,266]],[[180,262],[179,258],[179,252]],
+  [[177,236],[175,216],[173,198]],[[172,190],[171,184],[169,176]],[[167,160],[165,146],[163,134]],
+  [[162,128],[160,124],[157,122]],[[157,140],[156,158],[153,176]],[[151,186],[150,196],[151,206]],
+  [[153,220],[161,236],[163,254]],[[164,272],[163,292],[160,316]],[[157,334],[154,352],[152,366]],
+  [[151,376],[151,384],[152,392]],[[155,408],[156,424],[153,442]],[[150,460],[147,474],[146,486]],
+  [[147,492],[150,497],[156,500]],[[162,503],[161,508],[153,509]],[[144,510],[135,510],[132,506]],
+  [[130,500],[131,492],[132,484]],[[133,466],[132,448],[132,430]],[[132,414],[130,400],[131,388]],
+  [[132,374],[132,360],[131,344]],[[129,320],[127,298],[125,286]],[[124,282],[122,280],[120,279]]
+];
+function bodyPath(){
+  function f(p){ return p[0]+','+p[1]; }
+  function m(p){ return [240-p[0],p[1]]; }
+  var d='M'+f(HALF[0]), i;
+  for(i=1;i<HALF.length;i++) d+=' C'+f(HALF[i][0])+' '+f(HALF[i][1])+' '+f(HALF[i][2]);
+  for(i=HALF.length-1;i>=1;i--){
+    var prev=i===1?HALF[0]:HALF[i-1][2];
+    d+=' C'+f(m(HALF[i][1]))+' '+f(m(HALF[i][0]))+' '+f(m(prev));
+  }
+  return d+' Z';
+}
+/* mirror a path's x coords (absolute commands only) */
+function mirrorD(d){ return d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,function(_,x,y){ return (240-(+x))+','+y; }); }
+function both(d){ return d+' '+mirrorD(d); }
+function R(x,y,w,h){ return 'M'+x+','+y+' L'+(x+w)+','+y+' L'+(x+w)+','+(y+h)+' L'+x+','+(y+h)+' Z'; }
+function E(cx,cy,rx,ry){ return 'M'+(cx-rx)+','+cy+' A'+rx+' '+ry+' 0 1 0 '+(cx+rx)+','+cy+' A'+rx+' '+ry+' 0 1 0 '+(cx-rx)+','+cy+' Z'; }
+
+/* zones: [part, path]. Later entries paint over earlier ones. */
+var ZONES_COMMON=[
+  ['head',R(88,0,64,71)],
+  ['neck',R(100,71,40,22)],
+  ['hip',R(74,236,92,56)],
+  ['thigh',R(74,292,92,82)],
+  ['knee',R(74,374,92,34)],
+  ['shin',R(74,408,92,74)],
+  ['ankle',R(74,482,92,15)],
+  ['foot',R(74,497,92,20)],
+  ['shoulder',both(E(166,112,18,22)+' '+R(161,118,30,32))],
+  ['elbow',both(R(160,150,40,48))],
+  ['wrist',both(R(164,198,42,64))],
+  ['hand',both(R(168,262,44,50))]
+];
+var ZONES={
+  front:[['chest',R(78,93,84,85)],['abdomen',R(78,178,84,58)]].concat(ZONES_COMMON),
+  back:[['upperback',R(78,93,84,97)],['lowerback',R(78,190,84,46)]].concat(ZONES_COMMON)
+};
+/* anatomy contour lines, drawn over the zones, never clickable */
+var LINES={
+  front:[
+    both('M121,95 C133,99 146,97 157,100'),                 /* clavicles */
+    both('M130,77 C127,85 124,90 122,95'),                  /* sternocleidomastoid */
+    both('M121,147 C133,153 147,151 155,138'),              /* pectorals */
+    both('M160,98 C166,110 168,124 166,137'),               /* deltoid edge */
+    'M120,150 L120,228',                                    /* linea alba */
+    both('M121,176 C126,177 131,177 135,175')+' '+both('M121,194 C126,195 131,195 135,193'),
+    both('M139,226 C133,244 127,258 122,272'),              /* inguinal line */
+    both('M141,300 C139,318 138,338 139,356'),              /* quadriceps */
+    both(E(141,386,6,8))                                    /* kneecaps */
+  ],
+  back:[
+    'M120,94 L120,254',                                     /* spine */
+    both('M134,110 C146,107 153,118 151,131 C147,143 139,148 132,144 C131,134 131,121 134,110'),
+    both('M131,78 C140,86 150,90 160,95'),                  /* trapezius */
+    both('M122,290 C132,295 147,295 158,289'),              /* gluteal fold */
+    'M120,262 L120,286',
+    both('M133,392 C139,395 146,395 151,392'),              /* knee crease */
+    both('M141,410 C140,421 140,431 141,442')               /* calf split */
+  ]
+};
+function mapSVG(view){
+  var z=ZONES[view].map(function(zn){
+    return '<path class="bp-hot" data-part="'+zn[0]+'" d="'+zn[1]+'" clip-path="url(#ckClip)"/>';
+  }).join('');
+  var navel=view==='front'?'<ellipse class="bp-line" cx="120" cy="212" rx="1.6" ry="2.6"/>':
+    '<circle class="bp-line" cx="112" cy="247" r="1.4"/><circle class="bp-line" cx="128" cy="247" r="1.4"/>';
+  return '<svg viewBox="0 0 240 520" role="img" aria-label="'+T(view==='front'?'Body map, front':'Body map, back',view==='front'?'人体图（正面）':'人体图（背面）')+'" data-view="'+view+'">'+
+    '<defs><clipPath id="ckClip"><path d="'+BODY_D+'"/></clipPath>'+
+    '<radialGradient id="ckShade" cx="42%" cy="30%" r="80%"><stop offset="0" stop-color="var(--ck-body-hi)"/><stop offset="1" stop-color="var(--ck-body-lo)"/></radialGradient></defs>'+
+    '<path class="bp-body" d="'+BODY_D+'"/>'+
+    '<g class="bp-zones">'+z+'</g>'+
+    '<g class="bp-lines">'+LINES[view].map(function(d){ return '<path class="bp-line" d="'+d+'"/>'; }).join('')+navel+'</g>'+
+    '<path class="bp-edge" d="'+BODY_D+'"/>'+
+    '</svg>';
+}
+var BODY_D=bodyPath();
+var BACK_PARTS={upperback:1,lowerback:1};
+var FRONT_PARTS={chest:1,abdomen:1};
 
 /* ── tiny markdown renderer (reuse for output) ── */
 function render(raw){
@@ -177,14 +227,41 @@ function render(raw){
 
 /* ── the app ── */
 var el={};
-var state={ part:null, syms:[], vision:false };
+var state={ part:null, syms:[], vision:false, view:'front' };
 
 function $(id){ return document.getElementById(id); }
 
+var inited=false;
+function drawMap(view){
+  state.view=view;
+  el.bodymap.innerHTML=mapSVG(view);
+  el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){
+    h.classList.toggle('sel',h.getAttribute('data-part')===state.part);
+  });
+  var tg=$('ckView'); if(tg) tg.querySelectorAll('button').forEach(function(b){
+    var on=b.getAttribute('data-view')===view; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false');
+  });
+}
 function init(){
+  if(inited) return;
   var root=$('checkup'); if(!root) return;
   el.bodymap=$('checkupMap'); if(!el.bodymap) return;
-  el.bodymap.innerHTML=MAP_SVG;
+  inited=true;
+  /* front / back toggle, built here so the markup stays untouched */
+  var tg=document.createElement('div');
+  tg.className='checkup-view'; tg.id='ckView'; tg.setAttribute('role','group');
+  tg.innerHTML='<button type="button" data-view="front" data-en="Front" data-zh="正面">'+T('Front','正面')+'</button>'+
+               '<button type="button" data-view="back" data-en="Back" data-zh="背面">'+T('Back','背面')+'</button><span class="ck-thumb" aria-hidden="true"></span>';
+  el.bodymap.parentNode.insertBefore(tg, el.bodymap);
+  tg.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('button[data-view]'); if(!b) return;
+    drawMap(b.getAttribute('data-view'));
+  });
+  /* one delegated listener: the SVG is redrawn on every view switch */
+  el.bodymap.addEventListener('click',function(e){
+    var h=e.target.closest&&e.target.closest('.bp-hot'); if(h) selectPart(h.getAttribute('data-part'));
+  });
+  drawMap('front');
   // legend chips
   var lg=$('checkupParts'); if(lg){
     lg.innerHTML=PARTS.map(function(p){
@@ -192,9 +269,6 @@ function init(){
     }).join('');
     lg.querySelectorAll('.checkup-part').forEach(function(b){ b.addEventListener('click',function(){ selectPart(b.getAttribute('data-part')); }); });
   }
-  el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){
-    h.addEventListener('click',function(){ selectPart(h.getAttribute('data-part')); });
-  });
   var ci=$('camInput'), cb=$('camBtn'), fb=$('camFileBtn'), cs=$('camStop'), an=$('analyzeBtn');
   if(ci) ci.addEventListener('change',handleCamera);
   if(cb) cb.addEventListener('click',startLiveScan);
@@ -218,6 +292,7 @@ function step(n){
 
 /* Rebuild every dynamic label for the active language (fires on toggle). */
 function reRender(){
+  if(el.bodymap && inited) drawMap(state.view||'front');
   var lg=$('checkupParts'); if(lg){
     lg.innerHTML=PARTS.map(function(p){
       return '<button type="button" class="checkup-part'+(state.part===p.id?' sel':'')+'" data-part="'+p.id+'">'+p.icon+' '+(lang()==='zh'?p.zh:p.en)+'</button>';
@@ -248,6 +323,8 @@ if(langBtn) langBtn.addEventListener('click',function(){ setTimeout(reRender,50)
 function selectPart(id){
   state.part=id; state.syms=[];
   var p=PART_MAP[id]; if(!p) return;
+  if(BACK_PARTS[id] && state.view!=='back') drawMap('back');
+  else if(FRONT_PARTS[id] && state.view!=='front') drawMap('front');
   el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){ h.classList.toggle('sel',h.getAttribute('data-part')===id); });
   $('checkupParts').querySelectorAll('.checkup-part').forEach(function(b){ b.classList.toggle('sel',b.getAttribute('data-part')===id); });
   // part label
@@ -487,7 +564,7 @@ function analyze(){
 
 function reset(){
   camGen++; stopLiveScan();
-  state={ part:null, syms:[], vision:false };
+  state={ part:null, syms:[], vision:false, view:state.view||'front' };
   el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){ h.classList.remove('sel'); });
   if($('checkupParts')) $('checkupParts').querySelectorAll('.checkup-part').forEach(function(b){ b.classList.remove('sel'); });
   if($('symList')) $('symList').innerHTML='';
@@ -498,6 +575,6 @@ function reset(){
   step(1);
 }
 
-document.addEventListener('DOMContentLoaded',init);
-if(document.readyState!=='loading') init();
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+else init();
 })();

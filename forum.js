@@ -17,7 +17,10 @@
     { id:'training', icon:'🏋️', en:'Training',            zh:'训练' },
     { id:'study',    icon:'📚', en:'Study & Exams',       zh:'学习与备考' }
   ];
-  var state={ cat:'all', sort:'recent', mode:'cloud', topics:[], replyCounts:{}, seq:0, threadId:null, tag:'' };
+  var state={ cat:'all', sort:'recent', mode:'cloud', topics:[], replyCounts:{}, seq:0, threadId:null, tag:'', repTok:0, freshTopic:null };
+  function isLocalId(id){ return String(id).indexOf('local_')===0; }
+  var REDUCE=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function later(ms,fn){ return setTimeout(fn, REDUCE?0:ms); }
 
   /* ── helpers ── */
   function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
@@ -105,9 +108,9 @@
   function status(msg){ var el=document.getElementById('forumStatus'); if(el) el.innerHTML=msg; }
 
   /* ── load ── */
-  function load(){
+  function load(quiet){
     var el=document.getElementById('forumList');
-    if(el) el.innerHTML='<div class="forum-empty"><span class="fe-icon">⏳</span>'+T('Loading discussions…','正在加载讨论…')+'</div>';
+    if(el && !(quiet && el.querySelector('.for-topic'))) el.innerHTML='<div class="forum-empty"><span class="fe-icon">⏳</span>'+T('Loading discussions…','正在加载讨论…')+'</div>';
     var sb=sbClient();
     var tv=sb ? sb.from('forum_topics').select('id,category,title,body,author_email,author_name,upvotes,created_at').eq('hidden',false).order('created_at',{ascending:false}) : null;
     var rv=sb ? sb.from('forum_replies').select('id,topic_id,author_email,author_name,body,created_at').eq('hidden',false) : null;
@@ -179,7 +182,8 @@
     el.innerHTML=list.map(function(t){
       var c=catById(t.category);
       var sid=String(t.id).replace(/'/g,"\\'");
-      return '<div class="for-topic" data-id="'+sid+'" onclick="Forum.open(\''+sid+'\')">'
+      var fresh=state.freshTopic!=null && String(state.freshTopic)===String(t.id);
+      return '<div class="for-topic'+(fresh?' for-new':'')+'" data-id="'+sid+'" onclick="Forum.open(\''+sid+'\')">'
         +'<div class="for-topic-av">'+initial(t.author_name)+'</div>'
         +'<div class="for-topic-body">'
         +  '<div class="for-topic-title">'+linkTags(t.title)+'</div>'
@@ -199,6 +203,14 @@
     }).join('');
     var se=document.getElementById('forumStatus');
     if(se && !se.querySelector('.for-banner')) se.innerHTML='';
+    if(state.freshTopic!=null){
+      var nw=el.querySelector('.for-new');
+      state.freshTopic=null;
+      if(nw){
+        try{ nw.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'center'}); }catch(e){}
+        later(2600,function(){ nw.classList.remove('for-new'); });
+      }
+    }
   }
 
   /* ── hashtag filter ── */
@@ -301,21 +313,35 @@
     err.textContent='';
     var row={ category:cat, title:title, body:body, author_email:u.email, author_name:userName(u)||u.email, upvotes:0 };
     var sb=sbClient();
+    var btn=document.getElementById('composerSubmit');
+    var modal=document.querySelector('#composerOverlay .forum-modal');
+    if(btn){ if(btn.disabled) return; btn.disabled=true; btn.classList.add('for-sending'); btn.textContent=T('Publishing…','发布中…'); }
+    function landed(id){
+      state.freshTopic=id;
+      if(state.cat!=='all' && state.cat!==cat) state.cat='all';
+      state.tag='';
+      if(modal) modal.classList.add('for-launch');
+      later(420,function(){
+        closeComposer();
+        if(modal) modal.classList.remove('for-launch');
+        if(btn){ btn.disabled=false; btn.classList.remove('for-sending'); }
+        render();
+      });
+    }
     if(state.mode==='cloud' && sb){
       sb.from('forum_topics').insert(row).select().then(function(res){
-        if(res.error){
+        if(res.error || !res.data || !res.data[0]){
           saveLocalTopic(row);
         }else{
           state.topics.unshift(res.data[0]);
+          row=res.data[0];
           state.seq=(state.seq||0)+1;
         }
-        closeComposer();
-        render();
-      }).catch(function(){ saveLocalTopic(row); closeComposer(); render(); });
+        landed(row.id);
+      }).catch(function(){ saveLocalTopic(row); landed(row.id); });
     }else{
       saveLocalTopic(row);
-      closeComposer();
-      render();
+      landed(row.id);
     }
   }
   function saveLocalTopic(row){
@@ -357,7 +383,11 @@
     var foot=document.getElementById('threadFoot');
     foot.innerHTML='<div class="ft-hd" style="flex:1;text-align:left;font-weight:800;font-size:.85rem;align-self:center">'+T('💬 Replies · ','💬 回复 · ')+(state.replyCounts[id]||0)+'</div>'
       +'<button type="button" class="for-close" onclick="Forum.closeThread()">✕</button>';
-    renderReplies(id);
+    var hd=foot.querySelector('.ft-hd'); if(hd) hd.innerHTML=T('💬 Replies · ','💬 回复 · ')+'<span id="threadCount">'+(state.replyCounts[id]||0)+'</span>';
+    var host=document.createElement('div');
+    host.className='for-replies'; host.id='threadReplies';
+    body.appendChild(host);
+    body.appendChild(replyBoxEl(id));
     document.getElementById('forumOverlay').classList.add('open');
     document.body.style.overflow='hidden';
     loadReplies(id);
@@ -366,92 +396,100 @@
     document.getElementById('forumOverlay').classList.remove('open');
     document.body.style.overflow='';
     state.threadId=null;
-    load();
+    state.repTok++;
+    load(true);
   }
-  function loadReplies(id){
-    var box=document.getElementById('threadBody');
-    var loading=document.createElement('div');
-    loading.className='for-reply';
-    loading.id='repliesLoading';
-    loading.innerHTML='<div class="for-post" style="opacity:.7">'+T('Loading replies…','正在加载回复…')+'</div>';
-    box.appendChild(loading);
+  /* Replies live in #threadReplies, which is REPLACED on every load. (The old
+     code appended the whole list again under the previous copy, so posting or
+     deleting a reply duplicated the thread and left deleted replies on screen.) */
+  function loadReplies(id, freshId){
+    var host=document.getElementById('threadReplies');
+    if(!host) return;
+    if(!host.children.length) host.innerHTML='<div class="for-reply for-reply-loading"><div class="for-post">'+T('Loading replies…','正在加载回复…')+'</div></div>';
+    var tok=++state.repTok;
     var sb=sbClient();
-    function done(reps, local){
-      var el=document.getElementById('repliesLoading');
-      if(el && el.parentNode) el.parentNode.removeChild(el);
-      if(local) state.replyCounts[id]=reps.length;
-      renderRepliesList(reps);
+    function done(reps){
+      if(tok!==state.repTok || String(state.threadId)!==String(id)) return;   /* stale response */
+      /* replies that fell back to this device are shown with the cloud ones */
+      var seen={};
+      reps.forEach(function(r){ seen[String(r.id)]=1; });
+      localRepliesOf(id).forEach(function(r){ if(!seen[String(r.id)]) reps.push(r); });
+      reps.sort(function(x,y){ return new Date(x.created_at)-new Date(y.created_at); });
+      renderRepliesList(id, reps, freshId);
     }
-    if(state.mode==='cloud' && sb){
+    if(state.mode==='cloud' && sb && !isLocalId(id)){
       sb.from('forum_replies').select('id,author_email,author_name,body,created_at').eq('topic_id',id).eq('hidden',false).order('created_at',{ascending:true}).then(function(res){
-        if(res.error){ done(localRepliesOf(id), true); } else { done(res.data||[], false); }
-      }).catch(function(){ done(localRepliesOf(id), true); });
+        done(res.error?[]:(res.data||[]).slice());
+      }).catch(function(){ done([]); });
     }else{
-      done(localRepliesOf(id), true);
+      done([]);
     }
   }
   function localRepliesOf(id){
     var loc=localLoad();
     return loc.replies.filter(function(r){ return String(r.topic_id)===String(id); });
   }
-  function renderReplies(id){
-    var box=document.getElementById('threadBody');
-    var u=user();
-    box.innerHTML+='<div class="for-reply" id="replyBox">'
-      +'<div class="for-field" style="margin:0"><textarea id="replyInput" rows="3" maxlength="2000" placeholder="'+T('Write a reply… (log in to post)','写回复…（登录后即可发布）')+'"></textarea></div>'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-top:.5rem">'
-      +'<div id="replyError" style="font-size:.78rem;color:var(--red)"></div>'
-      +'<button type="button" class="for-btn primary" onclick="Forum.submitReply(\''+String(id)+'\')">'+T('Reply','回复')+'</button>'
-      +'</div></div>';
+  function setReplyCount(id, n){
+    state.replyCounts[id]=n;
+    var c=document.getElementById('threadCount'); if(c) c.textContent=n;
   }
-  function renderRepliesList(reps){
-    var box=document.getElementById('threadBody');
-    var oldBox=document.getElementById('replyBox');
-    if(oldBox && oldBox.parentNode) oldBox.parentNode.removeChild(oldBox);
-    var empty = (reps&&reps.length) ? '' : '<div class="for-reply"><div class="for-post" style="text-align:center;color:var(--text3)">'+T('No replies yet. Start the conversation!','还没有回复。来开启对话吧！')+'</div></div>';
-    var html=empty;
-    (reps||[]).forEach(function(r){
-      var rid=String(r.id).replace(/'/g,"\\'");
-      html+='<div class="for-reply"><div class="for-post" style="margin-bottom:0">'
-        +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span>'
-        +(canDelete(r)?'<button type="button" class="for-del" title="'+T('Delete reply','删除回复')+'" onclick="Forum.delReply(\''+rid+'\')">🗑</button>':'')
-        +'</div>'
-        +'<div class="fp-body">'+linkTags(r.body)+'</div></div></div>';
-    });
-    html+=replyBoxEl().outerHTML;
-    var wrap=document.createElement('div');
-    wrap.innerHTML=html;
-    while(wrap.firstChild) box.appendChild(wrap.firstChild);
+  function replyHTML(r, fresh){
+    var rid=esc(String(r.id));
+    return '<div class="for-reply'+(fresh?' for-in':'')+'" data-rid="'+rid+'"><div class="for-post" style="margin-bottom:0">'
+      +'<div class="fp-top"><span class="fp-who">'+esc(r.author_name||'?')+'</span><span class="fp-meta">'+fmtTime(r.created_at)+'</span>'
+      +(canDelete(r)?'<button type="button" class="for-del" data-del="'+rid+'" title="'+T('Delete reply','删除回复')+'" aria-label="'+T('Delete reply','删除回复')+'">🗑</button>':'')
+      +'</div>'
+      +'<div class="fp-body">'+linkTags(r.body)+'</div></div></div>';
   }
-  function replyBoxEl(){
+  function emptyHTML(){
+    return '<div class="for-reply for-reply-empty"><div class="for-post" style="text-align:center;color:var(--text3)">'+T('No replies yet. Start the conversation!','还没有回复。来开启对话吧！')+'</div></div>';
+  }
+  function renderRepliesList(id, reps, freshId){
+    var host=document.getElementById('threadReplies'); if(!host) return;
+    host.innerHTML=reps.length ? reps.map(function(r){ return replyHTML(r, freshId!=null && String(r.id)===String(freshId)); }).join('') : emptyHTML();
+    setReplyCount(id, reps.length);
+    var nw=host.querySelector('.for-in');
+    if(nw){
+      try{ nw.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'nearest'}); }catch(e){}
+      later(1400,function(){ nw.classList.remove('for-in'); });
+    }
+  }
+  function replyBoxEl(id){
     var u=user();
     var d=document.createElement('div');
-    d.className='for-reply';
+    d.className='for-reply for-reply-box';
     d.id='replyBox';
     d.innerHTML='<div class="for-field" style="margin:0"><textarea id="replyInput" rows="3" maxlength="2000" placeholder="'+T('Write a reply… (log in to post)','写回复…（登录后即可发布）')+'"></textarea></div>'
       +'<div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-top:.5rem">'
       +'<div id="replyError" style="font-size:.78rem;color:var(--red)"></div>'
-      +'<button type="button" class="for-btn primary" onclick="Forum.submitReply('+(state.threadId||0)+')">'+T('Reply','回复')+'</button>'
+      +'<button type="button" class="for-btn primary" id="replySend">'+T('Reply','回复')+'</button>'
       +'</div>';
+    d.querySelector('#replySend').addEventListener('click',function(){ submitReply(id); });
+    d.querySelector('#replyInput').addEventListener('keydown',function(e){
+      if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ e.preventDefault(); submitReply(id); }
+    });
     return d;
   }
   function submitReply(id){
     var u=user();
-    if(!u || !u.email){ return; }
+    var err=document.getElementById('replyError');
+    if(!u || !u.email){ if(err) err.innerHTML=T('Please <a href="login.html">log in</a> to reply.','请先<a href="login.html">登录</a>再回复。'); return; }
     var tid=(/^\d+$/.test(String(id)))?Number(id):id;
     var inp=document.getElementById('replyInput');
     var body=(inp?inp.value:'').trim();
-    var err=document.getElementById('replyError');
     if(!body){ if(err) err.textContent=T('Write something first.','请先写点内容。'); return; }
     if(body.length>2000){ if(err) err.textContent=T('Reply is too long (2000 max).','回复过长（最多 2000 字）。'); return; }
+    var btn=document.getElementById('replySend');
+    if(btn){ if(btn.disabled) return; btn.disabled=true; btn.classList.add('for-sending'); btn.textContent=T('Sending…','发送中…'); }
     var row={ topic_id:tid, author_email:u.email, author_name:userName(u)||u.email, body:body };
     var sb=sbClient();
-    function finish(){
+    function finish(newId){
       var inp2=document.getElementById('replyInput');
       if(inp2) inp2.value='';
       if(err) err.textContent='';
-      loadReplies(tid);
-      load();
+      if(btn){ btn.disabled=false; btn.classList.remove('for-sending'); btn.textContent=T('Reply','回复'); }
+      loadReplies(tid, newId);
+      load(true);
     }
     function saveLocalReply(){
       var loc=localLoad();
@@ -459,18 +497,15 @@
       row.created_at=new Date().toISOString();
       loc.replies.push(row);
       localSave(loc);
-      state.mode='local';
-      status('<span class="for-banner">'+T('Published on this device — cloud sync will connect soon.','已在本机发布 — 云端同步即将接入。')+'</span>');
+      return row.id;
     }
-    if(state.mode==='cloud' && sb){
-      sb.from('forum_replies').insert(row).then(function(res){
-        if(!res.error){ state.replyCounts[tid]=(state.replyCounts[tid]||0)+1; }
-        else { saveLocalReply(); }
-        finish();
-      }).catch(function(){ saveLocalReply(); finish(); });
+    if(state.mode==='cloud' && sb && !isLocalId(tid)){
+      sb.from('forum_replies').insert(row).select('id').then(function(res){
+        if(!res.error && res.data && res.data[0]) finish(res.data[0].id);
+        else finish(saveLocalReply());
+      }).catch(function(){ finish(saveLocalReply()); });
     }else{
-      saveLocalReply();
-      finish();
+      finish(saveLocalReply());
     }
   }
 
@@ -512,6 +547,14 @@
   }
 
   /* ── delete (own posts; admins may delete any) ── */
+  function dropTopicCard(id, then){
+    var card=null;
+    document.querySelectorAll('#forumList .for-topic').forEach(function(c){ if(c.getAttribute('data-id')===String(id)) card=c; });
+    if(!card){ then(); return; }
+    card.style.height=card.offsetHeight+'px';
+    card.classList.add('for-out');
+    later(380,then);
+  }
   function delTopic(raw){
     var u=user();
     if(!u || !u.email){ return; }
@@ -527,7 +570,7 @@
       q.then(function(res){
         if(res.error){ status('<span class="for-banner">'+esc(res.error.message)+'</span>'); return; }
         closeThread();
-        load();
+        dropTopicCard(id,function(){ load(true); });
       }).catch(function(){
         status('<span class="for-banner">'+T('Delete failed — please try again.','删除失败 — 请重试。')+'</span>');
       });
@@ -537,32 +580,50 @@
       loc.replies=loc.replies.filter(function(r){ return String(r.topic_id)!==String(id); });
       localSave(loc);
       closeThread();
-      load();
+      dropTopicCard(id,function(){ load(true); });
     }
   }
   function delReply(raw){
     var u=user();
     if(!u || !u.email){ return; }
     var id=(typeof raw==='string'&&/^\d+$/.test(raw))?Number(raw):raw;
-    if(state.mode==='cloud' && state.sb){
-      var q=state.sb.from('forum_replies').delete().eq('id',id);
-      if(!isAdminU(u)) q=q.eq('author_email',u.email);
-      q.then(function(res){
-        if(res.error){ status('<span class="for-banner">'+esc(res.error.message)+'</span>'); return; }
-        state.replyCounts[state.threadId]=Math.max(0,(state.replyCounts[state.threadId]||0)-1);
-        loadReplies(state.threadId);
-        load();
-      }).catch(function(){
-        status('<span class="for-banner">'+T('Delete failed — please try again.','删除失败 — 请重试。')+'</span>');
+    var tid=state.threadId;
+    var host=document.getElementById('threadReplies');
+    var node=null;
+    if(host) host.querySelectorAll('.for-reply[data-rid]').forEach(function(n){ if(n.getAttribute('data-rid')===String(raw)) node=n; });
+    if(node){
+      if(node.classList.contains('for-out')) return;          /* already going */
+      node.style.height=node.offsetHeight+'px';
+      node.classList.add('for-out');
+    }
+    function gone(){
+      later(360,function(){
+        if(node && node.parentNode) node.parentNode.removeChild(node);
+        var left=host?host.querySelectorAll('.for-reply[data-rid]').length:0;
+        if(host && !left) host.innerHTML=emptyHTML();
+        setReplyCount(tid, left);
+        load(true);
       });
-    }else{
+    }
+    function failed(msg){
+      if(node){ node.classList.remove('for-out'); node.style.height=''; }
+      var err=document.getElementById('replyError');
+      if(err) err.textContent=msg||T('Delete failed — please try again.','删除失败 — 请重试。');
+    }
+    if(isLocalId(id) || state.mode!=='cloud' || !state.sb){
       var loc=localLoad();
       loc.replies=loc.replies.filter(function(r){ return String(r.id)!==String(id); });
       localSave(loc);
-      state.replyCounts[state.threadId]=Math.max(0,(state.replyCounts[state.threadId]||0)-1);
-      loadReplies(state.threadId);
-      load();
+      gone();
+      return;
     }
+    var q=state.sb.from('forum_replies').delete().eq('id',id);
+    if(!isAdminU(u)) q=q.eq('author_email',u.email);
+    q.select('id').then(function(res){
+      if(res.error){ failed(res.error.message); return; }
+      if(!res.data || !res.data.length){ failed(T('That reply could not be deleted.','该回复无法删除。')); return; }
+      gone();
+    }).catch(function(){ failed(); });
   }
 
   /* ── wire up ── */
@@ -575,7 +636,9 @@
       render();
     });
     document.getElementById('forumOverlay').addEventListener('click',function(e){
-      if(e.target===this) closeThread();
+      if(e.target===this){ closeThread(); return; }
+      var d=e.target&&e.target.closest?e.target.closest('[data-del]'):null;
+      if(d){ e.preventDefault(); delReply(d.getAttribute('data-del')); }
     });
     document.getElementById('composerOverlay').addEventListener('click',function(e){
       if(e.target===this) closeComposer();

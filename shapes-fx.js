@@ -624,7 +624,7 @@
 
   function boot() {
     safe(mountDefs);
-    safe(dressSplash);
+    /* the splash is dressed by soft-fx.js now (the poster build) */
     safe(mountMosaic);
     safe(mountCardArt);
     safe(heroReveal);

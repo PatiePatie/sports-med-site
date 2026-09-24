@@ -879,7 +879,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <link rel="stylesheet" href="sections.css?v=9">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=18">
-<script src="sections.js?v=7" defer></script>
+<script src="sections.js?v=8" defer></script>
 <script src="draft.js" defer></script>
 <script src="linear-layout.js?v=9" defer></script>
 <script src="button-glow.js?v=1" defer></script>
@@ -891,11 +891,16 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="notif-bell.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
-<link rel="stylesheet" href="shapes-skin.css?v=1">
-<script src="shapes-fx.js?v=1" defer></script>
+<link rel="stylesheet" href="shapes-skin.css?v=2">
+<script src="shapes-fx.js?v=2" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=1">
+<script src="soft-fx.js?v=1" defer></script>
+<script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>
+<style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
+<!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
@@ -927,8 +932,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="infirmary.html#checkup" data-en="🩺 Checkup" data-zh="🩺 自查">🩺 Checkup</a>
       <a class="sidebar-link" href="infirmary.html" data-en="🤖 Vitaxamine" data-zh="🤖 Vitaxamine">🤖 Vitaxamine</a>
+      <a class="sidebar-link" href="checkup.html" data-en="🩺 Checkup" data-zh="🩺 自查">🩺 Checkup</a>
       <a class="sidebar-link active" href="plan.html" data-en="📋 Plan Builder" data-zh="📋 计划生成器">📋 Plan Builder</a>
       
     </div>

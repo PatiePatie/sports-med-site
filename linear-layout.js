@@ -97,6 +97,7 @@
   var sidebar = $('#sidebar') || $('nav.sidebar');
   var wrapper = $('.page-wrapper');
   var isGuide = file === 'guide.html';
+  var isIB = file === 'ib-sehs.html';
   var isMarketing = !!$('.landing-hero') || (file === 'index.html');
 
   /* No chrome at all (the chN.html redirect stubs) — leave the page alone. */
@@ -489,6 +490,36 @@
           run: function () { location.href = pg.file; }
         });
       });
+
+      if (isIB && window.IBSEHS_TOPICS) {
+        window.IBSEHS_TOPICS.forEach(function (topic, index) {
+          var chapter = Math.floor(index / 9) + 1;
+          out.push({
+            group: t('IB SEHS Topics', 'IB SEHS主题'),
+            icon: 'hash',
+            label: isCN() ? topic.zh : topic.en,
+            alt: topic.code + ' ' + topic.en + ' ' + topic.zh,
+            hint: '#ib-topic-' + (index + 1),
+            run: function () {
+              if (window.IBSEHSCourse && typeof window.IBSEHSCourse.openTopic === 'function') window.IBSEHSCourse.openTopic(index + 1);
+              else location.hash = '#ib-topic-' + (index + 1);
+            }
+          });
+          if (index === 0 || index === 9 || index === 18) {
+            out.push({
+              group: t('IB SEHS Chapters', 'IB SEHS章节'),
+              icon: 'book',
+              label: t('Chapter ' + chapter, '第' + chapter + '章'),
+              alt: t('Chapter ' + chapter, '第' + chapter + '章'),
+              hint: '#ib-ch' + chapter,
+              run: function () {
+                if (window.IBSEHSCourse && typeof window.IBSEHSCourse.showChapter === 'function') window.IBSEHSCourse.showChapter(chapter, true, false);
+                else location.hash = '#ib-ch' + chapter;
+              }
+            });
+          }
+        });
+      }
 
       if (isGuide) {
         for (var n = 1; n <= 14; n++) {

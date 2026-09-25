@@ -1,6 +1,6 @@
 # The Vitalité Plan
 
-> Sports Medicine, Recovery & Nutrition — a lifelong bilingual (English & 中文) educational program. 14 chapters, flashcards, adaptive quizzes, an AI recovery assistant, and NPTE / 运动康复师 / IB SEHS exam prep. Free and public.
+> Sports Medicine, Recovery & Nutrition — a lifelong bilingual (English & 中文) educational program. 14 textbook chapters, a standalone 3-chapter IB SEHS course, flashcards, adaptive quizzes, an AI recovery assistant, and NPTE / 运动康复师 study resources. Free and public.
 
 ## Purpose
 
@@ -34,7 +34,8 @@ The Vitalité Plan teaches sports medicine, rehab science, and recovery as a str
 
 - [USABO Biology Prep](https://vitaliteplan.com/usabo.html): biology olympiad practice
 - [G10 Biology](https://vitaliteplan.com/g10-bio.html): grade-10 biology companion
-- [IB SEHS Prep](https://vitaliteplan.com/ib-sehs.html): first-assessment-2026 essential revision and downloadable visual workbook PDF
+- [IB SEHS Course](https://vitaliteplan.com/ib-sehs.html): course overview, progress, quizzes, flashcards, and all 29 workbook pages
+- [IB SEHS Learn](https://vitaliteplan.com/ib-sehs-learn.html): direct Chapter 1 learning view
 - [CN Certification · 康复师认证](https://vitaliteplan.com/cn-cert.html): 运动康复师 certification path
 
 Sitemap: https://vitaliteplan.com/sitemap.xml

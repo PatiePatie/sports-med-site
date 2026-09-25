@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';document.write('<meta name="color-scheme" content="'+(d?'dark':'light')+'">')}catch(e){}})()</script>
 <script>if(location.hash==='#checkup')location.replace('checkup.html');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -809,8 +810,8 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
-<link rel="stylesheet" href="tutorial-widget.css?v=3">
-<script src="tutorial-widget.js?v=4"></script>
+<link rel="stylesheet" href="tutorial-widget.css?v=4">
+<script src="tutorial-widget.js?v=5"></script>
 <script src="auth-gate.js"></script>
 
 <script>
@@ -880,12 +881,10 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="notif-bell.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
-<link rel="stylesheet" href="shapes-skin.css?v=2">
-<script src="shapes-fx.js?v=2" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=1">
-<script src="soft-fx.js?v=1" defer></script>
-<script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>
-<style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>
+<link rel="stylesheet" href="shapes-skin.css?v=3">
+<script src="shapes-fx.js?v=3" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=2">
+<script src="soft-fx.js?v=2" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
@@ -908,6 +907,12 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <div class="sidebar-label" data-en="🎯 Studying &amp; Learning" data-zh="🎯 学习与备考">🎯 Studying &amp; Learning</div>
       <a class="sidebar-link" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
       <a class="sidebar-link" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
+      <div class="sidebar-label" data-en="🧰 Study Tools" data-zh="🧰 备考工具">🧰 Study Tools</div>
+      <a class="sidebar-link sub" href="guide.html?study=flashcards" data-study="openFlashcards" data-en="🃏 Flashcards" data-zh="🃏 闪卡">🃏 Flashcards</a>
+      <a class="sidebar-link sub" href="guide.html?study=quiz" data-study="openQuizMode" data-en="📝 Quizzes &amp; practice" data-zh="📝 测验与练习">📝 Quizzes &amp; practice</a>
+      <a class="sidebar-link sub" href="exam.html" data-en="🏁 Exam prep" data-zh="🏁 备考冲刺">🏁 Exam prep</a>
+      <a class="sidebar-link sub" href="guide.html?study=ai" data-study="openAiModal" data-en="💬 Vitaline AI" data-zh="💬 AI 助手">💬 Vitaline AI</a>
+      <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>

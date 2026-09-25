@@ -58,8 +58,8 @@ QNA_CSS_PIN = "?v=6"
 QNA_JS_PIN  = "?v=2"
 BELL_CSS_PIN = "?v=2"
 BELL_JS_PIN  = "?v=1"
-CHECKUP_CSS_PIN = "?v=5"
-CHECKUP_JS_PIN  = "?v=4"
+CHECKUP_CSS_PIN = "?v=6"
+CHECKUP_JS_PIN  = "?v=5"
 
 # Pages that run the Checkup symptom-triage app (PR: body checkup).
 # checkup.html hosts the <section id="checkup"> (split out of infirmary.html); every other page would just

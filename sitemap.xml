@@ -32,9 +32,15 @@
   </url>
   <url>
     <loc>https://vitaliteplan.com/ib-sehs.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vitaliteplan.com/ib-sehs-learn.html</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://vitaliteplan.com/cn-cert.html</loc>

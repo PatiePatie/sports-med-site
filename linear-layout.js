@@ -82,6 +82,7 @@
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
     { file: 'ib-sehs.html', en: 'IB SEHS',        zh: 'IB SEHS',             icon: 'activity' },
+    { file: 'ib-sehs-learn.html', en: 'IB SEHS Learn', zh: 'IB SEHS学习',       icon: 'activity' },
     { file: 'usabo.html',   en: 'USABO Biology',  zh: 'USABO 生物奥赛',       icon: 'dna' },
     { file: 'g10-bio.html', en: 'G10 Bio',       zh: '十年级生物',           icon: 'scope' },
     { file: 'account.html', en: 'Account',        zh: '我的账户',           icon: 'user' },
@@ -97,7 +98,7 @@
   var sidebar = $('#sidebar') || $('nav.sidebar');
   var wrapper = $('.page-wrapper');
   var isGuide = file === 'guide.html';
-  var isIB = file === 'ib-sehs.html';
+  var isIB = file === 'ib-sehs.html' || file === 'ib-sehs-learn.html';
   var isMarketing = !!$('.landing-hero') || (file === 'index.html');
 
   /* No chrome at all (the chN.html redirect stubs) — leave the page alone. */
@@ -232,10 +233,9 @@
        reorg here so the homepage renders its designed header. */
     if (isMarketing) return;
 
-    var sidebarToggle = document.getElementById('sidebarToggle');
-    if (sidebarToggle && sidebarToggle.parentNode !== inner) {
-      inner.insertBefore(sidebarToggle, inner.firstChild);
-    }
+    /* No sidebar toggle in the bar — Patrick keeps the sidebar as is and
+       never toggles it, so the ☰ is left where the page put it (and hidden
+       by the skin on desktop). */
 
     /* Page context. The wordmark lives in the rail on desktop, so the top-left
        is free for the breadcrumb Linear puts there. */

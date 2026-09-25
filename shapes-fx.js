@@ -486,6 +486,19 @@
       w.style.setProperty('--os-by', (T - rects[i].top) + 'px');
     });
   }
+  /* Flatten the word boxes back into plain text. Needed when a heading's
+     own text is replaced (bilingual pages swap language after the split
+     has run) — otherwise the new string is appended next to the old one
+     and the heading ends up reading in two languages at once. */
+  function unsplit(el) {
+    var words = el.querySelectorAll('.os-w');
+    for (var i = words.length - 1; i >= 0; i--) {
+      var w = words[i];
+      var t = w.querySelector('.os-wt');
+      if (w.parentNode) w.parentNode.replaceChild(document.createTextNode(t ? t.textContent : ''), w);
+    }
+    el.removeAttribute('data-os-split');
+  }
   var gradEls = [];
   function arm(el) {
     if (reduce || el.getAttribute('data-os-split') || el.isContentEditable) return false;
@@ -497,7 +510,7 @@
       el.style.setProperty('--os-bgimg', img);
       el.classList.add('os-gradtext');
       sliceGradient(el);
-      gradEls.push(el);
+      if (gradEls.indexOf(el) < 0) gradEls.push(el);
     }
     el.classList.add('os-reveal-pre');
     return true;
@@ -515,6 +528,21 @@
       el.classList.remove('os-reveal-pre');
     }); });
   }
+
+  /* Public hook for pages that swap a heading's text after boot (the
+     language toggle). Re-tokenises the new string so the reveal and the
+     gradient slices survive the swap. */
+  window.OSFX = window.OSFX || {};
+  window.OSFX.resplit = function (el) {
+    if (!el || !el.querySelector) return;
+    safe(function () {
+      var revealed = !el.classList.contains('os-reveal-pre');
+      unsplit(el);
+      if (!arm(el)) return;
+      if (revealed) { el.classList.remove('os-reveal-pre'); el.classList.add('os-reveal-go'); }
+      sliceGradient(el);
+    });
+  };
 
   function heroReveal() {
     var h1 = document.querySelector('.landing .hero h1');
@@ -654,6 +682,11 @@
     safe(scrollReveals);
     safe(mountSemicircle);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  /* A defer script evaluates while readyState is already "interactive", so
+     booting here would split headings BEFORE the page's own deferred code
+     has applied the saved language — leaving the English words in the boxes
+     and a second, Chinese copy beside them. Wait for DOMContentLoaded
+     (which fires after every deferred script) unless we loaded late. */
+  if (document.readyState === 'loading' || document.readyState === 'interactive') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

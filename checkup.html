@@ -812,7 +812,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="auth-widget.js?v=13"></script>
 <link rel="stylesheet" href="tutorial-widget.css?v=5">
 <script src="tutorial-widget.js?v=6"></script>
-<script src="auth-gate.js"></script>
+<script src="auth-gate.js?v=2"></script>
 
 <script>
 (function(){
@@ -871,7 +871,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <link rel="stylesheet" href="vitalite-skin.css?v=19">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=13" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -879,14 +879,17 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <script src="qna-widget.js?v=2" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=2">
 <script src="notif-bell.js?v=1" defer></script>
-<link rel="stylesheet" href="checkup.css?v=6">
-<script src="checkup.js?v=5" defer></script>
+<link rel="stylesheet" href="checkup.css?v=7">
+<script src="checkup-rules.js?v=1" defer></script>
+<script src="checkup.js?v=6" defer></script>
 <!-- DRAFT-THEME:END -->
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=4" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=3">
-<script src="soft-fx.js?v=3" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=4">
+<script src="soft-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=1">
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
@@ -905,21 +908,20 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <div class="sidebar-label" data-en="🎯 Studying &amp; Learning" data-zh="🎯 学习与备考">🎯 Studying &amp; Learning</div>
-      <a class="sidebar-link" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
-      <a class="sidebar-link" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
-      <div class="sidebar-label" data-en="🧰 Study Tools" data-zh="🧰 备考工具">🧰 Study Tools</div>
+      <a class="sidebar-link" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
+      <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
+      <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
+      <a class="sidebar-link sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
+      <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
+      <div class="sidebar-label" data-en="🧰 Practice" data-zh="🧰 练习">🧰 Practice</div>
       <a class="sidebar-link sub" href="guide.html?study=flashcards" data-study="openFlashcards" data-en="🃏 Flashcards" data-zh="🃏 闪卡">🃏 Flashcards</a>
       <a class="sidebar-link sub" href="guide.html?study=quiz" data-study="openQuizMode" data-en="📝 Quizzes &amp; practice" data-zh="📝 测验与练习">📝 Quizzes &amp; practice</a>
-      <a class="sidebar-link sub" href="exam.html" data-en="🏁 Exam prep" data-zh="🏁 备考冲刺">🏁 Exam prep</a>
       <a class="sidebar-link sub" href="guide.html?study=ai" data-study="openAiModal" data-en="💬 Vitaline AI" data-zh="💬 AI 助手">💬 Vitaline AI</a>
-      <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
-      <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
-      <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
+      <div class="sidebar-label" data-en="🏁 Exams &amp; certificates" data-zh="🏁 考试与证书">🏁 Exams &amp; certificates</div>
+      <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE &amp; exam prep" data-zh="🇺🇸 NPTE 与备考冲刺">🇺🇸 NPTE &amp; exam prep</a>
+      <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 运动康复师资格证">🇨🇳 运动康复师资格证</a>
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
-      <a class="sidebar-link sub" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
-      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Videos &amp; references" data-zh="🎬 视频与参考文献">🎬 Videos &amp; references</a>
     </div>
   </div>
   <div class="sidebar-group part open" data-part="vitalite-infirmary">
@@ -978,7 +980,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
     <div class="checkup-wrap">
       <div class="checkup-badge" data-en="CHECKUP · 自检" data-zh="自检 · CHECKUP">CHECKUP · 自检</div>
       <h1 data-en="🩺 AI Body Checkup" data-zh="🩺 AI 身体自检">🩺 AI Body Checkup</h1>
-      <p class="checkup-intro" data-en="Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis." data-zh="点击人体图上对应的部位 — 自检会列出可能的症状，勾选符合的项，即可获得实用指导。仅供学习参考，绝不构成诊断。">Show or tap where it hurts — Checkup lists possible symptoms, you tick what matches, and it gives practical guidance. Education only, never a diagnosis.</p>
+      <p class="checkup-intro" data-en="Show or tap where it hurts, tick what matches, and Checkup works out practical guidance on the spot. Choose “Other” to have the AI look at anything not on the list. Education only, never a diagnosis." data-zh="展示或点击疼痛部位，勾选符合的症状，自检即时给出实用指导。列表里没有的情况，选择“其他”由 AI 分析。仅供学习参考，绝不构成诊断。">Show or tap where it hurts, tick what matches, and Checkup works out practical guidance on the spot. Choose “Other” to have the AI look at anything not on the list. Education only, never a diagnosis.</p>
 
       <div class="checkup-steps" aria-hidden="true">
         <span class="checkup-step on" id="ckStep1"><span class="cdot">1</span><span data-en="Body part" data-zh="选择部位">Body part</span></span>

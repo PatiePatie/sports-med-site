@@ -1,8 +1,10 @@
 /* ═══ Checkup — body-part symptom triage (infirmary) ═══
    Education only. Never a medical diagnosis.
    Cached-pinned ?v=1. Bilingual EN/ZH.
-   Flow: 1) body part 2) tick symptoms 3) AI analysis + suggestions
-   Camera upload = optional vision shortcut (fail-soft to body map).
+   Flow: 1) body part 2) tick symptoms + three quick questions 3) guidance.
+   Guidance for listed symptoms comes from the rule engine (checkup-rules.js),
+   not the AI. Ticking "Other" and describing it sends the case to the AI.
+   Live scan / photo = AI vision shortcut to the body part (fail-soft to map).
    Worker: https://api.vitaliteplan.com  ({question,lang} -> {reply}) */
 
 (function(){
@@ -225,8 +227,9 @@ var FRONT_PARTS={chest:1,abdomen:1};
        could never be read);
      · if the vision service is down, Checkup says so once and routes you to
        the description box instead of failing again and again;
-     · Analyze retries once, then falls back to built-in guidance, so there is
-       always an answer. */
+     · listed symptoms get an instant rule-based answer (checkup-rules.js);
+       only "Other" (or a second opinion) goes to the AI, which falls back to
+       the rules when it is down, so there is always an answer. */
 var SYN={
   head:['head','headache','migraine','forehead','temple','skull','face','jaw','eye','concussion','dizzy','头','头痛','头晕','额头','太阳穴','脸','下巴','脑震荡'],
   neck:['neck','cervical','whiplash','stiff neck','落枕','脖子','颈'],
@@ -364,37 +367,6 @@ function toJpeg(file){
     img.src=url;
   });
 }
-/* offline guidance when the AI can't answer */
-var CAUSES={
-  head:[['Tension headache or dehydration','紧张性头痛或脱水'],['A knock to the head — watch for concussion signs','头部撞击 — 注意脑震荡迹象']],
-  neck:[['Muscle strain / sleeping awkwardly (落枕)','肌肉拉伤或睡姿不当（落枕）'],['Posture load from screens','长时间低头看屏幕']],
-  shoulder:[['Rotator-cuff irritation from overhead work','过顶动作导致肩袖刺激'],['Muscle strain or a bruise from a fall','肌肉拉伤或摔倒淤伤']],
-  elbow:[['Tendon overload (tennis / golfer\u2019s elbow)','肌腱过劳（网球肘 / 高尔夫球肘）'],['A bruise from a direct blow','直接撞击造成的淤伤']],
-  wrist:[['Sprain from a fall onto the hand','摔倒撑地导致扭伤'],['Overuse from typing or gripping','打字或抓握过度']],
-  hand:[['Jammed or sprained finger','手指戳伤或扭伤'],['Overuse / grip strain','过度使用或握力劳损']],
-  chest:[['Bruised rib or chest-wall muscle strain','肋骨挫伤或胸壁肌肉拉伤'],['Costochondral irritation','肋软骨刺激']],
-  abdomen:[['Muscle strain or a side stitch','肌肉拉伤或岔气'],['Digestive upset','消化不适']],
-  upperback:[['Muscle knot / postural strain','肌肉结节或姿势性劳损'],['Rib-joint irritation from twisting','扭转导致肋椎关节刺激']],
-  lowerback:[['Muscle strain from lifting or sitting','搬重物或久坐导致肌肉拉伤'],['Irritated disc or nerve (if pain runs down the leg)','椎间盘或神经受刺激（若疼痛放射到腿）']],
-  hip:[['Tendon / bursa irritation on the outer hip','髋外侧肌腱或滑囊刺激'],['Groin or hip-flexor strain','腹股沟或髋屈肌拉伤']],
-  thigh:[['Hamstring or quad strain','腘绳肌或股四头肌拉伤'],['Contusion (\u201cdead leg\u201d)','挫伤（“死腿”）']],
-  knee:[['Patellofemoral pain (runner\u2019s knee)','髌股疼痛（跑步膝）'],['Ligament or meniscus injury after a twist','扭伤后韧带或半月板损伤']],
-  shin:[['Shin splints (medial tibial stress)','胫骨内侧应力综合征（胫骨疲劳）'],['Calf strain','小腿肌肉拉伤']],
-  ankle:[['Lateral ankle sprain','踝关节外侧扭伤'],['Achilles tendon overload','跟腱过劳']],
-  foot:[['Plantar fascia irritation','足底筋膜刺激'],['Forefoot overload / stress reaction','前足过度负荷或应力反应']]
-};
-function localGuidance(p, picked){
-  var zh=lang()==='zh';
-  var c=(CAUSES[p.id]||[]).map(function(x){ return '- '+(zh?x[1]:x[0]); }).join('\n');
-  var redIdx=picked.join(' ').match(/numb|tingl|deform|weight|vomit|nausea|confus|bleed|breath|chest|misshapen|locked/i);
-  return (zh?'**可能的原因**':'**Possible causes**')+'\n'+c+'\n\n'+
-    (zh?'**现在可以做什么**\n- 前 48 小时：休息、冰敷（每次 15–20 分钟）、加压、抬高\n- 避免让疼痛加重的动作，疼痛减轻后逐步恢复活动\n- 若 1–2 周没有好转，请咨询医生或物理治疗师'
-       :'**What to do now**\n- First 48 h: rest, ice 15–20 min at a time, compression, elevation\n- Avoid moves that make it worse; ease back in as pain settles\n- If it isn\u2019t improving in 1–2 weeks, see a doctor or physio')+'\n\n'+
-    (redIdx?(zh?'**⚠️ 你勾选的症状中有需要尽快就医的信号，请尽快就诊。**\n\n':'**⚠️ One of the symptoms you ticked is a see-a-doctor-soon sign — please get it checked.**\n\n'):'')+
-    (zh?'**自查问题**\n- 是受伤后立刻疼，还是慢慢加重？\n- 休息后会好转吗？\n- 有肿胀、淤青或无力吗？':'**Self-check questions**\n- Did it start with an injury, or build up over time?\n- Does rest make it better?\n- Is there swelling, bruising or weakness?')+
-    '\n\n_'+(zh?'（AI 暂时不可用，以上为内置的通用指导。）':'(The AI is unavailable right now — this is built-in general guidance.)')+'_';
-}
-
 /* ── tiny markdown renderer (reuse for output) ── */
 function render(raw){
   var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
@@ -408,7 +380,7 @@ function render(raw){
 
 /* ── the app ── */
 var el={};
-var state={ part:null, syms:[], vision:false, view:'front' };
+var state={ part:null, syms:[], vision:false, view:'front', other:false, otherText:'', onset:'', pain:3, dur:'', last:null };
 
 function $(id){ return document.getElementById(id); }
 
@@ -498,6 +470,8 @@ function reRender(){
         list.appendChild(lab);
       });
     }
+    extras();
+    if(state.last && state.last.kind==='rules') showRules(state.last.idx);
   }
 }
 var langBtn=$('langToggle');
@@ -524,6 +498,8 @@ function selectPart(id, preTick){
       list.appendChild(lab);
     });
   }
+  state.other=false; state.otherText=''; state.last=null;
+  extras();
   // enable analyze
   var an=$('analyzeBtn'); if(an) an.disabled=false;
   step(2);
@@ -535,34 +511,96 @@ function onSymChange(e){
   var lab=cb.closest('label'); if(lab) lab.classList.toggle('ticked',cb.checked);
 }
 
-/* ── camera: live getUserMedia preview + continuous steady-detect scanning ── */
-var camState={stream:null,timer:null,prev:null,stable:0,busy:false,tries:0,coolUntil:0}, camGen=0;
+/* ── camera: live scan, AI vision ──────────────────────────────────────────
+   The viewer walks through four steps shown along its top edge: Aim → Hold
+   steady → AI identifies → Confirm. Corner brackets close in and a ring fills
+   as the picture steadies; after ~4 steady frames one frame goes to the AI
+   vision service (checkup_vision). The AI's answer is never applied silently:
+   a sheet shows the captured frame and the body part it saw, and the user
+   confirms or rescans. Flip camera, torch (where the phone supports it) and a
+   manual "Snap now" sit along the bottom. */
+var camState={stream:null,timer:null,prev:null,stable:0,busy:false,tries:0,coolUntil:0,paused:false,facing:'environment',torch:false}, camGen=0;
 var SCAN_COOLDOWN=1000,   /* ms between capture attempts after a miss */
-    SCAN_MAX_TRIES=15;    /* hard cap so we never loop forever */
+    SCAN_MAX_TRIES=15,    /* hard cap so we never loop forever */
+    STEADY_N=4;
 
-function startLiveScan(){
-  var cv=$('camView'), vid=$('camVideo');
-  if(!cv||!vid||camState.stream||camState.busy) return;
-  if(!window.navigator.mediaDevices||!window.navigator.mediaDevices.getUserMedia){ visionFail(); return; }
-  var err=$('camErr'); if(err) err.textContent='';
-  cv.hidden=false;
-  setCamStatus(T('Point at the injured area','对准受伤部位'));
-  var myGen=++camGen;
-  navigator.mediaDevices.getUserMedia({
-    video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}},
+function camUI(){
+  var cv=$('camView'); if(!cv || cv.getAttribute('data-ui')) return cv;
+  cv.setAttribute('data-ui','1');
+  var old=cv.querySelector('.checkup-reticle'); if(old) old.remove();
+  cv.insertAdjacentHTML('beforeend',
+    '<div class="ck-scan-top"><span class="ck-ai-badge">✨ '+T('AI vision','AI 识别')+'</span><ol class="ck-phases">'+
+      [['aim',T('Aim','对准')],['hold',T('Hold','稳住')],['id',T('Identify','识别')],['ok',T('Confirm','确认')]].map(function(x){ return '<li data-p="'+x[0]+'">'+x[1]+'</li>'; }).join('')+'</ol></div>'+
+    '<div class="ck-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>'+
+    '<svg class="ck-steady" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" class="bg"/><circle cx="30" cy="30" r="26" class="fg"/></svg>'+
+    '<div class="ck-scan-ctl">'+
+      '<button type="button" id="camFlip" title="'+T('Switch camera','切换摄像头')+'" aria-label="'+T('Switch camera','切换摄像头')+'">🔄</button>'+
+      '<button type="button" id="camSnap" class="ck-snap">'+T('Snap now','立即拍摄')+'</button>'+
+      '<button type="button" id="camTorch" title="'+T('Torch','手电筒')+'" aria-label="'+T('Torch','手电筒')+'" hidden>🔦</button></div>'+
+    '<div class="ck-confirm" id="camConfirm" hidden><img alt=""><div class="ck-cf-body"><div class="ck-cf-k">'+T('The AI thinks this is','AI 认为这是')+'</div>'+
+      '<div class="ck-cf-part" id="camCfPart"></div><div class="ck-cf-btns"><button type="button" class="checkup-btn primary" id="camYes">'+T('Yes, continue','是的，继续')+'</button>'+
+      '<button type="button" class="checkup-btn ghost" id="camNo">'+T('No, rescan','不对，重新扫描')+'</button></div></div></div>');
+  var tips=document.createElement('div');
+  tips.className='ck-scan-tips'; tips.id='camTips';
+  tips.textContent=T('Good light · fill the frame with the sore area · clothing is fine','光线充足 · 让疼痛部位占满画面 · 穿着衣物也可以');
+  cv.parentNode.insertBefore(tips, cv.nextSibling);
+  $('camFlip').addEventListener('click',function(){ camState.facing=camState.facing==='environment'?'user':'environment'; openStream(); });
+  $('camSnap').addEventListener('click',function(){ if(!camState.busy && !camState.paused) captureFrame(); });
+  $('camTorch').addEventListener('click',function(){
+    var tr=camState.stream&&camState.stream.getVideoTracks()[0]; if(!tr) return;
+    camState.torch=!camState.torch;
+    tr.applyConstraints({advanced:[{torch:camState.torch}]}).catch(function(){});
+    $('camTorch').classList.toggle('on',camState.torch);
+  });
+  $('camYes').addEventListener('click',function(){ var part=cv.getAttribute('data-part'); stopLiveScan(); if(part) selectPart(part); });
+  $('camNo').addEventListener('click',function(){ $('camConfirm').hidden=true; camState.paused=false; camState.prev=null; camState.stable=0; phase('aim'); setCamStatus(T('Point at the sore area','对准疼痛部位')); });
+  return cv;
+}
+function phase(ph){
+  var cv=$('camView'); if(!cv) return;
+  cv.setAttribute('data-phase',ph);
+  var order=['aim','hold','id','ok'], k=order.indexOf(ph);
+  cv.querySelectorAll('.ck-phases li').forEach(function(li,i){ li.classList.toggle('done',i<k); li.classList.toggle('on',i===k); });
+}
+function steady(n){ var cv=$('camView'); if(cv) cv.style.setProperty('--ck-hold',Math.min(1,n/STEADY_N).toFixed(2)); }
+
+function openStream(){
+  var vid=$('camVideo'), myGen=++camGen;
+  if(camState.stream){ camState.stream.getTracks().forEach(function(t){t.stop();}); camState.stream=null; }
+  return navigator.mediaDevices.getUserMedia({
+    video:{facingMode:camState.facing,width:{ideal:1280},height:{ideal:720}},
     audio:false
   }).then(function(stream){
     if(myGen!==camGen){ stream.getTracks().forEach(function(t){t.stop();}); return; }
     camState.stream=stream;
     vid.srcObject=stream;
+    vid.classList.toggle('ck-mirror',camState.facing==='user');
     var p=vid.play(); if(p&&p.catch) p.catch(function(){});
-    camState.prev=null; camState.stable=0; camState.tries=0; camState.coolUntil=0;
-    camState.timer=setInterval(sampleFrame,200);
+    camState.prev=null; camState.stable=0; camState.coolUntil=0; camState.torch=false;
+    var tr=stream.getVideoTracks()[0], caps=tr&&tr.getCapabilities?tr.getCapabilities():{};
+    var tb=$('camTorch'); if(tb){ tb.hidden=!(caps&&caps.torch); tb.classList.remove('on'); }
+    if(!camState.timer) camState.timer=setInterval(sampleFrame,200);
   }).catch(function(){
     if(myGen!==camGen) return;
     stopLiveScan();
     visionFail();
   });
+}
+function startLiveScan(){
+  var cv=$('camView'), vid=$('camVideo');
+  if(!cv||!vid||camState.stream||camState.busy) return;
+  if(!window.navigator.mediaDevices||!window.navigator.mediaDevices.getUserMedia){ visionFail(); return; }
+  var err=$('camErr'); if(err) err.textContent='';
+  camUI();
+  cv.hidden=false;
+  var tips=$('camTips'); if(tips) tips.hidden=false;
+  $('camConfirm').hidden=true;
+  camState.tries=0; camState.paused=false;
+  phase('aim'); steady(0);
+  setCamStatus(T('Point at the sore area','对准疼痛部位'));
+  var cb=$('camBtn'); if(cb) cb.classList.add('on');
+  openStream();
+  cv.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 /* Downscale frame, compare to previous, count consecutive steady frames. */
@@ -570,7 +608,7 @@ var camCanvas=null;
 function sampleFrame(){
   var vid=$('camVideo');
   if(!camState.stream||!vid||!vid.videoWidth) return;
-  if(camState.busy) return;
+  if(camState.busy||camState.paused) return;
   if(Date.now()<camState.coolUntil) return;   /* pacing: brief pause between attempts */
   if(!camCanvas){ camCanvas=document.createElement('canvas'); }
   var ctx=camCanvas.getContext('2d');
@@ -590,16 +628,17 @@ function sampleFrame(){
   camState.prev=new Uint8ClampedArray(px);
   if(diff<16){
     camState.stable++;
-    if(camState.stable>=4){ captureFrame(); }
-    else { setCamStatus(T('Hold steady…','请保持不动…')); }
+    steady(camState.stable);
+    if(camState.stable>=STEADY_N){ captureFrame(); }
+    else { phase('hold'); setCamStatus(T('Hold steady…','请保持不动…')); }
   } else {
-    camState.stable=0;
-    setCamStatus(T('Point at the injured area','对准受伤部位'));
+    camState.stable=0; steady(0);
+    phase('aim'); setCamStatus(T('Point at the sore area','对准疼痛部位'));
   }
 }
 
-/* One frame, resized, one request. Results only land if the scan still current.
-   Continuous: miss -> keep scanning; vision-unavailable -> 2 strikes then fall back. */
+/* One frame, resized, one request. Results only land if the scan is still current.
+   Found → confirm sheet. Miss → keep scanning. Vision unavailable → 2 strikes then fall back. */
 function captureFrame(){
   var vid=$('camVideo');
   if(!camState.stream||!vid||!vid.videoWidth) return;
@@ -610,8 +649,13 @@ function captureFrame(){
   cnv.getContext('2d').drawImage(vid,0,0,cnv.width,cnv.height);
   var data=cnv.toDataURL('image/jpeg',0.8);
   camState.busy=true;
-  var cv=$('camView'); if(cv) cv.classList.add('snap');
-  setCamStatus(T('Identifying…','正在识别…'));
+  var cv=$('camView'); if(cv){ cv.classList.remove('snap'); void cv.offsetWidth; cv.classList.add('snap'); }
+  phase('id'); steady(1);
+  setCamStatus(T('The AI is identifying…','AI 正在识别…'));
+  function retry(msg){
+    camState.prev=null; camState.stable=0; steady(0); camState.coolUntil=Date.now()+SCAN_COOLDOWN;
+    phase('aim'); setCamStatus(msg);
+  }
   fetch(MEDAI_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -620,7 +664,16 @@ function captureFrame(){
     if(capGen!==camGen) return;
     camState.busy=false;
     if(d&&d.down){ markVisionDown(); visionFail(true); return; }
-    if(d&&d.ok&&d.part&&PART_MAP[d.part]){ stopLiveScan(); selectPart(d.part); return; }
+    if(d&&d.ok&&d.part&&PART_MAP[d.part]){
+      var p=PART_MAP[d.part];
+      camState.paused=true; phase('ok');
+      cv.setAttribute('data-part',d.part);
+      var cf=$('camConfirm'); cf.querySelector('img').src=data;
+      $('camCfPart').textContent=p.icon+' '+(lang()==='zh'?p.zh:p.en);
+      cf.hidden=false;
+      setCamStatus(T('Is that right?','识别正确吗？'));
+      return;
+    }
     camState.tries++;
     if(d&&d.ok===true){
       /* Vision is alive but no part seen -> keep scanning. */
@@ -629,8 +682,7 @@ function captureFrame(){
         visionFail();
         return;
       }
-      camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
-      setCamStatus(T('Not detected yet — keep scanning…','尚未识别到 — 继续扫描…'));
+      retry(T('Not detected yet — move a little closer…','尚未识别到 — 请再靠近一些…'));
       return;
     }
     /* Vision branch unavailable / bad reply / error -> 2 strikes, then graceful fallback. */
@@ -639,8 +691,7 @@ function captureFrame(){
       visionFail();
       return;
     }
-    camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
-    setCamStatus(T('Scanning again…','重新扫描中…'));
+    retry(T('Scanning again…','重新扫描中…'));
   }).catch(function(){
     if(capGen!==camGen) return;
     camState.busy=false;
@@ -650,17 +701,18 @@ function captureFrame(){
       visionFail();
       return;
     }
-    camState.prev=null; camState.stable=0; camState.coolUntil=Date.now()+SCAN_COOLDOWN;
-    setCamStatus(T('Scanning again…','重新扫描中…'));
+    retry(T('Scanning again…','重新扫描中…'));
   });
 }
 
 function stopLiveScan(){
   if(camState.timer){ clearInterval(camState.timer); camState.timer=null; }
   if(camState.stream){ camState.stream.getTracks().forEach(function(t){t.stop();}); camState.stream=null; }
-  camState.prev=null; camState.stable=0; camState.busy=false; camState.tries=0; camState.coolUntil=0;
+  camState.prev=null; camState.stable=0; camState.busy=false; camState.tries=0; camState.coolUntil=0; camState.paused=false;
   var vid=$('camVideo'); if(vid) vid.srcObject=null;
-  var cv=$('camView'); if(cv){ cv.hidden=true; cv.classList.remove('snap'); }
+  var cv=$('camView'); if(cv){ cv.hidden=true; cv.classList.remove('snap'); cv.removeAttribute('data-part'); }
+  var cf=$('camConfirm'); if(cf) cf.hidden=true;
+  var tips=$('camTips'); if(tips) tips.hidden=true;
   var cb=$('camBtn'); if(cb) cb.classList.remove('on');
 }
 
@@ -707,63 +759,129 @@ function setVisionOffline(){
   var fb=$('camFileBtn'); if(fb){ fb.disabled=true; }
 }
 
+/* ── step 2 extras: "Other" + three quick questions ── */
+function extras(){
+  var list=$('symList'); if(!list) return;
+  var box=$('ckExtras');
+  if(!box){ box=document.createElement('div'); box.id='ckExtras'; box.className='ck-extras'; list.parentNode.insertBefore(box, list.nextSibling); }
+  function seg(key, opts){
+    return '<div class="ck-seg" role="group" data-k="'+key+'">'+opts.map(function(o){
+      return '<button type="button" data-v="'+o[0]+'" aria-pressed="'+(state[key]===o[0]?'true':'false')+'">'+o[1]+'</button>'; }).join('')+'</div>';
+  }
+  box.innerHTML=
+    '<label class="ck-other'+(state.other?' ticked':'')+'"><input type="checkbox" id="ckOtherCb"'+(state.other?' checked':'')+'><span class="sym-txt">'+T('Other — something not on the list','其他 — 列表里没有的情况')+
+      '<span class="sym-zh">'+T('Describe it and the AI will analyse it','描述一下，由 AI 分析')+'</span></span></label>'+
+    '<textarea id="ckOtherTx" class="ck-other-tx" rows="2" maxlength="400" placeholder="'+T('e.g. sharp pain on the top of my foot when I jump, started last week','例如：跳跃时脚背刺痛，上周开始')+'"'+(state.other?'':' hidden')+'>'+(state.otherText||'').replace(/</g,'&lt;')+'</textarea>'+
+    '<div class="ck-qs">'+
+      '<div class="ck-q"><span>'+T('How did it start?','是怎么开始的？')+'</span>'+seg('onset',[['a',T('Sudden — an injury','突然 — 受伤')],['g',T('Gradually','逐渐出现')],['',T('Not sure','不确定')]])+'</div>'+
+      '<div class="ck-q"><span>'+T('How long?','持续多久？')+'</span>'+seg('dur',[['s',T('Under 3 days','3 天内')],['m',T('3 days – 2 weeks','3 天 – 2 周')],['l',T('Over 2 weeks','超过 2 周')]])+'</div>'+
+      '<div class="ck-q ck-pain"><span>'+T('How bad right now?','现在有多痛？')+' <b id="ckPainV">'+state.pain+'/10</b></span><input type="range" id="ckPain" min="0" max="10" value="'+state.pain+'"></div>'+
+    '</div>';
+  var cb=$('ckOtherCb'), tx=$('ckOtherTx');
+  cb.addEventListener('change',function(){ state.other=cb.checked; cb.parentNode.classList.toggle('ticked',cb.checked); tx.hidden=!cb.checked; if(cb.checked) tx.focus(); });
+  tx.addEventListener('input',function(){ state.otherText=tx.value; });
+  $('ckPain').addEventListener('input',function(e){ state.pain=+e.target.value; $('ckPainV').textContent=state.pain+'/10'; });
+  box.querySelectorAll('.ck-seg').forEach(function(g){
+    g.addEventListener('click',function(e){
+      var b=e.target.closest&&e.target.closest('button'); if(!b) return;
+      state[g.getAttribute('data-k')]=b.getAttribute('data-v');
+      g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
+    });
+  });
+}
+function answers(){ return { onset:state.onset||'', pain:state.pain||0, dur:state.dur||'' }; }
+function ticked(){ return [].map.call($('symList')?$('symList').querySelectorAll('input:checked'):[],function(c){ return +c.value; }); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+/* ── rule-based result ── */
+var LEVEL=[['','Self-care is reasonable','可以先自我护理','Follow the plan below and watch how it goes over the next few days.','按下方方案处理，并观察接下来几天的变化。'],
+           ['','See a doctor or physio soon','尽快看医生或物理治疗师','Book a check within a day or two — some of what you described needs a professional look.','请在一两天内就诊——你描述的情况需要专业检查。'],
+           ['','Get urgent care now','请立即就医','Stop activity and get medical help today (call emergency services if it is severe).','停止活动，今天就医（情况严重请呼叫急救）。']];
+function ruleHTML(p, idx, r){
+  var zh=lang()==='zh', L=LEVEL[r.level];
+  var h='<div class="ck-res">'+
+    '<div class="ck-tri ck-tri-'+r.level+'"><span class="ck-tri-i" aria-hidden="true"></span><div><b>'+esc(zh?L[2]:L[1])+'</b><p>'+esc(zh?L[4]:L[3])+'</p>'+
+      (r.why.length?'<small>'+esc(T('Because: ','原因：'))+r.why.map(function(w){ return esc(zh?w[1]:w[0]); }).join(' · ')+'</small>':'')+'</div></div>'+
+    '<div class="ck-src">⚙️ '+esc(T('Rule-based result from your answers — no AI used','根据你的回答由规则计算得出 — 未使用 AI'))+'</div>';
+  if(r.matches.length){
+    h+='<h4>'+esc(T('Most likely matches','最可能的情况'))+'</h4>'+r.matches.map(function(m){
+      var because=m.hits.map(function(i){ return esc(zh?p.sym[i][1]:p.sym[i][0]); }).join('; ');
+      return '<div class="ck-m"><div class="ck-m-top"><b>'+esc(zh?m.c[1]:m.c[0])+'</b><span>'+m.pct+'%</span></div><div class="ck-m-bar"><i style="width:'+m.pct+'%"></i></div>'+
+        '<p>'+esc(zh?m.c[7]:m.c[6])+'</p><small>'+esc(T('Matched: ','匹配：'))+because+'</small></div>';
+    }).join('');
+  }
+  h+='<h4>'+esc(zh?r.care[1]:r.care[0])+'</h4><ol class="ck-steps">'+r.care[2].map(function(s){ return '<li>'+esc(zh?s[1]:s[0])+'</li>'; }).join('')+'</ol>'+
+    '<h4>⚠️ '+esc(T('Go now if','出现以下情况立即就医'))+'</h4><ul class="ck-go">'+
+      '<li>'+esc(zh?r.urgent[1]:r.urgent[0])+'</li>'+(r.urgent!==r.urgentAll?'<li>'+esc(zh?r.urgentAll[1]:r.urgentAll[0])+'</li>':'')+'</ul>';
+  if(r.chapters.length) h+='<h4>📖 '+esc(T('Learn more in the textbook','在教材中深入了解'))+'</h4><div class="ck-learn">'+r.chapters.map(function(c){
+      return '<a href="guide.html#ch'+c[0]+'">'+esc(T('Ch '+c[0]+' · '+c[1][0],'第'+c[0]+'章 · '+c[1][1]))+' →</a>'; }).join('')+'</div>';
+  h+='<div class="ck-ai-row"><button type="button" class="checkup-btn ghost" id="ckAskAI">✨ '+esc(T('Ask the AI for a second opinion','请 AI 给出第二意见'))+'</button></div></div>';
+  return h;
+}
+function showRules(idx){
+  var p=PART_MAP[state.part], out=$('ckOut'); if(!p||!out||!window.CheckupRules) return;
+  var r=window.CheckupRules.run(p.id, idx, answers());
+  state.last={kind:'rules', idx:idx};
+  out.innerHTML=ruleHTML(p, idx, r)+'<div class="checkup-red">'+T('Education only — this is not a medical diagnosis. If in doubt, see a professional.','仅用于学习参考，不构成医疗诊断。如有疑问，请及时就医。')+'</div>';
+  var ai=$('ckAskAI'); if(ai) ai.addEventListener('click',function(){ askAI(p, idx, r); });
+  return r;
+}
+
+/* ── AI path: "Other", or a second opinion ── */
+function askAI(p, idx, r){
+  var out=$('ckOut'); if(!out) return;
+  state.last={kind:'ai'};
+  var picked=idx.map(function(i){ return p.sym[i][0]; });
+  var a=answers(), other=(state.other&&state.otherText||'').trim();
+  out.innerHTML='<div class="checkup-busy"><span class="checkup-spin"></span><span>'+T('The AI is analysing what you described…','AI 正在分析你的描述…')+'</span></div>';
+  var q='Act as a sports first-aid / physiotherapy triage guide (education only, never a diagnosis). '+
+    'Body area: '+p.en+'. '+(picked.length?'Ticked symptoms: '+picked.join('; ')+'. ':'')+(other?'In their own words: "'+other.slice(0,400)+'". ':'')+
+    'Onset: '+(a.onset==='a'?'sudden, after an injury':a.onset==='g'?'gradual':'unsure')+'. Duration: '+(a.dur==='s'?'under 3 days':a.dur==='m'?'3 days to 2 weeks':a.dur==='l'?'over 2 weeks':'not given')+'. Pain now: '+a.pain+'/10. '+
+    (r&&r.matches.length?'A rule-based pre-screen suggested: '+r.matches.map(function(m){ return m.c[0]+' ('+m.pct+'%)'; }).join(', ')+'. ':'')+
+    'Respond in '+(lang()==='zh'?'Simplified Chinese':'English')+'. Format with **bold** section headers and - bullets. '+
+    'Structure exactly: 1) **How urgent** (one line: self-care / see a professional soon / urgent, and why). 2) **Possible causes** (brief, plausible, non-alarming). '+
+    '3) **What to do now** (safe home care and load advice). 4) **When to see a doctor URGENTLY**. 5) **Self-check questions** (2-3). '+
+    'Keep it practical and calm, and clearly state this is NOT a medical diagnosis.';
+  function ask(){
+    return fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang:lang(),mode:'clinical'})})
+      .then(function(res){ return res.json(); }).then(function(d){ if(!(d&&d.reply&&!d.rejected)) throw new Error('no_reply'); return d; });
+  }
+  ask().catch(function(){ return new Promise(function(res){ setTimeout(res,900); }).then(ask); })
+  .then(function(d){
+    out.innerHTML='<div class="ck-src ck-src-ai">✨ '+esc(T('AI analysis of your description','AI 对你描述的分析'))+'</div><div class="checkup-out">'+render(d.reply)+'</div>'+
+      (idx.length?'<div class="ck-ai-row"><button type="button" class="checkup-btn ghost" id="ckBackRules">⚙️ '+esc(T('Show the rule-based result','查看规则计算结果'))+'</button></div>':'')+
+      '<div class="checkup-red">'+T('Education only — this is not a medical diagnosis. If in doubt, see a professional.','仅用于学习参考，不构成医疗诊断。如有疑问，请及时就医。')+'</div>';
+    var br=$('ckBackRules'); if(br) br.addEventListener('click',function(){ showRules(idx); });
+  })
+  .catch(function(){
+    if(idx.length){ showRules(idx); out.insertAdjacentHTML('afterbegin','<div class="checkup-none">'+T('The AI is unavailable right now — here is the rule-based result for the symptoms you ticked.','AI 暂时不可用 — 以下是根据你勾选症状得出的规则结果。')+'</div>'); }
+    else out.innerHTML='<div class="checkup-none">'+T('The AI is unavailable right now. Tick the closest symptoms from the list for an instant rule-based result, or try again in a moment.','AI 暂时不可用。请从列表中勾选最接近的症状获取即时结果，或稍后再试。')+'</div>';
+  });
+}
+
 /* ── analyze ── */
 function analyze(){
   var p=PART_MAP[state.part]; if(!p) return;
-  var checked=$('symList')?$('symList').querySelectorAll('input:checked'):[];
-  var picked=[].map.call(checked,function(c){ return p.sym[+c.value][0]; });
-  if(picked.length===0){
-    var out=$('ckOut'); if(out){
-      out.innerHTML='<div class="checkup-none">'+T('Tick at least one symptom to get started.','请至少勾选一个症状。')+'</div>';
-      step(3);
-    }
+  var idx=ticked(), out=$('ckOut');
+  if(!idx.length && !state.other){
+    step(2);
+    var ex=$('ckExtras'); if(ex && !ex.querySelector('.ck-need')) ex.insertAdjacentHTML('afterbegin','<div class="checkup-none ck-need">'+T('Tick at least one symptom, or choose “Other” and describe it.','请至少勾选一个症状，或选择“其他”并描述。')+'</div>');
     return;
   }
-  var btn=$('analyzeBtn'); if(btn) btn.disabled=true;
+  if(state.other && !(state.otherText||'').trim()){ var tx=$('ckOtherTx'); if(tx){ tx.focus(); tx.classList.add('ck-shake'); setTimeout(function(){ tx.classList.remove('ck-shake'); },500); } return; }
+  var need=document.querySelector('.ck-need'); if(need) need.remove();
   step(3);
-  var out=$('ckOut');
-  if(out) out.innerHTML='<div class="checkup-busy"><span class="checkup-spin"></span><span>'+T('Analyzing…','正在分析…')+'</span></div>';
-
-  var q=
-    'Act as a sports first-aid / physiotherapy triage guide (education only, never a diagnosis). '+
-    'The user reports symptoms in the '+p.en+' area: '+picked.join('; ')+'. '+
-    'Respond in '+(lang()==='zh'?'Simplified Chinese':'English')+'. Format with **bold** section headers and use - bullets. '+
-    'Structure exactly: 1) **Possible causes** (brief, plausible, non-alarming list). '+
-    '2) **What to do now** (safe home care: RICE where relevant, rest, and when to see a professional). '+
-    '3) **When to see a doctor URGENTLY** (only if any of the flagged symptoms apply: severe bleeding, deformity, numbness/tingling, cannot bear weight, chest pain, head-injury confusion, or sudden unexplained pain). '+
-    '4) **Self-check questions** (2-3 quick ones to narrow it down). '+
-    'Keep it practical, calm, and clearly state this is NOT a medical diagnosis.';
-
-  function ask(){
-    return fetch(MEDAI_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:q,lang:lang(),mode:'clinical'})
-    }).then(function(r){ return r.json(); }).then(function(d){
-      if(!(d&&d.reply&&!d.rejected)) throw new Error('no_reply');
-      return d;
-    });
-  }
-  ask().catch(function(){ return new Promise(function(r){ setTimeout(r,900); }).then(ask); })
-  .catch(function(){ return { reply: localGuidance(p, picked), local:true }; })
-  .then(function(d){
-    var btn2=$('analyzeBtn'); if(btn2) btn2.disabled=false;
-    if(!out) return;
-    if(d&&d.reply){
-      out.innerHTML='<div class="checkup-out">'+render(d.reply)+'</div>'+
-        '<div class="checkup-red">'+T('Guided by education only \u2014 this is not a medical diagnosis. If in doubt, see a professional.','仅用于学习参考，不构成医疗诊断。如有疑问，请及时就医。')+'</div>';
-    } else {
-      out.innerHTML='<div class="checkup-none">'+T('The AI is busy or unavailable. Please try again in a moment.','AI 暂时繁忙或不可用，请稍后再试。')+'</div>';
-    }
-  }).catch(function(){
-    var btn3=$('analyzeBtn'); if(btn3) btn3.disabled=false;
-    if(out) out.innerHTML='<div class="checkup-none">'+T('Network error. Please try again.','网络错误，请稍后重试。')+'</div>';
-  });
+  var r=window.CheckupRules?window.CheckupRules.run(p.id, idx, answers()):null;
+  if(state.other) askAI(p, idx, r);
+  else if(r) showRules(idx);
+  else askAI(p, idx, null);
+  var b3=$('ckBody3'); if(b3) b3.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function reset(){
   camGen++; stopLiveScan();
-  state={ part:null, syms:[], vision:false, view:state.view||'front' };
+  state={ part:null, syms:[], vision:false, view:state.view||'front', other:false, otherText:'', onset:'', pain:3, dur:'', last:null };
+  var ex=$('ckExtras'); if(ex) ex.innerHTML='';
   el.bodymap.querySelectorAll('.bp-hot').forEach(function(h){ h.classList.remove('sel'); });
   if($('checkupParts')) $('checkupParts').querySelectorAll('.checkup-part').forEach(function(b){ b.classList.remove('sel'); });
   if($('symList')) $('symList').innerHTML='';

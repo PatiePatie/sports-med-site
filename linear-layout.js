@@ -77,8 +77,9 @@
 
   var PAGES = [
     { file: 'index.html',   en: 'Overview',       zh: '概览',              icon: 'home' },
+    { file: 'home.html',    en: 'Home',           zh: '首页',              icon: 'home' },
     { file: 'guide.html',   en: 'Vitalite Textbook', zh: 'Vitalité 教材',       icon: 'book' },
-    { file: 'toc.html',     en: 'Contents',       zh: '目录',              icon: 'list' },
+    { file: 'toc.html',     en: 'Knowledge Hub',  zh: '知识中心',          icon: 'list' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
     { file: 'ib-sehs.html', en: 'IB SEHS',        zh: 'IB SEHS',             icon: 'activity' },

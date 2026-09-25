@@ -781,7 +781,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <script src="auth-widget.js?v=13"></script>
 <link rel="stylesheet" href="tutorial-widget.css?v=5">
 <script src="tutorial-widget.js?v=6"></script>
-<script src="auth-gate.js"></script>
+<script src="auth-gate.js?v=2"></script>
 
 <script>
 (function(){
@@ -840,7 +840,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <link rel="stylesheet" href="vitalite-skin.css?v=19">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=13" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -862,8 +862,10 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=4" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=3">
-<script src="soft-fx.js?v=3" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=4">
+<script src="soft-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=1">
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
@@ -882,38 +884,36 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="toc.html" data-en="🗂 Table of Contents" data-zh="🗂 目录">🗂 Table of Contents</a>
-      <div class="sidebar-label" data-en="🎯 Studying &amp; Learning" data-zh="🎯 学习与备考">🎯 Studying &amp; Learning</div>
-      <a class="sidebar-link" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
-      <a class="sidebar-link" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
-      <div class="sidebar-label" data-en="🧰 Study Tools" data-zh="🧰 备考工具">🧰 Study Tools</div>
+      <a class="sidebar-link" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
+      <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
+      <a class="sidebar-link active sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
+      <div class="sb-subtabs" role="group" aria-label="Textbook chapters">
+        <a class="sidebar-link sub gc sb-sub" href="#ch1" data-ch="1" data-en="Ch 1 · The Body as a Machine" data-zh="第1章 · 身体如机器">Ch 1 · The Body as a Machine</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch2" data-ch="2" data-en="Ch 2 · Nervous System" data-zh="第2章 · 神经系统">Ch 2 · Nervous System</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch3" data-ch="3" data-en="Ch 3 · Cardiovascular System" data-zh="第3章 · 心血管系统">Ch 3 · Cardiovascular System</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch4" data-ch="4" data-en="Ch 4 · Integumentary System" data-zh="第4章 · 皮肤系统">Ch 4 · Integumentary System</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch5" data-ch="5" data-en="Ch 5 · Training Principles" data-zh="第5章 · 训练原则">Ch 5 · Training Principles</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch6" data-ch="6" data-en="Ch 6 · Injury &amp; Healing" data-zh="第6章 · 损伤与愈合">Ch 6 · Injury &amp; Healing</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch7" data-ch="7" data-en="Ch 7 · Recovery Science" data-zh="第7章 · 恢复科学">Ch 7 · Recovery Science</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch8" data-ch="8" data-en="Ch 8 · Sports Nutrition" data-zh="第8章 · 运动营养学">Ch 8 · Sports Nutrition</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch9" data-ch="9" data-en="Ch 9 · Supplements &amp; Evidence Grading" data-zh="第9章 · 补剂与证据分级">Ch 9 · Supplements &amp; Evidence Grading</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch10" data-ch="10" data-en="Ch 10 · Ethics &amp; Professional Responsibility" data-zh="第10章 · 伦理与职业责任">Ch 10 · Ethics &amp; Professional Responsibility</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch11" data-ch="11" data-en="Ch 11 · Becoming a Physical Therapist" data-zh="第11章 · 成为物理治疗师">Ch 11 · Becoming a Physical Therapist</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch12" data-ch="12" data-en="Ch 12 · Assessment" data-zh="第12章 · 康复评定学">Ch 12 · Assessment</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch13" data-ch="13" data-en="Ch 13 · TCM Health Management" data-zh="第13章 · 中医健康管理">Ch 13 · TCM Health Management</a>
+        <a class="sidebar-link sub gc sb-sub" href="#ch14" data-ch="14" data-en="Ch 14 · Emergency Medicine &amp; Field Care" data-zh="第14章 · 急救医学与场边处置">Ch 14 · Emergency Medicine &amp; Field Care</a>
+      </div>
+      <a class="sidebar-link sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
+      <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
+      <div class="sidebar-label" data-en="🧰 Practice" data-zh="🧰 练习">🧰 Practice</div>
       <a class="sidebar-link sub" href="guide.html?study=flashcards" data-study="openFlashcards" data-en="🃏 Flashcards" data-zh="🃏 闪卡">🃏 Flashcards</a>
       <a class="sidebar-link sub" href="guide.html?study=quiz" data-study="openQuizMode" data-en="📝 Quizzes &amp; practice" data-zh="📝 测验与练习">📝 Quizzes &amp; practice</a>
-      <a class="sidebar-link sub" href="exam.html" data-en="🏁 Exam prep" data-zh="🏁 备考冲刺">🏁 Exam prep</a>
       <a class="sidebar-link sub" href="guide.html?study=ai" data-study="openAiModal" data-en="💬 Vitaline AI" data-zh="💬 AI 助手">💬 Vitaline AI</a>
-      <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
-      <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
-      <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
+      <div class="sidebar-label" data-en="🏁 Exams &amp; certificates" data-zh="🏁 考试与证书">🏁 Exams &amp; certificates</div>
+      <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE &amp; exam prep" data-zh="🇺🇸 NPTE 与备考冲刺">🇺🇸 NPTE &amp; exam prep</a>
+      <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 运动康复师资格证">🇨🇳 运动康复师资格证</a>
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
-      <a class="sidebar-link sub" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
-      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Resources &amp; Learning" data-zh="🎬 资源与学习">🎬 Resources &amp; Learning</a>
-      <div class="gc-scroll">
-      <div class="sidebar-label gc-label" data-en="📖 Chapters" data-zh="📖 章节">📖 Chapters</div>
-      <a class="sidebar-link sub gc" href="#ch1" data-ch="1" data-en="Ch 1 · The Body as a Machine" data-zh="第1章 · 身体如机器">Ch 1 · The Body as a Machine</a>
-      <a class="sidebar-link sub gc" href="#ch2" data-ch="2" data-en="Ch 2 · Nervous System" data-zh="第2章 · 神经系统">Ch 2 · Nervous System</a>
-      <a class="sidebar-link sub gc" href="#ch3" data-ch="3" data-en="Ch 3 · Cardiovascular System" data-zh="第3章 · 心血管系统">Ch 3 · Cardiovascular System</a>
-      <a class="sidebar-link sub gc" href="#ch4" data-ch="4" data-en="Ch 4 · Integumentary System" data-zh="第4章 · 皮肤系统">Ch 4 · Integumentary System</a>
-      <a class="sidebar-link sub gc" href="#ch5" data-ch="5" data-en="Ch 5 · Training Principles" data-zh="第5章 · 训练原则">Ch 5 · Training Principles</a>
-      <a class="sidebar-link sub gc" href="#ch6" data-ch="6" data-en="Ch 6 · Injury &amp; Healing" data-zh="第6章 · 损伤与愈合">Ch 6 · Injury &amp; Healing</a>
-      <a class="sidebar-link sub gc" href="#ch7" data-ch="7" data-en="Ch 7 · Recovery Science" data-zh="第7章 · 恢复科学（含冰敷之辩）">Ch 7 · Recovery Science</a>
-      <a class="sidebar-link sub gc" href="#ch8" data-ch="8" data-en="Ch 8 · Sports Nutrition" data-zh="第8章 · 运动营养学（含合成代谢窗口之争）">Ch 8 · Sports Nutrition</a>
-      <a class="sidebar-link sub gc" href="#ch9" data-ch="9" data-en="Ch 9 · Supplements &amp; Evidence Grading" data-zh="第9章 · 补剂与证据分级">Ch 9 · Supplements &amp; Evidence Grading</a>
-      <a class="sidebar-link sub gc" href="#ch10" data-ch="10" data-en="Ch 10 · Ethics &amp; Professional Responsibility" data-zh="第10章 · 伦理与职业责任">Ch 10 · Ethics &amp; Professional Responsibility</a>
-      <a class="sidebar-link sub gc" href="#ch11" data-ch="11" data-en="Ch 11 · Becoming a Physical Therapist" data-zh="第11章 · 成为物理治疗师">Ch 11 · Becoming a Physical Therapist</a>
-      <a class="sidebar-link sub gc" href="#ch12" data-ch="12" data-en="Ch 12 · Assessment · 康复评定学" data-zh="第12章 · Assessment · 康复评定学">Ch 12 · Assessment · 康复评定学</a>
-      <a class="sidebar-link sub gc" href="#ch13" data-ch="13" data-en="Ch 13 · TCM · 中医健康管理" data-zh="第13章 · TCM · 中医健康管理">Ch 13 · TCM · 中医健康管理</a>
-      <a class="sidebar-link sub gc" href="#ch14" data-ch="14" data-en="Ch 14 · Emergency Medicine &amp; Field Care" data-zh="第14章 · 急救医学与场边处置">Ch 14 · Emergency Medicine &amp; Field Care</a>
-      </div>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Videos &amp; references" data-zh="🎬 视频与参考文献">🎬 Videos &amp; references</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-infirmary">

@@ -41,15 +41,16 @@ END = "<!-- DRAFT-THEME:END -->"
 # (gold-blue brand + the Linear collapsible-rail mechanics, which is what the
 # sidebar collapse button needs to work). Set THEME_CSS to "draft-theme.css"
 # for the bare Editorial Surgical layer.
-THEME_CSS = "vitalite-skin.css?v=18"
+THEME_CSS = "vitalite-skin.css?v=19"
 
 # The skin's layout script. "linear-layout.js" mounts the Linear v2 inverted-L
 # shell (rail + top bar + view header) and the ⌘K palette. Set to None for a
 # skin that is paint only — `off` strips either shape.
 LAYOUT_JS = "linear-layout.js"
+DRAFT_JS_PIN = "?v=1"
 # Cache-bust pin for the layout script — matches the ?v=2 pin on origin/main
 # (PR #64 bumped it past poisoned v6/v7 variants).
-LAYOUT_JS_PIN = "?v=10" if LAYOUT_JS else ""
+LAYOUT_JS_PIN = "?v=13" if LAYOUT_JS else ""
 
 # Cache-bust pins for the Q&A widget + notification bell (CSS + JS). These were
 # previously unversioned, so a change here silently lingered in CF/browser caches.
@@ -87,7 +88,7 @@ SECTIONS_JS_PIN = "?v=8"
 BLOCK = (
     f"{BEGIN}\n"
     f'<link rel="stylesheet" href="{THEME_CSS}">\n'
-    '<script src="draft.js" defer></script>\n'
+    f'<script src="draft.js{DRAFT_JS_PIN}" defer></script>\n'
     + (f'<script src="{LAYOUT_JS}{LAYOUT_JS_PIN}" defer></script>\n' if LAYOUT_JS else "")
     + '<script src="button-glow.js?v=1" defer></script>\n'
     + '<link rel="stylesheet" href="vi-icons.css">\n'

@@ -40,7 +40,7 @@
   sidebar.setAttribute('aria-label', 'Site navigation 网站导航');
 
   // Only lock/dim while the drawer is actually an overlay.
-  var overlayQuery = window.matchMedia('(max-width:1024px)');
+  var overlayQuery = window.matchMedia('(max-width:600px)');
 
   function isOpen() {
     return sidebar.classList.contains('open');
@@ -54,7 +54,10 @@
     var open = isOpen() && overlayQuery.matches;
     backdrop.classList.toggle('show', open);
     document.body.classList.toggle('sm-locked', open);
-    if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close navigation 关闭导航' : 'Open navigation 打开导航');
+    }
   }
 
   // The markup's inline onclick flips `.open` — watch for it instead of

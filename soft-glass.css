@@ -482,19 +482,50 @@ body.dark .sg-f-bowl{background:radial-gradient(closest-side at 47% 46%,rgba(0,0
 body.dark .sg-f-shade{background:radial-gradient(closest-side at 56% 57%,transparent 20%,rgba(0,0,0,.45) 40%,rgba(0,0,0,.16) 58%,transparent 74%)}
 body.dark .sg-f-lit{background:radial-gradient(closest-side at 44% 43%,transparent 24%,rgba(150,190,240,.16) 42%,rgba(150,190,240,.05) 58%,transparent 72%)}
 body.dark .sg-f-fold{background:conic-gradient(from 0deg,transparent 6deg,rgba(0,0,0,0.240) 20deg,rgba(150,190,240,0.050) 32deg,transparent 46deg,transparent 59deg,rgba(0,0,0,0.168) 70deg,rgba(150,190,240,0.035) 78deg,transparent 89deg,transparent 109deg,rgba(0,0,0,0.216) 126deg,rgba(150,190,240,0.045) 140deg,transparent 157deg,transparent 179deg,rgba(0,0,0,0.144) 191deg,rgba(150,190,240,0.030) 201deg,transparent 213deg,transparent 225deg,rgba(0,0,0,0.240) 240deg,rgba(150,190,240,0.050) 254deg,transparent 269deg,transparent 296deg,rgba(0,0,0,0.180) 307deg,rgba(150,190,240,0.038) 317deg,transparent 328deg)}
+/* press + drag: a ridge of cloth bunches up ahead of the finger and taut
+   creases pull out behind it. .sg-f-drag is turned to the heading (+x =
+   forward) and fades in with --sg-drag (pressed AND moving). */
+.sg-fabric > .sg-f-drag{position:absolute;inset:0;display:block;opacity:var(--sg-drag,0);will-change:transform}
+.sg-f-drag > i{position:absolute;inset:0;display:block}
+.sg-f-bunch{background:radial-gradient(22% 40% at 71% 50%,transparent 36%,rgba(255,255,255,.62) 53%,rgba(20,40,72,.28) 69%,transparent 84%)}
+.sg-f-wake{background:repeating-linear-gradient(0deg,transparent 0 9px,rgba(20,40,72,.14) 9px 11px,rgba(255,255,255,.22) 11px 12px,transparent 12px 20px),
+    radial-gradient(42% 20% at 30% 50%,rgba(20,40,72,.2),transparent 72%);
+  -webkit-mask-image:radial-gradient(46% 26% at 30% 50%,#000 34%,transparent 100%);
+          mask-image:radial-gradient(46% 26% at 30% 50%,#000 34%,transparent 100%)}
+body.dark .sg-f-bunch{background:radial-gradient(22% 40% at 71% 50%,transparent 36%,rgba(150,190,240,.26) 53%,rgba(0,0,0,.55) 69%,transparent 84%)}
+body.dark .sg-f-wake{background:repeating-linear-gradient(0deg,transparent 0 9px,rgba(0,0,0,.42) 9px 11px,rgba(150,190,240,.09) 11px 12px,transparent 12px 20px),
+    radial-gradient(42% 20% at 30% 50%,rgba(0,0,0,.5),transparent 72%)}
 @media (hover:none),(prefers-reduced-motion:reduce){.sg-fabric{display:none}}
 /* one mark under the pointer: the fabric replaces the card sheen dimple and
    button-glow's spotlight (together they drew a second circle) */
 html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}
 
-/* ── Page arrival: the whole page comes up out of a fog ──────────────────────
-   html.sg-lf is set by the head-first script before first paint; soft-fx.js
-   takes it off when the animation ends (no filter left behind on the page). */
-html.sg-lf{animation:sg-page-in .95s cubic-bezier(.22,.8,.3,1)}
-@keyframes sg-page-in{from{filter:blur(16px) saturate(.75) brightness(1.04)}}
-/* after a splash/loader: it leaves sharp → blurs away as the page clears */
-html.sg-lf-hand{animation:sg-page-hand 1.05s cubic-bezier(.3,.7,.3,1)}
-@keyframes sg-page-hand{0%{filter:blur(0)}22%{filter:blur(14px) saturate(.8)}100%{filter:blur(0)}}
+/* ── Page arrival: the page comes up out of a fog, clearing from the middle ──
+   html.sg-lf is set by the head-first script before first paint. The fog is a
+   fixed veil (backdrop blur + a milky tint) whose mask is a hole that opens
+   from the centre of the screen outward, so the middle is sharp first and the
+   edges clear last. soft-fx.js drops the class when the animation ends, so no
+   backdrop filter is left behind on the page. */
+@property --sg-fr{syntax:'<length>';inherits:false;initial-value:0px}
+html.sg-lf::after,html.sg-lf-hand::after{content:"";position:fixed;inset:0;z-index:2147482994;pointer-events:none;
+  background:color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 34%,transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(.8);backdrop-filter:blur(18px) saturate(.8);
+  -webkit-mask-image:radial-gradient(circle at 50% 46%,transparent var(--sg-fr),#000 calc(var(--sg-fr) + 34vmax));
+          mask-image:radial-gradient(circle at 50% 46%,transparent var(--sg-fr),#000 calc(var(--sg-fr) + 34vmax))}
+html.sg-lf::after{animation:sg-page-in 2.4s cubic-bezier(.33,.1,.25,1) both}
+@keyframes sg-page-in{
+  0%{--sg-fr:-34vmax;opacity:1}
+  12%{--sg-fr:-30vmax;opacity:1}
+  86%{opacity:1}
+  100%{--sg-fr:96vmax;opacity:0}}
+/* after a splash/loader: it leaves sharp → the fog rolls in → clears from the middle */
+html.sg-lf-hand::after{animation:sg-page-hand 2.7s cubic-bezier(.33,.1,.25,1) both}
+@keyframes sg-page-hand{
+  0%{--sg-fr:-34vmax;opacity:0}
+  20%{--sg-fr:-34vmax;opacity:1}
+  30%{--sg-fr:-30vmax}
+  88%{opacity:1}
+  100%{--sg-fr:96vmax;opacity:0}}
 
 /* ── Theme + language swaps (soft-fx.js → view transition) ───────────────── */
 @property --sg-r{syntax:'<length>';inherits:true;initial-value:0px}
@@ -554,7 +585,7 @@ html.sg-catgo::before{content:"";position:fixed;inset:0;z-index:2147482995}
 @keyframes sg-cw-out{to{opacity:0;filter:blur(20px);transform:scale(1.05)}}
 @keyframes sg-cw-float{to{transform:translateY(-18px) scale(1.06)}}
 @media (prefers-reduced-motion:reduce){
-  html.sg-lf,html.sg-lf-hand{animation:none}
+  html.sg-lf::after,html.sg-lf-hand::after{display:none}
   html.sg-catgo::before,.sg-catwash{display:none}
 }
 
@@ -650,4 +681,25 @@ header a:hover,.lin-topbar a:hover,.landing-nav a:hover,.log-item:hover,.lin-stu
   html.os-semi.sg-wheel .sidebar .sidebar-link.on::after{background:linear-gradient(180deg,var(--sg-ink-d,#0A1A2E),var(--sg-ink,var(--accent)));opacity:1}
   html.os-semi.sg-wheel .sidebar .sidebar-link.active::before{display:none}
   html.os-semi.sg-wheel .sidebar .sidebar-logo{height:44px;padding-left:14px!important}
+  /* chapter sub-tabs hang off their parent ribbon: a thread runs down from it
+     and each chapter is a slimmer, lighter ribbon tied onto the thread */
+  html.os-semi.sg-wheel .sidebar .sb-subtabs{position:relative;margin:-2px 0 8px 22px;padding-left:0}
+  html.os-semi.sg-wheel .sidebar .sb-subtabs::before{content:"";position:absolute;left:4px;top:0;bottom:16px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg,var(--sg-ink,var(--accent)),color-mix(in srgb,var(--sg-ink,var(--accent)) 25%,transparent))}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub{
+    width:calc(var(--sg-w,220px) - 22px)!important;height:28px;margin:4px 0!important;padding:0 28px 0 22px!important;
+    font-size:.76rem!important;color:var(--text2,var(--text))!important;
+    background:linear-gradient(90deg,transparent 0,color-mix(in srgb,var(--sg-ink,var(--accent)) 6%,var(--surface)) 18px)!important}
+  body.dark.dark .sidebar .sidebar-link.sb-sub{background:linear-gradient(90deg,transparent 0,color-mix(in srgb,var(--sg-ink,var(--accent)) 13%,var(--surface)) 18px)!important}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub::before{content:"";position:absolute;left:5px;top:50%;width:11px;height:2px;margin-top:-1px;border-radius:2px;
+    background:color-mix(in srgb,var(--sg-ink,var(--accent)) 60%,transparent);display:block!important}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub::after{width:18px;opacity:.55}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub:hover{color:var(--text)!important}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub.on{color:#fff!important;
+    background:linear-gradient(90deg,transparent 0,var(--sg-ink,var(--accent)) 18px)!important}
+  html.os-semi.sg-wheel .sidebar .sidebar-link.sb-sub.on::before{background:var(--sg-ink,var(--accent));width:14px}
 }
+/* sub-tabs outside the wheel (phones, the drawer): an indented tree */
+.sidebar .sb-subtabs{margin:.1rem 0 .35rem 1.6rem;border-left:2px solid color-mix(in srgb,var(--accent,#2A63AB) 35%,transparent);padding-left:.15rem}
+.sidebar .sb-subtabs .sidebar-link.sb-sub{font-size:.78rem;padding-top:.32rem;padding-bottom:.32rem}
+.sidebar .sidebar-group.part.open > .part-body{max-height:2000px}

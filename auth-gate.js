@@ -14,12 +14,18 @@
   try{
     var u = JSON.parse(localStorage.getItem('sm_user')||'null') || null;
     if(u && !u.suspended && (u.email || u.guest)){
-      /* signed in (or a guest mid-browse) — allow; point the brand logo at
-         home (guide.html), not the landing */
-      try{
-        var logo = document.querySelector('a.logo[href="index.html"]');
-        if(logo){ logo.href = 'guide.html'; }
-      }catch(e){}
+      /* signed in (or a guest mid-browse) — allow; point the brand logos at
+         home (home.html for accounts, the textbook for guests), not the
+         landing. The sidebar logo is parsed later, so fix it on DOM ready. */
+      var home = u.email ? 'home.html' : 'guide.html';
+      var fix = function(){
+        try{
+          var ls = document.querySelectorAll('a.logo[href="index.html"], .sidebar-logo a[href="index.html"]');
+          for(var i=0;i<ls.length;i++) ls[i].href = home;
+        }catch(e){}
+      };
+      fix();
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fix);
       return;
     }
   }catch(e){}

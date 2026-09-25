@@ -712,8 +712,10 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=4" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=3">
-<script src="soft-fx.js?v=3" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=4">
+<script src="soft-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=1">
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 
@@ -976,16 +978,16 @@ function guestLogin(){
     var n=new URLSearchParams(location.search).get('next');
     if(n){ location.replace(decodeURIComponent(n)); return; }
   }catch(e){}
-  location.replace('guide.html');
+  location.replace('home.html');
 }
 
-/* After a confirmed successful sign-in, bounce to the page the user originally wanted (auth-gate ?next=); default to home (guide.html). */
+/* After a confirmed successful sign-in, bounce to the page the user originally wanted (auth-gate ?next=); default to home (home.html). */
 function goNext(){
   try{
     var n=new URLSearchParams(location.search).get('next');
     if(n){ location.replace(decodeURIComponent(n)); return; }
   }catch(e){}
-  location.replace('guide.html');
+  location.replace('home.html');
 }
 
 /* Record this sign-in in the members directory (fails silently; trigger keeps it in sync). */
@@ -1216,7 +1218,7 @@ function jumpIfAlreadySignedIn(){
     var n=null;
     try{ n=new URLSearchParams(location.search).get('next'); }catch(e){}
     if(n){ location.replace(decodeURIComponent(n)); return; }
-    location.replace('guide.html');
+    location.replace('home.html');
   }
 }
 

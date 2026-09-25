@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';document.write('<meta name="color-scheme" content="'+(d?'dark':'light')+'">');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var c=null;try{c=JSON.parse(sessionStorage.getItem('sg-catgo')||'null')}catch(e){}if(c&&Date.now()-c.t<8000){h.classList.add('sg-catgo');h.setAttribute('data-sg-cat',c.k)}else if(!/(^|\/)(index(\.html)?)?$/.test(location.pathname))h.classList.add('sg-lf')}catch(e){}})()</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
@@ -57,9 +58,9 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
-<link rel="stylesheet" href="tutorial-widget.css?v=3">
-<script src="tutorial-widget.js?v=4"></script>
-<script src="auth-gate.js"></script>
+<link rel="stylesheet" href="tutorial-widget.css?v=5">
+<script src="tutorial-widget.js?v=6"></script>
+<script src="auth-gate.js?v=2"></script>
 <link rel="stylesheet" href="gold-blue-theme.css?v=14">
 <script src="loader.js?v=6"></script>
 <link rel="stylesheet" href="sections.css?v=9">
@@ -67,10 +68,10 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <script src="ib-sehs-native.js?v=2"></script>
 <script src="ib-sehs-deep.js?v=1"></script>
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="vitalite-skin.css?v=18">
+<link rel="stylesheet" href="vitalite-skin.css?v=19">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js" defer></script>
-<script src="linear-layout.js?v=13" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -80,15 +81,16 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <script src="notif-bell.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
-<link rel="stylesheet" href="shapes-skin.css?v=2">
+<link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=4" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=1">
-<script src="soft-fx.js?v=1" defer></script>
-<script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>
-<style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>
+<link rel="stylesheet" href="soft-glass.css?v=4">
+<script src="soft-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=1">
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
+<!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation">≡</button>
 <nav class="sidebar" id="sidebar" aria-label="Site navigation">
@@ -96,21 +98,25 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
   <div class="sidebar-group part open" data-part="vitalite-knowledge">
     <button type="button" class="part-toggle"><span class="part-name" data-en="Vitalite Knowledge" data-zh="Vitalite 知识库">Vitalite Knowledge</span><span class="part-caret">▾</span></button>
     <div class="part-body">
-      <a class="sidebar-link" href="toc.html" data-en="Table of Contents" data-zh="目录">Table of Contents</a>
-      <div class="sidebar-label" data-en="Studying &amp; Learning" data-zh="学习与备考">Studying &amp; Learning</div>
-      <a class="sidebar-link" href="guide.html" data-en="Vitalite Textbook" data-zh="Vitalité 教材">Vitalite Textbook</a>
-      <a class="sidebar-link active" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
-      <a class="sidebar-link sub" href="exam.html" data-en="NPTE (US)" data-zh="美国 NPTE">NPTE (US)</a>
-      <a class="sidebar-link sub" href="cn-cert.html" data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</a>
-      <a class="sidebar-link sub" href="usabo.html" data-en="USABO Biology" data-zh="USABO 生物奥赛">USABO Biology</a>
-      <a class="sidebar-link sub" href="g10-bio.html" data-en="G10 Biology" data-zh="十年级生物">G10 Biology</a>
-      <a class="sidebar-link" href="toc.html#resources" data-en="Resources &amp; Learning" data-zh="资源与学习">Resources &amp; Learning</a>
-      
+      <a class="sidebar-link" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
+      <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
+      <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
+      <a class="sidebar-link active sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
+      <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
+      <div class="sidebar-label" data-en="🧰 Practice" data-zh="🧰 练习">🧰 Practice</div>
+      <a class="sidebar-link sub" href="guide.html?study=flashcards" data-study="openFlashcards" data-en="🃏 Flashcards" data-zh="🃏 闪卡">🃏 Flashcards</a>
+      <a class="sidebar-link sub" href="guide.html?study=quiz" data-study="openQuizMode" data-en="📝 Quizzes &amp; practice" data-zh="📝 测验与练习">📝 Quizzes &amp; practice</a>
+      <a class="sidebar-link sub" href="guide.html?study=ai" data-study="openAiModal" data-en="💬 Vitaline AI" data-zh="💬 AI 助手">💬 Vitaline AI</a>
+      <div class="sidebar-label" data-en="🏁 Exams &amp; certificates" data-zh="🏁 考试与证书">🏁 Exams &amp; certificates</div>
+      <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE &amp; exam prep" data-zh="🇺🇸 NPTE 与备考冲刺">🇺🇸 NPTE &amp; exam prep</a>
+      <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 运动康复师资格证">🇨🇳 运动康复师资格证</a>
+      <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Videos &amp; references" data-zh="🎬 视频与参考文献">🎬 Videos &amp; references</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-infirmary">
     <button type="button" class="part-toggle"><span class="part-name" data-en="Vitalite Infirmary" data-zh="Vitalite 诊所">Vitalite Infirmary</span><span class="part-caret">▾</span></button>
-    <div class="part-body"><a class="sidebar-link" href="infirmary.html" data-en="Vitaxamine" data-zh="Vitaxamine">Vitaxamine</a><a class="sidebar-link sub" href="infirmary.html#plan" data-en="Plan" data-zh="康复计划">Plan</a></div>
+    <div class="part-body"><a class="sidebar-link" href="infirmary.html" data-en="Vitaxamine" data-zh="Vitaxamine">Vitaxamine</a><a class="sidebar-link" href="checkup.html" data-en="Checkup" data-zh="自查">Checkup</a><a class="sidebar-link" href="plan.html" data-en="Plan Builder" data-zh="计划生成器">Plan Builder</a></div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-social">
     <button type="button" class="part-toggle"><span class="part-name" data-en="Vitalite Social" data-zh="Vitalite 社区">Vitalite Social</span><span class="part-caret">▾</span></button>

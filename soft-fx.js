@@ -82,7 +82,11 @@
      finger). Per frame only transform + opacity change, so it never repaints.
      The dimple follows with a critically damped ease (no overshoot, no
      wobble), stretches along the drag with a smooth matrix (no angle snap),
-     and sinks deeper over controls and while pressed. */
+     and sinks deeper over controls and while pressed.
+     Press and drag: holding sinks the dimple further the longer you hold;
+     dragging while pressed makes the cloth heavier (it lags the finger),
+     stretches it harder, bunches a ridge up ahead of the finger and pulls
+     taut creases out behind it. Letting go springs the cloth back up. */
   var FAB = false;
   function fabric() {
     if (!FINE || REDUCE) return;
@@ -91,31 +95,46 @@
     var f = document.createElement('div');
     f.className = 'sg-fabric';
     f.setAttribute('aria-hidden', 'true');
-    f.innerHTML = '<i class="sg-f-bowl"></i><i class="sg-f-shade"></i><i class="sg-f-lit"></i><i class="sg-f-fold"></i>';
+    f.innerHTML = '<i class="sg-f-bowl"></i><i class="sg-f-shade"></i><i class="sg-f-lit"></i><i class="sg-f-fold"></i>' +
+      '<b class="sg-f-drag"><i class="sg-f-wake"></i><i class="sg-f-bunch"></i></b>';
     body.appendChild(f);
+    var dragEl = f.querySelector('.sg-f-drag');
     var tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, dent = 0.5, want = 0.5;
-    var raf = 0, idle = 0, last = 0, seen = false;
+    var down = false, downAt = 0, press = 0, drag = 0, ax = 1, ay = 0, hot = false;
+    var raf = 0, idle = 0, last = 0, seen = false, bounce = 0;
     var HOT = 'a,button,[role=button],input,textarea,select,label,summary,.sidebar-link,.for-topic,.ch-card,.fork-card,.feature-card';
     function ease(dt, tau) { return 1 - Math.exp(-dt / tau); }
+    function rest() { return hot ? 0.74 : 0.5; }
     function tick(now) {
       var dt = last ? Math.min(50, now - last) : 16;
       last = now;
-      var px = x, py = y, k = ease(dt, 42);
+      if (down) want = 1 + Math.min((now - downAt) / 700, 1) * 0.28;   /* holding sinks it further */
+      press += ((down ? 1 : 0) - press) * ease(dt, down ? 70 : 140);
+      var px = x, py = y, k = ease(dt, 42 + press * 48);               /* pressed cloth is heavier */
       x += (tx - x) * k; y += (ty - y) * k;
       var kv = ease(dt, 60);                           /* smoothed velocity, px per 16ms */
       vx += ((x - px) / dt * 16 - vx) * kv;
       vy += ((y - py) / dt * 16 - vy) * kv;
-      dent += (want - dent) * ease(dt, 80);
+      dent += (want - dent) * ease(dt, down ? 90 : 110);
       var sp = Math.sqrt(vx * vx + vy * vy);
-      var s = 1 + Math.min(sp, 40) / 70, q = 1 / Math.sqrt(s), d = s - q;
+      if (sp > 0.6) {                                  /* heading, only while really moving: no snap at rest */
+        var ka = ease(dt, 70);
+        ax += (vx / sp - ax) * ka; ay += (vy / sp - ay) * ka;
+      }
+      drag += (press * Math.min(sp / 14, 1) - drag) * ease(dt, 90);
+      var cap = 40 + press * 20, div = 70 - press * 28;
+      var s = 1 + Math.min(sp, cap) / div, q = 1 / Math.sqrt(s), d = s - q;
       var ux = sp > 0.01 ? vx / sp : 1, uy = sp > 0.01 ? vy / sp : 0;
-      var g = 1.06 - dent * 0.12;                      /* deeper press = tighter dimple */
+      var g = 1.06 - Math.min(dent, 1.28) * 0.12;      /* deeper press = tighter dimple */
       var m11 = (q + d * ux * ux) * g, m12 = d * ux * uy * g, m22 = (q + d * uy * uy) * g;
-      /* the cloth trails the finger a little */
-      f.style.transform = 'translate3d(' + (x - vx * 0.9).toFixed(1) + 'px,' + (y - vy * 0.9).toFixed(1) + 'px,0) matrix(' +
+      var lag = 0.9 + press * 1.4;                     /* the cloth trails the finger */
+      f.style.transform = 'translate3d(' + (x - vx * lag).toFixed(1) + 'px,' + (y - vy * lag).toFixed(1) + 'px,0) matrix(' +
         m11.toFixed(4) + ',' + m12.toFixed(4) + ',' + m12.toFixed(4) + ',' + m22.toFixed(4) + ',0,0)';
       f.style.setProperty('--sg-dent', dent.toFixed(3));
-      if (Math.abs(tx - x) + Math.abs(ty - y) < 0.15 && sp < 0.04 && Math.abs(want - dent) < 0.003) { raf = 0; last = 0; return; }
+      f.style.setProperty('--sg-drag', drag.toFixed(3));
+      var al = Math.sqrt(ax * ax + ay * ay) || 1;
+      dragEl.style.transform = 'rotate(' + Math.atan2(ay / al, ax / al).toFixed(3) + 'rad)';
+      if (!down && Math.abs(tx - x) + Math.abs(ty - y) < 0.15 && sp < 0.04 && Math.abs(want - dent) < 0.003 && press < 0.01 && drag < 0.005) { raf = 0; last = 0; return; }
       raf = requestAnimationFrame(tick);
     }
     function kick() { if (!raf) raf = requestAnimationFrame(tick); }
@@ -123,16 +142,31 @@
       if (e.pointerType && e.pointerType !== 'mouse') return;
       if (!seen) { x = tx = e.clientX; y = ty = e.clientY; seen = true; }
       tx = e.clientX; ty = e.clientY;
-      var hot = e.target && e.target.closest ? e.target.closest(HOT) : null;
-      want = e.buttons ? 1 : hot ? 0.74 : 0.5;
+      hot = !!(e.target && e.target.closest && e.target.closest(HOT));
+      if (!e.buttons && down) down = false;            /* released outside the window */
+      if (!down && !bounce) want = rest();
       if (!f.classList.contains('on')) f.classList.add('on');
       clearTimeout(idle);
-      idle = setTimeout(function () { f.classList.remove('on'); }, 2600);   /* cloth relaxes when you stop */
+      idle = setTimeout(function () { if (!down) f.classList.remove('on'); }, 2600);   /* cloth relaxes when you stop */
       kick();
     }, { passive: true });
-    document.addEventListener('pointerdown', function () { want = 1; kick(); }, { passive: true });
-    document.addEventListener('pointerup', function () { want = 0.74; kick(); }, { passive: true });
-    document.documentElement.addEventListener('pointerleave', function () { f.classList.remove('on'); });
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      down = true; downAt = performance.now(); clearTimeout(bounce); bounce = 0;
+      f.classList.add('on'); kick();
+    }, { passive: true });
+    function up() {
+      if (!down) return;
+      down = false;
+      want = 0.26;                                     /* the cloth springs back up past rest… */
+      clearTimeout(bounce);
+      bounce = setTimeout(function () { bounce = 0; want = rest(); kick(); }, 150);   /* …and settles */
+      kick();
+    }
+    document.addEventListener('pointerup', up, { passive: true });
+    document.addEventListener('pointercancel', up, { passive: true });
+    window.addEventListener('blur', up);
+    document.documentElement.addEventListener('pointerleave', function () { if (!down) f.classList.remove('on'); });
   }
 
   /* ─── 4 · Fog-in reveals ─────────────────────────────────────────────── */
@@ -301,7 +335,7 @@
     }
     function kick() { if (!raf) raf = requestAnimationFrame(shape); }
     function centre() {            /* open on the page you're on */
-      var a = sb.querySelector('.sidebar-link.active, .sidebar-link.on');
+      var a = sb.querySelector('.sb-sub.on') || sb.querySelector('.sidebar-link.active, .sidebar-link.on');
       if (a) sb.scrollTop = topIn(a) + a.offsetHeight / 2 - sb.clientHeight / 2;
     }
     collect(); centre(); shape();
@@ -333,7 +367,7 @@
   }
   function armSettle() {
     clearTimeout(fogT);
-    fogT = setTimeout(settle, 1700);
+    fogT = setTimeout(settle, 3000);
   }
   function pageFogIn(hand) {
     if (REDUCE) return;

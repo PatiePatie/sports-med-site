@@ -215,11 +215,192 @@ var BODY_D=bodyPath();
 var BACK_PARTS={upperback:1,lowerback:1};
 var FRONT_PARTS={chest:1,abdomen:1};
 
+
+/* ═══ Smart layer ══════════════════════════════════════════════════════════
+   Checkup used to depend on the camera scan, and a failed scan was a dead end
+   ("Couldn't read the image"). Now:
+     · describe it in words (EN / 中文) — a local parser finds the body part and
+       pre-ticks the matching symptoms, with the text AI as a second opinion;
+     · photos are re-encoded to a small JPEG first (phone HEIC/10 MB shots
+       could never be read);
+     · if the vision service is down, Checkup says so once and routes you to
+       the description box instead of failing again and again;
+     · Analyze retries once, then falls back to built-in guidance, so there is
+       always an answer. */
+var SYN={
+  head:['head','headache','migraine','forehead','temple','skull','face','jaw','eye','concussion','dizzy','头','头痛','头晕','额头','太阳穴','脸','下巴','脑震荡'],
+  neck:['neck','cervical','whiplash','stiff neck','落枕','脖子','颈'],
+  shoulder:['shoulder','rotator','deltoid','collarbone','clavicle','upper arm','bicep','biceps','肩','肩膀','锁骨','上臂','肩周'],
+  elbow:['elbow','tennis elbow','golfer','funny bone','肘','手肘','网球肘'],
+  wrist:['wrist','forearm','carpal','手腕','腕','前臂'],
+  hand:['hand','finger','fingers','thumb','palm','knuckle','手指','手掌','拇指','指关节'],
+  chest:['chest','rib','ribs','sternum','pec','pecs','breastbone','胸','肋骨','胸口','胸肌'],
+  abdomen:['abdomen','stomach','belly','abs','tummy','side stitch','腹','肚子','胃','腹肌'],
+  upperback:['upper back','shoulder blade','shoulder blades','scapula','thoracic','between my shoulders','上背','肩胛','背上'],
+  lowerback:['lower back','low back','lumbar','back','spine','disc','sciatica','腰','下背','腰疼','腰痛','背','坐骨'],
+  hip:['hip','hips','glute','glutes','buttock','butt','groin','pelvis','髋','臀','屁股','腹股沟','胯'],
+  thigh:['thigh','hamstring','hamstrings','quad','quads','quadriceps','大腿','腘绳','股四头'],
+  knee:['knee','knees','kneecap','patella','acl','mcl','meniscus','runner\'s knee','膝','膝盖','半月板','髌骨'],
+  shin:['shin','shins','calf','calves','tibia','shin splints','小腿','胫','腿肚'],
+  ankle:['ankle','ankles','achilles','sprained ankle','rolled my ankle','脚踝','踝','跟腱','崴脚'],
+  foot:['foot','feet','toe','toes','heel','arch','plantar','sole','脚','脚趾','脚跟','足底','足弓','足']
+};
+/* longest phrases first so "upper back" beats "back" and 手腕 beats 手 */
+var SYN_LIST=[];
+Object.keys(SYN).forEach(function(id){ SYN[id].forEach(function(w){ SYN_LIST.push([w.toLowerCase(),id]); }); });
+SYN_LIST.sort(function(a,b){ return b[0].length-a[0].length; });
+var CJK=/[\u3400-\u9fff]/;
+function findParts(text){
+  var s=' '+String(text||'').toLowerCase().replace(/[^\w\u3400-\u9fff']+/g,' ')+' ';
+  var hits={}, order=[];
+  SYN_LIST.forEach(function(e){
+    var w=e[0], i=CJK.test(w)?s.indexOf(w):s.search(new RegExp('(^|\\s)'+w.replace(/[.*+?^${}()|[\]\\']/g,'\\$&')+'(s|es)?(?=\\s)'));
+    if(i<0) return;
+    if(!hits[e[1]]){ hits[e[1]]=0; order.push(e[1]); }
+    hits[e[1]]+=w.length;
+    var st=CJK.test(w)?i:i+(s.charAt(i)===' '?1:0);
+    s=s.slice(0,st)+new Array(w.length+1).join('_')+s.slice(st+w.length);   /* consume the phrase */
+  });
+  return order.sort(function(a,b){ return hits[b]-hits[a]; });
+}
+/* symptom matching: shared word stems (EN) or shared 2-char runs (中文) */
+var STOP={with:1,after:1,while:1,more:1,very:1,like:1,just:1,some:1,really:1,been:1,days:1,week:1,when:1,from:1,that:1,this:1,into:1,your:1,have:1,feel:1,feeling:1,pain:1,hurts:1,hurt:1,the:1,and:1,area:1,side:1};
+function stems(t){
+  var out={};
+  String(t).toLowerCase().replace(/[a-z]{4,}/g,function(w){ if(!STOP[w]) out[w.slice(0,4)]=1; return w; });
+  var z=String(t).replace(/[^\u3400-\u9fff]/g,'');
+  for(var i=0;i<z.length-1;i++) out[z.substr(i,2)]=1;
+  return out;
+}
+/* strip every body-part word so "knee" in "knee swells" can't tick every knee symptom */
+function noParts(text){
+  var s=' '+String(text).toLowerCase()+' ';
+  SYN_LIST.forEach(function(e){ s=s.split(e[0]).join(' '); });
+  return s;
+}
+function matchSymptoms(part, text){
+  var p=PART_MAP[part]; if(!p) return [];
+  var u=stems(noParts(text)), out=[];
+  p.sym.forEach(function(s,idx){
+    var st=stems(noParts(s[0]+' '+s[1])), n=0;
+    for(var k in st) if(u[k]) n++;
+    if(n>0) out.push(idx);
+  });
+  return out;
+}
+/* ask the text AI to name the part when the parser can't */
+function aiFindPart(text){
+  var q='Which ONE body part does this describe? Answer with exactly one id from this list and nothing else: '+
+        PARTS.map(function(p){ return p.id; }).join(', ')+'. Description: "'+String(text).slice(0,300)+'"';
+  return fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang:'en',mode:'clinical'})})
+    .then(function(r){ return r.json(); }).then(function(d){
+      var hit=findParts((d&&d.reply)||'');
+      if(hit.length) return hit[0];
+      var ids=PARTS.map(function(p){ return p.id; });
+      var m=String((d&&d.reply)||'').toLowerCase().match(new RegExp(ids.join('|')));
+      return m?m[0]:null;
+    }).catch(function(){ return null; });
+}
+function describeUI(){
+  var body1=$('ckBody1'); if(!body1 || $('ckDescribe')) return;
+  var box=document.createElement('div');
+  box.className='checkup-describe'; box.id='ckDescribe';
+  box.innerHTML='<label for="ckDescIn" class="ck-desc-lbl">'+T('Describe it in your own words','用自己的话描述')+'</label>'+
+    '<div class="ck-desc-row"><input id="ckDescIn" type="text" autocomplete="off" maxlength="300" placeholder="'+
+    T('e.g. my knee swells after basketball','例如：打篮球后膝盖肿了')+'"><button type="button" class="checkup-btn primary" id="ckDescGo">'+T('Find it','识别')+'</button></div>'+
+    '<div class="ck-desc-out" id="ckDescOut" role="status" aria-live="polite"></div>';
+  var ctx=body1.querySelector('.ch-ctx');
+  (ctx&&ctx.nextSibling)?body1.insertBefore(box, ctx.nextSibling):body1.appendChild(box);
+  var inp=$('ckDescIn'), go=$('ckDescGo');
+  function run(){
+    var text=(inp.value||'').trim(), out=$('ckDescOut');
+    if(!text){ out.textContent=T('Type where it hurts and what it feels like.','请写下哪里疼、是什么感觉。'); return; }
+    var hits=findParts(text);
+    if(hits.length){ return pick(hits, text); }
+    out.innerHTML='<span class="checkup-spin"></span> '+T('Thinking…','思考中…');
+    go.disabled=true;
+    aiFindPart(text).then(function(id){
+      go.disabled=false;
+      if(id&&PART_MAP[id]) return pick([id], text);
+      out.innerHTML=T('I couldn\u2019t place that yet — tap the spot on the body below, or name the body part (e.g. “ankle”).','还无法判断部位 — 请在下方人体图上点击，或写出部位名称（如“脚踝”）。');
+    });
+  }
+  function pick(ids, text){
+    var out=$('ckDescOut');
+    selectPart(ids[0], matchSymptoms(ids[0], text));
+    if(ids.length>1){
+      out.innerHTML=T('Also mentioned: ','也提到了：')+ids.slice(1,4).map(function(id){
+        var p=PART_MAP[id]; return '<button type="button" class="checkup-part" data-alt="'+id+'">'+p.icon+' '+(lang()==='zh'?p.zh:p.en)+'</button>';
+      }).join(' ');
+      out.querySelectorAll('[data-alt]').forEach(function(b){ b.addEventListener('click',function(){ selectPart(b.getAttribute('data-alt'), matchSymptoms(b.getAttribute('data-alt'), text)); }); });
+    } else out.textContent='';
+  }
+  go.addEventListener('click',run);
+  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); run(); } });
+}
+/* vision service health: one failure of the service itself → stop offering it */
+var VISION_KEY='vitalite_vision_down';
+function visionDown(){ try{ return sessionStorage.getItem(VISION_KEY)==='1'; }catch(e){ return false; } }
+function markVisionDown(){ try{ sessionStorage.setItem(VISION_KEY,'1'); }catch(e){} }
+function visionReply(res){
+  /* the deployed worker may not have the vision branch yet: it answers 400
+     "empty_question" — that is "service missing", not "couldn't read" */
+  return res.json().then(function(d){ if(!res.ok || (d&&d.error)) { d=d||{}; d.ok=false; d.down=true; } return d; },
+                         function(){ return {ok:false,down:true}; });
+}
+/* photos → small JPEG (HEIC, huge phone shots) */
+function toJpeg(file){
+  return new Promise(function(resolve,reject){
+    var url=URL.createObjectURL(file), img=new Image();
+    img.onload=function(){
+      var MAX=1024, sc=Math.min(1,MAX/Math.max(img.naturalWidth,img.naturalHeight));
+      var c=document.createElement('canvas');
+      c.width=Math.max(1,Math.round(img.naturalWidth*sc)); c.height=Math.max(1,Math.round(img.naturalHeight*sc));
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg',0.85));
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); reject(new Error('decode')); };
+    img.src=url;
+  });
+}
+/* offline guidance when the AI can't answer */
+var CAUSES={
+  head:[['Tension headache or dehydration','紧张性头痛或脱水'],['A knock to the head — watch for concussion signs','头部撞击 — 注意脑震荡迹象']],
+  neck:[['Muscle strain / sleeping awkwardly (落枕)','肌肉拉伤或睡姿不当（落枕）'],['Posture load from screens','长时间低头看屏幕']],
+  shoulder:[['Rotator-cuff irritation from overhead work','过顶动作导致肩袖刺激'],['Muscle strain or a bruise from a fall','肌肉拉伤或摔倒淤伤']],
+  elbow:[['Tendon overload (tennis / golfer\u2019s elbow)','肌腱过劳（网球肘 / 高尔夫球肘）'],['A bruise from a direct blow','直接撞击造成的淤伤']],
+  wrist:[['Sprain from a fall onto the hand','摔倒撑地导致扭伤'],['Overuse from typing or gripping','打字或抓握过度']],
+  hand:[['Jammed or sprained finger','手指戳伤或扭伤'],['Overuse / grip strain','过度使用或握力劳损']],
+  chest:[['Bruised rib or chest-wall muscle strain','肋骨挫伤或胸壁肌肉拉伤'],['Costochondral irritation','肋软骨刺激']],
+  abdomen:[['Muscle strain or a side stitch','肌肉拉伤或岔气'],['Digestive upset','消化不适']],
+  upperback:[['Muscle knot / postural strain','肌肉结节或姿势性劳损'],['Rib-joint irritation from twisting','扭转导致肋椎关节刺激']],
+  lowerback:[['Muscle strain from lifting or sitting','搬重物或久坐导致肌肉拉伤'],['Irritated disc or nerve (if pain runs down the leg)','椎间盘或神经受刺激（若疼痛放射到腿）']],
+  hip:[['Tendon / bursa irritation on the outer hip','髋外侧肌腱或滑囊刺激'],['Groin or hip-flexor strain','腹股沟或髋屈肌拉伤']],
+  thigh:[['Hamstring or quad strain','腘绳肌或股四头肌拉伤'],['Contusion (\u201cdead leg\u201d)','挫伤（“死腿”）']],
+  knee:[['Patellofemoral pain (runner\u2019s knee)','髌股疼痛（跑步膝）'],['Ligament or meniscus injury after a twist','扭伤后韧带或半月板损伤']],
+  shin:[['Shin splints (medial tibial stress)','胫骨内侧应力综合征（胫骨疲劳）'],['Calf strain','小腿肌肉拉伤']],
+  ankle:[['Lateral ankle sprain','踝关节外侧扭伤'],['Achilles tendon overload','跟腱过劳']],
+  foot:[['Plantar fascia irritation','足底筋膜刺激'],['Forefoot overload / stress reaction','前足过度负荷或应力反应']]
+};
+function localGuidance(p, picked){
+  var zh=lang()==='zh';
+  var c=(CAUSES[p.id]||[]).map(function(x){ return '- '+(zh?x[1]:x[0]); }).join('\n');
+  var redIdx=picked.join(' ').match(/numb|tingl|deform|weight|vomit|nausea|confus|bleed|breath|chest|misshapen|locked/i);
+  return (zh?'**可能的原因**':'**Possible causes**')+'\n'+c+'\n\n'+
+    (zh?'**现在可以做什么**\n- 前 48 小时：休息、冰敷（每次 15–20 分钟）、加压、抬高\n- 避免让疼痛加重的动作，疼痛减轻后逐步恢复活动\n- 若 1–2 周没有好转，请咨询医生或物理治疗师'
+       :'**What to do now**\n- First 48 h: rest, ice 15–20 min at a time, compression, elevation\n- Avoid moves that make it worse; ease back in as pain settles\n- If it isn\u2019t improving in 1–2 weeks, see a doctor or physio')+'\n\n'+
+    (redIdx?(zh?'**⚠️ 你勾选的症状中有需要尽快就医的信号，请尽快就诊。**\n\n':'**⚠️ One of the symptoms you ticked is a see-a-doctor-soon sign — please get it checked.**\n\n'):'')+
+    (zh?'**自查问题**\n- 是受伤后立刻疼，还是慢慢加重？\n- 休息后会好转吗？\n- 有肿胀、淤青或无力吗？':'**Self-check questions**\n- Did it start with an injury, or build up over time?\n- Does rest make it better?\n- Is there swelling, bruising or weakness?')+
+    '\n\n_'+(zh?'（AI 暂时不可用，以上为内置的通用指导。）':'(The AI is unavailable right now — this is built-in general guidance.)')+'_';
+}
+
 /* ── tiny markdown renderer (reuse for output) ── */
 function render(raw){
   var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
   s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
   s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  s=s.replace(/(^|\s)_([^_]+)_(?=\s|$)/g,'$1<em>$2</em>');
   s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
   s=s.replace(/\n/g,'<br/>');
   return s;
@@ -262,6 +443,8 @@ function init(){
     var h=e.target.closest&&e.target.closest('.bp-hot'); if(h) selectPart(h.getAttribute('data-part'));
   });
   drawMap('front');
+  describeUI();
+  if(visionDown()) setVisionOffline();
   // legend chips
   var lg=$('checkupParts'); if(lg){
     lg.innerHTML=PARTS.map(function(p){
@@ -320,7 +503,7 @@ function reRender(){
 var langBtn=$('langToggle');
 if(langBtn) langBtn.addEventListener('click',function(){ setTimeout(reRender,50); });
 
-function selectPart(id){
+function selectPart(id, preTick){
   state.part=id; state.syms=[];
   var p=PART_MAP[id]; if(!p) return;
   if(BACK_PARTS[id] && state.view!=='back') drawMap('back');
@@ -334,7 +517,9 @@ function selectPart(id){
     list.innerHTML='';
     p.sym.forEach(function(s,idx){
       var lab=document.createElement('label');
-      lab.innerHTML='<input type="checkbox" value="'+idx+'"><span class="sym-txt">'+s[0]+'<span class="sym-zh">'+s[1]+'</span></span>';
+      var on=!!(preTick&&preTick.indexOf(idx)>-1);
+      lab.className=on?'ticked':'';
+      lab.innerHTML='<input type="checkbox" value="'+idx+'"'+(on?' checked':'')+'><span class="sym-txt">'+s[0]+'<span class="sym-zh">'+s[1]+'</span></span>';
       lab.addEventListener('change',function(){ lab.classList.toggle('ticked',lab.querySelector('input').checked); });
       list.appendChild(lab);
     });
@@ -431,9 +616,10 @@ function captureFrame(){
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
-  }).then(function(res){ return res.json(); }).then(function(d){
+  }).then(visionReply).then(function(d){
     if(capGen!==camGen) return;
     camState.busy=false;
+    if(d&&d.down){ markVisionDown(); visionFail(true); return; }
     if(d&&d.ok&&d.part&&PART_MAP[d.part]){ stopLiveScan(); selectPart(d.part); return; }
     camState.tries++;
     if(d&&d.ok===true){
@@ -487,33 +673,38 @@ function handleCamera(ev){
   cb.classList.add('on');
   var err=$('camErr'); if(err) err.textContent='';
   var myGen=++camGen; stopLiveScan();
-  var r=new FileReader();
-  r.onload=function(){
-    var data=r.result;
-    fetch(MEDAI_URL,{
+  if(err) err.innerHTML='<span class="checkup-spin"></span> '+T('Looking at your photo…','正在查看照片…');
+  toJpeg(file).then(function(data){
+    return fetch(MEDAI_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
-    }).then(function(res){ return res.json(); }).then(function(d){
-      if(myGen!==camGen) return;
-      if(d&&d.ok&&d.part&&PART_MAP[d.part]){
-        cb.classList.remove('on');
-        selectPart(d.part);
-        return;
-      }
-      visionFail();
-    }).catch(visionFail);
-  };
-  // If FileReader fails quickly, give up gracefully too
-  try{ r.readAsDataURL(file); }catch(e){ myGen++; visionFail(); }
+    }).then(visionReply);
+  }).then(function(d){
+    if(myGen!==camGen) return;
+    cb.classList.remove('on');
+    if(d&&d.ok&&d.part&&PART_MAP[d.part]){ if(err) err.textContent=''; selectPart(d.part); return; }
+    if(d&&d.down){ markVisionDown(); visionFail(true); return; }
+    visionFail();
+  }).catch(function(){ if(myGen===camGen) visionFail(); });
+  ev.target.value='';
 }
 
-function visionFail(){
+function visionFail(down){
   camGen++; stopLiveScan();
   var cb=$('camBtn'); if(cb) cb.classList.remove('on');
   var err=$('camErr'); if(err){
-    err.textContent=T('Couldn\u2019t read the image yet \u2014 tap your body part on the map instead.','暂时无法识别图片 — 请直接在人体图上点击相应部位。');
+    err.textContent=down
+      ? T('Photo scan is offline right now \u2014 describe it above or tap the body map.','照片识别暂时离线 — 请在上方描述，或点击人体图。')
+      : T('The photo didn\u2019t show a clear body part \u2014 try closer and in good light, describe it above, or tap the map.','照片中看不清身体部位 — 请靠近并在光线充足处重拍，或在上方描述，或点击人体图。');
   }
+  if(down) setVisionOffline();
+  var d=$('ckDescIn'); if(d && down) { try{ d.focus({preventScroll:true}); }catch(e){} }
+}
+function setVisionOffline(){
+  var row=document.querySelector('.checkup-camrow'); if(row) row.classList.add('ck-vision-off');
+  var cb=$('camBtn'); if(cb){ cb.disabled=true; cb.title=T('Photo scan is offline right now','照片识别暂时离线'); }
+  var fb=$('camFileBtn'); if(fb){ fb.disabled=true; }
 }
 
 /* ── analyze ── */
@@ -543,11 +734,19 @@ function analyze(){
     '4) **Self-check questions** (2-3 quick ones to narrow it down). '+
     'Keep it practical, calm, and clearly state this is NOT a medical diagnosis.';
 
-  fetch(MEDAI_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({question:q,lang:lang()})
-  }).then(function(r){ return r.json(); }).then(function(d){
+  function ask(){
+    return fetch(MEDAI_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q,lang:lang(),mode:'clinical'})
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(!(d&&d.reply&&!d.rejected)) throw new Error('no_reply');
+      return d;
+    });
+  }
+  ask().catch(function(){ return new Promise(function(r){ setTimeout(r,900); }).then(ask); })
+  .catch(function(){ return { reply: localGuidance(p, picked), local:true }; })
+  .then(function(d){
     var btn2=$('analyzeBtn'); if(btn2) btn2.disabled=false;
     if(!out) return;
     if(d&&d.reply){

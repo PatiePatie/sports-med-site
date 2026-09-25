@@ -237,55 +237,93 @@ const CHECKUP_PARTS = [
   "upperback", "lowerback", "hip", "thigh", "knee", "shin", "ankle", "foot",
 ];
 
+// Words a vision model actually uses → our part ids. The old parser only
+// accepted the exact string {"part":"id"}, so "lower back", a code fence or a
+// stray space all came back as "not found" — the "couldn't read" loop.
+const PART_WORDS = [
+  ["upperback", ["upper back", "upper_back", "shoulder blade", "scapula", "thoracic"]],
+  ["lowerback", ["lower back", "lower_back", "low back", "lumbar", "back"]],
+  ["shoulder", ["shoulder", "deltoid", "upper arm", "collarbone", "clavicle"]],
+  ["elbow", ["elbow"]],
+  ["wrist", ["wrist", "forearm"]],
+  ["hand", ["hand", "finger", "thumb", "palm", "knuckle"]],
+  ["head", ["head", "face", "forehead", "temple", "jaw", "skull"]],
+  ["neck", ["neck"]],
+  ["chest", ["chest", "rib", "sternum", "pectoral"]],
+  ["abdomen", ["abdomen", "stomach", "belly", "abdominal"]],
+  ["hip", ["hip", "glute", "buttock", "groin", "pelvis"]],
+  ["thigh", ["thigh", "hamstring", "quadricep", "quad"]],
+  ["knee", ["knee", "patella", "kneecap"]],
+  ["shin", ["shin", "calf", "calves", "tibia", "lower leg"]],
+  ["ankle", ["ankle", "achilles"]],
+  ["foot", ["foot", "feet", "toe", "heel", "sole", "arch"]],
+];
+function parsePart(txt) {
+  const s = String(txt || "").toLowerCase();
+  // 1) JSON anywhere in the reply (code fences, spaces, extra keys all fine)
+  const j = s.match(/\{[\s\S]*?\}/);
+  if (j) {
+    try {
+      const o = JSON.parse(j[0]);
+      const v = String(o.part == null ? "" : o.part).toLowerCase().replace(/[\s-]+/g, "");
+      if (CHECKUP_PARTS.includes(v)) return v;
+      if (o.part != null) { const w = wordPart(String(o.part)); if (w) return w; }
+      if (o.part === null && !/\b(knee|ankle|wrist|elbow|shoulder)\b/.test(s)) return null;
+    } catch (e) {}
+  }
+  // 2) a bare id or a body-part word in prose
+  return wordPart(s);
+}
+function wordPart(s) {
+  s = " " + String(s).toLowerCase().replace(/[^a-z_ ]+/g, " ") + " ";
+  for (const id of CHECKUP_PARTS) if (s.includes(" " + id + " ")) return id;
+  for (const [id, words] of PART_WORDS) {
+    for (const w of words) if (s.includes(" " + w + " ") || s.includes(" " + w + "s ")) return id;
+  }
+  return null;
+}
+
+async function visionAsk(env, image, prompt) {
+  const r = await fetch("https://open.bigmodel.cn/api/paas/v4/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.ZHIPU_API_KEY },
+    body: JSON.stringify({
+      model: MODEL.vision,
+      messages: [{ role: "user", content: [
+        { type: "image_url", image_url: { url: image } },
+        { type: "text", text: prompt },
+      ] }],
+      temperature: 0.1,
+    }),
+  });
+  if (!r.ok) throw new Error("vision_upstream_" + r.status);
+  const data = await r.json();
+  return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+}
+
 async function checkupVision(body, env) {
   const image = body.image;
   if (!image || typeof image !== "string") {
     return json({ ok: false, error: "no_image" }, 400);
   }
-  const lang = body.lang === "zh" ? "zh" : "en";
+  // Ask what the photo SHOWS, not what is "injured": people point the camera
+  // at the spot that hurts, and most sore spots look perfectly normal.
   const prompt =
-    lang === "zh"
-      ? "只看这张照片中人体不适当部位。只能用这些ID之一回答: " +
-        CHECKUP_PARTS.join(",") +
-        "。若无法确定,回答 null。输出格式: {\"part\": \"id\"} 或 {\"part\": null},不要输出其他内容。"
-      : "Identify the body part in this photo that is injured or uncomfortable, using ONLY one of these IDs: " +
-        CHECKUP_PARTS.join(",") +
-        ". If none can be determined, use null. Reply with EXACTLY {\"part\": \"id\"} or {\"part\": null} and nothing else.";
+    "A person photographed the part of their body that hurts. Which body region is the main subject of the " +
+    "photo (closest to the camera, filling the frame, or being touched/pointed at)? Choose ONE id from: " +
+    CHECKUP_PARTS.join(", ") +
+    '. Reply with JSON only: {"part":"<id>"} — or {"part":null} only if no body is visible at all.';
 
-  let r;
+  let txt = "";
   try {
-    r = await fetch("https://open.bigmodel.cn/api/paas/v4/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + env.ZHIPU_API_KEY,
-      },
-      body: JSON.stringify({
-        model: MODEL.vision,
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "image_url", image_url: { url: image } },
-              { type: "text", text: prompt },
-            ],
-          },
-        ],
-        temperature: 0.1,
-      }),
-    });
+    txt = await visionAsk(env, image, prompt);
   } catch (e) {
-    return json({ ok: false, error: "vision_network" }, 502);
+    // some Zhipu deployments reject the data: prefix — retry with bare base64
+    const bare = image.replace(/^data:image\/[a-z+]+;base64,/, "");
+    try { txt = await visionAsk(env, bare, prompt); }
+    catch (e2) { return json({ ok: false, error: String(e2.message || e2) }, 502); }
   }
-  if (!r.ok) {
-    return json({ ok: false, error: "vision_upstream_" + r.status }, 502);
-  }
-  const data = await r.json();
-  const txt =
-    (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
-  const m = txt.match(/\{"part"\s*:\s*("?)([a-z]*)\1\}/);
-  const part = m && CHECKUP_PARTS.includes(m[2]) ? m[2] : null;
-  return json({ ok: true, part });
+  return json({ ok: true, part: parsePart(txt), raw: String(txt).slice(0, 120) });
 }
 
 // ── Handlers ──────────────────────────────────────────────────────────────────

@@ -6,6 +6,16 @@
 > file IS the source of truth and must be pasted into the CF dashboard to
 > activate the clinical/site split. Ping on PR #111.
 
+> **⚠️ 2026-09-25 — the LIVE worker is out of date.** `api.vitaliteplan.com`
+> answers `{"type":"checkup_vision"}` with `400 {"error":"empty_question"}`, i.e.
+> the deployed copy has no vision branch, so Checkup's camera / photo scan has
+> never worked in production ("Couldn't read the image"). Paste this file into
+> the dashboard to fix it. The front end now detects this state, says the scan is
+> offline, and routes people to the describe-it box instead of failing.
+> This file's vision branch also got sturdier parsing (JSON anywhere, "lower
+> back" / code fences / prose all map to an id), a prompt that asks what the
+> photo *shows* rather than what looks "injured", and a bare-base64 retry.
+
 Two assistants, one Cloudflare Worker.
 
 ## Assistant routing

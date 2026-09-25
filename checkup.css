@@ -122,3 +122,14 @@ body.dark .checkup-view .ck-thumb{background:var(--surface3);box-shadow:3px 3px 
   .checkup-panel{padding:1rem}
   .checkup-map{width:210px}
 }
+
+/* ── Describe it (smart text entry) ── */
+.checkup-describe{margin:0 0 1.2rem}
+.checkup-describe .ck-desc-lbl{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:.45rem}
+.checkup-describe .ck-desc-row{display:flex;gap:.6rem;align-items:center}
+.checkup-describe input{flex:1;min-width:0;padding:.7rem 1.1rem;font:inherit;font-size:.9rem;border-radius:999px;border:1px solid var(--border);background:var(--surface2);color:var(--text)}
+.checkup-describe .checkup-btn{flex:none;padding:.65rem 1.3rem}
+.checkup-describe .ck-desc-out{min-height:1.2em;margin-top:.55rem;font-size:.8rem;color:var(--text3);display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}
+.checkup-describe .ck-desc-out .checkup-spin{display:inline-block;vertical-align:-3px}
+.checkup-camrow.ck-vision-off .checkup-cam,.checkup-camrow.ck-vision-off .checkup-cam-alt{opacity:.45;cursor:not-allowed}
+@media(max-width:600px){.checkup-describe .ck-desc-row{flex-direction:column;align-items:stretch}}

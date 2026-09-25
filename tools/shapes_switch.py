@@ -28,10 +28,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-CSS = "shapes-skin.css?v=2"
-JS = "shapes-fx.js?v=2"
-SOFT_CSS = "soft-glass.css?v=1"
-SOFT_JS = "soft-fx.js?v=1"
+CSS = "shapes-skin.css?v=3"
+JS = "shapes-fx.js?v=3"
+SOFT_CSS = "soft-glass.css?v=2"
+SOFT_JS = "soft-fx.js?v=2"
 
 BEGIN = "<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->"
 END = "<!-- SHAPES-THEME:END -->"
@@ -41,11 +41,19 @@ BLOCK = (
     f'<script src="{JS}" defer></script>\n'
     f'<link rel="stylesheet" href="{SOFT_CSS}">\n'
     f'<script src="{SOFT_JS}" defer></script>\n'
-    # html background before any sheet lands: no white frame on navigation
-    "<script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>\n"
-    "<style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>\n"
     f"{END}\n"
 )
+# First thing in <head>, before ANY stylesheet or blocking script: the saved
+# theme becomes the html background + color-scheme. Firefox/Zen (no cross-doc
+# view transitions) paints its default white canvas while <head> is still
+# blocked on CSS and CDN scripts; a dark color-scheme meta + inline background
+# makes that first canvas dark instead.
+HEAD = ("<!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;"
+        "h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';"
+        "document.write('<meta name=\"color-scheme\" content=\"'+(d?'dark':'light')+'\">')}catch(e){}})()</script>")
+HEAD_RE = re.compile(r"<!-- SHAPES-HEAD --><script>.*?</script>\n?")
+HEADTAG_RE = re.compile(r"<head\b[^>]*>\n?")
+
 EARLY = ("<!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')"
          "document.body.classList.add('dark')}catch(e){}</script>")
 EARLY_RE = re.compile(r"<!-- SHAPES-EARLY --><script>.*?</script>\n?")
@@ -64,6 +72,10 @@ def on(path):
     orig = text
     text = BLOCK_RE.sub("", text)          # stale pins → replace
     text = EARLY_RE.sub("", text)
+    text = HEAD_RE.sub("", text)
+    h = HEADTAG_RE.search(text)
+    if h:
+        text = text[:h.end()] + HEAD + "\n" + text[h.end():]
     i = text.rindex("</head>")
     text = text[:i] + BLOCK + text[i:]
     b = BODY_RE.search(text)
@@ -79,7 +91,8 @@ def off(path):
     text = path.read_text(encoding="utf-8")
     new, n = BLOCK_RE.subn("", text)
     new, n2 = EARLY_RE.subn("", new)
-    if not (n or n2):
+    new, n3 = HEAD_RE.subn("", new)
+    if not (n or n2 or n3):
         return "skip", "not applied"
     path.write_text(new, encoding="utf-8")
     return "off", "removed"
@@ -92,6 +105,8 @@ def status(path):
         return "OFF", ""
     if m.group(0) != BLOCK:
         return "STALE", "pins differ — run on"
+    if HEADTAG_RE.search(text) and HEAD not in text:
+        return "STALE", "no head-first theme script — run on"
     if BODY_RE.search(text) and EARLY not in text:
         return "STALE", "no early dark-mode script — run on"
     return "ON", ""

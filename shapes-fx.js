@@ -70,6 +70,29 @@
          '<feComposite in="dark" in2="rough" operator="in" result="d2"/>' +
          '<feMerge><feMergeNode in="rough"/><feMergeNode in="d2"/><feMergeNode in="l2"/></feMerge>' +
          '</filter>';
+    /* Airbrush (the Optimal Shapes look): each form keeps its flat ink and gets
+       sprayed, speckled shading INSIDE its silhouette — a dark spray where the
+       surface turns away (lower-right), a white spray where it catches light
+       (upper-left). No hard drop shadows. */
+    d += '<filter id="os-air" filterUnits="userSpaceOnUse" x="-6" y="-6" width="220" height="112" color-interpolation-filters="sRGB">' +
+         '<feTurbulence type="fractalNoise" baseFrequency="1.45" numOctaves="2" seed="7" result="t"/>' +
+         '<feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 2.6 -.7" result="tn"/>' +
+         '<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>' +
+         /* dark spray: the rim that the up-left shifted blur doesn't cover */
+         '<feOffset in="b" dx="-6" dy="-7" result="bu"/>' +
+         '<feComposite in="SourceAlpha" in2="bu" operator="out" result="sm"/>' +
+         '<feComposite in="sm" in2="tn" operator="arithmetic" k1="1.5" k2=".18" k3="0" k4="0" result="sm2"/>' +
+         '<feFlood flood-color="#061022" flood-opacity=".62"/><feComposite in2="sm2" operator="in" result="shade"/>' +
+         /* light spray: the opposite rim */
+         '<feOffset in="b" dx="6" dy="7" result="bd"/>' +
+         '<feComposite in="SourceAlpha" in2="bd" operator="out" result="hm"/>' +
+         '<feComposite in="hm" in2="tn" operator="arithmetic" k1="1.6" k2="0" k3="0" k4="0" result="hm2"/>' +
+         '<feFlood flood-color="#FFFFFF" flood-opacity=".75"/><feComposite in2="hm2" operator="in" result="lite"/>' +
+         /* fine stipple all over, inside the shape only */
+         '<feColorMatrix in="t" type="matrix" values="0 0 0 0 .02  0 0 0 0 .06  0 0 0 0 .14  0 9 0 0 -6.4" result="dk"/>' +
+         '<feComposite in="dk" in2="SourceAlpha" operator="in" result="dk2"/>' +
+         '<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="shade"/><feMergeNode in="lite"/><feMergeNode in="dk2"/></feMerge>' +
+         '</filter>';
     s.innerHTML = '<defs>' + d + '</defs>' +
       /* extrusion copies: every part painted one flat shadow colour */
       '<style>.os-x *{fill:var(--os-xc)!important;stroke:var(--os-xc)!important}' +
@@ -81,22 +104,21 @@
 
   function wrap(inner, opts, vb) {
     opts = opts || {};
-    var f = opts.grain === false ? '' : ' filter="url(#os-speckle)"';
+    var f = opts.grain === false ? '' : ' filter="url(#os-air)"';
     return '<svg xmlns="' + NS + '" viewBox="' + (vb || '0 0 100 100') + '" aria-hidden="true" focusable="false">' +
            '<g' + f + '>' + inner + '</g></svg>';
   }
   /* A hard extruded shadow under the parts — the print-poster depth. */
-  function dim(parts, xc, dx, dy) {
-    return '<g class="os-x" style="--os-xc:' + (xc || DEEP) + '" transform="translate(' + (dx || 3) + ' ' + (dy || 4) + ')">' +
-           parts + '</g>' + parts;
-  }
+  /* (was a hard extruded print shadow — the airbrush filter shades the form now) */
+  function dim(parts) { return parts; }
   function poly(pts, fill) { return '<polygon points="' + pts + '" fill="' + fill + '"/>'; }
   function pt(cx, cy, r, deg) {
     var a = deg * Math.PI / 180;
     return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
   }
   function f1(n) { return Math.round(n * 10) / 10; }
-  function shine(cx, cy, rx, ry, rot) {
+  function shine() { return ''; }   /* glossy highlights retired: the spray lights the form */
+  function shineOld(cx, cy, rx, ry, rot) {
     return '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="#fff" opacity=".32"' +
            (rot ? ' transform="rotate(' + rot + ' ' + cx + ' ' + cy + ')"' : '') + '/>';
   }
@@ -582,6 +604,7 @@
       raf = requestAnimationFrame(function () {
         raf = 0;
         if (!root.classList.contains('os-semi')) return;
+        if (root.classList.contains('sg-wheel')) return;   /* soft-fx.js drives the wheel */
         var r = sb.getBoundingClientRect();
         var R = r.height / 2, cy = r.top + R;
         var band = R * 0.8, wMin = Math.sqrt(R * R - band * band);

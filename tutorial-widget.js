@@ -142,12 +142,15 @@
     var prev=el('button','tut-btn'); 
     var next=el('button','tut-btn primary');
     btns.appendChild(skip); btns.appendChild(prev); btns.appendChild(next);
-    tip.appendChild(badge); tip.appendChild(title); tip.appendChild(body);
+    var count=el('div','tut-count');
+    var head=el('div','tut-head'); head.appendChild(badge); head.appendChild(count);
+    tip.appendChild(head); tip.appendChild(title); tip.appendChild(body);
     tip.appendChild(dots); tip.appendChild(btns);
     root.appendChild(veil); root.appendChild(spot); root.appendChild(tip);
     document.body.appendChild(root);
 
-    var i=0;
+    var i=0, dir=1, first=true;
+    requestAnimationFrame(function(){ root.classList.add('tut-live'); });
     function swapLabel(b,lbl,titled){ if(titled) b.title=lbl; }
     function fmt(b,lbl,primary){ b.textContent=lbl; b.className='tut-btn'+((primary?' primary':'')); }
     function render(){
@@ -162,9 +165,14 @@
       body.appendChild(el('span','tut-l-zh',s.b[1]));
       dots.textContent='';
       for(var k=0;k<STEPS.length;k++){
-        var d=el('span','tut-dot'+(k===i?' on':''));
+        var d=el('span','tut-dot'+(k===i?' on':'')+(k<i?' done':''));
         dots.appendChild(d);
       }
+      dots.style.setProperty('--tut-p',((i+1)/STEPS.length*100).toFixed(1)+'%');
+      count.textContent=(i+1)+' / '+STEPS.length;
+      /* the card's content comes in out of a fog, from the side you're heading */
+      tip.setAttribute('data-dir', dir>0?'next':'prev');
+      tip.classList.remove('tut-in'); void tip.offsetWidth; tip.classList.add('tut-in');
       prev.style.visibility = (i===0)?'hidden':'visible';
       var done=(i===STEPS.length-1);
       fmt(skip, cn?'跳过':'Skip', false);
@@ -187,9 +195,16 @@
       var stud=window.VitaliteStudyTools;
       if(stud && stud.isOpen && stud.isOpen() && !s.menu){ try{ stud.close(); }catch(e){} }
       if(stud && stud.open && s.menu){ try{ stud.open(); }catch(e){} }
+      /* on the sidebar step, bloom the semicircle open so there's something to see */
+      var sbEl=document.querySelector('.sidebar');
+      var semi=document.documentElement.classList.contains('os-semi');
+      var onSb=!!(target && sbEl && (target===sbEl || sbEl.contains(target)) && semi);
+      if(sbEl && semi) sbEl.classList.toggle('os-open', onSb);
+      spot.classList.toggle('tut-semi', onSb);
       var place=function(){
-        var cls='tut-root '+(target?'has-spot':'');
+        var cls='tut-root tut-live '+(target?'has-spot':'')+(first?' tut-first':'');
         root.className=cls;
+        first=false;
         if(target){
           var r=target.getBoundingClientRect();
           var pad=12;
@@ -198,6 +213,11 @@
           spot.style.top=(r.top-pad)+'px';
           spot.style.width=(r.width+pad*2)+'px';
           spot.style.height=(r.height+pad*2)+'px';
+          /* the fogged veil gets a clear window where the ring is */
+          root.style.setProperty('--tut-x',(r.left-pad)+'px');
+          root.style.setProperty('--tut-y',(r.top-pad)+'px');
+          root.style.setProperty('--tut-w',(r.width+pad*2)+'px');
+          root.style.setProperty('--tut-h',(r.height+pad*2)+'px');
           tip.style.position='fixed';
           /* put the card below the target unless it would overflow; else above */
           var below=r.bottom+16+tip.offsetHeight;
@@ -221,7 +241,13 @@
     }
 
     function finish(){
+      if(root.classList.contains('tut-out')) return;
+      root.classList.add('tut-out');
+      setTimeout(finishNow, 380);
+    }
+    function finishNow(){
       clearFlag(); markDone();
+      try{ var sbx=document.querySelector('.sidebar'); if(sbx && !sbx.matches(':hover')) sbx.classList.remove('os-open'); }catch(e){}
       try{ if(window.VitaliteStudyTools && window.VitaliteStudyTools.close) window.VitaliteStudyTools.close(); }catch(e){}
       try{ document.body.style.overflow=''; }catch(e){}
       if(root && root.parentNode) root.parentNode.removeChild(root);
@@ -236,14 +262,14 @@
     function onResize(){ if(window._tutPlace) setTimeout(window._tutPlace,40); }
 
     skip.addEventListener('click',finish);
-    prev.addEventListener('click',function(){ if(i>0){ i--; render(); } });
+    prev.addEventListener('click',function(){ if(i>0){ i--; dir=-1; render(); } });
     next.addEventListener('click',function(){
-      if(i<STEPS.length-1){ i++; render(); }
+      if(i<STEPS.length-1){ i++; dir=1; render(); }
       else finish();
     });
     api.render=render;
-    api.next=function(){ if(i<STEPS.length-1){ i++; render(); } };
-    api.prev=function(){ if(i>0){ i--; render(); } };
+    api.next=function(){ if(i<STEPS.length-1){ i++; dir=1; render(); } };
+    api.prev=function(){ if(i>0){ i--; dir=-1; render(); } };
     api.finish=finish;
     api.afterLang=function(){ render(); syncReplayLabel(); };
     bindUiEvents();

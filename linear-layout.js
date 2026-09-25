@@ -232,9 +232,10 @@
        reorg here so the homepage renders its designed header. */
     if (isMarketing) return;
 
-    /* No sidebar toggle in the bar — Patrick keeps the sidebar as is and
-       never toggles it, so the ☰ is left where the page put it (and hidden
-       by the skin on desktop). */
+    var sidebarToggle = document.getElementById('sidebarToggle');
+    if (sidebarToggle && sidebarToggle.parentNode !== inner) {
+      inner.insertBefore(sidebarToggle, inner.firstChild);
+    }
 
     /* Page context. The wordmark lives in the rail on desktop, so the top-left
        is free for the breadcrumb Linear puts there. */

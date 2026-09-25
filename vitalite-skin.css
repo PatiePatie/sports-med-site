@@ -113,6 +113,32 @@ body.lin-v2.lin-rail-collapsed .part-toggle .part-caret{
   body.lin-v2 .page-wrapper,
   body.lin-v2.lin-rail-collapsed .page-wrapper{margin-left:0}
   body.lin-v2 .lin-rail-collapse{display:none}
+  body.lin-v2 .lin-topbar-inner > .sidebar-toggle{
+    display:inline-flex!important;
+    position:static;
+    top:auto;left:auto;
+    z-index:auto;
+    order:-2;
+    flex:0 0 30px;
+    width:30px;min-width:30px;height:30px;padding:0;
+    align-items:center;justify-content:center;
+    border-radius:10px;
+    background:var(--surface2);
+    color:var(--text2);
+    box-shadow:var(--shadow-sm);
+  }
+  body.lin-v2 .lin-topbar-inner > .sidebar-toggle:hover{
+    color:var(--accent);border-color:var(--accent);background:var(--surface);
+  }
+  body.lin-v2 .sidebar{
+    padding-top:4.25rem;
+  }
+  body.lin-v2 .sidebar.open{
+    box-shadow:0 18px 48px rgba(8,14,24,.24);
+  }
+  body.lin-v2.sm-locked .lin-topbar-inner > .sidebar-toggle{
+    color:var(--accent);border-color:var(--accent);background:var(--surface);
+  }
   body.lin-v2.lin-rail-collapsed .sidebar-logo{
     height:auto;padding:0 1rem .75rem;margin:0 0 .5rem;
     border-bottom:1px solid var(--border);
@@ -166,10 +192,18 @@ body.lin-v2 .sidebar-logo a:focus{
 body.lin-v2 .lin-pagetabs{display:none}
 body.lin-v2 .lin-context{display:none}
 
-/* ── Patrick: no sidebar toggle ─────────────────────────────────────────
-   The ☰ drawer/rail button is removed — the sidebar is always present and
-   never collapsed, so there is nothing to toggle. */
 body.lin-v2 .sidebar-toggle{display:none!important}
+
+.sm-backdrop{
+  position:fixed;inset:0;z-index:149;
+  background:rgba(8,14,24,.48);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;
+  transition:opacity .22s ease;
+}
+.sm-backdrop.show{opacity:1;pointer-events:auto}
+body.dark .sm-backdrop{background:rgba(0,0,0,.68)}
+body.sm-locked{overflow:hidden}
 
 /* ── Top bar layout + toggles ─────────────────────────────────────────────
    The layout script builds a .lin-topbar-inner with:
@@ -467,6 +501,9 @@ body.lin-v2 .lin-search-dd .lin-cmdk-item .lin-cmdk-hint{
   body.lin-v2 .header-actions{gap:10px}
   body.lin-v2 .header-actions .btn-login{max-width:38px;padding:.45rem .5rem}
   body.lin-v2 .header-actions .btn-login .bl-name{display:none}
+}
+@media (max-width:480px){
+  body.lin-v2 .lin-search-cluster{display:none}
 }
 
 /* ── Rail icons: equal spacing, always fit ────────────────────────────────────────

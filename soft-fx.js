@@ -7,6 +7,9 @@
      4 · fog        cards and sections come in out of a blur as they scroll in
      5 · splash     the loading screens keep the hospital and get the
                     airbrushed Vitalité icons floating around the mark
+     8 · arrival    the whole page comes up out of a fog
+     9 · swaps      dark/light spreads from the toggle; 中/EN fogs through
+    10 · categories switching category washes through its colour + emblem
 
    Fails soft everywhere; nothing here owns content.
    Remove with: python3 tools/shapes_switch.py off
@@ -19,6 +22,8 @@
   var body = document.body;
   if (!body) return;
 
+  /* read before anything clears them: is the whole page arriving through a fog? */
+  var ARRIVE = root.classList.contains('sg-lf') || root.classList.contains('sg-catgo');
   var REDUCE = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var FINE = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
   function safe(fn) { try { fn(); } catch (e) { if (window.console) console.warn('[soft-fx]', e); } }
@@ -53,7 +58,7 @@
   var SHEEN = '.feature-card,.fork-card,.ch-card,.stat-card,.qo-card,.res-card,.dash-card,.for-topic,' +
               '.checkup-panel,.chat-window,.plan-card,.quiz-card,.acc-item';
   function sheen() {
-    if (!FINE) return;
+    if (!FINE || FAB) return;
     var raf = 0, last = null, lx = 0, ly = 0;
     document.addEventListener('pointermove', function (e) {
       var t = e.target && e.target.closest ? e.target.closest(SHEEN) : null;
@@ -71,44 +76,62 @@
     }, { passive: true });
   }
 
-  /* ─── 3b · Fabric: a dimple pressed into the page under the pointer ─── */
+  /* ─── 3b · Fabric: the page is cloth, the pointer presses into it ───── */
+  /* One dimple, built from still layers (a shaded bowl, a shadowed wall
+     toward the light, a lit wall away from it, and folds pulled toward the
+     finger). Per frame only transform + opacity change, so it never repaints.
+     The dimple follows with a critically damped ease (no overshoot, no
+     wobble), stretches along the drag with a smooth matrix (no angle snap),
+     and sinks deeper over controls and while pressed. */
+  var FAB = false;
   function fabric() {
     if (!FINE || REDUCE) return;
+    FAB = true;
+    root.classList.add('sg-fab');
     var f = document.createElement('div');
     f.className = 'sg-fabric';
     f.setAttribute('aria-hidden', 'true');
+    f.innerHTML = '<i class="sg-f-bowl"></i><i class="sg-f-shade"></i><i class="sg-f-lit"></i><i class="sg-f-fold"></i>';
     body.appendChild(f);
-    var tx = -500, ty = -500, x = -500, y = -500, vx = 0, vy = 0, depth = 0.13, want = 0.13, raf = 0, idle = 0;
-    var HOT = 'a,button,[role=button],input,textarea,select,label,.sidebar-link,.for-topic,.ch-card,.fork-card,.feature-card';
-    function tick() {
-      /* spring toward the pointer: cloth lags a beat behind the finger */
-      var ax = (tx - x) * 0.2, ay = (ty - y) * 0.2;
-      vx = vx * 0.62 + ax; vy = vy * 0.62 + ay;
-      x += vx; y += vy;
-      depth += (want - depth) * 0.18;
-      var sp = Math.min(Math.sqrt(vx * vx + vy * vy), 40);
-      var ang = Math.atan2(vy, vx) * 57.2958;
-      var st = 1 + sp / 55;                     /* stretch along the drag */
-      f.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + ang.toFixed(1) +
-                          'deg) scale(' + st.toFixed(3) + ',' + (1 / Math.sqrt(st)).toFixed(3) + ')';
-      f.style.setProperty('--sg-dent', depth.toFixed(3));
-      if (Math.abs(tx - x) + Math.abs(ty - y) + sp < 0.3 && Math.abs(want - depth) < 0.002) { raf = 0; return; }
+    var tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, dent = 0.5, want = 0.5;
+    var raf = 0, idle = 0, last = 0, seen = false;
+    var HOT = 'a,button,[role=button],input,textarea,select,label,summary,.sidebar-link,.for-topic,.ch-card,.fork-card,.feature-card';
+    function ease(dt, tau) { return 1 - Math.exp(-dt / tau); }
+    function tick(now) {
+      var dt = last ? Math.min(50, now - last) : 16;
+      last = now;
+      var px = x, py = y, k = ease(dt, 42);
+      x += (tx - x) * k; y += (ty - y) * k;
+      var kv = ease(dt, 60);                           /* smoothed velocity, px per 16ms */
+      vx += ((x - px) / dt * 16 - vx) * kv;
+      vy += ((y - py) / dt * 16 - vy) * kv;
+      dent += (want - dent) * ease(dt, 80);
+      var sp = Math.sqrt(vx * vx + vy * vy);
+      var s = 1 + Math.min(sp, 40) / 70, q = 1 / Math.sqrt(s), d = s - q;
+      var ux = sp > 0.01 ? vx / sp : 1, uy = sp > 0.01 ? vy / sp : 0;
+      var g = 1.06 - dent * 0.12;                      /* deeper press = tighter dimple */
+      var m11 = (q + d * ux * ux) * g, m12 = d * ux * uy * g, m22 = (q + d * uy * uy) * g;
+      /* the cloth trails the finger a little */
+      f.style.transform = 'translate3d(' + (x - vx * 0.9).toFixed(1) + 'px,' + (y - vy * 0.9).toFixed(1) + 'px,0) matrix(' +
+        m11.toFixed(4) + ',' + m12.toFixed(4) + ',' + m12.toFixed(4) + ',' + m22.toFixed(4) + ',0,0)';
+      f.style.setProperty('--sg-dent', dent.toFixed(3));
+      if (Math.abs(tx - x) + Math.abs(ty - y) < 0.15 && sp < 0.04 && Math.abs(want - dent) < 0.003) { raf = 0; last = 0; return; }
       raf = requestAnimationFrame(tick);
     }
     function kick() { if (!raf) raf = requestAnimationFrame(tick); }
     document.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse') return;
-      if (x < -400) { x = e.clientX; y = e.clientY; }
+      if (!seen) { x = tx = e.clientX; y = ty = e.clientY; seen = true; }
       tx = e.clientX; ty = e.clientY;
       var hot = e.target && e.target.closest ? e.target.closest(HOT) : null;
-      want = (e.buttons ? 0.24 : hot ? 0.18 : 0.13);
-      f.classList.add('on');
+      want = e.buttons ? 1 : hot ? 0.74 : 0.5;
+      if (!f.classList.contains('on')) f.classList.add('on');
       clearTimeout(idle);
       idle = setTimeout(function () { f.classList.remove('on'); }, 2600);   /* cloth relaxes when you stop */
       kick();
     }, { passive: true });
-    document.addEventListener('pointerdown', function () { want = 0.26; kick(); }, { passive: true });
-    document.addEventListener('pointerup', function () { want = 0.15; kick(); }, { passive: true });
+    document.addEventListener('pointerdown', function () { want = 1; kick(); }, { passive: true });
+    document.addEventListener('pointerup', function () { want = 0.74; kick(); }, { passive: true });
     document.documentElement.addEventListener('pointerleave', function () { f.classList.remove('on'); });
   }
 
@@ -119,8 +142,11 @@
   function fog() {
     if (REDUCE || !('IntersectionObserver' in window)) return;
     var skip = '.sidebar,header,.lin-topbar,.forum-overlay,#v-splash,#v-loader,.os-mosaic,.hero,.landing-hero,.tut-card,.qna-panel';
+    var whole = ARRIVE || !!document.getElementById('v-splash');
+    var H = window.innerHeight;
     var els = $$(FOG).filter(function (el) {
       if (el.closest(skip)) return false;
+      if (whole && el.getBoundingClientRect().top < H) return false;   /* the whole page is already fogging in */
       if (el.parentElement && el.parentElement.closest('.sg-fog')) return false;   /* no nested fogs */
       return true;
     });
@@ -186,12 +212,27 @@
     var mo = new MutationObserver(function (recs) {
       recs.forEach(function (r) {
         Array.prototype.forEach.call(r.addedNodes, function (n) {
-          if (n.id === 'v-loader' || n.id === 'v-splash') safe(function () { dress(n); });
+          if (n.id === 'v-loader' || n.id === 'v-splash') safe(function () { dress(n); handoff(n); });
         });
       });
     });
     mo.observe(body, { childList: true });
     setTimeout(function () { mo.disconnect(); }, 12000);
+    handoff(document.getElementById('v-splash'));
+    handoff(document.getElementById('v-loader'));
+  }
+  /* a loading screen starts sharp; when it leaves it blurs away while the
+     page underneath comes up out of the fog */
+  function handoff(n) {
+    if (!n || n._sgHand) return;
+    n._sgHand = true;
+    root.classList.remove('sg-lf');          /* never blur the splash itself on the way in */
+    var mo = new MutationObserver(function () {
+      if (!/-off\b/.test(n.className)) return;
+      mo.disconnect();
+      pageFogIn(true);
+    });
+    mo.observe(n, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* ─── 6 · Mosaic tiles get the sprayed shading ───────────────────────── */
@@ -280,13 +321,171 @@
     else window.addEventListener('load', function () { setTimeout(go, 300); });
   }
 
+  /* ─── 8 · Page arrival: the whole page comes up out of a fog ────────── */
+  /* The head-first script puts html.sg-lf on before first paint (not on the
+     splash page, and not after a category switch — those hand off here). The
+     blur lives on <html>, the one element whose filter doesn't break fixed
+     children, and is dropped the moment it settles so scrolling stays cheap. */
+  var fogT = 0;
+  function settle() {
+    clearTimeout(fogT);
+    root.classList.remove('sg-lf', 'sg-lf-hand');
+  }
+  function armSettle() {
+    clearTimeout(fogT);
+    fogT = setTimeout(settle, 1700);
+  }
+  function pageFogIn(hand) {
+    if (REDUCE) return;
+    root.classList.remove('sg-lf', 'sg-lf-hand');
+    void root.offsetWidth;                      /* restart the animation */
+    root.classList.add(hand ? 'sg-lf-hand' : 'sg-lf');
+    armSettle();
+  }
+  function pageFog() {
+    root.addEventListener('animationend', function (e) {
+      if (e.target === root && /^sg-page-/.test(e.animationName)) settle();
+    });
+    if (root.classList.contains('sg-lf')) armSettle();
+    window.addEventListener('pageshow', function (e) { if (e.persisted) settle(); });
+  }
+
+  /* ─── 9 · Theme + language swaps ─────────────────────────────────────── */
+  /* Dark/light spreads out of the toggle as a soft-edged circle; 中/EN fogs
+     the old words out and the new ones in. Every page wires its own toggle
+     handler, so this steps in front of the click, then replays it inside a
+     view transition (or behind a fog overlay where there are none). */
+  function swapFx() {
+    if (REDUCE) return;
+    var busy = false, passing = false;
+    document.addEventListener('click', function (e) {
+      if (passing) return;
+      var b = e.target && e.target.closest ? e.target.closest('#darkToggle,#langToggle') : null;
+      if (!b) return;
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      if (busy) return;
+      busy = true;
+      var theme = b.id === 'darkToggle';
+      var r = b.getBoundingClientRect();
+      var cx = r.width ? r.left + r.width / 2 : innerWidth - 40, cy = r.height ? r.top + r.height / 2 : 30;
+      var far = Math.sqrt(Math.pow(Math.max(cx, innerWidth - cx), 2) + Math.pow(Math.max(cy, innerHeight - cy), 2));
+      root.style.setProperty('--sg-tx', cx.toFixed(0) + 'px');
+      root.style.setProperty('--sg-ty', cy.toFixed(0) + 'px');
+      root.style.setProperty('--sg-tr', (far + 120).toFixed(0) + 'px');
+      function run() { passing = true; try { b.click(); } finally { passing = false; } }
+      var cls = theme ? 'sg-vt-theme' : 'sg-vt-lang';
+      function done() { root.classList.remove(cls); busy = false; }
+      if (document.startViewTransition) {
+        root.classList.add(cls);
+        try {
+          var vt = document.startViewTransition(run);
+          vt.finished.then(done, done);
+        } catch (x) { run(); done(); }
+        return;
+      }
+      /* no view transitions: a fog (or the new theme's colour) sweeps over */
+      var o = document.createElement('div');
+      o.className = 'sg-swap ' + (theme ? 'sg-swap-theme' : 'sg-swap-lang');
+      if (theme) o.style.background = body.classList.contains('dark') ? '#E4E9F0' : '#0B1628';
+      body.appendChild(o);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { o.classList.add('go'); }); });
+      setTimeout(function () {
+        run();
+        o.classList.add('done');
+        setTimeout(function () { if (o.parentNode) o.parentNode.removeChild(o); busy = false; }, 480);
+      }, theme ? 440 : 220);
+    }, true);
+  }
+
+  /* ─── 10 · Switching category: a wash in the category's colour ───────── */
+  /* Leaving Knowledge for the Infirmary (say) washes the page in the new
+     category's ink with its emblem; the next page opens under the same wash
+     (painted by the head script before first paint) and fogs it away. */
+  function pageKey(h) {
+    var s = String(h || '').split(/[?#]/)[0].replace(/^.*\//, '').replace(/\.html$/, '');
+    return s || 'index';
+  }
+  function catMap() {
+    var m = {};
+    /* by each link's innermost group: on some pages an unclosed div nests
+       the later groups inside Knowledge */
+    $$('.sidebar-group.part a.sidebar-link[href]').forEach(function (a) {
+      var h = a.getAttribute('href');
+      if (!h || h.charAt(0) === '#' || /^[a-z]+:/i.test(h)) return;
+      var pk = pageKey(h);
+      if (m[pk]) return;
+      var g = a.closest('.sidebar-group.part'), nm = g.querySelector('.part-name');
+      var k = (g.getAttribute('data-part') || '').replace('vitalite-', '');
+      m[pk] = { k: k, en: nm ? (nm.getAttribute('data-en') || nm.textContent) : k, zh: nm ? (nm.getAttribute('data-zh') || '') : '' };
+    });
+    return m;
+  }
+  function isZh() { try { return (localStorage.getItem('sm_lang') || '').toLowerCase() === 'zh'; } catch (e) { return false; } }
+  function washEl(c) {
+    var w = document.createElement('div');
+    w.className = 'sg-catwash';
+    w.setAttribute('data-cat', c.k);
+    w.setAttribute('aria-hidden', 'true');
+    var S = window.VitaliteShapes && window.VitaliteShapes.splash, e = EMBLEM['vitalite-' + c.k];
+    var zh = isZh() && c.zh;
+    w.innerHTML = '<div class="sg-cw-in"><div class="sg-cw-emb">' + (S && e && S[e] ? S[e]() : '') + '</div>' +
+      '<div class="sg-cw-name"></div><div class="sg-cw-sub">Vitalité</div></div>';
+    w.querySelector('.sg-cw-name').textContent = zh ? c.zh : c.en;
+    return w;
+  }
+  function catWash() {
+    /* arriving under a wash */
+    if (root.classList.contains('sg-catgo')) {
+      var c = null;
+      try { c = JSON.parse(sessionStorage.getItem('sg-catgo') || 'null'); } catch (x) {}
+      try { sessionStorage.removeItem('sg-catgo'); } catch (x) {}
+      var w = washEl(c || { k: root.getAttribute('data-sg-cat') || '', en: '', zh: '' });
+      body.appendChild(w);
+      root.classList.remove('sg-catgo');
+      setTimeout(function () {
+        pageFogIn(false);
+        w.classList.add('sg-cw-out');
+        setTimeout(function () { if (w.parentNode) w.parentNode.removeChild(w); }, 1000);
+      }, 380);
+    }
+    if (REDUCE) return;
+    var map = catMap(), here = map[pageKey(location.pathname)];
+    if (!here) return;
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+      var u;
+      try { u = new URL(a.href, location.href); } catch (x) { return; }
+      if (u.origin !== location.origin || pageKey(u.pathname) === pageKey(location.pathname)) return;
+      var to = map[pageKey(u.pathname)];
+      if (!to || to.k === here.k) return;
+      e.preventDefault();
+      try { sessionStorage.setItem('sg-catgo', JSON.stringify({ k: to.k, en: to.en, zh: to.zh, t: Date.now() })); } catch (x) {}
+      var w = washEl(to);
+      w.classList.add('sg-cw-enter');
+      root.classList.add('sg-leaving');
+      body.appendChild(w);
+      setTimeout(function () { location.href = u.href; }, 340);
+      window.addEventListener('pageshow', function (ev) {
+        if (!ev.persisted) return;             /* came back via bfcache: lift the wash */
+        root.classList.remove('sg-leaving');
+        if (w.parentNode) w.parentNode.removeChild(w);
+      }, { once: true });
+    });
+  }
+
   /* ─── Boot ───────────────────────────────────────────────────────────── */
   function boot() {
     safe(mountGrain);
     safe(themeSync);
+    safe(pageFog);
+    safe(catWash);
     safe(posters);
-    safe(sheen);
     safe(fabric);
+    safe(sheen);
+    safe(swapFx);
     safe(wheel);
     safe(studyDeepLink);
     safe(fog);

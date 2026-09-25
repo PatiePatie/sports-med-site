@@ -30,8 +30,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 CSS = "shapes-skin.css?v=3"
 JS = "shapes-fx.js?v=3"
-SOFT_CSS = "soft-glass.css?v=2"
-SOFT_JS = "soft-fx.js?v=2"
+SOFT_CSS = "soft-glass.css?v=3"
+SOFT_JS = "soft-fx.js?v=3"
 
 BEGIN = "<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->"
 END = "<!-- SHAPES-THEME:END -->"
@@ -50,7 +50,14 @@ BLOCK = (
 # makes that first canvas dark instead.
 HEAD = ("<!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;"
         "h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';"
-        "document.write('<meta name=\"color-scheme\" content=\"'+(d?'dark':'light')+'\">')}catch(e){}})()</script>")
+        "document.write('<meta name=\"color-scheme\" content=\"'+(d?'dark':'light')+'\">');"
+        # page arrival: a category wash when the last click changed category,
+        # otherwise the whole page fogs in (the splash page keeps its splash)
+        "if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;"
+        "var c=null;try{c=JSON.parse(sessionStorage.getItem('sg-catgo')||'null')}catch(e){}"
+        "if(c&&Date.now()-c.t<8000){h.classList.add('sg-catgo');h.setAttribute('data-sg-cat',c.k)}"
+        "else if(!/(^|\\/)(index(\\.html)?)?$/.test(location.pathname))h.classList.add('sg-lf')"
+        "}catch(e){}})()</script>")
 HEAD_RE = re.compile(r"<!-- SHAPES-HEAD --><script>.*?</script>\n?")
 HEADTAG_RE = re.compile(r"<head\b[^>]*>\n?")
 

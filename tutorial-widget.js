@@ -184,9 +184,7 @@
       if(s.sel){
         try{ target=document.querySelector(s.sel); }catch(e){}
       }
-      if(target && !s.menu){
-        target.scrollIntoView({behavior:'smooth',block:'center'});
-      }
+      if(target && !s.menu){ var z=target.getBoundingClientRect(); if(!z.width && !z.height) target=null; }  /* hidden on this page */
       /* Study-step targets live inside the top-bar Study Tools dropdown —
          open it FIRST so the flagged item (#stFlash/#stQuiz/#stExam/#stAI)
          has a real rect for the spotlight; close it again off those steps
@@ -201,42 +199,48 @@
       var onSb=!!(target && sbEl && (target===sbEl || sbEl.contains(target)) && semi);
       if(sbEl && semi) sbEl.classList.toggle('os-open', onSb);
       spot.classList.toggle('tut-semi', onSb);
+      /* Ring + veil window share four animatable vars (--tut-x/y/w/h, see the
+         CSS), so they glide together on the compositor-friendly path; the card
+         moves by transform. Nothing here animates left/top or a backdrop blur. */
       var place=function(){
-        var cls='tut-root tut-live '+(target?'has-spot':'')+(first?' tut-first':'');
-        root.className=cls;
-        first=false;
+        root.className='tut-root tut-live '+(target?'has-spot':'')+(first?' tut-first':'');
+        var cw=tip.offsetWidth, ch=tip.offsetHeight, W=window.innerWidth, H=window.innerHeight;
+        var cx=Math.max(8,(W-cw)/2), cy;
         if(target){
           var r=target.getBoundingClientRect();
           var pad=12;
           spot.style.display='block';
-          spot.style.left=(r.left-pad)+'px';
-          spot.style.top=(r.top-pad)+'px';
-          spot.style.width=(r.width+pad*2)+'px';
-          spot.style.height=(r.height+pad*2)+'px';
-          /* the fogged veil gets a clear window where the ring is */
-          root.style.setProperty('--tut-x',(r.left-pad)+'px');
-          root.style.setProperty('--tut-y',(r.top-pad)+'px');
-          root.style.setProperty('--tut-w',(r.width+pad*2)+'px');
-          root.style.setProperty('--tut-h',(r.height+pad*2)+'px');
-          tip.style.position='fixed';
-          /* put the card below the target unless it would overflow; else above */
-          var below=r.bottom+16+tip.offsetHeight;
-          var topPos=(below<window.innerHeight-16)?(r.bottom+16):Math.max(12,r.top-tip.offsetHeight-16);
-          tip.style.left='50%';
-          tip.style.transform='translateX(-50%)';
-          if(topPos<12) topPos=12;
-          tip.style.top=topPos+'px';
-          tip.style.bottom='auto';
+          root.style.setProperty('--tut-x',(r.left-pad).toFixed(1)+'px');
+          root.style.setProperty('--tut-y',(r.top-pad).toFixed(1)+'px');
+          root.style.setProperty('--tut-w',(r.width+pad*2).toFixed(1)+'px');
+          root.style.setProperty('--tut-h',(r.height+pad*2).toFixed(1)+'px');
+          /* below the target unless it would overflow; else above */
+          cy=(r.bottom+16+ch<H-16)?(r.bottom+16):Math.max(12,r.top-ch-16);
         } else {
           spot.style.display='none';
-          tip.style.position='fixed';
-          tip.style.left='50%';
-          tip.style.top='50%';
-          tip.style.transform='translate(-50%,-50%)';
-          tip.style.bottom='auto';
+          cy=(H-ch)/2;
         }
+        tip.style.left='0'; tip.style.top='0'; tip.style.bottom='auto';
+        tip.style.transform='translate3d('+cx.toFixed(0)+'px,'+Math.max(12,cy).toFixed(0)+'px,0)';
+        first=false;
       };
-      setTimeout(place,350); /* let scrollIntoView settle */
+      /* place now when the target is already on screen (most are: top bar,
+         sidebar); wait for the menu/semicircle to open, or for the scroll to land */
+      var wait=0;
+      if(target && !s.menu && !onSb){
+        var tr=target.getBoundingClientRect();
+        if(tr.top<8 || tr.bottom>window.innerHeight-8){
+          target.scrollIntoView({behavior:'smooth',block:'center'});
+          wait=-1;
+        }
+      }
+      if(s.menu || onSb) wait=380;
+      if(wait===-1){
+        var fired=false, go=function(){ if(fired) return; fired=true; window.removeEventListener('scrollend',go,true); place(); };
+        window.addEventListener('scrollend',go,true);
+        setTimeout(go,650);
+      } else if(wait) setTimeout(place,wait);
+      else place();
       window._tutPlace=place;
     }
 

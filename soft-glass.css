@@ -73,9 +73,9 @@ body{background-color:var(--bg)}
 /* ── Page transitions: cross-document, through a fog ───────────────────────── */
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:sg-vt-out .28s cubic-bezier(.4,0,1,1) both}
-::view-transition-new(root){animation:sg-vt-in .42s var(--sg-ease) both}
+::view-transition-new(root){animation:sg-vt-in .3s ease-out both}
 @keyframes sg-vt-out{to{opacity:0;filter:blur(10px);transform:scale(.992)}}
-@keyframes sg-vt-in{from{opacity:0;filter:blur(12px);transform:scale(1.006)}}
+@keyframes sg-vt-in{from{opacity:0}}   /* the blur-to-clear is html.sg-lf's job */
 /* the top bar holds still between pages instead of fading with them */
 body.lin-v2 .lin-topbar{view-transition-name:sg-topbar}
 ::view-transition-group(sg-topbar){animation-duration:0s}
@@ -449,30 +449,114 @@ html body:not(.dark) .hero h1:not(.os-gradtext) span.os-w:last-child .os-wt,
 html body:not(.dark) .hero h1:not(.os-gradtext) > span:only-child:not(.os-w){color:var(--os-crimson)!important}
 
 /* ── Fabric: the page is cloth, the pointer presses a dimple into it ─────────
-   soft-fx.js moves .sg-fabric after the pointer with a little lag and
-   stretches it along the drag, so the dent trails like fabric. */
-.sg-fabric{position:fixed;left:0;top:0;width:240px;height:240px;margin:-120px 0 0 -120px;
-  pointer-events:none;z-index:2147482990;opacity:0;will-change:transform,opacity;
-  transition:opacity .5s var(--sg-ease);border-radius:50%}
+   soft-fx.js moves .sg-fabric after the pointer (transform only) and sets
+   --sg-dent (.5 resting, .74 over controls, 1 pressed). The dimple is lit from
+   the top-left like the rest of the skin: its upper-left wall falls into
+   shade, its lower-right wall catches light, and the cloth around it is
+   pulled into soft folds that deepen as you press. No rings, no halo. */
+.sg-fabric{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;
+  pointer-events:none;z-index:2147482990;opacity:0;will-change:transform,opacity;contain:strict;
+  transition:opacity .6s var(--sg-ease)}
 .sg-fabric.on{opacity:1}
-.sg-fabric::before,.sg-fabric::after{content:"";position:absolute;inset:0;border-radius:50%}
-.sg-fabric::before{
+.sg-fabric > i{position:absolute;inset:0;border-radius:50%;display:block}
+/* the hollow itself: a soft falloff, darkest a touch up-left of centre */
+.sg-f-bowl{opacity:calc(var(--sg-dent,.5) * .9);
+  background:radial-gradient(closest-side at 47% 46%,rgba(20,40,72,.17),rgba(20,40,72,.1) 26%,rgba(20,40,72,.045) 50%,rgba(20,40,72,.012) 72%,transparent)}
+/* upper-left inner wall faces away from the light */
+.sg-f-shade{opacity:var(--sg-dent,.5);
+  background:radial-gradient(closest-side at 56% 57%,transparent 20%,rgba(20,40,72,.2) 40%,rgba(20,40,72,.07) 58%,transparent 74%);
+  -webkit-mask-image:linear-gradient(135deg,#000 22%,rgba(0,0,0,.35) 46%,transparent 60%);
+          mask-image:linear-gradient(135deg,#000 22%,rgba(0,0,0,.35) 46%,transparent 60%)}
+/* lower-right inner wall catches it */
+.sg-f-lit{opacity:var(--sg-dent,.5);
+  background:radial-gradient(closest-side at 44% 43%,transparent 24%,rgba(255,255,255,.5) 42%,rgba(255,255,255,.14) 58%,transparent 72%);
+  -webkit-mask-image:linear-gradient(315deg,#000 24%,rgba(0,0,0,.3) 46%,transparent 58%);
+          mask-image:linear-gradient(315deg,#000 24%,rgba(0,0,0,.3) 46%,transparent 58%)}
+/* folds: a few uneven, broad creases drawn toward the press, fading out in the cloth */
+.sg-f-fold{opacity:calc((var(--sg-dent,.5) - .38) * 1.25);
   background:
-    radial-gradient(closest-side at 44% 42%,rgba(20,40,72,var(--sg-dent,.13)),rgba(20,40,72,calc(var(--sg-dent,.13) * .45)) 45%,transparent 100%),
-    radial-gradient(closest-side at 57% 60%,transparent 62%,rgba(255,255,255,.34) 82%,transparent 100%);
-}
-/* the weave bunches up inside the dent: a denser grain, masked to the dimple */
-.sg-fabric::after{
-  opacity:.45;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .06 0 0 0 0 .12 0 0 0 0 .22 0 0 0 2.2 -1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:90px 90px;
-  -webkit-mask-image:radial-gradient(closest-side,#000 20%,transparent 75%);mask-image:radial-gradient(closest-side,#000 20%,transparent 75%);
-}
-body.dark .sg-fabric::before{background:
-    radial-gradient(closest-side at 44% 42%,rgba(0,0,0,calc(var(--sg-dent,.13) * 2.6)),rgba(0,0,0,calc(var(--sg-dent,.13) * 1.1)) 45%,transparent 100%),
-    radial-gradient(closest-side at 57% 60%,transparent 62%,rgba(150,190,240,.10) 82%,transparent 100%)}
-body.dark .sg-fabric::after{opacity:.55}
+    conic-gradient(from 0deg,transparent 6deg,rgba(20,40,72,0.075) 20deg,rgba(255,255,255,0.130) 32deg,transparent 46deg,transparent 59deg,rgba(20,40,72,0.052) 70deg,rgba(255,255,255,0.091) 78deg,transparent 89deg,transparent 109deg,rgba(20,40,72,0.068) 126deg,rgba(255,255,255,0.117) 140deg,transparent 157deg,transparent 179deg,rgba(20,40,72,0.045) 191deg,rgba(255,255,255,0.078) 201deg,transparent 213deg,transparent 225deg,rgba(20,40,72,0.075) 240deg,rgba(255,255,255,0.130) 254deg,transparent 269deg,transparent 296deg,rgba(20,40,72,0.056) 307deg,rgba(255,255,255,0.098) 317deg,transparent 328deg);
+  -webkit-mask-image:radial-gradient(closest-side,transparent 20%,rgba(0,0,0,.8) 38%,rgba(0,0,0,.35) 62%,transparent 86%);
+          mask-image:radial-gradient(closest-side,transparent 20%,rgba(0,0,0,.8) 38%,rgba(0,0,0,.35) 62%,transparent 86%)}
+body.dark .sg-f-bowl{background:radial-gradient(closest-side at 47% 46%,rgba(0,0,0,.42),rgba(0,0,0,.26) 26%,rgba(0,0,0,.12) 50%,rgba(0,0,0,.03) 72%,transparent)}
+body.dark .sg-f-shade{background:radial-gradient(closest-side at 56% 57%,transparent 20%,rgba(0,0,0,.45) 40%,rgba(0,0,0,.16) 58%,transparent 74%)}
+body.dark .sg-f-lit{background:radial-gradient(closest-side at 44% 43%,transparent 24%,rgba(150,190,240,.16) 42%,rgba(150,190,240,.05) 58%,transparent 72%)}
+body.dark .sg-f-fold{background:conic-gradient(from 0deg,transparent 6deg,rgba(0,0,0,0.240) 20deg,rgba(150,190,240,0.050) 32deg,transparent 46deg,transparent 59deg,rgba(0,0,0,0.168) 70deg,rgba(150,190,240,0.035) 78deg,transparent 89deg,transparent 109deg,rgba(0,0,0,0.216) 126deg,rgba(150,190,240,0.045) 140deg,transparent 157deg,transparent 179deg,rgba(0,0,0,0.144) 191deg,rgba(150,190,240,0.030) 201deg,transparent 213deg,transparent 225deg,rgba(0,0,0,0.240) 240deg,rgba(150,190,240,0.050) 254deg,transparent 269deg,transparent 296deg,rgba(0,0,0,0.180) 307deg,rgba(150,190,240,0.038) 317deg,transparent 328deg)}
 @media (hover:none),(prefers-reduced-motion:reduce){.sg-fabric{display:none}}
+/* one mark under the pointer: the fabric replaces the card sheen dimple and
+   button-glow's spotlight (together they drew a second circle) */
+html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}
+
+/* ── Page arrival: the whole page comes up out of a fog ──────────────────────
+   html.sg-lf is set by the head-first script before first paint; soft-fx.js
+   takes it off when the animation ends (no filter left behind on the page). */
+html.sg-lf{animation:sg-page-in .95s cubic-bezier(.22,.8,.3,1)}
+@keyframes sg-page-in{from{filter:blur(16px) saturate(.75) brightness(1.04)}}
+/* after a splash/loader: it leaves sharp → blurs away as the page clears */
+html.sg-lf-hand{animation:sg-page-hand 1.05s cubic-bezier(.3,.7,.3,1)}
+@keyframes sg-page-hand{0%{filter:blur(0)}22%{filter:blur(14px) saturate(.8)}100%{filter:blur(0)}}
+
+/* ── Theme + language swaps (soft-fx.js → view transition) ───────────────── */
+@property --sg-r{syntax:'<length>';inherits:true;initial-value:0px}
+html.sg-vt-theme::view-transition-old(root),html.sg-vt-theme::view-transition-new(root),
+html.sg-vt-lang::view-transition-old(root),html.sg-vt-lang::view-transition-new(root){mix-blend-mode:normal}
+html.sg-vt-theme::view-transition-old(root){animation:sg-theme-old .75s cubic-bezier(.5,0,.3,1) both}
+html.sg-vt-theme::view-transition-new(root){animation:sg-theme-wipe .75s cubic-bezier(.55,0,.25,1) both;
+  -webkit-mask-image:radial-gradient(circle at var(--sg-tx,90%) var(--sg-ty,0),#000 calc(var(--sg-r) - 110px),transparent var(--sg-r));
+          mask-image:radial-gradient(circle at var(--sg-tx,90%) var(--sg-ty,0),#000 calc(var(--sg-r) - 110px),transparent var(--sg-r))}
+@keyframes sg-theme-wipe{from{--sg-r:0px}to{--sg-r:var(--sg-tr,2400px)}}
+@keyframes sg-theme-old{to{filter:blur(5px)}}
+html.sg-vt-lang::view-transition-old(root){animation:sg-lang-out .24s cubic-bezier(.4,0,1,1) both}
+html.sg-vt-lang::view-transition-new(root){animation:sg-lang-in .5s var(--sg-ease) .08s both}
+@keyframes sg-lang-out{to{opacity:0;filter:blur(9px);transform:translateY(-5px)}}
+@keyframes sg-lang-in{from{opacity:0;filter:blur(11px);transform:translateY(7px)}}
+/* during a swap the top bar is part of the page, not pinned above it */
+html.sg-vt-theme body.lin-v2 .lin-topbar,html.sg-vt-lang body.lin-v2 .lin-topbar,
+html.sg-leaving body.lin-v2 .lin-topbar,html.sg-catgo body.lin-v2 .lin-topbar{view-transition-name:none}
+/* fallback where view transitions don't exist: an overlay does the same job */
+.sg-swap{position:fixed;inset:0;z-index:2147483300;pointer-events:none}
+.sg-swap-theme{clip-path:circle(0 at var(--sg-tx,90%) var(--sg-ty,0));
+  transition:clip-path .44s cubic-bezier(.55,0,.25,1),opacity .45s var(--sg-ease)}
+.sg-swap-theme.go{clip-path:circle(var(--sg-tr,2400px) at var(--sg-tx,90%) var(--sg-ty,0))}
+.sg-swap-lang{background:var(--bg);opacity:0;transition:opacity .22s ease-in}
+.sg-swap-lang.go{opacity:.92}
+.sg-swap.done{opacity:0;transition:opacity .45s var(--sg-ease)}
+
+/* ── Switching category: a wash in its ink, its emblem, its name ─────────────
+   html.sg-catgo::before is the same wash painted before first paint (head
+   script), so there's never a frame of the new page before the wash. */
+html{--sg-wash-base:#E4E9F0;--sg-wash-ink:#1E4F8F;--sg-wash-text:#0E1E33}
+html.os-dk{--sg-wash-base:#0B1628;--sg-wash-text:#EEF3F9}
+html[data-sg-cat=knowledge],.sg-catwash[data-cat=knowledge]{--sg-wash-ink:#2A63AB}
+html[data-sg-cat=infirmary],.sg-catwash[data-cat=infirmary]{--sg-wash-ink:#C23A43}
+html[data-sg-cat=social],.sg-catwash[data-cat=social]{--sg-wash-ink:#4F8BD0}
+html[data-sg-cat=dev],.sg-catwash[data-cat=dev]{--sg-wash-ink:#6A7788}
+html.sg-catgo::before,.sg-catwash{
+  background:
+    radial-gradient(70% 60% at 50% 44%,color-mix(in srgb,var(--sg-wash-ink) 34%,var(--sg-wash-base)) 0%,transparent 70%),
+    radial-gradient(120% 90% at 50% 110%,color-mix(in srgb,var(--sg-wash-ink) 16%,var(--sg-wash-base)),var(--sg-wash-base) 70%)}
+html.sg-catgo::before{content:"";position:fixed;inset:0;z-index:2147482995}
+.sg-catwash{position:fixed;inset:0;z-index:2147482995;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;color:var(--sg-wash-text)}
+.sg-cw-in{display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.sg-cw-emb{width:132px;filter:drop-shadow(0 14px 24px color-mix(in srgb,var(--sg-wash-ink) 40%,transparent))}
+.sg-cw-emb svg{width:100%;height:auto;display:block}
+.sg-cw-name{font-family:var(--font-heading,inherit);font-size:1.45rem;font-weight:800;letter-spacing:-.01em}
+.sg-cw-sub{font-size:.66rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;opacity:.55}
+/* leaving: the wash fogs in over the old page */
+.sg-catwash.sg-cw-enter{animation:sg-cw-enter .34s cubic-bezier(.3,.6,.3,1) both}
+.sg-catwash.sg-cw-enter .sg-cw-in{animation:sg-cw-rise .5s var(--sg-ease) .06s both}
+@keyframes sg-cw-enter{from{opacity:0;filter:blur(18px)}}
+@keyframes sg-cw-rise{from{opacity:0;transform:translateY(14px) scale(.9);filter:blur(8px)}}
+/* arriving: the wash lifts off like mist while the page clears underneath */
+.sg-catwash.sg-cw-out{animation:sg-cw-out .75s cubic-bezier(.4,0,.2,1) both}
+.sg-catwash.sg-cw-out .sg-cw-in{animation:sg-cw-float .75s cubic-bezier(.4,0,.2,1) both}
+@keyframes sg-cw-out{to{opacity:0;filter:blur(20px);transform:scale(1.05)}}
+@keyframes sg-cw-float{to{transform:translateY(-18px) scale(1.06)}}
+@media (prefers-reduced-motion:reduce){
+  html.sg-lf,html.sg-lf-hand{animation:none}
+  html.sg-catgo::before,.sg-catwash{display:none}
+}
 
 /* UI never underlines on hover — links styled as buttons, chips, tabs, cards, nav */
 a[class]:hover,a[class]:focus-visible,button:hover,.sidebar-link:hover,.sec-pill:hover,.lin-tab:hover,

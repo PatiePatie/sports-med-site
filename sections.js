@@ -32,7 +32,7 @@
   ];
   var KNOWLEDGE = [
     'guide.html', 'toc.html', 'exam.html',
-    'cn-cert.html', 'ib-sehs.html', 'usabo.html', 'g10-bio.html', 'account.html'
+    'cn-cert.html', 'ib-sehs.html', 'ib-sehs-learn.html', 'usabo.html', 'g10-bio.html', 'account.html'
   ];
 
   var file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -58,7 +58,10 @@
     for (var i = 0; i < groups.length; i++) {
       var part = groups[i].getAttribute('data-part');
       if (part === 'vitalite-dev') continue;   /* auth-widget.js owns dev visibility */
-      var keep = want && part === want;
+      /* hub = no sidebar on the landing page, so this loop never runs there.
+         Any page that DOES ship a rail but falls through to hub used to get
+         every group display:none, i.e. a blank sidebar — keep them all. */
+      var keep = !want || part === want;
       groups[i].style.display = keep ? '' : 'none';
       if (keep) groups[i].classList.add('open');
     }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';document.write('<meta name="color-scheme" content="'+(d?'dark':'light')+'">')}catch(e){}})()</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
@@ -779,8 +778,8 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
-<link rel="stylesheet" href="tutorial-widget.css?v=4">
-<script src="tutorial-widget.js?v=5"></script>
+<link rel="stylesheet" href="tutorial-widget.css?v=3">
+<script src="tutorial-widget.js?v=4"></script>
 <script src="auth-gate.js"></script>
 
 <script>
@@ -840,7 +839,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <link rel="stylesheet" href="vitalite-skin.css?v=18">
 <script src="sections.js?v=8" defer></script>
 <script src="draft.js" defer></script>
-<script src="linear-layout.js?v=10" defer></script>
+<script src="linear-layout.js?v=13" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -849,20 +848,24 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <link rel="stylesheet" href="notif-bell.css?v=2">
 <script src="notif-bell.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
+<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
+<link rel="stylesheet" href="shapes-skin.css?v=2">
+<script src="shapes-fx.js?v=2" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=1">
+<script src="soft-fx.js?v=1" defer></script>
+<script>try{document.documentElement.classList.toggle('os-dk',localStorage.getItem('dark')!=='false')}catch(e){}</script>
+<style>html{background:#E4E9F0}html.os-dk{background:#0B1628;color-scheme:dark}</style>
+<!-- SHAPES-THEME:END -->
 <style id="guide-semicircle-overflow">
 @media (hover:hover) and (min-width:901px){
-  html.os-semi body.lin-page-guide .sidebar.sidebar{overscroll-behavior:contain;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%),radial-gradient(circle at 0 50%,#000 calc(var(--os-fog) * .74),rgba(0,0,0,.6) calc(var(--os-fog) * .9),transparent var(--os-fog));mask-composite:intersect}
-  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-link.gc,
-  html.os-semi body.lin-page-guide .sidebar.sidebar .sidebar-label.gc-label{min-width:0;max-width:100%}
+  html.os-semi body.lin-page-guide .sidebar.sidebar{overscroll-behavior:contain}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll{height:min(128px,calc(var(--os-semi-r) * .38));max-height:calc(var(--os-semi-r) * .38);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 55%,transparent) transparent;padding-right:.2rem;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll::-webkit-scrollbar{width:4px}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--accent) 55%,transparent);border-radius:99px}
+  html.os-semi body.lin-page-guide .sidebar.sidebar .gc-scroll .sidebar-link.gc{width:min(168px,48%);min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 </style>
 
-<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
-<link rel="stylesheet" href="shapes-skin.css?v=3">
-<script src="shapes-fx.js?v=3" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=2">
-<script src="soft-fx.js?v=2" defer></script>
-<!-- SHAPES-THEME:END -->
 </head>
 <body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
@@ -884,12 +887,6 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
       <div class="sidebar-label" data-en="🎯 Studying &amp; Learning" data-zh="🎯 学习与备考">🎯 Studying &amp; Learning</div>
       <a class="sidebar-link" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
       <a class="sidebar-link" href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a>
-      <div class="sidebar-label" data-en="🧰 Study Tools" data-zh="🧰 备考工具">🧰 Study Tools</div>
-      <a class="sidebar-link sub" href="guide.html?study=flashcards" data-study="openFlashcards" data-en="🃏 Flashcards" data-zh="🃏 闪卡">🃏 Flashcards</a>
-      <a class="sidebar-link sub" href="guide.html?study=quiz" data-study="openQuizMode" data-en="📝 Quizzes &amp; practice" data-zh="📝 测验与练习">📝 Quizzes &amp; practice</a>
-      <a class="sidebar-link sub" href="exam.html" data-en="🏁 Exam prep" data-zh="🏁 备考冲刺">🏁 Exam prep</a>
-      <a class="sidebar-link sub" href="guide.html?study=ai" data-study="openAiModal" data-en="💬 Vitaline AI" data-zh="💬 AI 助手">💬 Vitaline AI</a>
-      <div class="sidebar-label" data-en="🎯 Test Prep" data-zh="🎯 备考专区">🎯 Test Prep</div>
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE (US)" data-zh="🇺🇸 美国 NPTE">🇺🇸 NPTE (US)</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 中国 运动康复师资格证">🇨🇳 运动康复师资格证</a>
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
@@ -911,6 +908,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
       <a class="sidebar-link sub gc" href="#ch12" data-ch="12" data-en="Ch 12 · Assessment · 康复评定学" data-zh="第12章 · Assessment · 康复评定学">Ch 12 · Assessment · 康复评定学</a>
       <a class="sidebar-link sub gc" href="#ch13" data-ch="13" data-en="Ch 13 · TCM · 中医健康管理" data-zh="第13章 · TCM · 中医健康管理">Ch 13 · TCM · 中医健康管理</a>
       <a class="sidebar-link sub gc" href="#ch14" data-ch="14" data-en="Ch 14 · Emergency Medicine &amp; Field Care" data-zh="第14章 · 急救医学与场边处置">Ch 14 · Emergency Medicine &amp; Field Care</a>
+      </div>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-infirmary">

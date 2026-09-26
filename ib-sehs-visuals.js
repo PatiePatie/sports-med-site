@@ -4652,6 +4652,1766 @@ window.IB_VISUALS = {
     "zh": "算术给出的缺口是 200 千卡，听起来微不足道，直到按每公斤去脂体重表达为止。按那种方式表达，它是从目标 30 掉到约 5。"
    }
   }
+ },
+ "Skeleton, position and directional terms": {
+  "figures": [
+   {
+    "title": {
+     "en": "Anatomical position and the directional terms",
+     "zh": "解剖学姿势与方位术语"
+    },
+    "svg": "<g><line class=\"ln\" x1=\"150\" y1=\"20\" x2=\"150\" y2=\"164\"/><circle class=\"fillB\" cx=\"150\" cy=\"30\" r=\"8\"/><path class=\"ln\" d=\"M150 22a8 8 0 1 1 0 16 8 8 0 1 1 0-16z\"/><line class=\"th\" x1=\"150\" y1=\"40\" x2=\"150\" y2=\"80\"/><line class=\"th\" x1=\"150\" y1=\"44\" x2=\"120\" y2=\"96\"/><line class=\"th\" x1=\"150\" y1=\"44\" x2=\"180\" y2=\"96\"/><line class=\"th\" x1=\"120\" y1=\"100\" x2=\"120\" y2=\"150\"/><line class=\"th\" x1=\"180\" y1=\"100\" x2=\"180\" y2=\"150\"/><line class=\"th\" x1=\"120\" y1=\"152\" x2=\"106\" y2=\"164\"/><line class=\"th\" x1=\"180\" y1=\"152\" x2=\"194\" y2=\"164\"/></g><path class=\"th\" d=\"M150 20v-8\"/><path class=\"ln\" d=\"M150 12l-4 8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"18\">superior</text><path class=\"th\" d=\"M150 170v8\"/><path class=\"ln\" d=\"M150 178l-4-8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"186\">inferior</text><text class=\"lblS\" x=\"96\" y=\"110\">lateral</text><text class=\"lblS\" x=\"186\" y=\"110\">medial</text><text class=\"lblS\" x=\"70\" y=\"164\">distal</text><text class=\"lblS\" x=\"196\" y=\"164\">proximal</text><text class=\"lblS\" x=\"14\" y=\"110\">anterior / posterior apply the same way to a body in this position</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "every term is relative to the body itself, never to the person looking at it",
+      "zh": "每一个术语都相对于身体本身，而不是相对于观看者"
+     },
+     {
+      "en": "superior and inferior mean nearer the head and nearer the feet, not higher and lower on a page",
+      "zh": "上与下的含义是更靠近头部与更靠近足部，而不是纸面上的高低"
+     },
+     {
+      "en": "proximal and distal mean nearer the trunk and nearer the end of the limb",
+      "zh": "近端与远端的含义是更靠近躯干与更靠近肢体的末端"
+     }
+    ],
+    "caption": {
+     "en": "The convention exists so that two people in different positions can describe the same movement identically. It is the shared reference that makes anatomical language usable.",
+     "zh": "这套约定的存在，是为了让处在不同位置的两个人能对同一个动作做出完全相同的描述。它是让解剖学语言可用的共同参照。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The directional terms and their opposites",
+     "zh": "方位术语及其反义词"
+    },
+    "cols": [
+     {
+      "en": "Term",
+      "zh": "术语"
+     },
+     {
+      "en": "Means",
+      "zh": "含义"
+     },
+     {
+      "en": "Opposite",
+      "zh": "反义词"
+     },
+     {
+      "en": "Example in sport",
+      "zh": "运动中的例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Superior / inferior",
+       "zh": "上 / 下"
+      },
+      {
+       "en": "Nearer the head / nearer the feet",
+       "zh": "更靠近头部 / 更靠近足部"
+      },
+      {
+       "en": "Inferior / superior",
+       "zh": "下 / 上"
+      },
+      {
+       "en": "The patella sits inferior to the hip joint",
+       "zh": "髌骨位于髋关节的下方"
+      }
+     ],
+     [
+      {
+       "en": "Anterior / posterior",
+       "zh": "前 / 后"
+      },
+      {
+       "en": "Front of the body / back of the body",
+       "zh": "身体的前面 / 后面"
+      },
+      {
+       "en": "Posterior / anterior",
+       "zh": "后 / 前"
+      },
+      {
+       "en": "Anterior cruciate ligament of the knee",
+       "zh": "膝关节的前交叉韧带"
+      }
+     ],
+     [
+      {
+       "en": "Medial / lateral",
+       "zh": "内 / 外"
+      },
+      {
+       "en": "Toward the midline / away from it",
+       "zh": "朝向中线 / 远离中线"
+      },
+      {
+       "en": "Lateral / medial",
+       "zh": "外 / 内"
+      },
+      {
+       "en": "Medial knee pain in a runner",
+       "zh": "跑者的内侧膝痛"
+      }
+     ],
+     [
+      {
+       "en": "Proximal / distal",
+       "zh": "近 / 远"
+      },
+      {
+       "en": "Nearer the trunk / nearer the end",
+       "zh": "更靠近躯干 / 更靠近末端"
+      },
+      {
+       "en": "Distal / proximal",
+       "zh": "远 / 近"
+      },
+      {
+       "en": "Distal radius fracture in a fall on the hand",
+       "zh": "手撑地摔倒时的桡骨远端骨折"
+      }
+     ],
+     [
+      {
+       "en": "Superficial / deep",
+       "zh": "浅 / 深"
+      },
+      {
+       "en": "Near the surface / away from it",
+       "zh": "靠近表面 / 远离表面"
+      },
+      {
+       "en": "Deep / superficial",
+       "zh": "深 / 浅"
+      },
+      {
+       "en": "Superficial veins versus deep vein thrombosis",
+       "zh": "浅静脉与深静脉血栓"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The single most common error in sport science writing is using \"left\" and \"right\" without saying whose. Anatomical terms are universal precisely because they are not.",
+     "zh": "运动科学写作中最常见的错误，是使用\"左\"与\"右\"却没有说明是谁的。解剖学术语之所以通用，正是因为它们不依赖观察者。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: writing a report that another clinician can use",
+    "zh": "例题：写出一份另一位临床人员能用的报告"
+   },
+   "given": {
+    "en": "A hurdler reports pain on the outer side of the knee, worse when running, and started it after a hamstring injury 8 weeks earlier.",
+    "zh": "一名跨栏运动员报告膝外侧疼痛，跑步时加重，8 周前腘绳肌受伤后开始。"
+   },
+   "steps": [
+    {
+     "en": "Using body-relative terms: pain on the lateral side of the left knee.",
+     "zh": "使用相对身体的术语：左膝外侧疼痛。"
+    },
+    {
+     "en": "Adding a mechanism: during terminal swing, when the tibia externally rotates on a fixed femur.",
+     "zh": "补充机制：在摆动末期，此时股骨固定、胫骨外旋。"
+    },
+    {
+     "en": "Adding a timeline: 8 weeks ago, following a hamstring injury that limited hip flexion.",
+     "zh": "补充时间线：8 周前，源于一次限制了屈髋的腘绳肌损伤。"
+    },
+    {
+     "en": "Only now does the report suggest a mechanism, and the mechanism points at a different structure than the site of the pain.",
+     "zh": "只有到这一步报告才提出了机制，而机制指向的结构与疼痛部位不同。"
+    },
+    {
+     "en": "This is the ordinary payoff of the terminology: it changes what the next question should be.",
+     "zh": "这就是这套术语的日常回报：它改变了下一个问题应该是什么。"
+    }
+   ],
+   "answer": {
+    "en": "Note that the pain is at the knee and the likely structure is at the hip. Language is what makes that inference checkable rather than a guess.",
+    "zh": "注意疼痛在膝部，而可能有问题的结构在髋部。正是这套术语使那个推断可以被核查，而不是靠猜。"
+   }
+  }
+ },
+ "Planes, axes and movement": {
+  "figures": [
+   {
+    "title": {
+     "en": "Three planes, three axes, and why they matter",
+     "zh": "三个平面、三条轴，以及它们为什么重要"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M14 20h88v72H14z\"/><path class=\"dash\" d=\"M20 88l76-60\"/><text class=\"lbl\" x=\"44\" y=\"60\">sagittal</text><text class=\"lblS\" x=\"24\" y=\"106\">flex / extend</text><text class=\"lblS\" x=\"20\" y=\"120\">lateral-medial axis</text></g><g><rect class=\"fillA\" x=\"116\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M116 20h88v72h-88z\"/><path class=\"dash\" d=\"M124 56h72\"/><text class=\"lbl\" x=\"146\" y=\"46\">frontal</text><text class=\"lblS\" x=\"122\" y=\"106\">abduct / add</text><text class=\"lblS\" x=\"118\" y=\"120\">antero-posterior axis</text></g><g><rect class=\"fillA\" x=\"218\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M218 20h88v72h-88z\"/><circle class=\"ln\" cx=\"262\" cy=\"56\" r=\"18\"/><path class=\"dash\" d=\"M244 56h36M262 38v36\"/><text class=\"lbl\" x=\"248\" y=\"60\">transverse</text><text class=\"lblS\" x=\"220\" y=\"106\">rotate</text><text class=\"lblS\" x=\"216\" y=\"120\">vertical axis</text></g><text class=\"lblS\" x=\"14\" y=\"152\">a movement belongs to the plane of the axis it turns about</text><text class=\"lblS\" x=\"14\" y=\"170\">and to the plane the bone moves within, which is the same plane for a hinge</text><text class=\"lblS\" x=\"14\" y=\"188\">most injuries happen when a segment moves in a plane the joint cannot move it in</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "flexion and extension occur in the sagittal plane about a lateral to medial axis",
+      "zh": "屈与伸发生在矢状面，围绕外内轴"
+     },
+     {
+      "en": "abduction and adduction occur in the frontal plane about an antero-posterior axis",
+      "zh": "外展与内收发生在额状面，围绕前后轴"
+     },
+     {
+      "en": "rotation occurs in the transverse plane about a vertical axis",
+      "zh": "旋转发生在水平面，围绕垂直轴"
+     }
+    ],
+    "caption": {
+     "en": "The practical value is not exam vocabulary. It is that movement outside the plane a joint permits is a common description of sprains, and it tells a coach which movement to stop.",
+     "zh": "它的实际价值不是考试词汇。而在于：关节不允许的平面上的运动，是扭伤的常见描述，它能告诉教练该停掉哪个动作。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Planes, axes and the movements in each",
+     "zh": "平面、轴与各平面内的运动"
+    },
+    "cols": [
+     {
+      "en": "Plane",
+      "zh": "平面"
+     },
+     {
+      "en": "Axis of rotation",
+      "zh": "旋转轴"
+     },
+     {
+      "en": "Movements",
+      "zh": "运动"
+     },
+     {
+      "en": "Sport example",
+      "zh": "运动例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Sagittal",
+       "zh": "矢状面"
+      },
+      {
+       "en": "Lateral to medial",
+       "zh": "由外向内"
+      },
+      {
+       "en": "Flexion, extension",
+       "zh": "屈、伸"
+      },
+      {
+       "en": "Knee bend in a squat, sprinting stride",
+       "zh": "深蹲中的屈膝、冲刺步幅"
+      }
+     ],
+     [
+      {
+       "en": "Frontal",
+       "zh": "额状面"
+      },
+      {
+       "en": "Antero-posterior",
+       "zh": "由前向后"
+      },
+      {
+       "en": "Abduction, adduction",
+       "zh": "外展、内收"
+      },
+      {
+       "en": "Side steps, lateral lunges, high knee",
+       "zh": "侧向移动、侧向弓步、高抬腿"
+      }
+     ],
+     [
+      {
+       "en": "Transverse",
+       "zh": "水平面"
+      },
+      {
+       "en": "Vertical",
+       "zh": "垂直"
+      },
+      {
+       "en": "Rotation, horizontal flexion and extension",
+       "zh": "旋转、水平屈伸"
+      },
+      {
+       "en": "Spinal rotation in a golf swing, pivoting in football",
+       "zh": "高尔夫挥杆中的躯干旋转、足球中的转身"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A joint may allow only one of these. The ankle is a hinge that flexes and extends, which is why an inversion injury is a sprain of a structure moving in a plane the joint does not permit.",
+     "zh": "一个关节可能只允许其中一种。踝关节是只做屈伸的铰链关节，这正是内翻损伤属于\"在关节不允许的平面上运动\"的结构扭伤的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: using the planes to explain an ankle sprain",
+    "zh": "例题：用平面解释踝关节扭伤"
+   },
+   "given": {
+    "en": "A footballer lands from a jump with the foot turned inward and the body rolling over it.",
+    "zh": "一名足球运动员跳起落地时脚向内扣，身体压在上面。"
+   },
+   "steps": [
+    {
+     "en": "The foot has moved in the frontal plane, towards inversion — a movement the ankle does not permit as pure inversion while weight is on it.",
+     "zh": "脚在额状面内移动，趋向内翻——而在承重状态下这是踝关节不允许的纯内翻运动。"
+    },
+    {
+     "en": "The ligaments on the lateral side are stretched beyond their range, which is a sprain.",
+     "zh": "外侧韧带被拉伸超出范围，这就是扭伤。"
+    },
+    {
+     "en": "The ligaments resisting inversion sit on the lateral side, which is why the sprain is there and not on the other side.",
+     "zh": "抵抗内翻的韧带位于外侧，所以扭伤发生在外侧而不是另一侧。"
+    },
+    {
+     "en": "Prevention follows the plane: strengthen the peroneals to resist inversion, and train landing with the foot facing forward.",
+     "zh": "预防也沿着这个平面：强化腓骨肌以抵抗内翻，并训练落地时脚尖朝前。"
+    },
+    {
+     "en": "Taping and boots help because they restrict the movement in the plane where the injury occurs.",
+     "zh": "肌贴与护具之所以有效，是因为它们限制了损伤发生的那一平面上的运动。"
+    }
+   ],
+   "answer": {
+    "en": "The same explanation predicts the treatment and the prevention, which is the test of whether an explanation is any good.",
+    "zh": "同一个解释同时预测了处理与预防方案，而这也是判断一个解释是否成立的检验。"
+   }
+  }
+ },
+ "HL anthropometry and ergonomics": {
+  "figures": [
+   {
+    "title": {
+     "en": "Two athletes, one design, two problems",
+     "zh": "两名运动员、一种设计、两个问题"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"46\" cy=\"34\" r=\"9\"/><path class=\"ln\" d=\"M46 25a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><line class=\"th\" x1=\"46\" y1=\"44\" x2=\"46\" y2=\"96\"/><line class=\"th\" x1=\"46\" y1=\"50\" x2=\"26\" y2=\"80\"/><line class=\"th\" x1=\"46\" y1=\"50\" x2=\"66\" y2=\"80\"/><line class=\"th\" x1=\"26\" y1=\"82\" x2=\"26\" y2=\"116\"/><line class=\"th\" x1=\"66\" y1=\"82\" x2=\"66\" y2=\"116\"/><text class=\"lblS\" x=\"18\" y=\"136\">short + tall</text></g><g><rect class=\"fillA\" x=\"104\" y=\"112\" width=\"48\" height=\"16\" rx=\"4\"/><path class=\"ln\" d=\"M104 112h48v16h-48z\"/><text class=\"lblS\" x=\"110\" y=\"124\">bench</text><line class=\"dash\" d=\"M46 128h58\"/><text class=\"lblS\" x=\"72\" y=\"124\">feet dangle</text><path class=\"ln\" d=\"M46 128q14 8 0 8\"/></g><g><circle class=\"fillA\" cx=\"222\" cy=\"26\" r=\"9\"/><path class=\"ln\" d=\"M222 17a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><line class=\"th\" x1=\"222\" y1=\"36\" x2=\"222\" y2=\"100\"/><line class=\"th\" x1=\"222\" y1=\"42\" x2=\"202\" y2=\"76\"/><line class=\"th\" x1=\"222\" y1=\"42\" x2=\"242\" y2=\"76\"/><line class=\"th\" x1=\"202\" y1=\"78\" x2=\"202\" y2=\"116\"/><line class=\"th\" x1=\"242\" y1=\"78\" x2=\"242\" y2=\"116\"/><text class=\"lblS\" x=\"192\" y=\"136\">long + lean</text></g><g><rect class=\"fillA\" x=\"196\" y=\"112\" width=\"48\" height=\"16\" rx=\"4\"/><path class=\"ln\" d=\"M196 112h48v16h-48z\"/><text class=\"lblS\" x=\"200\" y=\"124\">bench</text><line class=\"dash\" d=\"M222 128h60\"/><text class=\"lblS\" x=\"248\" y=\"124\">knees high</text></g><text class=\"lblS\" x=\"14\" y=\"166\">ergonomics is the study of fitting the task to the person, not the person to the task</text><text class=\"lblS\" x=\"14\" y=\"184\">a fixed bench fits one and harms the other</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "anthropometry is the measurement of the body, and it is the input to every equipment decision",
+      "zh": "人体测量是对身体的测量，而它是每一项装备决定的输入"
+     },
+     {
+      "en": "ergonomics asks whether the equipment fits the person using it, rather than whether the person conforms",
+      "zh": "人体工程学问的是装备是否适合使用者，而不是人是否迁就装备"
+     },
+     {
+      "en": "a design that fits the average fails the people furthest from the average",
+      "zh": "为平均身高设计的东西，会让偏离平均最远的人失败"
+     }
+    ],
+    "caption": {
+     "en": "This is the practical reason equipment is sized in ranges and adjustable, and the reason \"one size fits all\" is a design failure rather than a marketing convenience.",
+     "zh": "这就是装备之所以按范围生产且可调节的实际原因，也是\"一个尺码适合所有人\"属于设计失败而非营销便利的原因。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The measurements that matter in equipment decisions",
+     "zh": "装备决策中重要的测量"
+    },
+    "cols": [
+     {
+      "en": "Measurement",
+      "zh": "测量项"
+     },
+     {
+      "en": "What it determines",
+      "zh": "它决定什么"
+     },
+     {
+      "en": "Common design mistake",
+      "zh": "常见设计错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Stature",
+       "zh": "身高"
+      },
+      {
+       "en": "Bench and seat height, reach limits",
+       "zh": "凳面与座椅高度、可及范围"
+      },
+      {
+       "en": "Ignoring leg length, so feet dangle or knees lift",
+       "zh": "忽视腿长，导致脚悬空或膝部抬高"
+      }
+     ],
+     [
+      {
+       "en": "Sitting height",
+       "zh": "坐高"
+      },
+      {
+       "en": "Whether a bench back is needed at all",
+       "zh": "是否需要靠背"
+      },
+      {
+       "en": "Treating sitting height as a fraction of stature",
+       "zh": "把坐高当作身高的固定比例"
+      }
+     ],
+     [
+      {
+       "en": "Wing span and arm length",
+       "zh": "臂展与臂长"
+      },
+      {
+       "en": "Handle size, reach in a swing",
+       "zh": "握把尺寸、挥拍可及范围"
+      },
+      {
+       "en": "A handle too small, forcing a grip that fatigues",
+       "zh": "握把过小，迫使采用会疲劳的握法"
+      }
+     ],
+     [
+      {
+       "en": "Foot length and width",
+       "zh": "足长与足宽"
+      },
+      {
+       "en": "Footwear sizing, which is not one size",
+       "zh": "鞋码，而这并非单一尺码"
+      },
+      {
+       "en": "Sizing by length only, ignoring width",
+       "zh": "只按长度分码，忽略宽度"
+      }
+     ],
+     [
+      {
+       "en": "Centre of mass of the equipment",
+       "zh": "器材的重心"
+      },
+      {
+       "en": "Handling and swing weight",
+       "zh": "操控与挥重"
+      },
+      {
+       "en": "Shipping one balance to every user",
+       "zh": "向所有使用者提供同一种配重"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Adjustable beats optimal. A bench that can be set for two body types is better than a fixed bench optimised for one, because the fixed one only works for that one.",
+     "zh": "\"可调\"胜过\"最优\"。一张能为两种体型调节的凳子，胜过为一种体型优化固定的凳子——因为固定的那个只对那一种有效。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: choosing a bench height for a group",
+    "zh": "例题：为一组人选择凳子高度"
+   },
+   "given": {
+    "en": "Three athletes with sitting heights of 40, 46 and 52 cm need one bench for a jump drill.",
+    "zh": "三名坐高分别为 40、46 和 52 厘米的运动员，需要同一张凳子做跳跃练习。"
+   },
+   "steps": [
+    {
+     "en": "A fixed bench can be right for one of them. The sitting heights span 12 cm.",
+     "zh": "一张固定凳子只能对其中一人合适。三个坐高相差 12 厘米。"
+    },
+    {
+     "en": "Setting it to 46 cm suits the middle athlete. The shortest athlete sits 6 cm high, feet unsupported.",
+     "zh": "设为 46 厘米适合中间那位。最矮的那位坐着高出 6 厘米，脚无支撑。"
+    },
+    {
+     "en": "For the tallest athlete, 52 cm means sitting 6 cm below ideal, and the hips flex more than they should.",
+     "zh": "对最高的那位，52 厘米意味着比理想位置低 6 厘米，髋部屈曲超过应有角度。"
+    },
+    {
+     "en": "An adjustable bench set per athlete, or a bench at the shortest height plus a foot platform, fixes all three.",
+     "zh": "一张可逐人调节的凳子，或一张按最矮者设置并加脚踏板的凳子，可以同时解决三人。"
+    },
+    {
+     "en": "The cost of the adjustable option is a few dollars and the cost of the fixed one is two injured athletes.",
+     "zh": "可调方案的成本是几美元，而固定方案的成本是两名受伤的运动员。"
+    }
+   ],
+   "answer": {
+    "en": "The numbers here are trivial and the conclusion is not. Almost every equipment complaint in sport reduces to a mismatch that was never measured.",
+    "zh": "这里的数字很简单，结论却不是。运动中几乎每一项关于装备的抱怨，都可以归结为一次从未被测量的不匹配。"
+   }
+  }
+ },
+ "Connective tissues and articulations": {
+  "figures": [
+   {
+    "title": {
+     "en": "Four tissues, four jobs",
+     "zh": "四种组织，四种工作"
+    },
+    "svg": "<g><path class=\"fillA\" d=\"M14 20h64v34H14z\"/><path class=\"ln\" d=\"M14 20h64v34H14z\"/><text class=\"lbl\" x=\"26\" y=\"42\">bone</text><text class=\"lblS\" x=\"14\" y=\"66\">rigid, resists compression</text></g><g><path class=\"fillB\" x=\"86 20h64v34H86z\" d=\"M86 20h64v34H86z\"/><path class=\"ln\" d=\"M86 20h64v34H86z\"/><text class=\"lbl\" x=\"94\" y=\"42\">cartilage</text><text class=\"lblS\" x=\"86\" y=\"66\">smooth, no blood supply</text></g><g><path class=\"fillA\" d=\"M158 20h64v34h-64z\"/><path class=\"ln\" d=\"M158 20h64v34h-64z\"/><text class=\"lbl\" x=\"166\" y=\"42\">tendon</text><text class=\"lblS\" x=\"158\" y=\"66\">pull, unidirectional</text></g><g><path class=\"fillB\" d=\"M230 20h64v34h-64z\"/><path class=\"ln\" d=\"M230 20h64v34h-64z\"/><text class=\"lbl\" x=\"238\" y=\"42\">ligament</text><text class=\"lblS\" x=\"230\" y=\"66\">bone to bone, both ways</text></g><g><rect class=\"fillA\" x=\"14\" y=\"88\" width=\"280\" height=\"18\" rx=\"9\"/><path class=\"ln\" d=\"M14 97h280\"/><text class=\"lblS\" x=\"20\" y=\"122\">fibre type decides behaviour</text></g><text class=\"lblS\" x=\"14\" y=\"146\">collagen type I: dense regular tendon, resists unidirectional pull</text><text class=\"lblS\" x=\"14\" y=\"164\">collagen type II: cartilage, built for compression in a joint</text><text class=\"lblS\" x=\"14\" y=\"182\">the classification is a consequence of what each tissue is asked to do</text>",
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "tendon and ligament are both dense regular collagen and both resist pull, differing in what they join",
+      "zh": "肌腱与韧带都是致密规则胶原、都抵抗牵拉，区别在于各自连接什么"
+     },
+     {
+      "en": "cartilage has no blood supply of its own, which is why it is slow to repair and why feeding it means maintaining the joint",
+      "zh": "软骨本身没有血供，因此修复缓慢，而\"供养\"它靠的是维持关节"
+     },
+     {
+      "en": "bone is the only one of these that remodels reliably in response to load",
+      "zh": "骨是这些组织中唯一能可靠响应负荷而重塑的"
+     }
+    ],
+    "caption": {
+     "en": "Naming a tissue tells you its time scale, and the time scale is what stops athletes expecting a tendon to behave like a muscle.",
+     "zh": "说出组织类型就等于说出了它的时间尺度，而时间尺度正是阻止运动员期望肌腱像肌肉那样表现的东西。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four connective tissues compared",
+     "zh": "四种结缔组织对比"
+    },
+    "cols": [
+     {
+      "en": "Tissue",
+      "zh": "组织"
+     },
+     {
+      "en": "Joins",
+      "zh": "连接"
+     },
+     {
+      "en": "Collagen",
+      "zh": "胶原"
+     },
+     {
+      "en": "Vascular?",
+      "zh": "有血供"
+     },
+     {
+      "en": "Heals in",
+      "zh": "愈合时间"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Tendon",
+       "zh": "肌腱"
+      },
+      {
+       "en": "Muscle to bone",
+       "zh": "肌肉到骨"
+      },
+      {
+       "en": "Type I, dense regular",
+       "zh": "I 型，致密规则"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Ligament",
+       "zh": "韧带"
+      },
+      {
+       "en": "Bone to bone",
+       "zh": "骨到骨"
+      },
+      {
+       "en": "Type I, dense regular",
+       "zh": "I 型，致密规则"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Cartilage",
+       "zh": "软骨"
+      },
+      {
+       "en": "Bone to bone, with fluid",
+       "zh": "骨到骨，之间有液膜"
+      },
+      {
+       "en": "Type II",
+       "zh": "II 型"
+      },
+      {
+       "en": "None",
+       "zh": "无"
+      },
+      {
+       "en": "Very slow, often incomplete",
+       "zh": "极慢，常不完全"
+      }
+     ],
+     [
+      {
+       "en": "Bone",
+       "zh": "骨"
+      },
+      {
+       "en": "Bone to bone",
+       "zh": "骨到骨"
+      },
+      {
+       "en": "Type I, plus mineral",
+       "zh": "I 型，加矿物质"
+      },
+      {
+       "en": "Good",
+       "zh": "好"
+      },
+      {
+       "en": "Weeks, remodels for years",
+       "zh": "数周，重塑持续数年"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Tendon and ligament are so similar in composition that calling an injury by its tissue tells you very little. Telling them apart requires knowing which joint and which direction.",
+     "zh": "肌腱与韧带在成分上如此相似，以至于仅按组织来称呼损伤几乎没有信息量。要区分它们，必须知道是哪个关节、哪个方向。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the timeline differs by tissue",
+    "zh": "例题：为什么时间尺度因组织而异"
+   },
+   "given": {
+    "en": "A hamstring strain and a torn calf muscle are both \"soft tissue injuries\" at 4 weeks.",
+    "zh": "一次腘绳肌拉伤与一次小腿肌肉撕裂，在第 4 周时都属于\"软组织损伤\"。"
+   },
+   "steps": [
+    {
+     "en": "The calf is muscle, with good blood supply, so it can gain strength early and is often ready before week 4.",
+     "zh": "小腿是肌肉，血供良好，因此能较早恢复力量，常常在第 4 周之前就准备好。"
+    },
+    {
+     "en": "The hamstring tendon is dense regular collagen with poor supply, so it remodels more slowly and needs longer.",
+     "zh": "腘绳肌腱是致密规则胶原、血供差，因此重塑更慢、需要更久。"
+    },
+    {
+     "en": "Both are graded I to III, and the grade predicts the muscle injury timeline far better than the tendon one.",
+     "zh": "两者都分 I 到 III 级，而分级对肌肉损伤时间线的预测远好于对肌腱的预测。"
+    },
+    {
+     "en": "So identical grade and identical week still mean different prognoses, and the difference is the tissue.",
+     "zh": "所以相同的分级、相同的一周，仍意味着不同的预后，而差别就在组织。"
+    },
+    {
+     "en": "The practical consequence is a different return-to-sport rule for each, not one rule for \"soft tissue\".",
+     "zh": "实际推论是两者需要不同的回归标准，而不是对\"软组织\"用同一条规则。"
+    }
+   ],
+   "answer": {
+    "en": "Two injuries, same category, same week, different outlook. Almost every mistake in return-to-play planning comes from treating a category as though it were a tissue.",
+    "zh": "两次损伤、同一类别、同一周、预后不同。回归计划中的几乎每一个错误，都来自把\"类别\"当成了\"组织\"。"
+   }
+  }
+ },
+ "Synovial structure and joint classes": {
+  "figures": [
+   {
+    "title": {
+     "en": "The parts of a synovial joint, and what each does",
+     "zh": "滑膜关节的各部分及其作用"
+    },
+    "svg": "<circle class=\"fillA\" cx=\"150\" cy=\"86\" r=\"62\"/><path class=\"ln\" d=\"M150 24a62 62 0 1 1 0 124 62 62 0 1 1 0-124z\"/><circle class=\"fillC\" cx=\"150\" cy=\"86\" r=\"30\"/><path class=\"ln\" d=\"M150 56a30 30 0 1 1 0 60 30 30 0 1 1 0-60z\"/><line class=\"dash\" d=\"M150 86h130\"/><text class=\"lblS\" x=\"256\" y=\"82\">joint cavity</text><text class=\"lblS\" x=\"256\" y=\"96\">fluid film</text><path class=\"th\" d=\"M150 24v-8\"/><path class=\"ln\" d=\"M150 16l-4 8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"156\" y=\"14\">articular cartilage</text><path class=\"th\" d=\"M96 132l-40 26\"/><path class=\"ln\" d=\"M56 158l9-4.5-4.5-7z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"174\">joint capsule</text><text class=\"lblS\" x=\"14\" y=\"190\">ligament holds the two bones together</text><text class=\"lblS\" x=\"200\" y=\"146\">bone</text>",
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "cartilage covers the bone ends so they can slide without friction, and it has no blood supply",
+      "zh": "软骨覆盖骨端，使其能低摩擦滑动，而它没有血供"
+     },
+     {
+      "en": "the capsule and ligaments stop the joint from moving beyond its range",
+      "zh": "关节囊与韧带阻止关节超出其活动范围"
+     },
+     {
+      "en": "the cavity fluid spreads load and supplies nutrients to the cartilage indirectly",
+      "zh": "腔内液体分散负荷，并间接向软骨提供营养"
+     }
+    ],
+    "caption": {
+     "en": "The class of joint decides how much it can move. A hinge moves in one plane, a ball and socket moves in three, and that is the mechanical fact behind every substitution decision.",
+     "zh": "关节的类别决定它能移动多少。铰链关节在一个平面内活动，球窝关节在三个平面内活动，而这就是每一次换人决定背后的力学事实。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The joint classes and their freedom",
+     "zh": "关节类别及其自由度"
+    },
+    "cols": [
+     {
+      "en": "Joint class",
+      "zh": "关节类别"
+     },
+     {
+      "en": "Planes of movement",
+      "zh": "活动平面"
+     },
+     {
+      "en": "Example",
+      "zh": "例子"
+     },
+     {
+      "en": "Stable?",
+      "zh": "稳定吗"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Hinge",
+       "zh": "铰链"
+      },
+      {
+       "en": "One, mainly flex and extend",
+       "zh": "一个，主要是屈伸"
+      },
+      {
+       "en": "Knee, elbow, finger joints",
+       "zh": "膝、肘、手指关节"
+      },
+      {
+       "en": "Very — inherently the most stable",
+       "zh": "很——本身最稳定"
+      }
+     ],
+     [
+      {
+       "en": "Pivot",
+       "zh": "枢轴"
+      },
+      {
+       "en": "One, rotation only",
+       "zh": "一个，仅旋转"
+      },
+      {
+       "en": "Neck, shoulder rotation component",
+       "zh": "颈部、肩的旋转部分"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      }
+     ],
+     [
+      {
+       "en": "Condyloid",
+       "zh": "椭圆"
+      },
+      {
+       "en": "Two, plus a limited glide",
+       "zh": "两个，附加有限滑动"
+      },
+      {
+       "en": "Wrist, knee in flexion",
+       "zh": "腕、屈膝位的膝"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      }
+     ],
+     [
+      {
+       "en": "Saddle",
+       "zh": "鞍状"
+      },
+      {
+       "en": "Two, with combined movement",
+       "zh": "两个，含组合运动"
+      },
+      {
+       "en": "Thumb, sternoclavicular",
+       "zh": "拇指、胸锁关节"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      }
+     ],
+     [
+      {
+       "en": "Gliding",
+       "zh": "平面"
+      },
+      {
+       "en": "Three, minimal glide",
+       "zh": "三个，滑动幅度小"
+      },
+      {
+       "en": "Carpal bones, ribs at the sternum",
+       "zh": "腕骨、胸骨处的肋骨"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      }
+     ],
+     [
+      {
+       "en": "Ball and socket",
+       "zh": "球窝"
+      },
+      {
+       "en": "All three, plus rotation",
+       "zh": "全部三个，加旋转"
+      },
+      {
+       "en": "Shoulder, hip",
+       "zh": "肩、髋"
+      },
+      {
+       "en": "Least — needs most muscle to hold",
+       "zh": "最差——需要最多肌肉维持"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Stability and mobility are traded against each other, so the most mobile joint is also the one most dependent on muscle to stay in place.",
+     "zh": "稳定性与活动度是彼此交换的，因此活动度最大的关节也是最依赖肌肉维持位置的关节。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a dislocation from the joint class",
+    "zh": "例题：从关节类别推断脱位"
+   },
+   "given": {
+    "en": "A shoulder dislocation follows a fall on an outstretched arm in a rugby tackle.",
+    "zh": "一次肩关节脱位发生于橄榄球擒抱中手臂伸直撑地摔倒。"
+   },
+   "steps": [
+    {
+     "en": "The shoulder is a ball and socket, the least stable class, so it relies on muscle rather than bone shape.",
+     "zh": "肩是球窝关节，是最不稳定的类别，因此依靠肌肉而非骨性结构来维持。"
+    },
+    {
+     "en": "An outstretched arm plus a fall drives the humerus down and forward, which is the direction of least resistance.",
+     "zh": "伸直的手臂加上摔倒，把肱骨推向下方与前方，而那是阻力最小的方向。"
+    },
+    {
+     "en": "The joint capsule is torn at the front, which is the usual site for an anterior dislocation.",
+     "zh": "关节囊在前方撕裂，这是前脱位的常见部位。"
+    },
+    {
+     "en": "Because stability depended on muscle, the first question after reduction is whether that muscle is intact and trained.",
+     "zh": "由于稳定性依赖肌肉，复位之后的第一个问题是该肌肉是否完好、是否经过训练。"
+    },
+    {
+     "en": "A shoulder with a repaired cuff should be treated very differently in the first weeks than one with a torn cuff.",
+     "zh": "修复过肩袖的肩，脱位后最初几周的处理应与肩袖撕裂者明显不同。"
+    }
+   ],
+   "answer": {
+    "en": "The joint class alone predicted the mechanism, the direction of the injury and the first rehabilitation question. That is the payoff of classifying rather than memorising.",
+    "zh": "仅凭关节类别就预测了损伤机制、损伤方向和康复的第一个问题。这就是\"分类\"胜过\"记忆\"的回报。"
+   }
+  }
+ },
+ "Mobility, stability and injury": {
+  "figures": [
+   {
+    "title": {
+     "en": "The trade-off between the two",
+     "zh": "两者之间的权衡"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"140\" x2=\"304\" y2=\"140\"/><line class=\"ln\" x1=\"30\" y1=\"140\" x2=\"30\" y2=\"20\"/><path class=\"ln\" d=\"M30 60C70 70 110 96 160 124\"/><text class=\"lblS\" x=\"44\" y=\"52\">mobility</text><path class=\"ln\" d=\"M30 60C90 96 150 116 240 128\"/><text class=\"lblS\" x=\"150\" y=\"100\">stability</text><circle class=\"fillC\" cx=\"196\" cy=\"120\" r=\"9\"/><text class=\"lblS\" x=\"150\" y=\"164\">the useful zone is where both are adequate, not where either is maximal</text><text class=\"lblS\" x=\"30\" y=\"184\">shoulder: very mobile, needs most muscle · knee: less mobile, more bone-constrained</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "mobility is how much the joint can move, stability is how well it resists moving too far",
+      "zh": "活动度是关节能动多少，稳定性是它抵抗过度移动的能力"
+     },
+     {
+      "en": "they are traded, so maximising one reduces the other",
+      "zh": "二者互相交换，因此最大化一个就会减少另一个"
+     },
+     {
+      "en": "the goal is adequacy in both, which is what strength of the surrounding muscle delivers",
+      "zh": "目标是两者都足够，而周围的肌肉力量正是实现这一点的途径"
+     }
+    ],
+    "caption": {
+     "en": "This is the mechanical reason progressive strength work is injury prevention. Strength is what converts available range into controlled range.",
+     "zh": "这就是渐进力量训练属于伤病预防的力学原因。力量是把\"可用的活动度\"转化为\"可控的活动度\"的东西。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What fails, and what protects each",
+     "zh": "什么会失效，以及各自由什么保护"
+    },
+    "cols": [
+     {
+      "en": "Structure",
+      "zh": "结构"
+     },
+     {
+      "en": "Fails when",
+      "zh": "何时失效"
+     },
+     {
+      "en": "Protected by",
+      "zh": "受什么保护"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Ligament",
+       "zh": "韧带"
+      },
+      {
+       "en": "The joint is pushed past its range in an unexpected direction",
+       "zh": "关节被推向其活动范围之外的方向"
+      },
+      {
+       "en": "Muscle co-contraction, proprioception",
+       "zh": "肌肉共同收缩、本体感觉"
+      }
+     ],
+     [
+      {
+       "en": "Tendon",
+       "zh": "肌腱"
+      },
+      {
+       "en": "Load rises faster than the tissue can remodel",
+       "zh": "负荷上升快于组织重塑"
+      },
+      {
+       "en": "Progressive loading, adequate recovery",
+       "zh": "渐进加载、充分恢复"
+      }
+     ],
+     [
+      {
+       "en": "Cartilage",
+       "zh": "软骨"
+      },
+      {
+       "en": "Contact area is too small for the load",
+       "zh": "接触面积相对负荷过小"
+      },
+      {
+       "en": "Muscle around the joint, quadriceps",
+       "zh": "关节周围肌肉，尤其是股四头肌"
+      }
+     ],
+     [
+      {
+       "en": "Bone",
+       "zh": "骨"
+      },
+      {
+       "en": "Impact above its tolerance, or repetitive stress",
+       "zh": "超出耐受的撞击，或重复性应力"
+      },
+      {
+       "en": "Bone density, technique, protective equipment",
+       "zh": "骨密度、技术、防护装备"
+      }
+     ],
+     [
+      {
+       "en": "Muscle",
+       "zh": "肌肉"
+      },
+      {
+       "en": "Lengthening under high load, or eccentric overload",
+       "zh": "高负荷下的拉长，或离心过载"
+      },
+      {
+       "en": "Eccentric training, adequate protein",
+       "zh": "离心训练、充足蛋白质"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Every row names a muscle somewhere in the protective column, which is not a coincidence. Muscle is the common factor in staying uninjured.",
+     "zh": "每一行的\"受什么保护\"一栏里都出现了肌肉，这不是巧合。肌肉是\"不受伤\"这件事的共同因素。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: two athletes, one ankle, opposite problems",
+    "zh": "例题：两名运动员、同一踝关节、相反的问题"
+   },
+   "given": {
+    "en": "A ballet dancer has 45 degrees of dorsiflexion. A rugby full-back has 10.",
+    "zh": "一名芭蕾舞者背屈 45 度。一名橄榄球边后卫背屈 10 度。"
+   },
+   "steps": [
+    {
+     "en": "The dancer is at the end of her range, so the ankle is stable but every movement is at the limit.",
+     "zh": "舞者处于其活动度末端，因此踝关节稳定，但每个动作都在极限上。"
+    },
+    {
+     "en": "The full-back has 10 degrees, so the joint is loose and depends on muscle to prevent inversion.",
+     "zh": "边后卫只有 10 度，因此关节松弛、依赖肌肉来防止内翻。"
+    },
+    {
+     "en": "A flexibility programme is correct for the full-back and pointless for the dancer.",
+     "zh": "柔韧性训练对边后卫是正确的，对舞者则毫无意义。"
+    },
+    {
+     "en": "A strengthening programme is correct for both, because strength is the only common protective factor.",
+     "zh": "力量训练对两者都正确，因为力量是唯一共同的保护因素。"
+    },
+    {
+     "en": "This is why a screening result is not an injury prediction, and why the same test points to opposite programmes.",
+     "zh": "这就是为什么筛查结果不等于伤病预测，也为什么同一项测试会指向相反的训练方案。"
+    }
+   ],
+   "answer": {
+    "en": "The same test, two athletes, and the correct programme is opposite in each case. Screening identifies who needs a precaution; it does not say what the precaution is.",
+    "zh": "同一项测试、两名运动员，而正确方案在两人身上恰好相反。筛查能识别出谁需要一道预防措施，但不会告诉你那道措施该是什么。"
+   }
+  }
+ },
+ "Motor units and fibre types": {
+  "figures": [
+   {
+    "title": {
+     "en": "One nerve, many fibres, one graded force",
+     "zh": "一根神经、许多肌纤维、一个分级的力"
+    },
+    "svg": "<circle class=\"fillC\" cx=\"26\" cy=\"90\" r=\"9\"/><path class=\"ln\" d=\"M26 81a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><text class=\"lblS\" x=\"8\" y=\"116\">motor</text><text class=\"lblS\" x=\"8\" y=\"128\">neuron</text><path class=\"th\" d=\"M35 90h22\"/><path class=\"ln\" d=\"M57 90l-9-4.5v9z\" fill=\"currentColor\"/><g><circle class=\"fillA\" cx=\"72\" cy=\"70\" r=\"8\"/><circle class=\"fillA\" cx=\"72\" cy=\"90\" r=\"8\"/><circle class=\"fillA\" cx=\"72\" cy=\"110\" r=\"8\"/></g><g><circle class=\"fillA\" cx=\"94\" cy=\"70\" r=\"8\"/><circle class=\"fillA\" cx=\"94\" cy=\"90\" r=\"8\"/><circle class=\"fillA\" cx=\"94\" cy=\"110\" r=\"8\"/></g><g><circle class=\"fillB\" cx=\"116\" cy=\"70\" r=\"8\"/><circle class=\"fillB\" cx=\"116\" cy=\"90\" r=\"8\"/></g><g><circle class=\"fillC\" cx=\"138\" cy=\"70\" r=\"8\"/></g><text class=\"lblS\" x=\"62\" y=\"140\">more recruited at higher effort</text><rect class=\"fillA\" x=\"164\" y=\"24\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 24h140v30H164z\"/><text class=\"lblS\" x=\"172\" y=\"43\">type I slow oxidative — first, last</text><rect class=\"fillB\" x=\"164\" y=\"62\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 62h140v30H164z\"/><text class=\"lblS\" x=\"172\" y=\"81\">type IIa fast oxidative-glycolytic</text><rect class=\"fillC\" x=\"164\" y=\"100\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 100h140v30h-140z\"/><text class=\"lblS\" x=\"172\" y=\"119\">type IIx fast glycolytic — power</text>",
+    "viewBox": "0 0 320 150",
+    "legend": [
+     {
+      "en": "a motor unit is one neuron plus the fibres it supplies, and they fire together as one unit",
+      "zh": "一个运动单位是一个神经元及其支配的肌纤维，它们作为一个整体一同放电"
+     },
+     {
+      "en": "force is graded by recruiting more units, not by making each fibre pull harder",
+      "zh": "力是靠募集更多运动单位来分级的，而不是让每根纤维各自用力"
+     },
+     {
+      "en": "units are recruited in order, so the slow ones are always available and the fast ones are reserved",
+      "zh": "运动单位按顺序募集，因此慢型一直可用，快型被保留"
+     }
+    ],
+    "caption": {
+     "en": "Fatigue hits the fast units first, which is why power drops off before endurance does, and why the last third of a sprint looks like a different athlete.",
+     "zh": "疲劳先打击快型单位，因此功率先于耐力下降，这也是为什么冲刺的最后三分之一看起来像是换了一位运动员。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Fibre types compared",
+     "zh": "肌纤维类型对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Type I slow oxidative",
+      "zh": "I 型 慢缩氧化"
+     },
+     {
+      "en": "Type IIa fast oxidative-glycolytic",
+      "zh": "IIa 型 快缩氧化糖酵解"
+     },
+     {
+      "en": "Type IIx fast glycolytic",
+      "zh": "IIx 型 快缩糖酵解"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Contraction speed",
+       "zh": "收缩速度"
+      },
+      {
+       "en": "Slow",
+       "zh": "慢"
+      },
+      {
+       "en": "Fast",
+       "zh": "快"
+      },
+      {
+       "en": "Fastest",
+       "zh": "最快"
+      }
+     ],
+     [
+      {
+       "en": "Fatigability",
+       "zh": "疲劳性"
+      },
+      {
+       "en": "Highly fatigue resistant",
+       "zh": "极耐疲劳"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Fatigues in seconds",
+       "zh": "数秒即疲劳"
+      }
+     ],
+     [
+      {
+       "en": "Fuel",
+       "zh": "燃料"
+      },
+      {
+       "en": "Fat and carbohydrate, aerobic",
+       "zh": "脂肪与碳水，有氧"
+      },
+      {
+       "en": "Both",
+       "zh": "两者兼用"
+      },
+      {
+       "en": "Carbohydrate, anaerobic",
+       "zh": "碳水，无氧"
+      }
+     ],
+     [
+      {
+       "en": "Power",
+       "zh": "功率"
+      },
+      {
+       "en": "Low",
+       "zh": "低"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Highest",
+       "zh": "最高"
+      }
+     ],
+     [
+      {
+       "en": "Recruitment order",
+       "zh": "募集顺序"
+      },
+      {
+       "en": "First, always",
+       "zh": "最先，始终"
+      },
+      {
+       "en": "Second",
+       "zh": "其次"
+      },
+      {
+       "en": "Last, reserved",
+       "zh": "最后，保留"
+      }
+     ],
+     [
+      {
+       "en": "Primary sport",
+       "zh": "主要项目"
+      },
+      {
+       "en": "Marathon, rowing, cycling",
+       "zh": "马拉松、赛艇、骑行"
+      },
+      {
+       "en": "800 m, middle distance",
+       "zh": "800 米、中距离"
+      },
+      {
+       "en": "Weightlifting, 100 m, jumps",
+       "zh": "举重、100 米、跳跃"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The order is not a preference, it is the size principle: smaller motor neurons are recruited first because they are more excitable.",
+     "zh": "这个顺序不是偏好，而是大小原则：较小的运动神经元先被募集，因为它们更容易兴奋。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the last third of a sprint is different",
+    "zh": "例题：为什么冲刺的最后三分之一不同"
+   },
+   "given": {
+    "en": "A sprinter holds 95% of peak velocity for the first 100 m of 200 m, then falls to 70%.",
+    "zh": "一名短跑运动员在 200 米的前 100 米保持 95% 的峰值速度，之后掉到 70%。"
+   },
+   "steps": [
+    {
+     "en": "The first 100 m is dominated by type IIx units, which have the highest power and the least fatigue resistance.",
+     "zh": "前 100 米由 IIx 型单位主导，它功率最高而耐疲劳最差。"
+    },
+    {
+     "en": "By 100 m those units are depleted, and only the slower units can be recruited to replace them.",
+     "zh": "到 100 米时这些单位已经耗尽，只能募集较慢的单位来替代。"
+    },
+    {
+     "en": "Type I units are still available, which is why the sprinter finishes rather than stops.",
+     "zh": "I 型单位仍然可用，这正是这位运动员能\"冲完\"而不是\"停住\"的原因。"
+    },
+    {
+     "en": "So the drop is a change in which tissue is doing the work, not simply a lack of will.",
+     "zh": "因此这个下降是在做工作的组织发生了改变，而不只是意志不足。"
+    },
+    {
+     "en": "Training that adds fast units early, and a taper that arrives fresh, both act on this same mechanism.",
+     "zh": "早期增加快型单位的训练，以及以新鲜状态抵达的减量，都作用于同一个机制。"
+    }
+   ],
+   "answer": {
+    "en": "The fall in the final third is predictable from the fibre type alone, which is why it is a physiological feature of sprinting rather than a conditioning failure.",
+    "zh": "最后三分之一的下降仅从纤维类型就可预测，因此它是短跑的一个生理特征，而不是体能不足。"
+   }
+  }
+ },
+ "Contractions and muscle interaction": {
+  "figures": [
+   {
+    "title": {
+     "en": "The three kinds of contraction, drawn by joint movement",
+     "zh": "三种收缩，按关节是否移动来区分"
+    },
+    "svg": "<g><line class=\"ln\" x1=\"24\" y1=\"34\" x2=\"296\" y2=\"34\"/><path class=\"ln\" d=\"M60 34l-8-4v8zM236 34l8-4v8z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"130\" y=\"28\">concentric</text><text class=\"lblS\" x=\"100\" y=\"50\">joint moves, muscle shortens</text></g><g><line class=\"ln\" x1=\"24\" y1=\"94\" x2=\"296\" y2=\"94\"/><circle class=\"acc\" cx=\"148\" cy=\"94\" r=\"7\"/><text class=\"lbl\" x=\"130\" y=\"88\">isometric</text><text class=\"lblS\" x=\"96\" y=\"110\">joint still, muscle works</text></g><g><line class=\"ln\" x1=\"24\" y1=\"154\" x2=\"296\" y2=\"154\"/><path class=\"ln\" d=\"M60 154l-8-4v8zM236 154l8-4v8z\" fill=\"currentColor\"/><circle class=\"warn\" cx=\"148\" cy=\"154\" r=\"7\"/><text class=\"lbl\" x=\"130\" y=\"148\">eccentric</text><text class=\"lblS\" x=\"84\" y=\"170\">joint moves, muscle lengthens</text></g><text class=\"lblS\" x=\"24\" y=\"192\">eccentric damage is delayed by a day or two, which is why it is missed at the time it happens</text>",
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "concentric: the muscle shortens as it pulls, and the joint moves towards the origin of the muscle",
+      "zh": "向心：肌肉缩短同时发力，关节向肌肉起点的方向移动"
+     },
+     {
+      "en": "isometric: force without a change in muscle length, so the joint does not move at all",
+      "zh": "等长：发力而肌肉长度不变，因此关节完全不移动"
+     },
+     {
+      "en": "eccentric: the muscle is lengthened by the load while still generating force, which is where injury happens",
+      "zh": "离心：负荷使肌肉被拉长、同时仍在发力，损伤正发生在这里"
+     }
+    ],
+    "caption": {
+     "en": "The distinction is not academic, because eccentric work is both the most damaging and the most trainable of the three.",
+     "zh": "这个区分不是学术性的，因为离心工作既是三者中最容易造成损伤的，也是最可训练的。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Muscle interaction patterns",
+     "zh": "肌肉协同模式"
+    },
+    "cols": [
+     {
+      "en": "Pattern",
+      "zh": "模式"
+     },
+     {
+      "en": "What happens",
+      "zh": "发生什么"
+     },
+     {
+      "en": "Sport example",
+      "zh": "运动例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Agonist",
+       "zh": "原动肌"
+      },
+      {
+       "en": "The prime mover, which shortens",
+       "zh": "主动完成动作的肌，缩短"
+      },
+      {
+       "en": "Biceps in elbow flexion, quads in knee extension",
+       "zh": "屈肘时的肱二头肌、伸膝时的股四头肌"
+      }
+     ],
+     [
+      {
+       "en": "Antagonist",
+       "zh": "拮抗肌"
+      },
+      {
+       "en": "Opposes the agonist; relaxes, lengthens, or works eccentrically",
+       "zh": "对抗原动肌；放松、拉长或做离心工作"
+      },
+      {
+       "en": "Triceps during elbow flexion",
+       "zh": "屈肘时的肱三头肌"
+      }
+     ],
+     [
+      {
+       "en": "Synergist",
+       "zh": "协同肌"
+      },
+      {
+       "en": "Assists, stabilises, or cancels an unwanted component",
+       "zh": "协助、稳定或抵消不需要的分量"
+      },
+      {
+       "en": "Biceps and brachialis in flexion",
+       "zh": "屈肘时的肱二头肌与肱肌"
+      }
+     ],
+     [
+      {
+       "en": "Fixator",
+       "zh": "固定肌"
+      },
+      {
+       "en": "Stabilises the origin so the agonist has a fixed base",
+       "zh": "稳定肌肉起点，使原动肌有固定基础"
+      },
+      {
+       "en": "Scapular muscles during a press",
+       "zh": "推举时的肩胛肌"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most real movements use all four at once, and a coaching cue usually works by changing which one is doing the most work.",
+     "zh": "大多数真实动作会同时用到这四类，而一条教练提示通常是通过改变\"哪一块在出最多力\"来起作用的。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the second half of a lift is the dangerous half",
+    "zh": "例题：为什么举起动作的后半程才是危险的一半"
+   },
+   "given": {
+    "en": "A 100 kg squat, failure at the bottom, then forced upward with a spotter.",
+    "zh": "一次 100 公斤深蹲，在底部力竭，然后由保护者助力强行起身。"
+   },
+   "steps": [
+    {
+     "en": "The ascent is concentric: fast, powerful, and short.",
+     "zh": "上升段是向心：快速、有力、短暂。"
+    },
+    {
+     "en": "The descent and the catch at failure are eccentric: the muscle is lengthened while maximally loaded.",
+     "zh": "下降段以及力竭后的承接是离心：肌肉在最大负荷下被拉长。"
+    },
+    {
+     "en": "Eccentric loading causes the most structural damage per unit of work, and it is the least trained pattern.",
+     "zh": "离心负荷每单位做功造成的结构损伤最大，而它恰恰是最少被训练的模式。"
+    },
+    {
+     "en": "The symptom appears 24 to 48 hours later, so it is not attributed to the lift that caused it.",
+     "zh": "症状在 24 到 48 小时后才出现，因此不会被归因于造成它的那次举起。"
+    },
+    {
+     "en": "Prevention is eccentric training and not exceeding a load that cannot be controlled on the way down.",
+     "zh": "预防方法是离心训练，以及不使用那些在下降过程中无法控制的重量。"
+    }
+   ],
+   "answer": {
+    "en": "The injury was caused on the way down and reported on the following day, and the intervening session is usually blamed. Almost every \"unexplained\" hamstring strain has this shape.",
+    "zh": "损伤发生在下降过程中、并在第二天才报告，而中间的训练课通常被责怪。几乎每一次\"无法解释\"的腘绳肌拉伤都是这个形状。"
+   }
+  }
+ },
+ "Recruitment, adaptations and sliding filament": {
+  "figures": [
+   {
+    "title": {
+     "en": "Why a muscle gets stronger, drawn as overlapping causes",
+     "zh": "肌肉为何变强：原因叠加图"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"104\" cy=\"60\" r=\"42\"/><path class=\"ln\" d=\"M104 18a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"62\" y=\"56\">more</text><text class=\"lblS\" x=\"60\" y=\"68\">fibres</text></g><g><circle class=\"fillB\" cx=\"176\" cy=\"60\" r=\"42\"/><path class=\"ln\" d=\"M176 18a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"140\" y=\"56\">more</text><text class=\"lblS\" x=\"136\" y=\"68\">cross-section</text></g><g><circle class=\"fillC\" cx=\"140\" cy=\"108\" r=\"42\"/><path class=\"ln\" d=\"M140 66a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"104\" y=\"104\">better</text><text class=\"lblS\" x=\"102\" y=\"116\">organisation</text></g><circle class=\"fillC\" cx=\"140\" cy=\"76\" r=\"14\"/><text class=\"lbl\" x=\"134\" y=\"81\">force</text><g><line class=\"th\" x1=\"24\" y1=\"24\" x2=\"24\" y2=\"164\"/><text class=\"lblS\" x=\"14\" y=\"182\">time →</text></g><text class=\"lblS\" x=\"212\" y=\"46\">neural change, days</text><text class=\"lblS\" x=\"212\" y=\"70\">hypertrophy, weeks</text><text class=\"lblS\" x=\"212\" y=\"120\">fibre type shift, months</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "the fastest adaptation is neural, which is why an untrained lifter improves in the first week",
+      "zh": "最快的适应是神经性的，这正是未训练者在第一周就有提升的原因"
+     },
+     {
+      "en": "hypertrophy adds cross-sectional area, so force rises with the square of the radius",
+      "zh": "肌肥大增加横截面积，因此力随半径的平方上升"
+     },
+     {
+      "en": "fibre type shift happens last and is the reason a sprinter converts to endurance slowly",
+      "zh": "纤维类型转变最晚发生，这也是短跑运动员向耐力项目转变很慢的原因"
+     }
+    ],
+    "caption": {
+     "en": "Sliding filament is the mechanism; everything else is a consequence of how often and how hard it is repeated.",
+     "zh": "肌丝滑动是机制；其余一切都是它被重复得多久、多么用力的结果。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Adaptations and their timescales",
+     "zh": "各种适应及其时间尺度"
+    },
+    "cols": [
+     {
+      "en": "Adaptation",
+      "zh": "适应"
+     },
+     {
+      "en": "Timescale",
+      "zh": "时间尺度"
+     },
+     {
+      "en": "Reverses quickly?",
+      "zh": "恢复快吗"
+     },
+     {
+      "en": "Gained by",
+      "zh": "通过什么获得"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Neural drive",
+       "zh": "神经驱动"
+      },
+      {
+       "en": "Days",
+       "zh": "数天"
+      },
+      {
+       "en": "Yes, within a fortnight",
+       "zh": "是，两周内"
+      },
+      {
+       "en": "Any practice, even poor",
+       "zh": "任何练习，即使质量差"
+      }
+     ],
+     [
+      {
+       "en": "Cross-sectional area",
+       "zh": "横截面积"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Partly, over months",
+       "zh": "部分，数月"
+      },
+      {
+       "en": "Progressive overload",
+       "zh": "渐进负荷"
+      }
+     ],
+     [
+      {
+       "en": "Fibre type shift",
+       "zh": "纤维类型转变"
+      },
+      {
+       "en": "Months to years",
+       "zh": "数月到数年"
+      },
+      {
+       "en": "Slowly",
+       "zh": "慢"
+      },
+      {
+       "en": "Sustained training of the matching kind",
+       "zh": "相应类型的持续训练"
+      }
+     ],
+     [
+      {
+       "en": "Tendon stiffness",
+       "zh": "肌腱刚度"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      },
+      {
+       "en": "Partly",
+       "zh": "部分"
+      },
+      {
+       "en": "Heavy loading, adequate rest",
+       "zh": "大负荷、充分休息"
+      }
+     ],
+     [
+      {
+       "en": "Capillarisation",
+       "zh": "毛细血管化"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Yes, fairly quickly",
+       "zh": "是，比较快"
+      },
+      {
+       "en": "Endurance work",
+       "zh": "耐力训练"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Early gains are neural and therefore cheap and fast. This is why the first month of any programme feels excellent and the third month feels like nothing is happening.",
+     "zh": "早期的提升是神经性的，因此便宜又快速。这就是为什么任何计划的第一个月感觉极好、而第三个月感觉像什么也没发生。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a plateau honestly",
+    "zh": "例题：诚实地解读一次停滞"
+   },
+   "given": {
+    "en": "A lifter adds 10 kg to the squat and improves for 8 weeks, then stalls for 5 weeks with no change.",
+    "zh": "一名举重者给深蹲加了 10 公斤，提升持续 8 周，然后停滞 5 周没有变化。"
+   },
+   "steps": [
+    {
+     "en": "The first 8 weeks were probably neural, and the plateau is where the slower adaptations begin to matter.",
+     "zh": "前 8 周很可能是神经性的，而停滞正是较慢的适应开始起作用的时候。"
+    },
+    {
+     "en": "Five weeks is not long enough to conclude the programme has failed.",
+     "zh": "5 周还不足以断定这个计划已经失败。"
+    },
+    {
+     "en": "The correct response is to check recovery and to change one variable, not to add volume.",
+     "zh": "正确的应对是检查恢复情况并改变一个变量，而不是增加训练量。"
+    },
+    {
+     "en": "Adding volume to a stalled lifter is the most common cause of a plateau becoming an injury.",
+     "zh": "给处于停滞的举重者增加训练量，是停滞演变成伤病最常见的原因。"
+    },
+    {
+     "en": "If the check shows poor sleep and low intake, the answer is fuelling, not programming.",
+     "zh": "如果检查发现睡眠差、摄入低，那么答案是补糖，而不是调整训练计划。"
+    }
+   ],
+   "answer": {
+    "en": "A five-week plateau after eight weeks of progress is a normal part of a cycle. The decision to add volume at that point is what turns a plateau into a problem.",
+    "zh": "在 8 周进步之后的 5 周停滞，是一个周期中正常的部分。正是在那个点上决定增加训练量，才会把停滞变成问题。"
+   }
+  }
+ },
+ "Components and lever classes": {
+  "figures": [
+   {
+    "title": {
+     "en": "A lever, and the three classes it comes in",
+     "zh": "一个杠杆，以及它所属的三个类别"
+    },
+    "svg": "<g><line class=\"th\" d=\"M40 24v136\"/><path class=\"ln\" d=\"M40 150h84\"/><circle class=\"warn\" cx=\"40\" cy=\"156\" r=\"6\"/><text class=\"lblS\" x=\"20\" y=\"176\">pivot</text><path class=\"th\" d=\"M60 60h120\"/><text class=\"lbl\" x=\"112\" y=\"52\">effort</text><rect class=\"fillA\" x=\"172\" y=\"52\" width=\"26\" height=\"16\" rx=\"3\"/><path class=\"ln\" d=\"M172 52h26v16h-26z\"/><text class=\"lblS\" x=\"168\" y=\"82\">load</text><path class=\"th\" d=\"M40 60h20\"/><text class=\"lblS\" x=\"20\" y=\"46\">r1</text><path class=\"th\" d=\"M40 60h140\"/><text class=\"lblS\" x=\"100\" y=\"44\">r2</text></g><g><text class=\"lblS\" x=\"14\" y=\"192\">advantage = effort arm / load arm · a third-class lever always has an advantage below 1</text></g>",
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "three things define any lever: the pivot, the effort and the load, plus the two arms they sit on",
+      "zh": "定义任何杠杆的有三样东西：支点、动力与阻力，以及它们所处的两条杠杆臂"
+     },
+     {
+      "en": "mechanical advantage is the ratio of the two arms, and it is the whole story of leverage in sport",
+      "zh": "机械优势是两条杠杆臂之比，而这就是运动中杠杆效应的全部"
+     },
+     {
+      "en": "a third-class lever is the commonest in the body and it is always a disadvantage at the joint",
+      "zh": "第三类杠杆在人体中最常见，而在关节处它总是劣势"
+     }
+    ],
+    "caption": {
+     "en": "Every joint in the body is a lever, and the class it belongs to decides whether the muscle there has a mechanical advantage or needs to be very strong to move the limb.",
+     "zh": "人体的每一个关节都是杠杆，而它属于哪一类，决定了那里的肌肉是拥有机械优势、还是需要非常强才能带动肢体。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three lever classes",
+     "zh": "三个杠杆类别"
+    },
+    "cols": [
+     {
+      "en": "Class",
+      "zh": "类别"
+     },
+     {
+      "en": "Pivot position",
+      "zh": "支点位置"
+     },
+     {
+      "en": "Advantage",
+      "zh": "机械优势"
+     },
+     {
+      "en": "Body example",
+      "zh": "人体例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "First",
+       "zh": "第一类"
+      },
+      {
+       "en": "Between effort and load",
+       "zh": "在动力与阻力之间"
+      },
+      {
+       "en": "Can be above or below 1",
+       "zh": "可大于或小于 1"
+      },
+      {
+       "en": "Atlanto-occipital extension, ankle plantarflexion",
+       "zh": "枕寰伸展、踝跖屈"
+      }
+     ],
+     [
+      {
+       "en": "Second",
+       "zh": "第二类"
+      },
+      {
+       "en": "Beyond the load, effort in the middle",
+       "zh": "在阻力之外，动力居中"
+      },
+      {
+       "en": "Always below 1",
+       "zh": "始终小于 1"
+      },
+      {
+       "en": "Elbow flexion with the biceps, rising on tiptoe",
+       "zh": "肱二头肌屈肘、踮脚起身"
+      }
+     ],
+     [
+      {
+       "en": "Third",
+       "zh": "第三类"
+      },
+      {
+       "en": "Beyond the effort",
+       "zh": "在动力之外"
+      },
+      {
+       "en": "Always below 1",
+       "zh": "始终小于 1"
+      },
+      {
+       "en": "Biceps in elbow extension, quadriceps in knee extension",
+       "zh": "伸肘时的肱二头肌、伸膝时的股四头肌"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most joints have muscles from more than one class attached, which is why a single-joint problem is rare and a strength problem is usually distributed.",
+     "zh": "大多数关节都附着来自不止一个类别的肌肉，这正是单一关节的问题很少见、而力量问题通常是分散的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why quadriceps strength is so disproportionate",
+    "zh": "例题：为什么股四头肌力量如此不成比例"
+   },
+   "given": {
+    "en": "To extend the knee against a load held at the ankle, the quadriceps act across a small moment arm.",
+    "zh": "要对抗握在踝部的负荷伸膝，股四头肌必须跨越一个很小的力臂。"
+   },
+   "steps": [
+    {
+     "en": "The knee extensor moment arm is roughly 3 to 5 cm, which is short.",
+     "zh": "膝伸肌的力臂约为 3 到 5 厘米，很短。"
+    },
+    {
+     "en": "A load of 20 kg held at the ankle creates a moment of about 20 x 9.8 x 0.04 = 7.8 N·m.",
+     "zh": "踝部 20 公斤的负荷产生约 20 x 9.8 x 0.04 = 7.8 牛顿·米的力矩。"
+    },
+    {
+     "en": "The quadriceps must produce that moment with a mechanical advantage well below 1, so the muscle force required is several times the load.",
+     "zh": "股四头肌必须在机械优势远小于 1 的情况下产生该力矩，因此所需的肌力是负荷的数倍。"
+    },
+    {
+     "en": "This is why quadriceps strength is a large fraction of total leg strength, and why it is the first thing lost after a knee injury.",
+     "zh": "这就是为什么股四头肌力量占腿部总力量很大一部分，也为什么它是膝伤后最先失去的。"
+    },
+    {
+     "en": "It is also why the load must be kept close to the joint: moving it out to the toes multiplies the required force.",
+     "zh": "这也是为什么负荷必须靠近关节：把它移到脚尖会成倍增加所需力。"
+    }
+   ],
+   "answer": {
+    "en": "The knee extensor is a third-class lever, so the muscle has to be several times stronger than the load it moves. Every knee rehabilitation programme is really a conversation about that ratio.",
+    "zh": "膝伸肌是第三类杠杆，因此肌肉必须比它所移动的负荷强数倍。每一个膝关节康复方案本质上都是关于这个比值的对话。"
+   }
+  }
  }
 };
 if(window.IB_VISUALS&&window.IB_VISUALS.shake){try{window.dispatchEvent(new Event('shake'))}catch(e){}}

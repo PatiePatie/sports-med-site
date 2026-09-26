@@ -854,10 +854,31 @@ body.dark h1,body.dark h2,body.dark h3{
 .adm-logout{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;padding:.55rem 1.1rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .2s}
 .adm-logout:hover{border-color:var(--red);color:var(--red)}
 .adm-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:800;padding:.3rem .7rem;border-radius:20px;background:var(--accent);color:#fff}
-.adm-dr7row{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:.8rem}
-.adm-dr7card{flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
-.adm-dr7card .v{font-size:1.25rem;font-weight:700;color:var(--accent);font-family:var(--font-heading)}
-.adm-dr7card .k{font-size:.76rem;color:var(--text3);margin-top:.2rem}
+.adm-airow{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:.8rem}
+.adm-aicard{flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;text-align:center}
+.adm-aicard .v{font-size:1.25rem;font-weight:700;color:var(--accent);font-family:var(--font-heading)}
+.adm-aicard .k{font-size:.76rem;color:var(--text3);margin-top:.2rem}
+.adm-model{flex:1 1 240px;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.1rem;text-align:left;position:relative;overflow:hidden}
+.adm-model::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--mc,var(--accent))}
+.adm-model .who{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mc,var(--accent))}
+.adm-model .nm{font-family:monospace;font-size:.95rem;font-weight:700;color:var(--text);margin:.25rem 0 .1rem;word-break:break-all}
+.adm-model .via{font-size:.76rem;color:var(--text3)}
+.adm-model .nums{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem .8rem;margin-top:.8rem}
+.adm-model .nums b{display:block;font-size:1.05rem;color:var(--text);font-family:var(--font-heading)}
+.adm-model .nums span{font-size:.72rem;color:var(--text3)}
+.adm-model .mix{margin-top:.6rem;font-size:.74rem;color:var(--text3)}
+.adm-bars{display:flex;align-items:flex-end;gap:4px;height:110px;margin-top:1rem;padding:0 .2rem;border-bottom:1px solid var(--border)}
+.adm-bar{flex:1;display:flex;flex-direction:column-reverse;min-width:0;height:100%;position:relative}
+.adm-bar i{display:block;width:100%;border-radius:3px 3px 0 0;min-height:0}
+.adm-bar em{position:absolute;bottom:-1.3rem;left:50%;transform:translateX(-50%);font-size:.62rem;color:var(--text3);font-style:normal;white-space:nowrap}
+.adm-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem;font-size:.76rem;color:var(--text3)}
+.adm-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+.adm-recent{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.8rem}
+.adm-recent th,.adm-recent td{padding:.4rem .5rem;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.adm-recent th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
+.adm-recent td.m{font-family:monospace;font-size:.75rem}
+.adm-recent-wrap{overflow-x:auto}
+.adm-src{display:inline-block;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:99px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);margin-left:.5rem;vertical-align:middle}
 .adm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;transition:all .2s}
 .adm-btn:hover{opacity:.92;transform:translateY(-1px);text-decoration:none}
 .adm-btn.ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
@@ -883,10 +904,11 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=7">
-<script src="soft-fx.js?v=7" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=8">
+<script src="soft-fx.js?v=8" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=2">
 <script src="knowledge-fx.js?v=2" defer></script>
+<script src="ai-usage.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head><body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
@@ -1059,10 +1081,10 @@ function renderConsole(u){
     +'<div class="adm-grid">'
     +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Users','用户')+'</div><div class="k" id="stUsers" style="color:rgba(255,255,255,.7)">—</div></div>'
     +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('Frozen','冻结')+'</div><div class="k" id="stFrozen" style="color:rgba(255,255,255,.7)">—</div></div>'
-    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">Dr7</div><div class="k" id="stDr7" style="color:rgba(255,255,255,.7)">—</div></div>'
+    +'<div class="adm-stat" style="background:rgba(255,255,255,.12);border:none;color:#fff"><div class="v">'+t('AI calls','AI 调用')+'</div><div class="k" id="stAi" style="color:rgba(255,255,255,.7)">—</div></div>'
     +'</div></div>';
 
-  /* ══ Tab 1 · Moderation (Members + Dr7 + Q&A Inbox + Forum Moderation) ══ */
+  /* ══ Tab 1 · Moderation (Members + AI usage + Q&A Inbox + Forum Moderation) ══ */
   var modView=''
     +'<div class="adm"><h1>👥 '+t('Members','用户管理')+'</h1>'
     +'<div class="adm-msg" id="admMsg"></div>'
@@ -1070,12 +1092,10 @@ function renderConsole(u){
     +'<p class="adm-note">'+t('Freezing blocks the user from signing in and using the AI. Deleting permanently removes the account.','冻结可阻止用户登录并使用 AI；删除将永久移除账号。')+'</p>'
     +'</div>';
 
-  modView+='<div class="adm"><h1>🤖 Dr7.ai '+t('Usage · API Remaining','用量 · 剩余额度')+'</h1>'
-    +'<div class="adm-dr7row" id="dr7Stats"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
-    +'<p class="adm-note">'+t('Usage is logged server-side when the AI helper is used. The live remaining-quota number comes from your Dr7.ai dashboard.','AI 助手被使用时会在服务端记录用量；实时剩余额度请查看 Dr7.ai 控制台。')+'</p>'
-    +'<div class="adm-dr7row" style="margin-top:1rem">'
-    +'<a class="adm-btn" target="_blank" rel="noopener" href="https://dr7.ai">'+t('📊 Open Dr7.ai Dashboard','📊 打开 Dr7.ai 控制台')+'</a>'
-    +'</div></div>';
+  modView+='<div class="adm"><h1>🤖 '+t('AI usage · current models','AI 用量 · 当前模型')+'<span class="adm-src" id="aiSrc"></span></h1>'
+    +'<div id="aiUsage"><div class="adm-loading"><div class="spin"></div><span>'+(showCN?'读取用量…':'Reading usage…')+'</span></div></div>'
+    +'<p class="adm-note" id="aiNote"></p>'
+    +'</div>';
 
   modView+='<div class="adm"><h1>📥 '+t('Q&amp;A Inbox','问答收件箱')+'</h1>'
     +'<div class="adm-msg" id="qnaInboxMsg"></div>'
@@ -1128,7 +1148,7 @@ function renderConsole(u){
   showRoot(html);
   applyView();
   loadUsers(u);
-  loadDr7Usage();
+  loadAiUsage();
   loadQnaInbox();
   loadForumMod();
   applyLang();
@@ -1305,7 +1325,7 @@ function modUser(email, action, btn){
     else { showMsg(t('Done.','完成。'),true); }
     if(btn) btn.disabled=false;
     loadUsers(u);
-    loadDr7Usage();
+    loadAiUsage();
     window.refreshAuthWidget && window.refreshAuthWidget();
   }).catch(function(e){ if(btn) btn.disabled=false; showMsg(t('Error.','出错了。')+' '+esc(e.message||e),false); });
 }
@@ -1321,29 +1341,92 @@ function delUser(email, btn){
     } else {
       showMsg(t('Account permanently deleted.','账号已永久删除。'),true);
       loadUsers(currentUser());
-      loadDr7Usage();
+      loadAiUsage();
       window.refreshAuthWidget && window.refreshAuthWidget();
     }
   }).catch(function(e){ if(btn) btn.disabled=false; showMsg(t('Error.','出错了。')+' '+esc(e.message||e),false); });
 }
 
-function loadDr7Usage(){
-  var box=document.getElementById('dr7Stats');
+/* ============ AI usage (ai-usage.js logs every call to api.vitaliteplan.com) ============
+   Site-wide rows come from Supabase `ai_usage` (ai-usage-schema.sql). Until that
+   table exists, this falls back to the log ai-usage.js keeps in this browser. */
+var AI_MODELS=[
+  {k:'vitaxamine',c:'#B3323A',who:['Vitaxamine · Infirmary AI','Vitaxamine · 诊所 AI'],nm:'glm-4.5-air',via:['Zhipu · with RAG (embedding-3)','智谱 · 带知识库检索 (embedding-3)']},
+  {k:'vitaline',c:'#3A78C2',who:['Vitaline · site guide','Vitaline · 网站向导'],nm:'@cf/qwen/qwen3-30b-a3b-fp8',via:['Cloudflare Workers AI · falls back to glm-4.5-air','Cloudflare Workers AI · 备用 glm-4.5-air']},
+  {k:'checkup',c:'#D08A2C',who:['Checkup · camera scan','体检 · 摄像头扫描'],nm:'glm-4v-flash',via:['Zhipu vision · free tier','智谱视觉 · 免费档']}
+];
+function loadAiUsage(){
+  var box=document.getElementById('aiUsage');
   if(!box) return;
-  if(!sb){ box.innerHTML='<div class="adm-dr7card"><div class="v">—</div><div class="k">'+t('Not configured','未配置')+'</div></div>'; return; }
-  sb.from('dr7_usage').select('id,tokens_in,tokens_out,cost_usd').then(function(r){
-    if(r.error){ box.innerHTML='<div class="adm-dr7card"><div class="v">—</div><div class="k">'+esc(r.error.message||'error')+'</div></div>'; return; }
-    var rows=r.data||[];
-    var calls=rows.length, tin=0, tout=0, cost=0;
-    rows.forEach(function(x){ tin+=(x.tokens_in||0); tout+=(x.tokens_out||0); cost+=(parseFloat(x.cost_usd)||0); });
-    var stDr7=document.getElementById('stDr7'); if(stDr7) stDr7.textContent=calls+' '+(showCN?'次调用':'calls');
-    box.innerHTML=''
-      +'<div class="adm-dr7card"><div class="v">'+calls+'</div><div class="k">'+t('Total calls · 调用总数','总调用')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">'+(tin+tout).toLocaleString()+'</div><div class="k">'+t('Total tokens · 总Token数','总 Tokens')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">$'+cost.toFixed(4)+'</div><div class="k">'+t('Logged cost · 记录费用','记录费用')+'</div></div>'
-      +'<div class="adm-dr7card"><div class="v">🤖</div><div class="k">'+t('Model · baichuan-m3','模型')+'</div></div>';
-    document.getElementById('dr7Stats').className='adm-dr7row';
+  var since=new Date(Date.now()-30*864e5).toISOString();
+  function local(why){
+    var a=[];
+    try{ a=JSON.parse(localStorage.getItem('vt_ai_log')||'[]')||[]; }catch(e){}
+    a=a.map(function(r){ var o={}; for(var k in r) o[k]=r[k]; o.created_at=new Date(r.t||Date.now()).toISOString(); return o; }).reverse();
+    renderAiUsage(a,false,why);
+  }
+  if(!sb) return local('');
+  sb.from('ai_usage').select('created_at,assistant,model,ok,status,latency_ms,est_in,est_out,rejected,rag,page')
+    .gte('created_at',since).order('created_at',{ascending:false}).limit(5000)
+    .then(function(r){ if(r.error) local(r.error.message||''); else renderAiUsage(r.data||[],true,''); },function(e){ local(String(e&&e.message||e)); });
+}
+function renderAiUsage(rows,remote,why){
+  var box=document.getElementById('aiUsage'); if(!box) return;
+  var now=Date.now(), day=864e5, today=new Date(); today.setHours(0,0,0,0);
+  function inDays(r,n){ return now-new Date(r.created_at).getTime()<n*day; }
+  function med(a){ if(!a.length) return 0; a=a.slice().sort(function(x,y){return x-y}); return a[a.length>>1]; }
+  function fmtMs(ms){ return ms>=1000?(ms/1000).toFixed(1)+' s':Math.round(ms)+' ms'; }
+  var wk=rows.filter(function(r){return inDays(r,7)});
+  var todayN=rows.filter(function(r){return new Date(r.created_at)>=today}).length;
+  var st=document.getElementById('stAi'); if(st) st.textContent=wk.length+' · '+t('7 days','近7天');
+  var src=document.getElementById('aiSrc'); if(src) src.textContent=remote?t('site-wide','全站'):t('this browser','仅本浏览器');
+  var html='<div class="adm-airow">';
+  AI_MODELS.forEach(function(m){
+    var mine=wk.filter(function(r){return r.assistant===m.k});
+    var ok=mine.filter(function(r){return r.ok}).length;
+    var lat=med(mine.filter(function(r){return r.ok&&r.latency_ms}).map(function(r){return r.latency_ms}));
+    var tok=mine.reduce(function(s,r){return s+(r.est_in||0)+(r.est_out||0)},0);
+    var mix={}; mine.forEach(function(r){ if(r.model) mix[r.model]=(mix[r.model]||0)+1; });
+    var mixS=Object.keys(mix).sort(function(a,b){return mix[b]-mix[a]}).map(function(k){return esc(k)+' × '+mix[k]}).join(' · ');
+    var extra=m.k==='vitaxamine'?' · '+mine.filter(function(r){return r.rejected}).length+' '+t('off-topic blocked','离题拦截'):'';
+    html+='<div class="adm-model" style="--mc:'+m.c+'"><div class="who">'+(showCN?m.who[1]:m.who[0])+'</div>'
+      +'<div class="nm">'+esc(m.nm)+'</div><div class="via">'+(showCN?m.via[1]:m.via[0])+'</div>'
+      +'<div class="nums"><div><b>'+mine.length+'</b><span>'+t('calls · 7 days','调用 · 近7天')+'</span></div>'
+      +'<div><b>'+(mine.length?Math.round(ok/mine.length*100)+'%':'—')+'</b><span>'+t('succeeded','成功率')+'</span></div>'
+      +'<div><b>'+(lat?fmtMs(lat):'—')+'</b><span>'+t('median reply time','回复时间中位数')+'</span></div>'
+      +'<div><b>'+(m.k==='checkup'?'—':tok.toLocaleString())+'</b><span>'+t('est. tokens (Q+A)','估算 tokens（问+答）')+'</span></div></div>'
+      +'<div class="mix">'+(mixS?t('Answered by: ','实际模型：')+mixS:t('No calls yet','暂无调用'))+extra+'</div></div>';
   });
+  html+='</div>';
+  var errs=wk.filter(function(r){return !r.ok}).length;
+  html+='<div class="adm-airow" style="margin-top:1rem">'
+    +'<div class="adm-aicard"><div class="v">'+todayN+'</div><div class="k">'+t('Calls today','今日调用')+'</div></div>'
+    +'<div class="adm-aicard"><div class="v">'+wk.length+'</div><div class="k">'+t('Calls · 7 days','近7天调用')+'</div></div>'
+    +'<div class="adm-aicard"><div class="v">'+rows.length+'</div><div class="k">'+t('Calls · 30 days','近30天调用')+'</div></div>'
+    +'<div class="adm-aicard"><div class="v">'+errs+'</div><div class="k">'+t('Failed · 7 days','失败 · 近7天')+'</div></div></div>';
+  /* 14-day stacked bars */
+  var days=[],max=1;
+  for(var i=13;i>=0;i--){ var d0=new Date(today.getTime()-i*day), d1=new Date(d0.getTime()+day), c={};
+    rows.forEach(function(r){ var tt=new Date(r.created_at); if(tt>=d0&&tt<d1) c[r.assistant]=(c[r.assistant]||0)+1; });
+    var tot=0; for(var k in c) tot+=c[k]; max=Math.max(max,tot); days.push({d:d0,c:c,tot:tot}); }
+  html+='<div class="adm-bars">'+days.map(function(x,j){
+    return '<div class="adm-bar" title="'+x.d.toLocaleDateString()+' · '+x.tot+'">'+AI_MODELS.map(function(m){
+      var n=x.c[m.k]||0; return n?'<i style="height:'+(n/max*100).toFixed(1)+'%;background:'+m.c+'"></i>':''; }).join('')
+      +((j%2===1||j===13)?'<em>'+(x.d.getMonth()+1)+'/'+x.d.getDate()+'</em>':'')+'</div>'; }).join('')+'</div>';
+  html+='<div class="adm-legend">'+AI_MODELS.map(function(m){return '<span><i style="background:'+m.c+'"></i>'+(showCN?m.who[1]:m.who[0]).split(' · ')[0]+'</span>'}).join('')+'</div>';
+  /* recent calls */
+  var recent=rows.slice(0,12);
+  if(recent.length){
+    html+='<div class="adm-recent-wrap"><table class="adm-recent"><tr><th>'+t('When','时间')+'</th><th>'+t('Assistant','助手')+'</th><th>'+t('Model','模型')+'</th><th>'+t('Time','耗时')+'</th><th>'+t('Tokens','Tokens')+'</th><th>'+t('Page','页面')+'</th><th></th></tr>'
+      +recent.map(function(r){ var d=new Date(r.created_at);
+        return '<tr><td>'+d.toLocaleDateString()+' '+d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'</td><td>'+esc(r.assistant)+'</td><td class="m">'+esc(r.model||'—')+'</td><td>'+(r.latency_ms?fmtMs(r.latency_ms):'—')+'</td><td>'+(((r.est_in||0)+(r.est_out||0))||'—')+'</td><td>'+esc(r.page||'')+'</td><td>'+(r.ok?(r.rejected?'⛔':'✓'):'✕ '+(r.status||''))+'</td></tr>'; }).join('')
+      +'</table></div>';
+  }
+  box.innerHTML=html;
+  var note=document.getElementById('aiNote');
+  if(note) note.innerHTML=remote
+    ?t('Logged in the browser by ai-usage.js each time an assistant answers: sizes and timings only, never the question text. Token counts are estimates (≈4 characters or 1 CJK character per token).','每次助手回答时由 ai-usage.js 在浏览器记录：只记长度和耗时，从不记录提问内容。Token 为估算值（约 4 个字符或 1 个汉字为 1 个 token）。')
+    :t('Showing calls made from this browser only. To collect usage site-wide, run ai-usage-schema.sql in the Supabase SQL editor once.','当前仅显示本浏览器的调用。要统计全站用量，请在 Supabase SQL 编辑器中运行一次 ai-usage-schema.sql。')+(why?' <span style="opacity:.7">('+esc(why)+')</span>':'');
 }
 
 /* ============ Q&A Inbox (messages/reports from the bottom-left Q&A widget) ============ */

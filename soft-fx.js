@@ -608,12 +608,16 @@
       })();
     }
     /* two facts, one after the other, typed out */
-    var pick = FACTS.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 2);
+    /* tips come from vt-sources.js (cited); the short list here is only a fallback */
+    var TIPS = (window.VT_TIPS && window.VT_TIPS.length) ? window.VT_TIPS.map(function (t) { return [t.en, t.zh, t.ref]; }) : FACTS;
+    var pick = TIPS.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 2);
     var fact = document.createElement('div');
     fact.className = 'sg-fact';
-    fact.innerHTML = '<b>' + (zh ? '你知道吗？' : 'Did you know?') + '</b> <span></span><i class="sg-caret"></i>';
+    fact.innerHTML = '<b>' + (zh ? '你知道吗？' : 'Did you know?') + '</b> <span></span><i class="sg-caret"></i><cite></cite>';
     host.appendChild(fact);
-    var sp = fact.querySelector('span');
+    var sp = fact.querySelector('span'), ct = fact.querySelector('cite');
+    function citeOf(p) { var C = window.VT_CITE; return p && p[2] && C ? '— ' + C.short(p[2]) : ''; }
+    ct.textContent = citeOf(pick[0]);
     function typeFact(txt, at) {
       var k = 0;
       setTimeout(function type() {
@@ -624,11 +628,19 @@
     }
     typeFact(zh ? pick[0][1] : pick[0][0], 1400);
     if (hold > 5000 && pick[1]) {
-      setTimeout(function () { if (!host.isConnected) return; fact.classList.add('swap'); setTimeout(function () { sp.textContent = ''; fact.classList.remove('swap'); }, 380); }, hold * 0.52);
+      setTimeout(function () { if (!host.isConnected) return; fact.classList.add('swap'); setTimeout(function () { sp.textContent = ''; ct.textContent = citeOf(pick[1]); fact.classList.remove('swap'); }, 380); }, hold * 0.52);
       typeFact(zh ? pick[1][1] : pick[1][0], hold * 0.52 + 420);
     }
     /* the last moment: a pulse of light off the mark and a shine across the name */
-    setTimeout(function () { if (host.isConnected) host.classList.add('sg-welcome'); }, Math.max(0, hold - 1100));
+    setTimeout(function () {
+      if (!host.isConnected) return;
+      host.classList.add('sg-welcome');
+      if (host.getAttribute('data-fin') === 'burst' && tile) {         /* the other finale: sparks off the mark */
+        var b = document.createElement('div'); b.className = 'sg-burst';
+        for (var q = 0; q < 16; q++) b.innerHTML += '<i style="--a:' + (q * 22.5) + 'deg;animation-delay:' + (q % 2 ? 0.06 : 0) + 's"></i>';
+        tile.appendChild(b);
+      }
+    }, Math.max(0, hold - 1100));
     var STAGES = zh ? ['热身中', '拉伸中', '检查生命体征', '载入章节', '准备练习', '准备就绪'] : ['Warming up', 'Stretching', 'Checking vitals', 'Loading chapters', 'Preparing practice', 'Ready'];
     var prog = document.createElement('div');
     prog.className = 'sg-prog';

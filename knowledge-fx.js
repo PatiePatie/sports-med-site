@@ -1444,10 +1444,93 @@
       $$('.kn-learn').forEach(function (p) { panelTexts(p); paint(p); });
       $$('.kn-more').forEach(moreLabel);
       $$('.ks').forEach(function (t) { if (t.rebuild) safe(t.rebuild); });
+      safe(sources);
     }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* ═══ Boot ═════════════════════════════════════════════════════════════ */
+  /* ═══ 7c · Sources: every knowledge page cites where it comes from ═════ */
+  /* The references live in vt-sources.js (VT_REFS / VT_PAGE_REFS / VT_KB_REFS).
+     Each guide chapter ends with its own list; the other knowledge pages get
+     one list before the footer; toc.html (the Knowledge Hub) carries the full
+     bibliography, grouped, including the Vitaxamine knowledge base section by
+     section. Rebuilt when the language changes. */
+  var PAGE_KEY = { 'ib-sehs.html': 'ib-sehs', 'ib-sehs-learn.html': 'ib-sehs', 'g10-bio.html': 'g10-bio', 'usabo.html': 'usabo', 'exam.html': 'exam', 'cn-cert.html': 'cn-cert' };
+  var CH_NAME = { ch1: ['Ch 1 · The Body as a Machine', '第1章 · 身体如机器'], ch2: ['Ch 2 · Nervous System', '第2章 · 神经系统'], ch3: ['Ch 3 · Cardiovascular System', '第3章 · 心血管系统'], ch4: ['Ch 4 · Integumentary System', '第4章 · 皮肤系统'], ch5: ['Ch 5 · Training Principles', '第5章 · 训练原则'], ch6: ['Ch 6 · Injury & Healing', '第6章 · 损伤与愈合'], ch7: ['Ch 7 · Recovery Science', '第7章 · 恢复科学'], ch8: ['Ch 8 · Sports Nutrition', '第8章 · 运动营养'], ch9: ['Ch 9 · Supplements & Evidence Grading', '第9章 · 补剂与证据分级'], ch10: ['Ch 10 · Ethics & Professional Responsibility', '第10章 · 伦理与职业责任'], ch11: ['Ch 11 · Becoming a Physical Therapist', '第11章 · 成为物理治疗师'], ch12: ['Ch 12 · Assessment', '第12章 · 康复评定学'], ch13: ['Ch 13 · TCM Health Management', '第13章 · 中医健康管理'], ch14: ['Ch 14 · Emergency Medicine & Field Care', '第14章 · 急救医学与场边处置'],
+    'ib-sehs': ['IB Sports, Exercise & Health Science', 'IB 运动、锻炼与健康科学'], 'g10-bio': ['G10 Biology', '十年级生物'], 'usabo': ['USABO (Biology Olympiad)', 'USABO 生物奥赛'], 'exam': ['NPTE & exam prep', 'NPTE 与考试准备'], 'cn-cert': ['运动康复师资格证', '运动康复师资格证'] };
+  function refEsc(x) { return String(x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function refItem(id, anchor) {
+    var R = window.VT_REFS, r = R && R[id]; if (!r) return '';
+    var z = zh();
+    return '<li' + (anchor ? ' id="ref-' + id + '"' : '') + '><span class="vr-a">' + refEsc(r.a.replace(/\.\s*$/, '')) + '.</span> <span class="vr-t">' + refEsc(r.t.replace(/\.\s*$/, '')) + '.</span> <span class="vr-s">' + refEsc(r.s) + (r.k === 'book' ? '; ' : ', ') + refEsc(r.y) + '.</span>' +
+      (r.url ? ' <a class="vr-l" href="' + r.url + '" target="_blank" rel="noopener">PubMed ↗</a>' : '') +
+      '<span class="vr-k">' + (r.k === 'book' ? (z ? '书籍' : 'Book') : r.k === 'doc' ? (z ? '指南/文件' : 'Guideline') : (z ? '期刊' : 'Journal')) + '</span></li>';
+  }
+  function refBlock(ids, title, note, anchor) {
+    var a = document.createElement('aside');
+    a.className = 'vt-refs';
+    var z = zh();
+    a.innerHTML = (title === false ? '' : '<div class="vr-h"><span class="vr-ico" aria-hidden="true">❝</span><div><div class="vr-title">' + (title || (z ? '参考文献' : 'Sources')) + '</div>' +
+      '<div class="vr-note">' + (note || (z ? '本页内容为学习用摘要，完整细节请参阅以下来源。' : 'This page summarises these sources for learning; see them for the full detail.')) + '</div></div></div>') +
+      '<ol>' + ids.map(function (id) { return refItem(id, anchor); }).join('') + '</ol>';
+    return a;
+  }
+  function sources() {
+    var P = window.VT_PAGE_REFS, K = window.VT_KB_REFS;
+    if (!P || !window.VT_REFS) return;
+    $$('.vt-refs:not(.vr-keep), .vt-biblio').forEach(function (x) { if (x.parentNode) x.parentNode.removeChild(x); });
+    if (GUIDE) {
+      $$('section.chapter[id^="ch"]').forEach(function (sec) { if (P[sec.id]) sec.appendChild(refBlock(P[sec.id])); });
+      return;
+    }
+    var host = document.querySelector('.page-wrapper') || document.body;
+    var foot = host.querySelector('footer');
+    var z = zh();
+    if (PAGE_KEY[FILE] && P[PAGE_KEY[FILE]]) {
+      var b = refBlock(P[PAGE_KEY[FILE]]);
+      b.classList.add('vr-page');
+      if (foot) foot.parentNode.insertBefore(b, foot); else host.appendChild(b);
+      return;
+    }
+    if (FILE !== 'toc.html') return;
+    var all = document.createElement('section');           /* the full bibliography */
+    all.className = 'vt-biblio';
+    all.innerHTML = '<h2>' + (z ? '全部参考文献' : 'Bibliography') + '</h2><p class="vr-note">' + (z ? 'Vitalité 所有知识内容的来源：每一章、每个学习页面，以及 Vitaxamine 知识库的每一节。' : 'Where every part of Vitalité\'s knowledge comes from: each chapter, each study page, and every section of the Vitaxamine knowledge base.') + '</p>';
+    Object.keys(P).forEach(function (k) {
+      if (k === 'vitaxamine') return;
+      var d = document.createElement('details');
+      d.className = 'vr-group';
+      d.innerHTML = '<summary>' + (CH_NAME[k] ? CH_NAME[k][z ? 1 : 0] : k) + ' <span>' + P[k].length + '</span></summary>';
+      d.appendChild(refBlock(P[k], false));
+      all.appendChild(d);
+    });
+    if (K) {
+      var kd = document.createElement('details');
+      kd.className = 'vr-group';
+      kd.innerHTML = '<summary>' + (z ? 'Vitaxamine 知识库（逐节）' : 'Vitaxamine knowledge base, section by section') + ' <span>' + Object.keys(K).length + '</span></summary>';
+      var box = document.createElement('div');
+      box.className = 'vr-kb';
+      box.innerHTML = Object.keys(K).map(function (id) {
+        return '<div class="vr-kb-row"><b>' + refEsc(id.replace(/-/g, ' ')) + '</b><span>' + K[id].map(function (r) { return '<a href="#ref-' + r + '">' + refEsc(window.VT_CITE ? window.VT_CITE.short(r) : r) + '</a>'; }).join(' · ') + '</span></div>';
+      }).join('');
+      kd.appendChild(box);
+      all.appendChild(kd);
+    }
+    var every = Object.keys(window.VT_REFS).sort(function (a, b) { return window.VT_REFS[a].a.localeCompare(window.VT_REFS[b].a); });
+    var ad = document.createElement('details');
+    ad.className = 'vr-group vr-all';
+    ad.innerHTML = '<summary>' + (z ? '全部来源（按作者）' : 'Every source, A–Z') + ' <span>' + every.length + '</span></summary>';
+    ad.appendChild(refBlock(every, false, null, true));
+    all.appendChild(ad);
+    /* a link in the knowledge-base list opens the A–Z list and jumps to the entry */
+    all.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('.vr-kb a');
+      if (!a) return;
+      ad.open = true;
+    });
+    if (foot) foot.parentNode.insertBefore(all, foot); else host.appendChild(all);
+  }
+
   function boot() {
     document.documentElement.classList.add('kn-on');
     safe(function () {                     /* study days, for the home page's week strip */
@@ -1467,6 +1550,7 @@
       });
     }
     if (FILE === 'toc.html') safe(hub);
+    safe(sources);
     safe(watchLang);
   }
   window.VitaliteKnowledge = { condense: condense, practice: practice, mode: mode, setMode: applyMode };

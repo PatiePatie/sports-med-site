@@ -511,7 +511,14 @@ function onSymChange(e){
   var lab=cb.closest('label'); if(lab) lab.classList.toggle('ticked',cb.checked);
 }
 
-/* ── camera: live scan, AI vision ──────────────────────────────────────────
+/* ── camera: live scan ──────────────────────────────────────────────────────
+   Since 2026-09: the scan tracks the body on the device (checkup-pose.js,
+   MediaPipe served from this site) and you TOUCH the sore spot with a
+   finger; the part under the fingertip is what's found. The current clinical
+   AI (Vitaxamine's glm-4.5-air, the same text path as the rest of the site)
+   then adds a short note about that spot on the confirm sheet. The old
+   frame-to-vision-model path below is only a fallback if tracking can't load.
+   ── the original notes ──
    The viewer walks through four steps shown along its top edge: Aim → Hold
    steady → AI identifies → Confirm. Corner brackets close in and a ring fills
    as the picture steadies; after ~4 steady frames one frame goes to the AI
@@ -519,7 +526,7 @@ function onSymChange(e){
    a sheet shows the captured frame and the body part it saw, and the user
    confirms or rescans. Flip camera, torch (where the phone supports it) and a
    manual "Snap now" sit along the bottom. */
-var camState={stream:null,timer:null,prev:null,stable:0,busy:false,tries:0,coolUntil:0,paused:false,facing:'environment',torch:false}, camGen=0;
+var camState={stream:null,timer:null,prev:null,stable:0,busy:false,tries:0,coolUntil:0,paused:false,facing:'user',torch:false}, camGen=0;
 var SCAN_COOLDOWN=1000,   /* ms between capture attempts after a miss */
     SCAN_MAX_TRIES=15,    /* hard cap so we never loop forever */
     STEADY_N=4;
@@ -529,23 +536,24 @@ function camUI(){
   cv.setAttribute('data-ui','1');
   var old=cv.querySelector('.checkup-reticle'); if(old) old.remove();
   cv.insertAdjacentHTML('beforeend',
-    '<div class="ck-scan-top"><span class="ck-ai-badge">✨ '+T('AI vision','AI 识别')+'</span><ol class="ck-phases">'+
-      [['aim',T('Aim','对准')],['hold',T('Hold','稳住')],['id',T('Identify','识别')],['ok',T('Confirm','确认')]].map(function(x){ return '<li data-p="'+x[0]+'">'+x[1]+'</li>'; }).join('')+'</ol></div>'+
+    '<canvas class="ck-pose" id="camPose" aria-hidden="true"></canvas>'+
+    '<div class="ck-scan-top"><span class="ck-ai-badge">✨ '+T('Body tracking','人体追踪')+'</span><ol class="ck-phases">'+
+      [['aim',T('In view','入镜')],['hold',T('Touch & hold','按住')],['id',T('Found','找到')],['ok',T('Advice','建议')]].map(function(x){ return '<li data-p="'+x[0]+'">'+x[1]+'</li>'; }).join('')+'</ol></div>'+
     '<div class="ck-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>'+
     '<svg class="ck-steady" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26" class="bg"/><circle cx="30" cy="30" r="26" class="fg"/></svg>'+
     '<div class="ck-scan-ctl">'+
       '<button type="button" id="camFlip" title="'+T('Switch camera','切换摄像头')+'" aria-label="'+T('Switch camera','切换摄像头')+'">🔄</button>'+
       '<button type="button" id="camSnap" class="ck-snap">'+T('Snap now','立即拍摄')+'</button>'+
       '<button type="button" id="camTorch" title="'+T('Torch','手电筒')+'" aria-label="'+T('Torch','手电筒')+'" hidden>🔦</button></div>'+
-    '<div class="ck-confirm" id="camConfirm" hidden><img alt=""><div class="ck-cf-body"><div class="ck-cf-k">'+T('The AI thinks this is','AI 认为这是')+'</div>'+
-      '<div class="ck-cf-part" id="camCfPart"></div><div class="ck-cf-btns"><button type="button" class="checkup-btn primary" id="camYes">'+T('Yes, continue','是的，继续')+'</button>'+
+    '<div class="ck-confirm" id="camConfirm" hidden><img alt=""><div class="ck-cf-body"><div class="ck-cf-k">'+T('You\u2019re touching','你按住的是')+'</div>'+
+      '<div class="ck-cf-part" id="camCfPart"></div><div class="ck-cf-ai" id="camCfAi"></div><div class="ck-cf-btns"><button type="button" class="checkup-btn primary" id="camYes">'+T('Yes, continue','是的，继续')+'</button>'+
       '<button type="button" class="checkup-btn ghost" id="camNo">'+T('No, rescan','不对，重新扫描')+'</button></div></div></div>');
   var tips=document.createElement('div');
   tips.className='ck-scan-tips'; tips.id='camTips';
-  tips.textContent=T('Good light · fill the frame with the sore area · clothing is fine','光线充足 · 让疼痛部位占满画面 · 穿着衣物也可以');
+  tips.textContent=T('Step back so your body is in view · touch the sore spot with one finger and hold · clothing is fine','后退一点让身体入镜 · 用一根手指按住疼痛处并保持 · 穿着衣物也可以');
   cv.parentNode.insertBefore(tips, cv.nextSibling);
   $('camFlip').addEventListener('click',function(){ camState.facing=camState.facing==='environment'?'user':'environment'; openStream(); });
-  $('camSnap').addEventListener('click',function(){ if(!camState.busy && !camState.paused) captureFrame(); });
+  $('camSnap').addEventListener('click',function(){ if(camState.busy || camState.paused) return; if(poseInst && poseHit) poseFound(poseHit); else if(!poseInst) captureFrame(); });
   $('camTorch').addEventListener('click',function(){
     var tr=camState.stream&&camState.stream.getVideoTracks()[0]; if(!tr) return;
     camState.torch=!camState.torch;
@@ -553,7 +561,7 @@ function camUI(){
     $('camTorch').classList.toggle('on',camState.torch);
   });
   $('camYes').addEventListener('click',function(){ var part=cv.getAttribute('data-part'); stopLiveScan(); if(part) selectPart(part); });
-  $('camNo').addEventListener('click',function(){ $('camConfirm').hidden=true; camState.paused=false; camState.prev=null; camState.stable=0; phase('aim'); setCamStatus(T('Point at the sore area','对准疼痛部位')); });
+  $('camNo').addEventListener('click',function(){ $('camConfirm').hidden=true; camState.paused=false; camState.prev=null; camState.stable=0; poseN=0; poseHit=null; aiGen++; phase('aim'); setCamStatus(T('Touch the sore spot with one finger','用一根手指按住疼痛部位')); });
   return cv;
 }
 function phase(ph){
@@ -575,11 +583,20 @@ function openStream(){
     camState.stream=stream;
     vid.srcObject=stream;
     vid.classList.toggle('ck-mirror',camState.facing==='user');
+    var pc=$('camPose'); if(pc) pc.classList.toggle('ck-mirror',camState.facing==='user');
     var p=vid.play(); if(p&&p.catch) p.catch(function(){});
     camState.prev=null; camState.stable=0; camState.coolUntil=0; camState.torch=false;
     var tr=stream.getVideoTracks()[0], caps=tr&&tr.getCapabilities?tr.getCapabilities():{};
     var tb=$('camTorch'); if(tb){ tb.hidden=!(caps&&caps.torch); tb.classList.remove('on'); }
-    if(!camState.timer) camState.timer=setInterval(sampleFrame,200);
+    setCamStatus(T('Starting body tracking…','正在启动人体追踪…'));
+    loadPose().then(function(){
+      if(myGen!==camGen) return;
+      setCamStatus(T('Step back so your body is in view','后退一点，让身体进入画面'));
+      if(!poseRaf) poseRaf=requestAnimationFrame(poseLoop);
+    },function(){
+      if(myGen!==camGen) return;
+      if(!camState.timer) camState.timer=setInterval(sampleFrame,200);   /* tracking unavailable: the old vision path */
+    });
   }).catch(function(){
     if(myGen!==camGen) return;
     stopLiveScan();
@@ -705,8 +722,91 @@ function captureFrame(){
   });
 }
 
+/* ── body tracking (checkup-pose.js) ─────────────────────────────────────── */
+var poseMod=null, poseInst=null, poseImg=null, poseLoading=null, poseRaf=0, poseHit=null, poseN=0, aiGen=0;
+var POSE_N=16;                       /* frames the fingertip must stay on the same part */
+function loadPose(){
+  if(poseInst) return Promise.resolve(poseInst);
+  if(poseLoading) return poseLoading;
+  poseLoading=import('./checkup-pose.js?v=1').then(function(m){ poseMod=m; return m.createPose('VIDEO'); }).then(function(p){ poseInst=p; return p; });
+  poseLoading.catch(function(){ poseLoading=null; });
+  return poseLoading;
+}
+function sideName(h){ return h.side==='L'?T('Left ','左'):h.side==='R'?T('Right ','右'):''; }
+function partName(h){ var p=PART_MAP[h.part]; if(!p) return h.part; return lang()==='zh' ? sideName(h)+p.zh : (sideName(h)+p.en.toLowerCase()).replace(/^./,function(c){return c.toUpperCase();}); }
+function poseLoop(){
+  poseRaf=0;
+  var vid=$('camVideo'), cnv=$('camPose');
+  if(!camState.stream||!vid||!poseInst||!cnv) return;
+  if(vid.videoWidth && !camState.paused && !camState.busy){
+    var W=vid.videoWidth, H=vid.videoHeight;
+    if(cnv.width!==W||cnv.height!==H){ cnv.width=W; cnv.height=H; }
+    var now=performance.now(), l=null;
+    try{ l=poseInst.video(vid, now); }catch(e){}
+    var hit=l?poseMod.pointing(l,W,H):null;
+    poseMod.draw(cnv.getContext('2d'), l, W, H, hit, false, now);
+    if(!l){ poseN=0; poseHit=null; steady(0); phase('aim'); setCamStatus(T('Step back so your body is in view','后退一点，让身体进入画面')); }
+    else if(!hit){ poseN=0; poseHit=null; steady(0); phase('aim'); setCamStatus(T('Touch the sore spot with one finger','用一根手指按住疼痛部位')); }
+    else {
+      poseN=(poseHit&&poseHit.part===hit.part&&poseHit.side===hit.side)?poseN+1:1;
+      poseHit=hit;
+      steady(poseN*STEADY_N/POSE_N); phase('hold');
+      setCamStatus(T('Hold it there… ','保持不动… ')+partName(hit));
+      if(poseN>=POSE_N) poseFound(hit);
+    }
+  }
+  poseRaf=requestAnimationFrame(poseLoop);
+}
+/* found: a still of the moment (with the overlay), the part, and a short note
+   from the current clinical AI about that spot */
+function poseFound(hit){
+  var vid=$('camVideo'), cv=$('camView'), cnv=$('camPose');
+  camState.paused=true; phase('id'); steady(1);
+  var snap=document.createElement('canvas'), W=vid.videoWidth, H=vid.videoHeight, sc=Math.min(1,480/Math.max(W,H));
+  snap.width=Math.round(W*sc); snap.height=Math.round(H*sc);
+  var sx=snap.getContext('2d');
+  if(camState.facing==='user'){ sx.translate(snap.width,0); sx.scale(-1,1); }
+  sx.drawImage(vid,0,0,snap.width,snap.height); if(cnv) sx.drawImage(cnv,0,0,snap.width,snap.height);
+  if(cv){ cv.classList.remove('snap'); void cv.offsetWidth; cv.classList.add('snap'); cv.setAttribute('data-part',hit.part); }
+  var cf=$('camConfirm'); cf.querySelector('img').src=snap.toDataURL('image/jpeg',0.8);
+  var p=PART_MAP[hit.part];
+  $('camCfPart').textContent=(p?p.icon+' ':'')+partName(hit);
+  cf.hidden=false;
+  setCamStatus(T('Is that the spot?','是这个位置吗？'));
+  phase('ok');
+  var ai=$('camCfAi'), my=++aiGen;
+  if(!ai) return;
+  ai.innerHTML='<span class="checkup-spin"></span> '+T('Asking Vitaxamine about this spot…','正在向 Vitaxamine 询问这个部位…');
+  var q=lang()==='zh'
+    ? '相机扫描：我正用手指按住'+partName(hit)+'疼痛的地方。请用 3 个很短的要点说明活跃人群这个部位最常见的疼痛原因，再给出 1 个我应该先检查的问题。仅供学习，不是诊断。'
+    : 'Camera scan: I am touching my '+partName(hit).toLowerCase()+' where it hurts. In 3 very short bullet points, give the most common reasons this spot hurts in active people, then 1 question I should check first. Education only, not a diagnosis.';
+  fetch(MEDAI_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang:lang(),mode:'clinical'})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(my!==aiGen) return;
+      if(!d||!d.reply){ ai.textContent=T('The AI note is unavailable right now; you can still continue.','AI 说明暂时不可用；你仍可继续。'); return; }
+      var t=String(d.reply).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n+/g,'<br>');
+      ai.innerHTML='<div class="ck-cf-ai-h">✨ '+T('Vitaxamine on this spot','Vitaxamine 对该部位的说明')+'</div>'+t;
+    }, function(){ if(my===aiGen) ai.textContent=T('The AI note is unavailable right now; you can still continue.','AI 说明暂时不可用；你仍可继续。'); });
+}
+/* a photo: find the pointing fingertip on the still image */
+function poseOnImage(dataUrl){
+  return new Promise(function(res){
+    var img=new Image();
+    img.onload=function(){
+      var go=poseImg?Promise.resolve(poseImg):import('./checkup-pose.js?v=1').then(function(m){ poseMod=m; return m.createPose('IMAGE'); }).then(function(p){ poseImg=p; return p; });
+      go.then(function(p){ var l=null; try{ l=p.image(img); }catch(e){} res(l?poseMod.pointing(l,img.naturalWidth,img.naturalHeight):null); }, function(){ res(null); });
+    };
+    img.onerror=function(){ res(null); };
+    img.src=dataUrl;
+  });
+}
+
 function stopLiveScan(){
   if(camState.timer){ clearInterval(camState.timer); camState.timer=null; }
+  if(poseRaf){ cancelAnimationFrame(poseRaf); poseRaf=0; }
+  poseN=0; poseHit=null; aiGen++;
+  var pc=$('camPose'); if(pc && pc.width) pc.getContext('2d').clearRect(0,0,pc.width,pc.height);
   if(camState.stream){ camState.stream.getTracks().forEach(function(t){t.stop();}); camState.stream=null; }
   camState.prev=null; camState.stable=0; camState.busy=false; camState.tries=0; camState.coolUntil=0; camState.paused=false;
   var vid=$('camVideo'); if(vid) vid.srcObject=null;
@@ -727,11 +827,14 @@ function handleCamera(ev){
   var myGen=++camGen; stopLiveScan();
   if(err) err.innerHTML='<span class="checkup-spin"></span> '+T('Looking at your photo…','正在查看照片…');
   toJpeg(file).then(function(data){
-    return fetch(MEDAI_URL,{
+    return poseOnImage(data).then(function(hit){
+      if(hit) return { ok:true, part:hit.part, pose:true };
+      return fetch(MEDAI_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({type:'checkup_vision',image:data,lang:lang()})
     }).then(visionReply);
+    });
   }).then(function(d){
     if(myGen!==camGen) return;
     cb.classList.remove('on');

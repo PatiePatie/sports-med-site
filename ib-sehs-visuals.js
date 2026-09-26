@@ -2970,6 +2970,1688 @@ window.IB_VISUALS = {
     "zh": "算术答案是 2.4，而实践答案是 3，因为耐受性和时机决定了最后一支。这就是表格上的数字遇见真实的人的地方。"
    }
   }
+ },
+ "ATP and the energy continuum": {
+  "figures": [
+   {
+    "title": {
+     "en": "One molecule, three ways to make it back",
+     "zh": "一个分子，三种把它变回来的方式"
+    },
+    "svg": "<g><rect class=\"fillC\" x=\"14\" y=\"24\" width=\"66\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h66v40H14z\"/><text class=\"lbl\" x=\"34\" y=\"50\">ATP</text><path class=\"th\" d=\"M80 44h26\"/><path class=\"ln\" d=\"M106 44l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"106\" y=\"24\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 24h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"42\">immediate</text><text class=\"lblS\" x=\"118\" y=\"56\">phosphagen</text></g><g><rect class=\"fillB\" x=\"106\" y=\"78\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 78h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"96\">glycolysis</text><text class=\"lblS\" x=\"118\" y=\"110\">carbohydrate only</text></g><g><rect class=\"fillA\" x=\"106\" y=\"132\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 132h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"150\">oxidative</text><text class=\"lblS\" x=\"118\" y=\"164\">carbs + fat + protein</text></g><path class=\"th\" d=\"M80 44v128\" stroke-dasharray=\"4 4\"/><text class=\"lblS\" x=\"14\" y=\"86\">seconds</text><text class=\"lblS\" x=\"14\" y=\"140\">minutes</text><text class=\"lblS\" x=\"14\" y=\"182\">hours</text>",
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "phosphagen system: fastest, largest power, no oxygen, lasts about 10 seconds",
+      "zh": "磷酸原系统：最快、功率最大、不需氧、约维持 10 秒"
+     },
+     {
+      "en": "glycolytic system: fast, does not need oxygen, but limited by the pain of lactate",
+      "zh": "糖酵解系统：快速、不需氧，但受乳酸酸痛限制"
+     },
+     {
+      "en": "oxidative system: slower, but effectively unlimited while fuel and oxygen last",
+      "zh": "有氧系统：较慢，但在燃料与氧气够用时基本无限"
+     }
+    ],
+    "caption": {
+     "en": "The three systems are always working at once. What changes is the proportion, and that proportion is what determines the pace an athlete can hold.",
+     "zh": "三套系统始终同时在工作。变化的是比例，而正是这个比例决定运动员能维持的配速。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three energy systems compared",
+     "zh": "三套能量系统对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Phosphagen",
+      "zh": "磷酸原"
+     },
+     {
+      "en": "Glycolytic",
+      "zh": "糖酵解"
+     },
+     {
+      "en": "Oxidative",
+      "zh": "有氧"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Rate of ATP production",
+       "zh": "ATP 生成速率"
+      },
+      {
+       "en": "Fastest",
+       "zh": "最快"
+      },
+      {
+       "en": "Fast",
+       "zh": "快"
+      },
+      {
+       "en": "Slower",
+       "zh": "较慢"
+      }
+     ],
+     [
+      {
+       "en": "Largest power output",
+       "zh": "最大功率输出"
+      },
+      {
+       "en": "Highest",
+       "zh": "最高"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Lowest",
+       "zh": "最低"
+      }
+     ],
+     [
+      {
+       "en": "Duration",
+       "zh": "持续时间"
+      },
+      {
+       "en": "About 10 s",
+       "zh": "约 10 秒"
+      },
+      {
+       "en": "About 1–2 min",
+       "zh": "约 1 到 2 分钟"
+      },
+      {
+       "en": "Hours",
+       "zh": "数小时"
+      }
+     ],
+     [
+      {
+       "en": "Needs oxygen",
+       "zh": "需要氧气"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      }
+     ],
+     [
+      {
+       "en": "Fuel",
+       "zh": "燃料"
+      },
+      {
+       "en": "Stored creatine phosphate",
+       "zh": "储存的磷酸肌酸"
+      },
+      {
+       "en": "Carbohydrate only",
+       "zh": "仅碳水"
+      },
+      {
+       "en": "Carbohydrate, fat, protein",
+       "zh": "碳水、脂肪、蛋白质"
+      }
+     ],
+     [
+      {
+       "en": "End product",
+       "zh": "终产物"
+      },
+      {
+       "en": "ADP and creatine",
+       "zh": "ADP 与肌酸"
+      },
+      {
+       "en": "Lactate and hydrogen ions",
+       "zh": "乳酸与氢离子"
+      },
+      {
+       "en": "Carbon dioxide and water",
+       "zh": "二氧化碳与水"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A sprinter is not \"anaerobic\" as a category. A sprinter is an athlete in whom the phosphagen system supplies a larger fraction of the total work.",
+     "zh": "短跑运动员并不是\"无氧\"这一类别的成员。短跑运动员是这样一个人：磷酸原系统提供了总做功中更大的一部分。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: which system is limiting this effort",
+    "zh": "例题：是哪套系统限制了这次努力"
+   },
+   "given": {
+    "en": "A 1500 m race: 3 min 30 s. A 100 m sprint: 10 s. A half marathon: 105 min.",
+    "zh": "一场 1500 米：3 分 30 秒。100 米冲刺：10 秒。半马：105 分钟。"
+   },
+   "steps": [
+    {
+     "en": "100 m: 10 s of work, so essentially all phosphagen plus a little glycolysis. Nothing aerobic is meaningfully used.",
+     "zh": "100 米：10 秒的努力，所以基本全是磷酸原加少量糖酵解，有氧几乎没有被有意义地使用。"
+    },
+    {
+     "en": "1500 m: 3.5 min sits exactly where phosphogen is exhausted and glycolysis is dominant, with aerobic contribution rising through it.",
+     "zh": "1500 米：3.5 分钟正好处于磷酸原耗尽、糖酵解占主导的位置，而有氧贡献在全程中不断上升。"
+    },
+    {
+     "en": "Half marathon: oxidative throughout, with the first two minutes still fast enough to owe an oxygen deficit that is repaid later.",
+     "zh": "半马：全程有氧，而前两分钟仍然足够快，因而欠下一笔氧亏，之后再补回来。"
+    },
+    {
+     "en": "So the same three systems are in all three races; only the mixture differs, and the mixture is set by time not by event name.",
+     "zh": "所以同样这三套系统出现在三项比赛中；变化的只是配比，而配比是由时间决定的，不是由项目名称决定的。"
+    }
+   ],
+   "answer": {
+    "en": "The 1500 m is the hardest of the three to train well, because it sits in the transition zone where both the fast and the slow systems are being asked to contribute at once.",
+    "zh": "1500 米是三者中最难训练好的一个，因为它处在过渡区，快速与慢速两套系统同时被要求出力。"
+   }
+  }
+ },
+ "Comparing the three systems": {
+  "figures": [
+   {
+    "title": {
+     "en": "The proportion shifts with intensity, not with the event",
+     "zh": "配比随强度变化，而不是随项目名称变化"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"140\" x2=\"304\" y2=\"140\"/><line class=\"ln\" x1=\"30\" y1=\"140\" x2=\"30\" y2=\"20\"/><path class=\"fillC\" d=\"M30 140C70 60 130 30 304 24v116z\"/><path class=\"fillB\" d=\"M30 140C70 60 130 30 200 26v114z\"/><path class=\"fillA\" d=\"M30 140C60 96 90 62 130 40v100z\"/><text class=\"lblS\" x=\"18\" y=\"24\">% ATP</text><text class=\"lblS\" x=\"34\" y=\"132\">rest</text><text class=\"lblS\" x=\"256\" y=\"20\">max</text><text class=\"lblS\" x=\"30\" y=\"164\">phosphagen at the left, oxidative at the right, glycolysis across the middle</text><text class=\"lblS\" x=\"30\" y=\"182\">the crossover points are where athletes feel worst and train most productively</text>",
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "the crossover points between systems are where an athlete feels most uncomfortable and learns most",
+      "zh": "系统之间的交叉点，是运动员感觉最不舒服、也学到最多的地方"
+     },
+     {
+      "en": "training is the deliberate movement of a crossover point over a season",
+      "zh": "训练就是一个赛季中刻意推移某个交叉点的过程"
+     },
+     {
+      "en": "that is why a sprinter gains speed by pushing the fast crossover higher, and an endurance athlete by pushing the slow one further",
+      "zh": "这就是为什么短跑运动员通过把快速交叉点推得更高来提速，而耐力运动员通过把慢速交叉点推得更远"
+     }
+    ],
+    "caption": {
+     "en": "Reading the graph as one smooth curve is the point. The systems do not switch on and off — they are all present, and intensity sets the mixture.",
+     "zh": "把图读成一条平滑曲线正是要点。这些系统并不是开关式的开与关——它们全都存在，强度决定配比。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Where each event sits on the continuum",
+     "zh": "各项比赛在连续体上的位置"
+    },
+    "cols": [
+     {
+      "en": "Event / effort",
+      "zh": "项目 / 努力"
+     },
+     {
+      "en": "Dominant system",
+      "zh": "主导系统"
+     },
+     {
+      "en": "Limit of that system",
+      "zh": "该系统的限制"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Weightlifting, throw, jump",
+       "zh": "举重、推掷、跳跃"
+      },
+      {
+       "en": "Phosphagen",
+       "zh": "磷酸原"
+      },
+      {
+       "en": "Stored ATP and creatine phosphate, about 10 s",
+       "zh": "储存的 ATP 与磷酸肌酸，约 10 秒"
+      }
+     ],
+     [
+      {
+       "en": "100 m, 400 m",
+       "zh": "100 米、400 米"
+      },
+      {
+       "en": "Phosphagen then glycolytic",
+       "zh": "磷酸原继而糖酵解"
+      },
+      {
+       "en": "Rate of ATP production",
+       "zh": "ATP 的生成速率"
+      }
+     ],
+     [
+      {
+       "en": "800 m, 1500 m",
+       "zh": "800 米、1500 米"
+      },
+      {
+       "en": "Glycolytic, with rising aerobic contribution",
+       "zh": "糖酵解，且有氧贡献上升"
+      },
+      {
+       "en": "Both fast and slow systems at once",
+       "zh": "快慢两套系统同时出力"
+      }
+     ],
+     [
+      {
+       "en": "5 km, half marathon, marathon",
+       "zh": "5 公里、半马、全马"
+      },
+      {
+       "en": "Oxidative",
+       "zh": "有氧"
+      },
+      {
+       "en": "Fuel delivery and mitochondrial capacity",
+       "zh": "燃料输送与线粒体能力"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A useful consequence: the training that moves a crossover is specific to the system, so a sprinter and a marathoner can run the same session and be training different things.",
+     "zh": "一个有用的推论：推移交叉点的训练是针对系统的，因此短跑运动员与马拉松运动员可以做同一堂训练课，却在训练不同的东西。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same session, two sports",
+    "zh": "例题：同一堂训练课，两个项目"
+   },
+   "given": {
+    "en": "Six 800 m repetitions with 3 min recovery, run by a 1500 m runner and a marathoner.",
+    "zh": "6 组 800 米、组间休息 3 分钟，由一名 1500 米跑者和一名马拉松跑者完成。"
+   },
+   "steps": [
+    {
+     "en": "For the 1500 m runner, three minutes of recovery leaves the glycolytic system still partly in debt, so each repetition starts harder.",
+     "zh": "对 1500 米跑者而言，3 分钟休息使糖酵解系统仍部分欠账，因此每一组都从更高的强度开始。"
+    },
+    {
+     "en": "For the marathoner, the same session sits comfortably inside the oxidative system and produces very little crossover movement.",
+     "zh": "对马拉松跑者而言，同一训练课稳稳落在有氧系统之内，几乎不产生交叉点位移。"
+    },
+    {
+     "en": "Add a 3 min recovery and the same session becomes a genuine quality session for the marathoner and a punishing one for the 1500 m runner.",
+     "zh": "休息改成 3 分钟后，同一训练课对马拉松跑者变成一堂真正的质量课，而对 1500 米跑者则相当痛苦。"
+    },
+    {
+     "en": "So the session, not the event, is what identifies the training effect.",
+     "zh": "因此决定训练效应的是训练课本身，而不是项目名称。"
+    }
+   ],
+   "answer": {
+    "en": "Identical work, opposite training effect, decided entirely by recovery. This is the practical reason \"the same programme for everyone\" is wrong, and it is visible in the numbers rather than argued about.",
+    "zh": "同样的做功，相反的训练效应，完全由休息决定。这就是\"所有人用同一份计划\"是错误的具体原因，而且它是数字里看得见的，不靠争论。"
+   }
+  }
+ },
+ "VO₂max, movement economy, LIP and EPOC": {
+  "figures": [
+   {
+    "title": {
+     "en": "Four levers, one ceiling",
+     "zh": "四个抓手，一个上限"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h66v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"38\">VO2max</text><text class=\"lblS\" x=\"22\" y=\"52\">ceiling</text></g><g><rect class=\"fillB\" x=\"90\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M90 24h66v34H90z\"/><text class=\"lblS\" x=\"98\" y=\"38\">LIP</text><text class=\"lblS\" x=\"98\" y=\"52\">how fast</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M166 24h66v34H166z\"/><text class=\"lblS\" x=\"174\" y=\"38\">economy</text><text class=\"lblS\" x=\"174\" y=\"52\">less O2</text></g><g><rect class=\"fillA\" x=\"242\" y=\"24\" width=\"64\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M242 24h64v34h-64z\"/><text class=\"lblS\" x=\"250\" y=\"38\">EPOC</text><text class=\"lblS\" x=\"250\" y=\"52\">repay</text></g><line class=\"th\" x1=\"14\" y1=\"88\" x2=\"306\" y2=\"88\"/><path class=\"fillC\" d=\"M14 88C60 74 90 78 130 84c40 6 100 4 176 -2v8H14z\"/><line class=\"ln\" d=\"M14 88C60 74 90 78 130 84c40 6 100 4 176 -2\"/><line class=\"dash\" d=\"M14 106h292\"/><text class=\"lblS\" x=\"14\" y=\"120\">effort</text><text class=\"lblS\" x=\"150\" y=\"128\">oxygen demand climbs faster than supply — the gap is repaid as EPOC</text><text class=\"lblS\" x=\"14\" y=\"160\">a bigger ceiling is worth less to a 10 km runner than better economy or faster LIP</text>",
+    "viewBox": "0 0 320 168",
+    "legend": [
+     {
+      "en": "VO2max is the ceiling and the least trainable of the four in a trained athlete",
+      "zh": "VO₂max 是上限，也是四者中对训练有素运动员最难再提高的"
+     },
+     {
+      "en": "movement economy is how little oxygen a given speed costs — highly trainable and often neglected",
+      "zh": "运动经济性是指某一速度需要多少氧——可训练性很高，却常被忽视"
+     },
+     {
+      "en": "LIP is the speed at which the first lactate appears, and it rises with training before VO2max does",
+      "zh": "乳酸阈（LIP）是乳酸首次出现时的速度，它在训练中比 VO₂max 更早提高"
+     }
+    ],
+    "caption": {
+     "en": "Most runners improve by raising LIP and economy long before VO2max moves, which is why training that only targets the ceiling plateau.",
+     "zh": "多数跑者在 VO₂max 变化之前，就已通过提高 LIP 与经济性获得提升——这就是只针对上限的训练会停滞的原因。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four determinants of endurance performance",
+     "zh": "耐力表现的四个决定因素"
+    },
+    "cols": [
+     {
+      "en": "Factor",
+      "zh": "因素"
+     },
+     {
+      "en": "What it is",
+      "zh": "它是什么"
+     },
+     {
+      "en": "How trainable is it?",
+      "zh": "可训练性"
+     },
+     {
+      "en": "Typical timescale",
+      "zh": "典型时间尺度"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "VO2max",
+       "zh": "VO₂max"
+      },
+      {
+       "en": "The ceiling on oxygen use per minute",
+       "zh": "每分钟用氧的上限"
+      },
+      {
+       "en": "Low once trained",
+       "zh": "训练有素后较低"
+      },
+      {
+       "en": "Months to years",
+       "zh": "数月到数年"
+      }
+     ],
+     [
+      {
+       "en": "Movement economy",
+       "zh": "运动经济性"
+      },
+      {
+       "en": "Oxygen cost of a given speed or power",
+       "zh": "某一速度或功率的耗氧代价"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Lactinate threshold pace",
+       "zh": "乳酸阈配速"
+      },
+      {
+       "en": "Speed at which lactate first accumulates",
+       "zh": "乳酸开始积累的速度"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      }
+     ],
+     [
+      {
+       "en": "EPOC",
+       "zh": "运动后氧耗"
+      },
+      {
+       "en": "Oxygen debt repaid after the effort",
+       "zh": "努力之后偿还的氧债"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      }
+     ],
+     [
+      {
+       "en": "Fuel availability",
+       "zh": "燃料可用性"
+      },
+      {
+       "en": "Whether there is carbohydrate to use at that rate",
+       "zh": "在那个速率下是否有碳水可用"
+      },
+      {
+       "en": "Very high, and fast",
+       "zh": "非常高且很快"
+      },
+      {
+       "en": "Days",
+       "zh": "数天"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Fuel availability is the fastest-acting item in the table, which is why under-fuelling undoes training that has been done properly.",
+     "zh": "燃料可用性是表中最快起作用的项，因此补糖不足会让本来正确的训练白做。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why a 10 km runner should not chase VO2max first",
+    "zh": "例题：为什么 10 公里跑者不该先追 VO₂max"
+   },
+   "given": {
+    "en": "Runner A: VO2max 62 ml/kg/min, 5 km pace 4:10/km. Runner B: VO2max 58, same 5 km pace 4:05/km.",
+    "zh": "跑者 A：VO₂max 62 毫升每公斤每分钟，5 公里配速 4:10。跑者 B：58，同样 5 公里配速 4:05。"
+   },
+   "steps": [
+    {
+     "en": "B is faster over 5 km with a lower ceiling, so B has better economy or a higher threshold pace.",
+     "zh": "B 的 5 公里成绩更好而上限更低，说明 B 的经济性更好或乳酸阈配速更高。"
+    },
+    {
+     "en": "Holding pace at 4:05 for 5 km, a 62 versus 58 ceiling is a difference of about 7 percent of available oxygen.",
+     "zh": "以 4:05 保持 5 公里，62 与 58 的上限相差约可用氧的 7%。"
+    },
+    {
+     "en": "Economy differences between runners of the same event are routinely larger than 7 percent, so the economy term dominates.",
+     "zh": "同一项目不同跑者之间的经济性差异 routinely 大于 7%，因此经济性这一项占主导。"
+    },
+    {
+     "en": "So A should spend a season on economy and threshold work rather than on interval sessions aimed at the ceiling.",
+     "zh": "因此 A 应该用一个赛季练经济性与阈值，而不是做以冲击上限为目的的间歇训练。"
+    }
+   ],
+   "answer": {
+    "en": "Two runners, same event, and the one with the lower ceiling wins. This is the calculation behind the advice that technical and pacing work usually beats more intervals.",
+    "zh": "两名跑者、同一项目，而上限更低的那位赢了。这就是\"技术与配速训练通常胜过多做间歇\"这条建议背后的计算。"
+   }
+  }
+ },
+ "Six qualities and FITT": {
+  "figures": [
+   {
+    "title": {
+     "en": "The six qualities, and where each one peaks",
+     "zh": "六项素质，以及各自的峰值年龄"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"150\" x2=\"304\" y2=\"150\"/><line class=\"ln\" x1=\"30\" y1=\"150\" x2=\"30\" y2=\"22\"/><path class=\"ln\" d=\"M30 26C70 30 100 52 124 96\"/><text class=\"lblS\" x=\"60\" y=\"24\">power</text><path class=\"ln\" d=\"M30 40C90 42 140 46 200 56\"/><text class=\"lblS\" x=\"200\" y=\"48\">speed</text><path class=\"ln\" d=\"M30 54C90 60 150 78 244 116\"/><text class=\"lblS\" x=\"248\" y=\"120\">strength</text><path class=\"ln\" d=\"M30 70C80 92 120 130 150 146\"/><text class=\"lblS\" x=\"150\" y=\"142\">endurance</text><path class=\"ln\" d=\"M30 88C56 100 74 120 84 146\"/><text class=\"lblS\" x=\"60\" y=\"120\">flexibility</text><line class=\"dash\" d=\"M30 110h274\"/><text class=\"lblS\" x=\"30\" y=\"166\">age</text><text class=\"lblS\" x=\"20\" y=\"30\">early</text><text class=\"lblS\" x=\"252\" y=\"166\">late</text><text class=\"lblS\" x=\"30\" y=\"184\">the curves are sequential, so a childhood spent only on endurance is expensive later</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "power, speed and flexibility peak early and are hard to improve afterwards",
+      "zh": "力量、速度与柔韧在早期达峰，之后很难再提高"
+     },
+     {
+      "en": "strength and endurance peak much later, so late specialisation is rational in those",
+      "zh": "力量与耐力达峰晚得多，因此在这两项上晚专项化是合理的"
+     },
+     {
+      "en": "that ordering is the argument for sampling many skills in childhood",
+      "zh": "这个顺序正是在儿童期广泛尝试多种技术的论据"
+     }
+    ],
+    "caption": {
+     "en": "FITT describes the dose. It cannot tell you whether that dose is right for the athlete in front of you, which is what the next section is about.",
+     "zh": "FITT 描述的是剂量。它无法告诉你这个剂量对面前这位运动员是否合适，而这正是下一节的内容。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The six qualities and how to train each",
+     "zh": "六项素质及其训练方式"
+    },
+    "cols": [
+     {
+      "en": "Quality",
+      "zh": "素质"
+     },
+     {
+      "en": "Peaks",
+      "zh": "达峰期"
+     },
+     {
+      "en": "Primary method",
+      "zh": "主要方法"
+     },
+     {
+      "en": "Common error",
+      "zh": "常见错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Strength",
+       "zh": "力量"
+      },
+      {
+       "en": "Late 20s to 30s",
+       "zh": "20 多岁后期到 30 多岁"
+      },
+      {
+       "en": "Progressive resistance, high loads",
+       "zh": "渐进抗阻、大负荷"
+      },
+      {
+       "en": "Training it like endurance",
+       "zh": "把它当耐力来练"
+      }
+     ],
+     [
+      {
+       "en": "Power",
+       "zh": "功率"
+      },
+      {
+       "en": "Early 20s",
+       "zh": "20 岁出头"
+      },
+      {
+       "en": "High intent, fast concentric phase",
+       "zh": "高意图、快速的向心阶段"
+      },
+      {
+       "en": "Slow lifting called power training",
+       "zh": "把慢速举重叫做功率训练"
+      }
+     ],
+     [
+      {
+       "en": "Endurance",
+       "zh": "耐力"
+      },
+      {
+       "en": "20s to 30s",
+       "zh": "20 到 30 多岁"
+      },
+      {
+       "en": "Long, low-intensity aerobic volume",
+       "zh": "长时低强度有氧量"
+      },
+      {
+       "en": "Training it only with intervals",
+       "zh": "只用间歇来练"
+      }
+     ],
+     [
+      {
+       "en": "Speed",
+       "zh": "速度"
+      },
+      {
+       "en": "Early 20s",
+       "zh": "20 岁出头"
+      },
+      {
+       "en": "Full sprints, full recovery",
+       "zh": "完全冲刺、完全恢复"
+      },
+      {
+       "en": "120 m instead of 200 m",
+       "zh": "用 120 米代替 200 米"
+      }
+     ],
+     [
+      {
+       "en": "Flexibility",
+       "zh": "柔韧性"
+      },
+      {
+       "en": "Childhood",
+       "zh": "儿童期"
+      },
+      {
+       "en": "Daily mobility, all planes",
+       "zh": "每日活动度训练、所有平面"
+      },
+      {
+       "en": "Static stretching before a sprint",
+       "zh": "冲刺前做静态拉伸"
+      }
+     ],
+     [
+      {
+       "en": "Skill / coordination",
+       "zh": "技术 / 协调"
+      },
+      {
+       "en": "Childhood, then trainable",
+       "zh": "儿童期，之后可训练"
+      },
+      {
+       "en": "Variable, non-linear practice",
+       "zh": "多变的非线性练习"
+      },
+      {
+       "en": "One solution repeated for years",
+       "zh": "一个解法重复多年"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The commonest error in the table is not doing too little of a quality. It is training the right quality by the wrong method.",
+     "zh": "表中最常见的错误不是某项素质练得太少，而是用错误的方法练了正确的素质。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: writing FITT for a real athlete",
+    "zh": "例题：为一位真实运动员写 FITT"
+   },
+   "given": {
+    "en": "A 34-year-old returning to running, 5 km, currently walks 3 km without stopping.",
+    "zh": "一名 34 岁重返跑步的人，目标是 5 公里，目前不间断走 3 公里。"
+   },
+   "steps": [
+    {
+     "en": "Frequency: start at 3 days per week. Walking is aerobic and safe, and 3 days builds a habit that survives.",
+     "zh": "频率：从每周 3 天开始。步行是有氧且安全的，3 天能建立一个存活得下去的习惯。"
+    },
+    {
+     "en": "Intensity: talk test only, so that the return is not compromised by an unfamiliar hard effort.",
+     "zh": "强度：只用谈话测试，使这次回归不会被一次不熟悉的全力努力所毁掉。"
+    },
+    {
+     "en": "Time: build from 30 to 60 minutes over about 8 weeks, adding no more than 10 percent per week.",
+     "zh": "时间：在约 8 周内从 30 分钟增加到 60 分钟，每周增幅不超过 10%。"
+    },
+    {
+     "en": "Type: all easy aerobic, because this is a base, not a training phase.",
+     "zh": "类型：全部为轻松有氧，因为这是基础期，不是训练期。"
+    },
+    {
+     "en": "A second session can be 20 minutes of strength work, which is the more trainable quality at 34.",
+     "zh": "第二堂课可以做 20 分钟力量训练，因为在 34 岁力量是更可训练的那一项。"
+    }
+   ],
+   "answer": {
+    "en": "The FITT answer for the first eight weeks is deliberately unimpressive. Prescribing intensity and volume to an athlete who cannot yet run 5 km is the most common and most avoidable early mistake.",
+    "zh": "前八周的 FITT 答案刻意不惊艳。对一位还跑不完 5 公里的人开强度和训练量，是最常见也最可避免的早期错误。"
+   }
+  }
+ },
+ "Periodization, overload and overtraining": {
+  "figures": [
+   {
+    "title": {
+     "en": "Volume and intensity across a season",
+     "zh": "整个赛季的训练量与强度"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"140\" x2=\"304\" y2=\"140\"/><line class=\"ln\" x1=\"24\" y1=\"140\" x2=\"24\" y2=\"20\"/><path class=\"fillA\" d=\"M24 140C60 60 96 40 140 52c40 12 60 60 120 84l44 4z\"/><path class=\"ln\" d=\"M24 140C60 60 96 40 140 52c40 12 60 60 120 84\"/><path class=\"th\" d=\"M24 60C80 110 140 118 200 106c40 -8 70 -34 104 -66\"/><text class=\"lblS\" x=\"60\" y=\"52\">volume</text><text class=\"lblS\" x=\"216\" y=\"46\">intensity</text><line class=\"dash\" d=\"M24 110h280\"/><text class=\"lblS\" x=\"24\" y=\"164\">base</text><text class=\"lblS\" x=\"110\" y=\"164\">build</text><text class=\"lblS\" x=\"200\" y=\"164\">peak</text><text class=\"lblS\" x=\"262\" y=\"164\">taper</text><text class=\"lblS\" x=\"24\" y=\"184\">fitness is built early and lost quickly, so the taper removes fatigue rather than adding work</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "volume and intensity are inversely related in a well-planned season, not added together",
+      "zh": "在一份好的赛季计划里，训练量与强度是反向关系，而不是叠加"
+     },
+     {
+      "en": "the taper looks like doing less and is the most reliably performance-enhancing part of the plan",
+      "zh": "减量看起来像\"少练\"，而它是计划中最可靠能提升表现的部分"
+     },
+     {
+      "en": "overtraining is usually a recovery failure, not a workload failure",
+      "zh": "过度训练通常是恢复失败，而不是负荷失败"
+     }
+    ],
+    "caption": {
+     "en": "Progressive overload has two limits and they are different. There is a limit before which nothing changes, and a limit after which adaptation stops and injury risk rises.",
+     "zh": "渐进负荷有两个界限，而且它们性质不同。低于前一个界限什么都不会变，高过后一个界限适应停止而受伤风险上升。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Overload, and the two ways to fail it",
+     "zh": "渐进负荷，以及两种失败方式"
+    },
+    "cols": [
+     {
+      "en": "Failure",
+      "zh": "失败方式"
+     },
+     {
+      "en": "What it looks like",
+      "zh": "表现"
+     },
+     {
+      "en": "Fix",
+      "zh": "纠正"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Too little",
+       "zh": "负荷不足"
+      },
+      {
+       "en": "Plateau, no measurable change, boredom",
+       "zh": "停滞、没有可测量的变化、无聊"
+      },
+      {
+       "en": "Progress one variable at a time",
+       "zh": "每次只推进一个变量"
+      }
+     ],
+     [
+      {
+       "en": "Too much",
+       "zh": "负荷过大"
+      },
+      {
+       "en": "Declining performance, fatigue, poor sleep, mood change",
+       "zh": "表现下降、疲劳、睡眠差、情绪变化"
+      },
+      {
+       "en": "Reduce load, restore recovery, then rebuild",
+       "zh": "减负荷、恢复、然后重建"
+      }
+     ],
+     [
+      {
+       "en": "Too fast",
+       "zh": "推进太快"
+      },
+      {
+       "en": "Soreness that changes technique, small performance losses",
+       "zh": "酸痛到改变技术、微小的表现损失"
+      },
+      {
+       "en": "Hold the level, consolidate, then progress",
+       "zh": "保持水平、巩固，然后再推进"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The distinction that matters most in practice is the second row. An athlete with falling performance and poor sleep has an overtraining problem, and adding fitness to it makes it worse.",
+     "zh": "实践中最重要的是第二行。一位表现下滑且睡眠不佳的运动员是过度训练问题，而给他加更多体能只会更糟。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the 10 percent rule and what happens without it",
+    "zh": "例题：10% 规则，以及不遵守会怎样"
+   },
+   "given": {
+    "en": "A runner completes 20 km this week, 30 last week, 10 the week before.",
+    "zh": "一名跑者本周完成 20 公里，上周 30 公里，上上周 10 公里。"
+   },
+   "steps": [
+    {
+     "en": "Going back two weeks: 10 to 30 km is a 200 percent increase.",
+     "zh": "回看两周前：10 公里到 30 公里是 200% 的增幅。"
+    },
+    {
+     "en": "The 10 percent rule would have given roughly 11, then 12 km — a slow but safe progression.",
+     "zh": "10% 规则会给出大约 11 公里、再 12 公里——缓慢但安全的进阶。"
+    },
+    {
+     "en": "A 200 percent jump produces soreness that lasts about a week, which disrupts the week after, so the increase is never actually absorbed.",
+     "zh": "200% 的跃升会产生持续约一周的酸痛，扰乱再下一周，因此这个增长从未真正被吸收。"
+    },
+    {
+     "en": "So the athlete got less fitness than a 10 to 12 to 20 progression would have produced, and paid for it in three disrupted weeks.",
+     "zh": "所以这位运动员得到的体能比 10 到 12 到 20 的进阶更少，而且付出了三周被打乱的代价。"
+    },
+    {
+     "en": "The rule is not magic; it is simply a rate that is small enough to be absorbed while the athlete is also working.",
+     "zh": "这条规则不是魔法；它只是一个足够小、能在运动员同时还有工作的情况下被吸收的速率。"
+    }
+   ],
+   "answer": {
+    "en": "The runner who jumped 200 percent ended up behind the runner who crept 10 percent a week. This is the most reproducible result in training, and it is entirely avoidable.",
+    "zh": "跳了 200% 的跑者，最终落后于每周爬 10% 的跑者。这是训练中最可复现的结果，而且完全可以避免。"
+   }
+  }
+ },
+ "Individualisation and the monitoring loop": {
+  "figures": [
+   {
+    "title": {
+     "en": "Measure, decide, change, re-measure",
+     "zh": "测量、决定、改变、再测量"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 28h62v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">measure</text><text class=\"lblS\" x=\"22\" y=\"55\">baseline</text></g><path class=\"th\" d=\"M76 45h26\"/><path class=\"ln\" d=\"M102 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"102\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M102 28h62v34h-62z\"/><text class=\"lblS\" x=\"110\" y=\"42\">decide</text><text class=\"lblS\" x=\"110\" y=\"55\">one change</text></g><path class=\"th\" d=\"M164 45h26\"/><path class=\"ln\" d=\"M190 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillB\" x=\"190\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M190 28h62v34h-62z\"/><text class=\"lblS\" x=\"198\" y=\"42\">train</text><text class=\"lblS\" x=\"198\" y=\"55\">2-4 weeks</text></g><path class=\"th\" d=\"M252 45h26\"/><path class=\"ln\" d=\"M278 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillC\" x=\"278\" y=\"28\" width=\"30\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M278 28h30v34h-30z\"/><text class=\"lblS\" x=\"283\" y=\"49\">test</text></g><path class=\"dash\" d=\"M293 66v34H45V66\"/><path class=\"ln\" d=\"M45 66l4.5-9h-9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"96\" y=\"106\" width=\"128\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M96 106h128v34H96z\"/><text class=\"lblS\" x=\"104\" y=\"120\">change</text><text class=\"lblS\" x=\"104\" y=\"133\">what?</text></g><path class=\"th\" d=\"M160 100V84\"/><path class=\"ln\" d=\"M160 84l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"170\">the loop is closed by the test, not by the plan</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "the loop closes only when the same measurement is repeated under the same conditions",
+      "zh": "只有在相同条件下重复同一项测量时，这个循环才算闭合"
+     },
+     {
+      "en": "a test after two to four weeks is enough; daily measurement is noise",
+      "zh": "两到四周后的测试就够；每日测量只是噪声"
+     },
+     {
+      "en": "what to change is chosen from the data, and only one thing at a time",
+      "zh": "改什么由数据决定，而且一次只改一件事"
+     }
+    ],
+    "caption": {
+     "en": "Individualisation is not a personality. It is a loop: a baseline, one change, a re-test, and a decision about the next change based on the result.",
+     "zh": "个体化不是一种性格，而是一个循环：一个基线、一处改变、一次复测、再根据结果决定下一步改什么。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What to monitor, and how often",
+     "zh": "监测什么，以及多久测一次"
+    },
+    "cols": [
+     {
+      "en": "Marker",
+      "zh": "指标"
+     },
+     {
+      "en": "Frequency",
+      "zh": "频率"
+     },
+     {
+      "en": "What a change means",
+      "zh": "变化意味着什么"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Session RPE x duration",
+       "zh": "训练自觉用力 x 时长"
+      },
+      {
+       "en": "Every session",
+       "zh": "每次训练"
+      },
+      {
+       "en": "The most reliable single load measure",
+       "zh": "最可靠的单一负荷指标"
+      }
+     ],
+     [
+      {
+       "en": "Morning heart rate",
+       "zh": "晨起心率"
+      },
+      {
+       "en": "Daily",
+       "zh": "每日"
+      },
+      {
+       "en": "A rise of 5-10 bpm suggests incomplete recovery",
+       "zh": "上升 5 到 10 次/分提示恢复未完成"
+      }
+     ],
+     [
+      {
+       "en": "Body mass",
+       "zh": "体重"
+      },
+      {
+       "en": "Daily, same conditions",
+       "zh": "每日，条件相同"
+      },
+      {
+       "en": "A drop of more than 2 percent flags under-fuelling",
+       "zh": "下降超过 2% 提示补糖不足"
+      }
+     ],
+     [
+      {
+       "en": "Sleep quality and duration",
+       "zh": "睡眠质量与时长"
+      },
+      {
+       "en": "Daily",
+       "zh": "每日"
+      },
+      {
+       "en": "Poor sleep plus poor performance is overtraining",
+       "zh": "睡眠差加表现差即过度训练"
+      }
+     ],
+     [
+      {
+       "en": "Performance test",
+       "zh": "表现测试"
+      },
+      {
+       "en": "Every 3-4 weeks",
+       "zh": "每 3 到 4 周"
+      },
+      {
+       "en": "The only measure that says the plan worked",
+       "zh": "唯一能说明计划有效的指标"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Everything except the performance test is a warning signal. Only the performance test confirms adaptation, and skipping it is how a programme drifts for a whole season.",
+     "zh": "除表现测试之外的一切都是预警信号。只有表现测试能确认适应，而跳过它正是一个计划整个赛季逐渐跑偏的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: one change, properly attributed",
+    "zh": "例题：一次改变，且可归因"
+   },
+   "given": {
+    "en": "A 1500 m runner’s 5 km time is 21:40. Coach adds 6 x 400 m at race pace with 90 s recovery, 3 min total.",
+    "zh": "一名 1500 米跑者的 5 公里成绩为 21:40。教练加入 6 组 400 米、比赛配速、组间 90 秒，总计 3 分钟。"
+   },
+   "steps": [
+    {
+     "en": "Baseline recorded: 21:40, tested on a known course in the same shoes.",
+     "zh": "记录基线：21:40，在同一已知场地、同一双鞋下测试。"
+    },
+    {
+     "en": "One change made: the session is added, everything else held constant for three weeks.",
+     "zh": "只做一处改变：加入这堂训练课，其余三周保持不变。"
+    },
+    {
+     "en": "Re-test at four weeks: 21:15, an improvement of 25 seconds.",
+     "zh": "四周后复测：21:15，提升 25 秒。"
+    },
+    {
+     "en": "The improvement is attributable, because only one thing changed. If three things had changed, the 25 seconds would be uninterpretable.",
+     "zh": "这个提升可归因，因为只改了一件事。如果改了三件，那 25 秒就无法解释。"
+    },
+    {
+     "en": "Next cycle: the coach now knows the session is worth 25 seconds, and can test whether it is worth keeping.",
+     "zh": "下一个周期：教练现在知道这堂课值 25 秒，可以再检验它是否值得保留。"
+    }
+   ],
+   "answer": {
+    "en": "Four weeks and one number. That is the whole method, and it is slower than changing three things and being pleased with the result.",
+    "zh": "四周和一个数字。这就是整套方法，而且它比\"同时改三样然后因为结果不错而高兴\"要慢。"
+   }
+  }
+ },
+ "Life stage, sex and energy balance": {
+  "figures": [
+   {
+    "title": {
+     "en": "Energy balance across the lifespan",
+     "zh": "贯穿一生的能量平衡"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"130\" x2=\"304\" y2=\"130\"/><line class=\"dash\" d=\"M24 76h280\"/><path class=\"fillC\" d=\"M24 76h280v54H24z\"/><path class=\"ln\" d=\"M40 66C90 60 150 58 240 60\"/><text class=\"lblS\" x=\"24\" y=\"54\">intake</text><path class=\"ln\" d=\"M40 92C110 98 180 100 280 96\"/><text class=\"lblS\" x=\"24\" y=\"112\">expenditure</text><g><line class=\"th\" x1=\"64\" y1=\"48\" x2=\"64\" y2=\"104\"/><path class=\"ln\" d=\"M64 48l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M64 104l-4.5-9h9z\" fill=\"currentColor\"/></g><text class=\"lblS\" x=\"52\" y=\"40\">growth</text><g><line class=\"th\" x1=\"200\" y1=\"60\" x2=\"200\" y2=\"96\"/><path class=\"ln\" d=\"M200 60l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M200 96l-4.5-9h9z\" fill=\"currentColor\"/></g><text class=\"lblS\" x=\"188\" y=\"52\">adult</text><text class=\"lblS\" x=\"24\" y=\"156\">age</text><text class=\"lblS\" x=\"24\" y=\"176\">a child grows on a positive balance; an adult maintains; an older adult may need more protein per kilo</text>",
+    "viewBox": "0 0 320 186",
+    "legend": [
+     {
+      "en": "growth requires a positive energy balance, and that is a physiological requirement rather than a choice",
+      "zh": "生长需要正能量平衡，而那是生理需求而不是选择"
+     },
+     {
+      "en": "maintenance means intake equals expenditure, and the deficit creates loss",
+      "zh": "维持意味着摄入等于消耗，而赤字会造成流失"
+     },
+     {
+      "en": "protein requirement per kilo rises with age, so the same plan is not right across a lifespan",
+      "zh": "每公斤蛋白质需求随年龄上升，因此同一份方案不可能适合整个生命周期"
+     }
+    ],
+    "caption": {
+     "en": "The same numbers produce a surplus in a growing child, a maintenance state in an adult and a deficit in an older adult, with identical dietary advice.",
+     "zh": "同样的数字在生长中的儿童身上造成盈余、在成人身上造成维持、在老年人身上造成赤字——而给予的饮食建议却是同一份。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Considerations by life stage",
+     "zh": "各生命阶段的考量"
+    },
+    "cols": [
+     {
+      "en": "Stage",
+      "zh": "阶段"
+     },
+     {
+      "en": "Main risk",
+      "zh": "主要风险"
+     },
+     {
+      "en": "Practical adjustment",
+      "zh": "实际调整"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Child",
+       "zh": "儿童"
+      },
+      {
+       "en": "Under-fuelling, and training through growth spurts",
+       "zh": "补糖不足，以及在生长高峰期持续训练"
+      },
+      {
+       "en": "More sessions, lower volume, no maximal loads",
+       "zh": "更多训练课、更低训练量、不做最大负荷"
+      }
+     ],
+     [
+      {
+       "en": "Adolescent",
+       "zh": "青少年"
+      },
+      {
+       "en": "Overuse while tissues are still adapting",
+       "zh": "在组织仍在适应时过度使用"
+      },
+      {
+       "en": "Sample many skills, specialise later",
+       "zh": "广泛尝试各种技术，晚些专项化"
+      }
+     ],
+     [
+      {
+       "en": "Female athlete",
+       "zh": "女性运动员"
+      },
+      {
+       "en": "Low energy availability, iron, and menstrual change",
+       "zh": "能量可用性低、缺铁、月经变化"
+      },
+      {
+       "en": "Track menstrual cycle, iron status, and intake against training",
+       "zh": "追踪月经周期、铁状态，以及摄入与训练的关系"
+      }
+     ],
+     [
+      {
+       "en": "Adult male",
+       "zh": "成年男性"
+      },
+      {
+       "en": "Usually over-eating rather than under",
+       "zh": "通常是吃多而不是吃少"
+      },
+      {
+       "en": "Watch total intake, not just sport nutrition",
+       "zh": "关注总摄入，而不只是运动营养"
+      }
+     ],
+     [
+      {
+       "en": "Older adult",
+       "zh": "老年人"
+      },
+      {
+       "en": "Loss of muscle mass and bone density",
+       "zh": "肌肉量与骨密度流失"
+      },
+      {
+       "en": "More protein per kilo, more balance work, less high-impact",
+       "zh": "更多每公斤蛋白质、更多平衡训练、更少高冲击"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The single most useful question across every life stage is not what sport the athlete does. It is whether they are recovering between sessions at all.",
+     "zh": "贯穿所有生命阶段最有用的一个问题不是运动员从事什么项目，而是他们是否真的在训练课之间恢复。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same athlete, three life stages",
+    "zh": "例题：同一位运动员的三个生命阶段"
+   },
+   "given": {
+    "en": "The same 60 kg man, at 16, 30 and 68, is prescribed the same 3000 kcal intake.",
+    "zh": "同一位 60 公斤的男性，16 岁、30 岁和 68 岁，被开出同样的 3000 千卡摄入。"
+   },
+   "steps": [
+    {
+     "en": "At 16: expenditure is roughly 2500 kcal because of growth, so 3000 kcal is a surplus of about 20 percent.",
+     "zh": "16 岁：因生长消耗约 2500 千卡，因此 3000 千卡是约 20% 的盈余。"
+    },
+    {
+     "en": "At 30: expenditure is about 2500 kcal, so the same 3000 kcal is a surplus of 500 kcal and weight will rise.",
+     "zh": "30 岁：消耗约 2500 千卡，因此同样 3000 千卡是 500 千卡盈余，体重会上升。"
+    },
+    {
+     "en": "At 68: expenditure is about 2100 kcal, so the same 3000 kcal is a 40 percent surplus, and protein need per kilo is higher not lower.",
+     "zh": "68 岁：消耗约 2100 千卡，因此同样 3000 千卡是 40% 的盈余，而每公斤蛋白质需求更高而不是更低。"
+    },
+    {
+     "en": "Identical prescription, three different outcomes. The variable that was never considered is expenditure.",
+     "zh": "同样的处方，三种不同结果。从未被考虑的那个变量是消耗。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing here is about sport nutrition. It is that a plan written for one life stage silently becomes wrong in the other two, and nothing in the plan notices.",
+    "zh": "这与运动营养无关。问题在于为某个生命阶段写下的方案，会在其他两个阶段悄悄变成错的，而方案本身不会察觉。"
+   }
+  }
+ },
+ "System benefits, chronic disease and progression": {
+  "figures": [
+   {
+    "title": {
+     "en": "Dose is the prescription, and it has a window",
+     "zh": "剂量就是处方，而它有一个窗口"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"130\" x2=\"304\" y2=\"130\"/><line class=\"ln\" x1=\"24\" y1=\"130\" x2=\"24\" y2=\"24\"/><path class=\"fillA\" d=\"M24 130C60 120 90 100 120 76c20 -16 40 -30 70 -40 30 -10 60 -14 90 -14v108z\"/><path class=\"ln\" d=\"M24 130C60 120 90 100 120 76c20 -16 40 -30 70 -40 30 -10 60 -14 90 -14\"/><path class=\"th\" d=\"M24 108C70 96 120 80 170 70\"/><text class=\"lblS\" x=\"24\" y=\"150\">inactivity</text><text class=\"lblS\" x=\"180\" y=\"30\">benefit</text><text class=\"lblS\" x=\"236\" y=\"40\">plateau</text><text class=\"lblS\" x=\"256\" y=\"70\">risk</text><line class=\"dash\" d=\"M24 84h280\"/><text class=\"lblS\" x=\"24\" y=\"172\">most of the benefit arrives early — the first 20 percent of change does most of the work</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "most health benefit comes from moving out of inactivity, not from reaching an elite dose",
+      "zh": "大部分健康收益来自从不活动转为活动，而不是达到精英剂量"
+     },
+     {
+      "en": "there is a dose-response curve with a plateau and then a risk of harm at high volume",
+      "zh": "存在一条剂量–反应曲线，经历平台期后在高训练量时出现伤害风险"
+     },
+     {
+      "en": "progression must therefore be individual, because the window differs by condition",
+      "zh": "因此进阶必须是个体化的，因为这个窗口因病情而异"
+     }
+    ],
+    "caption": {
+     "en": "The clinical message is that some is far better than none, and that the two errors are doing nothing and doing too much for someone with a chronic condition.",
+     "zh": "临床上的信息是：做一些远好于不做；而两个错误是\"完全不做\"和\"对慢性病患者做得太多\"。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The most common conditions, and what changes",
+     "zh": "最常见的病症，以及需要改变什么"
+    },
+    "cols": [
+     {
+      "en": "Condition",
+      "zh": "病症"
+     },
+     {
+      "en": "Main concern",
+      "zh": "主要顾虑"
+     },
+     {
+      "en": "What changes",
+      "zh": "需要改变什么"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Type 2 diabetes",
+       "zh": "2 型糖尿病"
+      },
+      {
+       "en": "Glycaemic control",
+       "zh": "血糖控制"
+      },
+      {
+       "en": "More frequent activity, weight loss, and post-meal walking",
+       "zh": "更频繁的活动、减重，以及餐后步行"
+      }
+     ],
+     [
+      {
+       "en": "Hypertension",
+       "zh": "高血压"
+      },
+      {
+       "en": "Blood pressure at exertion",
+       "zh": "运动时的血压"
+      },
+      {
+       "en": "Aerobic work, and Valsalva avoided",
+       "zh": "有氧训练，并避免屏气用力"
+      }
+     ],
+     [
+      {
+       "en": "Coronary artery disease",
+       "zh": "冠心病"
+      },
+      {
+       "en": "Demand on the heart muscle",
+       "zh": "对心肌的需求"
+      },
+      {
+       "en": "Medical clearance first, then graded progression",
+       "zh": "先做医学许可，再分级进阶"
+      }
+     ],
+     [
+      {
+       "en": "Osteoarthritis",
+       "zh": "骨关节炎"
+      },
+      {
+       "en": "Joint loading and pain",
+       "zh": "关节负荷与疼痛"
+      },
+      {
+       "en": "Low-impact work, strength, and more frequent shorter sessions",
+       "zh": "低冲击训练、力量训练，以及更频繁的短课"
+      }
+     ],
+     [
+      {
+       "en": "Asthma",
+       "zh": "哮喘"
+      },
+      {
+       "en": "Trigger and rescue medication use",
+       "zh": "诱因与急救药物使用"
+      },
+      {
+       "en": "Inhaled steroid before exercise, and known safe triggers",
+       "zh": "运动前吸入激素，并确认安全的诱因"
+      }
+     ],
+     [
+      {
+       "en": "Osteoporosis",
+       "zh": "骨质疏松"
+      },
+      {
+       "en": "Fracture risk",
+       "zh": "骨折风险"
+      },
+      {
+       "en": "Weight-bearing, resistance, and impact where safe",
+       "zh": "负重训练、抗阻训练，以及在安全前提下加入冲击"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A row in this table is not a modification of a healthy programme. It is a different programme, and it is written by someone qualified.",
+     "zh": "这张表中的一行并不是对健康方案的\"修改\"，而是一个不同的方案，而且它由有资质的人来写。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a graded return for a common condition",
+    "zh": "例题：为常见病症做分级回归"
+   },
+   "given": {
+    "en": "A 58-year-old with hypertension and 12 years inactive, wanting to walk 5 km.",
+    "zh": "一名 58 岁、有高血压且不活动 12 年的人，目标是走 5 公里。"
+   },
+   "steps": [
+    {
+     "en": "Stage 1, weeks 1-2: 10 minutes of walking, 5 days, and blood pressure checked before starting.",
+     "zh": "第 1 阶段，第 1 到 2 周：步行 10 分钟、每周 5 天，并在开始前测量血压。"
+    },
+    {
+     "en": "Stage 2, weeks 3-6: build to 30 minutes continuously. This is where most of the health benefit is gained.",
+     "zh": "第 2 阶段，第 3 到 6 周：增加到连续 30 分钟。大部分健康收益在这里获得。"
+    },
+    {
+     "en": "Stage 3, weeks 7-12: add intervals of 1 minute faster, and only if blood pressure stays acceptable.",
+     "zh": "第 3 阶段，第 7 到 12 周：加入 1 分钟的较快间歇，且仅在血压保持可接受时进行。"
+    },
+    {
+     "en": "Stage 4: work towards 5 km, but the goal is health, and it may be reduced without the programme being a failure.",
+     "zh": "第 4 阶段：以 5 公里为目标，但目标是健康；目标可以降低而这不代表方案失败。"
+    },
+    {
+     "en": "Note what did not appear: no session without breath-holding, and no progression without a measurement.",
+     "zh": "注意没有出现的东西：没有一堂包含屏气用力的训练课，也没有一次没有测量的进阶。"
+    }
+   ],
+   "answer": {
+    "en": "The 5 km is not really the prescription. 30 minutes of daily activity is the prescription, and the walk is only how this person gets there. Framing it that way also makes a smaller goal acceptable.",
+    "zh": "5 公里其实不是处方。每日的 30 分钟活动才是处方，而步行只是这个人到达它的方式。这样框定也使得更小的目标变得可以接受。"
+   }
+  }
+ },
+ "Pre-exercise, during-exercise and recovery": {
+  "figures": [
+   {
+    "title": {
+     "en": "The three phases and what each one is for",
+     "zh": "三个阶段以及各自的目的"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"88\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h88v116H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">BEFORE</text><text class=\"lblS\" x=\"22\" y=\"60\">raise temp</text><text class=\"lblS\" x=\"22\" y=\"74\">rehearse</text><text class=\"lblS\" x=\"22\" y=\"88\">practise</text><text class=\"lblS\" x=\"22\" y=\"102\">psych up</text><text class=\"lblS\" x=\"22\" y=\"120\">12-20 min</text></g><g><rect class=\"fillB\" x=\"112\" y=\"24\" width=\"88\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M112 24h88v116h-88z\"/><text class=\"lblS\" x=\"120\" y=\"42\">DURING</text><text class=\"lblS\" x=\"120\" y=\"60\">fuel</text><text class=\"lblS\" x=\"120\" y=\"74\">fluid</text><text class=\"lblS\" x=\"120\" y=\"88\">heat out</text><text class=\"lblS\" x=\"120\" y=\"102\">posture</text><text class=\"lblS\" x=\"120\" y=\"120\">ongoing</text></g><g><rect class=\"fillA\" x=\"210\" y=\"24\" width=\"96\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M210 24h96v116h-96z\"/><text class=\"lblS\" x=\"218\" y=\"42\">AFTER</text><text class=\"lblS\" x=\"218\" y=\"60\">rehydrate</text><text class=\"lblS\" x=\"218\" y=\"74\">re-fuel</text><text class=\"lblS\" x=\"218\" y=\"88\">cool down</text><text class=\"lblS\" x=\"218\" y=\"102\">review</text><text class=\"lblS\" x=\"218\" y=\"120\">until next</text></g><text class=\"lblS\" x=\"14\" y=\"162\">the warm-up is the most neglected phase and the one with the shortest useful life</text><text class=\"lblS\" x=\"14\" y=\"180\">its effects fade within 20-30 minutes, so a long ceremony at half-time actively costs</text>",
+    "viewBox": "0 0 320 190",
+    "legend": [
+     {
+      "en": "the warm-up raises tissue temperature and rehearses the movement, and both effects fade",
+      "zh": "热身提高组织温度并排练动作，而两种效果都会消退"
+     },
+     {
+      "en": "during exercise the priorities are fuel, fluid, heat loss and posture, in that order of neglect",
+      "zh": "运动中的优先事项是补糖、补液、散热与姿势，按被忽视程度排序"
+     },
+     {
+      "en": "afterwards, carbohydrate and protein matter most in the first hour",
+      "zh": "之后的第一小时里，碳水与蛋白质最为关键"
+     }
+    ],
+    "caption": {
+     "en": "The warm-up is the cheapest performance intervention available and the most frequently skipped, usually in favour of more warm-up drills that do not transfer.",
+     "zh": "热身是最便宜的性能干预，也是最常被跳过的——通常是被更多并不迁移的热身练习换掉了。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three phases, and the commonest error in each",
+     "zh": "三个阶段，以及各阶段最常见的错误"
+    },
+    "cols": [
+     {
+      "en": "Phase",
+      "zh": "阶段"
+     },
+     {
+      "en": "Purpose",
+      "zh": "目的"
+     },
+     {
+      "en": "Commonest error",
+      "zh": "最常见的错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Before",
+       "zh": "之前"
+      },
+      {
+       "en": "Raise temperature, rehearse, focus",
+       "zh": "提高温度、排练、集中"
+      },
+      {
+       "en": "Static stretching, which reduces power for 30-60 min",
+       "zh": "静态拉伸，会在 30 到 60 分钟内降低功率"
+      }
+     ],
+     [
+      {
+       "en": "During",
+       "zh": "之中"
+      },
+      {
+       "en": "Fuel, fluid, heat loss, position",
+       "zh": "补糖、补液、散热、姿势"
+      },
+      {
+       "en": "Waiting until thirsty, which is already too late",
+       "zh": "等到口渴才喝，而这已经太晚"
+      }
+     ],
+     [
+      {
+       "en": "After",
+       "zh": "之后"
+      },
+      {
+       "en": "Restore glycogen, protein, fluid",
+       "zh": "恢复糖原、蛋白质、水分"
+      },
+      {
+       "en": "Skipping carbohydrate after a glycogen-depleting effort",
+       "zh": "在耗糖训练后不补碳水"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Warm-up effects decay in 20 to 30 minutes, which means the timing matters more than the content. A correct warm-up performed 45 minutes early is a wasted warm-up.",
+     "zh": "热身效果在 20 到 30 分钟内衰减，这意味着时机比内容更重要。提前 45 分钟做完的、正确的热身，是一个被浪费的热身。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a match-day warm-up that fits the clock",
+    "zh": "例题：一份符合时间表的比赛日热身"
+   },
+   "given": {
+    "en": "The match starts 40 minutes after the team enters the pitch. Warm-up must raise temperature and rehearse the set piece.",
+    "zh": "比赛在球队进场 40 分钟后开始。热身必须提高温度并排练定位球。"
+   },
+   "steps": [
+    {
+     "en": "Minutes 0-8: raise temperature with continuous movement, then dynamic mobility through all planes.",
+     "zh": "第 0 到 8 分钟：用连续活动提高温度，然后通过所有平面做动态活动度。"
+    },
+    {
+     "en": "Minutes 8-20: specific rehearsal, increasing speed, including the set-piece pattern at match intensity.",
+     "zh": "第 8 到 20 分钟：专项排练，速度逐步提高，其中包括以比赛强度排练定位球套路。"
+    },
+    {
+     "en": "Minutes 20-30: brief team talk, then keep moving. Stop the long static phase here.",
+     "zh": "第 20 到 30 分钟：简短的队伍讲话，然后继续活动。在这里结束冗长的静态阶段。"
+    },
+    {
+     "en": "Minutes 30-38: short sharp accelerations, then the rest is waiting — the effects are still inside the 20-30 minute window.",
+     "zh": "第 30 到 38 分钟：短促的加速度训练，其余是等待——效果仍在 20 到 30 分钟的窗口内。"
+    },
+    {
+     "en": "A 60 minute pre-match routine would be counterproductive, because the effects would have decayed.",
+     "zh": "一份 60 分钟的赛前流程会适得其反，因为效果届时已经衰减。"
+    }
+   ],
+   "answer": {
+    "en": "Same athletes, same drills, and the difference between a routine that works and one that does not was entirely in the clock. This is the least glamorous and most reproducible finding in warm-up research.",
+    "zh": "同样的运动员、同样的练习，而有效与无效的流程之间的差别完全在于时间表。这是热身研究中最不光鲜、也最可复现的发现。"
+   }
+  }
+ },
+ "Micronutrients, RED-S and microbiome": {
+  "figures": [
+   {
+    "title": {
+     "en": "The energy-availability window",
+     "zh": "能量可用性的窗口"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"136\" x2=\"304\" y2=\"136\"/><line class=\"ln\" x1=\"24\" y1=\"136\" x2=\"24\" y2=\"24\"/><path class=\"fillA\" d=\"M24 136C60 100 90 70 130 50c30 -14 60 -20 100 -22v108z\"/><path class=\"ln\" d=\"M24 136C60 100 90 70 130 50c30 -14 60 -20 100 -22\"/><line class=\"dash\" d=\"M24 78h280\"/><text class=\"lblS\" x=\"24\" y=\"72\">optimal</text><path class=\"fillC\" d=\"M230 28h74v108h-74z\" opacity=\".5\"/><text class=\"lblS\" x=\"236\" y=\"44\">RED-S</text><text class=\"lblS\" x=\"24\" y=\"156\">available</text><text class=\"lblS\" x=\"24\" y=\"172\">energy for</text><text class=\"lblS\" x=\"24\" y=\"186\">training</text><text class=\"lblS\" x=\"252\" y=\"156\">too low</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "energy available for training is what remains after training expenditure is subtracted from intake",
+      "zh": "可供训练使用的能量，是摄入减去训练消耗之后的余量"
+     },
+     {
+      "en": "below roughly 30 kcal per kilo of fat-free mass the body starts conserving, and RED-S can follow",
+      "zh": "低于每公斤去脂体重约 30 千卡时，身体开始节省，而 RED-S 可能随之出现"
+     },
+     {
+      "en": "iron, vitamin D and calcium are the micronutrients most often low in athlete diets",
+      "zh": "铁、维生素 D 与钙是运动员饮食中最常偏低的几项微量营养素"
+     }
+    ],
+    "caption": {
+     "en": "RED-S is not a single diagnosis. It is a cluster of low-energy-availability effects across bone, hormones, immunity, mood and performance, and it is common and under-diagnosed.",
+     "zh": "RED-S 不是单一诊断。它是低能量可用性在骨骼、激素、免疫、情绪与表现上的一组效应，而且常见却常被漏诊。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Micronutrients that matter most in sport",
+     "zh": "运动中最重要的微量营养素"
+    },
+    "cols": [
+     {
+      "en": "Nutrient",
+      "zh": "营养素"
+     },
+     {
+      "en": "Deficit looks like",
+      "zh": "缺乏的表现"
+     },
+     {
+      "en": "Where it comes from",
+      "zh": "来源"
+     },
+     {
+      "en": "Priority",
+      "zh": "优先级"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Iron",
+       "zh": "铁"
+      },
+      {
+       "en": "Fatigue, poor tolerance of training, breathlessness",
+       "zh": "疲劳、训练耐受差、气促"
+      },
+      {
+       "en": "Red meat, legumes, fortified food",
+       "zh": "红肉、豆类、强化食品"
+      },
+      {
+       "en": "Highest — it is the commonest true deficiency",
+       "zh": "最高——它是最常见的真实缺乏"
+      }
+     ],
+     [
+      {
+       "en": "Vitamin D",
+       "zh": "维生素 D"
+      },
+      {
+       "en": "Bone pain, frequent minor infection, slow recovery",
+       "zh": "骨痛、频繁轻微感染、恢复慢"
+      },
+      {
+       "en": "Sunlight, oily fish, fortified food",
+       "zh": "日照、含油鱼、强化食品"
+      },
+      {
+       "en": "High, and often low at latitude",
+       "zh": "高，且在高纬度地区常偏低"
+      }
+     ],
+     [
+      {
+       "en": "Calcium",
+       "zh": "钙"
+      },
+      {
+       "en": "Bone density loss, muscle cramping",
+       "zh": "骨密度流失、肌肉痉挛"
+      },
+      {
+       "en": "Dairy, fortified alternatives, tinned fish with bones",
+       "zh": "乳制品、强化替代品、带骨罐头鱼"
+      },
+      {
+       "en": "High in low-dairy diets",
+       "zh": "在低乳制品饮食中偏高"
+      }
+     ],
+     [
+      {
+       "en": "Magnesium",
+       "zh": "镁"
+      },
+      {
+       "en": "Crumbling, cramps, poor recovery",
+       "zh": "乏力、抽筋、恢复差"
+      },
+      {
+       "en": "Nuts, whole grains, dark leafy vegetables",
+       "zh": "坚果、全谷物、深绿叶蔬菜"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Energy availability is upstream of all of these. Correcting a deficiency while the athlete remains in low energy availability is treating the symptom and leaving the cause.",
+     "zh": "能量可用性位于这些之上。在运动员仍处于低能量可用性时纠正缺乏，是在治症状而留下病因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: finding low energy availability arithmetically",
+    "zh": "例题：用算术找出低能量可用性"
+   },
+   "given": {
+    "en": "A 55 kg female athlete, 42 kg fat-free mass, eats 2000 kcal and trains burning 2200 kcal.",
+    "zh": "一名 55 公斤的女性运动员，去脂体重 42 公斤，摄入 2000 千卡，训练消耗 2200 千卡。"
+   },
+   "steps": [
+    {
+     "en": "Energy available = intake - training expenditure = 2000 - 2200 = -200 kcal.",
+     "zh": "能量可用性 = 摄入 - 训练消耗 = 2000 - 2200 = -200 千卡。"
+    },
+    {
+     "en": "Relative to fat-free mass: -200 / 42 = -4.8 kcal per kg. The optimum is above roughly 30.",
+     "zh": "按去脂体重计：-200 / 42 = 每公斤 -4.8 千卡，而最优值在约 30 以上。"
+    },
+    {
+     "en": "So this is not borderline — it is a substantial deficit, and the body will be conserving rather than building.",
+     "zh": "所以这不是临界情况——而是明显赤字，身体会进行节省而不是建设。"
+    },
+    {
+     "en": "The likely presentation is not a single symptom but fatigue, a stalled weight, a missed period and repeated injuries.",
+     "zh": "可能的表现不是单一症状，而是疲劳、体重停滞、月经不来以及反复受伤。"
+    },
+    {
+     "en": "Increasing intake is not a small fix: the gap here is larger than most athletes assume.",
+     "zh": "增加摄入不是一个小修正：这里的缺口比多数运动员以为的更大。"
+    }
+   ],
+   "answer": {
+    "en": "The arithmetic says the gap is 200 kcal, which sounds trivial until it is expressed per kilo of fat-free mass. Expressed that way, it is a deficit of about 5 against a target of 30.",
+    "zh": "算术给出的缺口是 200 千卡，听起来微不足道，直到按每公斤去脂体重表达为止。按那种方式表达，它是从目标 30 掉到约 5。"
+   }
+  }
  }
 };
 if(window.IB_VISUALS&&window.IB_VISUALS.shake){try{window.dispatchEvent(new Event('shake'))}catch(e){}}

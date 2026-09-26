@@ -76,21 +76,18 @@
     }, { passive: true });
   }
 
-  /* ─── 3b · Fabric: the paper texture, parked in one spot ───────────── */
-  /* One dimple, built from still layers (a shaded bowl, a shadowed wall
+  /* ─── 3b · Fabric: the page is cloth, the pointer presses into it ───── */
+  /* Fallback without WebGL2 (or with FOLLOWS off): one dimple, built from still layers (a shaded bowl, a shadowed wall
      toward the light, a lit wall away from it, and folds). Per frame nothing
      moves: the whole thing is placed once, a third of the way down the
      viewport, and left there — so the skin keeps its paper grain and the
      page never wriggles.
 
-     It used to be steered by the pointer: a damped ease chasing e.clientX/Y,
-     deliberately trailing the finger by `lag` px, stretching along a drag and
-     bunching a ridge ahead of it (and the WebGL cloth in 3c simulated the
-     same thing across the whole viewport). On a desktop mouse that read as a
-     broken cursor rather than as texture — the surface visibly lagged and
-     wobbled behind the arrow. So the tracking is gone and the dimple is
-     parked; FOLLOWS below is the switch that brings it back. */
-  var FOLLOWS = false;
+     FOLLOWS switches between the two. It is on: the pointer presses the WebGL
+     cloth (3c), which now tracks the arrow tightly (a 14 ms ease, no trailing)
+     so it reads as a surface under the cursor, not a lagging cursor; only a
+     pressed finger drags the cloth behind it. With it off, the dimple parks. */
+  var FOLLOWS = true;
   var FAB = false;
 
   /* ─── 3c · Cloth: the same idea, simulated and lit ──────────────────── */
@@ -107,8 +104,10 @@
      skin: shade on the walls facing away from the top-left light, a satin
      highlight on the walls facing it. No gradients pretending to be a hole.
      Returns false when WebGL2 isn't there, so the CSS dimple takes over.
-     Parked with FOLLOWS = false: the membrane is a pointer effect, so with
-     the dimple no longer tracking there is nothing left for it to do. */
+     The dent is a funnel (height falls off with log r from a rounded tip, the
+     way a taut sheet takes a point load) drawn exactly in the shader, with a
+     soft cast shadow; the membrane only carries a shallow share of it for
+     the wake and the wobble. Not used when FOLLOWS is off. */
   function cloth() {
     var cv = document.createElement('canvas');
     var gl = null;
@@ -122,42 +121,52 @@
       'uniform vec2 uP;uniform float uDepth;uniform float uSig;uniform vec2 uDir;uniform float uDrag;uniform float uT;uniform float uOn;uniform float uDark;',
       'out vec4 o;',
       'float sim(vec2 p){return texture(uH,(p/uCell+.5)/uGrid).r;}',
-      /* folds and breathing are drawn analytically on top of the simulated membrane */
-      'float fine(vec2 p){',
-      '  vec2 d=p-uP;float r=length(d);float s=uSig;',
-      '  float a=atan(d.y,d.x);',
-      /* four or five uneven folds: each has its own depth and reach, and they creep round slowly */
-      '  float ph=a*4.+2.1*sin(a*2.+uT*.37)+.8*sin(a*3.+1.7-uT*.29)+r/s*.3;',
-      '  float ridge=pow(1.-abs(sin(ph)),2.2)-.3;',
-      '  float str=.45+.55*(.5+.5*sin(a*2.+.6+uT*.21))*(.6+.4*sin(a*3.+2.3-uT*.17));',
-      '  float reach=s*(1.3+.9*(.5+.5*sin(a*2.+2.2+uT*.23)));',
-      '  float env=smoothstep(.55*s,1.2*s,r)*exp(-max(r-1.2*s,0.)/reach);',
-      '  float h=ridge*env*str*uDepth*.24*(1.-.65*uDrag);',
-      '  float al=dot(d,uDir),ac=dot(d,vec2(-uDir.y,uDir.x));',
-      '  float wk=smoothstep(.2*s,-1.1*s,al)*exp(-ac*ac/(2.*1.3*s*1.3*s))*exp(-max(-al-1.4*s,0.)/(2.2*s));',
-      '  h+=(pow(1.-abs(sin(ac/s*3.1+uT*.4)),2.)-.33)*wk*uDepth*.26*uDrag;',
-      '  float br=sin(p.x*.019+uT*.8+1.7*sin(p.y*.012-uT*.45))*sin(p.y*.016-uT*.62+sin(p.x*.01+uT*.3));',
-      '  h+=br*1.1*exp(-r*r/(2.*5.*s*5.*s))*min(uDepth*.25,1.);',
-      '  return h;}',
-      'float H(vec2 p){return sim(p)+fine(p);}',
-      'float weave(vec2 p){vec2 q=p*.62;return (sin(q.x+q.y*.35)*sin(q.y-q.x*.35));}',
+      /* a point pressed into a taut sheet makes a funnel, not a bowl: height falls
+         off with log(r) from a rounded fingertip out to where the cloth is held.
+         Drawn exactly here so the tip stays sharp; the sim adds wake and wobble */
+      'float fun(vec2 p){float r=length(p-uP);float rc=uSig*.5,ro=uSig*3.6;',
+      '  float q=sqrt(r*r+rc*rc);float f=max(log(ro/q),0.),m=log(ro/rc);',
+      '  return -uDepth*(f*f/(f+.6))/(m*m/(m+.6));}',   /* eases out flat where the cloth is held */
+      /* a few faint tension wrinkles run out of the tip; a drag swings them round behind */
+      'float wrin(vec2 p){',
+      '  vec2 d=p-uP;float r=length(d);float s=uSig;float a=atan(d.y,d.x);',
+      '  float ba=atan(-uDir.y,-uDir.x);float h=0.;',
+      '  float along0=smoothstep(.6*s,1.3*s,r);if(along0<=0.)return 0.;',
+      '  for(int i=0;i<5;i++){float f=float(i);',
+      '    float amp=.4+.6*(.5+.5*sin(f*4.3+.7));',
+      '    float ang=f*1.2566+.4*sin(f*2.3+1.1)+.06*sin(uT*.23+f*1.9)+.18*sin(f*3.7)*tanh(r/s-1.);',
+      '    float bk=ba+(fract(f*.618)-.5)*1.2;',
+      '    ang+=atan(sin(bk-ang),cos(bk-ang))*uDrag*.7;float da=atan(sin(a-ang),cos(a-ang));',
+      '    float w=s*(.16+.05*r/s);float cr=r*da;',
+      '    float L=s*(1.3+1.6*(.5+.5*sin(f*5.1+2.))+uDrag*1.5);',
+      '    h+=amp*exp(-cr*cr/(2.*w*w))*exp(-max(r-1.3*s,0.)/L);}',
+      '  return h*along0*uDepth*.07*(1.+uDrag);}',
+      'float br(vec2 p){float r=length(p-uP);',
+      '  float b=sin(p.x*.019+uT*.8+1.7*sin(p.y*.012-uT*.45))*sin(p.y*.016-uT*.62+sin(p.x*.01+uT*.3));',
+      '  return b*.9*exp(-r*r/(2.*5.*uSig*5.*uSig))*min(uDepth*.08,1.);}',
+      'float HS(vec2 p){return sim(p)+fun(p);}',
+      'float H(vec2 p){return HS(p)+wrin(p)+br(p);}',
       'void main(){',
       '  vec2 p=vec2(gl_FragCoord.x,uView.y*uRes-gl_FragCoord.y)/uRes;',
-      '  float e=1.5;float h0=H(p);',
+      '  float e=1.;float h0=H(p);',
       '  float dx=(H(p+vec2(e,0.))-H(p-vec2(e,0.)))/(2.*e);',
       '  float dy=(H(p+vec2(0.,e))-H(p-vec2(0.,e)))/(2.*e);',
-      '  float stretch=clamp(length(vec2(dx,dy))*2.2,0.,1.);',
-      '  vec3 n=normalize(vec3(-dx+stretch*.022*weave(p),-dy+stretch*.022*weave(p+vec2(2.,1.)),1.));',
+      '  vec3 n=normalize(vec3(-dx,-dy,1.));',
       '  vec3 L=normalize(vec3(-.5,-.62,.6));',
       '  float diff=dot(n,L)-L.z;',
       '  vec3 hv=normalize(L+vec3(0.,0.,1.));',
       '  float sp=pow(max(dot(n,hv),0.),48.)-pow(hv.z,48.);',
-      '  float ao=clamp(-h0*.016,0.,.3);',
+      /* soft cast shadow: walk toward the light, see whether the rim rises above the ray */
+      '  vec2 ld=normalize(L.xy);float tn=L.z/length(L.xy),occ=0.,hs0=HS(p);',
+      '  for(int k=1;k<11;k++){float t=float(k)*3.5;occ=max(occ,(HS(p+ld*t)-hs0)/t-tn);}',
+      '  float csh=1.-exp(-occ*4.);',
       '  float dn=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)*.012;',
       '  vec3 sc=mix(vec3(.078,.157,.282),vec3(0.),uDark);',
       '  vec3 hc=mix(vec3(1.),vec3(.62,.76,.96),uDark);',
-      '  float ash=clamp(-diff*mix(2.1,3.,uDark)+ao*mix(1.,.9,uDark)+dn,0.,mix(.5,.7,uDark));',
-      '  float ahi=clamp((diff*1.9+max(sp,0.)*.55)*mix(1.,.45,uDark)+dn,0.,.5);',
+      /* shade and light roll off softly instead of clipping, so a deep press keeps its gradient */
+      '  float mS=mix(.42,.62,uDark),mH=.5;',
+      '  float ash=mS*(1.-exp(-max(-diff*mix(1.5,2.2,uDark)+csh*mix(.2,.3,uDark)+dn,0.)/mS));',
+      '  float ahi=mH*(1.-exp(-max((diff*2.+max(sp,0.)*.6)*mix(1.,.5,uDark)+dn,0.)/mH));',
       '  o=vec4(hc*ahi+sc*ash,ahi+ash)*uOn;',
       '}'].join('\n');
     function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
@@ -232,7 +241,7 @@
           if (depth > 0.01) {
             var dx = xx - cx, dy = yy - cy, d2 = dx * dx + dy * dy;
             if (d2 < r * r) {
-              var g = Math.exp(-d2 * is2), d = Math.sqrt(d2);
+              var q = d2 * is2, g = Math.exp(-q * (0.55 + 0.45 * Math.sqrt(q))), d = Math.sqrt(d2);   /* finger pad: flat bottom, steep wall */
               var ring = Math.exp(-(d - rim) * (d - rim) * rw);
               var tgt = -depth * g + depth * 0.09 * ring, w = Math.min(1, g * 1.7) + ring * 0.25;
               if (drag > 0.02 && d > 0.001) {           /* cloth piles up ahead of a dragging finger */
@@ -267,7 +276,7 @@
       else if (!shown) want = 0;
       else if (!bounce) want = rest();
       press += ((down ? 1 : 0) - press) * ease(dt, down ? 70 : 140);
-      var px = x, py = y, k = ease(dt, 42 + press * 48);
+      var px = x, py = y, k = ease(dt, 14 + press * 50);   /* tight on the arrow; only a pressed finger drags heavy cloth */
       x += (tx - x) * k; y += (ty - y) * k;
       var kv = ease(dt, 60);
       vx += ((x - px) / dt * 16 - vx) * kv;
@@ -279,15 +288,17 @@
       var al = Math.sqrt(ax * ax + ay * ay) || 1, ux = ax / al, uy = ay / al;
       var t = (now - t0) / 1000;
       var breathe = 1 + 0.09 * Math.sin(t * 2.4) + 0.04 * Math.sin(t * 5.3 + 1.1);
-      var depth = dent * 13 * (down ? 1 : breathe), sig = 22 + dent * 9 + press * 5;
-      var fx = x - vx * (0.8 + press * 1.2), fy = y - vy * (0.8 + press * 1.2);   /* the cloth trails the finger */
-      var moving = step(fx, fy, depth, sig, ux, uy);
-      moving = step(fx, fy, depth, sig, ux, uy) || moving;
+      var depth = dent * 24 * (down ? 1 : breathe), sig = 18 + dent * 7 + press * 4;
+      var fx = x - vx * press * 1.6, fy = y - vy * press * 1.6;   /* a pressed finger drags the cloth behind it */
+      /* the funnel itself is drawn exactly in the shader; the membrane carries a
+         shallower, wider share of it, so a drag leaves a wake and a release wobbles */
+      var moving = step(fx, fy, depth * 0.2, sig * 1.2, ux, uy);
+      moving = step(fx, fy, depth * 0.2, sig * 1.2, ux, uy) || moving;
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, GW, GH, 0, gl.RED, gl.FLOAT, hgt);
       gl.disable(gl.SCISSOR_TEST);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       /* draw only the patch that can differ from flat */
-      var reach = sig * 5.5 + 30;
+      var reach = sig * 4 + 40;
       var l = Math.min(fx - reach, bx1 >= 0 ? bx0 * CELL - 12 : 1e9), r = Math.max(fx + reach, bx1 >= 0 ? bx1 * CELL + 12 : -1e9);
       var tp = Math.min(fy - reach, by1 >= 0 ? by0 * CELL - 12 : 1e9), bt = Math.max(fy + reach, by1 >= 0 ? by1 * CELL + 12 : -1e9);
       if (depth > 0.02 || moving) {
@@ -399,7 +410,7 @@
       last = now;
       if (down) want = 1 + Math.min((now - downAt) / 700, 1) * 0.28;   /* holding sinks it further */
       press += ((down ? 1 : 0) - press) * ease(dt, down ? 70 : 140);
-      var px = x, py = y, k = ease(dt, 42 + press * 48);               /* pressed cloth is heavier */
+      var px = x, py = y, k = ease(dt, 14 + press * 50);   /* tight on the arrow; only a pressed finger drags heavy cloth */               /* pressed cloth is heavier */
       x += (tx - x) * k; y += (ty - y) * k;
       var kv = ease(dt, 60);                           /* smoothed velocity, px per 16ms */
       vx += ((x - px) / dt * 16 - vx) * kv;
@@ -924,6 +935,126 @@
     });
   }
 
+  /* ─── Mobile sidebar: a menu button and a drawer you can swipe ─────── */
+  /* Below 1025px the rail is off-canvas (linear-theme), but the page's own
+     #sidebarToggle is hidden by vitalite-skin and never reaches the top bar,
+     so phones had no way in. This adds a soft menu pill to the top bar, a
+     scrim, a close pill inside the drawer, swipe-from-the-left-edge to open
+     (the drawer follows the thumb) and swipe-back to close. It only flips
+     #sidebar.open, the same class the inline toggle and draft.js use. */
+  function mobileNav() {
+    var side = document.getElementById('sidebar');
+    if (!side || !window.matchMedia) return;
+    var mq = matchMedia('(max-width:1024px)');
+    var zh = function () { return body.classList.contains('lang-zh'); };
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'sg-menu';
+    btn.setAttribute('aria-controls', 'sidebar'); btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<i></i><i></i><i></i>';
+    var bar = document.querySelector('.lin-topbar-inner') || document.querySelector('header .header-inner');
+    if (bar) bar.insertBefore(btn, bar.firstChild); else { btn.classList.add('sg-menu-float'); body.appendChild(btn); }
+    var scrim = document.createElement('div');
+    scrim.className = 'sg-scrim'; scrim.setAttribute('aria-hidden', 'true');
+    body.appendChild(scrim);
+    var x = document.createElement('button');
+    x.type = 'button'; x.className = 'sg-menu-x';
+    x.innerHTML = '<i></i><i></i>';
+    side.insertBefore(x, side.firstChild);
+    root.classList.add('sg-mnav');
+
+    /* the top bar's category pills are hidden on phones: carry them into the drawer */
+    function cats() {
+      var sw = document.querySelector('.sec-switcher');
+      if (!sw) return;
+      var old = side.querySelector('.sg-dsec');
+      if (old && old.getAttribute('data-src') === sw.innerHTML.length + '') return;
+      var n = document.createElement('nav');
+      n.className = 'sg-dsec';
+      n.setAttribute('aria-label', sw.getAttribute('aria-label') || 'Sections');
+      n.setAttribute('data-src', sw.innerHTML.length + '');
+      $$('.sec-pill', sw).forEach(function (a) { n.appendChild(a.cloneNode(true)); });
+      $$('.sec-pill-label', n).forEach(function (l) { var t = l.getAttribute(zh() ? 'data-zh' : 'data-en'); if (t) l.textContent = t; });
+      if (old) side.replaceChild(n, old); else side.insertBefore(n, x.nextSibling);
+    }
+    function isOpen() { return side.classList.contains('open'); }
+    function set(o) { side.classList.toggle('open', !!o); }
+    function label() {
+      btn.setAttribute('aria-label', zh() ? '打开菜单' : 'Open menu');
+      x.setAttribute('aria-label', zh() ? '关闭菜单' : 'Close menu');
+    }
+    function sync() {
+      var o = isOpen() && mq.matches;
+      if (o && !root.classList.contains('sg-nav-open')) {
+        cats();
+        var i = 0;                                         /* rows float in one after another */
+        $$('.sidebar-logo, .part-toggle, .sidebar-label, .sidebar-link', side).forEach(function (r) {
+          if (r.offsetParent) r.style.setProperty('--sg-i', Math.min(i++, 18));
+        });
+      }
+      root.classList.toggle('sg-nav-open', o);
+      btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+      label();
+    }
+    new MutationObserver(sync).observe(side, { attributes: true, attributeFilter: ['class'] });
+    new MutationObserver(label).observe(body, { attributes: true, attributeFilter: ['class'] });
+    btn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); set(!isOpen()); });
+    x.addEventListener('click', function (e) { e.preventDefault(); set(false); btn.focus({ preventScroll: true }); });
+    scrim.addEventListener('click', function () { set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen() && mq.matches) { set(false); btn.focus({ preventScroll: true }); } });
+    side.addEventListener('click', function (e) {
+      if (!mq.matches) return;
+      var a = e.target.closest ? e.target.closest('a[href], [data-study]') : null;
+      if (a) setTimeout(function () { set(false); }, 60);
+    });
+    (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { if (!mq.matches) set(false); sync(); });
+
+    /* swipe: from the left edge to pull it out, on the drawer or scrim to push it back */
+    var sx = 0, sy = 0, st = 0, dx = 0, mode = 0, W = 300, lastX = 0, lastT = 0, v = 0;   /* mode 0 idle, 1 undecided, 2 dragging */
+    function begin(e, allow) {
+      if (!mq.matches || e.touches.length !== 1) return;
+      var t = e.touches[0];
+      if (!allow(t)) return;
+      sx = lastX = t.clientX; sy = t.clientY; st = lastT = e.timeStamp; dx = 0; v = 0; mode = 1;
+      W = side.offsetWidth || 300;
+    }
+    function move(e) {
+      if (!mode) return;
+      var t = e.touches[0], ddx = t.clientX - sx, ddy = t.clientY - sy;
+      if (mode === 1) {
+        if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
+        if (Math.abs(ddy) > Math.abs(ddx) || (isOpen() ? ddx > 0 : ddx < 0)) { mode = 0; return; }
+        mode = 2; root.classList.add('sg-nav-drag');
+      }
+      var dt = e.timeStamp - lastT;
+      if (dt > 0) v = v * 0.4 + ((t.clientX - lastX) / dt) * 0.6;
+      lastX = t.clientX; lastT = e.timeStamp;
+      dx = ddx;
+      var off = isOpen() ? Math.min(0, dx) : Math.min(0, -W + dx);
+      side.style.transform = 'translateX(' + off.toFixed(1) + 'px)';
+      scrim.style.opacity = String(Math.max(0, Math.min(1, 1 + off / W)));
+      if (e.cancelable) e.preventDefault();
+    }
+    function end() {
+      if (mode === 2) {
+        root.classList.remove('sg-nav-drag');
+        side.style.transform = ''; scrim.style.opacity = '';
+        if (isOpen()) { if (dx < -W * 0.3 || v < -0.45) set(false); }
+        else if (dx > W * 0.35 || v > 0.45) set(true);
+      }
+      mode = 0;
+    }
+    document.addEventListener('touchstart', function (e) {
+      begin(e, function (t) {
+        if (isOpen()) return true;                        /* anywhere: drawer or scrim */
+        return t.clientX < 24;                            /* closed: only the left edge */
+      });
+    }, { passive: true });
+    document.addEventListener('touchmove', move, { passive: false });
+    document.addEventListener('touchend', end, { passive: true });
+    document.addEventListener('touchcancel', end, { passive: true });
+    sync();
+  }
+
   /* ─── Boot ───────────────────────────────────────────────────────────── */
   function boot() {
     safe(mountGrain);
@@ -936,6 +1067,7 @@
     safe(swapFx);
     safe(wheel);
     safe(pillEmblems);
+    safe(mobileNav);
     safe(readBar);
     safe(studyDeepLink);
     safe(fog);

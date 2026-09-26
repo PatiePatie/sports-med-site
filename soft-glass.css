@@ -798,3 +798,60 @@ header a:hover,.lin-topbar a:hover,.landing-nav a:hover,.log-item:hover,.lin-stu
 .sidebar .sb-subtabs{margin:.1rem 0 .35rem 1.6rem;border-left:2px solid color-mix(in srgb,var(--accent,#2A63AB) 35%,transparent);padding-left:.15rem}
 .sidebar .sb-subtabs .sidebar-link.sb-sub{font-size:.78rem;padding-top:.32rem;padding-bottom:.32rem}
 .sidebar .sidebar-group.part.open > .part-body{max-height:2000px}
+
+/* ── Mobile sidebar (soft-fx.js mobileNav) ──────────────────────────────────
+   Below 1025px the rail is an off-canvas drawer. A soft menu pill in the top
+   bar opens it; the drawer glides in over a frosted scrim, its rows float in
+   one after another, and a thumb can pull it out from the left edge or push
+   it back. The inline toggle and draft.js's backdrop stay out of the way. */
+.sg-menu,.sg-menu-x,.sg-scrim{display:none}
+@media (max-width:1024px){
+  html.sg-mnav .sg-menu{display:inline-flex;flex:0 0 36px;order:-3;width:36px;height:36px;margin:0 4px 0 0;padding:0;border:0;border-radius:12px;
+    position:relative;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding-left:10px;cursor:pointer;
+    background:var(--surface);color:var(--text);box-shadow:var(--sg-raise-xs),var(--sg-rim);-webkit-tap-highlight-color:transparent;
+    transition:transform .3s var(--sg-ease),box-shadow .3s var(--sg-ease)}
+  html.sg-mnav .sg-menu i{display:block;width:16px;height:2px;border-radius:2px;background:currentColor;transition:width .35s var(--sg-ease)}
+  html.sg-mnav .sg-menu i:nth-child(2){width:10px}
+  html.sg-mnav .sg-menu i:nth-child(3){width:13px}
+  html.sg-mnav .sg-menu:hover i{width:16px}
+  html.sg-mnav .sg-menu:active{transform:scale(.94);box-shadow:var(--sg-press-sm)}
+  html.sg-mnav .sg-menu.sg-menu-float{position:fixed;top:10px;left:10px;z-index:1100}
+  html.sg-mnav .sidebar.sidebar{z-index:1200!important;border-radius:0 26px 26px 0!important;
+    transition:transform .5s cubic-bezier(.2,.85,.25,1),box-shadow .5s!important}
+  html.sg-mnav .sidebar.sidebar.open{box-shadow:18px 0 48px rgba(8,14,24,.28)!important}
+  html.sg-nav-drag .sidebar.sidebar{transition:none!important}
+  html.sg-mnav .sidebar .sg-menu-x{display:block;position:absolute;top:14px;right:14px;z-index:2;width:36px;height:36px;padding:0;border:0;border-radius:50%;cursor:pointer;
+    background:var(--surface);box-shadow:var(--sg-raise-xs),var(--sg-rim);color:var(--text2,var(--text));-webkit-tap-highlight-color:transparent}
+  html.sg-mnav .sidebar .sg-menu-x i{position:absolute;left:11px;top:17px;width:14px;height:2px;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+  html.sg-mnav .sidebar .sg-menu-x i + i{transform:rotate(-45deg)}
+  html.sg-mnav .sidebar .sg-menu-x:active{transform:scale(.92)}
+  html.sg-mnav .sidebar.sidebar{padding-top:62px!important}
+  html.sg-mnav .sg-scrim{display:block;position:fixed;inset:0;z-index:1190;opacity:0;pointer-events:none;
+    background:rgba(8,14,24,.34);-webkit-backdrop-filter:blur(6px) saturate(1.15);backdrop-filter:blur(6px) saturate(1.15);transition:opacity .45s var(--sg-ease)}
+  html.sg-nav-open .sg-scrim{opacity:1;pointer-events:auto}
+  html.sg-nav-drag .sg-scrim{transition:none}
+  html.sg-nav-open,html.sg-nav-open body{overflow:hidden!important}
+  html.sg-mnav .sm-backdrop{display:none!important}
+  html.sg-mnav .sidebar.sidebar{width:min(86vw,320px)!important}
+  html.sg-mnav .sidebar .sidebar-link{white-space:normal!important;height:auto!important;min-height:36px;line-height:1.3!important;padding-top:6px!important;padding-bottom:6px!important}
+  html.sg-mnav .sidebar .sidebar-label .vi-ico{margin-right:7px}
+  /* the category pills, carried in from the hidden top-bar switcher */
+  html.sg-mnav .sidebar .sg-dsec{position:absolute;top:12px;left:12px;right:60px;display:flex;gap:6px;z-index:2}
+  html.sg-mnav .sidebar .sg-dsec .sec-pill{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    height:44px;padding:3px 2px 2px;border-radius:14px;text-decoration:none!important;color:var(--text2,var(--text));
+    background:var(--surface);box-shadow:var(--sg-raise-xs),var(--sg-rim);transition:transform .25s var(--sg-ease),box-shadow .25s var(--sg-ease)}
+  html.sg-mnav .sidebar .sg-dsec .sec-pill.active{box-shadow:var(--sg-press-sm);color:var(--accent,var(--text))}
+  html.sg-mnav .sidebar .sg-dsec .sec-pill:active{transform:scale(.95)}
+  html.sg-mnav .sidebar .sg-dsec .sec-ico{width:22px;height:22px;display:block;margin:0}
+  html.sg-mnav .sidebar .sg-dsec .sec-ico svg{width:100%;height:100%;display:block}
+  html.sg-mnav .sidebar .sg-dsec .sec-pill-label{display:block;font-size:.6rem;line-height:1.1;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  html.sg-mnav .sidebar.sidebar{padding-top:70px!important}
+  html.sg-mnav .sidebar .sg-menu-x{top:16px}
+  html.sg-nav-open .sidebar .sg-dsec .sec-pill{animation:sgNavIn .5s var(--sg-ease) backwards}
+  html.sg-nav-open .sidebar .sg-dsec .sec-pill:nth-child(2){animation-delay:.05s}
+  html.sg-nav-open .sidebar .sg-dsec .sec-pill:nth-child(3){animation-delay:.1s}
+  html.sg-nav-open .sidebar :is(.sidebar-logo,.part-toggle,.sidebar-label,.sidebar-link){
+    animation:sgNavIn .5s var(--sg-ease) backwards;animation-delay:calc(var(--sg-i,0) * 22ms + 90ms)}
+}
+@keyframes sgNavIn{from{opacity:0;transform:translateX(-22px);filter:blur(3px)}}
+@media (prefers-reduced-motion:reduce){html.sg-nav-open .sidebar *{animation:none!important}}

@@ -76,17 +76,21 @@
     }, { passive: true });
   }
 
-  /* ─── 3b · Fabric: the page is cloth, the pointer presses into it ───── */
+  /* ─── 3b · Fabric: the paper texture, parked in one spot ───────────── */
   /* One dimple, built from still layers (a shaded bowl, a shadowed wall
-     toward the light, a lit wall away from it, and folds pulled toward the
-     finger). Per frame only transform + opacity change, so it never repaints.
-     The dimple follows with a critically damped ease (no overshoot, no
-     wobble), stretches along the drag with a smooth matrix (no angle snap),
-     and sinks deeper over controls and while pressed.
-     Press and drag: holding sinks the dimple further the longer you hold;
-     dragging while pressed makes the cloth heavier (it lags the finger),
-     stretches it harder, bunches a ridge up ahead of the finger and pulls
-     taut creases out behind it. Letting go springs the cloth back up. */
+     toward the light, a lit wall away from it, and folds). Per frame nothing
+     moves: the whole thing is placed once, a third of the way down the
+     viewport, and left there — so the skin keeps its paper grain and the
+     page never wriggles.
+
+     It used to be steered by the pointer: a damped ease chasing e.clientX/Y,
+     deliberately trailing the finger by `lag` px, stretching along a drag and
+     bunching a ridge ahead of it (and the WebGL cloth in 3c simulated the
+     same thing across the whole viewport). On a desktop mouse that read as a
+     broken cursor rather than as texture — the surface visibly lagged and
+     wobbled behind the arrow. So the tracking is gone and the dimple is
+     parked; FOLLOWS below is the switch that brings it back. */
+  var FOLLOWS = false;
   var FAB = false;
 
   /* ─── 3c · Cloth: the same idea, simulated and lit ──────────────────── */
@@ -102,7 +106,9 @@
      loop stops once the cloth is flat, and it lights like the rest of the
      skin: shade on the walls facing away from the top-left light, a satin
      highlight on the walls facing it. No gradients pretending to be a hole.
-     Returns false when WebGL2 isn't there, so the CSS dimple takes over. */
+     Returns false when WebGL2 isn't there, so the CSS dimple takes over.
+     Parked with FOLLOWS = false: the membrane is a pointer effect, so with
+     the dimple no longer tracking there is nothing left for it to do. */
   function cloth() {
     var cv = document.createElement('canvas');
     var gl = null;
@@ -343,19 +349,44 @@
     return true;
   }
 
+  /* The parked dimple: placed once, then never touched again — no rAF loop,
+     no pointer listeners, no transform churn. It sits a little above the
+     middle of the viewport and is dimmed well under the old resting depth, so
+     what is left reads as paper grain rather than as something following you.
+     Sizing is read off the element so a change to the box in soft-glass.css
+     (currently 340px square, margin -170 to recentre) needs no edit here. */
+  function park(f) {
+    function place() {
+      var w = window.innerWidth || 0, h = window.innerHeight || 0;
+      if (!w || !h) return;
+      var s = f.offsetWidth || 340, m = s / 2;
+      var x = (w - s) / 2 + m, y = (h - s) * 0.38 + m;
+      f.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    }
+    place();
+    window.addEventListener('resize', place, { passive: true });
+    window.addEventListener('orientationchange', place, { passive: true });
+    f.style.setProperty('--sg-dent', '0.22');   /* .sg-f-bowl/.shade/.lit all read this; .sg-f-fold clamps to 0 */
+    f.style.setProperty('--sg-drag', '0');      /* the drag ridge and its wake stay off for good */
+    requestAnimationFrame(function () { f.classList.add('on'); });
+  }
+
   function fabric() {
     if (!FINE || REDUCE) return;
-    var ok = false;
-    try { ok = cloth(); } catch (e) { if (window.console) console.warn('[soft-fx] cloth', e); }
-    if (ok) return;
-    FAB = true;
-    root.classList.add('sg-fab');
+    if (FOLLOWS) {                                        /* the old pointer-steered membrane */
+      var ok = false;
+      try { ok = cloth(); } catch (e) { if (window.console) console.warn('[soft-fx] cloth', e); }
+      if (ok) return;
+      FAB = true;
+      root.classList.add('sg-fab');
+    }
     var f = document.createElement('div');
     f.className = 'sg-fabric';
     f.setAttribute('aria-hidden', 'true');
     f.innerHTML = '<i class="sg-f-bowl"></i><i class="sg-f-shade"></i><i class="sg-f-lit"></i><i class="sg-f-fold"></i>' +
       '<b class="sg-f-drag"><i class="sg-f-wake"></i><i class="sg-f-bunch"></i></b>';
     body.appendChild(f);
+    if (!FOLLOWS) return park(f);
     var dragEl = f.querySelector('.sg-f-drag');
     var tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, dent = 0.5, want = 0.5;
     var down = false, downAt = 0, press = 0, drag = 0, ax = 1, ay = 0, hot = false;

@@ -248,6 +248,38 @@ body.dark .chat-send,body.dark .capture-btn,body.dark .for-btn.primary,body.dark
 .btn-icon:active,.for-close:active,.for-del:active,.back-top:active{box-shadow:var(--sg-press-sm)!important;transform:scale(.94)}
 .for-del:hover{color:var(--sg-warm)!important}
 
+/* top-bar category pills carry the sidebar's airbrushed emblems, small */
+.sec-ico.sg-emb-sm{display:inline-flex;width:22px;height:22px;margin:-3px 0}
+.sec-ico.sg-emb-sm svg{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 2px rgba(6,16,34,.25))}
+
+/* ── Learn panel controls (knowledge.css): the same soft pills, so pressing
+   one gives under the finger like every other button on the page ─────────── */
+.kn-tab,.kn-chip,.kn-more,.kv-seg button,.kv-opts button,.kv-tools button,.kv-path button,.kv-mmt button,.kv-btn,
+.kn-fc-nav button,.kn-mode button,.ks-btn,.ks-tab{
+  border:0!important;
+  box-shadow:var(--sg-raise-xs),var(--sg-rim)!important;
+  transition:box-shadow .3s var(--sg-ease),transform .35s var(--sg-spring),color .2s,background .3s,opacity .2s!important}
+.kn-tab,.kn-chip,.kv-seg button,.kv-opts button,.kv-tools button,.kv-path button,.kv-mmt button,.kv-btn,.kn-fc-nav button,.ks-btn,.ks-tab{background:var(--surface)!important}
+.kn-more{background:var(--surface)!important;border-radius:999px!important}
+.kv-seg{background:var(--surface2)!important;box-shadow:var(--sg-press-sm)!important;border-radius:14px!important;padding:4px!important;gap:4px!important}
+.kn-tab:hover,.kn-chip:hover,.kn-more:hover,.kv-seg button:hover,.kv-opts button:hover:not(:disabled),.kv-tools button:hover,
+.kv-path button:hover,.kv-mmt button:hover,.kv-btn:hover,.kn-fc-nav button:hover,.ks-btn:hover,.ks-tab:hover{
+  box-shadow:var(--sg-press-sm)!important;transform:translateY(1px) scale(.985)}
+.kn-tab:active,.kn-chip:active,.kn-more:active,.kv-seg button:active,.kv-opts button:active:not(:disabled),.kv-tools button:active,
+.kv-path button:active,.kv-mmt button:active,.kv-btn:active,.kn-fc-nav button:active,.ks-btn:active,.ks-tab:active{
+  box-shadow:var(--sg-press)!important;transform:translateY(1px) scale(.965)}
+/* chosen: sunk in, lit with the accent */
+.kn-tab[aria-selected="true"],.kv-seg button[aria-pressed="true"],.kv-tools button.on,.kv-path button[aria-pressed="true"],.kv-mmt button.on,.ks-tab.on{
+  background:var(--surface2)!important;color:var(--accent)!important;box-shadow:var(--sg-press-sm)!important}
+.kn-tab[aria-selected="true"]::before,.kv-seg button[aria-pressed="true"]::before,.ks-tab.on::before{
+  content:"";display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:.4em;vertical-align:.12em;
+  background:var(--sg-warm);box-shadow:0 0 8px color-mix(in srgb,var(--sg-warm) 70%,transparent)}
+.kv-opts button.right{background:color-mix(in srgb,var(--green) 16%,var(--surface2))!important;box-shadow:var(--sg-press-sm),inset 0 0 0 2px color-mix(in srgb,var(--green) 55%,transparent)!important}
+.kv-opts button.wrong{background:color-mix(in srgb,var(--red) 13%,var(--surface2))!important;box-shadow:var(--sg-press-sm),inset 0 0 0 2px color-mix(in srgb,var(--red) 50%,transparent)!important}
+.kv-opts button:disabled{transform:none!important}
+.kv-btn.primary,.ks-btn.primary{background:var(--accent)!important;color:#fff!important}
+.kn-learn,.ks{border:0!important;box-shadow:var(--sg-raise),var(--sg-rim)!important;background:var(--surface)!important;border-radius:24px!important}
+
 /* ── Fields: sunk into the surface ─────────────────────────────────────────── */
 input[type=text],input[type=email],input[type=search],input[type=password],input[type=number],textarea,select,
 .chat-input,.for-field input,.for-field select,.for-field textarea,body.lin-v2 .lin-search{
@@ -347,6 +379,26 @@ body.dark .sg-sheen::before{background:
   background:linear-gradient(90deg,var(--sg-warm-2),var(--sg-warm))!important;
   box-shadow:0 0 10px color-mix(in srgb,var(--sg-warm) 45%,transparent)}
 #readingBar{background:linear-gradient(90deg,var(--sg-warm-2),var(--sg-warm))!important;box-shadow:0 0 10px var(--sg-warm)}
+/* soft-fx.js readBar() draws the reading position as part of the glass:
+   a sunk channel tucked under the top bar, a lit fill with rounded ends and
+   a raised bead riding at your place. It only shows once you start reading. */
+html.sg-read-on #readingBar{display:none!important}
+.sg-read{--p:0;position:fixed;left:18px;right:18px;top:6px;height:6px;border-radius:99px;z-index:501;pointer-events:none;
+  background:var(--surface2);box-shadow:inset 1px 1px 3px var(--sg-lo),inset -1px -1px 2px var(--sg-hi);
+  opacity:0;transform:translateY(-4px);transition:opacity .5s var(--sg-ease),transform .5s var(--sg-ease)}
+.sg-read.on{opacity:1;transform:none}
+.sg-read-fill{position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--sg-warm) 45%,var(--surface)),var(--sg-warm-2) 55%,var(--sg-warm));
+  clip-path:inset(0 calc((1 - var(--p)) * 100%) 0 0 round 99px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
+.sg-read-bead{position:absolute;top:50%;left:calc(var(--p) * 100%);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
+  background:var(--surface);box-shadow:var(--sg-raise-xs),0 0 0 2px var(--sg-warm),0 0 12px color-mix(in srgb,var(--sg-warm) 60%,transparent);
+  transition:box-shadow .4s var(--sg-ease),scale .4s var(--sg-spring)}
+.sg-read-bead::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--sg-warm);opacity:.85}
+.sg-read.end .sg-read-bead{scale:1.2;box-shadow:var(--sg-raise-xs),0 0 0 2px var(--green),0 0 14px color-mix(in srgb,var(--green) 70%,transparent)}
+.sg-read.end .sg-read-bead::after{background:var(--green)}
+@media (max-width:640px){.sg-read{left:12px;right:12px;height:5px}.sg-read-bead{width:12px;height:12px;margin:-6px 0 0 -6px}}
+@media print{.sg-read{display:none}}
 
 /* ── Top bar pieces ────────────────────────────────────────────────────────── */
 .sec-switcher{background:var(--surface2)!important;border:0!important;border-radius:999px!important;box-shadow:var(--sg-press-sm)!important;padding:3px!important}
@@ -419,6 +471,38 @@ body:not(.dark) #v-splash{
 @keyframes sg-ico-in{from{opacity:0;transform:translateY(18px) scale(.8) rotate(-8deg);filter:blur(10px)}to{opacity:.96;transform:none;filter:none}}
 @keyframes sg-bob{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -9px;rotate:2deg}}
 #v-splash > :not(.sg-icons):not(svg){position:relative;z-index:1}
+/* splash extras (soft-fx.js splashExtras): heartbeat, the site's three parts, a fact, a warm-up bar */
+#v-splash{gap:.8rem!important;padding-bottom:min(22vh,220px)}
+#v-splash .v-tile.sg-beat{animation:v-rise .7s cubic-bezier(.16,1,.3,1) both,sg-beat 1.15s ease-in-out 1s infinite}
+@keyframes sg-beat{0%,100%{transform:scale(1)}12%{transform:scale(1.07)}24%{transform:scale(.99)}36%{transform:scale(1.035)}52%{transform:scale(1)}}
+.sg-ecg{position:absolute;left:50%;top:50%;width:100vw;height:120px;margin:-60px 0 0 -50vw;z-index:-1;pointer-events:none}
+.sg-ecg svg{width:100%;height:100%;display:block;overflow:visible}
+.sg-ecg path{fill:none;stroke:var(--vacc);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 6px var(--vacc));stroke-dasharray:1600;stroke-dashoffset:1600;opacity:.8}
+.sg-ecg .sg-ecg-l{animation:sg-ecg-l 1.6s .35s cubic-bezier(.5,0,.3,1) forwards}
+.sg-ecg .sg-ecg-r{animation:sg-ecg-l 1.6s .75s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes sg-ecg-l{to{stroke-dashoffset:0}}
+.sg-parts{display:flex;gap:1.6rem;margin-top:.5rem}
+.sg-part{display:flex;flex-direction:column;align-items:center;gap:.35rem;opacity:0;animation:sg-part-in .8s cubic-bezier(.16,1,.3,1) calc(1.05s + var(--i) * .28s) forwards}
+.sg-part-i{display:block;width:52px;height:52px;animation:sg-bob 5s ease-in-out calc(2s + var(--i) * .4s) infinite}
+.sg-part-i svg{width:100%;height:100%;display:block}
+.sg-part-t{font-size:.66rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--vtag)}
+@keyframes sg-part-in{from{opacity:0;transform:translateY(22px) scale(.6) rotate(-10deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+.sg-fact{max-width:min(560px,86vw);min-height:2.9em;text-align:center;font-size:.9rem;line-height:1.5;color:var(--vname);opacity:0;animation:v-rise .6s 1.4s cubic-bezier(.16,1,.3,1) forwards}
+.sg-fact b{color:var(--vacc);font-weight:800;letter-spacing:.04em}
+.sg-caret{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.12em;background:var(--vacc);animation:sg-caret .8s steps(2) infinite}
+@keyframes sg-caret{50%{opacity:0}}
+.sg-prog{display:flex;flex-direction:column;align-items:center;gap:.4rem;opacity:0;animation:v-rise .5s .5s cubic-bezier(.16,1,.3,1) forwards}
+.sg-prog-bar{width:220px;height:4px;border-radius:9px;overflow:hidden;background:color-mix(in srgb,var(--vtag) 25%,transparent)}
+.sg-prog-bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--vacc),var(--vrule));transform-origin:0 50%;transform:scaleX(0);
+  animation:sg-fill var(--hold,4600ms) cubic-bezier(.4,.1,.3,1) forwards;box-shadow:0 0 10px var(--vacc)}
+@keyframes sg-fill{to{transform:scaleX(1)}}
+.sg-prog-t{font-size:.64rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--vtag)}
+.sg-prog-t.flip{animation:sg-flip .45s cubic-bezier(.16,1,.3,1)}
+@keyframes sg-flip{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sg-skip{position:absolute!important;top:1.4rem;left:0;right:0;text-align:center;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--vtag);opacity:0;animation:v-rise .6s 1.8s forwards}
+@media (max-width:640px){.sg-ico-apple,.sg-ico-dumbbell{display:none}.sg-parts{gap:1rem}.sg-part-i{width:42px;height:42px}.sg-fact{font-size:.82rem}}
+@media (prefers-reduced-motion:reduce){.sg-part,.sg-fact,.sg-prog,.sg-skip{animation:none;opacity:1}.sg-ecg path{animation:none;stroke-dashoffset:0}#v-splash .v-tile.sg-beat{animation:none}}
 @media (max-width:640px){.sg-ico{width:calc(var(--w,96px) * .62)}}
 @media (prefers-reduced-motion:reduce){.sg-ico{animation:none;opacity:.96}}
 
@@ -495,7 +579,9 @@ body.dark .sg-f-fold{background:conic-gradient(from 0deg,transparent 6deg,rgba(0
 body.dark .sg-f-bunch{background:radial-gradient(22% 40% at 71% 50%,transparent 36%,rgba(150,190,240,.26) 53%,rgba(0,0,0,.55) 69%,transparent 84%)}
 body.dark .sg-f-wake{background:repeating-linear-gradient(0deg,transparent 0 9px,rgba(0,0,0,.42) 9px 11px,rgba(150,190,240,.09) 11px 12px,transparent 12px 20px),
     radial-gradient(42% 20% at 30% 50%,rgba(0,0,0,.5),transparent 72%)}
-@media (hover:none),(prefers-reduced-motion:reduce){.sg-fabric{display:none}}
+/* the simulated cloth (soft-fx.js cloth()) replaces the layered dimple when WebGL2 is there */
+.sg-cloth{position:fixed;left:0;top:0;pointer-events:none;z-index:2147482990;contain:strict}
+@media (hover:none),(prefers-reduced-motion:reduce){.sg-fabric,.sg-cloth{display:none}}
 /* one mark under the pointer: the fabric replaces the card sheen dimple and
    button-glow's spotlight (together they drew a second circle) */
 html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}

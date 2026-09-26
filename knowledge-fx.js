@@ -871,6 +871,550 @@
     }
   }
 
+  /* ═══ 7b · Practise every part ═════════════════════════════════════════ */
+  /* Every section (textbook accordions, G10 Bio, certificates, and the IB
+     SEHS lessons as they render) gets a tray of activities built from its
+     own content: its fact cards and key terms become a concept web, a
+     matching game, true-or-false and cover-and-recall; arrow chains and
+     numbered steps become a put-it-in-order puzzle; numbers in the text
+     become guess-the-number; comparison tables become which-column; and
+     every part can be taught back in your own words (the AI checks it, and
+     offline the key terms you used are counted). Nothing is written by hand
+     per section, so new content gets practice for free. */
+  var AI_URL = 'https://api.vitaliteplan.com';
+  var GENERIC = /^(notes?|tips?|remember|see also|source|reference)\b/i;   /* leads that aren't ideas */
+  function clean(node, lang) {
+    if (!node) return '';
+    var v = node.getAttribute && node.getAttribute('data-' + lang);
+    if (v == null && lang === 'zh') v = node.getAttribute && node.getAttribute('data-en');
+    if (v == null) { var c = node.cloneNode(true); $$('.cn', c).forEach(function (x) { x.remove(); }); v = c.textContent; }
+    return String(v).replace(/\s+/g, ' ').trim();
+  }
+  function pairOf(t, d) { return { t: t, d: d }; }
+  function bil(node) { return { en: clean(node, 'en'), zh: clean(node, 'zh') }; }
+  function L(o) { return o ? (zh() ? (o.zh || o.en) : o.en) : ''; }
+  function short(s, n) {
+    s = String(s || '');
+    var m = s.match(/^(.{20,}?[.;。；!?！？])(\s|$)/);
+    if (m && m[1].length <= n) return m[1];
+    return s.length > n ? s.slice(0, n - 1).replace(/[\s,，、;；:：]+\S*$/, '') + '…' : s;
+  }
+  function stripColon(o) { return { en: o.en.replace(/[:：]\s*$/, ''), zh: o.zh.replace(/[:：]\s*$/, '') }; }
+  function restOf(li, b) {
+    var sp = li.querySelector(':scope > span[data-en]');
+    if (sp) return bil(sp);
+    var c = li.cloneNode(true); var bb = c.querySelector('b,strong'); if (bb) bb.remove(); $$('.cn', c).forEach(function (x) { x.remove(); });
+    var t = c.textContent.replace(/\s+/g, ' ').replace(/^[\s:：—–-]+/, '').trim();
+    return { en: t, zh: t };
+  }
+  function extract(host) {
+    var P = [], seen = {};
+    function add(t, d) {
+      if (!t.en || !d.en) return;
+      if (t.en.length < 2 || t.en.length > 70 || d.en.length < 12) return;
+      if (GENERIC.test(t.en)) return;
+      d = { en: d.en.replace(/[;；,，]\s*$/, ''), zh: (d.zh || d.en).replace(/[;；,，]\s*$/, '') };
+      var k = t.en.toLowerCase().replace(/^(pattern|step|stage|phase|type|rule|level|grade|law)\s*\d+\s*[·—–:-]\s*/, '').replace(/[^a-z0-9]+/g, ' ').trim();
+      if (!k || Object.keys(seen).some(function (o) { return o === k || (o.length > 5 && k.length > 5 && (o.indexOf(k) >= 0 || k.indexOf(o) >= 0)); })) return;
+      seen[k] = 1;
+      P.push(pairOf(t, d));
+    }
+    $$('li, .pathway-content', host).forEach(function (li) { var b = li.querySelector(':scope > b, :scope > strong'); if (b) add(stripColon(bil(b)), restOf(li, b)); });
+    $$('.native-formula', host).forEach(function (f) { var b = f.querySelector(':scope > b'), sp = f.querySelector(':scope > span'); if (b && sp) add(bil(b), bil(sp)); });
+    $$('.native-term', host).forEach(function (r) { var dt = r.querySelector('dt'), dd = r.querySelector('dd'); if (dt && dd) add(bil(dt), bil(dd)); });
+    $$('.native-bullets li', host).forEach(function (li) {
+      var d = li.querySelector('.li-def'); if (!d) return;
+      var c = li.cloneNode(true); var x = c.querySelector('.li-def'); if (x) x.remove();
+      add({ en: (li.getAttribute('data-en') || c.textContent).trim(), zh: (li.getAttribute('data-zh') || c.textContent).trim() }, bil(d));
+    });
+    /* plain "Term: what it means" bullets */
+    $$('li', host).forEach(function (li) {
+      if (li.querySelector('b,strong') || li.closest('.ks')) return;
+      var o = bil(li), m = o.en.match(/^([^:：]{2,60}?)\s*[:：]\s+(.{12,})$/);
+      if (!m || /\d$/.test(m[1])) return;
+      var z = (o.zh || '').match(/^([^:：]{1,40}?)\s*[:：]\s*(.{4,})$/);
+      add({ en: m[1], zh: z ? z[1] : m[1] }, { en: m[2], zh: z ? z[2] : m[2] });
+    });
+    var C = [];
+    $$('table', host).forEach(function (tb) {
+      var rows = $$('tr', tb), head = rows[0] && $$('th', rows[0]);
+      var body = rows.filter(function (r) { return r.querySelector('td'); });
+      body.forEach(function (r) {
+        var td = $$('td,th', r);
+        if (td.length >= 2) add(bil(td[0]), bil(td[1]));
+      });
+      if (head && head.length >= 3 && body.length >= 2) {
+        body.forEach(function (r) {
+          var td = $$('td,th', r);
+          for (var i = 1; i < Math.min(td.length, head.length); i++) {
+            var v = bil(td[i]);
+            if (v.en && v.en.length > 1 && v.en.length <= 90) C.push({ row: bil(td[0]), v: v, col: i, head: $$('th', rows[0]).map(bil) });
+          }
+        });
+      }
+    });
+    /* chains: A → B → C in terms or cells, and short ordered lists */
+    var chains = [];
+    $$('[data-en]', host).forEach(function (n) {
+      if (chains.length >= 4) return;
+      var en = n.getAttribute('data-en') || '';
+      if (!/[→➜⇒]/.test(en)) return;
+      var a = en.split(/\s*[→➜⇒]\s*/).map(function (s) { return s.replace(/^[^:：]*[:：]\s*/, '').replace(/[.。]$/, '').trim(); });
+      if (a.length < 3 || a.length > 7 || a.some(function (s) { return s.length < 2 || s.length > 40; })) return;
+      var zs = (n.getAttribute('data-zh') || '').split(/\s*[→➜⇒]\s*/).map(function (s) { return s.replace(/^[^:：]*[:：]\s*/, '').replace(/[.。]$/, '').trim(); });
+      var key = a.join('|'); if (chains.some(function (c) { return c.key === key; })) return;
+      chains.push({ key: key, steps: a.map(function (s, i) { return { en: s, zh: zs.length === a.length ? zs[i] : s }; }) });
+    });
+    $$('.pathway', host).forEach(function (pw) {
+      var st = $$('.pathway-content > strong, .pathway-content > b', pw).map(function (b) { var o = bil(b); return { en: o.en.replace(/^step\s*\d+\s*[·:—-]\s*/i, ''), zh: o.zh.replace(/^第.步\s*[·:：—-]\s*/, '') }; });
+      if (st.length >= 3 && st.length <= 8) chains.unshift({ key: 'pw', steps: st });
+    });
+    var eb = $$('.evidence-badge', host).map(bil);
+    if (eb.length >= 3 && eb.length <= 8) chains.unshift({ key: 'eb', steps: eb });
+    $$('ol', host).forEach(function (ol) {
+      if (chains.length >= 4) return;
+      var li = $$(':scope > li', ol);
+      if (li.length < 3 || li.length > 7) return;
+      var st = li.map(bil);
+      if (st.some(function (s) { return s.en.length > 90; })) return;
+      chains.push({ key: st.map(function (s) { return s.en; }).join('|'), steps: st.map(function (s) { return { en: short(s.en, 60), zh: short(s.zh, 40) }; }) });
+    });
+    /* numbers in the definitions */
+    var NUM = /(\d+(?:\.\d+)?)\s?(%|percent|hours?|hrs?|days?|weeks?|months?|years?|minutes?|mins?|seconds?|bpm|beats|kg|mg|g\b|°C|mmHg|mL|ml|kcal|km|cm|mm|reps?|sets?|times)/i;
+    var N = [];
+    $$('.stat-card', host).forEach(function (c) {
+      var num = c.querySelector('.stat-num'), lab = c.querySelector('.stat-label');
+      if (!num || !lab || N.length >= 5) return;
+      var raw = num.textContent.trim(), m = raw.match(/\d+(?:\.\d+)?/);
+      if (!m) return;
+      var tpl = raw.replace(m[0], '▢'), l = bil(lab);
+      N.push({ v: parseFloat(m[0]), dec: /\./.test(m[0]), unit: raw.replace(m[0], '').replace(/[+~≈]/g, '').trim(), en: l.en + ': ' + tpl, zh: l.zh + '：' + tpl, full: l.en + ': ' + raw });
+    });
+    var plain = $$('li', host).filter(function (li) { return !li.querySelector('b,strong') && !li.closest('.ks'); }).map(function (li) { return { d: bil(li) }; });
+    P.concat(C.map(function (c) { return { d: c.v }; }), plain).forEach(function (p) {
+      if (N.length >= 5) return;
+      var s = short(p.d.en, 170), m = s.match(NUM);
+      if (!m) return;
+      var v = parseFloat(m[1]);
+      if (!(v > 0) || v > 5000) return;
+      if (/^\d{4}$/.test(m[1]) && v > 1800) return;           /* a year, not a quantity */
+      var zs = short(p.d.zh || '', 120), zi = zs.indexOf(m[1]);
+      N.push({ v: v, dec: /\./.test(m[1]), unit: m[2], en: s.replace(m[0], '▢ ' + m[2]), zh: zi >= 0 ? zs.slice(0, zi) + '▢' + zs.slice(zi + m[1].length) : '', full: s });
+    });
+    /* sentences, for fill-the-gap and for numbers hiding in prose */
+    var S = [];
+    $$('p, li, dd, .pathway-content > span', host).forEach(function (n) {
+      if (n.closest('.ks,.kn-digest,.kn-more') || n.querySelector('p,li,ul,ol')) return;
+      var o = bil(n);
+      (o.en.match(/[^.!?]+[.!?]/g) || []).forEach(function (se) {
+        se = se.trim();
+        if (se.length >= 32 && se.length <= 230 && S.length < 40) S.push({ en: se, zhAll: o.zh !== o.en ? o.zh : '' });
+      });
+    });
+    S.forEach(function (se) {
+      if (N.length >= 5) return;
+      var m = se.en.match(NUM); if (!m) return;
+      var v = parseFloat(m[1]); if (!(v > 0) || v > 5000 || (/^\d{4}$/.test(m[1]) && v > 1800)) return;
+      if (N.some(function (q) { return q.full === se.en; })) return;
+      N.push({ v: v, dec: /\./.test(m[1]), unit: m[2], en: se.en.replace(m[0], '▢ ' + m[2]), zh: '', full: se.en });
+    });
+    var terms = P.map(function (p) { return p.t.en.toLowerCase(); });
+    var STOP = /^(because|between|through|without|another|however|therefore|usually|different|important|including|especially|increase|increases|decrease|something|whether|although|example|several|becomes|general|certain|already|possible|probably|actually|instead|rather|within|around|during|against|further|overall)$/i;
+    var G = [];
+    shuffle(S).forEach(function (se) {
+      if (G.length >= 8) return;
+      var words = se.en.match(/[A-Za-z][A-Za-z-]{2,}|\d+(?:\.\d+)?%?/g) || [], pick = '';
+      words.forEach(function (w) { if (!pick && w.length > 3 && terms.some(function (t) { return t.indexOf(w.toLowerCase()) === 0 || t === w.toLowerCase(); })) pick = w; });
+      if (!pick) words.forEach(function (w) { if (!pick && /^[A-Z]{2,6}$/.test(w)) pick = w; });
+      if (!pick) words.filter(function (w) { return w.length >= 8 && !STOP.test(w); }).sort(function (a, b) { return b.length - a.length; }).slice(0, 1).forEach(function (w) { pick = w; });
+      if (!pick || G.some(function (g) { return g.w.toLowerCase() === pick.toLowerCase(); })) return;
+      var zi = se.zhAll && /^[A-Za-z0-9%.]+$/.test(pick) ? se.zhAll.indexOf(pick) : -1;
+      G.push({ w: pick, en: se.en, zh: zi >= 0 ? (se.zhAll.match(/[^。！？]*[。！？]/g) || [se.zhAll]).filter(function (z) { return z.indexOf(pick) >= 0; })[0] || '' : '' });
+    });
+    chains.sort(function (a, b) { return b.steps.length - a.steps.length; });
+    return { P: P, C: shuffle(C).slice(0, 8), chains: chains, N: N, G: G };
+  }
+  function titleOf(host) {
+    var h = host.closest && host.closest('.acc-item');
+    var head = h ? h.querySelector(':scope > .acc-header') : host.querySelector('h3');
+    return head ? bil(head) : { en: document.title, zh: document.title };
+  }
+  function bodyText(host) {
+    var c = host.cloneNode(true);
+    $$('.ks,.kn-digest,.kn-more,.cn', c).forEach(function (x) { x.remove(); });
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  }
+
+  var MODES = [
+    ['web', '🕸', 'Concept web', '概念网'],
+    ['match', '🔗', 'Match up', '配对'],
+    ['tf', '⚖', 'True or false', '判断对错'],
+    ['cover', '👁', 'Cover & recall', '遮住回忆'],
+    ['order', '🔢', 'Put in order', '排顺序'],
+    ['gap', '🧩', 'Fill the gap', '填空'],
+    ['num', '🎯', 'Guess the number', '猜数字'],
+    ['sort', '🗂', 'Which column?', '归哪一列'],
+    ['teach', '💬', 'Teach it back', '讲给我听']
+  ];
+  function available(D, textLen) {
+    var a = [];
+    if (D.P.length >= 3) a.push('web', 'match');
+    if (D.P.length >= 4) a.push('tf');
+    if (D.P.length >= 3) a.push('cover');
+    if (D.chains.length) a.push('order');
+    if (D.G.length >= 3) a.push('gap');
+    if (D.N.length >= 2) a.push('num');
+    if (D.C.length >= 4) a.push('sort');
+    if (textLen >= 180) a.push('teach');
+    return a;
+  }
+  function pracKey(host) { return FILE + '#' + titleOf(host).en; }
+  function didMode(host, m) {
+    var all = load('kn_prac', {}), k = pracKey(host), l = all[k] || [];
+    if (l.indexOf(m) < 0) { l.push(m); all[k] = l; save('kn_prac', all); }
+    var tab = host.querySelector('.ks-tab[data-m="' + m + '"]'); if (tab) tab.classList.add('did');
+    trayCount(host);
+  }
+  function trayCount(host) {
+    var tray = host.querySelector(':scope > .ks'); if (!tray) return;
+    var n = $$('.ks-tab', tray).length, d = $$('.ks-tab.did', tray).length;
+    var c = tray.querySelector('.ks-count'); if (c) c.textContent = d ? d + ' / ' + n : '';
+  }
+  function refit(host) { var inner = host.classList.contains('acc-body-inner') ? host : null; if (inner) { fitAcc(inner); setTimeout(function () { fitAcc(inner); }, 450); } }
+  function done(stage, en, z, again) {
+    var n = el('div', 'ks-end');
+    n.innerHTML = '<span class="ks-burst" aria-hidden="true">✦</span><b>' + esc(T(en, z)) + '</b>';
+    if (again) {
+      var b = el('button', 'ks-btn'); b.type = 'button'; b.textContent = T('Go again ↻', '再来一次 ↻');
+      b.addEventListener('click', again); n.appendChild(b);
+    }
+    stage.appendChild(n);
+  }
+
+  var ACT = {};
+  ACT.web = function (stage, D, host) {
+    var P = D.P.slice(0, 7), n = P.length, seen = {};
+    var t = titleOf(host), tt = L(t).replace(/^[\dA-Z]+(\.\d+)*\s+/, '');
+    var box = el('div', 'ks-web');
+    var lines = '';
+    var pos = P.map(function (p, i) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      return [50 + 37 * Math.cos(a), 50 + 36 * Math.sin(a)];
+    });
+    pos.forEach(function (q) { lines += '<line x1="80" y1="45" x2="' + (q[0] * 1.6).toFixed(1) + '" y2="' + (q[1] * 0.9).toFixed(1) + '"/>'; });
+    box.innerHTML = '<svg class="ks-web-lines" viewBox="0 0 160 90" preserveAspectRatio="none" aria-hidden="true">' + lines + '</svg>' +
+      '<div class="ks-web-hub"><span>' + esc(short(tt, 48)) + '</span></div>' +
+      P.map(function (p, i) { return '<button type="button" class="ks-node" data-i="' + i + '" style="left:' + pos[i][0].toFixed(1) + '%;top:' + pos[i][1].toFixed(1) + '%;--i:' + i + '">' + esc(short(L(p.t), 40)) + '</button>'; }).join('');
+    var card = el('div', 'ks-web-card');
+    card.innerHTML = '<p class="ks-hint">' + esc(T('Tap each idea around the topic to see how it connects.', '点周围的每个概念，看看它和主题怎样联系。')) + '</p>';
+    stage.appendChild(box); stage.appendChild(card);
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-node'); if (!b) return;
+      var i = +b.getAttribute('data-i'); seen[i] = 1;
+      $$('.ks-node', box).forEach(function (x) { x.classList.toggle('on', x === b); });
+      b.classList.add('seen');
+      var ln = box.querySelectorAll('line')[i]; if (ln) ln.classList.add('seen');
+      card.innerHTML = '<div class="ks-pop"><b>' + esc(L(P[i].t)) + '</b><p>' + esc(short(L(P[i].d), 260)) + '</p><span class="ks-meter">' + esc(T(Object.keys(seen).length + ' of ' + n + ' explored', '已探索 ' + Object.keys(seen).length + ' / ' + n)) + '</span></div>';
+      if (Object.keys(seen).length === n) { didMode(host, 'web'); done(card, 'Web complete: every idea explored', '全部概念都探索过了'); }
+      refit(host);
+    });
+  };
+  ACT.match = function (stage, D, host) {
+    var P = shuffle(D.P).slice(0, 5), miss = 0, got = 0, pick = null;
+    var g = el('div', 'ks-match');
+    var terms = P.map(function (p, i) { return '<button type="button" class="ks-mt" data-i="' + i + '">' + esc(short(L(p.t), 48)) + '</button>'; });
+    var defs = shuffle(P.map(function (p, i) { return '<button type="button" class="ks-md" data-i="' + i + '">' + esc(short(L(p.d), 110)) + '</button>'; }));
+    g.innerHTML = '<div class="ks-col">' + shuffle(terms).join('') + '</div><div class="ks-col">' + defs.join('') + '</div>';
+    stage.appendChild(el('p', 'ks-hint', esc(T('Tap a term, then the meaning that goes with it.', '先点一个术语，再点它对应的意思。'))));
+    stage.appendChild(g);
+    g.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b || b.classList.contains('ok')) return;
+      if (!pick || pick.className.split(' ')[0] === b.className.split(' ')[0]) {
+        if (pick) pick.classList.remove('sel');
+        pick = b; b.classList.add('sel'); return;
+      }
+      var a = pick; pick = null; a.classList.remove('sel');
+      if (a.getAttribute('data-i') === b.getAttribute('data-i')) {
+        got++;
+        [a, b].forEach(function (x) { x.classList.add('ok'); x.setAttribute('data-n', got); });
+        if (got === P.length) {
+          didMode(host, 'match');
+          done(stage, miss ? 'All matched, with ' + miss + ' slip' + (miss > 1 ? 's' : '') : 'All matched, no slips!', miss ? '全部配对，失误 ' + miss + ' 次' : '全部配对，零失误！', function () { stage.innerHTML = ''; ACT.match(stage, D, host); refit(host); });
+        }
+      } else {
+        miss++;
+        [a, b].forEach(function (x) { x.classList.remove('no'); void x.offsetWidth; x.classList.add('no'); });
+      }
+      refit(host);
+    });
+  };
+  ACT.tf = function (stage, D, host) {
+    var P = shuffle(D.P).slice(0, 6), i = 0, score = 0;
+    var qs = P.map(function (p) {
+      var truth = Math.random() < 0.5 || D.P.length < 2, other = p;
+      if (!truth) { var o = shuffle(D.P.filter(function (x) { return x !== p; })); other = o[0]; }
+      return { p: p, truth: truth, d: other.d };
+    });
+    var wrap = el('div', 'ks-tf');
+    stage.appendChild(wrap);
+    function show() {
+      if (i >= qs.length) {
+        wrap.innerHTML = '';
+        didMode(host, 'tf');
+        done(wrap, score + ' / ' + qs.length + ' right', '答对 ' + score + ' / ' + qs.length, function () { stage.innerHTML = ''; ACT.tf(stage, D, host); refit(host); });
+        refit(host); return;
+      }
+      var q = qs[i];
+      wrap.innerHTML = '<div class="ks-dots">' + qs.map(function (_, k) { return '<i class="' + (k < i ? 'past' : k === i ? 'now' : '') + '"></i>'; }).join('') + '</div>' +
+        '<div class="ks-tf-card"><b>' + esc(L(q.p.t)) + '</b><p>' + esc(short(L(q.d), 200)) + '</p></div>' +
+        '<div class="ks-tf-btns"><button type="button" class="ks-btn" data-a="1">✓ ' + esc(T('True', '对')) + '</button><button type="button" class="ks-btn" data-a="0">✗ ' + esc(T('False', '错')) + '</button></div>';
+    }
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-tf-btns button'); if (!b || wrap.classList.contains('busy')) return;
+      var q = qs[i], right = (b.getAttribute('data-a') === '1') === q.truth;
+      if (right) score++;
+      var card = wrap.querySelector('.ks-tf-card');
+      card.classList.add(right ? 'ok' : 'no', b.getAttribute('data-a') === '1' ? 'go-r' : 'go-l');
+      if (!q.truth) card.insertAdjacentHTML('beforeend', '<p class="ks-fix">' + esc(T('It actually means: ', '其实是：') + short(L(q.p.d), 160)) + '</p>');
+      wrap.classList.add('busy');
+      setTimeout(function () { wrap.classList.remove('busy'); i++; show(); refit(host); }, q.truth ? 900 : 2300);
+    });
+    show();
+  };
+  ACT.cover = function (stage, D, host, only) {
+    var P = (only || D.P).slice(0, 8), rated = 0, knew = 0, misses = [];
+    var ul = el('ul', 'ks-cover');
+    ul.innerHTML = P.map(function (p, i) {
+      return '<li><b>' + esc(L(p.t)) + '</b><button type="button" class="ks-veil" data-i="' + i + '"><span>' + esc(short(L(p.d), 200)) + '</span><em>' + esc(T('Say it, then tap to check', '先说出来，再点开核对')) + '</em></button>' +
+        '<span class="ks-rate" hidden><button type="button" class="ks-btn" data-k="1">✓ ' + esc(T('Knew it', '记得')) + '</button><button type="button" class="ks-btn" data-k="0">✗ ' + esc(T('Not yet', '还没')) + '</button></span></li>';
+    }).join('');
+    stage.appendChild(ul);
+    ul.addEventListener('click', function (e) {
+      var v = e.target.closest('.ks-veil');
+      if (v && !v.classList.contains('open')) { v.classList.add('open'); v.parentElement.querySelector('.ks-rate').hidden = false; refit(host); return; }
+      var r = e.target.closest('.ks-rate button'); if (!r) return;
+      var li = r.closest('li'), i = +li.querySelector('.ks-veil').getAttribute('data-i');
+      var k = r.getAttribute('data-k') === '1';
+      li.classList.add(k ? 'knew' : 'miss'); li.querySelector('.ks-rate').hidden = true;
+      rated++; if (k) knew++; else misses.push(P[i]);
+      if (rated === P.length) {
+        didMode(host, 'cover');
+        done(stage, 'You knew ' + knew + ' of ' + P.length, '记得 ' + knew + ' / ' + P.length, misses.length ? function () { stage.innerHTML = ''; ACT.cover(stage, D, host, misses); refit(host); } : null);
+      }
+      refit(host);
+    });
+  };
+  ACT.order = function (stage, D, host, ci) {
+    ci = ci || 0;
+    var ch = D.chains[ci % D.chains.length], steps = ch.steps, at = 0, slips = 0;
+    var box = el('div', 'ks-order');
+    box.innerHTML = '<p class="ks-hint">' + esc(T('Tap the steps in the right order.', '按正确顺序点击每一步。')) + '</p><ol class="ks-line"></ol><div class="ks-pool">' +
+      shuffle(steps.map(function (s, i) { return '<button type="button" class="ks-chip" data-i="' + i + '">' + esc(L(s)) + '</button>'; })).join('') + '</div>';
+    stage.appendChild(box);
+    var line = box.querySelector('.ks-line');
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-pool .ks-chip'); if (!b) return;
+      if (+b.getAttribute('data-i') !== at) { slips++; b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); return; }
+      at++;
+      var li = el('li', 'ks-step'); li.textContent = b.textContent; li.style.setProperty('--i', at);
+      line.appendChild(li); b.remove();
+      if (at === steps.length) {
+        box.classList.add('solved');
+        didMode(host, 'order');
+        done(stage, slips ? 'In order, ' + slips + ' slip' + (slips > 1 ? 's' : '') : 'Perfect order!', slips ? '顺序正确，失误 ' + slips + ' 次' : '完美顺序！', function () { stage.innerHTML = ''; ACT.order(stage, D, host, ci + 1); refit(host); });
+      }
+      refit(host);
+    });
+  };
+  ACT.gap = function (stage, D, host) {
+    var G = shuffle(D.G).slice(0, 5), pool = D.G.map(function (g) { return g.w; }), i = 0, score = 0;
+    var box = el('div', 'ks-gap'); stage.appendChild(box);
+    function blankIn(txt, w) { var k = txt.indexOf(w); return k < 0 ? esc(txt) : esc(txt.slice(0, k)) + '<span class="ks-blank">?</span>' + esc(txt.slice(k + w.length)); }
+    function show() {
+      if (i >= G.length) { box.innerHTML = ''; didMode(host, 'gap'); done(box, score + ' / ' + G.length + ' gaps filled', '填对 ' + score + ' / ' + G.length, function () { stage.innerHTML = ''; ACT.gap(stage, D, host); refit(host); }); refit(host); return; }
+      var g = G[i], opts = shuffle([g.w].concat(shuffle(pool.filter(function (w) { return w.toLowerCase() !== g.w.toLowerCase(); })).slice(0, 3)));
+      var z = zh() && g.zh;
+      box.innerHTML = '<div class="ks-dots">' + G.map(function (_, k) { return '<i class="' + (k < i ? 'past' : k === i ? 'now' : '') + '"></i>'; }).join('') + '</div>' +
+        '<p class="ks-numq">' + blankIn(z ? g.zh : g.en, g.w) + '</p><div class="ks-pool">' +
+        opts.map(function (o) { return '<button type="button" class="ks-chip" data-w="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+    }
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-chip'); if (!b || box.classList.contains('busy')) return;
+      var g = G[i], ok = b.getAttribute('data-w') === g.w, bl = box.querySelector('.ks-blank');
+      if (ok) score++;
+      bl.textContent = g.w; bl.classList.add(ok ? 'ok' : 'no');
+      b.classList.add(ok ? 'ok' : 'no');
+      box.classList.add('busy');
+      setTimeout(function () { box.classList.remove('busy'); i++; show(); refit(host); }, ok ? 800 : 1600);
+    });
+    show();
+  };
+  ACT.num = function (stage, D, host) {
+    var N = shuffle(D.N).slice(0, 4), i = 0, close = 0;
+    var box = el('div', 'ks-num'); stage.appendChild(box);
+    function show() {
+      if (i >= N.length) { box.innerHTML = ''; didMode(host, 'num'); done(box, close + ' of ' + N.length + ' within range', close + ' / ' + N.length + ' 猜得接近', function () { stage.innerHTML = ''; ACT.num(stage, D, host); refit(host); }); refit(host); return; }
+      var q = N[i], max = q.v <= 1 ? 2 : Math.ceil(q.v * 2.6 / (q.v >= 100 ? 10 : 1)) * (q.v >= 100 ? 10 : 1);
+      var step = q.dec ? (q.v < 5 ? 0.1 : 0.5) : (max > 400 ? 5 : 1);
+      var start = Math.round((max * (0.25 + Math.random() * 0.5)) / step) * step;
+      box.innerHTML = '<p class="ks-numq">' + esc(zh() && q.zh ? q.zh : q.en).replace('▢', '<span class="ks-blank">?</span>') + '</p>' +
+        '<div class="ks-slide"><input type="range" min="0" max="' + max + '" step="' + step + '" value="' + start + '" aria-label="' + esc(T('Your guess', '你的猜测')) + '"><output>' + start + ' ' + esc(q.unit) + '</output></div>' +
+        '<div class="ks-gauge"><i class="g"></i><i class="t"></i></div>' +
+        '<button type="button" class="ks-btn primary">' + esc(T('Lock it in', '确定')) + '</button>';
+      var r = box.querySelector('input'), o = box.querySelector('output');
+      r.addEventListener('input', function () { o.textContent = r.value + ' ' + q.unit; });
+      box.querySelector('.ks-btn').addEventListener('click', function () {
+        var g = parseFloat(r.value), ok = Math.abs(g - q.v) <= Math.max(q.v * 0.15, step);
+        if (ok) close++;
+        r.disabled = true;
+        var ga = box.querySelector('.ks-gauge'); ga.classList.add('show');
+        ga.querySelector('.g').style.left = (g / max * 100) + '%';
+        ga.querySelector('.t').style.left = (q.v / max * 100) + '%';
+        box.querySelector('.ks-blank').textContent = q.v + '';
+        box.querySelector('.ks-blank').classList.add(ok ? 'ok' : 'no');
+        var b = this; b.textContent = (ok ? T('Close enough! ', '很接近！') : T('Answer: ' + q.v + ' ' + q.unit + ' · ', '答案：' + q.v + ' ' + q.unit + ' · ')) + T('Next →', '下一题 →');
+        b.onclick = function (ev) { ev.stopImmediatePropagation(); i++; show(); refit(host); };
+        refit(host);
+      }, { once: true });
+    }
+    show();
+  };
+  ACT.sort = function (stage, D, host) {
+    var C = D.C.slice(0, 6), i = 0, score = 0, head = C[0].head;
+    var box = el('div', 'ks-sort'); stage.appendChild(box);
+    var cols = [];
+    for (var k = 1; k < head.length; k++) cols.push(k);
+    function show() {
+      if (i >= C.length) { didMode(host, 'sort'); done(box, score + ' / ' + C.length + ' sorted right', '归类正确 ' + score + ' / ' + C.length, function () { stage.innerHTML = ''; ACT.sort(stage, D, host); refit(host); }); refit(host); return; }
+      var c = C[i];
+      var old = box.querySelector('.ks-sort-q'); if (old) old.remove();
+      var q = el('div', 'ks-sort-q');
+      q.innerHTML = '<span class="ks-sort-row">' + esc(short(L(c.row), 50)) + '</span><b>' + esc(L(c.v)) + '</b>';
+      box.insertBefore(q, box.firstChild);
+    }
+    box.innerHTML = '<div class="ks-bins">' + cols.map(function (k) { return '<button type="button" class="ks-bin" data-c="' + k + '"><span>' + esc(L(head[k])) + '</span><em>0</em></button>'; }).join('') + '</div>';
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-bin'); if (!b || i >= C.length) return;
+      var ok = +b.getAttribute('data-c') === C[i].col;
+      if (ok) { score++; var em = b.querySelector('em'); em.textContent = +em.textContent + 1; }
+      b.classList.remove('ok', 'no'); void b.offsetWidth; b.classList.add(ok ? 'ok' : 'no');
+      if (!ok) { var right = box.querySelector('.ks-bin[data-c="' + C[i].col + '"]'); if (right) { right.classList.remove('hint'); void right.offsetWidth; right.classList.add('hint'); } }
+      var q = box.querySelector('.ks-sort-q'); if (q) q.classList.add('fly');
+      i++; setTimeout(function () { show(); refit(host); }, ok ? 420 : 1000);
+    });
+    show();
+  };
+  ACT.teach = function (stage, D, host) {
+    var t = titleOf(host);
+    var keys = D.P.slice(0, 8).map(function (p) { return L(p.t); });
+    if (keys.length < 3) {                               /* no key terms: use the section's longest distinctive words */
+      var freq = {}; (bodyText(host).match(/[A-Za-z][A-Za-z-]{6,}/g) || []).forEach(function (w) { w = w.toLowerCase(); freq[w] = (freq[w] || 0) + 1; });
+      keys = Object.keys(freq).sort(function (a, b) { return freq[b] - freq[a]; }).slice(0, 6);
+    }
+    var box = el('div', 'ks-teach');
+    box.innerHTML = '<p class="ks-hint">' + esc(T('Explain "' + short(L(t), 60) + '" in two or three sentences, as if to a teammate.', '用两三句话把「' + short(L(t), 30) + '」讲给队友听。')) + '</p>' +
+      '<textarea rows="4" placeholder="' + esc(T('In my own words…', '用我自己的话……')) + '"></textarea>' +
+      '<div class="ks-keys">' + keys.map(function (k) { return '<span class="ks-key">' + esc(short(k, 36)) + '</span>'; }).join('') + '</div>' +
+      '<div class="ks-teach-act"><button type="button" class="ks-btn primary">✨ ' + esc(T('Check my explanation', '帮我检查')) + '</button><span class="ks-cov"></span></div><div class="ks-fb"></div>';
+    stage.appendChild(box);
+    var ta = box.querySelector('textarea'), chips = $$('.ks-key', box), cov = box.querySelector('.ks-cov'), fb = box.querySelector('.ks-fb');
+    function norm(s) { return s.toLowerCase().replace(/[^a-z0-9一-鿿 ]+/g, ' '); }
+    function coverage() {
+      var v = norm(ta.value), n = 0;
+      chips.forEach(function (c, i) {
+        var k = norm(keys[i]).trim(), words = k.split(/\s+/).filter(function (w) { return w.length > 3; });
+        var hit = k && (v.indexOf(k) >= 0 || (words.length && words.filter(function (w) { return v.indexOf(w) >= 0; }).length >= Math.ceil(words.length / 2)));
+        c.classList.toggle('hit', !!hit); if (hit) n++;
+      });
+      cov.textContent = T(n + ' of ' + keys.length + ' key ideas used', '用到了 ' + n + ' / ' + keys.length + ' 个关键概念');
+      return n / (keys.length || 1);
+    }
+    ta.addEventListener('input', coverage);
+    coverage();
+    box.querySelector('.ks-btn').addEventListener('click', function () {
+      var text = ta.value.trim();
+      if (text.length < 20) { fb.innerHTML = '<p class="ks-warn">' + esc(T('Write a little more first: two or three sentences.', '先多写一点：两三句话。')) + '</p>'; refit(host); return; }
+      var c = coverage(), btn = this;
+      var facts = D.P.slice(0, 8).map(function (p) { return '- ' + p.t.en + ': ' + short(p.d.en, 160); }).join('\n') || short(bodyText(host), 1100);
+      var q = 'You are a friendly sports-medicine tutor. A student is studying the lesson "' + t.en + '". Key facts from the lesson:\n' + facts +
+        '\n\nThe student explained it like this:\n"' + text.slice(0, 900) + '"\n\nReply in 3 short bullet points: what they got right, what is missing or wrong, and one tip to remember it.' + (zh() ? ' Answer in Chinese.' : '');
+      btn.disabled = true; fb.innerHTML = '<p class="ks-think"><i></i><i></i><i></i> ' + esc(T('Reading your explanation…', '正在阅读你的解释……')) + '</p>'; refit(host);
+      fetch(AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q, lang: zh() ? 'zh' : 'en', mode: 'clinical' }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!(d && d.reply && !d.rejected)) throw new Error('no reply');
+          fb.innerHTML = '<div class="ks-ai"><span class="ks-ai-tag">✨ ' + esc(T('Tutor feedback', '导师反馈')) + '</span>' +
+            esc(d.reply).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>') + '</div>';
+          didMode(host, 'teach');
+        })
+        .catch(function () {
+          var miss = keys.filter(function (k, i) { return !chips[i].classList.contains('hit'); });
+          fb.innerHTML = '<div class="ks-ai"><span class="ks-ai-tag">' + esc(T('Self-check (tutor offline)', '自查（导师离线）')) + '</span>' +
+            esc(T('You used ' + Math.round(c * 100) + '% of the key ideas.', '你用到了 ' + Math.round(c * 100) + '% 的关键概念。')) +
+            (miss.length ? '<br>' + esc(T('Try to work in: ', '试着加入：')) + miss.map(function (m) { return '<b>' + esc(short(m, 40)) + '</b>'; }).join(', ') : '') + '</div>';
+          if (c >= 0.6) didMode(host, 'teach');
+        })
+        .then(function () { btn.disabled = false; refit(host); });
+    });
+  };
+
+  function trayLabels(tray) {
+    var lab = tray.querySelector('.ks-lab-t'); if (lab) lab.textContent = T('Practise this part', '练一练这一节');
+    $$('.ks-tab', tray).forEach(function (b) {
+      var m = MODES.filter(function (x) { return x[0] === b.getAttribute('data-m'); })[0];
+      b.querySelector('.ks-tab-t').textContent = T(m[2], m[3]);
+    });
+  }
+  function tray(host) {
+    if (host.getAttribute('data-ks')) return;
+    if (host.classList.contains('acc-body-inner') && host.querySelector('section.native-section')) return;   /* IB: one tray per lesson section instead */
+    var D = extract(host), text = bodyText(host), av = available(D, text.length);
+    if (av.length < 2 && !(av.length === 1 && av[0] !== 'teach')) { if (text.length >= 400) host.setAttribute('data-ks', '0'); return; }   /* still filling in? look again later */
+    host.setAttribute('data-ks', '1');
+    var did = load('kn_prac', {})[pracKey(host)] || [];
+    var t = el('div', 'ks');
+    t.innerHTML = '<div class="ks-bar"><span class="ks-lab"><span class="ks-lab-i" aria-hidden="true">🎯</span><span class="ks-lab-t"></span><span class="ks-count"></span></span><div class="ks-tabs" role="tablist">' +
+      MODES.filter(function (m) { return av.indexOf(m[0]) >= 0; }).map(function (m) {
+        return '<button type="button" class="ks-tab' + (did.indexOf(m[0]) >= 0 ? ' did' : '') + '" role="tab" aria-selected="false" data-m="' + m[0] + '"><span aria-hidden="true">' + m[1] + '</span> <span class="ks-tab-t"></span></button>';
+      }).join('') + '</div></div><div class="ks-stage" hidden></div>';
+    host.appendChild(t);
+    trayLabels(t); trayCount(host);
+    var stage = t.querySelector('.ks-stage'), cur = '';
+    t.querySelector('.ks-tabs').addEventListener('click', function (e) {
+      var b = e.target.closest('.ks-tab'); if (!b) return;
+      var m = b.getAttribute('data-m');
+      $$('.ks-tab', t).forEach(function (x) { x.setAttribute('aria-selected', x === b && cur !== m ? 'true' : 'false'); x.classList.toggle('on', x === b && cur !== m); });
+      stage.innerHTML = '';
+      if (cur === m) { cur = ''; stage.hidden = true; refit(host); return; }
+      cur = m; stage.hidden = false;
+      stage.classList.remove('ks-in'); void stage.offsetWidth; stage.classList.add('ks-in');
+      if (!D.P.length && !D.C.length) D = extract(host);   /* content can arrive late */
+      try { ACT[m](stage, D, host); } catch (err) { stage.textContent = ''; if (window.console) console.warn('[knowledge-fx] practice', err); }
+      refit(host);
+    });
+    t.rebuild = function () { trayLabels(t); if (cur) { var m = cur; cur = ''; var b = t.querySelector('.ks-tab[data-m="' + m + '"]'); if (b) b.click(); } };
+  }
+  function practice(scope) {
+    $$('.acc-body-inner', scope || document).forEach(function (inner) { safe(function () { tray(inner); }); });
+    $$('section.native-section', scope || document).forEach(function (s) { safe(function () { tray(s); }); });
+  }
+  function watchPractice() {
+    var pend = 0;
+    new MutationObserver(function (recs) {
+      if (pend) return;
+      for (var i = 0; i < recs.length; i++) {
+        var a = recs[i].addedNodes;
+        for (var j = 0; j < a.length; j++) {
+          var n = a[j];
+          if (n.nodeType === 1 && !(n.closest && n.closest('.ks')) && (n.matches('section.native-section,.native-lesson,.acc-item,.acc-body-inner') || n.querySelector('section.native-section,.acc-body-inner'))) {
+            pend = setTimeout(function () { pend = 0; safe(function () { condense(document); }); practice(document); }, 120);
+            return;
+          }
+        }
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
   /* ═══ 8 · Language changes: rebuild what we drew ═══════════════════════ */
   function watchLang() {
     var last = zh();
@@ -880,6 +1424,7 @@
       last = now;
       $$('.kn-learn').forEach(function (p) { panelTexts(p); paint(p); });
       $$('.kn-more').forEach(moreLabel);
+      $$('.ks').forEach(function (t) { if (t.rebuild) safe(t.rebuild); });
     }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
@@ -892,7 +1437,9 @@
       if (days[days.length - 1] !== k) { days.push(k); save('kn_days', days.slice(-60)); }
     });
     safe(function () { condense(document); });
-    document.addEventListener('sitecontent:applied', function () { safe(function () { condense(document); }); safe(onChapter); });
+    safe(function () { practice(document); });
+    safe(watchPractice);
+    document.addEventListener('sitecontent:applied', function () { safe(function () { condense(document); }); safe(function () { practice(document); }); safe(onChapter); });
     if (GUIDE) {
       safe(trackReading);
       safe(onChapter);
@@ -903,7 +1450,7 @@
     if (FILE === 'toc.html') safe(hub);
     safe(watchLang);
   }
-  window.VitaliteKnowledge = { condense: condense, mode: mode, setMode: applyMode };
+  window.VitaliteKnowledge = { condense: condense, practice: practice, mode: mode, setMode: applyMode };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

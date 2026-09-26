@@ -29,11 +29,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 CSS = "shapes-skin.css?v=3"
-JS = "shapes-fx.js?v=4"
-SOFT_CSS = "soft-glass.css?v=4"
-SOFT_JS = "soft-fx.js?v=4"
-KN_CSS = "knowledge.css?v=1"
-KN_JS = "knowledge-fx.js?v=1"
+JS = "shapes-fx.js?v=5"
+SOFT_CSS = "soft-glass.css?v=5"
+SOFT_JS = "soft-fx.js?v=5"
+KN_CSS = "knowledge.css?v=2"
+KN_JS = "knowledge-fx.js?v=2"
 
 BEGIN = "<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->"
 END = "<!-- SHAPES-THEME:END -->"

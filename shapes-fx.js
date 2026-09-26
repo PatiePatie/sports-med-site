@@ -203,7 +203,74 @@
     return wrap(s, o);
   }
 
-  var SHAPES = { mobius: mobius, column: column, v: impossibleV, infinity: infinity, pentagram: pentagram };
+  /* ── 2a' · Category emblems: what each part of the site is for, sprayed
+     with the same airbrush and inks as the ribbons they replace ── */
+
+  /* Knowledge: an open textbook with a heartbeat running across its pages. */
+  function catKnow(o) {
+    var s = '';
+    s += '<path d="M6 32 50 42 94 32 94 84 50 94 6 84Z" fill="' + INK.cobalt[2] + '"/>';
+    s += '<path d="M6 80C22 76 38 78 50 88 62 78 78 76 94 80V85C78 81 62 83 50 93 38 83 22 81 6 85Z" fill="url(#os-g-cobalt)"/>';
+    s += '<path d="M50 38C38 29 22 27 9 31V78C22 74 38 76 50 85Z" fill="url(#os-g-white)"/>';
+    s += '<path d="M50 38C62 29 78 27 91 31V78C78 74 62 76 50 85Z" fill="url(#os-g-sky)"/>';
+    [42, 50, 58, 66].forEach(function (y) {
+      s += '<path d="M15 ' + y + 'C26 ' + (y - 3) + ' 36 ' + (y - 1) + ' 44 ' + (y + 4) + '" fill="none" stroke="' + INK.sky[2] + '" stroke-opacity=".45" stroke-width="1.8"/>';
+    });
+    var ecg = 'M13 58H30L35 47 40 66 46 30 52 74 57 56H87';
+    s += '<path d="' + ecg + '" fill="none" stroke="' + INK.red[2] + '" stroke-opacity=".55" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(1.2 1.8)"/>';
+    s += '<path d="' + ecg + '" fill="none" stroke="url(#os-g-red)" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>';
+    s += '<circle cx="87" cy="56" r="4" fill="url(#os-g-red)"/>';
+    return wrap(s, o);
+  }
+
+  /* Infirmary: a medical cross with a stethoscope wrapped round it. */
+  function catClinic(o) {
+    var cross = 'M40 16h20a4 4 0 0 1 4 4v18h18a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H64v18a4 4 0 0 1-4 4H40a4 4 0 0 1-4-4V66H18a4 4 0 0 1-4-4V42a4 4 0 0 1 4-4h18V20a4 4 0 0 1 4-4Z';
+    var s = '<path d="' + cross + '" fill="' + INK.red[2] + '" transform="translate(2 3)"/>';
+    s += '<path d="' + cross + '" fill="url(#os-g-red)"/>';
+    s += '<path d="M19 6C15 20 18 30 26 36M35 6C38 20 34 30 26 36" fill="none" stroke="' + INK.navy[1] + '" stroke-width="3.6" stroke-linecap="round"/>';
+    s += '<circle cx="19" cy="6" r="3.4" fill="url(#os-g-white)"/><circle cx="35" cy="6" r="3.4" fill="url(#os-g-white)"/>';
+    var tube = 'M26 36C22 66 44 94 68 88 84 84 90 70 86 60';
+    s += '<path d="' + tube + '" fill="none" stroke="' + INK.navy[2] + '" stroke-opacity=".5" stroke-width="6.5" stroke-linecap="round" transform="translate(1.2 1.8)"/>';
+    s += '<path d="' + tube + '" fill="none" stroke="url(#os-g-cobalt)" stroke-width="5.4" stroke-linecap="round"/>';
+    s += '<circle cx="85" cy="53" r="10" fill="url(#os-g-white)"/><circle cx="85" cy="53" r="5.2" fill="' + INK.sky[1] + '"/>';
+    return wrap(s, o);
+  }
+
+  /* Social: two speech bubbles talking, a heart in the nearer one. */
+  function catSocial(o) {
+    var s = '';
+    s += '<path d="M24 10H52A16 16 0 0 1 68 26V38A16 16 0 0 1 52 54H30L15 66 19 52A16 16 0 0 1 8 38V26A16 16 0 0 1 24 10Z" fill="url(#os-g-sky)"/>';
+    [24, 37, 50].forEach(function (x) { s += '<circle cx="' + x + '" cy="32" r="3.8" fill="' + INK.cobalt[1] + '"/>'; });
+    var front = 'M50 36H78A16 16 0 0 1 94 52V64A16 16 0 0 1 81 80L85 94 70 80H50A16 16 0 0 1 34 64V52A16 16 0 0 1 50 36Z';
+    s += '<path d="' + front + '" fill="' + INK.navy[2] + '" fill-opacity=".45" transform="translate(1.6 2.4)"/>';
+    s += '<path d="' + front + '" fill="url(#os-g-cobalt)"/>';
+    s += '<path d="M64 71C53 63 50 56 54 51 57 47 62 48 64 52 66 48 71 47 74 51 78 56 75 63 64 71Z" fill="url(#os-g-red)"/>';
+    return wrap(s, o);
+  }
+
+  /* Developer tools: a gear with a wrench across it. */
+  function catDev(o) {
+    var cx = 44, cy = 56, d = '';
+    for (var k = 0; k < 8; k++) {
+      var a0 = k * 45 - 11, a1 = k * 45 + 11, b0 = k * 45 + 17, b1 = k * 45 + 28;
+      var p = [pt(cx, cy, 36, a0), pt(cx, cy, 36, a1), pt(cx, cy, 28, b0), pt(cx, cy, 28, b1)];
+      d += (k ? 'L' : 'M') + p.map(function (q) { return f1(q[0]) + ' ' + f1(q[1]); }).join('L');
+    }
+    d += 'Z';
+    var s = '<path d="' + d + '" fill="' + INK.cobalt[2] + '" transform="translate(2 3)"/>';
+    s += '<path d="' + d + '" fill="url(#os-g-cobalt)"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="12" fill="url(#os-g-sky)"/><circle cx="' + cx + '" cy="' + cy + '" r="5.5" fill="' + INK.navy[1] + '"/>';
+    var id = 'os-wr-' + (++uid);
+    s += '<mask id="' + id + '"><rect width="100" height="100" fill="#fff"/><circle cx="90" cy="12" r="8" fill="#000"/></mask>';
+    s += '<g mask="url(#' + id + ')"><path d="M50 90 78 30" stroke="' + INK.slate[2] + '" stroke-opacity=".5" stroke-width="11" stroke-linecap="round" transform="translate(1.6 2.4)"/>';
+    s += '<path d="M50 90 78 30" stroke="url(#os-g-white)" stroke-width="10" stroke-linecap="round"/>';
+    s += '<circle cx="82" cy="22" r="14" fill="url(#os-g-white)"/></g>';
+    return wrap(s, o);
+  }
+
+  var SHAPES = { mobius: mobius, column: column, v: impossibleV, infinity: infinity, pentagram: pentagram,
+                 know: catKnow, clinic: catClinic, social: catSocial, dev: catDev };
 
   /* ── 2b · Landing: the Vitalité icon set ── */
 

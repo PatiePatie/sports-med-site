@@ -88,8 +88,266 @@
      stretches it harder, bunches a ridge up ahead of the finger and pulls
      taut creases out behind it. Letting go springs the cloth back up. */
   var FAB = false;
+
+  /* ─── 3c · Cloth: the same idea, simulated and lit ──────────────────── */
+  /* A height field (one cell per 6 css px) is a damped membrane under
+     tension. The pointer is a soft finger resting on it: the cloth sinks
+     into a funnel, the surrounding fabric lifts into a low rim, and it never
+     sits still (it breathes, and radial folds drift round the dimple).
+     Pressing pushes the finger in deeper and wider, and holding keeps
+     sinking. Dragging while pressed ploughs the cloth: a ridge piles up
+     ahead, taut creases pull out behind, and the membrane leaves a wake.
+     Letting go springs the cloth back up with a small wobble.
+     Only the area around the finger is simulated and drawn (scissored), the
+     loop stops once the cloth is flat, and it lights like the rest of the
+     skin: shade on the walls facing away from the top-left light, a satin
+     highlight on the walls facing it. No gradients pretending to be a hole.
+     Returns false when WebGL2 isn't there, so the CSS dimple takes over. */
+  function cloth() {
+    var cv = document.createElement('canvas');
+    var gl = null;
+    try { gl = cv.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' }); } catch (e) {}
+    if (!gl) return false;
+    var VS = '#version 300 es\nin vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+    var FS = [
+      '#version 300 es',
+      'precision highp float;',
+      'uniform sampler2D uH;uniform vec2 uGrid;uniform float uCell;uniform vec2 uView;uniform float uRes;',
+      'uniform vec2 uP;uniform float uDepth;uniform float uSig;uniform vec2 uDir;uniform float uDrag;uniform float uT;uniform float uOn;uniform float uDark;',
+      'out vec4 o;',
+      'float sim(vec2 p){return texture(uH,(p/uCell+.5)/uGrid).r;}',
+      /* folds and breathing are drawn analytically on top of the simulated membrane */
+      'float fine(vec2 p){',
+      '  vec2 d=p-uP;float r=length(d);float s=uSig;',
+      '  float a=atan(d.y,d.x);',
+      /* four or five uneven folds: each has its own depth and reach, and they creep round slowly */
+      '  float ph=a*4.+2.1*sin(a*2.+uT*.37)+.8*sin(a*3.+1.7-uT*.29)+r/s*.3;',
+      '  float ridge=pow(1.-abs(sin(ph)),2.2)-.3;',
+      '  float str=.45+.55*(.5+.5*sin(a*2.+.6+uT*.21))*(.6+.4*sin(a*3.+2.3-uT*.17));',
+      '  float reach=s*(1.3+.9*(.5+.5*sin(a*2.+2.2+uT*.23)));',
+      '  float env=smoothstep(.55*s,1.2*s,r)*exp(-max(r-1.2*s,0.)/reach);',
+      '  float h=ridge*env*str*uDepth*.24*(1.-.65*uDrag);',
+      '  float al=dot(d,uDir),ac=dot(d,vec2(-uDir.y,uDir.x));',
+      '  float wk=smoothstep(.2*s,-1.1*s,al)*exp(-ac*ac/(2.*1.3*s*1.3*s))*exp(-max(-al-1.4*s,0.)/(2.2*s));',
+      '  h+=(pow(1.-abs(sin(ac/s*3.1+uT*.4)),2.)-.33)*wk*uDepth*.26*uDrag;',
+      '  float br=sin(p.x*.019+uT*.8+1.7*sin(p.y*.012-uT*.45))*sin(p.y*.016-uT*.62+sin(p.x*.01+uT*.3));',
+      '  h+=br*1.1*exp(-r*r/(2.*5.*s*5.*s))*min(uDepth*.25,1.);',
+      '  return h;}',
+      'float H(vec2 p){return sim(p)+fine(p);}',
+      'float weave(vec2 p){vec2 q=p*.62;return (sin(q.x+q.y*.35)*sin(q.y-q.x*.35));}',
+      'void main(){',
+      '  vec2 p=vec2(gl_FragCoord.x,uView.y*uRes-gl_FragCoord.y)/uRes;',
+      '  float e=1.5;float h0=H(p);',
+      '  float dx=(H(p+vec2(e,0.))-H(p-vec2(e,0.)))/(2.*e);',
+      '  float dy=(H(p+vec2(0.,e))-H(p-vec2(0.,e)))/(2.*e);',
+      '  float stretch=clamp(length(vec2(dx,dy))*2.2,0.,1.);',
+      '  vec3 n=normalize(vec3(-dx+stretch*.022*weave(p),-dy+stretch*.022*weave(p+vec2(2.,1.)),1.));',
+      '  vec3 L=normalize(vec3(-.5,-.62,.6));',
+      '  float diff=dot(n,L)-L.z;',
+      '  vec3 hv=normalize(L+vec3(0.,0.,1.));',
+      '  float sp=pow(max(dot(n,hv),0.),48.)-pow(hv.z,48.);',
+      '  float ao=clamp(-h0*.016,0.,.3);',
+      '  float dn=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)*.012;',
+      '  vec3 sc=mix(vec3(.078,.157,.282),vec3(0.),uDark);',
+      '  vec3 hc=mix(vec3(1.),vec3(.62,.76,.96),uDark);',
+      '  float ash=clamp(-diff*mix(2.1,3.,uDark)+ao*mix(1.,.9,uDark)+dn,0.,mix(.5,.7,uDark));',
+      '  float ahi=clamp((diff*1.9+max(sp,0.)*.55)*mix(1.,.45,uDark)+dn,0.,.5);',
+      '  o=vec4(hc*ahi+sc*ash,ahi+ash)*uOn;',
+      '}'].join('\n');
+    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+    var prog;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+      gl.bindAttribLocation(prog, 0, 'a'); gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    } catch (e) { if (window.console) console.warn('[soft-fx] cloth', e); return false; }
+    gl.useProgram(prog);
+    var U = {};
+    ['uH', 'uGrid', 'uCell', 'uView', 'uRes', 'uP', 'uDepth', 'uSig', 'uDir', 'uDrag', 'uT', 'uOn', 'uDark'].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+    var vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    var tex = gl.createTexture(); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    gl.uniform1i(U.uH, 0);
+    gl.disable(gl.BLEND);
+
+    cv.className = 'sg-cloth';
+    cv.setAttribute('aria-hidden', 'true');
+    body.appendChild(cv);
+    root.classList.add('sg-fab', 'sg-clothed');
+    FAB = true;
+
+    var CELL = 6, RES = 1, VW = 0, VH = 0, GW = 0, GH = 0, hgt, vel;
+    function size() {
+      VW = window.innerWidth; VH = window.innerHeight;
+      RES = Math.min(window.devicePixelRatio || 1, 1.5);
+      cv.width = Math.round(VW * RES); cv.height = Math.round(VH * RES);
+      cv.style.width = VW + 'px'; cv.style.height = VH + 'px';
+      GW = Math.ceil(VW / CELL) + 3; GH = Math.ceil(VH / CELL) + 3;
+      hgt = new Float32Array(GW * GH); vel = new Float32Array(GW * GH);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, GW, GH, 0, gl.RED, gl.FLOAT, hgt);
+      gl.viewport(0, 0, cv.width, cv.height);
+      bx0 = GW; by0 = GH; bx1 = -1; by1 = -1;
+    }
+    var bx0 = 0, by0 = 0, bx1 = -1, by1 = -1;          /* cells that are still moving */
+    size();
+
+    var tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, dent = 0, want = 0;
+    var down = false, downAt = 0, press = 0, drag = 0, ax = 1, ay = 0, hot = false;
+    var raf = 0, last = 0, seen = false, bounce = 0, movedAt = 0, on = 0, present = false, t0 = performance.now();
+    var HOT = 'a,button,[role=button],input,textarea,select,label,summary,.sidebar-link,.for-topic,.ch-card,.fork-card,.feature-card,.kv-site,.kv-el,.kn-card';
+    var C2 = 0.2, KC = 0.34, KR = 0.0045, DAMP = 0.075;
+    function ease(dt, tau) { return 1 - Math.exp(-dt / tau); }
+    function rest() { return hot ? 0.74 : 0.5; }
+    var dark = body.classList.contains('dark');
+    new MutationObserver(function () { dark = body.classList.contains('dark'); kick(); }).observe(body, { attributes: true, attributeFilter: ['class'] });
+
+    function step(px, py, depth, sig, ux, uy) {
+      /* one membrane step over the finger's neighbourhood and whatever is still moving */
+      var r = Math.ceil(sig * 3.4 / CELL) + 2;
+      var cx = px / CELL, cy = py / CELL;
+      var x0 = Math.max(1, Math.min(bx0, Math.floor(cx - r))), x1 = Math.min(GW - 2, Math.max(bx1, Math.ceil(cx + r)));
+      var y0 = Math.max(1, Math.min(by0, Math.floor(cy - r))), y1 = Math.min(GH - 2, Math.max(by1, Math.ceil(cy + r)));
+      if (depth < 0.01) {                              /* finger lifted: only relax what moves */
+        if (bx1 < 0) return false;
+        x0 = Math.max(1, bx0); x1 = Math.min(GW - 2, bx1); y0 = Math.max(1, by0); y1 = Math.min(GH - 2, by1);
+      }
+      var s = sig / CELL, is2 = 1 / (2 * s * s), rim = 2.05 * s, rw = 1 / (2 * 0.7 * s * 0.7 * s);
+      var rg = 1.75 * s, gw = 1 / (2 * 0.55 * s * 0.55 * s);
+      var nx0 = GW, ny0 = GH, nx1 = -1, ny1 = -1, W = GW;
+      for (var yy = y0; yy <= y1; yy++) {
+        for (var xx = x0, i = yy * W + x0; xx <= x1; xx++, i++) {
+          var hi = hgt[i];
+          var a = C2 * (hgt[i - 1] + hgt[i + 1] + hgt[i - W] + hgt[i + W] - 4 * hi) - KR * hi;
+          if (depth > 0.01) {
+            var dx = xx - cx, dy = yy - cy, d2 = dx * dx + dy * dy;
+            if (d2 < r * r) {
+              var g = Math.exp(-d2 * is2), d = Math.sqrt(d2);
+              var ring = Math.exp(-(d - rim) * (d - rim) * rw);
+              var tgt = -depth * g + depth * 0.09 * ring, w = Math.min(1, g * 1.7) + ring * 0.25;
+              if (drag > 0.02 && d > 0.001) {           /* cloth piles up ahead of a dragging finger */
+                var c = (dx * ux + dy * uy) / d;
+                if (c > 0) { var ra = Math.exp(-(d - rg) * (d - rg) * gw) * c * c; tgt += depth * 0.5 * drag * ra; w += ra * 0.6 * drag; }
+              }
+              a += KC * w * (tgt - hi);
+            }
+          }
+          vel[i] = (vel[i] + a) * (1 - DAMP);
+        }
+      }
+      for (yy = y0; yy <= y1; yy++) {
+        for (xx = x0, i = yy * W + x0; xx <= x1; xx++, i++) {
+          var h = hgt[i] + vel[i];
+          if (h > -0.015 && h < 0.015 && vel[i] > -0.004 && vel[i] < 0.004) { h = 0; vel[i] = 0; }
+          else { if (xx < nx0) nx0 = xx; if (xx > nx1) nx1 = xx; if (yy < ny0) ny0 = yy; if (yy > ny1) ny1 = yy; }
+          hgt[i] = h;
+        }
+      }
+      bx0 = nx0; by0 = ny0; bx1 = nx1; by1 = ny1;
+      return true;
+    }
+
+    function tick(now) {
+      var dt = last ? Math.min(50, now - last) : 16;
+      last = now;
+      var idle = now - movedAt;
+      var shown = present && (down || idle < 6500);     /* the resting finger lifts after a while */
+      on += ((present ? 1 : 0) - on) * ease(dt, present ? 120 : 260);
+      if (down) want = 1 + Math.min((now - downAt) / 700, 1) * 0.28;
+      else if (!shown) want = 0;
+      else if (!bounce) want = rest();
+      press += ((down ? 1 : 0) - press) * ease(dt, down ? 70 : 140);
+      var px = x, py = y, k = ease(dt, 42 + press * 48);
+      x += (tx - x) * k; y += (ty - y) * k;
+      var kv = ease(dt, 60);
+      vx += ((x - px) / dt * 16 - vx) * kv;
+      vy += ((y - py) / dt * 16 - vy) * kv;
+      dent += (want - dent) * ease(dt, down ? 90 : (want === 0 ? 260 : 120));
+      var sp = Math.sqrt(vx * vx + vy * vy);
+      if (sp > 0.6) { var ka = ease(dt, 70); ax += (vx / sp - ax) * ka; ay += (vy / sp - ay) * ka; }
+      drag += (press * Math.min(sp / 12, 1) - drag) * ease(dt, 90);
+      var al = Math.sqrt(ax * ax + ay * ay) || 1, ux = ax / al, uy = ay / al;
+      var t = (now - t0) / 1000;
+      var breathe = 1 + 0.09 * Math.sin(t * 2.4) + 0.04 * Math.sin(t * 5.3 + 1.1);
+      var depth = dent * 13 * (down ? 1 : breathe), sig = 22 + dent * 9 + press * 5;
+      var fx = x - vx * (0.8 + press * 1.2), fy = y - vy * (0.8 + press * 1.2);   /* the cloth trails the finger */
+      var moving = step(fx, fy, depth, sig, ux, uy);
+      moving = step(fx, fy, depth, sig, ux, uy) || moving;
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, GW, GH, 0, gl.RED, gl.FLOAT, hgt);
+      gl.disable(gl.SCISSOR_TEST);
+      gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+      /* draw only the patch that can differ from flat */
+      var reach = sig * 5.5 + 30;
+      var l = Math.min(fx - reach, bx1 >= 0 ? bx0 * CELL - 12 : 1e9), r = Math.max(fx + reach, bx1 >= 0 ? bx1 * CELL + 12 : -1e9);
+      var tp = Math.min(fy - reach, by1 >= 0 ? by0 * CELL - 12 : 1e9), bt = Math.max(fy + reach, by1 >= 0 ? by1 * CELL + 12 : -1e9);
+      if (depth > 0.02 || moving) {
+        l = Math.max(0, l); tp = Math.max(0, tp); r = Math.min(VW, r); bt = Math.min(VH, bt);
+        if (r > l && bt > tp) {
+          gl.enable(gl.SCISSOR_TEST);
+          gl.scissor(Math.floor(l * RES), Math.floor((VH - bt) * RES), Math.ceil((r - l) * RES), Math.ceil((bt - tp) * RES));
+          gl.uniform2f(U.uGrid, GW, GH); gl.uniform1f(U.uCell, CELL); gl.uniform2f(U.uView, VW, VH); gl.uniform1f(U.uRes, RES);
+          gl.uniform2f(U.uP, fx, fy); gl.uniform1f(U.uDepth, depth); gl.uniform1f(U.uSig, sig);
+          gl.uniform2f(U.uDir, ux, uy); gl.uniform1f(U.uDrag, drag); gl.uniform1f(U.uT, t);
+          gl.uniform1f(U.uOn, on); gl.uniform1f(U.uDark, dark ? 1 : 0);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+        }
+      }
+      if (!moving && dent < 0.01 && want === 0 && !down && drag < 0.005) { raf = 0; last = 0; return; }
+      raf = requestAnimationFrame(tick);
+    }
+    function kick() { if (!raf && !lost) raf = requestAnimationFrame(tick); }
+    function at(e) {
+      if (!seen) { x = tx = e.clientX; y = ty = e.clientY; seen = true; }
+      tx = e.clientX; ty = e.clientY;
+      present = true; movedAt = performance.now();
+    }
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      at(e);
+      hot = !!(e.target && e.target.closest && e.target.closest(HOT));
+      if (!e.buttons && down) up();                    /* released somewhere we never heard about */
+      kick();
+    }, { passive: true });
+    /* native drags (links, images, selected text) swallow pointer events: keep following */
+    document.addEventListener('dragover', function (e) { if (e.clientX || e.clientY) { at(e); kick(); } }, { passive: true });
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      if (e.button !== 0) return;
+      at(e);
+      down = true; downAt = performance.now(); clearTimeout(bounce); bounce = 0;
+      kick();
+    }, { passive: true, capture: true });
+    function up() {
+      if (!down) return;
+      down = false; movedAt = performance.now();
+      want = 0.2;                                      /* springs back up past rest… */
+      clearTimeout(bounce);
+      bounce = setTimeout(function () { bounce = 0; kick(); }, 140);   /* …and settles */
+      kick();
+    }
+    ['pointerup', 'mouseup', 'dragend', 'drop'].forEach(function (t) { document.addEventListener(t, up, { passive: true, capture: true }); });
+    window.addEventListener('blur', up);
+    document.documentElement.addEventListener('pointerleave', function () { if (!down) { present = false; kick(); } });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) { up(); present = false; } });
+    window.addEventListener('resize', function () { size(); kick(); });
+    var lost = false;
+    cv.addEventListener('webglcontextlost', function (e) {
+      e.preventDefault(); lost = true; cancelAnimationFrame(raf); raf = 0;
+      if (cv.parentNode) cv.parentNode.removeChild(cv);
+      root.classList.remove('sg-clothed');
+    });
+    return true;
+  }
+
   function fabric() {
     if (!FINE || REDUCE) return;
+    var ok = false;
+    try { ok = cloth(); } catch (e) { if (window.console) console.warn('[soft-fx] cloth', e); }
+    if (ok) return;
     FAB = true;
     root.classList.add('sg-fab');
     var f = document.createElement('div');
@@ -215,8 +473,8 @@
     ['bone',     76, 14, 112, 0.22],
     ['dumbbell', 84, 42,  96, 0.34],
     ['apple',     7, 44,  86, 0.46],
-    ['clinic',   27, 58,  74, 0.58],
-    ['pulse',    71, 64, 150, 0.70]
+    ['clinic',   19, 64,  74, 0.58],
+    ['pulse',    76, 62, 150, 0.70]
   ];
   function dress(host) {
     if (!host || host.classList.contains('sg-dressed')) return;
@@ -228,7 +486,7 @@
     SPOTS.forEach(function (s) {
       if (!I[s[0]]) return;
       var d = document.createElement('div');
-      d.className = 'sg-ico';
+      d.className = 'sg-ico sg-ico-' + s[0];
       d.style.left = s[1] + '%';
       d.style.top = s[2] + '%';
       d.style.setProperty('--w', s[3] + 'px');
@@ -239,14 +497,81 @@
     host.insertBefore(wrap, host.firstChild);
     host.classList.add('sg-dressed');
   }
+  /* the landing splash gets a heartbeat drawn across it (the mark beats in
+     time), the three parts of the site rising one by one, a fact typed out,
+     and a warm-up bar that runs for exactly as long as the splash holds */
+  var FACTS = [
+    ['Tendons store elastic energy like springs: up to half the work of each running stride.', '肌腱像弹簧一样储存弹性能：跑步每一步多达一半的功由它提供。'],
+    ['You get stronger while you rest, not while you train: training is the stress, recovery is the adaptation.', '变强发生在休息时而不是训练时：训练是压力，恢复才是适应。'],
+    ['A resting heart pumps about 5 litres a minute; an athlete at full effort can move over 30.', '静息时心脏每分钟泵血约 5 升；运动员全力时可超过 30 升。'],
+    ['Sleep is when growth hormone peaks: most muscle repair happens in deep sleep.', '生长激素在睡眠时达到峰值：大部分肌肉修复发生在深睡眠中。'],
+    ['Early CPR with a defibrillator can double or triple the chance of surviving cardiac arrest.', '尽早心肺复苏并使用除颤器，可使心脏骤停的存活率提高两到三倍。'],
+    ['Bone is living tissue: it remodels along the lines of the load you put through it.', '骨骼是活组织：它会沿着你施加的负荷方向重塑。'],
+    ['Losing just 2% of body weight in sweat measurably slows endurance performance.', '出汗仅损失 2% 体重，耐力表现就会明显下降。'],
+    ['An ankle sprain takes weeks, not days, to regain full ligament strength: balance training cuts re-injury.', '踝关节扭伤恢复韧带强度需要数周而非数天：平衡训练能降低再次受伤。']
+  ];
+  function splashExtras(host) {
+    if (!host || host.id !== 'v-splash' || host.querySelector('.sg-parts')) return;
+    var zh = false; try { zh = (localStorage.getItem('sm_lang') || '').toLowerCase() === 'zh'; } catch (e) {}
+    var hold = parseInt(host.getAttribute('data-hold'), 10) || 4600;
+    var S = window.VitaliteShapes && window.VitaliteShapes.splash;
+    var tile = host.querySelector('.v-tile');
+    if (tile) {
+      var ecg = document.createElement('div');
+      ecg.className = 'sg-ecg';
+      ecg.setAttribute('aria-hidden', 'true');
+      var beat = function (x) { return 'L' + (x - 30) + ' 60 L' + (x - 18) + ' 52 L' + (x - 8) + ' 64 L' + x + ' 14 L' + (x + 10) + ' 104 L' + (x + 20) + ' 50 L' + (x + 30) + ' 60 L' + (x + 44) + ' 56 L' + (x + 58) + ' 60'; };
+      var dl = 'M0 60 ' + beat(160) + ' ' + beat(390) + ' L520 60', dr = 'M680 60 ' + beat(820) + ' ' + beat(1040) + ' L1200 60';
+      ecg.innerHTML = '<svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path class="sg-ecg-l" d="' + dl + '"/><path class="sg-ecg-r" d="' + dr + '"/></svg>';
+      tile.appendChild(ecg);
+      tile.classList.add('sg-beat');
+    }
+    if (S) {
+      var parts = document.createElement('div');
+      parts.className = 'sg-parts';
+      [['know', 'Knowledge', '知识库'], ['clinic', 'Infirmary', '诊所'], ['social', 'Social', '社区']].forEach(function (p, i) {
+        if (!S[p[0]]) return;
+        var d = document.createElement('div');
+        d.className = 'sg-part';
+        d.style.setProperty('--i', i);
+        d.innerHTML = '<span class="sg-part-i">' + S[p[0]]() + '</span><span class="sg-part-t">' + (zh ? p[2] : p[1]) + '</span>';
+        parts.appendChild(d);
+      });
+      host.appendChild(parts);
+    }
+    var f = FACTS[Math.floor(Math.random() * FACTS.length)], txt = zh ? f[1] : f[0];
+    var fact = document.createElement('div');
+    fact.className = 'sg-fact';
+    fact.innerHTML = '<b>' + (zh ? '你知道吗？' : 'Did you know?') + '</b> <span></span><i class="sg-caret"></i>';
+    host.appendChild(fact);
+    var sp = fact.querySelector('span'), k = 0;
+    setTimeout(function type() {
+      if (!host.isConnected || k >= txt.length) return;
+      k += zh ? 1 : 2; sp.textContent = txt.slice(0, k);
+      setTimeout(type, zh ? 42 : 24);
+    }, 1500);
+    var STAGES = zh ? ['热身中', '拉伸中', '检查生命体征', '准备就绪'] : ['Warming up', 'Stretching', 'Checking vitals', 'Ready'];
+    var prog = document.createElement('div');
+    prog.className = 'sg-prog';
+    prog.style.setProperty('--hold', hold + 'ms');
+    prog.innerHTML = '<div class="sg-prog-bar"><i></i></div><div class="sg-prog-t">' + STAGES[0] + '</div>';
+    host.appendChild(prog);
+    var pt = prog.querySelector('.sg-prog-t');
+    STAGES.forEach(function (st, i) { if (i) setTimeout(function () { pt.textContent = st; pt.classList.remove('flip'); void pt.offsetWidth; pt.classList.add('flip'); }, hold * i / STAGES.length); });
+    var hint = document.createElement('div');
+    hint.className = 'sg-skip';
+    hint.textContent = zh ? '点击任意处跳过' : 'Tap anywhere to skip';
+    host.appendChild(hint);
+  }
   function posters() {
+    safe(function () { splashExtras(document.getElementById('v-splash')); });
     dress(document.getElementById('v-splash'));
     dress(document.getElementById('v-loader'));
     /* loader.js appends #v-loader to <body> only when a page is slow */
     var mo = new MutationObserver(function (recs) {
       recs.forEach(function (r) {
         Array.prototype.forEach.call(r.addedNodes, function (n) {
-          if (n.id === 'v-loader' || n.id === 'v-splash') safe(function () { dress(n); handoff(n); });
+          if (n.id === 'v-loader' || n.id === 'v-splash') safe(function () { dress(n); splashExtras(n); handoff(n); });
         });
       });
     });
@@ -283,7 +608,65 @@
      category marked by an airbrushed ribbon emblem. Inside the semicircle the
      list is a scroll wheel: each row is a ribbon as wide as the circle is at
      that height, and rows tilt away + fade as they leave the centre line. */
-  var EMBLEM = { 'vitalite-knowledge': 'mobius', 'vitalite-infirmary': 'v', 'vitalite-social': 'infinity', 'vitalite-dev': 'column' };
+  var EMBLEM = { 'vitalite-knowledge': 'know', 'vitalite-infirmary': 'clinic', 'vitalite-social': 'social', 'vitalite-dev': 'dev' };
+  /* ─── Reading bar: a sunk channel under the top bar with a lit fill and a
+     raised bead where you are, instead of a hot line along the edge ───── */
+  function readBar() {
+    var old = document.getElementById('readingBar');
+    if (!old) return;
+    root.classList.add('sg-read-on');
+    var bar = document.createElement('div');
+    bar.className = 'sg-read';
+    bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<i class="sg-read-fill"></i><b class="sg-read-bead"></b>';
+    body.appendChild(bar);
+    var raf = 0, p = -1;
+    function place() {
+      var tb = document.querySelector('.lin-topbar') || document.querySelector('body > header, .page-wrapper > header');
+      var y = 6;
+      if (tb) { var r = tb.getBoundingClientRect(); if (r.bottom > 0 && r.bottom < 140 && getComputedStyle(tb).position !== 'static') y = r.bottom - 3; }
+      bar.style.top = y + 'px';
+    }
+    function draw() {
+      raf = 0;
+      var se = document.scrollingElement || document.documentElement;
+      var max = se.scrollHeight - window.innerHeight;
+      var q = max > 40 ? Math.min(1, Math.max(0, (window.scrollY || se.scrollTop) / max)) : 0;
+      if (Math.abs(q - p) < 0.001) return;
+      p = q;
+      bar.style.setProperty('--p', q.toFixed(4));
+      bar.classList.toggle('on', q > 0.004);
+      bar.classList.toggle('end', q > 0.995);
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(draw); }
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { place(); kick(); });
+    place(); draw();
+    setTimeout(place, 800);
+  }
+
+  /* the category pills in the top bar get the same emblems, small */
+  function pillEmblems() {
+    var S = window.VitaliteShapes && window.VitaliteShapes.splash;
+    if (!S) return;
+    function paint() {
+      $$('.sec-switcher .sec-pill').forEach(function (a) {
+        var h = (a.getAttribute('href') || '').toLowerCase(), k = '';
+        if (/infirmary|checkup|plan\.html/.test(h)) k = 'clinic';
+        else if (/social|forum/.test(h)) k = 'social';
+        else if (/guide|toc|knowledge|ib-sehs|g10|exam|home/.test(h)) k = 'know';
+        else if (/admin/.test(h)) k = 'dev';
+        var ico = a.querySelector('.sec-ico');
+        if (!k || !ico || ico.getAttribute('data-emb') === k || !S[k]) return;
+        ico.setAttribute('data-emb', k);
+        ico.classList.add('sg-emb-sm');
+        ico.innerHTML = S[k]();
+      });
+    }
+    paint();
+    var sw = document.querySelector('.sec-switcher');
+    if (sw && sw.parentNode) new MutationObserver(function () { paint(); }).observe(sw.parentNode, { childList: true, subtree: true });
+  }
   function wheel() {
     var sb = document.querySelector('.sidebar');
     if (!sb) return;
@@ -521,6 +904,8 @@
     safe(sheen);
     safe(swapFx);
     safe(wheel);
+    safe(pillEmblems);
+    safe(readBar);
     safe(studyDeepLink);
     safe(fog);
     safe(sprayMosaic);

@@ -532,12 +532,19 @@ html body:not(.dark) .hero h1:not(.os-gradtext) span{
 html body:not(.dark) .hero h1:not(.os-gradtext) span.os-w:last-child .os-wt,
 html body:not(.dark) .hero h1:not(.os-gradtext) > span:only-child:not(.os-w){color:var(--os-crimson)!important}
 
-/* ── Fabric: the page is cloth, the pointer presses a dimple into it ─────────
-   soft-fx.js moves .sg-fabric after the pointer (transform only) and sets
-   --sg-dent (.5 resting, .74 over controls, 1 pressed). The dimple is lit from
-   the top-left like the rest of the skin: its upper-left wall falls into
-   shade, its lower-right wall catches light, and the cloth around it is
-   pulled into soft folds that deepen as you press. No rings, no halo. */
+/* ── Fabric: the paper dimple, parked in one spot ──────────────────────────
+   soft-fx.js places .sg-fabric once — centred horizontally, a little above
+   the middle of the viewport — and sets --sg-dent to .22. It is lit from the
+   top-left like the rest of the skin: its upper-left wall falls into shade,
+   its lower-right wall catches light, and soft folds break up the surface.
+   No rings, no halo.
+
+   It used to be steered by the pointer, with a WebGL membrane (see
+   soft-fx.js 3b) doing the same thing across the whole viewport. On a
+   desktop mouse the surface visibly lagged and wobbled behind the arrow, so
+   the tracking is gone and only the texture is left. The box is still
+   340px square with a -170 margin, which is what lets soft-fx.js centre it
+   from the width alone. */
 .sg-fabric{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;
   pointer-events:none;z-index:2147482990;opacity:0;will-change:transform,opacity;contain:strict;
   transition:opacity .6s var(--sg-ease)}
@@ -583,7 +590,9 @@ body.dark .sg-f-wake{background:repeating-linear-gradient(0deg,transparent 0 9px
 .sg-cloth{position:fixed;left:0;top:0;pointer-events:none;z-index:2147482990;contain:strict}
 @media (hover:none),(prefers-reduced-motion:reduce){.sg-fabric,.sg-cloth{display:none}}
 /* one mark under the pointer: the fabric replaces the card sheen dimple and
-   button-glow's spotlight (together they drew a second circle) */
+   button-glow's spotlight (together they drew a second circle). Only for the
+   pointer-steered fabric — html.sg-fab is set when soft-fx.js FOLLOWS is on,
+   so with the dimple parked the sheen and the button spotlight both stay. */
 html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}
 
 /* ── Page arrival: the page comes up out of a fog, clearing from the middle ──

@@ -266,7 +266,8 @@
     var lines = String(reply).replace(/\r/g, '').split(/\n+/);
     var html = '', list = null;
     function inline(s) { return esc(s).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/`([^`]+)`/g, '<code>$1</code>'); }
-    var RED = /see a (doctor|professional|physio)|seek (medical|professional|immediate)|emergency|call 120|call 911|ER\b|urgent|immediately|red flag|就医|急诊|立即|马上|危险/i;
+    var REDI = /see a (doctor|professional|physio)|seek (medical|professional|immediate)|emergency|call 120|call 911|urgent|immediately|red flag|就医|急诊|立即|马上|危险/i;
+    var RED = { test: function (t) { return REDI.test(t) || /\bER\b|\bA&E\b/.test(t); } };   /* "ER" only in capitals: /i matched "other" */
     lines.forEach(function (ln) {
       var t = ln.trim(); if (!t) return;
       var h = /^#{1,4}\s+(.*)$/.exec(t) || /^\*\*([^*]{2,60})\*\*:?$/.exec(t) || /^([^：:]{2,24})[：:]$/.exec(t);

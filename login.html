@@ -706,16 +706,16 @@ body.dark h1,body.dark h2,body.dark h3{
 <script src="tutorial-widget.js?v=7"></script>
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css?v=14">
-  <script src="loader.js?v=6"></script>
+  <script src="loader.js?v=7"></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=8">
-<script src="soft-fx.js?v=8" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=9">
+<script src="soft-fx.js?v=9" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=2">
-<script src="knowledge-fx.js?v=2" defer></script>
+<script src="knowledge-fx.js?v=3" defer></script>
 <script src="ai-usage.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
@@ -1231,5 +1231,7 @@ jumpIfAlreadySignedIn();
 <script src="qna-widget.js?v=2" defer></script>
 <link rel="stylesheet" href="notif-bell.css?v=1">
 <script src="notif-bell.js" defer></script>
+<script>/* login.html?tab=signup opens on the Sign Up tab (the landing page's Sign up pill) */
+try{if(/[?&]tab=signup\b/.test(location.search)&&typeof switchTab==='function')switchTab('signup')}catch(e){}</script>
 </body>
 </html>

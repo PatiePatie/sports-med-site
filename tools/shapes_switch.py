@@ -30,10 +30,10 @@ ROOT = Path(__file__).resolve().parent.parent
 
 CSS = "shapes-skin.css?v=3"
 JS = "shapes-fx.js?v=5"
-SOFT_CSS = "soft-glass.css?v=8"
-SOFT_JS = "soft-fx.js?v=8"
+SOFT_CSS = "soft-glass.css?v=9"
+SOFT_JS = "soft-fx.js?v=9"
 KN_CSS = "knowledge.css?v=2"
-KN_JS = "knowledge-fx.js?v=2"
+KN_JS = "knowledge-fx.js?v=3"
 AI_JS = "ai-usage.js?v=1"
 
 BEGIN = "<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->"

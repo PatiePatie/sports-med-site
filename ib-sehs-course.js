@@ -46,12 +46,45 @@ function nativeFigure(parent,figure){if(!figure||!figure.src)return;var wrap=mak
 function nativeReference(parent,record,page,topic){var source=record&&record.source||{page:page,asset:'ib-sehs-pages/page-'+page+'.jpg'},details=make('details','workbook-reference');details.appendChild(bi(make('summary','',text('Original workbook page '+source.page,'原始工作册第'+source.page+'页')),'Original workbook page '+source.page,'原始工作册第'+source.page+'页'));var link=bi(make('a','',text('Open or download source page','打开或下载来源页面')),'Open or download source page','打开或下载来源页面');link.href=source.asset;link.target='_blank';link.rel='noopener noreferrer';details.appendChild(link);var button=make('button','workbook-reference-preview');button.type='button';button.setAttribute('aria-label',text('Preview original workbook page '+source.page,'预览原始工作册第'+source.page+'页'));var image=make('img');image.loading='lazy';image.src=source.asset;image.alt=text('Original workbook page '+source.page, '原始工作册第'+source.page+'页');image.dataset.altEn='Original workbook page '+source.page;image.dataset.altZh='原始工作册第'+source.page+'页';button.appendChild(image);details.appendChild(button);details.appendChild(bi(make('span','workbook-reference-note',text('Optional source verification image — the native lesson is the main study content.','可选的来源核验图片——原生课程内容是主要学习资源。')),'Optional source verification image — the native lesson is the main study content.','可选的来源核验图片——原生课程内容是主要学习资源。','Optional source verification image — the native lesson is the main study content.','可选的来源核验图片——原生课程内容是主要学习资源。'));parent.appendChild(details)}
 function examFocusBox(block,value){var focus=Array.isArray(value)?value.filter(function(item){return item&&(item.en||item.zh)})[0]:value;if(!focus)return;var en=focus.en||'',zh=focus.zh||en;if(!en&&!zh)return;var box=make('div','native-focus');box.appendChild(bi(make('h4','','Exam focus','考试重点'),'Exam focus','考试重点'));box.appendChild(bi(make('p','',text(en,zh)),en,zh));block.appendChild(box)}
 function deepPair(host,cls,en,zh){if(!en&&!zh)return null;var box=make('div',cls);box.appendChild(bi(make('p','',text(en,zh)),en,zh));host.appendChild(box);return box}
-function svgWrap(label,inner,viewBox){var f=document.createElementNS('http://www.w3.org/2000/svg','svg');f.setAttribute('viewBox',viewBox||'0 0 320 180');f.setAttribute('class','vis-svg');f.setAttribute('role','img');f.setAttribute('aria-label',label);f.innerHTML=inner;return f}
+/* Model figures are generated with build-time bounds checks, so a label that
+   leaves the canvas should be impossible. This is the belt to that braces: the
+   SVG is overflow:visible so anything that did escape would be visible outside
+   the figure card, and hand-edited figures will eventually happen. After the
+   node is in the DOM, shrink then nudge any label that still crosses an edge.
+   Runs in a rAF because getBBox needs layout. */
+var VIS_PAD=3,VIS_FIGS=[],VIS_WATCH=0;
+/* A figure built inside a collapsed section measures zero, so a one-shot fit
+   silently does nothing and the label only overflows once the section opens.
+   Watch for the section being shown and fit it again at that point. Only the
+   figures inside the node that actually changed are re-fitted. */
+function visRegister(f){VIS_FIGS.push(f);if(VIS_WATCH)return;VIS_WATCH=1;try{
+  new MutationObserver(function(muts){for(var i=0;i<muts.length;i++){var n=muts[i].target;
+    for(var j=0;j<VIS_FIGS.length;j++){var f=VIS_FIGS[j];
+      if(n===f||(n.contains&&n.contains(f))){fitSvg(f);break;}}}})
+    .observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+}catch(e){}}
+function fitSvg(f){try{
+  var vb=(f.getAttribute('viewBox')||'0 0 560 340').split(/[\s,]+/);
+  var W=parseFloat(vb[2]),H=parseFloat(vb[3]);if(!W||!H)return;
+  var ts=f.querySelectorAll('text');
+  for(var i=0;i<ts.length;i++){
+    var t=ts[i],b=t.getBBox(),fs=parseFloat(getComputedStyle(t).fontSize)||11,guard=0;
+    if(!(b.width>0))continue;
+    while((b.x<VIS_PAD||b.x+b.width>W-VIS_PAD||b.y<VIS_PAD||b.y+b.height>H-VIS_PAD)&&fs>6&&guard<10){
+      fs-=0.5;t.style.fontSize=fs+'px';b=t.getBBox();guard++;}
+    var dx=0,dy=0;
+    if(b.x<VIS_PAD)dx=VIS_PAD-b.x;else if(b.x+b.width>W-VIS_PAD)dx=(W-VIS_PAD)-(b.x+b.width);
+    if(b.y<VIS_PAD)dy=VIS_PAD-b.y;else if(b.y+b.height>H-VIS_PAD)dy=(H-VIS_PAD)-(b.y+b.height);
+    if(dx)t.setAttribute('x',(parseFloat(t.getAttribute('x'))+dx).toFixed(2));
+    if(dy)t.setAttribute('y',(parseFloat(t.getAttribute('y'))+dy).toFixed(2));
+  }
+}catch(e){}}
+function svgWrap(label,inner,viewBox){var f=document.createElementNS('http://www.w3.org/2000/svg','svg');f.setAttribute('viewBox',viewBox||'0 0 560 340');f.setAttribute('class','vis-svg');f.setAttribute('role','img');f.setAttribute('aria-label',label);f.innerHTML=inner;visRegister(f);requestAnimationFrame(function(){fitSvg(f)});f.fitSvg=fitSvg;return f}
 function visualLegend(parent,items){if(!items||!items.length)return;var ul=make('ul','vis-legend');items.forEach(function(v){ul.appendChild(bi(make('li','',text(v.en,v.zh)),v.en,v.zh))});parent.appendChild(ul)}
 function visualTable(parent,spec){if(!spec||!spec.rows||!spec.rows.length)return;var wrap=make('div','vis-table-wrap');if(spec.title)wrap.appendChild(bi(make('h4','',text(spec.title.en,spec.title.zh)),spec.title.en,spec.title.zh));var t=make('table','vis-table');var thead=make('thead'),hr=make('tr');(spec.cols||[]).forEach(function(c){hr.appendChild(bi(make('th','',text(c.en,c.zh)),c.en,c.zh))});thead.appendChild(hr);t.appendChild(thead);var tb=make('tbody');spec.rows.forEach(function(r){var tr=make('tr');r.forEach(function(cell){tr.appendChild(bi(make('td','',text(cell.en,cell.zh)),cell.en,cell.zh))});tb.appendChild(tr)});t.appendChild(tb);wrap.appendChild(t);if(spec.note)wrap.appendChild(bi(make('p','vis-note',text(spec.note.en,spec.note.zh)),spec.note.en,spec.note.zh));parent.appendChild(wrap)}
 function visualExample(parent,spec){if(!spec)return;var wrap=make('div','vis-example');wrap.appendChild(bi(make('h4','',text(spec.title.en,spec.title.zh)),spec.title.en,spec.title.zh));if(spec.given)wrap.appendChild(bi(make('p','vis-given',text(spec.given.en,spec.given.zh)),spec.given.en,spec.given.zh));var ol=make('ol');(spec.steps||[]).forEach(function(st){ol.appendChild(bi(make('li','',text(st.en,st.zh)),st.en,st.zh))});wrap.appendChild(ol);if(spec.answer)wrap.appendChild(bi(make('p','vis-answer',text(spec.answer.en,spec.answer.zh)),spec.answer.en,spec.answer.zh));parent.appendChild(wrap)}
 function visualLayer(block,visuals){if(!visuals)return;
-if(visuals.figures&&visuals.figures.length){var fw=make('div','vis-figures');fw.appendChild(bi(make('h4','','Model','模型图'),'Model','模型图'));visuals.figures.forEach(function(f){var box=make('figure','vis-figure');if(f.title)box.appendChild(bi(make('figcaption','vis-cap',text(f.title.en,f.title.zh)),f.title.en,f.title.zh));if(f.svg)box.appendChild(svgWrap(f.title?(f.title.en||'diagram'):'diagram',f.svg,f.viewBox));if(f.legend)visualLegend(box,f.legend);if(f.caption)box.appendChild(bi(make('p','vis-captext',text(f.caption.en,f.caption.zh)),f.caption.en,f.caption.zh));fw.appendChild(box)});block.appendChild(fw)}
+if(visuals.figures&&visuals.figures.length){var fw=make('div','vis-figures');fw.appendChild(bi(make('h4','','Model','模型图'),'Model','模型图'));visuals.figures.forEach(function(f){var box=make('figure','vis-figure');if(f.title)box.appendChild(bi(make('figcaption','vis-cap',text(f.title.en,f.title.zh)),f.title.en,f.title.zh));if(f.svg){var sv=svgWrap(f.title?(f.title.en||'diagram'):'diagram',f.svg,f.viewBox);box.appendChild(sv);try{sv.fitSvg(sv)}catch(e){}}if(f.legend)visualLegend(box,f.legend);if(f.caption)box.appendChild(bi(make('p','vis-captext',text(f.caption.en,f.caption.zh)),f.caption.en,f.caption.zh));fw.appendChild(box)});block.appendChild(fw)}
 (visuals.tables||[]).forEach(function(t){visualTable(block,t)});
 if(visuals.example)visualExample(block,visuals.example)}
 

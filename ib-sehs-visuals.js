@@ -10,8 +10,8 @@ window.IB_VISUALS = {
      "en": "Newton’s three laws on one field",
      "zh": "牛顿三定律在一张图上"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · one ball, four vectors</text><line class=\"th\" x1=\"37.7\" y1=\"256.36\" x2=\"252.98\" y2=\"256.36\"/><line class=\"dash\" x1=\"44.72\" y1=\"256.36\" x2=\"39.72\" y2=\"264.36\"/><line class=\"dash\" x1=\"61.217\" y1=\"256.36\" x2=\"56.217\" y2=\"264.36\"/><line class=\"dash\" x1=\"77.714\" y1=\"256.36\" x2=\"72.714\" y2=\"264.36\"/><line class=\"dash\" x1=\"94.211\" y1=\"256.36\" x2=\"89.211\" y2=\"264.36\"/><line class=\"dash\" x1=\"110.708\" y1=\"256.36\" x2=\"105.708\" y2=\"264.36\"/><line class=\"dash\" x1=\"127.205\" y1=\"256.36\" x2=\"122.205\" y2=\"264.36\"/><line class=\"dash\" x1=\"143.702\" y1=\"256.36\" x2=\"138.702\" y2=\"264.36\"/><line class=\"dash\" x1=\"160.199\" y1=\"256.36\" x2=\"155.199\" y2=\"264.36\"/><line class=\"dash\" x1=\"176.696\" y1=\"256.36\" x2=\"171.696\" y2=\"264.36\"/><line class=\"dash\" x1=\"193.193\" y1=\"256.36\" x2=\"188.193\" y2=\"264.36\"/><line class=\"dash\" x1=\"209.69\" y1=\"256.36\" x2=\"204.69\" y2=\"264.36\"/><line class=\"dash\" x1=\"226.187\" y1=\"256.36\" x2=\"221.187\" y2=\"264.36\"/><line class=\"dash\" x1=\"242.684\" y1=\"256.36\" x2=\"237.684\" y2=\"264.36\"/><circle class=\"fillB\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"96.2\" cy=\"146.32\" r=\"22\"/><line class=\"ln\" x1=\"112.2\" y1=\"135.32\" x2=\"199.16\" y2=\"96.54\"/><path class=\"ln solid\" d=\"M199.16 96.54l-5 -3v5l6.2z\"/><text class=\"lbl\" x=\"202.67\" y=\"88.68\">v</text><line class=\"ln\" x1=\"96.2\" y1=\"168.32\" x2=\"96.2\" y2=\"256.36\"/><path class=\"ln solid\" d=\"M96.2 256.36l2.79 -5.58-5.58 0z\"/><text class=\"lbl\" x=\"90.35\" y=\"215.75\" text-anchor=\"end\">g</text><line class=\"th\" x1=\"80.2\" y1=\"135.32\" x2=\"42.38\" y2=\"91.3\"/><path class=\"ln solid\" d=\"M42.38 91.3l5 -3v-5l-6.2z\"/><text class=\"lbl\" x=\"41.21\" y=\"80.82\" text-anchor=\"end\">F</text><line class=\"dash\" x1=\"189.8\" y1=\"256.36\" x2=\"189.8\" y2=\"198.72\"/><path class=\"ln solid\" d=\"M189.8 198.72l2.79 -5.58-5.58 0z\"/><text class=\"lbl\" x=\"193.31\" y=\"226.23\">F</text><rect class=\"fillA\" rx=\"7\" x=\"33.02\" y=\"287.8\" width=\"91.9128\" height=\"15\"/><text class=\"lblXS\" x=\"38.02\" y=\"298.2\">action = reaction</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · v is two parts</text><path class=\"ln fillA\" d=\"M332.76 261.6L473.16 261.6L473.16 114.88Z\"/><text class=\"lbl\" x=\"402.96\" y=\"276.01\" text-anchor=\"middle\">vx</text><text class=\"lbl\" x=\"481.35\" y=\"188.24\">vy</text><text class=\"lbl\" x=\"393.6\" y=\"172.52\">v</text><text class=\"lblS\" x=\"417\" y=\"304.83\" text-anchor=\"middle\">v² = vx² + vy²</text><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"59.86\" width=\"215.28\" height=\"24\"/><text class=\"lblXS\" x=\"317.55\" y=\"71.65\">vx is what never changes</text><text class=\"lblXS\" x=\"317.55\" y=\"83.65\">vy is what gravity takes away</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"th\" x1=\"14\" y1=\"96\" x2=\"306\" y2=\"96\"/><path class=\"dash\" d=\"M236 34h64\"/><circle class=\"fillB\" cx=\"120\" cy=\"34\" r=\"11\"/><circle class=\"ln\" cx=\"120\" cy=\"34\" r=\"11\"/><line class=\"th\" x1=\"133\" y1=\"34\" x2=\"168\" y2=\"34\"/><path class=\"ln\" d=\"M168 34l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"174\" y=\"30\">v</text><line class=\"th\" x1=\"120\" y1=\"47\" x2=\"120\" y2=\"80\"/><path class=\"ln\" d=\"M120 80l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"127\" y=\"72\">g</text><text class=\"lblS\" x=\"14\" y=\"26\">1st + 2nd</text><rect class=\"fillA\" x=\"150\" y=\"140\" width=\"16\" height=\"26\"/><line class=\"ln\" x1=\"150\" y1=\"140\" x2=\"166\" y2=\"140\"/><line class=\"th\" x1=\"158\" y1=\"112\" x2=\"158\" y2=\"136\"/><path class=\"ln\" d=\"M158 136l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"164\" y=\"122\">F</text><line class=\"th\" x1=\"158\" y1=\"168\" x2=\"158\" y2=\"144\"/><path class=\"ln\" d=\"M158 144l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"164\" y=\"164\">F</text><text class=\"lblS\" x=\"14\" y=\"124\">3rd</text><path class=\"dash\" d=\"M186 140h116M186 168h116\"/><text class=\"lblS\" x=\"186\" y=\"132\">runner</text><text class=\"lblS\" x=\"186\" y=\"182\">ground</text>",
+    "viewBox": "0 0 320 190",
     "legend": [
      {
       "en": "v — ball velocity, unchanged once it leaves the boot",
@@ -138,8 +138,8 @@ window.IB_VISUALS = {
      "en": "Centre of gravity versus base of support",
      "zh": "重心与支撑面"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the line has to fall inside</text><rect class=\"fillA\" rx=\"6\" x=\"44.72\" y=\"120.12\" width=\"196.56\" height=\"78.6\"/><text class=\"lblXS\" x=\"143\" y=\"110.95\" text-anchor=\"middle\">base of support</text><rect class=\"goodFill\" rx=\"4\" x=\"69.29\" y=\"162.04\" width=\"35.1\" height=\"99.56\"/><circle class=\"fillB\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"86.84\" cy=\"211.82\" r=\"14\"/><line class=\"dash\" x1=\"86.84\" y1=\"179.82\" x2=\"86.84\" y2=\"225.82\"/><circle class=\"good\" cx=\"86.84\" cy=\"179.82\" r=\"4\"/><text class=\"lblXS\" x=\"86.84\" y=\"276.01\" text-anchor=\"middle\">stable</text><rect class=\"accFill\" rx=\"4\" x=\"125.45\" y=\"162.04\" width=\"35.1\" height=\"99.56\"/><circle class=\"fillB\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"143\" cy=\"211.82\" r=\"14\"/><line class=\"dash\" x1=\"143\" y1=\"179.82\" x2=\"143\" y2=\"225.82\"/><circle class=\"acc\" cx=\"143\" cy=\"179.82\" r=\"4\"/><text class=\"lblXS\" x=\"143\" y=\"276.01\" text-anchor=\"middle\">neutral</text><rect class=\"warnFill\" rx=\"4\" x=\"181.61\" y=\"162.04\" width=\"35.1\" height=\"99.56\"/><circle class=\"fillB\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"199.16\" cy=\"211.82\" r=\"14\"/><line class=\"dash\" x1=\"199.16\" y1=\"179.82\" x2=\"199.16\" y2=\"225.82\"/><circle class=\"warn\" cx=\"219.05\" cy=\"179.82\" r=\"4\"/><text class=\"lblXS\" x=\"199.16\" y=\"276.01\" text-anchor=\"middle\">tips</text><text class=\"lblXS\" x=\"143\" y=\"307.45\" text-anchor=\"middle\">dot = centre of mass</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · and energy decides it</text><line class=\"ax\" x1=\"300\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"300\" y1=\"52\" x2=\"300\" y2=\"314\"/><line class=\"grid\" x1=\"358.5\" y1=\"52\" x2=\"358.5\" y2=\"314\"/><line class=\"grid\" x1=\"417\" y1=\"52\" x2=\"417\" y2=\"314\"/><line class=\"grid\" x1=\"475.5\" y1=\"52\" x2=\"475.5\" y2=\"314\"/><line class=\"grid\" x1=\"300\" y1=\"117.5\" x2=\"534\" y2=\"117.5\"/><line class=\"grid\" x1=\"300\" y1=\"183\" x2=\"534\" y2=\"183\"/><line class=\"grid\" x1=\"300\" y1=\"248.5\" x2=\"534\" y2=\"248.5\"/><path class=\"ln\" d=\"M300 104.4Q351.48 130.6 381.9 154.18Q412.32 177.76 440.4 203.96Q468.48 230.16 501.24 253.74L534 277.32\"/><line class=\"dash\" x1=\"300\" y1=\"141.08\" x2=\"463.8\" y2=\"141.08\"/><text class=\"lblXS\" x=\"468.48\" y=\"134.53\">push energy</text><text class=\"lblXS\" x=\"440.4\" y=\"82.13\">nothing happens</text><text class=\"lblXS\" x=\"463.8\" y=\"209.2\">keeps falling</text><text class=\"lblXS\" x=\"417\" y=\"304.83\" text-anchor=\"middle\">stored energy vs lean</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"269.51\" width=\"32.1235\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"279.41\">impulse  F × t</text><text class=\"lblXS\" x=\"534\" y=\"279.41\" text-anchor=\"end\">J</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><line class=\"th\" x1=\"20\" y1=\"122\" x2=\"122\" y2=\"122\"/><line class=\"dash\" x1=\"71\" y1=\"46\" x2=\"71\" y2=\"122\"/><circle class=\"acc\" cx=\"71\" cy=\"46\" r=\"6\"/><path class=\"ln\" d=\"M32 122v9M110 122v9M32 131h78\"/><text class=\"lblS\" x=\"26\" y=\"152\">stable</text></g><g><line class=\"th\" x1=\"196\" y1=\"122\" x2=\"298\" y2=\"122\"/><line class=\"dash\" x1=\"239\" y1=\"46\" x2=\"239\" y2=\"122\"/><circle class=\"warn\" cx=\"239\" cy=\"46\" r=\"6\"/><path class=\"ln\" d=\"M266 122v9M288 122v9M266 131h22\"/><path class=\"ln\" d=\"M239 131a46 46 0 0 0-28-42\"/><text class=\"lblS\" x=\"146\" y=\"56\">topples</text><text class=\"lblS\" x=\"198\" y=\"152\">unstable</text></g>",
+    "viewBox": "0 0 320 170",
     "legend": [
      {
       "en": "the dot is the centre of gravity; the line through it is the line of gravity",
@@ -286,8 +286,8 @@ window.IB_VISUALS = {
      "en": "Work is an area; power is that area per second",
      "zh": "功是一个面积；功率是该面积除以时间"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · friction has a ceiling</text><line class=\"th\" x1=\"35.36\" y1=\"219.68\" x2=\"250.64\" y2=\"219.68\"/><line class=\"dash\" x1=\"42.38\" y1=\"219.68\" x2=\"37.38\" y2=\"227.68\"/><line class=\"dash\" x1=\"56.771\" y1=\"219.68\" x2=\"51.771\" y2=\"227.68\"/><line class=\"dash\" x1=\"71.162\" y1=\"219.68\" x2=\"66.162\" y2=\"227.68\"/><line class=\"dash\" x1=\"85.553\" y1=\"219.68\" x2=\"80.553\" y2=\"227.68\"/><line class=\"dash\" x1=\"99.944\" y1=\"219.68\" x2=\"94.944\" y2=\"227.68\"/><line class=\"dash\" x1=\"114.335\" y1=\"219.68\" x2=\"109.335\" y2=\"227.68\"/><line class=\"dash\" x1=\"128.726\" y1=\"219.68\" x2=\"123.726\" y2=\"227.68\"/><line class=\"dash\" x1=\"143.117\" y1=\"219.68\" x2=\"138.117\" y2=\"227.68\"/><line class=\"dash\" x1=\"157.508\" y1=\"219.68\" x2=\"152.508\" y2=\"227.68\"/><line class=\"dash\" x1=\"171.899\" y1=\"219.68\" x2=\"166.899\" y2=\"227.68\"/><line class=\"dash\" x1=\"186.29\" y1=\"219.68\" x2=\"181.29\" y2=\"227.68\"/><line class=\"dash\" x1=\"200.681\" y1=\"219.68\" x2=\"195.681\" y2=\"227.68\"/><line class=\"dash\" x1=\"215.072\" y1=\"219.68\" x2=\"210.072\" y2=\"227.68\"/><line class=\"dash\" x1=\"229.463\" y1=\"219.68\" x2=\"224.463\" y2=\"227.68\"/><line class=\"dash\" x1=\"243.854\" y1=\"219.68\" x2=\"238.854\" y2=\"227.68\"/><rect class=\"fillB\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"68.12\" y=\"146.32\" width=\"93.6\" height=\"73.36\"/><text class=\"lblXS\" x=\"114.92\" y=\"192.17\" text-anchor=\"middle\">block</text><line class=\"th\" x1=\"114.92\" y1=\"162.04\" x2=\"114.92\" y2=\"272.08\"/><path class=\"ln solid\" d=\"M114.92 272.08l2.79 -5.58-5.58 0z\"/><text class=\"lbl\" x=\"114.92\" y=\"265.53\" text-anchor=\"middle\">mg</text><line class=\"ln\" x1=\"91.52\" y1=\"219.68\" x2=\"91.52\" y2=\"130.6\"/><path class=\"ln solid\" d=\"M91.52 219.68l2.79 5.58-5.58 0z\"/><text class=\"lbl\" x=\"91.52\" y=\"121.43\" text-anchor=\"middle\">N</text><line class=\"th\" x1=\"161.72\" y1=\"162.04\" x2=\"236.6\" y2=\"162.04\"/><path class=\"ln solid\" d=\"M236.6 162.04l-4.5 -2.79v4.5l5.58z\"/><text class=\"lbl\" x=\"240.11\" y=\"169.9\">F</text><line class=\"ln\" x1=\"154.7\" y1=\"236.71\" x2=\"54.08\" y2=\"236.71\"/><path class=\"ln solid\" d=\"M54.08 236.71l-4.5 -2.79v4.5l5.58z\"/><text class=\"lbl\" x=\"52.91\" y=\"244.57\" text-anchor=\"end\">f</text><rect class=\"fillA\" rx=\"6\" x=\"35.36\" y=\"287.8\" width=\"215.28\" height=\"12\"/><text class=\"lblXS\" x=\"43.55\" y=\"299.59\">f ≤ μN  —  friction has a ceiling</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · work, then power</text><line class=\"ax\" x1=\"300\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"300\" y1=\"52\" x2=\"300\" y2=\"314\"/><line class=\"grid\" x1=\"358.5\" y1=\"52\" x2=\"358.5\" y2=\"314\"/><line class=\"grid\" x1=\"417\" y1=\"52\" x2=\"417\" y2=\"314\"/><line class=\"grid\" x1=\"475.5\" y1=\"52\" x2=\"475.5\" y2=\"314\"/><line class=\"grid\" x1=\"300\" y1=\"139.333\" x2=\"534\" y2=\"139.333\"/><line class=\"grid\" x1=\"300\" y1=\"226.667\" x2=\"534\" y2=\"226.667\"/><path class=\"ln\" d=\"M300 298.28L534 141.08\"/><text class=\"lblXS\" x=\"417\" y=\"304.83\" text-anchor=\"middle\">force against distance</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"61.22\" width=\"91.4285\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"71.12\">work  W = F d</text><text class=\"lblXS\" x=\"534\" y=\"71.12\" text-anchor=\"end\">J</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"87.42\" width=\"54.3629\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"97.32\">power  P = W / t</text><text class=\"lblXS\" x=\"534\" y=\"97.32\" text-anchor=\"end\">W</text><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"141.08\" width=\"215.28\" height=\"40\"/><text class=\"lblS\" x=\"317.55\" y=\"152.87\">same distance,</text><text class=\"lblS\" x=\"317.55\" y=\"166.87\">twice the force</text><text class=\"lblS\" x=\"317.55\" y=\"180.87\">= twice the work</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"ln\" x1=\"30\" y1=\"130\" x2=\"300\" y2=\"130\"/><line class=\"ln\" x1=\"30\" y1=\"130\" x2=\"30\" y2=\"20\"/><path class=\"fillB\" d=\"M30 130V52c62-6 122 18 190 66v12z\"/><path class=\"ln\" d=\"M30 52c62-6 122 18 190 66\"/><line class=\"dash\" x1=\"220\" y1=\"118\" x2=\"220\" y2=\"130\"/><text class=\"lbl\" x=\"120\" y=\"148\">distance</text><text class=\"lbl\" x=\"8\" y=\"26\">F</text><text class=\"lbl\" x=\"98\" y=\"88\">work</text><line class=\"th\" x1=\"30\" y1=\"160\" x2=\"220\" y2=\"160\"/><path class=\"ln\" d=\"M220 160l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"98\" y=\"176\">t</text><text class=\"lblS\" x=\"228\" y=\"164\">work / t = power</text>",
+    "viewBox": "0 0 320 190",
     "legend": [
      {
       "en": "the shaded area under the force–distance curve is the work done",
@@ -428,8 +428,8 @@ window.IB_VISUALS = {
      "en": "One launch, two independent motions",
      "zh": "一次出手，两个彼此独立的运动"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"182\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the arc</text><line class=\"th\" x1=\"31.76\" y1=\"282.56\" x2=\"164.24\" y2=\"282.56\"/><line class=\"th\" x1=\"37.52\" y1=\"287.8\" x2=\"37.52\" y2=\"83.44\"/><path class=\"ln\" d=\"M37.52 282.56Q42.44 257.452 44.9 245.989Q47.36 234.527 49.82 224.156Q52.28 213.785 54.74 204.506Q57.2 195.227 59.66 187.039Q62.12 178.852 64.58 171.756Q67.04 164.66 69.5 158.656Q71.96 152.652 74.42 147.739Q76.88 142.827 79.34 139.006Q81.8 135.185 84.26 132.456Q86.72 129.727 89.18 128.089Q91.64 126.452 94.1 125.906Q96.56 125.36 99.02 125.906Q101.48 126.452 103.94 128.089Q106.4 129.727 108.86 132.456Q111.32 135.185 113.78 139.006Q116.24 142.827 118.7 147.739Q121.16 152.652 123.62 158.656Q126.08 164.66 128.54 171.756Q131 178.852 133.46 187.039Q135.92 195.227 138.38 204.506Q140.84 213.785 143.3 224.156Q145.76 234.527 148.22 245.989Q150.68 257.452 153.14 270.006L155.6 282.56\"/><circle class=\"acc\" cx=\"96.56\" cy=\"125.36\" r=\"4\"/><text class=\"lblXS\" x=\"96.56\" y=\"110.95\" text-anchor=\"middle\">apex</text><text class=\"lblXS\" x=\"161.36\" y=\"273.39\" text-anchor=\"end\">range</text><text class=\"lblXS\" x=\"37.52\" y=\"302.21\">45° is the widest</text><rect class=\"panel\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"196\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"196\" y1=\"40\" x2=\"364\" y2=\"40\"/><text class=\"lblL\" x=\"206\" y=\"31.5\">B · parts of v</text><path class=\"ln fillA\" d=\"M225.28 261.6L331.84 261.6L225.28 141.08Z\"/><text class=\"lblXS\" x=\"278.56\" y=\"276.01\" text-anchor=\"middle\">vx</text><text class=\"lblXS\" x=\"231.76\" y=\"202.65\">vy</text><text class=\"lbl\" x=\"288.64\" y=\"188.24\">v</text><rect class=\"fillA\" rx=\"6\" x=\"213.76\" y=\"59.86\" width=\"132.48\" height=\"25\"/><text class=\"lblXS\" x=\"218.8\" y=\"71.65\">vx never changes</text><text class=\"lblXS\" x=\"218.8\" y=\"84.65\">vy only falls</text><rect class=\"panel\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"378\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"378\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"388\" y=\"31.5\">C · v over time</text><line class=\"ax\" x1=\"390\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"390\" y1=\"52\" x2=\"390\" y2=\"314\"/><line class=\"grid\" x1=\"438\" y1=\"52\" x2=\"438\" y2=\"314\"/><line class=\"grid\" x1=\"486\" y1=\"52\" x2=\"486\" y2=\"314\"/><line class=\"grid\" x1=\"390\" y1=\"117.5\" x2=\"534\" y2=\"117.5\"/><line class=\"grid\" x1=\"390\" y1=\"183\" x2=\"534\" y2=\"183\"/><line class=\"grid\" x1=\"390\" y1=\"248.5\" x2=\"534\" y2=\"248.5\"/><path class=\"ln\" d=\"M390 109.64Q462 203.96 498 245.88L534 287.8\"/><line class=\"dash\" x1=\"390\" y1=\"109.64\" x2=\"534\" y2=\"109.64\"/><text class=\"lblXS\" x=\"462\" y=\"304.83\" text-anchor=\"middle\">time  →</text><text class=\"lblXS\" x=\"513.84\" y=\"104.4\" text-anchor=\"end\">vx</text><text class=\"lblXS\" x=\"394.32\" y=\"116.19\">vy</text><rect class=\"fillA\" rx=\"6\" x=\"395.76\" y=\"203.96\" width=\"132.48\" height=\"38\"/><text class=\"lblXS\" x=\"400.8\" y=\"215.75\">gravity bends</text><text class=\"lblXS\" x=\"400.8\" y=\"228.75\">the path, not the</text><text class=\"lblXS\" x=\"400.8\" y=\"241.75\">speed along x</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"ln\" x1=\"24\" y1=\"140\" x2=\"300\" y2=\"140\"/><path class=\"ln\" d=\"M40 140C96 44 190 44 268 140\"/><line class=\"dash\" d=\"M40 140L96 84\"/><line class=\"dash\" d=\"M40 140L268 140\"/><path class=\"ln\" d=\"M40 140a34 34 0 0 0 14 6\" /><text class=\"lblS\" x=\"62\" y=\"118\">45°</text><circle class=\"acc\" cx=\"154\" cy=\"60\" r=\"5\"/><text class=\"lblS\" x=\"160\" y=\"54\">apex</text><line class=\"th\" x1=\"154\" y1=\"60\" x2=\"154\" y2=\"140\" /><text class=\"lblS\" x=\"160\" y=\"104\">vy = 0</text><line class=\"th\" x1=\"40\" y1=\"140\" x2=\"130\" y2=\"140\"/><path class=\"ln\" d=\"M130 140l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"78\" y=\"132\">vx</text><line class=\"th\" x1=\"40\" y1=\"140\" x2=\"76\" y2=\"96\"/><path class=\"ln\" d=\"M76 96l-8 1 4 7z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"80\" y=\"92\">v</text><line class=\"dash\" x1=\"268\" y1=\"140\" x2=\"268\" y2=\"152\"/><text class=\"lblS\" x=\"248\" y=\"168\">range</text>",
+    "viewBox": "0 0 320 180",
     "legend": [
      {
       "en": "vx is constant the whole flight — gravity does not act horizontally",
@@ -560,8 +560,8 @@ window.IB_VISUALS = {
      "en": "Buoyancy, then the four forces on a wing",
      "zh": "先是浮力，然后是机翼上的四个力"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · in the water</text><rect class=\"fillA\" rx=\"4\" x=\"44.72\" y=\"104.4\" width=\"196.56\" height=\"104.8\"/><line class=\"th\" x1=\"44.72\" y1=\"104.4\" x2=\"241.28\" y2=\"104.4\"/><text class=\"lblXS\" x=\"51.74\" y=\"126.67\">water</text><rect class=\"fillC\" rx=\"9\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"110.24\" y=\"162.04\" width=\"65.52\" height=\"104.8\"/><text class=\"lblXS\" x=\"143\" y=\"235.4\" text-anchor=\"middle\">body</text><line class=\"th\" x1=\"143\" y1=\"162.04\" x2=\"143\" y2=\"113.57\"/><path class=\"ln solid\" d=\"M143 162.04l2.79 5.58-5.58 0z\"/><text class=\"lbl\" x=\"179.27\" y=\"124.05\">Fb</text><line class=\"th\" x1=\"143\" y1=\"235.4\" x2=\"143\" y2=\"295.66\"/><path class=\"ln solid\" d=\"M143 295.66l2.79 -5.58-5.58 0z\"/><text class=\"lbl\" x=\"179.27\" y=\"286.49\">W</text><text class=\"lblXS\" x=\"143\" y=\"307.45\" text-anchor=\"middle\">float when Fb = W</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · three forces, one shape</text><path class=\"ln\" d=\"M328.08 78.2Q370.2 141.08 393.6 164.66L417 188.24\"/><path class=\"ln\" d=\"M505.92 78.2Q463.8 141.08 440.4 164.66L417 188.24\"/><circle class=\"acc\" cx=\"417\" cy=\"188.24\" r=\"4\"/><text class=\"lblXS\" x=\"417\" y=\"202.65\" text-anchor=\"middle\">flow past the body</text><text class=\"lblXS\" x=\"314.04\" y=\"63.79\">lift</text><text class=\"lblXS\" x=\"519.96\" y=\"63.79\" text-anchor=\"end\">drag</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"228.9\" width=\"37.0656\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"238.8\">buoyancy</text><text class=\"lblXS\" x=\"534\" y=\"238.8\" text-anchor=\"end\">ρ g V</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"255.1\" width=\"76.6022\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"265\">lift</text><text class=\"lblXS\" x=\"534\" y=\"265\" text-anchor=\"end\">½ ρ v² C</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"281.3\" width=\"56.8339\" height=\"13\"/><text class=\"lblS\" x=\"307.02\" y=\"291.2\">drag</text><text class=\"lblXS\" x=\"534\" y=\"291.2\" text-anchor=\"end\">½ ρ v² Cd</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><line class=\"ln\" x1=\"18\" y1=\"66\" x2=\"150\" y2=\"66\"/><path class=\"fillB\" d=\"M46 40h58v26H46z\"/><path class=\"ln\" d=\"M46 40h58v26H46z\"/><line class=\"th\" x1=\"75\" y1=\"40\" x2=\"75\" y2=\"6\"/><path class=\"ln\" d=\"M75 6l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"81\" y=\"16\">F b</text><line class=\"th\" x1=\"75\" y1=\"88\" x2=\"75\" y2=\"118\"/><path class=\"ln\" d=\"M75 118l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"81\" y=\"114\">W</text><path class=\"fillC\" d=\"M46 66h58v18H46z\"/><text class=\"lblS\" x=\"46\" y=\"98\">displaced</text></g><g><path class=\"fillA\" d=\"M176 78c22-26 62-30 96-8-30 2-58 6-96 8z\"/><path class=\"ln\" d=\"M176 78c22-26 62-30 96-8-30 2-58 6-96 8z\"/><line class=\"th\" x1=\"196\" y1=\"76\" x2=\"196\" y2=\"34\"/><path class=\"ln\" d=\"M196 34l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"202\" y=\"40\">L</text><line class=\"th\" x1=\"232\" y1=\"76\" x2=\"232\" y2=\"118\"/><path class=\"ln\" d=\"M232 118l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"238\" y=\"114\">W</text><line class=\"th\" x1=\"272\" y1=\"70\" x2=\"308\" y2=\"70\"/><path class=\"ln\" d=\"M308 70l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"284\" y=\"62\">T</text><line class=\"th\" x1=\"176\" y1=\"82\" x2=\"140\" y2=\"82\"/><path class=\"ln\" d=\"M140 82l9-4.5v9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"146\" y=\"76\">D</text></g>",
+    "viewBox": "0 0 320 130",
     "legend": [
      {
       "en": "left: a floating block displaces its own volume in water, and the buoyant force equals the weight of that displaced fluid",
@@ -688,8 +688,8 @@ window.IB_VISUALS = {
      "en": "Angle of attack up to the stall, and the Magnus effect",
      "zh": "攻角直到失速，以及马格努斯效应"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"182\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the angle</text><line class=\"dash\" x1=\"31.76\" y1=\"235.4\" x2=\"164.24\" y2=\"235.4\"/><path class=\"ln fillC\" d=\"M37.52 235.4L90.8 212.344L158.48 228.064L90.8 235.4Z\"/><path class=\"ln\" d=\"M26 235.4Q31.76 235.4 34.64 235.4L37.52 235.4\"/><path class=\"ln\" d=\"M37.52 235.4Q74.96 175.14 95.12 164.005Q115.28 152.87 141.2 149.595L167.12 146.32\"/><path class=\"ln\" d=\"M37.52 235.4Q74.96 273.39 95.12 281.25Q115.28 289.11 141.2 291.73L167.12 294.35\"/><text class=\"lblXS\" x=\"121.04\" y=\"131.91\" text-anchor=\"middle\">over the top</text><text class=\"lblXS\" x=\"121.04\" y=\"307.45\" text-anchor=\"middle\">and under</text><text class=\"lblXS\" x=\"164.24\" y=\"223.61\" text-anchor=\"end\">chord</text><circle class=\"acc\" cx=\"37.52\" cy=\"235.4\" r=\"3.5\"/><text class=\"lbl\" x=\"49.76\" y=\"217.584\">α</text><rect class=\"panel\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"196\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"196\" y1=\"40\" x2=\"364\" y2=\"40\"/><text class=\"lblL\" x=\"206\" y=\"31.5\">B · lift, then stall</text><line class=\"ax\" x1=\"208\" y1=\"314\" x2=\"352\" y2=\"314\"/><line class=\"ax\" x1=\"208\" y1=\"52\" x2=\"208\" y2=\"314\"/><line class=\"grid\" x1=\"256\" y1=\"52\" x2=\"256\" y2=\"314\"/><line class=\"grid\" x1=\"304\" y1=\"52\" x2=\"304\" y2=\"314\"/><line class=\"grid\" x1=\"208\" y1=\"117.5\" x2=\"352\" y2=\"117.5\"/><line class=\"grid\" x1=\"208\" y1=\"183\" x2=\"352\" y2=\"183\"/><line class=\"grid\" x1=\"208\" y1=\"248.5\" x2=\"352\" y2=\"248.5\"/><path class=\"ln\" d=\"M208 287.8Q233.92 240.64 248.32 211.82Q262.72 183 274.96 169.9Q287.2 156.8 298 180.38Q308.8 203.96 330.4 224.92L352 245.88\"/><line class=\"dash\" x1=\"287.2\" y1=\"156.8\" x2=\"287.2\" y2=\"308.76\"/><text class=\"lblXS\" x=\"287.2\" y=\"304.83\" text-anchor=\"middle\">critical α</text><text class=\"lblXS\" x=\"231.04\" y=\"224.92\">lift</text><text class=\"lblXS\" x=\"323.2\" y=\"183\">lift gone</text><text class=\"lblXS\" x=\"280\" y=\"130.6\" text-anchor=\"middle\">angle of attack  →</text><rect class=\"panel\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"378\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"378\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"388\" y=\"31.5\">C · spin deflects it</text><circle class=\"fillB\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"464.88\" cy=\"156.8\" r=\"26\"/><path class=\"ln\" d=\"M395.76 214.44Q421.68 196.1 431.76 190.205Q441.84 184.31 451.92 183.655L462 183\"/><path class=\"ln\" d=\"M395.76 109.64Q421.68 130.6 431.76 136.495Q441.84 142.39 451.92 144.355L462 146.32\"/><line class=\"th\" x1=\"485.04\" y1=\"156.8\" x2=\"526.8\" y2=\"156.8\"/><path class=\"ln solid\" d=\"M526.8 156.8l-4.5 -2.79v4.5l5.58z\"/><text class=\"lblXS\" x=\"485.04\" y=\"139.77\">Magnus</text><text class=\"lblXS\" x=\"395.76\" y=\"224.92\">air is dragged</text><text class=\"lblXS\" x=\"395.76\" y=\"100.47\">round with it</text><text class=\"lblXS\" x=\"462\" y=\"307.45\" text-anchor=\"middle\">so the ball bends sideways</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><path class=\"fillA\" d=\"M14 56c14-10 34-10 50 0-16 4-34 4-50 0z\"/><path class=\"ln\" d=\"M14 56c14-10 34-10 50 0-16 4-34 4-50 0z\"/><path class=\"dash\" d=\"M4 70h66\"/><text class=\"lblS\" x=\"4\" y=\"82\">low AoA</text><text class=\"lblS\" x=\"4\" y=\"94\">lift ok</text></g><g><path class=\"fillA\" d=\"M120 60c14-14 34-14 50 0-16 6-34 6-50 0z\"/><path class=\"ln\" d=\"M120 60c14-14 34-14 50 0-16 6-34 6-50 0z\"/><path class=\"dash\" d=\"M110 82h66\"/><text class=\"lblS\" x=\"110\" y=\"94\">mid</text></g><g><path class=\"fillC\" d=\"M228 74c10-20 30-22 46-6-14 4-30 6-46 6z\"/><path class=\"ln\" d=\"M228 74c10-20 30-22 46-6-14 4-30 6-46 6z\"/><path class=\"dash\" d=\"M220 96h66\"/><path class=\"ln\" d=\"M262 60q10 8 4 18\"/><text class=\"lblS\" x=\"222\" y=\"110\">stall</text></g><g><circle class=\"fillB\" cx=\"96\" cy=\"146\" r=\"13\"/><circle class=\"ln\" cx=\"96\" cy=\"146\" r=\"13\"/><path class=\"ln\" d=\"M84 136a18 18 0 0 1 24 0\"/><path class=\"ln\" d=\"M84 156a18 18 0 0 0 24 0\"/><line class=\"th\" x1=\"96\" y1=\"133\" x2=\"96\" y2=\"108\"/><path class=\"ln\" d=\"M96 108l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"102\" y=\"118\">F</text></g>",
+    "viewBox": "0 0 320 170",
     "legend": [
      {
       "en": "attached flow: lift rises with angle of attack, roughly linearly",
@@ -838,8 +838,8 @@ window.IB_VISUALS = {
      "en": "The four phases of a skill, and the loop that fixes them",
      "zh": "技能的四个阶段，以及修正它们的循环"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · ground force through one cycle</text><line class=\"ax\" x1=\"26\" y1=\"314\" x2=\"260\" y2=\"314\"/><line class=\"ax\" x1=\"26\" y1=\"52\" x2=\"26\" y2=\"314\"/><line class=\"grid\" x1=\"84.5\" y1=\"52\" x2=\"84.5\" y2=\"314\"/><line class=\"grid\" x1=\"143\" y1=\"52\" x2=\"143\" y2=\"314\"/><line class=\"grid\" x1=\"201.5\" y1=\"52\" x2=\"201.5\" y2=\"314\"/><line class=\"grid\" x1=\"26\" y1=\"117.5\" x2=\"260\" y2=\"117.5\"/><line class=\"grid\" x1=\"26\" y1=\"183\" x2=\"260\" y2=\"183\"/><line class=\"grid\" x1=\"26\" y1=\"248.5\" x2=\"260\" y2=\"248.5\"/><rect class=\"goodFill\" x=\"26\" y=\"130.6\" width=\"145.08\" height=\"178.16\"/><path class=\"ln\" d=\"M26 141.08Q44.72 198.72 56.42 164.66Q68.12 130.6 82.16 117.5Q96.2 104.4 110.24 91.3Q124.28 78.2 135.98 83.44Q147.68 88.68 157.04 114.88Q166.4 141.08 180.44 201.34Q194.48 261.6 208.52 277.32Q222.56 293.04 241.28 295.66L260 298.28\"/><line class=\"dash\" x1=\"26\" y1=\"141.08\" x2=\"166.4\" y2=\"141.08\"/><text class=\"lblXS\" x=\"29.51\" y=\"134.53\">body weight</text><circle class=\"acc\" cx=\"124.28\" cy=\"78.2\" r=\"4\"/><text class=\"lblXS\" x=\"128.96\" y=\"66.41\">peak</text><text class=\"lblXS\" x=\"98.54\" y=\"299.59\" text-anchor=\"middle\">stance — foot down</text><text class=\"lblXS\" x=\"217.88\" y=\"214.44\" text-anchor=\"middle\">flight</text><text class=\"lblXS\" x=\"213.2\" y=\"130.6\" text-anchor=\"middle\">time  →</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · and the loop that fixes it</text><path class=\"dash\" d=\"M490.36 162.04Q489.958 169.708 489.358 173.5Q488.757 177.292 487.763 181.001Q486.77 184.709 485.394 188.294Q484.018 191.878 482.275 195.299Q480.532 198.72 478.441 201.94Q476.349 205.16 473.933 208.144Q471.517 211.127 468.802 213.842Q466.087 216.557 463.104 218.973Q460.12 221.389 456.9 223.481Q453.68 225.572 450.259 227.315Q446.838 229.058 443.254 230.434Q439.669 231.81 435.961 232.803Q432.252 233.797 428.46 234.398Q424.668 234.998 420.834 235.199Q417 235.4 413.166 235.199Q409.332 234.998 405.54 234.398Q401.748 233.797 398.039 232.803Q394.331 231.81 390.746 230.434Q387.162 229.058 383.741 227.315Q380.32 225.572 377.1 223.481Q373.88 221.389 370.896 218.973Q367.913 216.557 365.198 213.842Q362.483 211.127 360.067 208.144Q357.651 205.16 355.559 201.94Q353.468 198.72 351.725 195.299Q349.982 191.878 348.606 188.294Q347.23 184.709 346.237 181.001Q345.243 177.292 344.642 173.5Q344.042 169.708 343.841 165.874Q343.64 162.04 343.841 158.206Q344.042 154.372 344.642 150.58Q345.243 146.788 346.237 143.079Q347.23 139.371 348.606 135.786Q349.982 132.202 351.725 128.781Q353.468 125.36 355.559 122.14Q357.651 118.92 360.067 115.936Q362.483 112.953 365.198 110.238Q367.913 107.523 370.896 105.107Q373.88 102.691 377.1 100.599Q380.32 98.5084 383.741 96.7653Q387.162 95.0223 390.746 93.6464Q394.331 92.2705 398.039 91.2768Q401.748 90.2831 405.54 89.6825Q409.332 89.0819 413.166 88.8809Q417 88.68 420.834 88.8809Q424.668 89.0819 428.46 89.6825Q432.252 90.2831 435.961 91.2768Q439.669 92.2705 443.254 93.6464Q446.838 95.0223 450.259 96.7653Q453.68 98.5084 456.9 100.599Q460.12 102.691 463.104 105.107Q466.087 107.523 468.802 110.238Q471.517 112.953 473.933 115.936Q476.349 118.92 478.441 122.14Q480.532 125.36 482.275 128.781Q484.018 132.202 485.394 135.786Q486.77 139.371 487.763 143.079Q488.757 146.788 489.358 150.58Q489.958 154.372 490.159 158.206L490.36 162.04\"/><path class=\"ln solid\" d=\"M450.666 98.1486L455.953 99.8479L448.07 93.7588Z\"/><path class=\"ln solid\" d=\"M475.015 115.743L477.449 120.433L470.889 112.745Z\"/><path class=\"ln solid\" d=\"M485.281 193.11L479.192 200.993L480.891 195.706Z\"/><path class=\"ln solid\" d=\"M466.295 215.929L458.607 222.489L463.297 220.055Z\"/><path class=\"ln solid\" d=\"M383.334 225.931L378.047 224.232L385.93 230.321Z\"/><path class=\"ln solid\" d=\"M358.985 208.337L356.551 203.647L363.111 211.335Z\"/><path class=\"ln solid\" d=\"M348.719 130.97L354.808 123.087L353.109 128.374Z\"/><path class=\"ln solid\" d=\"M367.705 108.151L375.393 101.591L370.703 104.025Z\"/><rect class=\"fillA\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"397.545\" y=\"81.18\" width=\"38.9104\" height=\"15\"/><text class=\"lblXS\" x=\"402.545\" y=\"92.28\">record</text><rect class=\"fillB\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"468.496\" y=\"154.54\" width=\"43.7288\" height=\"15\"/><text class=\"lblXS\" x=\"473.496\" y=\"165.64\">name it</text><rect class=\"fillA\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"387.908\" y=\"227.9\" width=\"58.184\" height=\"15\"/><text class=\"lblXS\" x=\"392.908\" y=\"239\">change one</text><rect class=\"fillB\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"321.776\" y=\"154.54\" width=\"43.7288\" height=\"15\"/><text class=\"lblXS\" x=\"326.776\" y=\"165.64\">re-test</text><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"277.32\" width=\"215.28\" height=\"25\"/><text class=\"lblXS\" x=\"317.55\" y=\"289.11\">one change at a time</text><text class=\"lblXS\" x=\"317.55\" y=\"302.11\">makes the gain attributable</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><rect class=\"fillA\" x=\"16\" y=\"20\" width=\"66\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M16 20h66v34H16z\"/><text class=\"lblS\" x=\"24\" y=\"34\">prep</text><text class=\"lblS\" x=\"24\" y=\"46\">set-up</text></g><g><rect class=\"fillB\" x=\"94\" y=\"20\" width=\"66\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M94 20h66v34H94z\"/><text class=\"lblS\" x=\"102\" y=\"34\">force</text><text class=\"lblS\" x=\"102\" y=\"46\">production</text></g><g><rect class=\"fillC\" x=\"172\" y=\"20\" width=\"66\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M172 20h66v34H172z\"/><text class=\"lblS\" x=\"180\" y=\"34\">critical</text><text class=\"lblS\" x=\"180\" y=\"46\">instant</text></g><g><rect class=\"fillA\" x=\"250\" y=\"20\" width=\"54\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M250 20h54v34H250z\"/><text class=\"lblS\" x=\"258\" y=\"34\">follow</text><text class=\"lblS\" x=\"258\" y=\"46\">through</text></g><path class=\"th\" d=\"M82 37h10M160 37h10M238 37h10\"/><path class=\"ln\" d=\"M92 37l-9-4.5v9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M170 37l-9-4.5v9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M248 37l-9-4.5v9z\" fill=\"currentColor\"/><path class=\"dash\" d=\"M277 60v34H49V60\"/><path class=\"ln\" d=\"M49 60l4.5-9h-9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"112\" y=\"106\" width=\"96\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M112 106h96v34h-96z\"/><text class=\"lblS\" x=\"120\" y=\"120\">record</text><text class=\"lblS\" x=\"120\" y=\"132\">re-test</text></g><path class=\"th\" d=\"M160 100V84\"/><path class=\"ln\" d=\"M160 84l-4.5 9h9z\" fill=\"currentColor\"/>",
+    "viewBox": "0 0 320 160",
     "legend": [
      {
       "en": "the critical instant is the shortest phase and decides most of the outcome",
@@ -984,8 +984,8 @@ window.IB_VISUALS = {
      "en": "Compensation: why a healthy knee can hurt",
      "zh": "代偿：为什么一个健康的膝盖会疼"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the hip stops steering</text><line class=\"th\" x1=\"37.7\" y1=\"293.04\" x2=\"248.3\" y2=\"293.04\"/><line class=\"dash\" x1=\"44.72\" y1=\"293.04\" x2=\"39.72\" y2=\"301.04\"/><line class=\"dash\" x1=\"58.409\" y1=\"293.04\" x2=\"53.409\" y2=\"301.04\"/><line class=\"dash\" x1=\"72.098\" y1=\"293.04\" x2=\"67.098\" y2=\"301.04\"/><line class=\"dash\" x1=\"85.787\" y1=\"293.04\" x2=\"80.787\" y2=\"301.04\"/><line class=\"dash\" x1=\"99.476\" y1=\"293.04\" x2=\"94.476\" y2=\"301.04\"/><line class=\"dash\" x1=\"113.165\" y1=\"293.04\" x2=\"108.165\" y2=\"301.04\"/><line class=\"dash\" x1=\"126.854\" y1=\"293.04\" x2=\"121.854\" y2=\"301.04\"/><line class=\"dash\" x1=\"140.543\" y1=\"293.04\" x2=\"135.543\" y2=\"301.04\"/><line class=\"dash\" x1=\"154.232\" y1=\"293.04\" x2=\"149.232\" y2=\"301.04\"/><line class=\"dash\" x1=\"167.921\" y1=\"293.04\" x2=\"162.921\" y2=\"301.04\"/><line class=\"dash\" x1=\"181.61\" y1=\"293.04\" x2=\"176.61\" y2=\"301.04\"/><line class=\"dash\" x1=\"195.299\" y1=\"293.04\" x2=\"190.299\" y2=\"301.04\"/><line class=\"dash\" x1=\"208.988\" y1=\"293.04\" x2=\"203.988\" y2=\"301.04\"/><line class=\"dash\" x1=\"222.677\" y1=\"293.04\" x2=\"217.677\" y2=\"301.04\"/><line class=\"dash\" x1=\"236.366\" y1=\"293.04\" x2=\"231.366\" y2=\"301.04\"/><text class=\"lblXS\" x=\"248.3\" y=\"307.45\" text-anchor=\"end\">ground</text><circle class=\"fillC\" stroke=\"currentColor\" stroke-width=\"2\" cx=\"105.56\" cy=\"104.4\" r=\"13\"/><text class=\"lblXS\" x=\"105.56\" y=\"82.13\" text-anchor=\"middle\">hip</text><path class=\"th\" d=\"M105.56 104.4L150.02 167.28\"/><text class=\"lblXS\" x=\"166.4\" y=\"156.8\">femur turns in</text><circle class=\"warn\" cx=\"150.02\" cy=\"172.52\" r=\"5\"/><text class=\"lblXS\" x=\"153.53\" y=\"192.17\">knee</text><path class=\"ln\" d=\"M150.02 175.14L166.4 261.6\"/><rect class=\"fillA\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"143\" y=\"261.6\" width=\"70.2\" height=\"18.34\"/><text class=\"lblXS\" x=\"179.27\" y=\"265.53\" text-anchor=\"middle\">foot</text><line class=\"dash\" x1=\"105.56\" y1=\"167.28\" x2=\"105.56\" y2=\"293.04\"/><text class=\"lblXS\" x=\"102.05\" y=\"235.4\" text-anchor=\"end\">what the</text><text class=\"lblXS\" x=\"102.05\" y=\"255.05\" text-anchor=\"end\">hip should</text><text class=\"lblXS\" x=\"40.04\" y=\"63.79\">nothing is torn</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · load moves to the inside</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"82.18\" width=\"88.9574\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"92.08\">medial</text><text class=\"lblXS\" x=\"534\" y=\"92.08\" text-anchor=\"end\">2.1×</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"118.86\" width=\"34.5946\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"128.76\">lateral</text><text class=\"lblXS\" x=\"534\" y=\"128.76\" text-anchor=\"end\">0.8×</text><text class=\"lblXS\" x=\"417\" y=\"71.65\" text-anchor=\"middle\">knee compartment load</text><line class=\"dash\" x1=\"300\" y1=\"172.52\" x2=\"534\" y2=\"172.52\"/><text class=\"lblXS\" x=\"304.68\" y=\"165.97\">even</text><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"203.96\" width=\"215.28\" height=\"26\"/><text class=\"lblS\" x=\"317.55\" y=\"215.75\">the inside was not built</text><text class=\"lblS\" x=\"317.55\" y=\"229.75\">for this job</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><circle class=\"fillA\" cx=\"44\" cy=\"34\" r=\"18\"/><path class=\"ln\" d=\"M44 16a18 18 0 1 1 0 36 18 18 0 1 1 0-36z\"/><text class=\"lblS\" x=\"26\" y=\"38\">hip</text><text class=\"lblS\" x=\"16\" y=\"66\">weak glute</text></g><path class=\"th\" d=\"M68 34h34\"/><path class=\"ln\" d=\"M102 34l-9-4.5v9z\" fill=\"currentColor\"/><g><line class=\"th\" x1=\"140\" cy1=\"16\" x2=\"140\" y2=\"52\"/><path class=\"ln\" d=\"M140 16a22 22 0 0 1 10 18\" /><path class=\"ln\" d=\"M150 34l-8 1 4 7z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"128\" y=\"66\">femur</text><text class=\"lblS\" x=\"118\" y=\"78\">rotates in</text></g><path class=\"th\" d=\"M160 40h34\"/><path class=\"ln\" d=\"M194 40l-9-4.5v9z\" fill=\"currentColor\"/><g><path class=\"fillC\" d=\"M206 22h26v36h-26z\"/><path class=\"ln\" d=\"M206 22h26v36h-26z\"/><line class=\"th\" x1=\"212\" y1=\"40\" x2=\"226\" y2=\"40\"/><text class=\"lbl\" x=\"212\" y=\"34\">k</text><text class=\"lblS\" x=\"196\" y=\"72\">medial</text><text class=\"lblS\" x=\"192\" y=\"84\">compartment</text></g><g><text class=\"lblS\" x=\"246\" y=\"30\">load</text><text class=\"lblS\" x=\"246\" y=\"42\">rises</text><path class=\"th\" d=\"M240 52h56\"/><path class=\"ln\" d=\"M296 52l-9-4.5v9z\" fill=\"currentColor\"/></g><path class=\"dash\" d=\"M14 104h292\"/><text class=\"lblS\" x=\"3\" y=\"122\">nothing is torn — the tissue is healthy and simply being</text><text class=\"lblS\" x=\"14\" y=\"135\">used in a way it cannot tolerate</text>",
+    "viewBox": "0 0 320 142",
     "legend": [
      {
       "en": "a weak hip stops controlling femoral rotation",
@@ -1130,8 +1130,8 @@ window.IB_VISUALS = {
      "en": "The stages, and the load-versus-capacity gap",
      "zh": "各个阶段，以及负荷与容量的差距"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the ladder is not negotiable</text><rect class=\"fillA\" rx=\"3\" x=\"42.848\" y=\"249.81\" width=\"33.696\" height=\"32.75\"/><text class=\"lblXS\" x=\"61.1\" y=\"277.56\" text-anchor=\"middle\">control</text><rect class=\"fillB\" rx=\"3\" x=\"84.968\" y=\"217.06\" width=\"33.696\" height=\"65.5\"/><text class=\"lblXS\" x=\"103.22\" y=\"277.56\" text-anchor=\"middle\">strength</text><rect class=\"fillA\" rx=\"3\" x=\"127.088\" y=\"184.31\" width=\"33.696\" height=\"98.25\"/><text class=\"lblXS\" x=\"145.34\" y=\"277.56\" text-anchor=\"middle\">power</text><rect class=\"fillB\" rx=\"3\" x=\"169.208\" y=\"151.56\" width=\"33.696\" height=\"131\"/><text class=\"lblXS\" x=\"187.46\" y=\"277.56\" text-anchor=\"middle\">sport</text><rect class=\"fillA\" rx=\"3\" x=\"211.328\" y=\"118.81\" width=\"33.696\" height=\"163.75\"/><text class=\"lblXS\" x=\"229.58\" y=\"277.56\" text-anchor=\"middle\">compete</text><line class=\"th\" x1=\"35.36\" y1=\"282.56\" x2=\"255.32\" y2=\"282.56\"/><text class=\"lblXS\" x=\"143\" y=\"302.21\" text-anchor=\"middle\">each rung before the next</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · skip one and it shows</text><line class=\"ax\" x1=\"300\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"300\" y1=\"52\" x2=\"300\" y2=\"314\"/><line class=\"grid\" x1=\"358.5\" y1=\"52\" x2=\"358.5\" y2=\"314\"/><line class=\"grid\" x1=\"417\" y1=\"52\" x2=\"417\" y2=\"314\"/><line class=\"grid\" x1=\"475.5\" y1=\"52\" x2=\"475.5\" y2=\"314\"/><line class=\"grid\" x1=\"300\" y1=\"139.333\" x2=\"534\" y2=\"139.333\"/><line class=\"grid\" x1=\"300\" y1=\"226.667\" x2=\"534\" y2=\"226.667\"/><path class=\"ln\" d=\"M300 130.6Q365.52 167.28 391.26 177.76Q417 188.24 431.04 222.3Q445.08 256.36 466.14 235.4Q487.2 214.44 510.6 209.2L534 203.96\"/><line class=\"dash\" x1=\"300\" y1=\"183\" x2=\"534\" y2=\"183\"/><text class=\"lblXS\" x=\"304.68\" y=\"176.45\">demand</text><line class=\"dash\" x1=\"445.08\" y1=\"256.36\" x2=\"445.08\" y2=\"188.24\"/><text class=\"lblXS\" x=\"453.27\" y=\"266.84\">the gap</text><rect class=\"warnFill\" rx=\"4\" x=\"417\" y=\"193.48\" width=\"32.76\" height=\"57.64\"/><text class=\"lblXS\" x=\"417\" y=\"304.83\" text-anchor=\"middle\">load against capacity, one session</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"128\" width=\"52\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M14 128h52v30H14z\"/><text class=\"lblS\" x=\"20\" y=\"140\">control</text></g><g><rect class=\"fillA\" x=\"70\" y=\"110\" width=\"52\" height=\"48\" rx=\"5\"/><path class=\"ln\" d=\"M70 110h52v48H70z\"/><text class=\"lblS\" x=\"76\" y=\"124\">strength</text></g><g><rect class=\"fillB\" x=\"126\" y=\"88\" width=\"52\" height=\"70\" rx=\"5\"/><path class=\"ln\" d=\"M126 88h52v70h-52z\"/><text class=\"lblS\" x=\"132\" y=\"102\">power</text></g><g><rect class=\"fillB\" x=\"182\" y=\"62\" width=\"52\" height=\"96\" rx=\"5\"/><path class=\"ln\" d=\"M182 62h52v96h-52z\"/><text class=\"lblS\" x=\"188\" y=\"76\">sport</text><text class=\"lblS\" x=\"188\" y=\"88\">specific</text></g><g><rect class=\"fillC\" x=\"238\" y=\"30\" width=\"66\" height=\"128\" rx=\"5\"/><path class=\"ln\" d=\"M238 30h66v128h-66z\"/><text class=\"lblS\" x=\"244\" y=\"44\">compete</text></g><path class=\"th\" d=\"M66 128v-18M122 110V88M178 88V62M234 62V30\"/><g><line class=\"ln\" x1=\"14\" y1=\"112\" x2=\"304\" y2=\"112\"/><path class=\"fillC\" d=\"M20 108C90 96 150 72 300 40v72z\"/><text class=\"lblS\" x=\"20\" y=\"104\">capacity</text><text class=\"lblS\" x=\"64\" y=\"152\">skip one step and the tissue never catches up</text></g>",
+    "viewBox": "0 0 320 175",
     "legend": [
      {
       "en": "the stages are dictated by biology, not by the calendar",
@@ -1290,8 +1290,8 @@ window.IB_VISUALS = {
      "en": "Two systems, two speeds, two jobs",
      "zh": "两套系统，两种速度，两种工作"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"182\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · nerve</text><path class=\"fillA\" d=\"M40.4 104.4L155.6 104.4L155.6 135.84L40.4 135.84\"/><text class=\"lblXS\" x=\"98\" y=\"124.05\" text-anchor=\"middle\">receptor</text><path class=\"fillB\" d=\"M40.4 172.52L155.6 172.52L155.6 203.96L40.4 203.96\"/><text class=\"lblXS\" x=\"98\" y=\"192.17\" text-anchor=\"middle\">muscle</text><line class=\"th\" x1=\"98\" y1=\"135.84\" x2=\"98\" y2=\"172.52\"/><path class=\"ln solid\" d=\"M98 172.52l2.48 -4.96-4.96 0z\"/><text class=\"lblXS\" x=\"106.64\" y=\"156.8\">ms</text><rect class=\"fillA\" rx=\"6\" x=\"31.76\" y=\"230.16\" width=\"132.48\" height=\"25\"/><text class=\"lblXS\" x=\"36.8\" y=\"241.95\">targeted</text><text class=\"lblXS\" x=\"36.8\" y=\"254.95\">and brief</text><rect class=\"panel\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"196\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"196\" y1=\"40\" x2=\"364\" y2=\"40\"/><text class=\"lblL\" x=\"206\" y=\"31.5\">B · hormone</text><path class=\"fillA\" d=\"M222.4 104.4L337.6 104.4L337.6 135.84L222.4 135.84\"/><text class=\"lblXS\" x=\"280\" y=\"124.05\" text-anchor=\"middle\">gland</text><path class=\"fillB\" d=\"M222.4 172.52L337.6 172.52L337.6 203.96L222.4 203.96\"/><text class=\"lblXS\" x=\"280\" y=\"192.17\" text-anchor=\"middle\">whole body</text><line class=\"dash\" x1=\"222.4\" y1=\"162.04\" x2=\"337.6\" y2=\"162.04\"/><path class=\"ln solid\" d=\"M337.6 162.04l-4 -2.48v4l4.96z\"/><text class=\"lblXS\" x=\"285.76\" y=\"156.8\">blood</text><rect class=\"fillA\" rx=\"6\" x=\"213.76\" y=\"230.16\" width=\"132.48\" height=\"25\"/><text class=\"lblXS\" x=\"218.8\" y=\"241.95\">diffuse</text><text class=\"lblXS\" x=\"218.8\" y=\"254.95\">and slow</text><rect class=\"panel\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"378\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"378\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"388\" y=\"31.5\">C · which clock</text><line class=\"ax\" x1=\"390\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"390\" y1=\"52\" x2=\"390\" y2=\"314\"/><line class=\"grid\" x1=\"438\" y1=\"52\" x2=\"438\" y2=\"314\"/><line class=\"grid\" x1=\"486\" y1=\"52\" x2=\"486\" y2=\"314\"/><line class=\"grid\" x1=\"390\" y1=\"139.333\" x2=\"534\" y2=\"139.333\"/><line class=\"grid\" x1=\"390\" y1=\"226.667\" x2=\"534\" y2=\"226.667\"/><path class=\"ln\" d=\"M390 88.68Q407.28 130.6 420.24 120.12Q433.2 109.64 483.6 107.02L534 104.4\"/><path class=\"ln\" d=\"M390 287.8Q440.4 261.6 465.6 217.06Q490.8 172.52 512.4 151.56L534 130.6\"/><text class=\"lblXS\" x=\"392.88\" y=\"78.2\">nerve</text><text class=\"lblXS\" x=\"519.6\" y=\"287.8\" text-anchor=\"end\">hormone</text><text class=\"lblXS\" x=\"462\" y=\"304.83\" text-anchor=\"middle\">seconds  →  hours</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"70\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h70v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"38\">nerve</text><text class=\"lblS\" x=\"22\" y=\"50\">ms</text><path class=\"th\" d=\"M84 41h30\"/><path class=\"ln\" d=\"M114 41l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"114\" y=\"24\" width=\"58\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M114 24h58v34h-58z\"/><text class=\"lblS\" x=\"122\" y=\"46\">muscle</text><path class=\"th\" d=\"M172 41h30\"/><path class=\"ln\" d=\"M202 41l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillB\" x=\"202\" y=\"24\" width=\"104\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M202 24h104v34H202z\"/><text class=\"lblS\" x=\"210\" y=\"38\">response</text><text class=\"lblS\" x=\"210\" y=\"50\">in ~1 s</text></g><g><rect class=\"fillA\" x=\"14\" y=\"86\" width=\"70\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 86h70v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"100\">gland</text><text class=\"lblS\" x=\"22\" y=\"112\">hormone</text><path class=\"th\" d=\"M84 103h56\" stroke-dasharray=\"5 4\"/><rect class=\"fillA\" x=\"140\" y=\"86\" width=\"58\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M140 86h58v34h-58z\"/><text class=\"lblS\" x=\"148\" y=\"108\">blood</text><path class=\"th\" d=\"M198 103h30\" stroke-dasharray=\"5 4\"/><rect class=\"fillB\" x=\"228\" y=\"86\" width=\"78\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M228 86h78v34h-78z\"/><text class=\"lblS\" x=\"236\" y=\"100\">response</text><text class=\"lblS\" x=\"236\" y=\"112\">in 30 s – min</text></g><text class=\"lblS\" x=\"14\" y=\"140\">fast and short-lived</text><text class=\"lblS\" x=\"138\" y=\"140\">slower, longer-lived, whole-body</text>",
+    "viewBox": "0 0 320 150",
     "legend": [
      {
       "en": "the nervous system is fast, targeted and stops the moment the signal stops",
@@ -1436,8 +1436,8 @@ window.IB_VISUALS = {
      "en": "The reflex arc and where coordination sits",
      "zh": "反射弧以及协调位于何处"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the cord answers first</text><rect class=\"fillA\" rx=\"10\" x=\"119.6\" y=\"93.92\" width=\"46.8\" height=\"183.4\"/><text class=\"lblXS\" x=\"143\" y=\"82.13\" text-anchor=\"middle\">spinal cord</text><circle class=\"fillC\" cx=\"56.42\" cy=\"141.08\" r=\"6\"/><text class=\"lblXS\" x=\"33.02\" y=\"165.97\">receptor</text><circle class=\"fillC\" cx=\"229.58\" cy=\"141.08\" r=\"6\"/><text class=\"lblXS\" x=\"252.98\" y=\"165.97\" text-anchor=\"end\">muscle</text><path class=\"ln\" d=\"M63.44 135.84Q96.2 156.8 110.24 164.66L124.28 172.52\"/><path class=\"ln\" d=\"M161.72 172.52Q189.8 156.8 206.18 146.32L222.56 135.84\"/><circle class=\"acc\" cx=\"143\" cy=\"183\" r=\"4.5\"/><text class=\"lblXS\" x=\"143\" y=\"202.65\" text-anchor=\"middle\">spine decides</text><path class=\"ln\" d=\"M128.96 104.4Q119.6 78.2 105.56 75.58L91.52 72.96\"/><text class=\"lblXS\" x=\"40.04\" y=\"71.65\">then reports up</text><text class=\"lblXS\" x=\"143\" y=\"304.83\" text-anchor=\"middle\">no brain in the loop</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · and the brain times it</text><rect class=\"fillB\" rx=\"8\" x=\"314.04\" y=\"88.68\" width=\"56.16\" height=\"52.4\"/><text class=\"lblXS\" x=\"342.12\" y=\"126.67\" text-anchor=\"middle\">motor</text><text class=\"lblXS\" x=\"342.12\" y=\"147.63\" text-anchor=\"middle\">cortex</text><rect class=\"fillC\" rx=\"8\" x=\"445.08\" y=\"198.72\" width=\"74.88\" height=\"62.88\"/><text class=\"lblXS\" x=\"482.52\" y=\"236.71\" text-anchor=\"middle\">cere-</text><text class=\"lblXS\" x=\"482.52\" y=\"257.67\" text-anchor=\"middle\">bellum</text><path class=\"ln\" d=\"M370.2 130.6Q398.28 114.88 419.34 120.12L440.4 125.36\"/><text class=\"lblXS\" x=\"405.3\" y=\"104.4\" text-anchor=\"middle\">command</text><path class=\"ln\" d=\"M445.08 214.44Q417 188.24 402.96 177.76L388.92 167.28\"/><text class=\"lblXS\" x=\"402.96\" y=\"176.45\" text-anchor=\"middle\">predicted vs actual</text><rect class=\"fillA\" rx=\"4\" x=\"314.04\" y=\"198.72\" width=\"56.16\" height=\"26.2\"/><text class=\"lblXS\" x=\"342.12\" y=\"218.37\" text-anchor=\"middle\">muscle</text><path class=\"ln\" d=\"M449.76 209.2Q417 183 398.28 177.76Q379.56 172.52 374.88 188.24L370.2 203.96\"/>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><circle class=\"fillB\" cx=\"30\" cy=\"40\" r=\"11\"/><path class=\"ln\" d=\"M30 29a11 11 0 1 1 0 22 11 11 0 1 1 0-22z\"/><text class=\"lblS\" x=\"16\" y=\"64\">receptor</text><path class=\"th\" d=\"M41 40h44\"/><path class=\"ln\" d=\"M85 40l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"85\" y=\"26\" width=\"52\" height=\"28\" rx=\"6\"/><path class=\"ln\" d=\"M85 26h52v28H85z\"/><text class=\"lblS\" x=\"93\" y=\"44\">spinal cord</text><path class=\"th\" d=\"M111 54v22\"/><path class=\"ln\" d=\"M111 76l-4.5-9h9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"85\" y=\"76\" width=\"52\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M85 76h52v26H85z\"/><text class=\"lblS\" x=\"93\" y=\"93\">effector</text><path class=\"th\" d=\"M137 40h40\" stroke-dasharray=\"5 4\"/><text class=\"lblS\" x=\"182\" y=\"36\">to brain</text><text class=\"lblS\" x=\"182\" y=\"50\">(feedback)</text></g><g><rect class=\"fillA\" x=\"14\" y=\"120\" width=\"86\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 120h86v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"132\">motor cortex</text><text class=\"lblS\" x=\"22\" y=\"144\">voluntary</text><path class=\"th\" d=\"M100 135h32\"/><path class=\"ln\" d=\"M132 135l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"132\" y=\"120\" width=\"80\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M132 120h80v30h-80z\"/><text class=\"lblS\" x=\"140\" y=\"132\">cerebellum</text><text class=\"lblS\" x=\"140\" y=\"144\">timing</text><path class=\"th\" d=\"M212 135h32\"/><path class=\"ln\" d=\"M244 135l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"244\" y=\"120\" width=\"62\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M244 120h62v30h-62z\"/><text class=\"lblS\" x=\"252\" y=\"139\">muscle</text></g>",
+    "viewBox": "0 0 320 165",
     "legend": [
      {
       "en": "a reflex does not need the brain — the spinal cord answers first and reports afterwards",
@@ -1584,8 +1584,8 @@ window.IB_VISUALS = {
      "en": "One jump, four systems, one time course",
      "zh": "一次跳跃，四个系统，一条时间轴"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · one stimulus, four clocks</text><text class=\"lblXS\" x=\"40.04\" y=\"116.19\">start</text><line class=\"dash\" x1=\"69.29\" y1=\"83.44\" x2=\"69.29\" y2=\"141.08\"/><rect class=\"goodFill\" rx=\"7\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"72.8\" y=\"93.92\" width=\"16.38\" height=\"36.68\"/><text class=\"lblXS\" x=\"80.99\" y=\"156.8\" text-anchor=\"middle\">neural</text><rect class=\"fillC\" rx=\"7\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"105.56\" y=\"93.92\" width=\"32.76\" height=\"36.68\"/><text class=\"lblXS\" x=\"121.94\" y=\"156.8\" text-anchor=\"middle\">heart</text><rect class=\"fillC\" rx=\"7\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"154.7\" y=\"93.92\" width=\"35.1\" height=\"36.68\"/><text class=\"lblXS\" x=\"172.25\" y=\"156.8\" text-anchor=\"middle\">breath</text><rect class=\"fillB\" rx=\"7\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"208.52\" y=\"93.92\" width=\"44.46\" height=\"36.68\"/><text class=\"lblXS\" x=\"230.75\" y=\"156.8\" text-anchor=\"middle\">hormone</text><text class=\"lblXS\" x=\"143\" y=\"203.96\" text-anchor=\"middle\">four clocks, one stimulus</text><text class=\"lblXS\" x=\"143\" y=\"304.83\" text-anchor=\"middle\">seconds  →  hours after the start</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · won on the last one</text><line class=\"ax\" x1=\"300\" y1=\"314\" x2=\"534\" y2=\"314\"/><line class=\"ax\" x1=\"300\" y1=\"52\" x2=\"300\" y2=\"314\"/><line class=\"grid\" x1=\"358.5\" y1=\"52\" x2=\"358.5\" y2=\"314\"/><line class=\"grid\" x1=\"417\" y1=\"52\" x2=\"417\" y2=\"314\"/><line class=\"grid\" x1=\"475.5\" y1=\"52\" x2=\"475.5\" y2=\"314\"/><line class=\"grid\" x1=\"300\" y1=\"117.5\" x2=\"534\" y2=\"117.5\"/><line class=\"grid\" x1=\"300\" y1=\"183\" x2=\"534\" y2=\"183\"/><line class=\"grid\" x1=\"300\" y1=\"248.5\" x2=\"534\" y2=\"248.5\"/><path class=\"ln\" d=\"M300 282.56Q323.4 141.08 342.12 151.56Q360.84 162.04 394.77 188.24Q428.7 214.44 455.61 238.02Q482.52 261.6 508.26 277.32L534 293.04\"/><rect class=\"goodFill\" rx=\"6\" x=\"428.7\" y=\"78.2\" width=\"105.3\" height=\"209.6\"/><text class=\"lblXS\" x=\"440.4\" y=\"104.4\">sustained</text><rect class=\"fillA\" rx=\"6\" x=\"323.4\" y=\"78.2\" width=\"37.44\" height=\"209.6\"/><text class=\"lblXS\" x=\"328.08\" y=\"104.4\">trigger</text><text class=\"lblXS\" x=\"417\" y=\"304.83\" text-anchor=\"middle\">feeling tired lags the heart rate</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"th\" x1=\"20\" y1=\"132\" x2=\"304\" y2=\"132\"/><path class=\"ln\" d=\"M20 132l-0 0\"/><g><text class=\"lblS\" x=\"20\" y=\"152\">nerve</text><rect class=\"fillC\" x=\"20\" y=\"46\" width=\"34\" height=\"80\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"96\" y=\"152\">heart</text><rect class=\"fillC\" x=\"86\" y=\"76\" width=\"34\" height=\"50\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"170\" y=\"152\">lungs</text><rect class=\"fillC\" x=\"164\" y=\"86\" width=\"34\" height=\"40\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"240\" y=\"152\">hormones</text><rect class=\"fillC\" x=\"234\" y=\"98\" width=\"34\" height=\"28\" rx=\"4\"/></g><text class=\"lblS\" x=\"20\" y=\"36\">onset</text><path class=\"th\" d=\"M54 32h250\"/><path class=\"ln\" d=\"M304 32l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"250\" y=\"26\">seconds →</text>",
+    "viewBox": "0 0 320 165",
     "legend": [
      {
       "en": "the nervous system responds first and hardest — it is the trigger, not the sustainer",
@@ -1750,8 +1750,8 @@ window.IB_VISUALS = {
      "en": "Negative feedback, drawn once and used everywhere",
      "zh": "负反馈：一张图，处处可用"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · the loop</text><rect class=\"fillA\" rx=\"6\" x=\"105.56\" y=\"78.2\" width=\"74.88\" height=\"41.92\"/><text class=\"lblXS\" x=\"143\" y=\"103.09\" text-anchor=\"middle\">variable</text><rect class=\"fillB\" rx=\"6\" x=\"105.56\" y=\"146.32\" width=\"74.88\" height=\"41.92\"/><text class=\"lblXS\" x=\"143\" y=\"171.21\" text-anchor=\"middle\">receptor</text><rect class=\"fillC\" rx=\"6\" x=\"105.56\" y=\"214.44\" width=\"74.88\" height=\"41.92\"/><text class=\"lblXS\" x=\"143\" y=\"239.33\" text-anchor=\"middle\">effector</text><line class=\"ln\" x1=\"143\" y1=\"120.12\" x2=\"143\" y2=\"146.32\"/><path class=\"ln solid\" d=\"M143 146.32l2.48 -4.96-4.96 0z\"/><line class=\"ln\" x1=\"143\" y1=\"188.24\" x2=\"143\" y2=\"214.44\"/><path class=\"ln solid\" d=\"M143 214.44l2.48 -4.96-4.96 0z\"/><path class=\"ln\" d=\"M105.56 235.4Q63.44 214.44 56.42 185.62Q49.4 156.8 65.78 127.98Q82.16 99.16 93.86 99.16L105.56 99.16\"/><text class=\"lblXS\" x=\"49.4\" y=\"194.79\" text-anchor=\"middle\">corrects</text><text class=\"lblXS\" x=\"143\" y=\"287.8\" text-anchor=\"middle\">the correction reduces the error</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · same shape, five topics</text><path class=\"dash\" d=\"M492.98 167.28Q492.564 175.222 491.942 179.15Q491.32 183.077 490.29 186.918Q489.261 190.759 487.836 194.471Q486.411 198.184 484.606 201.727Q482.801 205.27 480.635 208.605Q478.469 211.94 475.967 215.03Q473.464 218.121 470.652 220.932Q467.841 223.744 464.75 226.247Q461.66 228.749 458.325 230.915Q454.99 233.081 451.447 234.886Q447.904 236.691 444.191 238.116Q440.479 239.541 436.638 240.57Q432.797 241.6 428.87 242.222Q424.942 242.844 420.971 243.052Q417 243.26 413.029 243.052Q409.058 242.844 405.13 242.222Q401.203 241.6 397.362 240.57Q393.521 239.541 389.809 238.116Q386.096 236.691 382.553 234.886Q379.01 233.081 375.675 230.915Q372.34 228.749 369.25 226.247Q366.159 223.744 363.348 220.932Q360.536 218.121 358.033 215.03Q355.531 211.94 353.365 208.605Q351.199 205.27 349.394 201.727Q347.589 198.184 346.164 194.471Q344.739 190.759 343.71 186.918Q342.68 183.077 342.058 179.15Q341.436 175.222 341.228 171.251Q341.02 167.28 341.228 163.309Q341.436 159.338 342.058 155.41Q342.68 151.483 343.71 147.642Q344.739 143.801 346.164 140.089Q347.589 136.376 349.394 132.833Q351.199 129.29 353.365 125.955Q355.531 122.62 358.033 119.53Q360.536 116.439 363.348 113.628Q366.159 110.816 369.25 108.313Q372.34 105.811 375.675 103.645Q379.01 101.479 382.553 99.6741Q386.096 97.8688 389.809 96.4438Q393.521 95.0187 397.362 93.9895Q401.203 92.9603 405.13 92.3383Q409.058 91.7162 413.029 91.5081Q417 91.3 420.971 91.5081Q424.942 91.7162 428.87 92.3383Q432.797 92.9603 436.638 93.9895Q440.479 95.0187 444.191 96.4438Q447.904 97.8688 451.447 99.6741Q454.99 101.479 458.325 103.645Q461.66 105.811 464.75 108.313Q467.841 110.816 470.652 113.628Q473.464 116.439 475.967 119.53Q478.469 122.62 480.635 125.955Q482.801 129.29 484.606 132.833Q486.411 136.376 487.836 140.089Q489.261 143.801 490.29 147.642Q491.32 151.483 491.942 155.41Q492.564 159.338 492.772 163.309L492.98 167.28\"/><path class=\"ln solid\" d=\"M444.281 98.0558L450.186 98.905L442.167 93.4143Z\"/><path class=\"ln solid\" d=\"M466.544 109.795L470.375 113.173L463.053 106.077Z\"/><path class=\"ln solid\" d=\"M495.681 169.824L492.284 177.713L490.613 170.4Z\"/><path class=\"ln solid\" d=\"M490.517 193.315L484.953 201.323L485.902 195.487Z\"/><path class=\"ln solid\" d=\"M438.347 238.076L430.342 242.103L437.328 243.074Z\"/><path class=\"ln solid\" d=\"M412.892 240.855L405.622 242.427L413.531 245.915Z\"/><path class=\"ln solid\" d=\"M351.512 208.491L349.962 203.09L355.95 211.004Z\"/><path class=\"ln solid\" d=\"M340.944 186.717L342.015 179.68L345.954 187.673Z\"/><path class=\"ln solid\" d=\"M355.18 121.953L362.227 114.589L358.941 118.509Z\"/><path class=\"ln solid\" d=\"M374.103 105.717L382.035 99.7973L376.56 101.248Z\"/><rect class=\"fillA\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"402.363\" y=\"83.8\" width=\"29.2736\" height=\"15\"/><text class=\"lblXS\" x=\"407.363\" y=\"94.9\">temp</text><rect class=\"fillC\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"467.397\" y=\"136.301\" width=\"43.7288\" height=\"15\"/><text class=\"lblXS\" x=\"472.397\" y=\"147.401\">glucose</text><rect class=\"fillA\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"437.386\" y=\"221.249\" width=\"48.5472\" height=\"15\"/><text class=\"lblXS\" x=\"442.386\" y=\"232.349\">pressure</text><rect class=\"fillC\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"355.294\" y=\"221.249\" width=\"34.092\" height=\"15\"/><text class=\"lblXS\" x=\"360.294\" y=\"232.349\">water</text><rect class=\"fillA\" rx=\"6\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"325.284\" y=\"136.301\" width=\"38.9104\" height=\"15\"/><text class=\"lblXS\" x=\"330.284\" y=\"147.401\">pacing</text><circle class=\"fillB\" cx=\"417\" cy=\"167.28\" r=\"8\"/><text class=\"lblXS\" x=\"417\" y=\"287.8\" text-anchor=\"middle\">only the variable changes</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<circle class=\"fillA\" cx=\"88\" cy=\"66\" r=\"30\"/><path class=\"ln\" d=\"M88 36a30 30 0 1 1 0 60 30 30 0 1 1 0-60z\"/><text class=\"lblS\" x=\"66\" y=\"62\">variable</text><text class=\"lblS\" x=\"70\" y=\"76\">being</text><text class=\"lblS\" x=\"66\" y=\"90\">regulated</text><rect class=\"fillB\" x=\"176\" y=\"26\" width=\"98\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M176 26h98v26h-98z\"/><text class=\"lblS\" x=\"184\" y=\"43\">receptor</text><rect class=\"fillB\" x=\"176\" y=\"106\" width=\"98\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M176 106h98v26h-98z\"/><text class=\"lblS\" x=\"184\" y=\"123\">effector</text><path class=\"th\" d=\"M118 50l42-16\"/><path class=\"ln\" d=\"M160 34l-9 4 7 6z\" fill=\"currentColor\"/><path class=\"th\" d=\"M118 84l42 16\"/><path class=\"ln\" d=\"M160 100l-9-4 7-6z\" fill=\"currentColor\"/><path class=\"th\" d=\"M225 52v54\"/><path class=\"ln\" d=\"M225 106l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"232\" y=\"82\">corrects</text><text class=\"lblS\" x=\"8\" y=\"152\">same shape as: thermoregulation · blood glucose · blood</text><text class=\"lblS\" x=\"14\" y=\"165\">pressure · water balance · pacing in a race</text>",
+    "viewBox": "0 0 320 172",
     "legend": [
      {
       "en": "a variable is sensed, a receptor reports, an effector corrects, and the correction reduces the error",
@@ -1934,8 +1934,8 @@ window.IB_VISUALS = {
      "en": "The division of labour in movement",
      "zh": "随意运动中的分工"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · two roads to the muscle</text><rect class=\"fillA\" rx=\"6\" x=\"105.56\" y=\"72.96\" width=\"74.88\" height=\"36.68\"/><text class=\"lblXS\" x=\"143\" y=\"95.23\" text-anchor=\"middle\">motor cortex</text><rect class=\"fillB\" rx=\"6\" x=\"40.04\" y=\"156.8\" width=\"79.56\" height=\"36.68\"/><text class=\"lblXS\" x=\"79.82\" y=\"183\" text-anchor=\"middle\">cortico-</text><text class=\"lblXS\" x=\"79.82\" y=\"203.96\" text-anchor=\"middle\">spinal</text><rect class=\"fillC\" rx=\"6\" x=\"166.4\" y=\"156.8\" width=\"79.56\" height=\"36.68\"/><text class=\"lblXS\" x=\"206.18\" y=\"183\" text-anchor=\"middle\">cerebellum</text><path class=\"ln\" d=\"M128.96 104.4Q96.2 130.6 89.18 143.7L82.16 156.8\"/><path class=\"ln\" d=\"M157.04 104.4Q189.8 130.6 197.99 143.7L206.18 156.8\"/><path class=\"fillA\" d=\"M105.56 235.4L180.44 235.4L180.44 266.84L105.56 266.84\"/><text class=\"lblXS\" x=\"143\" y=\"255.05\" text-anchor=\"middle\">muscle</text><line class=\"ln\" x1=\"79.82\" y1=\"193.48\" x2=\"79.82\" y2=\"235.4\"/><path class=\"ln solid\" d=\"M79.82 235.4l2.48 -4.96-4.96 0z\"/><line class=\"ln\" x1=\"206.18\" y1=\"193.48\" x2=\"206.18\" y2=\"235.4\"/><path class=\"ln solid\" d=\"M206.18 235.4l2.48 -4.96-4.96 0z\"/><text class=\"lblXS\" x=\"69.29\" y=\"218.37\" text-anchor=\"end\">precise</text><text class=\"lblXS\" x=\"216.71\" y=\"218.37\">timing</text><text class=\"lblXS\" x=\"143\" y=\"302.21\" text-anchor=\"middle\">reflexes run beside both</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · damage has a shape</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"82.18\" width=\"32.1235\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"92.08\">fine control</text><text class=\"lblXS\" x=\"534\" y=\"92.08\" text-anchor=\"end\">↓</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"124.1\" width=\"103.784\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"134\">posture</text><text class=\"lblXS\" x=\"534\" y=\"134\" text-anchor=\"end\">ok</text><text class=\"lblXS\" x=\"417\" y=\"71.65\" text-anchor=\"middle\">corticospinal lesion</text><line class=\"dash\" x1=\"300\" y1=\"167.28\" x2=\"534\" y2=\"167.28\"/><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"192.22\" width=\"96.3706\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"202.12\">fine control</text><text class=\"lblXS\" x=\"534\" y=\"202.12\" text-anchor=\"end\">ok</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"234.14\" width=\"37.0656\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"244.04\">posture</text><text class=\"lblXS\" x=\"534\" y=\"244.04\" text-anchor=\"end\">↓</text><text class=\"lblXS\" x=\"417\" y=\"179.07\" text-anchor=\"middle\">cerebellar lesion</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"136\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 20h136v56H14z\"/><text class=\"lblS\" x=\"22\" y=\"36\">corticospinal</text><text class=\"lblS\" x=\"22\" y=\"50\">(pyramidal)</text><text class=\"lblS\" x=\"22\" y=\"64\">precise, voluntary</text><path class=\"th\" d=\"M150 48h34\"/><path class=\"ln\" d=\"M184 48l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"184\" y=\"26\" width=\"122\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M184 26h122v44H184z\"/><text class=\"lblS\" x=\"192\" y=\"44\">fine control</text><text class=\"lblS\" x=\"192\" y=\"58\">of distal muscles</text></g><g><rect class=\"fillA\" x=\"14\" y=\"92\" width=\"136\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 92h136v56H14z\"/><text class=\"lblS\" x=\"22\" y=\"108\">extrapyramidal</text><text class=\"lblS\" x=\"22\" y=\"122\">+ cerebellum</text><text class=\"lblS\" x=\"22\" y=\"136\">posture, tone, timing</text><path class=\"th\" d=\"M150 120h34\"/><path class=\"ln\" d=\"M184 120l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"184\" y=\"98\" width=\"122\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M184 98h122v44H184z\"/><text class=\"lblS\" x=\"192\" y=\"116\">proximal muscles,</text><text class=\"lblS\" x=\"192\" y=\"130\">balance, coordination</text></g><text class=\"lblS\" x=\"8\" y=\"170\">damage shows as either weakness of precision or loss of</text><text class=\"lblS\" x=\"14\" y=\"183\">postural control</text>",
+    "viewBox": "0 0 320 190",
     "legend": [
      {
       "en": "the corticospinal system handles the precise, learned, deliberate part of a skill",
@@ -2100,8 +2100,8 @@ window.IB_VISUALS = {
      "en": "The adrenal response, minute by minute",
      "zh": "肾上腺素反应：逐分钟的变化"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · adrenaline, minute by minute</text><line class=\"ax\" x1=\"26\" y1=\"314\" x2=\"260\" y2=\"314\"/><line class=\"ax\" x1=\"26\" y1=\"52\" x2=\"26\" y2=\"314\"/><line class=\"grid\" x1=\"84.5\" y1=\"52\" x2=\"84.5\" y2=\"314\"/><line class=\"grid\" x1=\"143\" y1=\"52\" x2=\"143\" y2=\"314\"/><line class=\"grid\" x1=\"201.5\" y1=\"52\" x2=\"201.5\" y2=\"314\"/><line class=\"grid\" x1=\"26\" y1=\"117.5\" x2=\"260\" y2=\"117.5\"/><line class=\"grid\" x1=\"26\" y1=\"183\" x2=\"260\" y2=\"183\"/><line class=\"grid\" x1=\"26\" y1=\"248.5\" x2=\"260\" y2=\"248.5\"/><path class=\"ln\" d=\"M26 283.87Q40.04 214.44 49.4 172.52Q58.76 130.6 77.48 120.12Q96.2 109.64 125.45 141.08Q154.7 172.52 181.61 209.2Q208.52 245.88 234.26 262.91L260 279.94\"/><line class=\"dash\" x1=\"26\" y1=\"283.87\" x2=\"260\" y2=\"283.87\"/><text class=\"lblXS\" x=\"143\" y=\"304.83\" text-anchor=\"middle\">minutes  →</text><line class=\"dash\" x1=\"58.76\" y1=\"130.6\" x2=\"58.76\" y2=\"283.87\"/><text class=\"lblXS\" x=\"62.27\" y=\"291.73\">30 s</text><circle class=\"acc\" cx=\"96.2\" cy=\"109.64\" r=\"4\"/><text class=\"lblXS\" x=\"99.71\" y=\"100.47\">peak</text><text class=\"lblXS\" x=\"33.02\" y=\"269.46\">rest</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · two races, two problems</text><rect class=\"fillA\" rx=\"6\" x=\"314.04\" y=\"88.68\" width=\"93.6\" height=\"188.64\"/><text class=\"lbl\" x=\"360.84\" y=\"114.88\" text-anchor=\"middle\">400 m</text><text class=\"lblXS\" x=\"360.84\" y=\"141.08\" text-anchor=\"middle\">seconds</text><rect class=\"fillB\" rx=\"4\" x=\"314.04\" y=\"167.28\" width=\"93.6\" height=\"41.92\"/><text class=\"lblXS\" x=\"360.84\" y=\"194.79\" text-anchor=\"middle\">the peak</text><rect class=\"fillA\" rx=\"6\" x=\"426.36\" y=\"88.68\" width=\"93.6\" height=\"188.64\"/><text class=\"lbl\" x=\"473.16\" y=\"114.88\" text-anchor=\"middle\">marathon</text><text class=\"lblXS\" x=\"473.16\" y=\"141.08\" text-anchor=\"middle\">hours</text><rect class=\"fillC\" rx=\"4\" x=\"426.36\" y=\"167.28\" width=\"93.6\" height=\"73.36\"/><text class=\"lblXS\" x=\"473.16\" y=\"209.2\" text-anchor=\"middle\">what persists</text><text class=\"lblXS\" x=\"417\" y=\"302.21\" text-anchor=\"middle\">sit on the right part of the curve</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"120\" x2=\"304\" y2=\"120\"/><path class=\"ln\" d=\"M30 120C60 40 96 34 130 52c40 22 60 46 90 62 26 14 50 6 84 4\"/><line class=\"dash\" d=\"M30 120h274\"/><line class=\"dash\" d=\"M64 120V46\"/><text class=\"lblS\" x=\"40\" y=\"40\">adrenaline</text><text class=\"lblS\" x=\"46\" y=\"136\">0</text><line class=\"dash\" d=\"M130 120V52\"/><text class=\"lblS\" x=\"106\" y=\"66\">1 min</text><line class=\"dash\" d=\"M220 120V114\"/><text class=\"lblS\" x=\"196\" y=\"134\">20 min</text><text class=\"lblS\" x=\"30\" y=\"158\">onset</text><text class=\"lblS\" x=\"140\" y=\"158\">peak</text><text class=\"lblS\" x=\"238\" y=\"158\">fade</text><text class=\"lblS\" x=\"160\" y=\"96\">the race is won or lost here</text>",
+    "viewBox": "0 0 320 170",
     "legend": [
      {
       "en": "adrenaline rises within 30 seconds, peaks early, and returns to baseline well before the event ends",
@@ -2263,28 +2263,28 @@ window.IB_VISUALS = {
   "figures": [
    {
     "title": {
-     "en": "Water balance: what goes in and what comes out",
-     "zh": "水分平衡：摄入与流失"
+     "en": "Gain and loss on a shared scale",
+     "zh": "摄入与失水（同一刻度）"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · in and out, one scale</text><text class=\"lblXS\" x=\"89.18\" y=\"63.79\" text-anchor=\"middle\">GAIN</text><text class=\"lblXS\" x=\"196.82\" y=\"63.79\" text-anchor=\"middle\">LOSS</text><rect class=\"fillB\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"49.4\" y=\"78.2\" width=\"79.56\" height=\"136.45\"/><rect class=\"fillA\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"49.4\" y=\"214.65\" width=\"79.56\" height=\"62.6704\"/><text class=\"lblXS\" x=\"89.18\" y=\"120.12\" text-anchor=\"middle\">drink</text><text class=\"lblXS\" x=\"89.18\" y=\"269.46\" text-anchor=\"middle\">food</text><rect class=\"fillA\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"157.04\" y=\"78.2\" width=\"79.56\" height=\"90.9664\"/><rect class=\"fillC\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"157.04\" y=\"169.166\" width=\"79.56\" height=\"51.9808\"/><rect class=\"fillA\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"157.04\" y=\"221.147\" width=\"79.56\" height=\"56.1728\"/><text class=\"lblXS\" x=\"196.82\" y=\"130.6\" text-anchor=\"middle\">urine</text><text class=\"lblXS\" x=\"196.82\" y=\"214.44\" text-anchor=\"middle\">sweat</text><text class=\"lblXS\" x=\"196.82\" y=\"277.32\" text-anchor=\"middle\">skin · gut</text><line class=\"dash\" x1=\"35.36\" y1=\"286.49\" x2=\"250.64\" y2=\"286.49\"/><rect class=\"fillA\" rx=\"6\" x=\"35.36\" y=\"294.35\" width=\"215.28\" height=\"12\"/><text class=\"lblXS\" x=\"43.55\" y=\"306.14\">sweat is the only side you steer</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · so risk follows sweat rate</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"82.18\" width=\"37.0656\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"92.08\">cool</text><text class=\"lblXS\" x=\"534\" y=\"92.08\" text-anchor=\"end\"></text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"124.1\" width=\"81.5443\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"134\">warm</text><text class=\"lblXS\" x=\"534\" y=\"134\" text-anchor=\"end\"></text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"166.02\" width=\"113.668\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"175.92\">hot + humid</text><text class=\"lblXS\" x=\"534\" y=\"175.92\" text-anchor=\"end\"></text><text class=\"lblXS\" x=\"417\" y=\"71.65\" text-anchor=\"middle\">sweat lost per hour</text><line class=\"dash\" x1=\"300\" y1=\"209.2\" x2=\"534\" y2=\"209.2\"/><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"230.16\" width=\"215.28\" height=\"12\"/><text class=\"lblS\" x=\"317.55\" y=\"241.95\">thirst is a late signal</text>",
-    "viewBox": "0 0 560 340",
+    "viewBox": "0 0 320 210",
+    "svg": "<line class=\"th\" x1=\"46\" y1=\"150\" x2=\"306\" y2=\"150\"/><line class=\"th\" x1=\"46\" y1=\"150\" x2=\"46\" y2=\"22\"/><line class=\"dash\" x1=\"42\" y1=\"150\" x2=\"46\" y2=\"150\"/><text class=\"lblXS\" x=\"40\" y=\"154\" text-anchor=\"end\">0</text><line class=\"dash\" x1=\"42\" y1=\"126\" x2=\"46\" y2=\"126\"/><text class=\"lblXS\" x=\"40\" y=\"130\" text-anchor=\"end\">1</text><line class=\"dash\" x1=\"42\" y1=\"102\" x2=\"46\" y2=\"102\"/><text class=\"lblXS\" x=\"40\" y=\"106\" text-anchor=\"end\">2</text><line class=\"dash\" x1=\"42\" y1=\"78\" x2=\"46\" y2=\"78\"/><text class=\"lblXS\" x=\"40\" y=\"82\" text-anchor=\"end\">3</text><line class=\"dash\" x1=\"42\" y1=\"54\" x2=\"46\" y2=\"54\"/><text class=\"lblXS\" x=\"40\" y=\"58\" text-anchor=\"end\">4</text><line class=\"dash\" x1=\"42\" y1=\"30\" x2=\"46\" y2=\"30\"/><text class=\"lblXS\" x=\"40\" y=\"34\" text-anchor=\"end\">5 L</text><rect class=\"fillB\" x=\"62\" y=\"102\" width=\"52\" height=\"48\" rx=\"4\"/><path class=\"ln\" d=\"M62 102h52v48H62z\"/><rect class=\"fillB\" x=\"122\" y=\"126\" width=\"52\" height=\"24\" rx=\"4\"/><path class=\"ln\" d=\"M122 126h52v24H122z\"/><text class=\"lblS\" x=\"88\" y=\"96\" text-anchor=\"middle\">2.5</text><text class=\"lblXS\" x=\"88\" y=\"118\" text-anchor=\"middle\">drink</text><text class=\"lblS\" x=\"148\" y=\"120\" text-anchor=\"middle\">0.6</text><text class=\"lblXS\" x=\"148\" y=\"144\" text-anchor=\"middle\">food</text><rect class=\"fillA\" x=\"192\" y=\"86\" width=\"52\" height=\"64\" rx=\"4\"/><path class=\"ln\" d=\"M192 86h52v64H192z\"/><rect class=\"fillA\" x=\"252\" y=\"110\" width=\"46\" height=\"40\" rx=\"4\"/><path class=\"ln\" d=\"M252 110h46v40H252z\"/><text class=\"lblS\" x=\"218\" y=\"80\" text-anchor=\"middle\">1.4</text><text class=\"lblXS\" x=\"218\" y=\"102\" text-anchor=\"middle\">urine</text><text class=\"lblS\" x=\"275\" y=\"104\" text-anchor=\"middle\">0.5–1.5</text><text class=\"lblXS\" x=\"275\" y=\"128\" text-anchor=\"middle\">sweat</text><path class=\"dash\" d=\"M62 162h112\"/><path class=\"dash\" d=\"M62 162v158M174 162v158\"/><text class=\"lblS\" x=\"118\" y=\"174\" text-anchor=\"middle\">GAIN  ~3.1 L</text><path class=\"dash\" d=\"M192 162h106\"/><path class=\"dash\" d=\"M192 162v158M298 162v158\"/><text class=\"lblS\" x=\"245\" y=\"174\" text-anchor=\"middle\">LOSS  variable</text><path class=\"acc\" d=\"M168 30l7 14h-14z\"/><text class=\"lblS\" x=\"154\" y=\"42\">balance: loss must equal gain</text><text class=\"lblXS\" x=\"124\" y=\"196\" text-anchor=\"middle\">sweat is the only loss an athlete can raise deliberately</text>",
     "legend": [
      {
-      "en": "most of the loss is obligatory — breathing, skin and gut losses continue whatever you do",
-      "zh": "大部分流失是必需的——呼吸、皮肤和肠道流失无论你做什么都在继续"
+      "en": "the two bars share one scale, so they can be compared directly",
+      "zh": "两根柱子共用同一刻度，因此可以直接比较"
      },
      {
-      "en": "sweat is the only term an athlete can increase on purpose",
-      "zh": "汗是运动员唯一能有意增加的项"
+      "en": "sweat is the only loss an athlete can raise on purpose",
+      "zh": "出汗是运动员唯一能主动增加的失水量"
      },
      {
-      "en": "which is why heat illness risk scales with sweat rate and environment, not with thirst",
-      "zh": "因此中暑风险随出汗率与环境变化，而不随口渴程度变化"
+      "en": "balance means total loss must equal total gain",
+      "zh": "平衡意味着总失水必须等于总摄入"
      }
     ],
     "caption": {
-     "en": "Water is a balance, not a target. Drinking more than you lose leaves you hyponatraemic, which is more dangerous than the dehydration it prevents.",
-     "zh": "水分是平衡而不是目标。喝得比流失更多会导致低钠血症，而这比它所预防的脱水更危险。"
+     "en": "A water balance model: about 3.1 L in, and a loss that is fixed except for sweat.",
+     "zh": "一个水平衡模型：约 3.1 升摄入，而失水除出汗外基本固定。"
     }
    }
   ],
@@ -2454,8 +2454,8 @@ window.IB_VISUALS = {
      "en": "Monitoring body mass across a session",
      "zh": "一次训练中监测体重变化"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · body mass across a session</text><line class=\"ax\" x1=\"26\" y1=\"314\" x2=\"260\" y2=\"314\"/><line class=\"ax\" x1=\"26\" y1=\"52\" x2=\"26\" y2=\"314\"/><line class=\"grid\" x1=\"84.5\" y1=\"52\" x2=\"84.5\" y2=\"314\"/><line class=\"grid\" x1=\"143\" y1=\"52\" x2=\"143\" y2=\"314\"/><line class=\"grid\" x1=\"201.5\" y1=\"52\" x2=\"201.5\" y2=\"314\"/><line class=\"grid\" x1=\"26\" y1=\"117.5\" x2=\"260\" y2=\"117.5\"/><line class=\"grid\" x1=\"26\" y1=\"183\" x2=\"260\" y2=\"183\"/><line class=\"grid\" x1=\"26\" y1=\"248.5\" x2=\"260\" y2=\"248.5\"/><line class=\"dash\" x1=\"26\" y1=\"114.88\" x2=\"260\" y2=\"114.88\"/><text class=\"lblXS\" x=\"30.68\" y=\"108.33\">2 % flag</text><path class=\"ln\" d=\"M26 277.32Q96.2 235.4 133.64 206.58Q171.08 177.76 215.54 159.42L260 141.08\"/><circle class=\"warn\" cx=\"260\" cy=\"141.08\" r=\"4\"/><text class=\"lblXS\" x=\"180.44\" y=\"125.36\" text-anchor=\"end\">1.4 % here</text><text class=\"lblXS\" x=\"143\" y=\"304.83\" text-anchor=\"middle\">time in the session  →</text><text class=\"lblXS\" x=\"33.02\" y=\"287.8\">start</text><text class=\"lblXS\" x=\"96.2\" y=\"298.28\">deficit grows</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · what makes it trustworthy</text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"76.94\" width=\"111.197\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"86.84\">same scales</text><text class=\"lblXS\" x=\"534\" y=\"86.84\" text-anchor=\"end\"></text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"118.86\" width=\"111.197\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"128.76\">same clothing</text><text class=\"lblXS\" x=\"534\" y=\"128.76\" text-anchor=\"end\"></text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"160.78\" width=\"111.197\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"170.68\">nude, dry</text><text class=\"lblXS\" x=\"534\" y=\"170.68\" text-anchor=\"end\"></text><rect class=\"fillB\" rx=\"6.5\" x=\"393.6\" y=\"202.7\" width=\"111.197\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"212.6\">before and after</text><text class=\"lblXS\" x=\"534\" y=\"212.6\" text-anchor=\"end\"></text><text class=\"lblXS\" x=\"417\" y=\"71.65\" text-anchor=\"middle\">what to hold constant</text><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"245.88\" width=\"215.28\" height=\"26\"/><text class=\"lblS\" x=\"317.55\" y=\"257.67\">a deficit under 2 % still</text><text class=\"lblS\" x=\"317.55\" y=\"271.67\">matters on the third day</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"120\" x2=\"300\" y2=\"120\"/><path class=\"ln\" d=\"M30 76h270\"/><line class=\"dash\" d=\"M30 76v50\"/><line class=\"dash\" d=\"M300 76v50\"/><path class=\"fillA\" d=\"M30 76h270v44H30z\"/><text class=\"lbl\" x=\"150\" y=\"106\">~1.4 kg lost</text><text class=\"lbl\" x=\"150\" y=\"118\">= 1.4 L</text><line class=\"dash\" d=\"M30 140h270\"/><text class=\"lblS\" x=\"30\" y=\"60\">start</text><text class=\"lblS\" x=\"272\" y=\"60\">finish</text><text class=\"lblS\" x=\"30\" y=\"156\">2% body mass = the usual flag</text><text class=\"lblS\" x=\"126\" y=\"156\">1.4% here — under it, but trending</text>",
+    "viewBox": "0 0 320 170",
     "legend": [
      {
       "en": "change in body mass, in the same clothing and on the same scales, is the most reliable field measure available",
@@ -2628,8 +2628,8 @@ window.IB_VISUALS = {
      "en": "Cardiovascular drift and what causes it",
      "zh": "心率漂移及其成因"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"182\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · heart rate</text><line class=\"ax\" x1=\"26\" y1=\"314\" x2=\"170\" y2=\"314\"/><line class=\"ax\" x1=\"26\" y1=\"52\" x2=\"26\" y2=\"314\"/><line class=\"grid\" x1=\"74\" y1=\"52\" x2=\"74\" y2=\"314\"/><line class=\"grid\" x1=\"122\" y1=\"52\" x2=\"122\" y2=\"314\"/><line class=\"grid\" x1=\"26\" y1=\"139.333\" x2=\"170\" y2=\"139.333\"/><line class=\"grid\" x1=\"26\" y1=\"226.667\" x2=\"170\" y2=\"226.667\"/><line class=\"dash\" x1=\"26\" y1=\"230.16\" x2=\"170\" y2=\"230.16\"/><text class=\"lblXS\" x=\"28.88\" y=\"223.61\">where it started</text><path class=\"ln\" d=\"M26 230.16Q76.4 214.44 101.6 193.48Q126.8 172.52 148.4 148.94L170 125.36\"/><circle class=\"warn\" cx=\"170\" cy=\"125.36\" r=\"4\"/><text class=\"lblXS\" x=\"98\" y=\"304.83\" text-anchor=\"middle\">same pace, same distance</text><text class=\"lblXS\" x=\"155.6\" y=\"142.39\" text-anchor=\"end\">drift</text><text class=\"lblXS\" x=\"34.64\" y=\"287.8\">the rise IS the drift</text><rect class=\"panel\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"196\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"196\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"196\" y1=\"40\" x2=\"364\" y2=\"40\"/><text class=\"lblL\" x=\"206\" y=\"31.5\">B · and why</text><rect class=\"fillC\" rx=\"6.5\" x=\"265.6\" y=\"71.7\" width=\"50.1811\" height=\"13\"/><text class=\"lblS\" x=\"208\" y=\"81.6\">plasma volume</text><text class=\"lblXS\" x=\"352\" y=\"81.6\" text-anchor=\"end\"></text><rect class=\"fillC\" rx=\"6.5\" x=\"265.6\" y=\"108.38\" width=\"66.9082\" height=\"13\"/><text class=\"lblS\" x=\"208\" y=\"118.28\">core + skin temp</text><text class=\"lblXS\" x=\"352\" y=\"118.28\" text-anchor=\"end\"></text><rect class=\"fillC\" rx=\"6.5\" x=\"265.6\" y=\"145.06\" width=\"56.2637\" height=\"13\"/><text class=\"lblS\" x=\"208\" y=\"154.96\">warm blood back</text><text class=\"lblXS\" x=\"352\" y=\"154.96\" text-anchor=\"end\"></text><rect class=\"fillC\" rx=\"6.5\" x=\"265.6\" y=\"181.74\" width=\"39.5366\" height=\"13\"/><text class=\"lblS\" x=\"208\" y=\"191.64\">fuel down</text><text class=\"lblXS\" x=\"352\" y=\"191.64\" text-anchor=\"end\"></text><text class=\"lblXS\" x=\"280\" y=\"66.41\" text-anchor=\"middle\">four causes</text><rect class=\"fillA\" rx=\"6\" x=\"213.76\" y=\"235.4\" width=\"132.48\" height=\"25\"/><text class=\"lblXS\" x=\"218.8\" y=\"247.19\">all four are</text><text class=\"lblXS\" x=\"218.8\" y=\"260.19\">trainable</text><rect class=\"panel\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"378\" y=\"14\" width=\"168\" height=\"26\"/><rect class=\"panelHead\" x=\"378\" y=\"31\" width=\"168\" height=\"9\"/><line class=\"rule\" x1=\"378\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"388\" y=\"31.5\">C · the response</text><rect class=\"fillA\" rx=\"6\" x=\"401.52\" y=\"93.92\" width=\"60.48\" height=\"167.68\"/><text class=\"lbl\" x=\"431.76\" y=\"122.74\" text-anchor=\"middle\">fight it</text><text class=\"lblXS\" x=\"431.76\" y=\"151.56\" text-anchor=\"middle\">and fade</text><rect class=\"goodFill\" rx=\"6\" x=\"470.64\" y=\"93.92\" width=\"54.72\" height=\"167.68\"/><text class=\"lbl\" x=\"498\" y=\"122.74\" text-anchor=\"middle\">slow down</text><text class=\"lblXS\" x=\"498\" y=\"151.56\" text-anchor=\"middle\">on purpose</text><text class=\"lblXS\" x=\"462\" y=\"287.8\" text-anchor=\"middle\">plan round it</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"132\" x2=\"300\" y2=\"132\"/><line class=\"dash\" d=\"M30 70h270\"/><path class=\"fillA\" d=\"M30 70C90 68 150 62 300 44v88H30z\"/><text class=\"lbl\" x=\"150\" y=\"106\">+ HR, same pace</text><text class=\"lblS\" x=\"30\" y=\"62\">start</text><text class=\"lblS\" x=\"264\" y=\"40\">60 min</text><g><rect class=\"fillB\" x=\"36\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M36 146h60v22H36z\"/><text class=\"lblS\" x=\"42\" y=\"161\">sweat</text><rect class=\"fillB\" x=\"106\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M106 146h60v22H60z\"/><path class=\"ln\" d=\"M106 146h60v22h-60z\"/><text class=\"lblS\" x=\"112\" y=\"161\">temp</text><rect class=\"fillB\" x=\"176\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M176 146h60v22h-60z\"/><text class=\"lblS\" x=\"182\" y=\"161\">HR</text><rect class=\"fillB\" x=\"246\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M246 146h60v22h-60z\"/><text class=\"lblS\" x=\"252\" y=\"161\">fuel</text></g>",
+    "viewBox": "0 0 320 180",
     "legend": [
      {
       "en": "heart rate rises at the same pace — that is the drift, and it is measurable on a watch",
@@ -2794,8 +2794,8 @@ window.IB_VISUALS = {
      "en": "Where the energy goes",
      "zh": "能量去向"
     },
-    "svg": "<rect class=\"plate\" x=\"0\" y=\"0\" width=\"560\" height=\"340\" rx=\"12\"/><rect class=\"panel\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"14\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"14\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"14\" y1=\"40\" x2=\"272\" y2=\"40\"/><text class=\"lblL\" x=\"24\" y=\"31.5\">A · energy per gram</text><rect class=\"fillB\" rx=\"6.5\" x=\"119.6\" y=\"82.18\" width=\"54.3629\" height=\"13\"/><text class=\"lblS\" x=\"26\" y=\"92.08\">carbs</text><text class=\"lblXS\" x=\"260\" y=\"92.08\" text-anchor=\"end\">4</text><rect class=\"fillB\" rx=\"6.5\" x=\"119.6\" y=\"124.1\" width=\"54.3629\" height=\"13\"/><text class=\"lblS\" x=\"26\" y=\"134\">protein</text><text class=\"lblXS\" x=\"260\" y=\"134\" text-anchor=\"end\">4</text><rect class=\"fillC\" rx=\"6.5\" x=\"119.6\" y=\"166.02\" width=\"123.552\" height=\"13\"/><text class=\"lblS\" x=\"26\" y=\"175.92\">fat</text><text class=\"lblXS\" x=\"260\" y=\"175.92\" text-anchor=\"end\">9</text><text class=\"lblXS\" x=\"143\" y=\"71.65\" text-anchor=\"middle\">kcal per gram</text><rect class=\"fillA\" rx=\"6\" x=\"35.36\" y=\"214.44\" width=\"215.28\" height=\"12\"/><text class=\"lblXS\" x=\"43.55\" y=\"226.23\">by mass, fat wins</text><rect class=\"panel\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"312\"/><rect class=\"panelHead\" rx=\"9\" x=\"288\" y=\"14\" width=\"258\" height=\"26\"/><rect class=\"panelHead\" x=\"288\" y=\"31\" width=\"258\" height=\"9\"/><line class=\"rule\" x1=\"288\" y1=\"40\" x2=\"546\" y2=\"40\"/><text class=\"lblL\" x=\"298\" y=\"31.5\">B · by usefulness it inverts</text><rect class=\"goodFill\" rx=\"6.5\" x=\"393.6\" y=\"82.18\" width=\"123.552\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"92.08\">carbs</text><text class=\"lblXS\" x=\"534\" y=\"92.08\" text-anchor=\"end\">high</text><rect class=\"fillA\" rx=\"6.5\" x=\"393.6\" y=\"124.1\" width=\"12.3552\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"134\">protein</text><text class=\"lblXS\" x=\"534\" y=\"134\" text-anchor=\"end\">build</text><rect class=\"fillC\" rx=\"6.5\" x=\"393.6\" y=\"166.02\" width=\"76.6022\" height=\"13\"/><text class=\"lblS\" x=\"300\" y=\"175.92\">fat</text><text class=\"lblXS\" x=\"534\" y=\"175.92\" text-anchor=\"end\">slow</text><text class=\"lblXS\" x=\"417\" y=\"71.65\" text-anchor=\"middle\">usable at 20 km/h</text><line class=\"dash\" x1=\"300\" y1=\"209.2\" x2=\"534\" y2=\"209.2\"/><rect class=\"fillA\" rx=\"6\" x=\"309.36\" y=\"230.16\" width=\"215.28\" height=\"26\"/><text class=\"lblS\" x=\"317.55\" y=\"241.95\">protein is a material,</text><text class=\"lblS\" x=\"317.55\" y=\"255.95\">not a fuel</text>",
-    "viewBox": "0 0 560 340",
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"30\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 30h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"30\" width=\"196\" height=\"26\"/><text class=\"lbl\" x=\"24\" y=\"48\">carbohydrate 4–5 kcal/g</text></g><g><rect class=\"fillA\" x=\"14\" y=\"66\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 66h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"66\" width=\"292\" height=\"26\"/><text class=\"lbl\" x=\"24\" y=\"84\">fat 9 kcal/g — most efficient per gram</text></g><g><rect class=\"fillA\" x=\"14\" y=\"102\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 102h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"102\" width=\"292\" height=\"26\" opacity=\".55\"/><text class=\"lbl\" x=\"24\" y=\"120\">protein 4 kcal/g — not a fuel</text></g><text class=\"lblS\" x=\"8\" y=\"150\">efficiency per gram is not the same as usefulness at 20</text><text class=\"lblS\" x=\"14\" y=\"163\">km/h</text><text class=\"lblS\" x=\"14\" y=\"168\">fuel for high intensity is limited; fuel for low</text><text class=\"lblS\" x=\"14\" y=\"181\">intensity is not</text>",
+    "viewBox": "0 0 320 188",
     "legend": [
      {
       "en": "carbohydrate and protein give 4 kcal per gram, fat gives 9 — so fat is the efficient one by mass",
@@ -2968,6 +2968,10700 @@ window.IB_VISUALS = {
    "answer": {
     "en": "The arithmetic says 2.4 and the practice answer is 3, because tolerance and timing decide the last gel. This is the ordinary place where a number from a table meets a human being.",
     "zh": "算术答案是 2.4，而实践答案是 3，因为耐受性和时机决定了最后一支。这就是表格上的数字遇见真实的人的地方。"
+   }
+  }
+ },
+ "ATP and the energy continuum": {
+  "figures": [
+   {
+    "title": {
+     "en": "One molecule, three ways to make it back",
+     "zh": "一个分子，三种把它变回来的方式"
+    },
+    "svg": "<g><rect class=\"fillC\" x=\"14\" y=\"24\" width=\"66\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h66v40H14z\"/><text class=\"lbl\" x=\"34\" y=\"50\">ATP</text><path class=\"th\" d=\"M80 44h26\"/><path class=\"ln\" d=\"M106 44l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"106\" y=\"24\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 24h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"42\">immediate</text><text class=\"lblS\" x=\"118\" y=\"56\">phosphagen</text></g><g><rect class=\"fillB\" x=\"106\" y=\"78\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 78h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"96\">glycolysis</text><text class=\"lblS\" x=\"118\" y=\"110\">carbohydrate only</text></g><g><rect class=\"fillA\" x=\"106\" y=\"132\" width=\"196\" height=\"40\" rx=\"8\"/><path class=\"ln\" d=\"M106 132h196v40H106z\"/><text class=\"lblS\" x=\"118\" y=\"150\">oxidative</text><text class=\"lblS\" x=\"118\" y=\"164\">carbs + fat + protein</text></g><path class=\"th\" d=\"M80 44v128\" stroke-dasharray=\"4 4\"/><text class=\"lblS\" x=\"14\" y=\"86\">seconds</text><text class=\"lblS\" x=\"14\" y=\"140\">minutes</text><text class=\"lblS\" x=\"14\" y=\"182\">hours</text>",
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "phosphagen system: fastest, largest power, no oxygen, lasts about 10 seconds",
+      "zh": "磷酸原系统：最快、功率最大、不需氧、约维持 10 秒"
+     },
+     {
+      "en": "glycolytic system: fast, does not need oxygen, but limited by the pain of lactate",
+      "zh": "糖酵解系统：快速、不需氧，但受乳酸酸痛限制"
+     },
+     {
+      "en": "oxidative system: slower, but effectively unlimited while fuel and oxygen last",
+      "zh": "有氧系统：较慢，但在燃料与氧气够用时基本无限"
+     }
+    ],
+    "caption": {
+     "en": "The three systems are always working at once. What changes is the proportion, and that proportion is what determines the pace an athlete can hold.",
+     "zh": "三套系统始终同时在工作。变化的是比例，而正是这个比例决定运动员能维持的配速。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three energy systems compared",
+     "zh": "三套能量系统对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Phosphagen",
+      "zh": "磷酸原"
+     },
+     {
+      "en": "Glycolytic",
+      "zh": "糖酵解"
+     },
+     {
+      "en": "Oxidative",
+      "zh": "有氧"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Rate of ATP production",
+       "zh": "ATP 生成速率"
+      },
+      {
+       "en": "Fastest",
+       "zh": "最快"
+      },
+      {
+       "en": "Fast",
+       "zh": "快"
+      },
+      {
+       "en": "Slower",
+       "zh": "较慢"
+      }
+     ],
+     [
+      {
+       "en": "Largest power output",
+       "zh": "最大功率输出"
+      },
+      {
+       "en": "Highest",
+       "zh": "最高"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Lowest",
+       "zh": "最低"
+      }
+     ],
+     [
+      {
+       "en": "Duration",
+       "zh": "持续时间"
+      },
+      {
+       "en": "About 10 s",
+       "zh": "约 10 秒"
+      },
+      {
+       "en": "About 1–2 min",
+       "zh": "约 1 到 2 分钟"
+      },
+      {
+       "en": "Hours",
+       "zh": "数小时"
+      }
+     ],
+     [
+      {
+       "en": "Needs oxygen",
+       "zh": "需要氧气"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      }
+     ],
+     [
+      {
+       "en": "Fuel",
+       "zh": "燃料"
+      },
+      {
+       "en": "Stored creatine phosphate",
+       "zh": "储存的磷酸肌酸"
+      },
+      {
+       "en": "Carbohydrate only",
+       "zh": "仅碳水"
+      },
+      {
+       "en": "Carbohydrate, fat, protein",
+       "zh": "碳水、脂肪、蛋白质"
+      }
+     ],
+     [
+      {
+       "en": "End product",
+       "zh": "终产物"
+      },
+      {
+       "en": "ADP and creatine",
+       "zh": "ADP 与肌酸"
+      },
+      {
+       "en": "Lactate and hydrogen ions",
+       "zh": "乳酸与氢离子"
+      },
+      {
+       "en": "Carbon dioxide and water",
+       "zh": "二氧化碳与水"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A sprinter is not \"anaerobic\" as a category. A sprinter is an athlete in whom the phosphagen system supplies a larger fraction of the total work.",
+     "zh": "短跑运动员并不是\"无氧\"这一类别的成员。短跑运动员是这样一个人：磷酸原系统提供了总做功中更大的一部分。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: which system is limiting this effort",
+    "zh": "例题：是哪套系统限制了这次努力"
+   },
+   "given": {
+    "en": "A 1500 m race: 3 min 30 s. A 100 m sprint: 10 s. A half marathon: 105 min.",
+    "zh": "一场 1500 米：3 分 30 秒。100 米冲刺：10 秒。半马：105 分钟。"
+   },
+   "steps": [
+    {
+     "en": "100 m: 10 s of work, so essentially all phosphagen plus a little glycolysis. Nothing aerobic is meaningfully used.",
+     "zh": "100 米：10 秒的努力，所以基本全是磷酸原加少量糖酵解，有氧几乎没有被有意义地使用。"
+    },
+    {
+     "en": "1500 m: 3.5 min sits exactly where phosphogen is exhausted and glycolysis is dominant, with aerobic contribution rising through it.",
+     "zh": "1500 米：3.5 分钟正好处于磷酸原耗尽、糖酵解占主导的位置，而有氧贡献在全程中不断上升。"
+    },
+    {
+     "en": "Half marathon: oxidative throughout, with the first two minutes still fast enough to owe an oxygen deficit that is repaid later.",
+     "zh": "半马：全程有氧，而前两分钟仍然足够快，因而欠下一笔氧亏，之后再补回来。"
+    },
+    {
+     "en": "So the same three systems are in all three races; only the mixture differs, and the mixture is set by time not by event name.",
+     "zh": "所以同样这三套系统出现在三项比赛中；变化的只是配比，而配比是由时间决定的，不是由项目名称决定的。"
+    }
+   ],
+   "answer": {
+    "en": "The 1500 m is the hardest of the three to train well, because it sits in the transition zone where both the fast and the slow systems are being asked to contribute at once.",
+    "zh": "1500 米是三者中最难训练好的一个，因为它处在过渡区，快速与慢速两套系统同时被要求出力。"
+   }
+  }
+ },
+ "Comparing the three systems": {
+  "figures": [
+   {
+    "title": {
+     "en": "Duration of the three systems",
+     "zh": "三大系统的持续时间"
+    },
+    "viewBox": "0 0 320 200",
+    "svg": "<line class=\"th\" x1=\"44\" y1=\"146\" x2=\"306\" y2=\"146\"/><line class=\"th\" x1=\"44\" y1=\"146\" x2=\"44\" y2=\"26\"/><line class=\"dash\" x1=\"44\" y1=\"142\" x2=\"44\" y2=\"150\"/><text class=\"lblXS\" x=\"44\" y=\"162\" text-anchor=\"middle\">0</text><line class=\"dash\" x1=\"59\" y1=\"142\" x2=\"59\" y2=\"150\"/><text class=\"lblXS\" x=\"59\" y=\"162\" text-anchor=\"middle\">10 s</text><line class=\"dash\" x1=\"96\" y1=\"142\" x2=\"96\" y2=\"150\"/><text class=\"lblXS\" x=\"96\" y=\"162\" text-anchor=\"middle\">2 min</text><line class=\"dash\" x1=\"148\" y1=\"142\" x2=\"148\" y2=\"150\"/><text class=\"lblXS\" x=\"148\" y=\"162\" text-anchor=\"middle\">10 min</text><line class=\"dash\" x1=\"206\" y1=\"142\" x2=\"206\" y2=\"150\"/><text class=\"lblXS\" x=\"206\" y=\"162\" text-anchor=\"middle\">1 h</text><line class=\"dash\" x1=\"269\" y1=\"142\" x2=\"269\" y2=\"150\"/><text class=\"lblXS\" x=\"269\" y=\"162\" text-anchor=\"middle\">>2 h</text><line class=\"dash\" x1=\"306\" y1=\"142\" x2=\"306\" y2=\"150\"/><text class=\"lblXS\" x=\"306\" y=\"162\" text-anchor=\"middle\">days</text><rect class=\"fillA\" x=\"44\" y=\"40\" width=\"20\" height=\"22\" rx=\"4\"/><path class=\"ln\" d=\"M44 40h20v22H44z\"/><text class=\"lblS\" x=\"58\" y=\"55\" text-anchor=\"end\">phosphagen</text><text class=\"lblXS\" x=\"70\" y=\"55\">ATP-PCr</text><rect class=\"fillB\" x=\"44\" y=\"70\" width=\"110\" height=\"22\" rx=\"4\"/><path class=\"ln\" d=\"M44 70h110v22H44z\"/><text class=\"lblS\" x=\"58\" y=\"85\" text-anchor=\"end\">glycolytic</text><text class=\"lblXS\" x=\"160\" y=\"85\">glycogen</text><rect class=\"fillC\" x=\"59\" y=\"100\" width=\"246\" height=\"22\" rx=\"4\"/><path class=\"ln\" d=\"M59 100h246v22H59z\"/><text class=\"lblS\" x=\"52\" y=\"115\" text-anchor=\"end\">oxidative</text><text class=\"lblXS\" x=\"309\" y=\"115\">O2</text><text class=\"lblXS\" x=\"175\" y=\"122\" text-anchor=\"middle\">the systems overlap: they do not switch on one after another</text><line class=\"dash\" x1=\"44\" y1=\"34\" x2=\"154\" y2=\"128\"/><text class=\"lblXS\" x=\"175\" y=\"186\" text-anchor=\"middle\">the first 10 s is almost entirely phosphagen, whatever the event</text>",
+    "legend": [
+     {
+      "en": "the bars are duration, drawn on a logarithmic time axis",
+      "zh": "横条表示持续时间，画在对数时间轴上"
+     },
+     {
+      "en": "the systems overlap instead of switching on one after another",
+      "zh": "三个系统是重叠的，而不是依次启动的"
+     },
+     {
+      "en": "the first 10 s is almost entirely phosphagen, whatever the event",
+      "zh": "无论什么项目，最初 10 秒几乎完全是磷酸原系统"
+     }
+    ],
+    "caption": {
+     "en": "Duration on a log scale, which is the only way the three systems fit in one picture.",
+     "zh": "在对数刻度上表示持续时间，这是三个系统能放进一张图的唯一方式。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Where each event sits on the continuum",
+     "zh": "各项比赛在连续体上的位置"
+    },
+    "cols": [
+     {
+      "en": "Event / effort",
+      "zh": "项目 / 努力"
+     },
+     {
+      "en": "Dominant system",
+      "zh": "主导系统"
+     },
+     {
+      "en": "Limit of that system",
+      "zh": "该系统的限制"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Weightlifting, throw, jump",
+       "zh": "举重、推掷、跳跃"
+      },
+      {
+       "en": "Phosphagen",
+       "zh": "磷酸原"
+      },
+      {
+       "en": "Stored ATP and creatine phosphate, about 10 s",
+       "zh": "储存的 ATP 与磷酸肌酸，约 10 秒"
+      }
+     ],
+     [
+      {
+       "en": "100 m, 400 m",
+       "zh": "100 米、400 米"
+      },
+      {
+       "en": "Phosphagen then glycolytic",
+       "zh": "磷酸原继而糖酵解"
+      },
+      {
+       "en": "Rate of ATP production",
+       "zh": "ATP 的生成速率"
+      }
+     ],
+     [
+      {
+       "en": "800 m, 1500 m",
+       "zh": "800 米、1500 米"
+      },
+      {
+       "en": "Glycolytic, with rising aerobic contribution",
+       "zh": "糖酵解，且有氧贡献上升"
+      },
+      {
+       "en": "Both fast and slow systems at once",
+       "zh": "快慢两套系统同时出力"
+      }
+     ],
+     [
+      {
+       "en": "5 km, half marathon, marathon",
+       "zh": "5 公里、半马、全马"
+      },
+      {
+       "en": "Oxidative",
+       "zh": "有氧"
+      },
+      {
+       "en": "Fuel delivery and mitochondrial capacity",
+       "zh": "燃料输送与线粒体能力"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A useful consequence: the training that moves a crossover is specific to the system, so a sprinter and a marathoner can run the same session and be training different things.",
+     "zh": "一个有用的推论：推移交叉点的训练是针对系统的，因此短跑运动员与马拉松运动员可以做同一堂训练课，却在训练不同的东西。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same session, two sports",
+    "zh": "例题：同一堂训练课，两个项目"
+   },
+   "given": {
+    "en": "Six 800 m repetitions with 3 min recovery, run by a 1500 m runner and a marathoner.",
+    "zh": "6 组 800 米、组间休息 3 分钟，由一名 1500 米跑者和一名马拉松跑者完成。"
+   },
+   "steps": [
+    {
+     "en": "For the 1500 m runner, three minutes of recovery leaves the glycolytic system still partly in debt, so each repetition starts harder.",
+     "zh": "对 1500 米跑者而言，3 分钟休息使糖酵解系统仍部分欠账，因此每一组都从更高的强度开始。"
+    },
+    {
+     "en": "For the marathoner, the same session sits comfortably inside the oxidative system and produces very little crossover movement.",
+     "zh": "对马拉松跑者而言，同一训练课稳稳落在有氧系统之内，几乎不产生交叉点位移。"
+    },
+    {
+     "en": "Add a 3 min recovery and the same session becomes a genuine quality session for the marathoner and a punishing one for the 1500 m runner.",
+     "zh": "休息改成 3 分钟后，同一训练课对马拉松跑者变成一堂真正的质量课，而对 1500 米跑者则相当痛苦。"
+    },
+    {
+     "en": "So the session, not the event, is what identifies the training effect.",
+     "zh": "因此决定训练效应的是训练课本身，而不是项目名称。"
+    }
+   ],
+   "answer": {
+    "en": "Identical work, opposite training effect, decided entirely by recovery. This is the practical reason \"the same programme for everyone\" is wrong, and it is visible in the numbers rather than argued about.",
+    "zh": "同样的做功，相反的训练效应，完全由休息决定。这就是\"所有人用同一份计划\"是错误的具体原因，而且它是数字里看得见的，不靠争论。"
+   }
+  }
+ },
+ "VO₂max, movement economy, LIP and EPOC": {
+  "figures": [
+   {
+    "title": {
+     "en": "Four levers, one ceiling",
+     "zh": "四个抓手，一个上限"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h66v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"38\">VO2max</text><text class=\"lblS\" x=\"22\" y=\"52\">ceiling</text></g><g><rect class=\"fillB\" x=\"90\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M90 24h66v34H90z\"/><text class=\"lblS\" x=\"98\" y=\"38\">LIP</text><text class=\"lblS\" x=\"98\" y=\"52\">how fast</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"66\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M166 24h66v34H166z\"/><text class=\"lblS\" x=\"174\" y=\"38\">economy</text><text class=\"lblS\" x=\"174\" y=\"52\">less O2</text></g><g><rect class=\"fillA\" x=\"242\" y=\"24\" width=\"64\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M242 24h64v34h-64z\"/><text class=\"lblS\" x=\"250\" y=\"38\">EPOC</text><text class=\"lblS\" x=\"250\" y=\"52\">repay</text></g><line class=\"th\" x1=\"14\" y1=\"88\" x2=\"306\" y2=\"88\"/><path class=\"fillC\" d=\"M14 88C60 74 90 78 130 84c40 6 100 4 176 -2v8H14z\"/><line class=\"ln\" d=\"M14 88C60 74 90 78 130 84c40 6 100 4 176 -2\"/><line class=\"dash\" d=\"M14 106h292\"/><text class=\"lblS\" x=\"14\" y=\"120\">effort</text><text class=\"lblS\" x=\"25\" y=\"128\">oxygen demand climbs faster than supply — the gap is</text><text class=\"lblS\" x=\"150\" y=\"141\">repaid as EPOC</text><text class=\"lblS\" x=\"14\" y=\"160\">a bigger ceiling is worth less to a 10 km runner than</text><text class=\"lblS\" x=\"14\" y=\"173\">better economy or faster LIP</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "VO2max is the ceiling and the least trainable of the four in a trained athlete",
+      "zh": "VO₂max 是上限，也是四者中对训练有素运动员最难再提高的"
+     },
+     {
+      "en": "movement economy is how little oxygen a given speed costs — highly trainable and often neglected",
+      "zh": "运动经济性是指某一速度需要多少氧——可训练性很高，却常被忽视"
+     },
+     {
+      "en": "LIP is the speed at which the first lactate appears, and it rises with training before VO2max does",
+      "zh": "乳酸阈（LIP）是乳酸首次出现时的速度，它在训练中比 VO₂max 更早提高"
+     }
+    ],
+    "caption": {
+     "en": "Most runners improve by raising LIP and economy long before VO2max moves, which is why training that only targets the ceiling plateau.",
+     "zh": "多数跑者在 VO₂max 变化之前，就已通过提高 LIP 与经济性获得提升——这就是只针对上限的训练会停滞的原因。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four determinants of endurance performance",
+     "zh": "耐力表现的四个决定因素"
+    },
+    "cols": [
+     {
+      "en": "Factor",
+      "zh": "因素"
+     },
+     {
+      "en": "What it is",
+      "zh": "它是什么"
+     },
+     {
+      "en": "How trainable is it?",
+      "zh": "可训练性"
+     },
+     {
+      "en": "Typical timescale",
+      "zh": "典型时间尺度"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "VO2max",
+       "zh": "VO₂max"
+      },
+      {
+       "en": "The ceiling on oxygen use per minute",
+       "zh": "每分钟用氧的上限"
+      },
+      {
+       "en": "Low once trained",
+       "zh": "训练有素后较低"
+      },
+      {
+       "en": "Months to years",
+       "zh": "数月到数年"
+      }
+     ],
+     [
+      {
+       "en": "Movement economy",
+       "zh": "运动经济性"
+      },
+      {
+       "en": "Oxygen cost of a given speed or power",
+       "zh": "某一速度或功率的耗氧代价"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Lactinate threshold pace",
+       "zh": "乳酸阈配速"
+      },
+      {
+       "en": "Speed at which lactate first accumulates",
+       "zh": "乳酸开始积累的速度"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      }
+     ],
+     [
+      {
+       "en": "EPOC",
+       "zh": "运动后氧耗"
+      },
+      {
+       "en": "Oxygen debt repaid after the effort",
+       "zh": "努力之后偿还的氧债"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      }
+     ],
+     [
+      {
+       "en": "Fuel availability",
+       "zh": "燃料可用性"
+      },
+      {
+       "en": "Whether there is carbohydrate to use at that rate",
+       "zh": "在那个速率下是否有碳水可用"
+      },
+      {
+       "en": "Very high, and fast",
+       "zh": "非常高且很快"
+      },
+      {
+       "en": "Days",
+       "zh": "数天"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Fuel availability is the fastest-acting item in the table, which is why under-fuelling undoes training that has been done properly.",
+     "zh": "燃料可用性是表中最快起作用的项，因此补糖不足会让本来正确的训练白做。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why a 10 km runner should not chase VO2max first",
+    "zh": "例题：为什么 10 公里跑者不该先追 VO₂max"
+   },
+   "given": {
+    "en": "Runner A: VO2max 62 ml/kg/min, 5 km pace 4:10/km. Runner B: VO2max 58, same 5 km pace 4:05/km.",
+    "zh": "跑者 A：VO₂max 62 毫升每公斤每分钟，5 公里配速 4:10。跑者 B：58，同样 5 公里配速 4:05。"
+   },
+   "steps": [
+    {
+     "en": "B is faster over 5 km with a lower ceiling, so B has better economy or a higher threshold pace.",
+     "zh": "B 的 5 公里成绩更好而上限更低，说明 B 的经济性更好或乳酸阈配速更高。"
+    },
+    {
+     "en": "Holding pace at 4:05 for 5 km, a 62 versus 58 ceiling is a difference of about 7 percent of available oxygen.",
+     "zh": "以 4:05 保持 5 公里，62 与 58 的上限相差约可用氧的 7%。"
+    },
+    {
+     "en": "Economy differences between runners of the same event are routinely larger than 7 percent, so the economy term dominates.",
+     "zh": "同一项目不同跑者之间的经济性差异 routinely 大于 7%，因此经济性这一项占主导。"
+    },
+    {
+     "en": "So A should spend a season on economy and threshold work rather than on interval sessions aimed at the ceiling.",
+     "zh": "因此 A 应该用一个赛季练经济性与阈值，而不是做以冲击上限为目的的间歇训练。"
+    }
+   ],
+   "answer": {
+    "en": "Two runners, same event, and the one with the lower ceiling wins. This is the calculation behind the advice that technical and pacing work usually beats more intervals.",
+    "zh": "两名跑者、同一项目，而上限更低的那位赢了。这就是\"技术与配速训练通常胜过多做间歇\"这条建议背后的计算。"
+   }
+  }
+ },
+ "Six qualities and FITT": {
+  "figures": [
+   {
+    "title": {
+     "en": "The six qualities, and where each one peaks",
+     "zh": "六项素质，以及各自的峰值年龄"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"150\" x2=\"304\" y2=\"150\"/><line class=\"ln\" x1=\"30\" y1=\"150\" x2=\"30\" y2=\"22\"/><path class=\"ln\" d=\"M30 26C70 30 100 52 124 96\"/><text class=\"lblS\" x=\"60\" y=\"24\">power</text><path class=\"ln\" d=\"M30 40C90 42 140 46 200 56\"/><text class=\"lblS\" x=\"200\" y=\"48\">speed</text><path class=\"ln\" d=\"M30 54C90 60 150 78 244 116\"/><text class=\"lblS\" x=\"248\" y=\"120\">strength</text><path class=\"ln\" d=\"M30 70C80 92 120 130 150 146\"/><text class=\"lblS\" x=\"150\" y=\"142\">endurance</text><path class=\"ln\" d=\"M30 88C56 100 74 120 84 146\"/><text class=\"lblS\" x=\"60\" y=\"120\">flexibility</text><line class=\"dash\" d=\"M30 110h274\"/><text class=\"lblS\" x=\"30\" y=\"166\">age</text><text class=\"lblS\" x=\"20\" y=\"30\">early</text><text class=\"lblS\" x=\"252\" y=\"166\">late</text><text class=\"lblS\" x=\"8\" y=\"184\">the curves are sequential, so a childhood spent only on</text><text class=\"lblS\" x=\"30\" y=\"197\">endurance is expensive later</text>",
+    "viewBox": "0 0 320 204",
+    "legend": [
+     {
+      "en": "power, speed and flexibility peak early and are hard to improve afterwards",
+      "zh": "力量、速度与柔韧在早期达峰，之后很难再提高"
+     },
+     {
+      "en": "strength and endurance peak much later, so late specialisation is rational in those",
+      "zh": "力量与耐力达峰晚得多，因此在这两项上晚专项化是合理的"
+     },
+     {
+      "en": "that ordering is the argument for sampling many skills in childhood",
+      "zh": "这个顺序正是在儿童期广泛尝试多种技术的论据"
+     }
+    ],
+    "caption": {
+     "en": "FITT describes the dose. It cannot tell you whether that dose is right for the athlete in front of you, which is what the next section is about.",
+     "zh": "FITT 描述的是剂量。它无法告诉你这个剂量对面前这位运动员是否合适，而这正是下一节的内容。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The six qualities and how to train each",
+     "zh": "六项素质及其训练方式"
+    },
+    "cols": [
+     {
+      "en": "Quality",
+      "zh": "素质"
+     },
+     {
+      "en": "Peaks",
+      "zh": "达峰期"
+     },
+     {
+      "en": "Primary method",
+      "zh": "主要方法"
+     },
+     {
+      "en": "Common error",
+      "zh": "常见错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Strength",
+       "zh": "力量"
+      },
+      {
+       "en": "Late 20s to 30s",
+       "zh": "20 多岁后期到 30 多岁"
+      },
+      {
+       "en": "Progressive resistance, high loads",
+       "zh": "渐进抗阻、大负荷"
+      },
+      {
+       "en": "Training it like endurance",
+       "zh": "把它当耐力来练"
+      }
+     ],
+     [
+      {
+       "en": "Power",
+       "zh": "功率"
+      },
+      {
+       "en": "Early 20s",
+       "zh": "20 岁出头"
+      },
+      {
+       "en": "High intent, fast concentric phase",
+       "zh": "高意图、快速的向心阶段"
+      },
+      {
+       "en": "Slow lifting called power training",
+       "zh": "把慢速举重叫做功率训练"
+      }
+     ],
+     [
+      {
+       "en": "Endurance",
+       "zh": "耐力"
+      },
+      {
+       "en": "20s to 30s",
+       "zh": "20 到 30 多岁"
+      },
+      {
+       "en": "Long, low-intensity aerobic volume",
+       "zh": "长时低强度有氧量"
+      },
+      {
+       "en": "Training it only with intervals",
+       "zh": "只用间歇来练"
+      }
+     ],
+     [
+      {
+       "en": "Speed",
+       "zh": "速度"
+      },
+      {
+       "en": "Early 20s",
+       "zh": "20 岁出头"
+      },
+      {
+       "en": "Full sprints, full recovery",
+       "zh": "完全冲刺、完全恢复"
+      },
+      {
+       "en": "120 m instead of 200 m",
+       "zh": "用 120 米代替 200 米"
+      }
+     ],
+     [
+      {
+       "en": "Flexibility",
+       "zh": "柔韧性"
+      },
+      {
+       "en": "Childhood",
+       "zh": "儿童期"
+      },
+      {
+       "en": "Daily mobility, all planes",
+       "zh": "每日活动度训练、所有平面"
+      },
+      {
+       "en": "Static stretching before a sprint",
+       "zh": "冲刺前做静态拉伸"
+      }
+     ],
+     [
+      {
+       "en": "Skill / coordination",
+       "zh": "技术 / 协调"
+      },
+      {
+       "en": "Childhood, then trainable",
+       "zh": "儿童期，之后可训练"
+      },
+      {
+       "en": "Variable, non-linear practice",
+       "zh": "多变的非线性练习"
+      },
+      {
+       "en": "One solution repeated for years",
+       "zh": "一个解法重复多年"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The commonest error in the table is not doing too little of a quality. It is training the right quality by the wrong method.",
+     "zh": "表中最常见的错误不是某项素质练得太少，而是用错误的方法练了正确的素质。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: writing FITT for a real athlete",
+    "zh": "例题：为一位真实运动员写 FITT"
+   },
+   "given": {
+    "en": "A 34-year-old returning to running, 5 km, currently walks 3 km without stopping.",
+    "zh": "一名 34 岁重返跑步的人，目标是 5 公里，目前不间断走 3 公里。"
+   },
+   "steps": [
+    {
+     "en": "Frequency: start at 3 days per week. Walking is aerobic and safe, and 3 days builds a habit that survives.",
+     "zh": "频率：从每周 3 天开始。步行是有氧且安全的，3 天能建立一个存活得下去的习惯。"
+    },
+    {
+     "en": "Intensity: talk test only, so that the return is not compromised by an unfamiliar hard effort.",
+     "zh": "强度：只用谈话测试，使这次回归不会被一次不熟悉的全力努力所毁掉。"
+    },
+    {
+     "en": "Time: build from 30 to 60 minutes over about 8 weeks, adding no more than 10 percent per week.",
+     "zh": "时间：在约 8 周内从 30 分钟增加到 60 分钟，每周增幅不超过 10%。"
+    },
+    {
+     "en": "Type: all easy aerobic, because this is a base, not a training phase.",
+     "zh": "类型：全部为轻松有氧，因为这是基础期，不是训练期。"
+    },
+    {
+     "en": "A second session can be 20 minutes of strength work, which is the more trainable quality at 34.",
+     "zh": "第二堂课可以做 20 分钟力量训练，因为在 34 岁力量是更可训练的那一项。"
+    }
+   ],
+   "answer": {
+    "en": "The FITT answer for the first eight weeks is deliberately unimpressive. Prescribing intensity and volume to an athlete who cannot yet run 5 km is the most common and most avoidable early mistake.",
+    "zh": "前八周的 FITT 答案刻意不惊艳。对一位还跑不完 5 公里的人开强度和训练量，是最常见也最可避免的早期错误。"
+   }
+  }
+ },
+ "Periodization, overload and overtraining": {
+  "figures": [
+   {
+    "title": {
+     "en": "Volume and intensity across a season",
+     "zh": "整个赛季的训练量与强度"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"140\" x2=\"304\" y2=\"140\"/><line class=\"ln\" x1=\"24\" y1=\"140\" x2=\"24\" y2=\"20\"/><path class=\"fillA\" d=\"M24 140C60 60 96 40 140 52c40 12 60 60 120 84l44 4z\"/><path class=\"ln\" d=\"M24 140C60 60 96 40 140 52c40 12 60 60 120 84\"/><path class=\"th\" d=\"M24 60C80 110 140 118 200 106c40 -8 70 -34 104 -66\"/><text class=\"lblS\" x=\"60\" y=\"52\">volume</text><text class=\"lblS\" x=\"216\" y=\"46\">intensity</text><line class=\"dash\" d=\"M24 110h280\"/><text class=\"lblS\" x=\"24\" y=\"164\">base</text><text class=\"lblS\" x=\"110\" y=\"164\">build</text><text class=\"lblS\" x=\"200\" y=\"164\">peak</text><text class=\"lblS\" x=\"262\" y=\"164\">taper</text><text class=\"lblS\" x=\"19\" y=\"184\">fitness is built early and lost quickly, so the taper</text><text class=\"lblS\" x=\"24\" y=\"197\">removes fatigue rather than adding work</text>",
+    "viewBox": "0 0 320 204",
+    "legend": [
+     {
+      "en": "volume and intensity are inversely related in a well-planned season, not added together",
+      "zh": "在一份好的赛季计划里，训练量与强度是反向关系，而不是叠加"
+     },
+     {
+      "en": "the taper looks like doing less and is the most reliably performance-enhancing part of the plan",
+      "zh": "减量看起来像\"少练\"，而它是计划中最可靠能提升表现的部分"
+     },
+     {
+      "en": "overtraining is usually a recovery failure, not a workload failure",
+      "zh": "过度训练通常是恢复失败，而不是负荷失败"
+     }
+    ],
+    "caption": {
+     "en": "Progressive overload has two limits and they are different. There is a limit before which nothing changes, and a limit after which adaptation stops and injury risk rises.",
+     "zh": "渐进负荷有两个界限，而且它们性质不同。低于前一个界限什么都不会变，高过后一个界限适应停止而受伤风险上升。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Overload, and the two ways to fail it",
+     "zh": "渐进负荷，以及两种失败方式"
+    },
+    "cols": [
+     {
+      "en": "Failure",
+      "zh": "失败方式"
+     },
+     {
+      "en": "What it looks like",
+      "zh": "表现"
+     },
+     {
+      "en": "Fix",
+      "zh": "纠正"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Too little",
+       "zh": "负荷不足"
+      },
+      {
+       "en": "Plateau, no measurable change, boredom",
+       "zh": "停滞、没有可测量的变化、无聊"
+      },
+      {
+       "en": "Progress one variable at a time",
+       "zh": "每次只推进一个变量"
+      }
+     ],
+     [
+      {
+       "en": "Too much",
+       "zh": "负荷过大"
+      },
+      {
+       "en": "Declining performance, fatigue, poor sleep, mood change",
+       "zh": "表现下降、疲劳、睡眠差、情绪变化"
+      },
+      {
+       "en": "Reduce load, restore recovery, then rebuild",
+       "zh": "减负荷、恢复、然后重建"
+      }
+     ],
+     [
+      {
+       "en": "Too fast",
+       "zh": "推进太快"
+      },
+      {
+       "en": "Soreness that changes technique, small performance losses",
+       "zh": "酸痛到改变技术、微小的表现损失"
+      },
+      {
+       "en": "Hold the level, consolidate, then progress",
+       "zh": "保持水平、巩固，然后再推进"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The distinction that matters most in practice is the second row. An athlete with falling performance and poor sleep has an overtraining problem, and adding fitness to it makes it worse.",
+     "zh": "实践中最重要的是第二行。一位表现下滑且睡眠不佳的运动员是过度训练问题，而给他加更多体能只会更糟。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the 10 percent rule and what happens without it",
+    "zh": "例题：10% 规则，以及不遵守会怎样"
+   },
+   "given": {
+    "en": "A runner completes 20 km this week, 30 last week, 10 the week before.",
+    "zh": "一名跑者本周完成 20 公里，上周 30 公里，上上周 10 公里。"
+   },
+   "steps": [
+    {
+     "en": "Going back two weeks: 10 to 30 km is a 200 percent increase.",
+     "zh": "回看两周前：10 公里到 30 公里是 200% 的增幅。"
+    },
+    {
+     "en": "The 10 percent rule would have given roughly 11, then 12 km — a slow but safe progression.",
+     "zh": "10% 规则会给出大约 11 公里、再 12 公里——缓慢但安全的进阶。"
+    },
+    {
+     "en": "A 200 percent jump produces soreness that lasts about a week, which disrupts the week after, so the increase is never actually absorbed.",
+     "zh": "200% 的跃升会产生持续约一周的酸痛，扰乱再下一周，因此这个增长从未真正被吸收。"
+    },
+    {
+     "en": "So the athlete got less fitness than a 10 to 12 to 20 progression would have produced, and paid for it in three disrupted weeks.",
+     "zh": "所以这位运动员得到的体能比 10 到 12 到 20 的进阶更少，而且付出了三周被打乱的代价。"
+    },
+    {
+     "en": "The rule is not magic; it is simply a rate that is small enough to be absorbed while the athlete is also working.",
+     "zh": "这条规则不是魔法；它只是一个足够小、能在运动员同时还有工作的情况下被吸收的速率。"
+    }
+   ],
+   "answer": {
+    "en": "The runner who jumped 200 percent ended up behind the runner who crept 10 percent a week. This is the most reproducible result in training, and it is entirely avoidable.",
+    "zh": "跳了 200% 的跑者，最终落后于每周爬 10% 的跑者。这是训练中最可复现的结果，而且完全可以避免。"
+   }
+  }
+ },
+ "Individualisation and the monitoring loop": {
+  "figures": [
+   {
+    "title": {
+     "en": "Measure, decide, change, re-measure",
+     "zh": "测量、决定、改变、再测量"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 28h62v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">measure</text><text class=\"lblS\" x=\"22\" y=\"55\">baseline</text></g><path class=\"th\" d=\"M76 45h26\"/><path class=\"ln\" d=\"M102 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"102\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M102 28h62v34h-62z\"/><text class=\"lblS\" x=\"110\" y=\"42\">decide</text><text class=\"lblS\" x=\"110\" y=\"55\">one change</text></g><path class=\"th\" d=\"M164 45h26\"/><path class=\"ln\" d=\"M190 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillB\" x=\"190\" y=\"28\" width=\"62\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M190 28h62v34h-62z\"/><text class=\"lblS\" x=\"198\" y=\"42\">train</text><text class=\"lblS\" x=\"198\" y=\"55\">2-4 weeks</text></g><path class=\"th\" d=\"M252 45h26\"/><path class=\"ln\" d=\"M278 45l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillC\" x=\"278\" y=\"28\" width=\"30\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M278 28h30v34h-30z\"/><text class=\"lblS\" x=\"283\" y=\"49\">test</text></g><path class=\"dash\" d=\"M293 66v34H45V66\"/><path class=\"ln\" d=\"M45 66l4.5-9h-9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"96\" y=\"106\" width=\"128\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M96 106h128v34H96z\"/><text class=\"lblS\" x=\"104\" y=\"120\">change</text><text class=\"lblS\" x=\"104\" y=\"133\">what?</text></g><path class=\"th\" d=\"M160 100V84\"/><path class=\"ln\" d=\"M160 84l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"170\">the loop is closed by the test, not by the plan</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "the loop closes only when the same measurement is repeated under the same conditions",
+      "zh": "只有在相同条件下重复同一项测量时，这个循环才算闭合"
+     },
+     {
+      "en": "a test after two to four weeks is enough; daily measurement is noise",
+      "zh": "两到四周后的测试就够；每日测量只是噪声"
+     },
+     {
+      "en": "what to change is chosen from the data, and only one thing at a time",
+      "zh": "改什么由数据决定，而且一次只改一件事"
+     }
+    ],
+    "caption": {
+     "en": "Individualisation is not a personality. It is a loop: a baseline, one change, a re-test, and a decision about the next change based on the result.",
+     "zh": "个体化不是一种性格，而是一个循环：一个基线、一处改变、一次复测、再根据结果决定下一步改什么。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What to monitor, and how often",
+     "zh": "监测什么，以及多久测一次"
+    },
+    "cols": [
+     {
+      "en": "Marker",
+      "zh": "指标"
+     },
+     {
+      "en": "Frequency",
+      "zh": "频率"
+     },
+     {
+      "en": "What a change means",
+      "zh": "变化意味着什么"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Session RPE x duration",
+       "zh": "训练自觉用力 x 时长"
+      },
+      {
+       "en": "Every session",
+       "zh": "每次训练"
+      },
+      {
+       "en": "The most reliable single load measure",
+       "zh": "最可靠的单一负荷指标"
+      }
+     ],
+     [
+      {
+       "en": "Morning heart rate",
+       "zh": "晨起心率"
+      },
+      {
+       "en": "Daily",
+       "zh": "每日"
+      },
+      {
+       "en": "A rise of 5-10 bpm suggests incomplete recovery",
+       "zh": "上升 5 到 10 次/分提示恢复未完成"
+      }
+     ],
+     [
+      {
+       "en": "Body mass",
+       "zh": "体重"
+      },
+      {
+       "en": "Daily, same conditions",
+       "zh": "每日，条件相同"
+      },
+      {
+       "en": "A drop of more than 2 percent flags under-fuelling",
+       "zh": "下降超过 2% 提示补糖不足"
+      }
+     ],
+     [
+      {
+       "en": "Sleep quality and duration",
+       "zh": "睡眠质量与时长"
+      },
+      {
+       "en": "Daily",
+       "zh": "每日"
+      },
+      {
+       "en": "Poor sleep plus poor performance is overtraining",
+       "zh": "睡眠差加表现差即过度训练"
+      }
+     ],
+     [
+      {
+       "en": "Performance test",
+       "zh": "表现测试"
+      },
+      {
+       "en": "Every 3-4 weeks",
+       "zh": "每 3 到 4 周"
+      },
+      {
+       "en": "The only measure that says the plan worked",
+       "zh": "唯一能说明计划有效的指标"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Everything except the performance test is a warning signal. Only the performance test confirms adaptation, and skipping it is how a programme drifts for a whole season.",
+     "zh": "除表现测试之外的一切都是预警信号。只有表现测试能确认适应，而跳过它正是一个计划整个赛季逐渐跑偏的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: one change, properly attributed",
+    "zh": "例题：一次改变，且可归因"
+   },
+   "given": {
+    "en": "A 1500 m runner’s 5 km time is 21:40. Coach adds 6 x 400 m at race pace with 90 s recovery, 3 min total.",
+    "zh": "一名 1500 米跑者的 5 公里成绩为 21:40。教练加入 6 组 400 米、比赛配速、组间 90 秒，总计 3 分钟。"
+   },
+   "steps": [
+    {
+     "en": "Baseline recorded: 21:40, tested on a known course in the same shoes.",
+     "zh": "记录基线：21:40，在同一已知场地、同一双鞋下测试。"
+    },
+    {
+     "en": "One change made: the session is added, everything else held constant for three weeks.",
+     "zh": "只做一处改变：加入这堂训练课，其余三周保持不变。"
+    },
+    {
+     "en": "Re-test at four weeks: 21:15, an improvement of 25 seconds.",
+     "zh": "四周后复测：21:15，提升 25 秒。"
+    },
+    {
+     "en": "The improvement is attributable, because only one thing changed. If three things had changed, the 25 seconds would be uninterpretable.",
+     "zh": "这个提升可归因，因为只改了一件事。如果改了三件，那 25 秒就无法解释。"
+    },
+    {
+     "en": "Next cycle: the coach now knows the session is worth 25 seconds, and can test whether it is worth keeping.",
+     "zh": "下一个周期：教练现在知道这堂课值 25 秒，可以再检验它是否值得保留。"
+    }
+   ],
+   "answer": {
+    "en": "Four weeks and one number. That is the whole method, and it is slower than changing three things and being pleased with the result.",
+    "zh": "四周和一个数字。这就是整套方法，而且它比\"同时改三样然后因为结果不错而高兴\"要慢。"
+   }
+  }
+ },
+ "Life stage, sex and energy balance": {
+  "figures": [
+   {
+    "title": {
+     "en": "Energy balance across the lifespan",
+     "zh": "贯穿一生的能量平衡"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"130\" x2=\"304\" y2=\"130\"/><line class=\"dash\" d=\"M24 76h280\"/><path class=\"fillC\" d=\"M24 76h280v54H24z\"/><path class=\"ln\" d=\"M40 66C90 60 150 58 240 60\"/><text class=\"lblS\" x=\"24\" y=\"54\">intake</text><path class=\"ln\" d=\"M40 92C110 98 180 100 280 96\"/><text class=\"lblS\" x=\"24\" y=\"112\">expenditure</text><g><line class=\"th\" x1=\"64\" y1=\"48\" x2=\"64\" y2=\"104\"/><path class=\"ln\" d=\"M64 48l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M64 104l-4.5-9h9z\" fill=\"currentColor\"/></g><text class=\"lblS\" x=\"52\" y=\"40\">growth</text><g><line class=\"th\" x1=\"200\" y1=\"60\" x2=\"200\" y2=\"96\"/><path class=\"ln\" d=\"M200 60l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M200 96l-4.5-9h9z\" fill=\"currentColor\"/></g><text class=\"lblS\" x=\"188\" y=\"52\">adult</text><text class=\"lblS\" x=\"24\" y=\"156\">age</text><text class=\"lblS\" x=\"3\" y=\"176\">a child grows on a positive balance; an adult maintains;</text><text class=\"lblS\" x=\"24\" y=\"189\">an older adult may need more protein per kilo</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "growth requires a positive energy balance, and that is a physiological requirement rather than a choice",
+      "zh": "生长需要正能量平衡，而那是生理需求而不是选择"
+     },
+     {
+      "en": "maintenance means intake equals expenditure, and the deficit creates loss",
+      "zh": "维持意味着摄入等于消耗，而赤字会造成流失"
+     },
+     {
+      "en": "protein requirement per kilo rises with age, so the same plan is not right across a lifespan",
+      "zh": "每公斤蛋白质需求随年龄上升，因此同一份方案不可能适合整个生命周期"
+     }
+    ],
+    "caption": {
+     "en": "The same numbers produce a surplus in a growing child, a maintenance state in an adult and a deficit in an older adult, with identical dietary advice.",
+     "zh": "同样的数字在生长中的儿童身上造成盈余、在成人身上造成维持、在老年人身上造成赤字——而给予的饮食建议却是同一份。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Considerations by life stage",
+     "zh": "各生命阶段的考量"
+    },
+    "cols": [
+     {
+      "en": "Stage",
+      "zh": "阶段"
+     },
+     {
+      "en": "Main risk",
+      "zh": "主要风险"
+     },
+     {
+      "en": "Practical adjustment",
+      "zh": "实际调整"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Child",
+       "zh": "儿童"
+      },
+      {
+       "en": "Under-fuelling, and training through growth spurts",
+       "zh": "补糖不足，以及在生长高峰期持续训练"
+      },
+      {
+       "en": "More sessions, lower volume, no maximal loads",
+       "zh": "更多训练课、更低训练量、不做最大负荷"
+      }
+     ],
+     [
+      {
+       "en": "Adolescent",
+       "zh": "青少年"
+      },
+      {
+       "en": "Overuse while tissues are still adapting",
+       "zh": "在组织仍在适应时过度使用"
+      },
+      {
+       "en": "Sample many skills, specialise later",
+       "zh": "广泛尝试各种技术，晚些专项化"
+      }
+     ],
+     [
+      {
+       "en": "Female athlete",
+       "zh": "女性运动员"
+      },
+      {
+       "en": "Low energy availability, iron, and menstrual change",
+       "zh": "能量可用性低、缺铁、月经变化"
+      },
+      {
+       "en": "Track menstrual cycle, iron status, and intake against training",
+       "zh": "追踪月经周期、铁状态，以及摄入与训练的关系"
+      }
+     ],
+     [
+      {
+       "en": "Adult male",
+       "zh": "成年男性"
+      },
+      {
+       "en": "Usually over-eating rather than under",
+       "zh": "通常是吃多而不是吃少"
+      },
+      {
+       "en": "Watch total intake, not just sport nutrition",
+       "zh": "关注总摄入，而不只是运动营养"
+      }
+     ],
+     [
+      {
+       "en": "Older adult",
+       "zh": "老年人"
+      },
+      {
+       "en": "Loss of muscle mass and bone density",
+       "zh": "肌肉量与骨密度流失"
+      },
+      {
+       "en": "More protein per kilo, more balance work, less high-impact",
+       "zh": "更多每公斤蛋白质、更多平衡训练、更少高冲击"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The single most useful question across every life stage is not what sport the athlete does. It is whether they are recovering between sessions at all.",
+     "zh": "贯穿所有生命阶段最有用的一个问题不是运动员从事什么项目，而是他们是否真的在训练课之间恢复。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same athlete, three life stages",
+    "zh": "例题：同一位运动员的三个生命阶段"
+   },
+   "given": {
+    "en": "The same 60 kg man, at 16, 30 and 68, is prescribed the same 3000 kcal intake.",
+    "zh": "同一位 60 公斤的男性，16 岁、30 岁和 68 岁，被开出同样的 3000 千卡摄入。"
+   },
+   "steps": [
+    {
+     "en": "At 16: expenditure is roughly 2500 kcal because of growth, so 3000 kcal is a surplus of about 20 percent.",
+     "zh": "16 岁：因生长消耗约 2500 千卡，因此 3000 千卡是约 20% 的盈余。"
+    },
+    {
+     "en": "At 30: expenditure is about 2500 kcal, so the same 3000 kcal is a surplus of 500 kcal and weight will rise.",
+     "zh": "30 岁：消耗约 2500 千卡，因此同样 3000 千卡是 500 千卡盈余，体重会上升。"
+    },
+    {
+     "en": "At 68: expenditure is about 2100 kcal, so the same 3000 kcal is a 40 percent surplus, and protein need per kilo is higher not lower.",
+     "zh": "68 岁：消耗约 2100 千卡，因此同样 3000 千卡是 40% 的盈余，而每公斤蛋白质需求更高而不是更低。"
+    },
+    {
+     "en": "Identical prescription, three different outcomes. The variable that was never considered is expenditure.",
+     "zh": "同样的处方，三种不同结果。从未被考虑的那个变量是消耗。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing here is about sport nutrition. It is that a plan written for one life stage silently becomes wrong in the other two, and nothing in the plan notices.",
+    "zh": "这与运动营养无关。问题在于为某个生命阶段写下的方案，会在其他两个阶段悄悄变成错的，而方案本身不会察觉。"
+   }
+  }
+ },
+ "System benefits, chronic disease and progression": {
+  "figures": [
+   {
+    "title": {
+     "en": "Dose is the prescription, and it has a window",
+     "zh": "剂量就是处方，而它有一个窗口"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"130\" x2=\"304\" y2=\"130\"/><line class=\"ln\" x1=\"24\" y1=\"130\" x2=\"24\" y2=\"24\"/><path class=\"fillA\" d=\"M24 130C60 120 90 100 120 76c20 -16 40 -30 70 -40 30 -10 60 -14 90 -14v108z\"/><path class=\"ln\" d=\"M24 130C60 120 90 100 120 76c20 -16 40 -30 70 -40 30 -10 60 -14 90 -14\"/><path class=\"th\" d=\"M24 108C70 96 120 80 170 70\"/><text class=\"lblS\" x=\"24\" y=\"150\">inactivity</text><text class=\"lblS\" x=\"180\" y=\"30\">benefit</text><text class=\"lblS\" x=\"236\" y=\"40\">plateau</text><text class=\"lblS\" x=\"256\" y=\"70\">risk</text><line class=\"dash\" d=\"M24 84h280\"/><text class=\"lblS\" x=\"3\" y=\"172\">most of the benefit arrives early — the first 20 percent</text><text class=\"lblS\" x=\"24\" y=\"185\">of change does most of the work</text>",
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "most health benefit comes from moving out of inactivity, not from reaching an elite dose",
+      "zh": "大部分健康收益来自从不活动转为活动，而不是达到精英剂量"
+     },
+     {
+      "en": "there is a dose-response curve with a plateau and then a risk of harm at high volume",
+      "zh": "存在一条剂量–反应曲线，经历平台期后在高训练量时出现伤害风险"
+     },
+     {
+      "en": "progression must therefore be individual, because the window differs by condition",
+      "zh": "因此进阶必须是个体化的，因为这个窗口因病情而异"
+     }
+    ],
+    "caption": {
+     "en": "The clinical message is that some is far better than none, and that the two errors are doing nothing and doing too much for someone with a chronic condition.",
+     "zh": "临床上的信息是：做一些远好于不做；而两个错误是\"完全不做\"和\"对慢性病患者做得太多\"。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The most common conditions, and what changes",
+     "zh": "最常见的病症，以及需要改变什么"
+    },
+    "cols": [
+     {
+      "en": "Condition",
+      "zh": "病症"
+     },
+     {
+      "en": "Main concern",
+      "zh": "主要顾虑"
+     },
+     {
+      "en": "What changes",
+      "zh": "需要改变什么"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Type 2 diabetes",
+       "zh": "2 型糖尿病"
+      },
+      {
+       "en": "Glycaemic control",
+       "zh": "血糖控制"
+      },
+      {
+       "en": "More frequent activity, weight loss, and post-meal walking",
+       "zh": "更频繁的活动、减重，以及餐后步行"
+      }
+     ],
+     [
+      {
+       "en": "Hypertension",
+       "zh": "高血压"
+      },
+      {
+       "en": "Blood pressure at exertion",
+       "zh": "运动时的血压"
+      },
+      {
+       "en": "Aerobic work, and Valsalva avoided",
+       "zh": "有氧训练，并避免屏气用力"
+      }
+     ],
+     [
+      {
+       "en": "Coronary artery disease",
+       "zh": "冠心病"
+      },
+      {
+       "en": "Demand on the heart muscle",
+       "zh": "对心肌的需求"
+      },
+      {
+       "en": "Medical clearance first, then graded progression",
+       "zh": "先做医学许可，再分级进阶"
+      }
+     ],
+     [
+      {
+       "en": "Osteoarthritis",
+       "zh": "骨关节炎"
+      },
+      {
+       "en": "Joint loading and pain",
+       "zh": "关节负荷与疼痛"
+      },
+      {
+       "en": "Low-impact work, strength, and more frequent shorter sessions",
+       "zh": "低冲击训练、力量训练，以及更频繁的短课"
+      }
+     ],
+     [
+      {
+       "en": "Asthma",
+       "zh": "哮喘"
+      },
+      {
+       "en": "Trigger and rescue medication use",
+       "zh": "诱因与急救药物使用"
+      },
+      {
+       "en": "Inhaled steroid before exercise, and known safe triggers",
+       "zh": "运动前吸入激素，并确认安全的诱因"
+      }
+     ],
+     [
+      {
+       "en": "Osteoporosis",
+       "zh": "骨质疏松"
+      },
+      {
+       "en": "Fracture risk",
+       "zh": "骨折风险"
+      },
+      {
+       "en": "Weight-bearing, resistance, and impact where safe",
+       "zh": "负重训练、抗阻训练，以及在安全前提下加入冲击"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A row in this table is not a modification of a healthy programme. It is a different programme, and it is written by someone qualified.",
+     "zh": "这张表中的一行并不是对健康方案的\"修改\"，而是一个不同的方案，而且它由有资质的人来写。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a graded return for a common condition",
+    "zh": "例题：为常见病症做分级回归"
+   },
+   "given": {
+    "en": "A 58-year-old with hypertension and 12 years inactive, wanting to walk 5 km.",
+    "zh": "一名 58 岁、有高血压且不活动 12 年的人，目标是走 5 公里。"
+   },
+   "steps": [
+    {
+     "en": "Stage 1, weeks 1-2: 10 minutes of walking, 5 days, and blood pressure checked before starting.",
+     "zh": "第 1 阶段，第 1 到 2 周：步行 10 分钟、每周 5 天，并在开始前测量血压。"
+    },
+    {
+     "en": "Stage 2, weeks 3-6: build to 30 minutes continuously. This is where most of the health benefit is gained.",
+     "zh": "第 2 阶段，第 3 到 6 周：增加到连续 30 分钟。大部分健康收益在这里获得。"
+    },
+    {
+     "en": "Stage 3, weeks 7-12: add intervals of 1 minute faster, and only if blood pressure stays acceptable.",
+     "zh": "第 3 阶段，第 7 到 12 周：加入 1 分钟的较快间歇，且仅在血压保持可接受时进行。"
+    },
+    {
+     "en": "Stage 4: work towards 5 km, but the goal is health, and it may be reduced without the programme being a failure.",
+     "zh": "第 4 阶段：以 5 公里为目标，但目标是健康；目标可以降低而这不代表方案失败。"
+    },
+    {
+     "en": "Note what did not appear: no session without breath-holding, and no progression without a measurement.",
+     "zh": "注意没有出现的东西：没有一堂包含屏气用力的训练课，也没有一次没有测量的进阶。"
+    }
+   ],
+   "answer": {
+    "en": "The 5 km is not really the prescription. 30 minutes of daily activity is the prescription, and the walk is only how this person gets there. Framing it that way also makes a smaller goal acceptable.",
+    "zh": "5 公里其实不是处方。每日的 30 分钟活动才是处方，而步行只是这个人到达它的方式。这样框定也使得更小的目标变得可以接受。"
+   }
+  }
+ },
+ "Pre-exercise, during-exercise and recovery": {
+  "figures": [
+   {
+    "title": {
+     "en": "The three phases and what each one is for",
+     "zh": "三个阶段以及各自的目的"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"88\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h88v116H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">BEFORE</text><text class=\"lblS\" x=\"22\" y=\"60\">raise temp</text><text class=\"lblS\" x=\"22\" y=\"74\">rehearse</text><text class=\"lblS\" x=\"22\" y=\"88\">practise</text><text class=\"lblS\" x=\"22\" y=\"102\">psych up</text><text class=\"lblS\" x=\"22\" y=\"120\">12-20 min</text></g><g><rect class=\"fillB\" x=\"112\" y=\"24\" width=\"88\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M112 24h88v116h-88z\"/><text class=\"lblS\" x=\"120\" y=\"42\">DURING</text><text class=\"lblS\" x=\"120\" y=\"60\">fuel</text><text class=\"lblS\" x=\"120\" y=\"74\">fluid</text><text class=\"lblS\" x=\"120\" y=\"88\">heat out</text><text class=\"lblS\" x=\"120\" y=\"102\">posture</text><text class=\"lblS\" x=\"120\" y=\"120\">ongoing</text></g><g><rect class=\"fillA\" x=\"210\" y=\"24\" width=\"96\" height=\"116\" rx=\"8\"/><path class=\"ln\" d=\"M210 24h96v116h-96z\"/><text class=\"lblS\" x=\"218\" y=\"42\">AFTER</text><text class=\"lblS\" x=\"218\" y=\"60\">rehydrate</text><text class=\"lblS\" x=\"218\" y=\"74\">re-fuel</text><text class=\"lblS\" x=\"218\" y=\"88\">cool down</text><text class=\"lblS\" x=\"218\" y=\"102\">review</text><text class=\"lblS\" x=\"218\" y=\"120\">until next</text></g><text class=\"lblS\" x=\"3\" y=\"162\">the warm-up is the most neglected phase and the one with</text><text class=\"lblS\" x=\"14\" y=\"175\">the shortest useful life</text><text class=\"lblS\" x=\"14\" y=\"180\">its effects fade within 20-30 minutes, so a long</text><text class=\"lblS\" x=\"14\" y=\"193\">ceremony at half-time actively costs</text>",
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "the warm-up raises tissue temperature and rehearses the movement, and both effects fade",
+      "zh": "热身提高组织温度并排练动作，而两种效果都会消退"
+     },
+     {
+      "en": "during exercise the priorities are fuel, fluid, heat loss and posture, in that order of neglect",
+      "zh": "运动中的优先事项是补糖、补液、散热与姿势，按被忽视程度排序"
+     },
+     {
+      "en": "afterwards, carbohydrate and protein matter most in the first hour",
+      "zh": "之后的第一小时里，碳水与蛋白质最为关键"
+     }
+    ],
+    "caption": {
+     "en": "The warm-up is the cheapest performance intervention available and the most frequently skipped, usually in favour of more warm-up drills that do not transfer.",
+     "zh": "热身是最便宜的性能干预，也是最常被跳过的——通常是被更多并不迁移的热身练习换掉了。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three phases, and the commonest error in each",
+     "zh": "三个阶段，以及各阶段最常见的错误"
+    },
+    "cols": [
+     {
+      "en": "Phase",
+      "zh": "阶段"
+     },
+     {
+      "en": "Purpose",
+      "zh": "目的"
+     },
+     {
+      "en": "Commonest error",
+      "zh": "最常见的错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Before",
+       "zh": "之前"
+      },
+      {
+       "en": "Raise temperature, rehearse, focus",
+       "zh": "提高温度、排练、集中"
+      },
+      {
+       "en": "Static stretching, which reduces power for 30-60 min",
+       "zh": "静态拉伸，会在 30 到 60 分钟内降低功率"
+      }
+     ],
+     [
+      {
+       "en": "During",
+       "zh": "之中"
+      },
+      {
+       "en": "Fuel, fluid, heat loss, position",
+       "zh": "补糖、补液、散热、姿势"
+      },
+      {
+       "en": "Waiting until thirsty, which is already too late",
+       "zh": "等到口渴才喝，而这已经太晚"
+      }
+     ],
+     [
+      {
+       "en": "After",
+       "zh": "之后"
+      },
+      {
+       "en": "Restore glycogen, protein, fluid",
+       "zh": "恢复糖原、蛋白质、水分"
+      },
+      {
+       "en": "Skipping carbohydrate after a glycogen-depleting effort",
+       "zh": "在耗糖训练后不补碳水"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Warm-up effects decay in 20 to 30 minutes, which means the timing matters more than the content. A correct warm-up performed 45 minutes early is a wasted warm-up.",
+     "zh": "热身效果在 20 到 30 分钟内衰减，这意味着时机比内容更重要。提前 45 分钟做完的、正确的热身，是一个被浪费的热身。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a match-day warm-up that fits the clock",
+    "zh": "例题：一份符合时间表的比赛日热身"
+   },
+   "given": {
+    "en": "The match starts 40 minutes after the team enters the pitch. Warm-up must raise temperature and rehearse the set piece.",
+    "zh": "比赛在球队进场 40 分钟后开始。热身必须提高温度并排练定位球。"
+   },
+   "steps": [
+    {
+     "en": "Minutes 0-8: raise temperature with continuous movement, then dynamic mobility through all planes.",
+     "zh": "第 0 到 8 分钟：用连续活动提高温度，然后通过所有平面做动态活动度。"
+    },
+    {
+     "en": "Minutes 8-20: specific rehearsal, increasing speed, including the set-piece pattern at match intensity.",
+     "zh": "第 8 到 20 分钟：专项排练，速度逐步提高，其中包括以比赛强度排练定位球套路。"
+    },
+    {
+     "en": "Minutes 20-30: brief team talk, then keep moving. Stop the long static phase here.",
+     "zh": "第 20 到 30 分钟：简短的队伍讲话，然后继续活动。在这里结束冗长的静态阶段。"
+    },
+    {
+     "en": "Minutes 30-38: short sharp accelerations, then the rest is waiting — the effects are still inside the 20-30 minute window.",
+     "zh": "第 30 到 38 分钟：短促的加速度训练，其余是等待——效果仍在 20 到 30 分钟的窗口内。"
+    },
+    {
+     "en": "A 60 minute pre-match routine would be counterproductive, because the effects would have decayed.",
+     "zh": "一份 60 分钟的赛前流程会适得其反，因为效果届时已经衰减。"
+    }
+   ],
+   "answer": {
+    "en": "Same athletes, same drills, and the difference between a routine that works and one that does not was entirely in the clock. This is the least glamorous and most reproducible finding in warm-up research.",
+    "zh": "同样的运动员、同样的练习，而有效与无效的流程之间的差别完全在于时间表。这是热身研究中最不光鲜、也最可复现的发现。"
+   }
+  }
+ },
+ "Micronutrients, RED-S and microbiome": {
+  "figures": [
+   {
+    "title": {
+     "en": "The energy-availability window",
+     "zh": "能量可用性的窗口"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"136\" x2=\"304\" y2=\"136\"/><line class=\"ln\" x1=\"24\" y1=\"136\" x2=\"24\" y2=\"24\"/><path class=\"fillA\" d=\"M24 136C60 100 90 70 130 50c30 -14 60 -20 100 -22v108z\"/><path class=\"ln\" d=\"M24 136C60 100 90 70 130 50c30 -14 60 -20 100 -22\"/><line class=\"dash\" d=\"M24 78h280\"/><text class=\"lblS\" x=\"24\" y=\"72\">optimal</text><path class=\"fillC\" d=\"M230 28h74v108h-74z\" opacity=\".5\"/><text class=\"lblS\" x=\"236\" y=\"44\">RED-S</text><text class=\"lblS\" x=\"24\" y=\"156\">available</text><text class=\"lblS\" x=\"24\" y=\"172\">energy for</text><text class=\"lblS\" x=\"24\" y=\"186\">training</text><text class=\"lblS\" x=\"252\" y=\"156\">too low</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "energy available for training is what remains after training expenditure is subtracted from intake",
+      "zh": "可供训练使用的能量，是摄入减去训练消耗之后的余量"
+     },
+     {
+      "en": "below roughly 30 kcal per kilo of fat-free mass the body starts conserving, and RED-S can follow",
+      "zh": "低于每公斤去脂体重约 30 千卡时，身体开始节省，而 RED-S 可能随之出现"
+     },
+     {
+      "en": "iron, vitamin D and calcium are the micronutrients most often low in athlete diets",
+      "zh": "铁、维生素 D 与钙是运动员饮食中最常偏低的几项微量营养素"
+     }
+    ],
+    "caption": {
+     "en": "RED-S is not a single diagnosis. It is a cluster of low-energy-availability effects across bone, hormones, immunity, mood and performance, and it is common and under-diagnosed.",
+     "zh": "RED-S 不是单一诊断。它是低能量可用性在骨骼、激素、免疫、情绪与表现上的一组效应，而且常见却常被漏诊。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Micronutrients that matter most in sport",
+     "zh": "运动中最重要的微量营养素"
+    },
+    "cols": [
+     {
+      "en": "Nutrient",
+      "zh": "营养素"
+     },
+     {
+      "en": "Deficit looks like",
+      "zh": "缺乏的表现"
+     },
+     {
+      "en": "Where it comes from",
+      "zh": "来源"
+     },
+     {
+      "en": "Priority",
+      "zh": "优先级"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Iron",
+       "zh": "铁"
+      },
+      {
+       "en": "Fatigue, poor tolerance of training, breathlessness",
+       "zh": "疲劳、训练耐受差、气促"
+      },
+      {
+       "en": "Red meat, legumes, fortified food",
+       "zh": "红肉、豆类、强化食品"
+      },
+      {
+       "en": "Highest — it is the commonest true deficiency",
+       "zh": "最高——它是最常见的真实缺乏"
+      }
+     ],
+     [
+      {
+       "en": "Vitamin D",
+       "zh": "维生素 D"
+      },
+      {
+       "en": "Bone pain, frequent minor infection, slow recovery",
+       "zh": "骨痛、频繁轻微感染、恢复慢"
+      },
+      {
+       "en": "Sunlight, oily fish, fortified food",
+       "zh": "日照、含油鱼、强化食品"
+      },
+      {
+       "en": "High, and often low at latitude",
+       "zh": "高，且在高纬度地区常偏低"
+      }
+     ],
+     [
+      {
+       "en": "Calcium",
+       "zh": "钙"
+      },
+      {
+       "en": "Bone density loss, muscle cramping",
+       "zh": "骨密度流失、肌肉痉挛"
+      },
+      {
+       "en": "Dairy, fortified alternatives, tinned fish with bones",
+       "zh": "乳制品、强化替代品、带骨罐头鱼"
+      },
+      {
+       "en": "High in low-dairy diets",
+       "zh": "在低乳制品饮食中偏高"
+      }
+     ],
+     [
+      {
+       "en": "Magnesium",
+       "zh": "镁"
+      },
+      {
+       "en": "Crumbling, cramps, poor recovery",
+       "zh": "乏力、抽筋、恢复差"
+      },
+      {
+       "en": "Nuts, whole grains, dark leafy vegetables",
+       "zh": "坚果、全谷物、深绿叶蔬菜"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Energy availability is upstream of all of these. Correcting a deficiency while the athlete remains in low energy availability is treating the symptom and leaving the cause.",
+     "zh": "能量可用性位于这些之上。在运动员仍处于低能量可用性时纠正缺乏，是在治症状而留下病因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: finding low energy availability arithmetically",
+    "zh": "例题：用算术找出低能量可用性"
+   },
+   "given": {
+    "en": "A 55 kg female athlete, 42 kg fat-free mass, eats 2000 kcal and trains burning 2200 kcal.",
+    "zh": "一名 55 公斤的女性运动员，去脂体重 42 公斤，摄入 2000 千卡，训练消耗 2200 千卡。"
+   },
+   "steps": [
+    {
+     "en": "Energy available = intake - training expenditure = 2000 - 2200 = -200 kcal.",
+     "zh": "能量可用性 = 摄入 - 训练消耗 = 2000 - 2200 = -200 千卡。"
+    },
+    {
+     "en": "Relative to fat-free mass: -200 / 42 = -4.8 kcal per kg. The optimum is above roughly 30.",
+     "zh": "按去脂体重计：-200 / 42 = 每公斤 -4.8 千卡，而最优值在约 30 以上。"
+    },
+    {
+     "en": "So this is not borderline — it is a substantial deficit, and the body will be conserving rather than building.",
+     "zh": "所以这不是临界情况——而是明显赤字，身体会进行节省而不是建设。"
+    },
+    {
+     "en": "The likely presentation is not a single symptom but fatigue, a stalled weight, a missed period and repeated injuries.",
+     "zh": "可能的表现不是单一症状，而是疲劳、体重停滞、月经不来以及反复受伤。"
+    },
+    {
+     "en": "Increasing intake is not a small fix: the gap here is larger than most athletes assume.",
+     "zh": "增加摄入不是一个小修正：这里的缺口比多数运动员以为的更大。"
+    }
+   ],
+   "answer": {
+    "en": "The arithmetic says the gap is 200 kcal, which sounds trivial until it is expressed per kilo of fat-free mass. Expressed that way, it is a deficit of about 5 against a target of 30.",
+    "zh": "算术给出的缺口是 200 千卡，听起来微不足道，直到按每公斤去脂体重表达为止。按那种方式表达，它是从目标 30 掉到约 5。"
+   }
+  }
+ },
+ "Skeleton, position and directional terms": {
+  "figures": [
+   {
+    "title": {
+     "en": "Anatomical position and the directional terms",
+     "zh": "解剖学姿势与方位术语"
+    },
+    "svg": "<g><line class=\"ln\" x1=\"150\" y1=\"20\" x2=\"150\" y2=\"164\"/><circle class=\"fillB\" cx=\"150\" cy=\"30\" r=\"8\"/><path class=\"ln\" d=\"M150 22a8 8 0 1 1 0 16 8 8 0 1 1 0-16z\"/><line class=\"th\" x1=\"150\" y1=\"40\" x2=\"150\" y2=\"80\"/><line class=\"th\" x1=\"150\" y1=\"44\" x2=\"120\" y2=\"96\"/><line class=\"th\" x1=\"150\" y1=\"44\" x2=\"180\" y2=\"96\"/><line class=\"th\" x1=\"120\" y1=\"100\" x2=\"120\" y2=\"150\"/><line class=\"th\" x1=\"180\" y1=\"100\" x2=\"180\" y2=\"150\"/><line class=\"th\" x1=\"120\" y1=\"152\" x2=\"106\" y2=\"164\"/><line class=\"th\" x1=\"180\" y1=\"152\" x2=\"194\" y2=\"164\"/></g><path class=\"th\" d=\"M150 20v-8\"/><path class=\"ln\" d=\"M150 12l-4 8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"18\">superior</text><path class=\"th\" d=\"M150 170v8\"/><path class=\"ln\" d=\"M150 178l-4-8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"186\">inferior</text><text class=\"lblS\" x=\"96\" y=\"110\">lateral</text><text class=\"lblS\" x=\"186\" y=\"110\">medial</text><text class=\"lblS\" x=\"70\" y=\"164\">distal</text><text class=\"lblS\" x=\"196\" y=\"164\">proximal</text><text class=\"lblS\" x=\"14\" y=\"110\">anterior / posterior apply the same way to a body in</text><text class=\"lblS\" x=\"14\" y=\"123\">this position</text>",
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "every term is relative to the body itself, never to the person looking at it",
+      "zh": "每一个术语都相对于身体本身，而不是相对于观看者"
+     },
+     {
+      "en": "superior and inferior mean nearer the head and nearer the feet, not higher and lower on a page",
+      "zh": "上与下的含义是更靠近头部与更靠近足部，而不是纸面上的高低"
+     },
+     {
+      "en": "proximal and distal mean nearer the trunk and nearer the end of the limb",
+      "zh": "近端与远端的含义是更靠近躯干与更靠近肢体的末端"
+     }
+    ],
+    "caption": {
+     "en": "The convention exists so that two people in different positions can describe the same movement identically. It is the shared reference that makes anatomical language usable.",
+     "zh": "这套约定的存在，是为了让处在不同位置的两个人能对同一个动作做出完全相同的描述。它是让解剖学语言可用的共同参照。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The directional terms and their opposites",
+     "zh": "方位术语及其反义词"
+    },
+    "cols": [
+     {
+      "en": "Term",
+      "zh": "术语"
+     },
+     {
+      "en": "Means",
+      "zh": "含义"
+     },
+     {
+      "en": "Opposite",
+      "zh": "反义词"
+     },
+     {
+      "en": "Example in sport",
+      "zh": "运动中的例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Superior / inferior",
+       "zh": "上 / 下"
+      },
+      {
+       "en": "Nearer the head / nearer the feet",
+       "zh": "更靠近头部 / 更靠近足部"
+      },
+      {
+       "en": "Inferior / superior",
+       "zh": "下 / 上"
+      },
+      {
+       "en": "The patella sits inferior to the hip joint",
+       "zh": "髌骨位于髋关节的下方"
+      }
+     ],
+     [
+      {
+       "en": "Anterior / posterior",
+       "zh": "前 / 后"
+      },
+      {
+       "en": "Front of the body / back of the body",
+       "zh": "身体的前面 / 后面"
+      },
+      {
+       "en": "Posterior / anterior",
+       "zh": "后 / 前"
+      },
+      {
+       "en": "Anterior cruciate ligament of the knee",
+       "zh": "膝关节的前交叉韧带"
+      }
+     ],
+     [
+      {
+       "en": "Medial / lateral",
+       "zh": "内 / 外"
+      },
+      {
+       "en": "Toward the midline / away from it",
+       "zh": "朝向中线 / 远离中线"
+      },
+      {
+       "en": "Lateral / medial",
+       "zh": "外 / 内"
+      },
+      {
+       "en": "Medial knee pain in a runner",
+       "zh": "跑者的内侧膝痛"
+      }
+     ],
+     [
+      {
+       "en": "Proximal / distal",
+       "zh": "近 / 远"
+      },
+      {
+       "en": "Nearer the trunk / nearer the end",
+       "zh": "更靠近躯干 / 更靠近末端"
+      },
+      {
+       "en": "Distal / proximal",
+       "zh": "远 / 近"
+      },
+      {
+       "en": "Distal radius fracture in a fall on the hand",
+       "zh": "手撑地摔倒时的桡骨远端骨折"
+      }
+     ],
+     [
+      {
+       "en": "Superficial / deep",
+       "zh": "浅 / 深"
+      },
+      {
+       "en": "Near the surface / away from it",
+       "zh": "靠近表面 / 远离表面"
+      },
+      {
+       "en": "Deep / superficial",
+       "zh": "深 / 浅"
+      },
+      {
+       "en": "Superficial veins versus deep vein thrombosis",
+       "zh": "浅静脉与深静脉血栓"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The single most common error in sport science writing is using \"left\" and \"right\" without saying whose. Anatomical terms are universal precisely because they are not.",
+     "zh": "运动科学写作中最常见的错误，是使用\"左\"与\"右\"却没有说明是谁的。解剖学术语之所以通用，正是因为它们不依赖观察者。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: writing a report that another clinician can use",
+    "zh": "例题：写出一份另一位临床人员能用的报告"
+   },
+   "given": {
+    "en": "A hurdler reports pain on the outer side of the knee, worse when running, and started it after a hamstring injury 8 weeks earlier.",
+    "zh": "一名跨栏运动员报告膝外侧疼痛，跑步时加重，8 周前腘绳肌受伤后开始。"
+   },
+   "steps": [
+    {
+     "en": "Using body-relative terms: pain on the lateral side of the left knee.",
+     "zh": "使用相对身体的术语：左膝外侧疼痛。"
+    },
+    {
+     "en": "Adding a mechanism: during terminal swing, when the tibia externally rotates on a fixed femur.",
+     "zh": "补充机制：在摆动末期，此时股骨固定、胫骨外旋。"
+    },
+    {
+     "en": "Adding a timeline: 8 weeks ago, following a hamstring injury that limited hip flexion.",
+     "zh": "补充时间线：8 周前，源于一次限制了屈髋的腘绳肌损伤。"
+    },
+    {
+     "en": "Only now does the report suggest a mechanism, and the mechanism points at a different structure than the site of the pain.",
+     "zh": "只有到这一步报告才提出了机制，而机制指向的结构与疼痛部位不同。"
+    },
+    {
+     "en": "This is the ordinary payoff of the terminology: it changes what the next question should be.",
+     "zh": "这就是这套术语的日常回报：它改变了下一个问题应该是什么。"
+    }
+   ],
+   "answer": {
+    "en": "Note that the pain is at the knee and the likely structure is at the hip. Language is what makes that inference checkable rather than a guess.",
+    "zh": "注意疼痛在膝部，而可能有问题的结构在髋部。正是这套术语使那个推断可以被核查，而不是靠猜。"
+   }
+  }
+ },
+ "Planes, axes and movement": {
+  "figures": [
+   {
+    "title": {
+     "en": "Three planes, three axes, and why they matter",
+     "zh": "三个平面、三条轴，以及它们为什么重要"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M14 20h88v72H14z\"/><path class=\"dash\" d=\"M20 88l76-60\"/><text class=\"lbl\" x=\"44\" y=\"60\">sagittal</text><text class=\"lblS\" x=\"24\" y=\"106\">flex / extend</text><text class=\"lblS\" x=\"20\" y=\"120\">lateral-medial axis</text></g><g><rect class=\"fillA\" x=\"116\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M116 20h88v72h-88z\"/><path class=\"dash\" d=\"M124 56h72\"/><text class=\"lbl\" x=\"146\" y=\"46\">frontal</text><text class=\"lblS\" x=\"122\" y=\"106\">abduct / add</text><text class=\"lblS\" x=\"118\" y=\"120\">antero-posterior axis</text></g><g><rect class=\"fillA\" x=\"218\" y=\"20\" width=\"88\" height=\"72\" rx=\"6\"/><path class=\"ln\" d=\"M218 20h88v72h-88z\"/><circle class=\"ln\" cx=\"262\" cy=\"56\" r=\"18\"/><path class=\"dash\" d=\"M244 56h36M262 38v36\"/><text class=\"lbl\" x=\"248\" y=\"60\">transverse</text><text class=\"lblS\" x=\"220\" y=\"106\">rotate</text><text class=\"lblS\" x=\"216\" y=\"120\">vertical axis</text></g><text class=\"lblS\" x=\"14\" y=\"152\">a movement belongs to the plane of the axis it turns</text><text class=\"lblS\" x=\"14\" y=\"165\">about</text><text class=\"lblS\" x=\"14\" y=\"170\">and to the plane the bone moves within, which is the</text><text class=\"lblS\" x=\"14\" y=\"183\">same plane for a hinge</text><text class=\"lblS\" x=\"3\" y=\"188\">most injuries happen when a segment moves in a plane the</text><text class=\"lblS\" x=\"14\" y=\"201\">joint cannot move it in</text>",
+    "viewBox": "0 0 320 208",
+    "legend": [
+     {
+      "en": "flexion and extension occur in the sagittal plane about a lateral to medial axis",
+      "zh": "屈与伸发生在矢状面，围绕外内轴"
+     },
+     {
+      "en": "abduction and adduction occur in the frontal plane about an antero-posterior axis",
+      "zh": "外展与内收发生在额状面，围绕前后轴"
+     },
+     {
+      "en": "rotation occurs in the transverse plane about a vertical axis",
+      "zh": "旋转发生在水平面，围绕垂直轴"
+     }
+    ],
+    "caption": {
+     "en": "The practical value is not exam vocabulary. It is that movement outside the plane a joint permits is a common description of sprains, and it tells a coach which movement to stop.",
+     "zh": "它的实际价值不是考试词汇。而在于：关节不允许的平面上的运动，是扭伤的常见描述，它能告诉教练该停掉哪个动作。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Planes, axes and the movements in each",
+     "zh": "平面、轴与各平面内的运动"
+    },
+    "cols": [
+     {
+      "en": "Plane",
+      "zh": "平面"
+     },
+     {
+      "en": "Axis of rotation",
+      "zh": "旋转轴"
+     },
+     {
+      "en": "Movements",
+      "zh": "运动"
+     },
+     {
+      "en": "Sport example",
+      "zh": "运动例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Sagittal",
+       "zh": "矢状面"
+      },
+      {
+       "en": "Lateral to medial",
+       "zh": "由外向内"
+      },
+      {
+       "en": "Flexion, extension",
+       "zh": "屈、伸"
+      },
+      {
+       "en": "Knee bend in a squat, sprinting stride",
+       "zh": "深蹲中的屈膝、冲刺步幅"
+      }
+     ],
+     [
+      {
+       "en": "Frontal",
+       "zh": "额状面"
+      },
+      {
+       "en": "Antero-posterior",
+       "zh": "由前向后"
+      },
+      {
+       "en": "Abduction, adduction",
+       "zh": "外展、内收"
+      },
+      {
+       "en": "Side steps, lateral lunges, high knee",
+       "zh": "侧向移动、侧向弓步、高抬腿"
+      }
+     ],
+     [
+      {
+       "en": "Transverse",
+       "zh": "水平面"
+      },
+      {
+       "en": "Vertical",
+       "zh": "垂直"
+      },
+      {
+       "en": "Rotation, horizontal flexion and extension",
+       "zh": "旋转、水平屈伸"
+      },
+      {
+       "en": "Spinal rotation in a golf swing, pivoting in football",
+       "zh": "高尔夫挥杆中的躯干旋转、足球中的转身"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A joint may allow only one of these. The ankle is a hinge that flexes and extends, which is why an inversion injury is a sprain of a structure moving in a plane the joint does not permit.",
+     "zh": "一个关节可能只允许其中一种。踝关节是只做屈伸的铰链关节，这正是内翻损伤属于\"在关节不允许的平面上运动\"的结构扭伤的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: using the planes to explain an ankle sprain",
+    "zh": "例题：用平面解释踝关节扭伤"
+   },
+   "given": {
+    "en": "A footballer lands from a jump with the foot turned inward and the body rolling over it.",
+    "zh": "一名足球运动员跳起落地时脚向内扣，身体压在上面。"
+   },
+   "steps": [
+    {
+     "en": "The foot has moved in the frontal plane, towards inversion — a movement the ankle does not permit as pure inversion while weight is on it.",
+     "zh": "脚在额状面内移动，趋向内翻——而在承重状态下这是踝关节不允许的纯内翻运动。"
+    },
+    {
+     "en": "The ligaments on the lateral side are stretched beyond their range, which is a sprain.",
+     "zh": "外侧韧带被拉伸超出范围，这就是扭伤。"
+    },
+    {
+     "en": "The ligaments resisting inversion sit on the lateral side, which is why the sprain is there and not on the other side.",
+     "zh": "抵抗内翻的韧带位于外侧，所以扭伤发生在外侧而不是另一侧。"
+    },
+    {
+     "en": "Prevention follows the plane: strengthen the peroneals to resist inversion, and train landing with the foot facing forward.",
+     "zh": "预防也沿着这个平面：强化腓骨肌以抵抗内翻，并训练落地时脚尖朝前。"
+    },
+    {
+     "en": "Taping and boots help because they restrict the movement in the plane where the injury occurs.",
+     "zh": "肌贴与护具之所以有效，是因为它们限制了损伤发生的那一平面上的运动。"
+    }
+   ],
+   "answer": {
+    "en": "The same explanation predicts the treatment and the prevention, which is the test of whether an explanation is any good.",
+    "zh": "同一个解释同时预测了处理与预防方案，而这也是判断一个解释是否成立的检验。"
+   }
+  }
+ },
+ "HL anthropometry and ergonomics": {
+  "figures": [
+   {
+    "title": {
+     "en": "Two athletes, one design, two problems",
+     "zh": "两名运动员、一种设计、两个问题"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"46\" cy=\"34\" r=\"9\"/><path class=\"ln\" d=\"M46 25a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><line class=\"th\" x1=\"46\" y1=\"44\" x2=\"46\" y2=\"96\"/><line class=\"th\" x1=\"46\" y1=\"50\" x2=\"26\" y2=\"80\"/><line class=\"th\" x1=\"46\" y1=\"50\" x2=\"66\" y2=\"80\"/><line class=\"th\" x1=\"26\" y1=\"82\" x2=\"26\" y2=\"116\"/><line class=\"th\" x1=\"66\" y1=\"82\" x2=\"66\" y2=\"116\"/><text class=\"lblS\" x=\"18\" y=\"136\">short + tall</text></g><g><rect class=\"fillA\" x=\"104\" y=\"112\" width=\"48\" height=\"16\" rx=\"4\"/><path class=\"ln\" d=\"M104 112h48v16h-48z\"/><text class=\"lblS\" x=\"110\" y=\"124\">bench</text><line class=\"dash\" d=\"M46 128h58\"/><text class=\"lblS\" x=\"72\" y=\"124\">feet dangle</text><path class=\"ln\" d=\"M46 128q14 8 0 8\"/></g><g><circle class=\"fillA\" cx=\"222\" cy=\"26\" r=\"9\"/><path class=\"ln\" d=\"M222 17a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><line class=\"th\" x1=\"222\" y1=\"36\" x2=\"222\" y2=\"100\"/><line class=\"th\" x1=\"222\" y1=\"42\" x2=\"202\" y2=\"76\"/><line class=\"th\" x1=\"222\" y1=\"42\" x2=\"242\" y2=\"76\"/><line class=\"th\" x1=\"202\" y1=\"78\" x2=\"202\" y2=\"116\"/><line class=\"th\" x1=\"242\" y1=\"78\" x2=\"242\" y2=\"116\"/><text class=\"lblS\" x=\"192\" y=\"136\">long + lean</text></g><g><rect class=\"fillA\" x=\"196\" y=\"112\" width=\"48\" height=\"16\" rx=\"4\"/><path class=\"ln\" d=\"M196 112h48v16h-48z\"/><text class=\"lblS\" x=\"200\" y=\"124\">bench</text><line class=\"dash\" d=\"M222 128h60\"/><text class=\"lblS\" x=\"248\" y=\"124\">knees high</text></g><text class=\"lblS\" x=\"14\" y=\"166\">ergonomics is the study of fitting the task to the</text><text class=\"lblS\" x=\"14\" y=\"179\">person, not the person to the task</text><text class=\"lblS\" x=\"14\" y=\"184\">a fixed bench fits one and harms the other</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "anthropometry is the measurement of the body, and it is the input to every equipment decision",
+      "zh": "人体测量是对身体的测量，而它是每一项装备决定的输入"
+     },
+     {
+      "en": "ergonomics asks whether the equipment fits the person using it, rather than whether the person conforms",
+      "zh": "人体工程学问的是装备是否适合使用者，而不是人是否迁就装备"
+     },
+     {
+      "en": "a design that fits the average fails the people furthest from the average",
+      "zh": "为平均身高设计的东西，会让偏离平均最远的人失败"
+     }
+    ],
+    "caption": {
+     "en": "This is the practical reason equipment is sized in ranges and adjustable, and the reason \"one size fits all\" is a design failure rather than a marketing convenience.",
+     "zh": "这就是装备之所以按范围生产且可调节的实际原因，也是\"一个尺码适合所有人\"属于设计失败而非营销便利的原因。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The measurements that matter in equipment decisions",
+     "zh": "装备决策中重要的测量"
+    },
+    "cols": [
+     {
+      "en": "Measurement",
+      "zh": "测量项"
+     },
+     {
+      "en": "What it determines",
+      "zh": "它决定什么"
+     },
+     {
+      "en": "Common design mistake",
+      "zh": "常见设计错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Stature",
+       "zh": "身高"
+      },
+      {
+       "en": "Bench and seat height, reach limits",
+       "zh": "凳面与座椅高度、可及范围"
+      },
+      {
+       "en": "Ignoring leg length, so feet dangle or knees lift",
+       "zh": "忽视腿长，导致脚悬空或膝部抬高"
+      }
+     ],
+     [
+      {
+       "en": "Sitting height",
+       "zh": "坐高"
+      },
+      {
+       "en": "Whether a bench back is needed at all",
+       "zh": "是否需要靠背"
+      },
+      {
+       "en": "Treating sitting height as a fraction of stature",
+       "zh": "把坐高当作身高的固定比例"
+      }
+     ],
+     [
+      {
+       "en": "Wing span and arm length",
+       "zh": "臂展与臂长"
+      },
+      {
+       "en": "Handle size, reach in a swing",
+       "zh": "握把尺寸、挥拍可及范围"
+      },
+      {
+       "en": "A handle too small, forcing a grip that fatigues",
+       "zh": "握把过小，迫使采用会疲劳的握法"
+      }
+     ],
+     [
+      {
+       "en": "Foot length and width",
+       "zh": "足长与足宽"
+      },
+      {
+       "en": "Footwear sizing, which is not one size",
+       "zh": "鞋码，而这并非单一尺码"
+      },
+      {
+       "en": "Sizing by length only, ignoring width",
+       "zh": "只按长度分码，忽略宽度"
+      }
+     ],
+     [
+      {
+       "en": "Centre of mass of the equipment",
+       "zh": "器材的重心"
+      },
+      {
+       "en": "Handling and swing weight",
+       "zh": "操控与挥重"
+      },
+      {
+       "en": "Shipping one balance to every user",
+       "zh": "向所有使用者提供同一种配重"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Adjustable beats optimal. A bench that can be set for two body types is better than a fixed bench optimised for one, because the fixed one only works for that one.",
+     "zh": "\"可调\"胜过\"最优\"。一张能为两种体型调节的凳子，胜过为一种体型优化固定的凳子——因为固定的那个只对那一种有效。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: choosing a bench height for a group",
+    "zh": "例题：为一组人选择凳子高度"
+   },
+   "given": {
+    "en": "Three athletes with sitting heights of 40, 46 and 52 cm need one bench for a jump drill.",
+    "zh": "三名坐高分别为 40、46 和 52 厘米的运动员，需要同一张凳子做跳跃练习。"
+   },
+   "steps": [
+    {
+     "en": "A fixed bench can be right for one of them. The sitting heights span 12 cm.",
+     "zh": "一张固定凳子只能对其中一人合适。三个坐高相差 12 厘米。"
+    },
+    {
+     "en": "Setting it to 46 cm suits the middle athlete. The shortest athlete sits 6 cm high, feet unsupported.",
+     "zh": "设为 46 厘米适合中间那位。最矮的那位坐着高出 6 厘米，脚无支撑。"
+    },
+    {
+     "en": "For the tallest athlete, 52 cm means sitting 6 cm below ideal, and the hips flex more than they should.",
+     "zh": "对最高的那位，52 厘米意味着比理想位置低 6 厘米，髋部屈曲超过应有角度。"
+    },
+    {
+     "en": "An adjustable bench set per athlete, or a bench at the shortest height plus a foot platform, fixes all three.",
+     "zh": "一张可逐人调节的凳子，或一张按最矮者设置并加脚踏板的凳子，可以同时解决三人。"
+    },
+    {
+     "en": "The cost of the adjustable option is a few dollars and the cost of the fixed one is two injured athletes.",
+     "zh": "可调方案的成本是几美元，而固定方案的成本是两名受伤的运动员。"
+    }
+   ],
+   "answer": {
+    "en": "The numbers here are trivial and the conclusion is not. Almost every equipment complaint in sport reduces to a mismatch that was never measured.",
+    "zh": "这里的数字很简单，结论却不是。运动中几乎每一项关于装备的抱怨，都可以归结为一次从未被测量的不匹配。"
+   }
+  }
+ },
+ "Connective tissues and articulations": {
+  "figures": [
+   {
+    "title": {
+     "en": "Four tissues, four jobs",
+     "zh": "四种组织，四种工作"
+    },
+    "svg": "<g><path class=\"fillA\" d=\"M14 20h64v34H14z\"/><path class=\"ln\" d=\"M14 20h64v34H14z\"/><text class=\"lbl\" x=\"26\" y=\"42\">bone</text><text class=\"lblS\" x=\"14\" y=\"66\">rigid, resists compression</text></g><g><path class=\"fillB\" x=\"86 20h64v34H86z\" d=\"M86 20h64v34H86z\"/><path class=\"ln\" d=\"M86 20h64v34H86z\"/><text class=\"lbl\" x=\"94\" y=\"42\">cartilage</text><text class=\"lblS\" x=\"86\" y=\"66\">smooth, no blood supply</text></g><g><path class=\"fillA\" d=\"M158 20h64v34h-64z\"/><path class=\"ln\" d=\"M158 20h64v34h-64z\"/><text class=\"lbl\" x=\"166\" y=\"42\">tendon</text><text class=\"lblS\" x=\"158\" y=\"66\">pull, unidirectional</text></g><g><path class=\"fillB\" d=\"M230 20h64v34h-64z\"/><path class=\"ln\" d=\"M230 20h64v34h-64z\"/><text class=\"lbl\" x=\"238\" y=\"42\">ligament</text><text class=\"lblS\" x=\"188\" y=\"66\">bone to bone, both ways</text></g><g><rect class=\"fillA\" x=\"14\" y=\"88\" width=\"280\" height=\"18\" rx=\"9\"/><path class=\"ln\" d=\"M14 97h280\"/><text class=\"lblS\" x=\"20\" y=\"122\">fibre type decides behaviour</text></g><text class=\"lblS\" x=\"14\" y=\"146\">collagen type I: dense regular tendon, resists</text><text class=\"lblS\" x=\"14\" y=\"159\">unidirectional pull</text><text class=\"lblS\" x=\"8\" y=\"164\">collagen type II: cartilage, built for compression in a</text><text class=\"lblS\" x=\"14\" y=\"177\">joint</text><text class=\"lblS\" x=\"8\" y=\"182\">the classification is a consequence of what each tissue</text><text class=\"lblS\" x=\"14\" y=\"195\">is asked to do</text>",
+    "viewBox": "0 0 320 202",
+    "legend": [
+     {
+      "en": "tendon and ligament are both dense regular collagen and both resist pull, differing in what they join",
+      "zh": "肌腱与韧带都是致密规则胶原、都抵抗牵拉，区别在于各自连接什么"
+     },
+     {
+      "en": "cartilage has no blood supply of its own, which is why it is slow to repair and why feeding it means maintaining the joint",
+      "zh": "软骨本身没有血供，因此修复缓慢，而\"供养\"它靠的是维持关节"
+     },
+     {
+      "en": "bone is the only one of these that remodels reliably in response to load",
+      "zh": "骨是这些组织中唯一能可靠响应负荷而重塑的"
+     }
+    ],
+    "caption": {
+     "en": "Naming a tissue tells you its time scale, and the time scale is what stops athletes expecting a tendon to behave like a muscle.",
+     "zh": "说出组织类型就等于说出了它的时间尺度，而时间尺度正是阻止运动员期望肌腱像肌肉那样表现的东西。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four connective tissues compared",
+     "zh": "四种结缔组织对比"
+    },
+    "cols": [
+     {
+      "en": "Tissue",
+      "zh": "组织"
+     },
+     {
+      "en": "Joins",
+      "zh": "连接"
+     },
+     {
+      "en": "Collagen",
+      "zh": "胶原"
+     },
+     {
+      "en": "Vascular?",
+      "zh": "有血供"
+     },
+     {
+      "en": "Heals in",
+      "zh": "愈合时间"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Tendon",
+       "zh": "肌腱"
+      },
+      {
+       "en": "Muscle to bone",
+       "zh": "肌肉到骨"
+      },
+      {
+       "en": "Type I, dense regular",
+       "zh": "I 型，致密规则"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Ligament",
+       "zh": "韧带"
+      },
+      {
+       "en": "Bone to bone",
+       "zh": "骨到骨"
+      },
+      {
+       "en": "Type I, dense regular",
+       "zh": "I 型，致密规则"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      }
+     ],
+     [
+      {
+       "en": "Cartilage",
+       "zh": "软骨"
+      },
+      {
+       "en": "Bone to bone, with fluid",
+       "zh": "骨到骨，之间有液膜"
+      },
+      {
+       "en": "Type II",
+       "zh": "II 型"
+      },
+      {
+       "en": "None",
+       "zh": "无"
+      },
+      {
+       "en": "Very slow, often incomplete",
+       "zh": "极慢，常不完全"
+      }
+     ],
+     [
+      {
+       "en": "Bone",
+       "zh": "骨"
+      },
+      {
+       "en": "Bone to bone",
+       "zh": "骨到骨"
+      },
+      {
+       "en": "Type I, plus mineral",
+       "zh": "I 型，加矿物质"
+      },
+      {
+       "en": "Good",
+       "zh": "好"
+      },
+      {
+       "en": "Weeks, remodels for years",
+       "zh": "数周，重塑持续数年"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Tendon and ligament are so similar in composition that calling an injury by its tissue tells you very little. Telling them apart requires knowing which joint and which direction.",
+     "zh": "肌腱与韧带在成分上如此相似，以至于仅按组织来称呼损伤几乎没有信息量。要区分它们，必须知道是哪个关节、哪个方向。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the timeline differs by tissue",
+    "zh": "例题：为什么时间尺度因组织而异"
+   },
+   "given": {
+    "en": "A hamstring strain and a torn calf muscle are both \"soft tissue injuries\" at 4 weeks.",
+    "zh": "一次腘绳肌拉伤与一次小腿肌肉撕裂，在第 4 周时都属于\"软组织损伤\"。"
+   },
+   "steps": [
+    {
+     "en": "The calf is muscle, with good blood supply, so it can gain strength early and is often ready before week 4.",
+     "zh": "小腿是肌肉，血供良好，因此能较早恢复力量，常常在第 4 周之前就准备好。"
+    },
+    {
+     "en": "The hamstring tendon is dense regular collagen with poor supply, so it remodels more slowly and needs longer.",
+     "zh": "腘绳肌腱是致密规则胶原、血供差，因此重塑更慢、需要更久。"
+    },
+    {
+     "en": "Both are graded I to III, and the grade predicts the muscle injury timeline far better than the tendon one.",
+     "zh": "两者都分 I 到 III 级，而分级对肌肉损伤时间线的预测远好于对肌腱的预测。"
+    },
+    {
+     "en": "So identical grade and identical week still mean different prognoses, and the difference is the tissue.",
+     "zh": "所以相同的分级、相同的一周，仍意味着不同的预后，而差别就在组织。"
+    },
+    {
+     "en": "The practical consequence is a different return-to-sport rule for each, not one rule for \"soft tissue\".",
+     "zh": "实际推论是两者需要不同的回归标准，而不是对\"软组织\"用同一条规则。"
+    }
+   ],
+   "answer": {
+    "en": "Two injuries, same category, same week, different outlook. Almost every mistake in return-to-play planning comes from treating a category as though it were a tissue.",
+    "zh": "两次损伤、同一类别、同一周、预后不同。回归计划中的几乎每一个错误，都来自把\"类别\"当成了\"组织\"。"
+   }
+  }
+ },
+ "Synovial structure and joint classes": {
+  "figures": [
+   {
+    "title": {
+     "en": "The parts of a synovial joint, and what each does",
+     "zh": "滑膜关节的各部分及其作用"
+    },
+    "svg": "<circle class=\"fillA\" cx=\"150\" cy=\"86\" r=\"62\"/><path class=\"ln\" d=\"M150 24a62 62 0 1 1 0 124 62 62 0 1 1 0-124z\"/><circle class=\"fillC\" cx=\"150\" cy=\"86\" r=\"30\"/><path class=\"ln\" d=\"M150 56a30 30 0 1 1 0 60 30 30 0 1 1 0-60z\"/><line class=\"dash\" d=\"M150 86h130\"/><text class=\"lblS\" x=\"250\" y=\"82\">joint cavity</text><text class=\"lblS\" x=\"256\" y=\"96\">fluid film</text><path class=\"th\" d=\"M150 24v-8\"/><path class=\"ln\" d=\"M150 16l-4 8h8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"156\" y=\"14\">articular cartilage</text><path class=\"th\" d=\"M96 132l-40 26\"/><path class=\"ln\" d=\"M56 158l9-4.5-4.5-7z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"174\">joint capsule</text><text class=\"lblS\" x=\"14\" y=\"190\">ligament holds the two bones together</text><text class=\"lblS\" x=\"200\" y=\"146\">bone</text>",
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "cartilage covers the bone ends so they can slide without friction, and it has no blood supply",
+      "zh": "软骨覆盖骨端，使其能低摩擦滑动，而它没有血供"
+     },
+     {
+      "en": "the capsule and ligaments stop the joint from moving beyond its range",
+      "zh": "关节囊与韧带阻止关节超出其活动范围"
+     },
+     {
+      "en": "the cavity fluid spreads load and supplies nutrients to the cartilage indirectly",
+      "zh": "腔内液体分散负荷，并间接向软骨提供营养"
+     }
+    ],
+    "caption": {
+     "en": "The class of joint decides how much it can move. A hinge moves in one plane, a ball and socket moves in three, and that is the mechanical fact behind every substitution decision.",
+     "zh": "关节的类别决定它能移动多少。铰链关节在一个平面内活动，球窝关节在三个平面内活动，而这就是每一次换人决定背后的力学事实。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The joint classes and their freedom",
+     "zh": "关节类别及其自由度"
+    },
+    "cols": [
+     {
+      "en": "Joint class",
+      "zh": "关节类别"
+     },
+     {
+      "en": "Planes of movement",
+      "zh": "活动平面"
+     },
+     {
+      "en": "Example",
+      "zh": "例子"
+     },
+     {
+      "en": "Stable?",
+      "zh": "稳定吗"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Hinge",
+       "zh": "铰链"
+      },
+      {
+       "en": "One, mainly flex and extend",
+       "zh": "一个，主要是屈伸"
+      },
+      {
+       "en": "Knee, elbow, finger joints",
+       "zh": "膝、肘、手指关节"
+      },
+      {
+       "en": "Very — inherently the most stable",
+       "zh": "很——本身最稳定"
+      }
+     ],
+     [
+      {
+       "en": "Pivot",
+       "zh": "枢轴"
+      },
+      {
+       "en": "One, rotation only",
+       "zh": "一个，仅旋转"
+      },
+      {
+       "en": "Neck, shoulder rotation component",
+       "zh": "颈部、肩的旋转部分"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      }
+     ],
+     [
+      {
+       "en": "Condyloid",
+       "zh": "椭圆"
+      },
+      {
+       "en": "Two, plus a limited glide",
+       "zh": "两个，附加有限滑动"
+      },
+      {
+       "en": "Wrist, knee in flexion",
+       "zh": "腕、屈膝位的膝"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      }
+     ],
+     [
+      {
+       "en": "Saddle",
+       "zh": "鞍状"
+      },
+      {
+       "en": "Two, with combined movement",
+       "zh": "两个，含组合运动"
+      },
+      {
+       "en": "Thumb, sternoclavicular",
+       "zh": "拇指、胸锁关节"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      }
+     ],
+     [
+      {
+       "en": "Gliding",
+       "zh": "平面"
+      },
+      {
+       "en": "Three, minimal glide",
+       "zh": "三个，滑动幅度小"
+      },
+      {
+       "en": "Carpal bones, ribs at the sternum",
+       "zh": "腕骨、胸骨处的肋骨"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      }
+     ],
+     [
+      {
+       "en": "Ball and socket",
+       "zh": "球窝"
+      },
+      {
+       "en": "All three, plus rotation",
+       "zh": "全部三个，加旋转"
+      },
+      {
+       "en": "Shoulder, hip",
+       "zh": "肩、髋"
+      },
+      {
+       "en": "Least — needs most muscle to hold",
+       "zh": "最差——需要最多肌肉维持"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Stability and mobility are traded against each other, so the most mobile joint is also the one most dependent on muscle to stay in place.",
+     "zh": "稳定性与活动度是彼此交换的，因此活动度最大的关节也是最依赖肌肉维持位置的关节。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a dislocation from the joint class",
+    "zh": "例题：从关节类别推断脱位"
+   },
+   "given": {
+    "en": "A shoulder dislocation follows a fall on an outstretched arm in a rugby tackle.",
+    "zh": "一次肩关节脱位发生于橄榄球擒抱中手臂伸直撑地摔倒。"
+   },
+   "steps": [
+    {
+     "en": "The shoulder is a ball and socket, the least stable class, so it relies on muscle rather than bone shape.",
+     "zh": "肩是球窝关节，是最不稳定的类别，因此依靠肌肉而非骨性结构来维持。"
+    },
+    {
+     "en": "An outstretched arm plus a fall drives the humerus down and forward, which is the direction of least resistance.",
+     "zh": "伸直的手臂加上摔倒，把肱骨推向下方与前方，而那是阻力最小的方向。"
+    },
+    {
+     "en": "The joint capsule is torn at the front, which is the usual site for an anterior dislocation.",
+     "zh": "关节囊在前方撕裂，这是前脱位的常见部位。"
+    },
+    {
+     "en": "Because stability depended on muscle, the first question after reduction is whether that muscle is intact and trained.",
+     "zh": "由于稳定性依赖肌肉，复位之后的第一个问题是该肌肉是否完好、是否经过训练。"
+    },
+    {
+     "en": "A shoulder with a repaired cuff should be treated very differently in the first weeks than one with a torn cuff.",
+     "zh": "修复过肩袖的肩，脱位后最初几周的处理应与肩袖撕裂者明显不同。"
+    }
+   ],
+   "answer": {
+    "en": "The joint class alone predicted the mechanism, the direction of the injury and the first rehabilitation question. That is the payoff of classifying rather than memorising.",
+    "zh": "仅凭关节类别就预测了损伤机制、损伤方向和康复的第一个问题。这就是\"分类\"胜过\"记忆\"的回报。"
+   }
+  }
+ },
+ "Mobility, stability and injury": {
+  "figures": [
+   {
+    "title": {
+     "en": "Centre of mass inside the base of support",
+     "zh": "重心与支撑面"
+    },
+    "viewBox": "0 0 320 214",
+    "svg": "<line class=\"th\" x1=\"20\" y1=\"176\" x2=\"300\" y2=\"176\"/><text class=\"lblS\" x=\"20\" y=\"30\">base of support</text><path class=\"ln\" d=\"M96 176h108\"/><path class=\"th\" d=\"M96 176v-14M204 176v-14\"/><path class=\"th\" d=\"M150 60v56\"/><circle class=\"acc\" cx=\"150\" cy=\"48\" r=\"11\"/><path class=\"th\" d=\"M150 116l-22 34M150 116l22 34\"/><path class=\"th\" d=\"M150 74l-30 26\"/><path class=\"dash\" d=\"M150 60v116\"/><circle class=\"warn\" cx=\"150\" cy=\"150\" r=\"6\"/><text class=\"lblS\" x=\"162\" y=\"154\">centre of mass</text><rect class=\"fillB\" x=\"222\" y=\"40\" width=\"84\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M222 40h84v52H222z\"/><text class=\"lblS\" x=\"230\" y=\"60\">inside the</text><text class=\"lblS\" x=\"230\" y=\"76\">base: stable</text><path class=\"acc\" d=\"M212 66h-14\"/><rect class=\"fillA\" x=\"14\" y=\"40\" width=\"70\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M14 40h70v52H14z\"/><text class=\"lblS\" x=\"22\" y=\"60\">outside it:</text><text class=\"lblS\" x=\"22\" y=\"76\">a fall or a sprain</text><path class=\"warn\" d=\"M92 66h-8\"/><text class=\"lblXS\" x=\"20\" y=\"198\">stability is a position problem, so it is trainable before an injury</text><text class=\"lblXS\" x=\"20\" y=\"208\">happens</text>",
+    "legend": [
+     {
+      "en": "stability is a position problem, not a strength problem",
+      "zh": "稳定性是一个位置问题，而不是力量问题"
+     },
+     {
+      "en": "the centre of mass must stay inside the base of support",
+      "zh": "重心必须保持在支撑面内"
+     },
+     {
+      "en": "outside the base is where a fall or a sprain happens",
+      "zh": "一旦越出支撑面，就会发生跌倒或扭伤"
+     }
+    ],
+    "caption": {
+     "en": "The mechanism itself: where the centre of mass sits relative to the base of support.",
+     "zh": "机制本身：重心相对于支撑面的位置。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What fails, and what protects each",
+     "zh": "什么会失效，以及各自由什么保护"
+    },
+    "cols": [
+     {
+      "en": "Structure",
+      "zh": "结构"
+     },
+     {
+      "en": "Fails when",
+      "zh": "何时失效"
+     },
+     {
+      "en": "Protected by",
+      "zh": "受什么保护"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Ligament",
+       "zh": "韧带"
+      },
+      {
+       "en": "The joint is pushed past its range in an unexpected direction",
+       "zh": "关节被推向其活动范围之外的方向"
+      },
+      {
+       "en": "Muscle co-contraction, proprioception",
+       "zh": "肌肉共同收缩、本体感觉"
+      }
+     ],
+     [
+      {
+       "en": "Tendon",
+       "zh": "肌腱"
+      },
+      {
+       "en": "Load rises faster than the tissue can remodel",
+       "zh": "负荷上升快于组织重塑"
+      },
+      {
+       "en": "Progressive loading, adequate recovery",
+       "zh": "渐进加载、充分恢复"
+      }
+     ],
+     [
+      {
+       "en": "Cartilage",
+       "zh": "软骨"
+      },
+      {
+       "en": "Contact area is too small for the load",
+       "zh": "接触面积相对负荷过小"
+      },
+      {
+       "en": "Muscle around the joint, quadriceps",
+       "zh": "关节周围肌肉，尤其是股四头肌"
+      }
+     ],
+     [
+      {
+       "en": "Bone",
+       "zh": "骨"
+      },
+      {
+       "en": "Impact above its tolerance, or repetitive stress",
+       "zh": "超出耐受的撞击，或重复性应力"
+      },
+      {
+       "en": "Bone density, technique, protective equipment",
+       "zh": "骨密度、技术、防护装备"
+      }
+     ],
+     [
+      {
+       "en": "Muscle",
+       "zh": "肌肉"
+      },
+      {
+       "en": "Lengthening under high load, or eccentric overload",
+       "zh": "高负荷下的拉长，或离心过载"
+      },
+      {
+       "en": "Eccentric training, adequate protein",
+       "zh": "离心训练、充足蛋白质"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Every row names a muscle somewhere in the protective column, which is not a coincidence. Muscle is the common factor in staying uninjured.",
+     "zh": "每一行的\"受什么保护\"一栏里都出现了肌肉，这不是巧合。肌肉是\"不受伤\"这件事的共同因素。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: two athletes, one ankle, opposite problems",
+    "zh": "例题：两名运动员、同一踝关节、相反的问题"
+   },
+   "given": {
+    "en": "A ballet dancer has 45 degrees of dorsiflexion. A rugby full-back has 10.",
+    "zh": "一名芭蕾舞者背屈 45 度。一名橄榄球边后卫背屈 10 度。"
+   },
+   "steps": [
+    {
+     "en": "The dancer is at the end of her range, so the ankle is stable but every movement is at the limit.",
+     "zh": "舞者处于其活动度末端，因此踝关节稳定，但每个动作都在极限上。"
+    },
+    {
+     "en": "The full-back has 10 degrees, so the joint is loose and depends on muscle to prevent inversion.",
+     "zh": "边后卫只有 10 度，因此关节松弛、依赖肌肉来防止内翻。"
+    },
+    {
+     "en": "A flexibility programme is correct for the full-back and pointless for the dancer.",
+     "zh": "柔韧性训练对边后卫是正确的，对舞者则毫无意义。"
+    },
+    {
+     "en": "A strengthening programme is correct for both, because strength is the only common protective factor.",
+     "zh": "力量训练对两者都正确，因为力量是唯一共同的保护因素。"
+    },
+    {
+     "en": "This is why a screening result is not an injury prediction, and why the same test points to opposite programmes.",
+     "zh": "这就是为什么筛查结果不等于伤病预测，也为什么同一项测试会指向相反的训练方案。"
+    }
+   ],
+   "answer": {
+    "en": "The same test, two athletes, and the correct programme is opposite in each case. Screening identifies who needs a precaution; it does not say what the precaution is.",
+    "zh": "同一项测试、两名运动员，而正确方案在两人身上恰好相反。筛查能识别出谁需要一道预防措施，但不会告诉你那道措施该是什么。"
+   }
+  }
+ },
+ "Motor units and fibre types": {
+  "figures": [
+   {
+    "title": {
+     "en": "One nerve, many fibres, one graded force",
+     "zh": "一根神经、许多肌纤维、一个分级的力"
+    },
+    "svg": "<circle class=\"fillC\" cx=\"26\" cy=\"90\" r=\"9\"/><path class=\"ln\" d=\"M26 81a9 9 0 1 1 0 18 9 9 0 1 1 0-18z\"/><text class=\"lblS\" x=\"8\" y=\"116\">motor</text><text class=\"lblS\" x=\"8\" y=\"128\">neuron</text><path class=\"th\" d=\"M35 90h22\"/><path class=\"ln\" d=\"M57 90l-9-4.5v9z\" fill=\"currentColor\"/><g><circle class=\"fillA\" cx=\"72\" cy=\"70\" r=\"8\"/><circle class=\"fillA\" cx=\"72\" cy=\"90\" r=\"8\"/><circle class=\"fillA\" cx=\"72\" cy=\"110\" r=\"8\"/></g><g><circle class=\"fillA\" cx=\"94\" cy=\"70\" r=\"8\"/><circle class=\"fillA\" cx=\"94\" cy=\"90\" r=\"8\"/><circle class=\"fillA\" cx=\"94\" cy=\"110\" r=\"8\"/></g><g><circle class=\"fillB\" cx=\"116\" cy=\"70\" r=\"8\"/><circle class=\"fillB\" cx=\"116\" cy=\"90\" r=\"8\"/></g><g><circle class=\"fillC\" cx=\"138\" cy=\"70\" r=\"8\"/></g><text class=\"lblS\" x=\"62\" y=\"140\">more recruited at higher effort</text><rect class=\"fillA\" x=\"164\" y=\"24\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 24h140v30H164z\"/><text class=\"lblS\" x=\"121\" y=\"43\">type I slow oxidative — first, last</text><rect class=\"fillB\" x=\"164\" y=\"62\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 62h140v30H164z\"/><text class=\"lblS\" x=\"126\" y=\"81\">type IIa fast oxidative-glycolytic</text><rect class=\"fillC\" x=\"164\" y=\"100\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M164 100h140v30h-140z\"/><text class=\"lblS\" x=\"138\" y=\"119\">type IIx fast glycolytic — power</text>",
+    "viewBox": "0 0 320 150",
+    "legend": [
+     {
+      "en": "a motor unit is one neuron plus the fibres it supplies, and they fire together as one unit",
+      "zh": "一个运动单位是一个神经元及其支配的肌纤维，它们作为一个整体一同放电"
+     },
+     {
+      "en": "force is graded by recruiting more units, not by making each fibre pull harder",
+      "zh": "力是靠募集更多运动单位来分级的，而不是让每根纤维各自用力"
+     },
+     {
+      "en": "units are recruited in order, so the slow ones are always available and the fast ones are reserved",
+      "zh": "运动单位按顺序募集，因此慢型一直可用，快型被保留"
+     }
+    ],
+    "caption": {
+     "en": "Fatigue hits the fast units first, which is why power drops off before endurance does, and why the last third of a sprint looks like a different athlete.",
+     "zh": "疲劳先打击快型单位，因此功率先于耐力下降，这也是为什么冲刺的最后三分之一看起来像是换了一位运动员。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Fibre types compared",
+     "zh": "肌纤维类型对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Type I slow oxidative",
+      "zh": "I 型 慢缩氧化"
+     },
+     {
+      "en": "Type IIa fast oxidative-glycolytic",
+      "zh": "IIa 型 快缩氧化糖酵解"
+     },
+     {
+      "en": "Type IIx fast glycolytic",
+      "zh": "IIx 型 快缩糖酵解"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Contraction speed",
+       "zh": "收缩速度"
+      },
+      {
+       "en": "Slow",
+       "zh": "慢"
+      },
+      {
+       "en": "Fast",
+       "zh": "快"
+      },
+      {
+       "en": "Fastest",
+       "zh": "最快"
+      }
+     ],
+     [
+      {
+       "en": "Fatigability",
+       "zh": "疲劳性"
+      },
+      {
+       "en": "Highly fatigue resistant",
+       "zh": "极耐疲劳"
+      },
+      {
+       "en": "Moderate",
+       "zh": "中等"
+      },
+      {
+       "en": "Fatigues in seconds",
+       "zh": "数秒即疲劳"
+      }
+     ],
+     [
+      {
+       "en": "Fuel",
+       "zh": "燃料"
+      },
+      {
+       "en": "Fat and carbohydrate, aerobic",
+       "zh": "脂肪与碳水，有氧"
+      },
+      {
+       "en": "Both",
+       "zh": "两者兼用"
+      },
+      {
+       "en": "Carbohydrate, anaerobic",
+       "zh": "碳水，无氧"
+      }
+     ],
+     [
+      {
+       "en": "Power",
+       "zh": "功率"
+      },
+      {
+       "en": "Low",
+       "zh": "低"
+      },
+      {
+       "en": "High",
+       "zh": "高"
+      },
+      {
+       "en": "Highest",
+       "zh": "最高"
+      }
+     ],
+     [
+      {
+       "en": "Recruitment order",
+       "zh": "募集顺序"
+      },
+      {
+       "en": "First, always",
+       "zh": "最先，始终"
+      },
+      {
+       "en": "Second",
+       "zh": "其次"
+      },
+      {
+       "en": "Last, reserved",
+       "zh": "最后，保留"
+      }
+     ],
+     [
+      {
+       "en": "Primary sport",
+       "zh": "主要项目"
+      },
+      {
+       "en": "Marathon, rowing, cycling",
+       "zh": "马拉松、赛艇、骑行"
+      },
+      {
+       "en": "800 m, middle distance",
+       "zh": "800 米、中距离"
+      },
+      {
+       "en": "Weightlifting, 100 m, jumps",
+       "zh": "举重、100 米、跳跃"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The order is not a preference, it is the size principle: smaller motor neurons are recruited first because they are more excitable.",
+     "zh": "这个顺序不是偏好，而是大小原则：较小的运动神经元先被募集，因为它们更容易兴奋。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the last third of a sprint is different",
+    "zh": "例题：为什么冲刺的最后三分之一不同"
+   },
+   "given": {
+    "en": "A sprinter holds 95% of peak velocity for the first 100 m of 200 m, then falls to 70%.",
+    "zh": "一名短跑运动员在 200 米的前 100 米保持 95% 的峰值速度，之后掉到 70%。"
+   },
+   "steps": [
+    {
+     "en": "The first 100 m is dominated by type IIx units, which have the highest power and the least fatigue resistance.",
+     "zh": "前 100 米由 IIx 型单位主导，它功率最高而耐疲劳最差。"
+    },
+    {
+     "en": "By 100 m those units are depleted, and only the slower units can be recruited to replace them.",
+     "zh": "到 100 米时这些单位已经耗尽，只能募集较慢的单位来替代。"
+    },
+    {
+     "en": "Type I units are still available, which is why the sprinter finishes rather than stops.",
+     "zh": "I 型单位仍然可用，这正是这位运动员能\"冲完\"而不是\"停住\"的原因。"
+    },
+    {
+     "en": "So the drop is a change in which tissue is doing the work, not simply a lack of will.",
+     "zh": "因此这个下降是在做工作的组织发生了改变，而不只是意志不足。"
+    },
+    {
+     "en": "Training that adds fast units early, and a taper that arrives fresh, both act on this same mechanism.",
+     "zh": "早期增加快型单位的训练，以及以新鲜状态抵达的减量，都作用于同一个机制。"
+    }
+   ],
+   "answer": {
+    "en": "The fall in the final third is predictable from the fibre type alone, which is why it is a physiological feature of sprinting rather than a conditioning failure.",
+    "zh": "最后三分之一的下降仅从纤维类型就可预测，因此它是短跑的一个生理特征，而不是体能不足。"
+   }
+  }
+ },
+ "Contractions and muscle interaction": {
+  "figures": [
+   {
+    "title": {
+     "en": "The three kinds of contraction, drawn by joint movement",
+     "zh": "三种收缩，按关节是否移动来区分"
+    },
+    "svg": "<g><line class=\"ln\" x1=\"24\" y1=\"34\" x2=\"296\" y2=\"34\"/><path class=\"ln\" d=\"M60 34l-8-4v8zM236 34l8-4v8z\" fill=\"currentColor\"/><text class=\"lbl\" x=\"130\" y=\"28\">concentric</text><text class=\"lblS\" x=\"100\" y=\"50\">joint moves, muscle shortens</text></g><g><line class=\"ln\" x1=\"24\" y1=\"94\" x2=\"296\" y2=\"94\"/><circle class=\"acc\" cx=\"148\" cy=\"94\" r=\"7\"/><text class=\"lbl\" x=\"130\" y=\"88\">isometric</text><text class=\"lblS\" x=\"96\" y=\"110\">joint still, muscle works</text></g><g><line class=\"ln\" x1=\"24\" y1=\"154\" x2=\"296\" y2=\"154\"/><path class=\"ln\" d=\"M60 154l-8-4v8zM236 154l8-4v8z\" fill=\"currentColor\"/><circle class=\"warn\" cx=\"148\" cy=\"154\" r=\"7\"/><text class=\"lbl\" x=\"130\" y=\"148\">eccentric</text><text class=\"lblS\" x=\"84\" y=\"170\">joint moves, muscle lengthens</text></g><text class=\"lblS\" x=\"19\" y=\"192\">eccentric damage is delayed by a day or two, which is</text><text class=\"lblS\" x=\"24\" y=\"205\">why it is missed at the time it happens</text>",
+    "viewBox": "0 0 320 212",
+    "legend": [
+     {
+      "en": "concentric: the muscle shortens as it pulls, and the joint moves towards the origin of the muscle",
+      "zh": "向心：肌肉缩短同时发力，关节向肌肉起点的方向移动"
+     },
+     {
+      "en": "isometric: force without a change in muscle length, so the joint does not move at all",
+      "zh": "等长：发力而肌肉长度不变，因此关节完全不移动"
+     },
+     {
+      "en": "eccentric: the muscle is lengthened by the load while still generating force, which is where injury happens",
+      "zh": "离心：负荷使肌肉被拉长、同时仍在发力，损伤正发生在这里"
+     }
+    ],
+    "caption": {
+     "en": "The distinction is not academic, because eccentric work is both the most damaging and the most trainable of the three.",
+     "zh": "这个区分不是学术性的，因为离心工作既是三者中最容易造成损伤的，也是最可训练的。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Muscle interaction patterns",
+     "zh": "肌肉协同模式"
+    },
+    "cols": [
+     {
+      "en": "Pattern",
+      "zh": "模式"
+     },
+     {
+      "en": "What happens",
+      "zh": "发生什么"
+     },
+     {
+      "en": "Sport example",
+      "zh": "运动例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Agonist",
+       "zh": "原动肌"
+      },
+      {
+       "en": "The prime mover, which shortens",
+       "zh": "主动完成动作的肌，缩短"
+      },
+      {
+       "en": "Biceps in elbow flexion, quads in knee extension",
+       "zh": "屈肘时的肱二头肌、伸膝时的股四头肌"
+      }
+     ],
+     [
+      {
+       "en": "Antagonist",
+       "zh": "拮抗肌"
+      },
+      {
+       "en": "Opposes the agonist; relaxes, lengthens, or works eccentrically",
+       "zh": "对抗原动肌；放松、拉长或做离心工作"
+      },
+      {
+       "en": "Triceps during elbow flexion",
+       "zh": "屈肘时的肱三头肌"
+      }
+     ],
+     [
+      {
+       "en": "Synergist",
+       "zh": "协同肌"
+      },
+      {
+       "en": "Assists, stabilises, or cancels an unwanted component",
+       "zh": "协助、稳定或抵消不需要的分量"
+      },
+      {
+       "en": "Biceps and brachialis in flexion",
+       "zh": "屈肘时的肱二头肌与肱肌"
+      }
+     ],
+     [
+      {
+       "en": "Fixator",
+       "zh": "固定肌"
+      },
+      {
+       "en": "Stabilises the origin so the agonist has a fixed base",
+       "zh": "稳定肌肉起点，使原动肌有固定基础"
+      },
+      {
+       "en": "Scapular muscles during a press",
+       "zh": "推举时的肩胛肌"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most real movements use all four at once, and a coaching cue usually works by changing which one is doing the most work.",
+     "zh": "大多数真实动作会同时用到这四类，而一条教练提示通常是通过改变\"哪一块在出最多力\"来起作用的。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the second half of a lift is the dangerous half",
+    "zh": "例题：为什么举起动作的后半程才是危险的一半"
+   },
+   "given": {
+    "en": "A 100 kg squat, failure at the bottom, then forced upward with a spotter.",
+    "zh": "一次 100 公斤深蹲，在底部力竭，然后由保护者助力强行起身。"
+   },
+   "steps": [
+    {
+     "en": "The ascent is concentric: fast, powerful, and short.",
+     "zh": "上升段是向心：快速、有力、短暂。"
+    },
+    {
+     "en": "The descent and the catch at failure are eccentric: the muscle is lengthened while maximally loaded.",
+     "zh": "下降段以及力竭后的承接是离心：肌肉在最大负荷下被拉长。"
+    },
+    {
+     "en": "Eccentric loading causes the most structural damage per unit of work, and it is the least trained pattern.",
+     "zh": "离心负荷每单位做功造成的结构损伤最大，而它恰恰是最少被训练的模式。"
+    },
+    {
+     "en": "The symptom appears 24 to 48 hours later, so it is not attributed to the lift that caused it.",
+     "zh": "症状在 24 到 48 小时后才出现，因此不会被归因于造成它的那次举起。"
+    },
+    {
+     "en": "Prevention is eccentric training and not exceeding a load that cannot be controlled on the way down.",
+     "zh": "预防方法是离心训练，以及不使用那些在下降过程中无法控制的重量。"
+    }
+   ],
+   "answer": {
+    "en": "The injury was caused on the way down and reported on the following day, and the intervening session is usually blamed. Almost every \"unexplained\" hamstring strain has this shape.",
+    "zh": "损伤发生在下降过程中、并在第二天才报告，而中间的训练课通常被责怪。几乎每一次\"无法解释\"的腘绳肌拉伤都是这个形状。"
+   }
+  }
+ },
+ "Recruitment, adaptations and sliding filament": {
+  "figures": [
+   {
+    "title": {
+     "en": "Why a muscle gets stronger, drawn as overlapping causes",
+     "zh": "肌肉为何变强：原因叠加图"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"104\" cy=\"60\" r=\"42\"/><path class=\"ln\" d=\"M104 18a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"62\" y=\"56\">more</text><text class=\"lblS\" x=\"60\" y=\"68\">fibres</text></g><g><circle class=\"fillB\" cx=\"176\" cy=\"60\" r=\"42\"/><path class=\"ln\" d=\"M176 18a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"140\" y=\"56\">more</text><text class=\"lblS\" x=\"136\" y=\"68\">cross-section</text></g><g><circle class=\"fillC\" cx=\"140\" cy=\"108\" r=\"42\"/><path class=\"ln\" d=\"M140 66a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lblS\" x=\"104\" y=\"104\">better</text><text class=\"lblS\" x=\"102\" y=\"116\">organisation</text></g><circle class=\"fillC\" cx=\"140\" cy=\"76\" r=\"14\"/><text class=\"lbl\" x=\"134\" y=\"81\">force</text><g><line class=\"th\" x1=\"24\" y1=\"24\" x2=\"24\" y2=\"164\"/><text class=\"lblS\" x=\"14\" y=\"182\">time →</text></g><text class=\"lblS\" x=\"211\" y=\"46\">neural change, days</text><text class=\"lblS\" x=\"212\" y=\"70\">hypertrophy, weeks</text><text class=\"lblS\" x=\"183\" y=\"120\">fibre type shift, months</text>",
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "the fastest adaptation is neural, which is why an untrained lifter improves in the first week",
+      "zh": "最快的适应是神经性的，这正是未训练者在第一周就有提升的原因"
+     },
+     {
+      "en": "hypertrophy adds cross-sectional area, so force rises with the square of the radius",
+      "zh": "肌肥大增加横截面积，因此力随半径的平方上升"
+     },
+     {
+      "en": "fibre type shift happens last and is the reason a sprinter converts to endurance slowly",
+      "zh": "纤维类型转变最晚发生，这也是短跑运动员向耐力项目转变很慢的原因"
+     }
+    ],
+    "caption": {
+     "en": "Sliding filament is the mechanism; everything else is a consequence of how often and how hard it is repeated.",
+     "zh": "肌丝滑动是机制；其余一切都是它被重复得多久、多么用力的结果。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Adaptations and their timescales",
+     "zh": "各种适应及其时间尺度"
+    },
+    "cols": [
+     {
+      "en": "Adaptation",
+      "zh": "适应"
+     },
+     {
+      "en": "Timescale",
+      "zh": "时间尺度"
+     },
+     {
+      "en": "Reverses quickly?",
+      "zh": "恢复快吗"
+     },
+     {
+      "en": "Gained by",
+      "zh": "通过什么获得"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Neural drive",
+       "zh": "神经驱动"
+      },
+      {
+       "en": "Days",
+       "zh": "数天"
+      },
+      {
+       "en": "Yes, within a fortnight",
+       "zh": "是，两周内"
+      },
+      {
+       "en": "Any practice, even poor",
+       "zh": "任何练习，即使质量差"
+      }
+     ],
+     [
+      {
+       "en": "Cross-sectional area",
+       "zh": "横截面积"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Partly, over months",
+       "zh": "部分，数月"
+      },
+      {
+       "en": "Progressive overload",
+       "zh": "渐进负荷"
+      }
+     ],
+     [
+      {
+       "en": "Fibre type shift",
+       "zh": "纤维类型转变"
+      },
+      {
+       "en": "Months to years",
+       "zh": "数月到数年"
+      },
+      {
+       "en": "Slowly",
+       "zh": "慢"
+      },
+      {
+       "en": "Sustained training of the matching kind",
+       "zh": "相应类型的持续训练"
+      }
+     ],
+     [
+      {
+       "en": "Tendon stiffness",
+       "zh": "肌腱刚度"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      },
+      {
+       "en": "Partly",
+       "zh": "部分"
+      },
+      {
+       "en": "Heavy loading, adequate rest",
+       "zh": "大负荷、充分休息"
+      }
+     ],
+     [
+      {
+       "en": "Capillarisation",
+       "zh": "毛细血管化"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Yes, fairly quickly",
+       "zh": "是，比较快"
+      },
+      {
+       "en": "Endurance work",
+       "zh": "耐力训练"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Early gains are neural and therefore cheap and fast. This is why the first month of any programme feels excellent and the third month feels like nothing is happening.",
+     "zh": "早期的提升是神经性的，因此便宜又快速。这就是为什么任何计划的第一个月感觉极好、而第三个月感觉像什么也没发生。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a plateau honestly",
+    "zh": "例题：诚实地解读一次停滞"
+   },
+   "given": {
+    "en": "A lifter adds 10 kg to the squat and improves for 8 weeks, then stalls for 5 weeks with no change.",
+    "zh": "一名举重者给深蹲加了 10 公斤，提升持续 8 周，然后停滞 5 周没有变化。"
+   },
+   "steps": [
+    {
+     "en": "The first 8 weeks were probably neural, and the plateau is where the slower adaptations begin to matter.",
+     "zh": "前 8 周很可能是神经性的，而停滞正是较慢的适应开始起作用的时候。"
+    },
+    {
+     "en": "Five weeks is not long enough to conclude the programme has failed.",
+     "zh": "5 周还不足以断定这个计划已经失败。"
+    },
+    {
+     "en": "The correct response is to check recovery and to change one variable, not to add volume.",
+     "zh": "正确的应对是检查恢复情况并改变一个变量，而不是增加训练量。"
+    },
+    {
+     "en": "Adding volume to a stalled lifter is the most common cause of a plateau becoming an injury.",
+     "zh": "给处于停滞的举重者增加训练量，是停滞演变成伤病最常见的原因。"
+    },
+    {
+     "en": "If the check shows poor sleep and low intake, the answer is fuelling, not programming.",
+     "zh": "如果检查发现睡眠差、摄入低，那么答案是补糖，而不是调整训练计划。"
+    }
+   ],
+   "answer": {
+    "en": "A five-week plateau after eight weeks of progress is a normal part of a cycle. The decision to add volume at that point is what turns a plateau into a problem.",
+    "zh": "在 8 周进步之后的 5 周停滞，是一个周期中正常的部分。正是在那个点上决定增加训练量，才会把停滞变成问题。"
+   }
+  }
+ },
+ "Components and lever classes": {
+  "figures": [
+   {
+    "title": {
+     "en": "A lever, and the three classes it comes in",
+     "zh": "一个杠杆，以及它所属的三个类别"
+    },
+    "svg": "<g><line class=\"th\" d=\"M40 24v136\"/><path class=\"ln\" d=\"M40 150h84\"/><circle class=\"warn\" cx=\"40\" cy=\"156\" r=\"6\"/><text class=\"lblS\" x=\"20\" y=\"176\">pivot</text><path class=\"th\" d=\"M60 60h120\"/><text class=\"lbl\" x=\"112\" y=\"52\">effort</text><rect class=\"fillA\" x=\"172\" y=\"52\" width=\"26\" height=\"16\" rx=\"3\"/><path class=\"ln\" d=\"M172 52h26v16h-26z\"/><text class=\"lblS\" x=\"168\" y=\"82\">load</text><path class=\"th\" d=\"M40 60h20\"/><text class=\"lblS\" x=\"20\" y=\"46\">r1</text><path class=\"th\" d=\"M40 60h140\"/><text class=\"lblS\" x=\"100\" y=\"44\">r2</text></g><g><text class=\"lblS\" x=\"8\" y=\"192\">advantage = effort arm / load arm · a third-class lever</text><text class=\"lblS\" x=\"14\" y=\"205\">always has an advantage below 1</text></g>",
+    "viewBox": "0 0 320 212",
+    "legend": [
+     {
+      "en": "three things define any lever: the pivot, the effort and the load, plus the two arms they sit on",
+      "zh": "定义任何杠杆的有三样东西：支点、动力与阻力，以及它们所处的两条杠杆臂"
+     },
+     {
+      "en": "mechanical advantage is the ratio of the two arms, and it is the whole story of leverage in sport",
+      "zh": "机械优势是两条杠杆臂之比，而这就是运动中杠杆效应的全部"
+     },
+     {
+      "en": "a third-class lever is the commonest in the body and it is always a disadvantage at the joint",
+      "zh": "第三类杠杆在人体中最常见，而在关节处它总是劣势"
+     }
+    ],
+    "caption": {
+     "en": "Every joint in the body is a lever, and the class it belongs to decides whether the muscle there has a mechanical advantage or needs to be very strong to move the limb.",
+     "zh": "人体的每一个关节都是杠杆，而它属于哪一类，决定了那里的肌肉是拥有机械优势、还是需要非常强才能带动肢体。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three lever classes",
+     "zh": "三个杠杆类别"
+    },
+    "cols": [
+     {
+      "en": "Class",
+      "zh": "类别"
+     },
+     {
+      "en": "Pivot position",
+      "zh": "支点位置"
+     },
+     {
+      "en": "Advantage",
+      "zh": "机械优势"
+     },
+     {
+      "en": "Body example",
+      "zh": "人体例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "First",
+       "zh": "第一类"
+      },
+      {
+       "en": "Between effort and load",
+       "zh": "在动力与阻力之间"
+      },
+      {
+       "en": "Can be above or below 1",
+       "zh": "可大于或小于 1"
+      },
+      {
+       "en": "Atlanto-occipital extension, ankle plantarflexion",
+       "zh": "枕寰伸展、踝跖屈"
+      }
+     ],
+     [
+      {
+       "en": "Second",
+       "zh": "第二类"
+      },
+      {
+       "en": "Beyond the load, effort in the middle",
+       "zh": "在阻力之外，动力居中"
+      },
+      {
+       "en": "Always below 1",
+       "zh": "始终小于 1"
+      },
+      {
+       "en": "Elbow flexion with the biceps, rising on tiptoe",
+       "zh": "肱二头肌屈肘、踮脚起身"
+      }
+     ],
+     [
+      {
+       "en": "Third",
+       "zh": "第三类"
+      },
+      {
+       "en": "Beyond the effort",
+       "zh": "在动力之外"
+      },
+      {
+       "en": "Always below 1",
+       "zh": "始终小于 1"
+      },
+      {
+       "en": "Biceps in elbow extension, quadriceps in knee extension",
+       "zh": "伸肘时的肱二头肌、伸膝时的股四头肌"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most joints have muscles from more than one class attached, which is why a single-joint problem is rare and a strength problem is usually distributed.",
+     "zh": "大多数关节都附着来自不止一个类别的肌肉，这正是单一关节的问题很少见、而力量问题通常是分散的原因。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why quadriceps strength is so disproportionate",
+    "zh": "例题：为什么股四头肌力量如此不成比例"
+   },
+   "given": {
+    "en": "To extend the knee against a load held at the ankle, the quadriceps act across a small moment arm.",
+    "zh": "要对抗握在踝部的负荷伸膝，股四头肌必须跨越一个很小的力臂。"
+   },
+   "steps": [
+    {
+     "en": "The knee extensor moment arm is roughly 3 to 5 cm, which is short.",
+     "zh": "膝伸肌的力臂约为 3 到 5 厘米，很短。"
+    },
+    {
+     "en": "A load of 20 kg held at the ankle creates a moment of about 20 x 9.8 x 0.04 = 7.8 N·m.",
+     "zh": "踝部 20 公斤的负荷产生约 20 x 9.8 x 0.04 = 7.8 牛顿·米的力矩。"
+    },
+    {
+     "en": "The quadriceps must produce that moment with a mechanical advantage well below 1, so the muscle force required is several times the load.",
+     "zh": "股四头肌必须在机械优势远小于 1 的情况下产生该力矩，因此所需的肌力是负荷的数倍。"
+    },
+    {
+     "en": "This is why quadriceps strength is a large fraction of total leg strength, and why it is the first thing lost after a knee injury.",
+     "zh": "这就是为什么股四头肌力量占腿部总力量很大一部分，也为什么它是膝伤后最先失去的。"
+    },
+    {
+     "en": "It is also why the load must be kept close to the joint: moving it out to the toes multiplies the required force.",
+     "zh": "这也是为什么负荷必须靠近关节：把它移到脚尖会成倍增加所需力。"
+    }
+   ],
+   "answer": {
+    "en": "The knee extensor is a third-class lever, so the muscle has to be several times stronger than the load it moves. Every knee rehabilitation programme is really a conversation about that ratio.",
+    "zh": "膝伸肌是第三类杠杆，因此肌肉必须比它所移动的负荷强数倍。每一个膝关节康复方案本质上都是关于这个比值的对话。"
+   }
+  }
+ },
+ "HL exercise prescription for populations": {
+  "figures": [
+   {
+    "title": {
+     "en": "FITR, and the four variables that are not dose",
+     "zh": "FITR，以及不属于剂量的四个变量"
+    },
+    "viewBox": "0 0 320 192",
+    "legend": [
+     {
+      "en": "FIT is the arithmetic: how often, how hard, how long, and what kind of work",
+      "zh": "FIT 是算术：多久一次、多大强度、多长时间、做哪类工作"
+     },
+     {
+      "en": "R is everything that makes it usable for a real person, and it is the part usually dropped",
+      "zh": "R 是让它对真实的人可用的部分，而它通常被省略"
+     },
+     {
+      "en": "adjustment for age, life stage and chronic condition is not optional extra",
+      "zh": "针对年龄、生命阶段与慢性病的调整不是可选的附加项"
+     }
+    ],
+    "caption": {
+     "en": "A prescription is a document, not a dose. The part that determines whether it works is the part that says who it is for.",
+     "zh": "处方是一份文件，而不是一个剂量。决定它是否有效的那部分，是那份说明它是为谁而写的内容。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"130\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h130v52H14z\"/><text class=\"lbl\" x=\"30\" y=\"48\">FIT</text><text class=\"lblS\" x=\"30\" y=\"66\">dose, the number you change</text></g><g><rect class=\"fillB\" x=\"14\" y=\"88\" width=\"130\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M14 88h130v52H14z\"/><text class=\"lbl\" x=\"30\" y=\"112\">T</text><text class=\"lblS\" x=\"30\" y=\"130\">type: aerobic, strength, balance</text></g><g><rect class=\"fillA\" x=\"162\" y=\"24\" width=\"140\" height=\"116\" rx=\"7\"/><path class=\"ln\" d=\"M162 24h140v116H162z\"/><text class=\"lbl\" x=\"176\" y=\"46\">R</text><text class=\"lblS\" x=\"176\" y=\"66\">realistic, specific,</text><text class=\"lblS\" x=\"176\" y=\"80\">progressive, time-bound</text><text class=\"lblS\" x=\"176\" y=\"104\">and adjusted for</text><text class=\"lblS\" x=\"176\" y=\"118\">age, stage, condition</text></g><text class=\"lblS\" x=\"3\" y=\"164\">the R is the part that decides whether any of it is used</text><text class=\"lblS\" x=\"14\" y=\"182\">a dose nobody can follow is not a prescription</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four FIT variables and how to set each",
+     "zh": "FIT 四个变量及其设定方式"
+    },
+    "cols": [
+     {
+      "en": "Variable",
+      "zh": "变量"
+     },
+     {
+      "en": "Question it answers",
+      "zh": "它回答的问题"
+     },
+     {
+      "en": "Set by",
+      "zh": "由什么决定"
+     },
+     {
+      "en": "Common error",
+      "zh": "常见错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Frequency",
+       "zh": "频率"
+      },
+      {
+       "en": "How often",
+       "zh": "多久一次"
+      },
+      {
+       "en": "Time available, recovery needs, the habit to build",
+       "zh": "可用时间、恢复需求、要建立的习惯"
+      },
+      {
+       "en": "Starting too high and stopping in a fortnight",
+       "zh": "起步过高，两周后就停"
+      }
+     ],
+     [
+      {
+       "en": "Intensity",
+       "zh": "强度"
+      },
+      {
+       "en": "How hard",
+       "zh": "多大强度"
+      },
+      {
+       "en": "Current fitness, and the talk or perceived-effort test",
+       "zh": "当前体能，以及谈话或自觉用力测试"
+      },
+      {
+       "en": "Expressing intensity only as a percentage of maximum",
+       "zh": "只把强度表达成最大值的百分比"
+      }
+     ],
+     [
+      {
+       "en": "Time",
+       "zh": "时间"
+      },
+      {
+       "en": "How long",
+       "zh": "多长时间"
+      },
+      {
+       "en": "Whether the goal is health, capacity, or competition",
+       "zh": "目标是健康、容量还是比赛"
+      },
+      {
+       "en": "One long session instead of several short ones",
+       "zh": "一堂长课代替多堂短课"
+      }
+     ],
+     [
+      {
+       "en": "Type",
+       "zh": "类型"
+      },
+      {
+       "en": "What kind of work",
+       "zh": "做哪类工作"
+      },
+      {
+       "en": "The goal, and what the population can safely do",
+       "zh": "目标，以及该人群能安全做什么"
+      },
+      {
+       "en": "Only aerobic, when strength is the limiting factor",
+       "zh": "只做有氧，而力量恰是限制因素"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The commonest prescription failure in populations is not the wrong numbers. It is frequency set by ambition rather than by available time.",
+     "zh": "人群处方中最常见的失败不是数字错了，而是频率由野心决定而不是由可用时间决定。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: rewriting a prescription that nobody follows",
+    "zh": "例题：重写一份没人会执行的处方"
+   },
+   "given": {
+    "en": "Prescribed: 45 minutes of aerobic activity, 5 days per week, at 70 percent of maximum heart rate.",
+    "zh": "原处方：每周 5 天、每次 45 分钟有氧活动、强度为最大心率的 70%。"
+   },
+   "steps": [
+    {
+     "en": "The dose is specific but it assumes an adult with no conditions and 5 free hours a week.",
+     "zh": "这个剂量很具体，但它假设了一位无疾病的成年人、每周有 5 小时空闲。"
+    },
+    {
+     "en": "A 68-year-old with hypertension is a different person, and 70 percent of their maximum is a different number.",
+     "zh": "一位 68 岁、有高血压的人是一个不同的人，而他们最大值的 70% 也是另一个数字。"
+    },
+    {
+     "en": "Realistic: 3 days of 20 minutes walking, using the talk test, for 6 weeks, then review.",
+     "zh": "现实一点：每周 3 天、每次步行 20 分钟、用谈话测试，持续 6 周，然后复评。"
+    },
+    {
+     "en": "Add strength twice a week, because for this person and this goal that is the limiting factor.",
+     "zh": "每周加两次力量训练，因为对这个人、这个目标而言力量才是限制因素。"
+    },
+    {
+     "en": "Progression is stated in advance: after 6 weeks 25 minutes; after 12 weeks reassess entirely.",
+     "zh": "预先写出进阶：6 周后 25 分钟；12 周后完全重新评估。"
+    }
+   ],
+   "answer": {
+    "en": "The rewrite has a smaller dose and a far higher probability of being followed. In populations, adherence matters more than the prescription.",
+    "zh": "重写后的剂量更小、被执行的概率却高得多。在人群中，依从性比处方本身更重要。"
+   }
+  }
+ },
+ "Central and peripheral fatigue": {
+  "figures": [
+   {
+    "title": {
+     "en": "Two mechanisms, one curve",
+     "zh": "两种机制，一条曲线"
+    },
+    "viewBox": "0 0 320 218",
+    "svg": "<line class=\"th\" x1=\"46\" y1=\"140\" x2=\"300\" y2=\"140\"/><line class=\"th\" x1=\"46\" y1=\"140\" x2=\"46\" y2=\"26\"/><text class=\"lblXS\" x=\"42\" y=\"156\" text-anchor=\"end\">time</text><text class=\"lblXS\" x=\"8\" y=\"20\">power</text><path class=\"ln\" d=\"M46 44C96 52 150 74 196 108C232 132 262 138 296 140\"/><path class=\"dash\" d=\"M46 44C120 40 190 60 240 96\"/><path class=\"dash\" d=\"M46 60C110 76 168 104 210 130\"/><text class=\"lblXS\" x=\"206\" y=\"92\">central: drive falls</text><text class=\"lblXS\" x=\"196\" y=\"122\">peripheral: fuel runs out</text><path class=\"acc\" d=\"M150 84l6 12h-12z\"/><text class=\"lblS\" x=\"14\" y=\"164\">both drop the same curve, so the feeling cannot tell</text><text class=\"lblS\" x=\"14\" y=\"177\">them apart</text><text class=\"lblS\" x=\"14\" y=\"182\">the fix differs: rest and motivation versus fuel and</text><text class=\"lblS\" x=\"14\" y=\"195\">clearance</text><text class=\"lblS\" x=\"14\" y=\"198\">an under-fuelled athlete feels central; a rested one</text><text class=\"lblS\" x=\"14\" y=\"211\">feels peripheral</text>",
+    "legend": [
+     {
+      "en": "both mechanisms drop the same performance curve",
+      "zh": "两种机制下降的是同一条表现曲线"
+     },
+     {
+      "en": "central is drive and perception; peripheral is fuel and clearance",
+      "zh": "中枢是动力与知觉；外周是燃料与清除"
+     },
+     {
+      "en": "the identical feeling is why the two are confused",
+      "zh": "感受完全相同，这正是两者被混淆的原因"
+     }
+    ],
+    "caption": {
+     "en": "Why an under-fuelled athlete and a tired athlete feel the same but need opposite fixes.",
+     "zh": "为什么燃料不足的运动员与疲劳的运动员感受相同，却需要相反的处理。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two kinds of fatigue side by side",
+     "zh": "两类疲劳的对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Central",
+      "zh": "中枢性"
+     },
+     {
+      "en": "Peripheral",
+      "zh": "外周性"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Where it is",
+       "zh": "发生位置"
+      },
+      {
+       "en": "Brain, spinal cord",
+       "zh": "大脑、脊髓"
+      },
+      {
+       "en": "Muscle itself",
+       "zh": "肌肉本身"
+      }
+     ],
+     [
+      {
+       "en": "Main mechanism",
+       "zh": "主要机制"
+      },
+      {
+       "en": "Reduced neural drive, altered excitation and inhibition",
+       "zh": "神经驱动降低、兴奋与抑制改变"
+      },
+      {
+       "en": "Metabolite accumulation, fuel depletion, altered calcium handling",
+       "zh": "代谢物积累、燃料耗竭、钙处理改变"
+      }
+     ],
+     [
+      {
+       "en": "Rests quickly",
+       "zh": "休息见效快"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      },
+      {
+       "en": "Partly",
+       "zh": "部分"
+      }
+     ],
+     [
+      {
+       "en": "Cleared by",
+       "zh": "靠什么清除"
+      },
+      {
+       "en": "Rest and reducing demands",
+       "zh": "休息与降低需求"
+      },
+      {
+       "en": "Good fuelling and active recovery",
+       "zh": "良好补糖与主动恢复"
+      }
+     ],
+     [
+      {
+       "en": "Typical presentation",
+       "zh": "典型表现"
+      },
+      {
+       "en": "Unmotivated, feels lazy, no clear physical sign",
+       "zh": "没有动力、觉得懒、没有明确体征"
+      },
+      {
+       "en": "Feels heavy, slow to recover, power is gone",
+       "zh": "沉重、恢复慢、功率消失"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Under-fuelling produces central fatigue that looks exactly like being unmotivated, which is why the two are so often confused.",
+     "zh": "补糖不足造成的中枢疲劳看起来与没有动力完全一样，因此实践中两者常常被混淆。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: telling the two apart in a real athlete",
+    "zh": "例题：在真实运动员身上分辨两者"
+   },
+   "given": {
+    "en": "A weightlifter misses two lifts in a competition. The day before, intake was 1200 kcal.",
+    "zh": "一名举重运动员在比赛中漏举两次。前一天摄入 1200 千卡。"
+   },
+   "steps": [
+    {
+     "en": "A missing lift has two candidate explanations and the history distinguishes them.",
+     "zh": "漏举有两个候选解释，而病史能区分它们。"
+    },
+    {
+     "en": "Peripheral: the muscles were genuinely depleted, so the force was not there.",
+     "zh": "外周性：肌肉确实被耗尽了，因此力不存在。"
+    },
+    {
+     "en": "Central: under-fuelling lowered the drive, so the effort was never maximal.",
+     "zh": "中枢性：补糖不足降低了驱动，因此努力从未达到最大。"
+    },
+    {
+     "en": "A warm-up that restores the lift suggests central, because it wakes the drive without adding fuel.",
+     "zh": "如果热身之后那一举恢复了，说明是中枢性，因为它唤醒的是驱动而不是补充燃料。"
+    },
+    {
+     "en": "The correction differs completely: fuelling and a lighter warm-up, versus loading and a longer taper.",
+     "zh": "纠正方式完全不同：补糖加轻量热身，或者减负荷加更长的减量。"
+    }
+   ],
+   "answer": {
+    "en": "The same observable event, two different causes, two opposite corrections. Reading the history rather than the performance is what separates them.",
+    "zh": "同一个可观察事件、两个不同成因、两种相反的纠正。读病史而不是读表现，正是区分它们的关键。"
+   }
+  }
+ },
+ "Recovery nutrition and methods": {
+  "figures": [
+   {
+    "title": {
+     "en": "The recovery window, and what fills it",
+     "zh": "恢复窗口，以及由什么填补"
+    },
+    "viewBox": "0 0 320 182",
+    "legend": [
+     {
+      "en": "glycogen resynthesis is fastest while it is still elevated, so the first hours matter most",
+      "zh": "糖原再合成在水平仍高时最快，因此最初几小时最关键"
+     },
+     {
+      "en": "the anabolic window is wider than once believed, but fuelling still beats waiting",
+      "zh": "合成代谢窗口比曾经认为的更宽，但补糖仍胜于等待"
+     },
+     {
+      "en": "protein and carbohydrate together outperform carbohydrate alone, which is the point of pairing them",
+      "zh": "蛋白质与碳水一起优于单用碳水，而这正是两者搭配的意义"
+     }
+    ],
+    "caption": {
+     "en": "Recovery nutrition is not a meal. It is a quantity in a time window, and the window is why an athlete who ate well before the event can still recover poorly.",
+     "zh": "恢复营养不是一顿饭，而是一个时间窗口内的数量，而窗口正是赛前吃得很不错的运动员仍可能恢复不佳的原因。"
+    },
+    "svg": "<line class=\"th\" x1=\"24\" y1=\"120\" x2=\"304\" y2=\"120\"/><path class=\"fillA\" d=\"M24 120C60 60 100 40 150 44c50 4 90 40 154 74v2z\"/><path class=\"ln\" d=\"M24 120C60 60 100 40 150 44c50 4 90 40 154 74\"/><line class=\"dash\" d=\"M24 84h280\"/><text class=\"lblS\" x=\"14\" y=\"56\">net</text><text class=\"lblS\" x=\"14\" y=\"70\">storage</text><text class=\"lblS\" x=\"24\" y=\"138\">0 h</text><text class=\"lblS\" x=\"140\" y=\"138\">first 4 h</text><text class=\"lblS\" x=\"252\" y=\"138\">24 h</text><g><rect class=\"fillB\" x=\"60\" y=\"152\" width=\"52\" height=\"20\" rx=\"4\"/><path class=\"ln\" d=\"M60 152h52v20H60z\"/><text class=\"lblS\" x=\"66\" y=\"166\">carb</text></g><g><rect class=\"fillB\" x=\"122\" y=\"152\" width=\"52\" height=\"20\" rx=\"4\"/><path class=\"ln\" d=\"M122 152h52v20H122z\"/><text class=\"lblS\" x=\"128\" y=\"166\">protein</text></g><g><rect class=\"fillB\" x=\"184\" y=\"152\" width=\"52\" height=\"20\" rx=\"4\"/><path class=\"ln\" d=\"M184 152h52v20H184z\"/><text class=\"lblS\" x=\"190\" y=\"166\">fluid</text></g><g><rect class=\"fillB\" x=\"246\" y=\"152\" width=\"58\" height=\"20\" rx=\"4\"/><path class=\"ln\" d=\"M246 152h58v20H246z\"/><text class=\"lblS\" x=\"252\" y=\"166\">sleep</text></g>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What to take, and in what order of priority",
+     "zh": "补什么，以及优先级顺序"
+    },
+    "cols": [
+     {
+      "en": "Priority",
+      "zh": "优先级"
+     },
+     {
+      "en": "Target",
+      "zh": "目标量"
+     },
+     {
+      "en": "Why",
+      "zh": "原因"
+     },
+     {
+      "en": "Timing",
+      "zh": "时机"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "1. Carbohydrate",
+       "zh": "1. 碳水化合物"
+      },
+      {
+       "en": "About 1.0-1.2 g per kg per hour for the first 4 hours",
+       "zh": "最初 4 小时每公斤每小时约 1.0 到 1.2 克"
+      },
+      {
+       "en": "Refilling glycogen stores",
+       "zh": "补满糖原储备"
+      },
+      {
+       "en": "As early as possible",
+       "zh": "越早越好"
+      }
+     ],
+     [
+      {
+       "en": "2. Protein",
+       "zh": "2. 蛋白质"
+      },
+      {
+       "en": "About 0.3 g per kg",
+       "zh": "约每公斤 0.3 克"
+      },
+      {
+       "en": "Starting repair and limiting muscle breakdown",
+       "zh": "启动修复并限制肌肉分解"
+      },
+      {
+       "en": "Within the first hour, or any time after",
+       "zh": "第一小时内，或之后任何时间"
+      }
+     ],
+     [
+      {
+       "en": "3. Fluid and sodium",
+       "zh": "3. 水分与钠"
+      },
+      {
+       "en": "About 1.25-1.5 L per kg lost",
+       "zh": "每减重 1 公斤补 1.25 到 1.5 升"
+      },
+      {
+       "en": "Replacing sweat losses",
+       "zh": "补回汗液流失"
+      },
+      {
+       "en": "With the carbohydrate",
+       "zh": "与碳水同时"
+      }
+     ],
+     [
+      {
+       "en": "4. Carbohydrate and caffeine if a second effort follows",
+       "zh": "4. 若随后还有第二次用力，则加碳水与咖啡因"
+      },
+      {
+       "en": "Around 1-2 mg per kg caffeine",
+       "zh": "咖啡因约每公斤 1 到 2 毫克"
+      },
+      {
+       "en": "Raising the rate again for the next effort",
+       "zh": "为下一次用力再次提高速率"
+      },
+      {
+       "en": "Immediately after",
+       "zh": "立即之后"
+      }
+     ],
+     [
+      {
+       "en": "5. Everything else",
+       "zh": "5. 其他一切"
+      },
+      {
+       "en": "Normal balanced diet",
+       "zh": "正常均衡饮食"
+      },
+      {
+       "en": "Meeting longer-term needs",
+       "zh": "满足长期需要"
+      },
+      {
+       "en": "For the days around it",
+       "zh": "前后几天"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The order matters more than the total. An athlete who hits target carbohydrate but not fluid still under-recovers.",
+     "zh": "顺序比总量更重要。一位碳水达标但水分不达标的运动员，恢复仍然不足。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: doing the arithmetic on a real recovery",
+    "zh": "例题：为一次真实恢复做算术"
+   },
+   "given": {
+    "en": "A 70 kg footballer plays 90 minutes, loses 1.8 kg, and has a match 48 hours later.",
+    "zh": "一名 70 公斤的足球运动员踢了 90 分钟、减重 1.8 公斤，48 小时后还有一场比赛。"
+   },
+   "steps": [
+    {
+     "en": "Carbohydrate: 1.1 g per kg per hour for 4 hours = 70 x 1.1 x 4 = 308 g over the window.",
+     "zh": "碳水：最初 4 小时每公斤每小时 1.1 克 = 70 x 1.1 x 4 = 308 克。"
+    },
+    {
+     "en": "Fluid: 1.4 L per kg lost = 1.4 x 1.8 = 2.5 L across the evening and the night.",
+     "zh": "水分：每减重 1 公斤 1.4 升 = 1.4 x 1.8 = 2.5 升，分在当晚与夜间补。"
+    },
+    {
+     "en": "Protein: 0.3 g per kg = 21 g, a normal meal-sized amount rather than a supplement dose.",
+     "zh": "蛋白质：每公斤 0.3 克 = 21 克，这是一顿普通餐的分量，而不是补剂剂量。"
+    },
+    {
+     "en": "The gap to full glycogen: stores are roughly 500 g and the window delivers 308 g of it.",
+     "zh": "与满糖原的差距：储备约 500 克，而这个窗口补入其中 308 克。"
+    },
+    {
+     "en": "Which is why a normal meal at 48 hours is still necessary and not optional.",
+     "zh": "这就是为什么 48 小时时那顿正常的饭仍然必要，而不是可选的。"
+    }
+   ],
+   "answer": {
+    "en": "308 grams sounds like a lot and is not, once expressed against a 500 gram store. This is the calculation that makes the advice concrete.",
+    "zh": "308 克听起来很多，但一旦对照 500 克的储备就不再多了。这个计算让建议变得具体。"
+   }
+  }
+ },
+ "Recovery indicators, sleep and travel": {
+  "figures": [
+   {
+    "title": {
+     "en": "What to watch, and what sleep actually does",
+     "zh": "看什么，以及睡眠实际做了什么"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "daily markers warn you something is wrong; they never confirm that adaptation happened",
+      "zh": "每日指标能预警问题，但永远不能确认适应已经发生"
+     },
+     {
+      "en": "weekly performance testing is the only measure that confirms the plan worked",
+      "zh": "每周的表现测试是唯一能确认计划有效的指标"
+     },
+     {
+      "en": "sleep is the one recovery tool that is free, and the one most often traded away",
+      "zh": "睡眠是唯一免费的恢复工具，也是最常被牺牲的那个"
+     }
+    ],
+    "caption": {
+     "en": "Everything except the performance test is a warning system. Coaches who rely on daily markers alone tend to respond to noise.",
+     "zh": "除表现测试之外的一切都是预警系统。只依赖每日指标的教练，往往在对噪声作出反应。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"132\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M14 20h132v46H14z\"/><text class=\"lbl\" x=\"30\" y=\"44\">daily</text><text class=\"lblS\" x=\"30\" y=\"60\">cheap, and early</text></g><g><rect class=\"fillB\" x=\"162\" y=\"20\" width=\"144\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M162 20h144v46H162z\"/><text class=\"lbl\" x=\"178\" y=\"44\">weekly</text><text class=\"lblS\" x=\"171\" y=\"60\">the only real confirmation</text></g><g><rect class=\"fillC\" x=\"14\" y=\"78\" width=\"292\" height=\"80\" rx=\"7\"/><path class=\"ln\" d=\"M14 78h292v80H14z\"/><text class=\"lbl\" x=\"28\" y=\"100\">sleep</text><text class=\"lblS\" x=\"28\" y=\"120\">growth hormone peaks in deep sleep</text><text class=\"lblS\" x=\"28\" y=\"136\">cortisol falls; reaction time and mood recover</text><text class=\"lblS\" x=\"14\" y=\"152\">travel and late eating are the two usual destroyers of</text><text class=\"lblS\" x=\"28\" y=\"165\">it</text></g><text class=\"lblS\" x=\"14\" y=\"180\">a short sleep debt is repaid by a long sleep, but a</text><text class=\"lblS\" x=\"14\" y=\"193\">tournament rarely allows it</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Recovery indicators and what they mean",
+     "zh": "恢复指标及其含义"
+    },
+    "cols": [
+     {
+      "en": "Indicator",
+      "zh": "指标"
+     },
+     {
+      "en": "Normal response to training",
+      "zh": "对训练的正常反应"
+     },
+     {
+      "en": "A warning sign",
+      "zh": "预警信号"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Morning heart rate",
+       "zh": "晨起心率"
+      },
+      {
+       "en": "Returns to baseline within an hour of waking",
+       "zh": "醒后一小时内回到基线"
+      },
+      {
+       "en": "Still 5-10 bpm above baseline after several days",
+       "zh": "数日后仍高出基线 5 到 10 次/分"
+      }
+     ],
+     [
+      {
+       "en": "Sleep",
+       "zh": "睡眠"
+      },
+      {
+       "en": "Quality dips after a hard session",
+       "zh": "高强度训练后质量下降"
+      },
+      {
+       "en": "Several nights of poor sleep, or waking unrefreshed",
+       "zh": "连续数晚睡不好，或醒来不解乏"
+      }
+     ],
+     [
+      {
+       "en": "Appetite",
+       "zh": "食欲"
+      },
+      {
+       "en": "Mildly reduced for a day",
+       "zh": "轻度下降一天"
+      },
+      {
+       "en": "Markedly reduced alongside weight loss",
+       "zh": "明显下降并伴有体重下降"
+      }
+     ],
+     [
+      {
+       "en": "Mood and motivation",
+       "zh": "情绪与动力"
+      },
+      {
+       "en": "Brief dip after a hard block",
+       "zh": "高强度阶段后短暂下滑"
+      },
+      {
+       "en": "Persistent flatness across a whole week",
+       "zh": "整整一周持续低迷"
+      }
+     ],
+     [
+      {
+       "en": "Performance in training",
+       "zh": "训练中的表现"
+      },
+      {
+       "en": "Short-term fatigue, recovered by the next session",
+       "zh": "短期疲劳，下一堂训练课恢复"
+      },
+      {
+       "en": "Falling across two or three consecutive sessions",
+       "zh": "连续两三堂训练课表现下滑"
+      }
+     ],
+     [
+      {
+       "en": "Soreness",
+       "zh": "酸痛"
+      },
+      {
+       "en": "48 hours, then resolving",
+       "zh": "48 小时后消退"
+      },
+      {
+       "en": "Worsening, or lasting beyond a week",
+       "zh": "加重，或超过一周"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The interpretation depends entirely on the individual baseline. A heart rate of 52 may be normal for one athlete and elevated for another.",
+     "zh": "解读完全取决于个体基线。心率 52 对一位运动员可能是正常的，对另一位则偏高。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: diagnosing an under-recovering week",
+    "zh": "例题：诊断恢复不足的一周"
+   },
+   "given": {
+    "en": "Morning heart rate has risen from 48 to 56 for five days, sleep is poor, and training performance is down 3 percent.",
+    "zh": "晨起心率五天来从 48 升到 56，睡眠变差，训练表现下降 3%。"
+   },
+   "steps": [
+    {
+     "en": "One marker alone would be noise. Three markers moving together is a pattern.",
+     "zh": "单一指标只是噪声。三个指标同时变化才是模式。"
+    },
+    {
+     "en": "Order the explanations: recovery debt, illness, under-fuelling, or added life stress.",
+     "zh": "对解释排序：恢复欠账、疾病、补糖不足，或额外的生活压力。"
+    },
+    {
+     "en": "The quickest check is intake and sleep, because they are the two the athlete controls.",
+     "zh": "最快的检查是摄入与睡眠，因为它们是运动员能控制的两项。"
+    },
+    {
+     "en": "If both are adequate, reduce load by about 30 percent for a week before investigating further.",
+     "zh": "如果两者都足够，就把负荷降低约 30% 并持续一周，再做进一步排查。"
+    },
+    {
+     "en": "Adding training to this week is what turns a recoverable week into an injury.",
+     "zh": "给这一周再加训练，正是把一个可恢复的周变成伤病的做法。"
+    }
+   ],
+   "answer": {
+    "en": "Three co-moving indicators, and the response is to reduce load rather than investigate everything.",
+    "zh": "三个同时变化的指标，而应对方式是减负荷而不是把一切都排查一遍。"
+   }
+  }
+ },
+ "Mechanical advantage and equipment": {
+  "figures": [
+   {
+    "title": {
+     "en": "Moving the arms changes what the muscle has to do",
+     "zh": "移动杠杆臂会改变肌肉要做的功"
+    },
+    "viewBox": "0 0 320 320",
+    "legend": [
+     {
+      "en": "mechanical advantage is effort arm divided by load arm, and it multiplies the force the muscle needs",
+      "zh": "机械优势等于动力臂除以阻力臂，它会成倍放大肌肉所需的力"
+     },
+     {
+      "en": "a longer load arm means the same muscle force moves a heavier or faster load",
+      "zh": "更长的阻力臂意味着同样的肌力能移动更重或更快的负荷"
+     },
+     {
+      "en": "this is the whole argument for equipment design and for choosing the right implement",
+      "zh": "这就是装备设计的全部理由，也是为运动员选择合适器材的全部理由"
+     }
+    ],
+    "caption": {
+     "en": "Equipment is a mechanical decision before it is a commercial one. A heavier bat is not simply a heavier bat; it changes the lever.",
+     "zh": "装备首先是一个力学决定，然后才是一个商业决定。更重的球棒不只是一根更重的球棒，它改变了杠杆。"
+    },
+    "svg": "<g><text class=\"lblS\" x=\"14\" y=\"30\">long load arm = advantage</text><line class=\"th\" d=\"M40 40v92\"/><circle class=\"warn\" cx=\"40\" cy=\"138\" r=\"5\"/><line class=\"th\" d=\"M40 62h150\"/><rect class=\"fillA\" x=\"186\" y=\"54\" width=\"20\" height=\"16\" rx=\"3\"/><path class=\"ln\" d=\"M186 54h20v16h-20z\"/><text class=\"lblS\" x=\"14\" y=\"150\">load far from the pivot</text></g><g><text class=\"lblS\" x=\"14\" y=\"180\">short load arm = the muscle works harder</text><line class=\"th\" d=\"M40 190v92\"/><circle class=\"warn\" cx=\"40\" cy=\"288\" r=\"5\"/><line class=\"th\" d=\"M40 212h50\"/><rect class=\"fillA\" x=\"86\" y=\"204\" width=\"20\" height=\"16\" rx=\"3\"/><path class=\"ln\" d=\"M86 204h20v16H86z\"/><text class=\"lblS\" x=\"14\" y=\"300\">load close to the pivot</text></g>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What equipment does, mechanically",
+     "zh": "装备在力学上做了什么"
+    },
+    "cols": [
+     {
+      "en": "Change",
+      "zh": "改变"
+     },
+     {
+      "en": "Effect",
+      "zh": "效果"
+     },
+     {
+      "en": "Trade-off",
+      "zh": "代价"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Longer load arm",
+       "zh": "更长的阻力臂"
+      },
+      {
+       "en": "Less muscle force needed for the same outcome",
+       "zh": "达到同样结果所需肌力更少"
+      },
+      {
+       "en": "More length to swing and to control",
+       "zh": "需要挥动与控制的长度更长"
+      }
+     ],
+     [
+      {
+       "en": "Stiffer material",
+       "zh": "更硬的材料"
+      },
+      {
+       "en": "More energy returned, higher peak force",
+       "zh": "返回更多能量、峰值力更高"
+      },
+      {
+       "en": "More jarring transmission, more stress on the hand",
+       "zh": "震动传递更多，手部承受更大应力"
+      }
+     ],
+     [
+      {
+       "en": "Heavier implement",
+       "zh": "更重的器材"
+      },
+      {
+       "en": "More momentum at the same speed",
+       "zh": "同样速度下动量更大"
+      },
+      {
+       "en": "More energy to accelerate and absorb on error",
+       "zh": "加速所需能量更多，出错时吸收也更多"
+      }
+     ],
+     [
+      {
+       "en": "Larger surface area",
+       "zh": "更大的接触面积"
+      },
+      {
+       "en": "Lower peak force, more forgiveness",
+       "zh": "峰值力更低、更宽容"
+      },
+      {
+       "en": "Less precision and more drag",
+       "zh": "精度更低、阻力更大"
+      }
+     ],
+     [
+      {
+       "en": "Adjustable rather than fixed",
+       "zh": "可调而非固定"
+      },
+      {
+       "en": "Fits more than one athlete",
+       "zh": "适合不止一位运动员"
+      },
+      {
+       "en": "More cost, slightly more complexity",
+       "zh": "成本更高、略增复杂度"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Almost every equipment trade-off in sport is the same trade-off: the benefit is paid for at a different point in the body.",
+     "zh": "运动中几乎每一项装备权衡都是同一个权衡：收益会在身体的另一个位置被支付。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why bat weight is not a bigger-is-better decision",
+    "zh": "例题：为什么球棒重量不是越大越好的决定"
+   },
+   "given": {
+    "en": "A 1.2 kg bat at 1.0 m versus 1.4 kg at 0.95 m, for the same 20 m/s swing.",
+    "zh": "在同样的 20 米/秒挥速下，1.0 米的 1.2 公斤球棒与 0.95 米的 1.4 公斤球棒。"
+   },
+   "steps": [
+    {
+     "en": "Momentum at contact depends on mass and speed, so both deliver about 24 to 26 kg m/s.",
+     "zh": "触球时的动量取决于质量与速度，因此两者都约 24 到 26 公斤米每秒。"
+    },
+    {
+     "en": "So neither bat gives a faster ball. The difference appears in how it feels and how it is controlled.",
+     "zh": "所以两者都不会让球更快。差别出现在手感与可控性上。"
+    },
+    {
+     "en": "The shorter bat has a smaller load arm, so the wrist does more work for the same outcome.",
+     "zh": "较短的球棒阻力臂更小，因此手腕为同样结果要做更多功。"
+    },
+    {
+     "en": "A heavier, shorter bat is harder to accelerate and harder to recover, and the error goes further.",
+     "zh": "更重更短的球棒更难加速、更难回位，而失误也传得更远。"
+    },
+    {
+     "en": "A lighter, longer bat suits many hitters; a heavier shorter one suits a different body and technique.",
+     "zh": "更轻更长的球棒适合许多击球手；更重更短的适合另一种身体与技术。"
+    }
+   ],
+   "answer": {
+    "en": "Identical momentum at contact, opposite handling. Implement weight is a matter of the athlete rather than of the specification.",
+    "zh": "触球时动量相同，操控却相反。器材重量是关于运动员的事，而不是关于规格的事。"
+   }
+  }
+ },
+ "Internal and external risk factors": {
+  "figures": [
+   {
+    "title": {
+     "en": "Factors multiply, and that is the problem",
+     "zh": "因素相乘，而这正是问题所在"
+    },
+    "viewBox": "0 0 320 206",
+    "legend": [
+     {
+      "en": "internal factors are properties of the athlete: history, structure, previous injury, current state",
+      "zh": "内部因素是运动员的属性：病史、结构、既往损伤、当下状态"
+     },
+     {
+      "en": "external factors are properties of the environment: surface, equipment, schedule, rules",
+      "zh": "外部因素是环境的属性：地面、装备、赛程、规则"
+     },
+     {
+      "en": "they interact multiplicatively, so three small ones are more dangerous than one large one",
+      "zh": "它们以乘法相互作用，因此三个小因素比一个大因素更危险"
+     }
+    ],
+    "caption": {
+     "en": "The most useful consequence is that removing one factor can undo an accumulation, and the cheapest to remove is usually the one nobody is looking at.",
+     "zh": "最有用的推论是：移除一个因素可以化解累积，而最容易移除的往往正是没人注意到的那个。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 24h88v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"43\">previous</text><text class=\"lblS\" x=\"22\" y=\"55\">injury</text></g><g><rect class=\"fillA\" x=\"112\" y=\"24\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M112 24h88v30H112z\"/><text class=\"lblS\" x=\"120\" y=\"43\">hard</text><text class=\"lblS\" x=\"120\" y=\"55\">surface</text></g><g><rect class=\"fillB\" x=\"210\" y=\"24\" width=\"96\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M210 24h96v30H210z\"/><text class=\"lblS\" x=\"218\" y=\"43\">sleep</text><text class=\"lblS\" x=\"218\" y=\"55\">debt</text></g><path class=\"th\" d=\"M58 54v22M156 54v22M258 54v22\"/><path class=\"th\" d=\"M58 76h200\"/><path class=\"ln\" d=\"M258 76l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"106\" y=\"88\" width=\"108\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M106 88h108v30H106z\"/><text class=\"lblS\" x=\"114\" y=\"107\">injury risk</text><path class=\"th\" d=\"M158 118v22\"/><path class=\"ln\" d=\"M158 140l-4.5-9h9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"96\" y=\"140\" width=\"128\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M96 140h128v26H96z\"/><text class=\"lblS\" x=\"104\" y=\"157\">one of these removed</text><text class=\"lblS\" x=\"14\" y=\"186\">internal factors change the tissue, external factors</text><text class=\"lblS\" x=\"14\" y=\"199\">change the demand</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Internal and external risk factors",
+     "zh": "内部与外部风险因素"
+    },
+    "cols": [
+     {
+      "en": "Type",
+      "zh": "类型"
+     },
+     {
+      "en": "Examples",
+      "zh": "例子"
+     },
+     {
+      "en": "Modifiable?",
+      "zh": "可改变？"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Non-modifiable internal",
+       "zh": "不可改变的内部因素"
+      },
+      {
+       "en": "Age, sex, previous injury, body structure, growth, inherited tissue properties",
+       "zh": "年龄、性别、既往损伤、身体结构、生长、遗传的组织特性"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      }
+     ],
+     [
+      {
+       "en": "Modifiable internal",
+       "zh": "可改变的内部因素"
+      },
+      {
+       "en": "Strength, movement control, load history, sleep, nutrition, fatigue, fitness",
+       "zh": "力量、动作控制、负荷史、睡眠、营养、疲劳、体能"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      }
+     ],
+     [
+      {
+       "en": "Non-modifiable external",
+       "zh": "不可改变的外部因素"
+      },
+      {
+       "en": "The event itself, the rules, the opposition, altitude",
+       "zh": "赛事本身、规则、对手、海拔"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      }
+     ],
+     [
+      {
+       "en": "Modifiable external",
+       "zh": "可改变的外部因素"
+      },
+      {
+       "en": "Surface, equipment, protective gear, fixture density, rest between competitions",
+       "zh": "地面、装备、护具、赛程密度、比赛间休息"
+      },
+      {
+       "en": "Usually",
+       "zh": "通常是"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Effort spent on a non-modifiable factor is effort wasted, and effort spent on fatigue is often the highest-yield of all.",
+     "zh": "花在不可改变因素上的努力是浪费，而花在疲劳上的努力往往回报最高。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a risk assessment that changes something",
+    "zh": "例题：一次能改变某事的风险评估"
+   },
+   "given": {
+    "en": "A 19-year-old footballer returns from a hamstring strain 3 weeks early, has 4 matches in 12 days, on artificial turf.",
+    "zh": "一名 19 岁足球运动员提前 3 周从腘绳肌拉伤中回归，12 天内有 4 场比赛，且为人工草皮。"
+   },
+   "steps": [
+    {
+     "en": "Non-modifiable: age 19, previous injury, the artificial surface.",
+     "zh": "不可改变：19 岁、既往损伤、人工草皮。"
+    },
+    {
+     "en": "Modifiable: the early return, the fixture density, the recovery between matches.",
+     "zh": "可改变：提前回归、赛程密度、比赛间恢复。"
+    },
+    {
+     "en": "The strongest single predictor present is the previous injury, which is also the least modifiable.",
+     "zh": "在场最强的单一预测因素是既往损伤，而它同时也是最难改变的那个。"
+    },
+    {
+     "en": "So the coach cannot remove it. The next strongest is fixture density, which the coach can change.",
+     "zh": "所以教练无法移除它。而次强的是赛程密度，那是可以改变的。"
+    },
+    {
+     "en": "Reducing four matches in 12 days to three addresses more risk than any strengthening programme in that fortnight.",
+     "zh": "把 12 天 4 场减到 3 场，在这两周内所减少的风险比任何力量训练都多。"
+    }
+   ],
+   "answer": {
+    "en": "The strongest risk factor was not modifiable, which is not a reason to do nothing. It is a reason to act on the second strongest, which was.",
+    "zh": "最强的风险因素不可改变，但这不是无所作为的理由，而是去处理次强因素的理由——而那个是可以改变的。"
+   }
+  }
+ },
+ "Acute and cumulative trauma": {
+  "figures": [
+   {
+    "title": {
+     "en": "Load against tissue capacity",
+     "zh": "负荷与组织承受力"
+    },
+    "viewBox": "0 0 320 216",
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"150\" x2=\"300\" y2=\"150\"/><line class=\"dash\" x1=\"30\" y1=\"76\" x2=\"300\" y2=\"76\"/><text class=\"lblXS\" x=\"67\" y=\"80\" text-anchor=\"end\">tissue capacity</text><text class=\"lblXS\" x=\"30\" y=\"168\">time</text><path class=\"dash\" d=\"M30 122C90 108 150 96 300 78\"/><text class=\"lblXS\" x=\"196\" y=\"96\">capacity builds slowly</text><path class=\"th\" d=\"M30 122L60 122L74 52L88 122\"/><rect class=\"fillA\" x=\"66\" y=\"52\" width=\"16\" height=\"70\"/><text class=\"lblS\" x=\"78\" y=\"44\" text-anchor=\"middle\">acute</text><text class=\"lblXS\" x=\"78\" y=\"136\" text-anchor=\"middle\">one event over the line</text><path class=\"th\" d=\"M104 122L118 100L132 118L146 92L160 110L174 84\"/><text class=\"lblS\" x=\"139\" y=\"136\" text-anchor=\"middle\">cumulative</text><text class=\"lblXS\" x=\"178\" y=\"136\">repeats that never fully recover</text><text class=\"lblS\" x=\"14\" y=\"196\">the same tissue, two different mechanisms, and the</text><text class=\"lblS\" x=\"14\" y=\"209\">second one is preventable</text>",
+    "legend": [
+     {
+      "en": "the horizontal line is what the tissue can take",
+      "zh": "横线代表组织能够承受的负荷"
+     },
+     {
+      "en": "acute is one event past the line",
+      "zh": "急性损伤是一次越过该线的负荷"
+     },
+     {
+      "en": "cumulative is repeats that never fully recover",
+      "zh": "慢性损伤是反复且未能完全恢复的负荷"
+     },
+     {
+      "en": "training raises the line slowly",
+      "zh": "训练会缓慢抬高这条线"
+     }
+    ],
+    "caption": {
+     "en": "Load against capacity: one spike over the line, or a creep that never resets.",
+     "zh": "负荷与承受能力的对比：一次越过该线的峰值，或不断累积且从不重置的爬升。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Acute and cumulative trauma compared",
+     "zh": "急性与累积性损伤对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Acute",
+      "zh": "急性"
+     },
+     {
+      "en": "Cumulative",
+      "zh": "累积性"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Mechanism",
+       "zh": "机制"
+      },
+      {
+       "en": "One identifiable event",
+       "zh": "一个可识别的事件"
+      },
+      {
+       "en": "Repeated sub-threshold events",
+       "zh": "反复的亚阈值事件"
+      }
+     ],
+     [
+      {
+       "en": "Onset",
+       "zh": "起病"
+      },
+      {
+       "en": "Sudden and datable",
+       "zh": "突然且可定日期"
+      },
+      {
+       "en": "Gradual, waxing and waning",
+       "zh": "逐渐、时轻时重"
+      }
+     ],
+     [
+      {
+       "en": "History the athlete gives",
+       "zh": "运动员的描述"
+      },
+      {
+       "en": "Clear and detailed",
+       "zh": "清晰而详细"
+      },
+      {
+       "en": "I cannot say what happened",
+       "zh": "我说不出发生了什么"
+      }
+     ],
+     [
+      {
+       "en": "Time scale of effect",
+       "zh": "影响的时间尺度"
+      },
+      {
+       "en": "Hours to weeks",
+       "zh": "数小时到数周"
+      },
+      {
+       "en": "Months to years",
+       "zh": "数月到数年"
+      }
+     ],
+     [
+      {
+       "en": "Typical assessment question",
+       "zh": "典型的评估问题"
+      },
+      {
+       "en": "How severe is it?",
+       "zh": "有多严重？"
+      },
+      {
+       "en": "What is producing the load?",
+       "zh": "是什么在产生这个负荷？"
+      }
+     ],
+     [
+      {
+       "en": "Risk of recurrence",
+       "zh": "复发风险"
+      },
+      {
+       "en": "If managed well, low",
+       "zh": "处理得当则低"
+      },
+      {
+       "en": "High unless the load changes",
+       "zh": "除非改变负荷，否则高"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The single most useful diagnostic act is asking whether the athlete can name the moment it started.",
+     "zh": "最有用的单一诊断动作，是问运动员能否说出它开始的那一刻。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the sequence that makes a chronic problem",
+    "zh": "例题：造成慢性问题的那个顺序"
+   },
+   "given": {
+    "en": "A runner has a 3 mm tendon thickening, keeps training through it, then ruptures it at week 9.",
+    "zh": "一名跑者肌腱有 3 毫米增厚，继续带痛训练，在第 9 周发生撕裂。"
+   },
+   "steps": [
+    {
+     "en": "Weeks 1-4: repeated load above adaptation capacity, so the tendon thickens but never remodels to full strength.",
+     "zh": "第 1 到 4 周：反复超出适应能力的负荷，因此肌腱增厚却从未重塑到完全强度。"
+    },
+    {
+     "en": "Weeks 5-8: the athlete trains through the thickening, so adaptation never catches up.",
+     "zh": "第 5 到 8 周：运动员带着增厚继续训练，因此适应始终赶不上。"
+    },
+    {
+     "en": "Week 9: the tendon fails during an activity that would not have injured it a year earlier.",
+     "zh": "第 9 周：肌腱在一项一年前不会造成损伤的活动上失效。"
+    },
+    {
+     "en": "The rupture is the acute event, but the cause was nine weeks of insufficient recovery.",
+     "zh": "撕裂是那个急性事件，但原因是九周的恢复不足。"
+    },
+    {
+     "en": "Treating only the rupture and returning on a normal timeline starts the sequence again.",
+     "zh": "只处理撕裂并按正常时间回归，会让这个顺序重新开始。"
+    }
+   ],
+   "answer": {
+    "en": "The acute event is visible and the cause is nine weeks old. This is the sequence behind a large share of injuries described as bad luck.",
+    "zh": "急性事件是看得见的，而原因发生在九周之前。这个顺序正是大量被描述为运气不好的伤病背后的机制。"
+   }
+  }
+ },
+ "Tissues and concussion": {
+  "figures": [
+   {
+    "title": {
+     "en": "Concussion: the injured tissue and the impaired function are different things",
+     "zh": "脑震荡：受损的组织与受损的功能是两回事"
+    },
+    "viewBox": "0 0 320 212",
+    "legend": [
+     {
+      "en": "concussion is a disturbance of brain function caused by acceleration and deceleration of the head",
+      "zh": "脑震荡是由头部加速与减速引起的大脑功能紊乱"
+     },
+     {
+      "en": "the tissue injury is diffuse strain, and imaging is normal in the great majority of cases",
+      "zh": "组织损伤是弥漫性应变，而绝大多数病例影像学正常"
+     },
+     {
+      "en": "so the diagnosis is entirely history and observed behaviour, never a measurement",
+      "zh": "因此诊断完全依赖病史与观察到的行为，而不是测量"
+     }
+    ],
+    "caption": {
+     "en": "Symptoms span several systems, and the emotional and cognitive ones are frequently the last to resolve and the first to be dismissed.",
+     "zh": "症状跨越多个系统，而情绪与认知方面的症状常常是最后消退、也最先被忽视的。"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"70\" cy=\"70\" r=\"34\"/><path class=\"ln\" d=\"M70 36a34 34 0 1 1 0 68 34 34 0 1 1 0-68z\"/><text class=\"lblS\" x=\"52\" y=\"66\">brain</text><text class=\"lblS\" x=\"46\" y=\"80\">tissue</text><text class=\"lblS\" x=\"44\" y=\"94\">mild strain</text></g><path class=\"dash\" d=\"M108 70h44\"/><text class=\"lblS\" x=\"112\" y=\"62\">no structural</text><text class=\"lblS\" x=\"112\" y=\"76\">damage to see</text><g><rect class=\"fillB\" x=\"158\" y=\"30\" width=\"70\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M158 30h70v26H158z\"/><text class=\"lblS\" x=\"164\" y=\"47\">memory</text></g><g><rect class=\"fillB\" x=\"158\" y=\"64\" width=\"70\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M158 64h70v26H158z\"/><text class=\"lblS\" x=\"164\" y=\"81\">balance</text></g><g><rect class=\"fillB\" x=\"158\" y=\"98\" width=\"70\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M158 98h70v26H158z\"/><text class=\"lblS\" x=\"164\" y=\"115\">mood</text></g><path class=\"th\" d=\"M232 43h40\"/><path class=\"th\" d=\"M232 77h40\"/><path class=\"th\" d=\"M232 111h40\"/><text class=\"lblS\" x=\"238\" y=\"140\">these are</text><text class=\"lblS\" x=\"238\" y=\"152\">what the</text><text class=\"lblS\" x=\"238\" y=\"164\">athlete</text><text class=\"lblS\" x=\"238\" y=\"176\">reports</text><text class=\"lblS\" x=\"3\" y=\"192\">a normal scan says almost nothing about any of the boxes</text><text class=\"lblS\" x=\"14\" y=\"205\">on the right</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Tissues and their healing timescales",
+     "zh": "组织及其愈合时间尺度"
+    },
+    "cols": [
+     {
+      "en": "Tissue",
+      "zh": "组织"
+     },
+     {
+      "en": "Blood supply",
+      "zh": "血供"
+     },
+     {
+      "en": "Heals in",
+      "zh": "愈合时间"
+     },
+     {
+      "en": "Limitation",
+      "zh": "局限"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Muscle",
+       "zh": "肌肉"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      },
+      {
+       "en": "Weeks",
+       "zh": "数周"
+      },
+      {
+       "en": "Gains strength early, adapts readily",
+       "zh": "较早恢复力量、适应良好"
+      }
+     ],
+     [
+      {
+       "en": "Tendon",
+       "zh": "肌腱"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Can heal but not regain capacity",
+       "zh": "能愈合但难恢复容量"
+      }
+     ],
+     [
+      {
+       "en": "Ligament",
+       "zh": "韧带"
+      },
+      {
+       "en": "Poor",
+       "zh": "差"
+      },
+      {
+       "en": "Weeks to months",
+       "zh": "数周到数月"
+      },
+      {
+       "en": "Often heals shorter and weaker",
+       "zh": "常愈后更短更弱"
+      }
+     ],
+     [
+      {
+       "en": "Nerve",
+       "zh": "神经"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      },
+      {
+       "en": "Months",
+       "zh": "数月"
+      },
+      {
+       "en": "Regenerates slowly, depends on the cell body",
+       "zh": "再生缓慢，取决于胞体"
+      }
+     ],
+     [
+      {
+       "en": "Cartilage",
+       "zh": "软骨"
+      },
+      {
+       "en": "None",
+       "zh": "无"
+      },
+      {
+       "en": "Very slow, often incomplete",
+       "zh": "极慢，常不完全"
+      },
+      {
+       "en": "No supply to repair with",
+       "zh": "没有可供修复的供给"
+      }
+     ],
+     [
+      {
+       "en": "Bone",
+       "zh": "骨"
+      },
+      {
+       "en": "Good",
+       "zh": "良好"
+      },
+      {
+       "en": "Weeks, remodels for years",
+       "zh": "数周，重塑持续数年"
+      },
+      {
+       "en": "Best responder to load of the four tissues",
+       "zh": "四者中对负荷响应最好的"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Every time scale in this table is longer than athletes expect, and the one that surprises most is muscle versus tendon.",
+     "zh": "这张表中每一个时间尺度都比运动员预期的长，而最令人意外的是肌肉与肌腱的对比。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the headache is the wrong return criterion",
+    "zh": "例题：为什么头痛是错误的回归标准"
+   },
+   "given": {
+    "en": "A rugby player has no headache 5 days after a head knock but is still quiet and slow to react.",
+    "zh": "一名橄榄球运动员头部撞击后 5 天已无头痛，但仍然沉默、反应迟缓。"
+   },
+   "steps": [
+    {
+     "en": "Headache is one symptom among several, and it usually resolves first.",
+     "zh": "头痛只是众多症状之一，而且通常最先消退。"
+    },
+    {
+     "en": "Cognitive and emotional symptoms lag behind it, and they are the ones that matter for safety.",
+     "zh": "认知与情绪症状落在它后面，而它们才是与安全相关的。"
+    },
+    {
+     "en": "So this athlete has a normal scan, no headache, and a clear impairment.",
+     "zh": "所以这位运动员扫描正常、没有头痛、却有明确损害。"
+    },
+    {
+     "en": "Clearing on the absence of a headache would put him back into a situation he cannot yet handle.",
+     "zh": "以没有头痛来放行，会把他送回一个他还无法应对的情境。"
+    },
+    {
+     "en": "The emotional and cognitive questions are the ones that must be asked, by someone other than him.",
+     "zh": "必须问的是情绪与认知方面的问题，而且要由他以外的人来问。"
+    }
+   ],
+   "answer": {
+    "en": "The most visible symptom is gone and the most important ones are not. This pattern accounts for a large share of second impacts.",
+    "zh": "最显眼的症状消失了，而最重要的那些没有。这个组合造成了很大一部分二次撞击。"
+   }
+  }
+ },
+ "Prevention and protection": {
+  "figures": [
+   {
+    "title": {
+     "en": "The prevention stack",
+     "zh": "预防的层次结构"
+    },
+    "viewBox": "0 0 320 268",
+    "svg": "<rect class=\"fillB\" x=\"134\" y=\"34\" width=\"132\" height=\"34\" rx=\"5\"/><path class=\"ln\" d=\"M134 34h132v34H134z\"/><text class=\"lblS\" x=\"200\" y=\"59\" text-anchor=\"middle\">training load</text><text class=\"lblXS\" x=\"200\" y=\"28\" text-anchor=\"middle\">builds capacity</text><rect class=\"fillC\" x=\"125\" y=\"84\" width=\"150\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M125 84h150v30H125z\"/><text class=\"lblS\" x=\"200\" y=\"105\" text-anchor=\"middle\">technique</text><text class=\"lblXS\" x=\"200\" y=\"78\" text-anchor=\"middle\">spreads the load</text><rect class=\"fillB\" x=\"116\" y=\"130\" width=\"168\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M116 130h168v26H116z\"/><text class=\"lblS\" x=\"200\" y=\"147\" text-anchor=\"middle\">recovery</text><text class=\"lblXS\" x=\"200\" y=\"124\" text-anchor=\"middle\">repairs what was used</text><rect class=\"fillA\" x=\"108\" y=\"172\" width=\"184\" height=\"24\" rx=\"5\"/><path class=\"ln\" d=\"M108 172h184v24H108z\"/><text class=\"lblS\" x=\"200\" y=\"187\" text-anchor=\"middle\">equipment</text><text class=\"lblXS\" x=\"200\" y=\"166\" text-anchor=\"middle\">reduces the peak</text><path class=\"acc\" d=\"M200 218l-8 -18h16z\"/><text class=\"lblS\" x=\"14\" y=\"42\">every layer</text><text class=\"lblS\" x=\"14\" y=\"60\">reduces the load</text><text class=\"lblS\" x=\"14\" y=\"78\">reaching the</text><text class=\"lblS\" x=\"14\" y=\"96\">same tissue</text><path class=\"dash\" d=\"M14 108h134\"/><text class=\"lblS\" x=\"14\" y=\"248\">removing any one layer leaves the tissue carrying the</text><text class=\"lblS\" x=\"14\" y=\"261\">rest</text>",
+    "legend": [
+     {
+      "en": "each layer is a different way of reducing load on the same tissue",
+      "zh": "每一层都是减少同一组织负荷的不同方式"
+     },
+     {
+      "en": "load passes through all of them",
+      "zh": "负荷需要穿过所有这些层"
+     },
+     {
+      "en": "removing one layer leaves the tissue carrying the rest",
+      "zh": "去掉任何一层，组织就要承担剩余的全部负荷"
+     }
+    ],
+    "caption": {
+     "en": "Prevention as a stack, not a list: it only works while every layer is present.",
+     "zh": "预防是一个堆叠结构而非一张清单：只有每一层都在时才有效。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Warm-up, load management, equipment and rules",
+     "zh": "热身、负荷管理、装备与规则"
+    },
+    "cols": [
+     {
+      "en": "Measure",
+      "zh": "措施"
+     },
+     {
+      "en": "Works through",
+      "zh": "通过什么起作用"
+     },
+     {
+      "en": "Evidence",
+      "zh": "证据"
+     },
+     {
+      "en": "Common failure",
+      "zh": "常见失败"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Warm-up",
+       "zh": "热身"
+      },
+      {
+       "en": "Raising tissue temperature and rehearsing the pattern",
+       "zh": "提高组织温度并排练动作模式"
+      },
+      {
+       "en": "Consistent",
+       "zh": "一致"
+      },
+      {
+       "en": "Performed 45 minutes early",
+       "zh": "提前 45 分钟做"
+      }
+     ],
+     [
+      {
+       "en": "Load management",
+       "zh": "负荷管理"
+      },
+      {
+       "en": "Keeping demand inside adaptation capacity",
+       "zh": "把需求保持在适应能力之内"
+      },
+      {
+       "en": "Consistent, and the strongest",
+       "zh": "一致，且最强"
+      },
+      {
+       "en": "Invisible, so the first thing cut",
+       "zh": "不可见，因此最先被砍"
+      }
+     ],
+     [
+      {
+       "en": "Strength training",
+       "zh": "力量训练"
+      },
+      {
+       "en": "Increasing capacity and control",
+       "zh": "提高容量与控制"
+      },
+      {
+       "en": "Consistent",
+       "zh": "一致"
+      },
+      {
+       "en": "Starting the programme after the injury",
+       "zh": "在受伤之后才开始这个计划"
+      }
+     ],
+     [
+      {
+       "en": "Protective equipment",
+       "zh": "防护装备"
+      },
+      {
+       "en": "Spreading load and reducing peak force",
+       "zh": "分散负荷、降低峰值力"
+      },
+      {
+       "en": "Strong for some, weak for others",
+       "zh": "对某些很强、对另一些很弱"
+      },
+      {
+       "en": "Assumed to reduce total risk",
+       "zh": "被假定为降低了总风险"
+      }
+     ],
+     [
+      {
+       "en": "Rules and law changes",
+       "zh": "规则与法规改变"
+      },
+      {
+       "en": "Removing a hazard entirely",
+       "zh": "彻底移除危险"
+      },
+      {
+       "en": "Strong per unit of effort",
+       "zh": "按单位努力算很强"
+      },
+      {
+       "en": "Contested by those who benefit most from ignoring them",
+       "zh": "被最受益于无视它们的人所反对"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Rules are the layer most often contested, because the people who object to them are usually the ones whose exposure falls most.",
+     "zh": "规则是最常被质疑的一层，因为反对它们的人通常正是暴露程度下降最多的人。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reducing a fixture risk that is not a taping problem",
+    "zh": "例题：减少一个并非贴布问题的赛程风险"
+   },
+   "given": {
+    "en": "A club has 5 concussions in one season. All athletes wore headgear throughout.",
+    "zh": "某俱乐部一个赛季发生 5 次脑震荡。所有运动员全程佩戴了头盔。"
+   },
+   "steps": [
+    {
+     "en": "Headgear was in place, so the protection layer was already being used and the count was still 5.",
+     "zh": "头盔已经配备，说明保护层已在使用，而次数仍是 5。"
+    },
+    {
+     "en": "The question becomes whether the exposure, not the equipment, is the problem.",
+     "zh": "问题于是变成：是暴露量而非装备才是问题所在吗。"
+    },
+    {
+     "en": "Counting head contacts per thousand touches of the ball is the number a rule would be designed to move.",
+     "zh": "每千次触球的头部接触次数，正是某条规则被设计要去改变的数字。"
+    },
+    {
+     "en": "If that number is high, removing head contact from youth matches reduces exposure without any equipment change.",
+     "zh": "如果该数字偏高，那么在青少年比赛中取消头部接触就能减少暴露，无需任何装备改变。"
+    },
+    {
+     "en": "That is a higher-yield intervention than a better helmet, and it is the one most often resisted.",
+     "zh": "那是比更好的头盔更高产的干预，也是最常遭到抵制的一个。"
+    }
+   ],
+   "answer": {
+    "en": "The most expensive measure was already in use and the most effective one was not tried. Exposure and protection are different quantities.",
+    "zh": "最贵的措施已经在用，而最有效的那一个没有尝试。暴露与保护是两个不同的量。"
+   }
+  }
+ },
+ "PRICE, healing and rehabilitation": {
+  "figures": [
+   {
+    "title": {
+     "en": "The tissue timetable, and the loading that follows it",
+     "zh": "组织时间表，以及随后的加载"
+    },
+    "viewBox": "0 0 320 216",
+    "legend": [
+     {
+      "en": "inflammation is necessary and clears damaged tissue, so suppressing it aggressively removes something needed",
+      "zh": "炎症是必要的，负责清理受损组织，因此过度抑制会移除所需的东西"
+     },
+     {
+      "en": "repair lays down new tissue along the lines of the stress applied, the whole basis of progressive loading",
+      "zh": "修复沿所施加应力的方向铺下新组织，这正是渐进加载的全部依据"
+     },
+     {
+      "en": "remodelling is slow and is the phase most often ended by an early return",
+      "zh": "重塑缓慢，而这一阶段最常因过早回归而中断"
+     }
+    ],
+    "caption": {
+     "en": "Recovery is a loading problem, not a waiting problem, and the two produce completely different athletes at the end of the same number of weeks.",
+     "zh": "康复是一个加载问题，而不是一个等待问题，而这两者在同样的周数之后会产生完全不同的运动员。"
+    },
+    "svg": "<g><rect class=\"fillC\" x=\"14\" y=\"24\" width=\"86\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 24h86v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"43\">days</text><text class=\"lblS\" x=\"22\" y=\"55\">inflammation</text></g><g><rect class=\"fillB\" x=\"108\" y=\"24\" width=\"86\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M108 24h86v30H108z\"/><text class=\"lblS\" x=\"116\" y=\"43\">weeks</text><text class=\"lblS\" x=\"116\" y=\"55\">repair</text></g><g><rect class=\"fillA\" x=\"202\" y=\"24\" width=\"104\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M202 24h104v30H202z\"/><text class=\"lblS\" x=\"210\" y=\"43\">months</text><text class=\"lblS\" x=\"210\" y=\"55\">remodelling</text></g><path class=\"th\" d=\"M14 66h292\"/><path class=\"th\" d=\"M14 120C80 116 150 104 306 78\"/><text class=\"lblS\" x=\"20\" y=\"136\">load rises only as the tissue is given time to adapt</text><text class=\"lblS\" x=\"14\" y=\"162\">rest is the first day only; progressive loading is the</text><text class=\"lblS\" x=\"14\" y=\"175\">whole of the rest</text><text class=\"lblS\" x=\"14\" y=\"180\">a healed tendon that was not loaded cannot tolerate</text><text class=\"lblS\" x=\"14\" y=\"193\">sport</text><text class=\"lblS\" x=\"14\" y=\"196\">remodelling is the phase most often cut short by a</text><text class=\"lblS\" x=\"14\" y=\"209\">return that felt fine</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "PRICE explained, and what has changed",
+     "zh": "PRICE 的含义，以及已经改变的部分"
+    },
+    "cols": [
+     {
+      "en": "Letter",
+      "zh": "字母"
+     },
+     {
+      "en": "Action",
+      "zh": "做法"
+     },
+     {
+      "en": "Mechanism",
+      "zh": "机制"
+     },
+     {
+      "en": "Current view",
+      "zh": "当前观点"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "P, Protection",
+       "zh": "P，保护"
+      },
+      {
+       "en": "Avoid further damage",
+       "zh": "避免进一步损伤"
+      },
+      {
+       "en": "Removes the cause of more damage",
+       "zh": "移除造成更多损伤的原因"
+      },
+      {
+       "en": "Unchanged",
+       "zh": "未变"
+      }
+     ],
+     [
+      {
+       "en": "R, Rest",
+       "zh": "R，休息"
+      },
+      {
+       "en": "Remove the load that prevents repair",
+       "zh": "移除妨碍修复的负荷"
+      },
+      {
+       "en": "Stops the repair process",
+       "zh": "使修复过程停止"
+      },
+      {
+       "en": "Total immobility is now known to be worse than early controlled movement",
+       "zh": "现已知完全不动比早期受控活动更糟"
+      }
+     ],
+     [
+      {
+       "en": "I, Ice",
+       "zh": "I，冰敷"
+      },
+      {
+       "en": "Reduce pain and swelling",
+       "zh": "减轻疼痛与肿胀"
+      },
+      {
+       "en": "Lets the part be moved gently",
+       "zh": "使该部位能被轻柔活动"
+      },
+      {
+       "en": "Symptom control, not a treatment for the tissue",
+       "zh": "是症状控制，而不是对组织的治疗"
+      }
+     ],
+     [
+      {
+       "en": "C, Compression",
+       "zh": "C，加压"
+      },
+      {
+       "en": "Limit swelling",
+       "zh": "限制肿胀"
+      },
+      {
+       "en": "Reduces the fluid in the space",
+       "zh": "减少该间隙内的液体"
+      },
+      {
+       "en": "Unchanged",
+       "zh": "未变"
+      }
+     ],
+     [
+      {
+       "en": "E, Elevation",
+       "zh": "E，抬高"
+      },
+      {
+       "en": "Use gravity to drain fluid",
+       "zh": "利用重力引流"
+      },
+      {
+       "en": "Works with compression",
+       "zh": "与加压协同"
+      },
+      {
+       "en": "Unchanged",
+       "zh": "未变"
+      }
+     ]
+    ],
+    "note": {
+     "en": "PRICE is worth knowing precisely because it is what an athlete or parent will say in the first hour.",
+     "zh": "PRICE 值得精确掌握，因为它正是运动员或家长在第一个小时会说的话。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the decision that turns a chronic problem",
+    "zh": "例题：把慢性问题转成急性问题的那个决定"
+   },
+   "given": {
+    "en": "A hamstring strain settles pain at 2 weeks. The athlete returns to full training at 3 weeks.",
+    "zh": "一次腘绳肌拉伤在第 2 周疼痛消退。运动员在第 3 周回到完整训练。"
+   },
+   "steps": [
+    {
+     "en": "At 2 weeks the tissue is repaired but its capacity is well below pre-injury.",
+     "zh": "第 2 周时组织已修复，但其容量远低于受伤前。"
+    },
+    {
+     "en": "Pain has gone, so both the athlete and the coach read that as ready.",
+     "zh": "疼痛已消失，因此运动员与教练都把这读作准备好了。"
+    },
+    {
+     "en": "But the tissue adapts along the stress it receives, and it has received almost none.",
+     "zh": "但组织沿它所受的压力适应，而它几乎什么都没受到。"
+    },
+    {
+     "en": "A full training week applies a load the tissue cannot take, and it fails again.",
+     "zh": "一整周的完整训练施加了组织承受不了的负荷，于是它再次失效。"
+    },
+    {
+     "en": "The rule that would have prevented this: progress the load, not the time.",
+     "zh": "本可避免这一点的规则是：递进负荷，而不是递进时间。"
+    }
+   ],
+   "answer": {
+    "en": "One decision, at week 3, converted a two-week injury into a chronic one. Nothing in the plan was technically wrong.",
+    "zh": "第 3 周的一个决定，把一个两周的损伤变成了慢性的。计划中没有任何技术性错误。"
+   }
+  }
+ },
+ "Staged concussion return": {
+  "figures": [
+   {
+    "title": {
+     "en": "A staircase where no step can be skipped",
+     "zh": "一座不能跳过任何一级台阶的楼梯"
+    },
+    "viewBox": "0 0 320 216",
+    "legend": [
+     {
+      "en": "the risk is not being unfit; it is being symptom-free while still vulnerable",
+      "zh": "风险不是身体不够格，而是没有症状但仍然脆弱"
+     },
+     {
+      "en": "the only way to test that is to add load and watch what happens",
+      "zh": "检验这一点的唯一办法就是加上负荷、然后观察会发生什么"
+     },
+     {
+      "en": "children and adolescents sit at every stage longer than adults, for physiological reasons",
+      "zh": "在每一级上，儿童与青少年都比成人停留更久，原因是生理性的"
+     }
+    ],
+    "caption": {
+     "en": "The cost of getting this wrong is highest and least reversible in the whole course, which is why the person deciding should be explicit about who assessed the symptoms.",
+     "zh": "在整个课程中，弄错这件事的代价最高且最不可逆，这也是为什么做决定的人应当明确说明是谁评估了症状。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"132\" width=\"42\" height=\"28\" rx=\"4\"/><path class=\"ln\" d=\"M14 132h42v28H14z\"/><text class=\"lblS\" x=\"18\" y=\"150\">rest</text></g><g><rect class=\"fillA\" x=\"60\" y=\"110\" width=\"42\" height=\"50\" rx=\"4\"/><path class=\"ln\" d=\"M60 110h42v50H60z\"/><text class=\"lblS\" x=\"64\" y=\"128\">aerobic</text></g><g><rect class=\"fillB\" x=\"106\" y=\"86\" width=\"42\" height=\"74\" rx=\"4\"/><path class=\"ln\" d=\"M106 86h42v74H106z\"/><text class=\"lblS\" x=\"110\" y=\"104\">specific</text><text class=\"lblS\" x=\"110\" y=\"116\">alone</text></g><g><rect class=\"fillB\" x=\"152\" y=\"62\" width=\"42\" height=\"98\" rx=\"4\"/><path class=\"ln\" d=\"M152 62h42v98H152z\"/><text class=\"lblS\" x=\"156\" y=\"80\">non</text><text class=\"lblS\" x=\"156\" y=\"92\">contact</text></g><g><rect class=\"fillC\" x=\"198\" y=\"38\" width=\"42\" height=\"122\" rx=\"4\"/><path class=\"ln\" d=\"M198 38h42v122H198z\"/><text class=\"lblS\" x=\"202\" y=\"56\">full</text><text class=\"lblS\" x=\"202\" y=\"68\">contact</text></g><g><rect class=\"fillC\" x=\"244\" y=\"20\" width=\"62\" height=\"140\" rx=\"4\"/><path class=\"ln\" d=\"M244 20h62v140H244z\"/><text class=\"lblS\" x=\"250\" y=\"38\">compete</text></g><text class=\"lblS\" x=\"14\" y=\"180\">each stage is cleared on symptoms, not on time</text><text class=\"lblS\" x=\"3\" y=\"196\">symptoms returning at a stage means the load is too high</text><text class=\"lblS\" x=\"14\" y=\"209\">there, so go back</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The stages and what each one tests",
+     "zh": "各级及其检验的内容"
+    },
+    "cols": [
+     {
+      "en": "Stage",
+      "zh": "级别"
+     },
+     {
+      "en": "What is added",
+      "zh": "增加了什么"
+     },
+     {
+      "en": "Cleared when",
+      "zh": "何时通过"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Relative rest",
+       "zh": "相对休息"
+      },
+      {
+       "en": "Nothing strenuous",
+       "zh": "不做剧烈活动"
+      },
+      {
+       "en": "Symptom-free",
+       "zh": "无症状"
+      }
+     ],
+     [
+      {
+       "en": "Light aerobic",
+       "zh": "轻度有氧"
+      },
+      {
+       "en": "Walking, light cycling, at a rate that does not raise symptoms",
+       "zh": "步行、轻松骑行，在不引起症状的强度下"
+      },
+      {
+       "en": "Symptom-free for 24 h",
+       "zh": "无症状持续 24 小时"
+      }
+     ],
+     [
+      {
+       "en": "Sport-specific alone",
+       "zh": "无人专项练习"
+      },
+      {
+       "en": "The movements of the sport, no contact",
+       "zh": "该项目的动作，无接触"
+      },
+      {
+       "en": "Symptom-free for 24 h",
+       "zh": "无症状持续 24 小时"
+      }
+     ],
+     [
+      {
+       "en": "Non-contact training",
+       "zh": "非接触训练"
+      },
+      {
+       "en": "Team drills without contact",
+       "zh": "无接触的团队练习"
+      },
+      {
+       "en": "Symptom-free, and no next-day increase",
+       "zh": "无症状，且次日不加重"
+      }
+     ],
+     [
+      {
+       "en": "Full contact practice",
+       "zh": "完整接触合练"
+      },
+      {
+       "en": "Normal training, contact allowed",
+       "zh": "正常训练，允许接触"
+      },
+      {
+       "en": "Symptom-free through a full session",
+       "zh": "完整一堂训练无症状"
+      }
+     ],
+     [
+      {
+       "en": "Return to competition",
+       "zh": "回归比赛"
+      },
+      {
+       "en": "Full sport",
+       "zh": "完整比赛"
+      },
+      {
+       "en": "Symptom-free, and the school day is normal",
+       "zh": "无症状，且上学日正常"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The requirement is symptoms, not the clock. The numbers usually quoted describe how the criteria are administered, not what the criteria are.",
+     "zh": "要求是症状，而不是时钟。常被引用的那些数字，描述的是这些标准通常如何被执行，而不是这些标准本身。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the athlete who is symptom-free and still not ready",
+    "zh": "例题：无症状却仍未准备好的运动员"
+   },
+   "given": {
+    "en": "A footballer is 10 days post-concussion, headache-free, reports normal training. His teacher reports he cannot follow a lesson.",
+    "zh": "一名足球运动员脑震荡后 10 天、无头痛、报告训练正常。但他的老师报告他跟不上课。"
+   },
+   "steps": [
+    {
+     "en": "Self-report would clear him. The teacher's observation contradicts it.",
+     "zh": "自我报告会让他通过。而老师的观察与之矛盾。"
+    },
+    {
+     "en": "Cognitive symptoms are recognised, frequently last to resolve, and the easiest to miss.",
+     "zh": "认知症状是被承认的、常最后消退的，也是最容易漏掉的。"
+    },
+    {
+     "en": "School performance is a more reliable indicator than a question asked in a changing room.",
+     "zh": "学业表现比在更衣室里问一句话更可靠。"
+    },
+    {
+     "en": "So he stays at the non-contact stage, and the cognitive question is asked again in a week.",
+     "zh": "因此他留在非接触阶段，并在一周后再次询问认知方面的问题。"
+    },
+    {
+     "en": "This costs a week and is far cheaper than a second impact.",
+     "zh": "这花掉一周，而远比一次二次撞击便宜。"
+    }
+   ],
+   "answer": {
+    "en": "The only instrument that produced the warning was a school report, a monitoring source most teams do not use and should.",
+    "zh": "唯一发出预警的工具是一份学校报告。那是一项多数队伍没有使用、而本应使用的监测来源。"
+   }
+  }
+ },
+ "Trait-environment interaction": {
+  "figures": [
+   {
+    "title": {
+     "en": "Trained capacity x trained environment",
+     "zh": "训练能力 × 训练环境"
+    },
+    "viewBox": "0 0 320 220",
+    "svg": "<rect class=\"fillA\" x=\"14\" y=\"34\" width=\"104\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M14 34h104v46H14z\"/><text class=\"lblS\" x=\"22\" y=\"54\">TRAINED</text><text class=\"lblS\" x=\"22\" y=\"70\">capacity</text><rect class=\"fillB\" x=\"14\" y=\"118\" width=\"104\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M14 118h104v46H14z\"/><text class=\"lblS\" x=\"22\" y=\"138\">TRAINED</text><text class=\"lblS\" x=\"22\" y=\"154\">environment</text><rect class=\"fillC\" x=\"202\" y=\"76\" width=\"104\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M202 76h104v46H202z\"/><text class=\"lblS\" x=\"210\" y=\"96\">PERFORMANCE</text><text class=\"lblS\" x=\"210\" y=\"112\">is produced</text><path class=\"dash\" d=\"M118 57h44v24\" /><path class=\"dash\" d=\"M118 141h44v-60\" /><path class=\"dash\" d=\"M118 141h44V99\"/><path class=\"acc\" d=\"M162 99l-14-6v12z\"/><path class=\"acc\" d=\"M200 99l-14-6v12z\"/><text class=\"lbl\" x=\"140\" y=\"48\" text-anchor=\"middle\">x</text><text class=\"lbl\" x=\"181\" y=\"104\" text-anchor=\"middle\">=</text><line class=\"th\" x1=\"30\" y1=\"196\" x2=\"300\" y2=\"196\"/><path class=\"ln\" d=\"M30 190C90 186 130 172 168 152C206 132 250 116 300 108\"/><path class=\"dash\" d=\"M30 190C80 176 120 152 160 122\"/><text class=\"lblXS\" x=\"182\" y=\"140\">better environment, same person</text><text class=\"lblXS\" x=\"52\" y=\"176\">poorer</text>",
+    "legend": [
+     {
+      "en": "performance is produced by trained capacity times trained environment",
+      "zh": "表现由训练出的能力乘以训练出的环境而产生"
+     },
+     {
+      "en": "the curve rises for the same person when the environment improves",
+      "zh": "环境改善时，同一个人的曲线会上升"
+     },
+     {
+      "en": "a poor environment produces a flat, not a low, line",
+      "zh": "糟糕的环境产生的是一条平线，而不是更低的线"
+     }
+    ],
+    "caption": {
+     "en": "The interaction model: the same traits and a different environment give a different result.",
+     "zh": "交互模型：同样的天赋，在不同的环境下产生不同的结果。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Individual differences and why they matter for a programme",
+     "zh": "个体差异及其对训练计划的意义"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Typical spread",
+      "zh": "典型分布"
+     },
+     {
+      "en": "Consequence for a programme",
+      "zh": "对训练计划的推论"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Group average versus the individual",
+       "zh": "群体平均值与个体"
+      },
+      {
+       "en": "Wide; the average often describes few individuals",
+       "zh": "很宽；平均值常常不描述任何个体"
+      },
+      {
+       "en": "Individualise; a programme built only for the average is wrong for most",
+       "zh": "个体化；只按平均值构建的方案对多数人是错的"
+      }
+     ],
+     [
+      {
+       "en": "Heritability of many traits",
+       "zh": "许多特质的遗传度"
+      },
+      {
+       "en": "Partial, not total",
+       "zh": "部分，而非全部"
+      },
+      {
+       "en": "Malleable to some degree",
+       "zh": "在某种程度上可改变"
+      }
+     ],
+     [
+      {
+       "en": "Stability of traits by age",
+       "zh": "特质的稳定性随年龄"
+      },
+      {
+       "en": "Less stable than people assume",
+       "zh": "比人们假设的更不稳定"
+      },
+      {
+       "en": "Treat a coach's judgement about a young athlete as provisional",
+       "zh": "把教练对年轻运动员的判断视为暂时性的"
+      }
+     ],
+     [
+      {
+       "en": "Effect of coach style",
+       "zh": "教练风格的影响"
+      },
+      {
+       "en": "Measurable with content held constant",
+       "zh": "在内容不变时仍可测量"
+      },
+      {
+       "en": "Style is a variable, not a personality",
+       "zh": "风格是一个变量，而不是一种人格"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Interactionism is not only a scholarly position. It is the reason a coach can change an outcome by changing a situation.",
+     "zh": "交互论不只是一种学术立场。它也是教练能通过改变情境来改变结果这一点的理由。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: two athletes with the same test score, opposite problems",
+    "zh": "例题：两项测试同分、问题相反的两名运动员"
+   },
+   "given": {
+    "en": "Two players score the same on a measure of competitive motivation. One is 2nd in his league, one is 4th and training alone.",
+    "zh": "两名球员在竞争动机这一指标上得分相同。一人是联赛第二名，一人是第四名且独自训练。"
+   },
+   "steps": [
+    {
+     "en": "The measure says they are equally motivated. Their behaviour says they are not equally supported.",
+     "zh": "指标说他们动机相同。而他们的行为说明他们得到的支持并不相同。"
+    },
+    {
+     "en": "The first is in a team, coached, with visible progress.",
+     "zh": "第一位在队中、有教练、进步可见。"
+    },
+    {
+     "en": "The second trains alone, so there is no feedback, no challenge and no evidence of improvement.",
+     "zh": "第二位独自训练，因此没有反馈、没有挑战、也没有进步的证据。"
+    },
+    {
+     "en": "The same trait is being expressed as competition in one and as avoidance in the other.",
+     "zh": "同一个特质在一位身上表达为竞争，在另一位身上表达为回避。"
+    },
+    {
+     "en": "The intervention differs entirely: more of the same for the first, a team for the second.",
+     "zh": "干预方式完全不同：前者需要更多同类训练，后者需要一个团队。"
+    }
+   ],
+   "answer": {
+    "en": "Identical scores, opposite behaviour, opposite interventions. A trait-only reading gave both the same advice and helped only one.",
+    "zh": "分数相同、行为相反、干预相反。仅按特质解读给了两人同样的建议，而那只对其中一人有效。"
+   }
+  }
+ },
+ "Big Five and measurement": {
+  "figures": [
+   {
+    "title": {
+     "en": "Where the five dimensions sit, and how they are measured",
+     "zh": "五个维度的位置，以及它们如何被测量"
+    },
+    "viewBox": "0 0 320 206",
+    "legend": [
+     {
+      "en": "the five dimensions came out of a statistical technique applied to word data, not from a theory",
+      "zh": "这五个维度来自对词汇数据施加的一种统计技术，而不是来自某个理论"
+     },
+     {
+      "en": "self-report is the workhorse and the most vulnerable: desirability, mood and self-knowledge all affect it",
+      "zh": "自评是主力手段也是最脆弱的一环：赞许性、情绪与自我认识都会影响它"
+     },
+     {
+      "en": "a finding that holds across methods is what upgrades an impression to a fact",
+      "zh": "在不同方法下都成立的发现，正是把印象升级为事实的东西"
+     }
+    ],
+    "caption": {
+     "en": "The question is not whether a number about a person means anything. It is what a number about a person is actually a measurement of.",
+     "zh": "问题不是关于一个人的数字是否有意义，而是关于一个人的数字实际上测量了什么。"
+    },
+    "svg": "<g><circle class=\"fillA\" cx=\"66\" cy=\"60\" r=\"40\"/><path class=\"ln\" d=\"M66 20a40 40 0 1 1 0 80 40 40 0 1 1 0-80z\"/><text class=\"lblS\" x=\"42\" y=\"56\">open</text><text class=\"lblS\" x=\"44\" y=\"68\">ness</text></g><g><circle class=\"fillB\" cx=\"160\" cy=\"60\" r=\"40\"/><path class=\"ln\" d=\"M160 20a40 40 0 1 1 0 80 40 40 0 1 1 0-80z\"/><text class=\"lblS\" x=\"132\" y=\"56\">consci</text><text class=\"lblS\" x=\"130\" y=\"68\">entious</text></g><g><circle class=\"fillA\" cx=\"254\" cy=\"60\" r=\"40\"/><path class=\"ln\" d=\"M254 20a40 40 0 1 1 0 80 40 40 0 1 1 0-80z\"/><text class=\"lblS\" x=\"230\" y=\"64\">extra</text></g><text class=\"lblS\" x=\"14\" y=\"130\">a taxonomy, not a theory: it describes reliable</text><text class=\"lblS\" x=\"14\" y=\"143\">differences, not causes</text><g><rect class=\"fillA\" x=\"14\" y=\"144\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M14 144h140v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"163\">self-report</text></g><g><rect class=\"fillB\" x=\"162\" y=\"144\" width=\"140\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M162 144h140v30H162z\"/><text class=\"lblS\" x=\"170\" y=\"163\">interview</text></g><g><rect class=\"fillC\" x=\"14\" y=\"180\" width=\"140\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 180h140v26H14z\"/><text class=\"lblS\" x=\"22\" y=\"197\">observation</text></g><g><rect class=\"fillC\" x=\"162\" y=\"180\" width=\"140\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M162 180h140v26H162z\"/><text class=\"lblS\" x=\"170\" y=\"197\">peer or coach</text></g>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The five dimensions and what predicts in sport",
+     "zh": "五个维度及其在运动中的预测"
+    },
+    "cols": [
+     {
+      "en": "Dimension",
+      "zh": "维度"
+     },
+     {
+      "en": "Predicts reasonably well",
+      "zh": "能较好预测"
+     },
+     {
+      "en": "Predicts poorly",
+      "zh": "预测较差"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Conscientiousness",
+       "zh": "尽责性"
+      },
+      {
+       "en": "Training adherence, consistent preparation",
+       "zh": "训练依从性、准备的一致性"
+      },
+      {
+       "en": "Peak performance in a single event",
+       "zh": "单场事件的峰值表现"
+      }
+     ],
+     [
+      {
+       "en": "Extraversion",
+       "zh": "外向性"
+      },
+      {
+       "en": "Willingness to train and compete in groups",
+       "zh": "在群体中训练与参赛的意愿"
+      },
+      {
+       "en": "Skill level, and performance under pressure",
+       "zh": "技术水平，以及压力下的表现"
+      }
+     ],
+     [
+      {
+       "en": "Openness",
+       "zh": "开放性"
+      },
+      {
+       "en": "Willingness to try unfamiliar methods",
+       "zh": "尝试不熟悉方法的意愿"
+      },
+      {
+       "en": "Consistency of technique under pressure",
+       "zh": "压力下技术的一致性"
+      }
+     ],
+     [
+      {
+       "en": "Agreeableness",
+       "zh": "宜人性"
+      },
+      {
+       "en": "Team cohesion, coach-athlete relationship",
+       "zh": "团队凝聚、教练与运动员的关系"
+      },
+      {
+       "en": "Individual performance",
+       "zh": "个人表现"
+      }
+     ],
+     [
+      {
+       "en": "Neuroticism",
+       "zh": "神经质"
+      },
+      {
+       "en": "Anxiety under pressure, coping style",
+       "zh": "压力下的焦虑、应对方式"
+      },
+      {
+       "en": "Whether anxiety is present at all",
+       "zh": "焦虑是否存在本身"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A good result needs converging evidence from a different route. A single self-report is a starting point, not a conclusion.",
+     "zh": "一个好的结果需要来自另一条路径的汇聚性证据。单一的自评是起点，而不是结论。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a score correctly the first time",
+    "zh": "例题：第一次就读对分数"
+   },
+   "given": {
+    "en": "A coach gives two athletes the same conscientiousness score and treats them identically.",
+    "zh": "一位教练给出两名运动员相同的尽责性分数，并对他们一视同仁。"
+   },
+   "steps": [
+    {
+     "en": "A self-report score is a sample of how the athlete described themselves that day.",
+     "zh": "自评分数是运动员在那一天如何描述自己的一个样本。"
+    },
+    {
+     "en": "It is filtered through desirability, because a young athlete wants to be seen as committed.",
+     "zh": "它经过赞许性的过滤，因为年轻运动员希望被看作投入的。"
+    },
+    {
+     "en": "And through mood, because the questionnaire was completed on a Monday morning.",
+     "zh": "也经过情绪的过滤，因为问卷是在某个周一早上填写的。"
+    },
+    {
+     "en": "So the number is a valid measurement of something, but not yet of the thing being used for.",
+     "zh": "因此这个数字有效地测量了某样东西，但还不是它被用于的那件事。"
+    },
+    {
+     "en": "Adding observation of preparation behaviour converts it into a usable finding.",
+     "zh": "加入对准备行为的观察，就把它变成了可用的发现。"
+    }
+   ],
+   "answer": {
+    "en": "The score was not wrong. It was over-interpreted, which is a different and more common failure.",
+    "zh": "分数并没有错。它被过度解读了，而那是另一种、也更常见的失败。"
+   }
+  }
+ },
+ "Social learning and development": {
+  "figures": [
+   {
+    "title": {
+     "en": "The four processes between watching and doing",
+     "zh": "观察与做到之间的四个过程"
+    },
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "attention decides what gets copied, retention decides what survives to the attempt",
+      "zh": "注意力决定什么会被复制，记忆决定什么能保留到尝试时"
+     },
+     {
+      "en": "reproduction decides whether it can be performed at all, and motivation decides whether it is performed",
+      "zh": "动作再生决定它是否能被做出来，而动机决定它是否被做"
+     },
+     {
+      "en": "self-efficacy is belief in a specific behaviour in a specific situation, so it is more useful than general confidence",
+      "zh": "自我效能是某个具体情境中某个具体行为的信念，因此它比笼统的自信更有用"
+     }
+    ],
+    "caption": {
+     "en": "The stages are sequential, so a failure at any one of them explains the outcome without needing an explanation about character.",
+     "zh": "这些阶段是顺序的，因此任何一个环节的失败都能解释结果，而不需要用性格来解释。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"66\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M14 24h66v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"41\">observe</text><text class=\"lblS\" x=\"22\" y=\"52\">a model</text></g><path class=\"th\" d=\"M80 41h18\"/><path class=\"ln\" d=\"M98 41l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"98\" y=\"24\" width=\"58\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M98 24h58v34H98z\"/><text class=\"lblS\" x=\"106\" y=\"45\">attend</text></g><path class=\"th\" d=\"M156 41h16\"/><path class=\"ln\" d=\"M172 41l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"172\" y=\"24\" width=\"58\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M172 24h58v34H172z\"/><text class=\"lblS\" x=\"180\" y=\"45\">retain</text></g><path class=\"th\" d=\"M230 41h16\"/><path class=\"ln\" d=\"M246 41l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillB\" x=\"246\" y=\"24\" width=\"60\" height=\"34\" rx=\"6\"/><path class=\"ln\" d=\"M246 24h60v34H246z\"/><text class=\"lblS\" x=\"252\" y=\"45\">reproduce</text></g><path class=\"dash\" d=\"M276 58v22h-34V58\"/><g><rect class=\"fillC\" x=\"208\" y=\"86\" width=\"98\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M208 86h98v30H208z\"/><text class=\"lblS\" x=\"216\" y=\"105\">motivate</text></g><text class=\"lblS\" x=\"14\" y=\"140\">a demonstration the athlete cannot yet reproduce</text><text class=\"lblS\" x=\"14\" y=\"153\">produces frustration, not learning</text><text class=\"lblS\" x=\"8\" y=\"158\">which is why a simpler model works better than a better</text><text class=\"lblS\" x=\"14\" y=\"171\">one</text><text class=\"lblS\" x=\"14\" y=\"176\">and the coach is a model whether or not there is a</text><text class=\"lblS\" x=\"14\" y=\"189\">lesson plan</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The developmental timing that matters for coaching",
+     "zh": "对教练重要的发育时序"
+    },
+    "cols": [
+     {
+      "en": "Period",
+      "zh": "时期"
+     },
+     {
+      "en": "Favourable for",
+      "zh": "适合"
+     },
+     {
+      "en": "Implication",
+      "zh": "推论"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Childhood",
+       "zh": "儿童期"
+      },
+      {
+       "en": "General motor learning, flexibility, coordination",
+       "zh": "一般动作学习、柔韧性、协调"
+      },
+      {
+       "en": "Sample many skills; specialise later",
+       "zh": "广泛尝试各种技术，晚些专项化"
+      }
+     ],
+     [
+      {
+       "en": "Peak childhood",
+       "zh": "儿童期高峰"
+      },
+      {
+       "en": "Perceptual and technical learning at low cost",
+       "zh": "以低代价获得知觉与技术学习"
+      },
+      {
+       "en": "Do not waste it on early specialisation",
+       "zh": "不要把它浪费在过早专项化上"
+      }
+     ],
+     [
+      {
+       "en": "Adolescence",
+       "zh": "青春期"
+      },
+      {
+       "en": "Some domains peak while others decline",
+       "zh": "某些领域达峰而另一些下降"
+      },
+      {
+       "en": "A period of uneven development, not a jump",
+       "zh": "一个不均衡发展的时期，而不是一次跃迁"
+      }
+     ],
+     [
+      {
+       "en": "Early adulthood",
+       "zh": "成年早期"
+      },
+      {
+       "en": "Power, speed and strength in many sports",
+       "zh": "多数项目中的功率、速度与力量"
+      },
+      {
+       "en": "The window for explosive qualities closes after this",
+       "zh": "爆发性素质的窗口在此之后关闭"
+      }
+     ],
+     [
+      {
+       "en": "Beyond",
+       "zh": "其后"
+      },
+      {
+       "en": "Endurance, skill, tactical knowledge",
+       "zh": "耐力、技术与战术知识"
+      },
+      {
+       "en": "Still trainable, on a different timescale",
+       "zh": "仍可训练，但时间尺度不同"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The period of greatest plasticity is not the period of greatest physical development, and the two are easily confused.",
+     "zh": "可塑性最高的时期并不是身体发育最快的时期，而这两者很容易被混淆。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: a demonstration too good to be useful",
+    "zh": "例题：一个好到没用的示范"
+   },
+   "given": {
+    "en": "A 9-year-old is shown a full professional putting action once and fails to copy it.",
+    "zh": "一名 9 岁儿童被完整示范了一次职业级推杆动作，却没能复制出来。"
+   },
+   "steps": [
+    {
+     "en": "Attention and retention both happened: the child watched closely and remembers it.",
+     "zh": "注意力与记忆都发生了：孩子看得很仔细，也记住了。"
+    },
+    {
+     "en": "Reproduction failed, because the action is outside the child's current capacity.",
+     "zh": "动作再生失败了，因为这个动作超出了孩子当前的能力。"
+    },
+    {
+     "en": "So the demonstration produced frustration and no learning, the worst outcome of a good demonstration.",
+     "zh": "于是这次示范产生了挫败而没有学到东西，这是一个好示范的最差结果。"
+    },
+    {
+     "en": "The fix is not a better demonstration but a simpler one, one step nearer the child's capability.",
+     "zh": "解决办法不是更好的示范，而是更简单的示范，比孩子能力只近一步。"
+    },
+    {
+     "en": "The same action decomposed produces learning; shown whole it produces the belief that they cannot do it.",
+     "zh": "同一个动作，分解后产生学习；完整展示则产生“我做不到”的信念。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing was wrong with the demonstration. It was pitched at a level the athlete could not reproduce, which is the one thing a demonstration must not be.",
+    "zh": "示范本身没有问题。它只是被设定在一个运动员无法再现的水平上，而这恰恰是示范唯一不该有的问题。"
+   }
+  }
+ },
+ "The five core attributes": {
+  "figures": [
+   {
+    "title": {
+     "en": "The four processes, and the fifth attribute beside them",
+     "zh": "四个过程，以及并列的第五个属性"
+    },
+    "viewBox": "0 0 320 196",
+    "legend": [
+     {
+      "en": "activation is the energy to begin, and it is the process most often misread as motivation",
+      "zh": "激活是开始行动所需的能量，而它最常被误读为动机"
+     },
+     {
+      "en": "direction is choosing an outcome, and the two basic directions pull apart under pressure",
+      "zh": "方向是对结果的选择，而两个基本方向在压力下会分离"
+     },
+     {
+      "en": "endorsement is the fifth attribute, and it predicts persistence most reliably",
+      "zh": "认可是第五个属性，也是最能可靠预测坚持的那一个"
+     }
+    ],
+    "caption": {
+     "en": "The framework is a diagnostic instrument. When an athlete withdraws, asking which process changed turns one observation into a set of hypotheses.",
+     "zh": "这个框架是一件诊断工具。当一位运动员退出时，问哪个过程变了，就把一个观察变成了一组假设。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"66\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 24h66v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"43\">activation</text></g><g><rect class=\"fillA\" x=\"86\" y=\"24\" width=\"66\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M86 24h66v30H86z\"/><text class=\"lblS\" x=\"94\" y=\"43\">direction</text></g><g><rect class=\"fillA\" x=\"158\" y=\"24\" width=\"66\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M158 24h66v30H158z\"/><text class=\"lblS\" x=\"166\" y=\"43\">intensity</text></g><g><rect class=\"fillA\" x=\"230\" y=\"24\" width=\"76\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M230 24h76v30H230z\"/><text class=\"lblS\" x=\"238\" y=\"43\">persistence</text></g><path class=\"th\" d=\"M80 39h6M152 39h6M224 39h6\"/><g><rect class=\"fillC\" x=\"14\" y=\"70\" width=\"292\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M14 70h292v46H14z\"/><text class=\"lbl\" x=\"30\" y=\"92\">endorsement</text><text class=\"lblS\" x=\"8\" y=\"108\">does the athlete agree with the reason? the most useful</text><text class=\"lblS\" x=\"30\" y=\"121\">in practice</text></g><text class=\"lblS\" x=\"14\" y=\"140\">activation is the easiest of the four to misread as</text><text class=\"lblS\" x=\"14\" y=\"153\">motivation</text><text class=\"lblS\" x=\"14\" y=\"158\">because tiredness looks identical to unwillingness</text><text class=\"lblS\" x=\"3\" y=\"176\">the framework is descriptive: it names what changed, not</text><text class=\"lblS\" x=\"14\" y=\"189\">what to do about it</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The five attributes and what each one points to",
+     "zh": "五个属性及各指向什么"
+    },
+    "cols": [
+     {
+      "en": "Attribute",
+      "zh": "属性"
+     },
+     {
+      "en": "If it falls, look at",
+      "zh": "若它下降，看"
+     },
+     {
+      "en": "Typical interventions",
+      "zh": "典型干预"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Activation",
+       "zh": "激活"
+      },
+      {
+       "en": "Sleep, nutrition, illness, recent load",
+       "zh": "睡眠、营养、疾病、近期负荷"
+      },
+      {
+       "en": "Rest, fuelling, illness check, lightening",
+       "zh": "休息、补糖、排查疾病、减量"
+      }
+     ],
+     [
+      {
+       "en": "Direction",
+       "zh": "方向"
+      },
+      {
+       "en": "Whether the goal still matters to the athlete",
+       "zh": "目标对运动员是否仍然重要"
+      },
+      {
+       "en": "Renegotiate the goal, reconnect it to purpose",
+       "zh": "重新协商目标、把它与目的重新连接"
+      }
+     ],
+     [
+      {
+       "en": "Intensity",
+       "zh": "强度"
+      },
+      {
+       "en": "Whether the activity itself is valued",
+       "zh": "这项活动本身是否被看重"
+      },
+      {
+       "en": "Change the task, not the athlete",
+       "zh": "改变任务，而不是改变运动员"
+      }
+     ],
+     [
+      {
+       "en": "Persistence",
+       "zh": "坚持"
+      },
+      {
+       "en": "Whether the environment keeps removing the reason",
+       "zh": "环境是否一直在移除理由"
+      },
+      {
+       "en": "Restore the reason; change the environment if needed",
+       "zh": "恢复理由；必要时改变环境"
+      }
+     ],
+     [
+      {
+       "en": "Endorsement",
+       "zh": "认可"
+      },
+      {
+       "en": "Whether the athlete agrees with the reason",
+       "zh": "运动员是否认可那个理由"
+      },
+      {
+       "en": "Involve them in renegotiating it",
+       "zh": "让他参与重新协商"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Because the processes have different causes, combining them into one motivation score guarantees the wrong intervention.",
+     "zh": "由于这些过程成因不同，把它们合并成一个动力分数就保证了会用错干预。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: naming the process instead of the problem",
+    "zh": "例题：指出过程而不是指出问题"
+   },
+   "given": {
+    "en": "A player has been called unmotivated for a fortnight and is skipping the second session of the week.",
+    "zh": "一名球员被认为没有动力两周了，一直跳过每周的第二次训练课。"
+   },
+   "steps": [
+    {
+     "en": "Accepting unmotivated as a diagnosis names none of the processes and points at nothing.",
+     "zh": "把没有动力当作诊断，没有指出任何过程，也没有指向任何东西。"
+    },
+    {
+     "en": "Ask about the second session specifically, because that is the observable change.",
+     "zh": "专门追问第二次训练课，因为那才是可观察的变化。"
+    },
+    {
+     "en": "She is fine on the first session, which rules out a simple activation problem.",
+     "zh": "她在第一次训练课没问题，这排除了简单的激活问题。"
+    },
+    {
+     "en": "The second session is always the one after a rest day, which suggests persistence or a removed reason.",
+     "zh": "第二次训练课总是休息日之后的那一堂，这提示是坚持问题或理由被移除。"
+    },
+    {
+     "en": "Asking why she came on Monday but not Wednesday finds it: the change room, and a coach she does not get on with.",
+     "zh": "问她为什么周一来了、周三没来就找到了：更衣室，以及一位她合不来的教练。"
+    }
+   ],
+   "answer": {
+    "en": "Two weeks of unmotivated resolved into a change room and a relationship, once the observation was converted into a named process.",
+    "zh": "两周的没有动力，在观察被转化成一个被命名的过程之后，变成了更衣室和一段关系。"
+   }
+  }
+ },
+ "Malleability and self-fulfilling belief": {
+  "figures": [
+   {
+    "title": {
+     "en": "The loop, running in either direction",
+     "zh": "双向运行的回路"
+    },
+    "viewBox": "0 0 320 208",
+    "legend": [
+     {
+      "en": "a positive expectation produces behaviour that confirms it, and the coach now has evidence",
+      "zh": "正向预期产生确认它的行为，而教练于是有了证据"
+     },
+     {
+      "en": "a negative expectation runs the same loop in reverse, and is more damaging because the coach controls the opportunities that could disprove it",
+      "zh": "负向预期以同样的回路反向运行，而且破坏性更大，因为教练控制了本可推翻它的机会"
+     },
+     {
+      "en": "malleability is the good half: the characteristics treated as fixed are the ones still most changeable",
+      "zh": "可塑性是其中好的一半：被视为固定的那些特征恰恰是最可改变的"
+     }
+    ],
+    "caption": {
+     "en": "A coach who has been told this one is not a fighter has been given a description of a past environment, not a fact about a person.",
+     "zh": "一位被告知这个孩子不是战斗型的教练，得到的其实是对过去环境的描述，而不是关于这个人的事实。"
+    },
+    "svg": "<g><circle class=\"fillC\" cx=\"120\" cy=\"80\" r=\"40\"/><path class=\"ln\" d=\"M120 40a40 40 0 1 1 0 80 40 40 0 1 1 0-40z\"/><text class=\"lbl\" x=\"106\" y=\"84\">belief</text></g><path class=\"th\" d=\"M160 62l40-18\"/><path class=\"ln\" d=\"M200 44l-9 1 3 8z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"202\" y=\"30\" width=\"104\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M202 30h104v26H202z\"/><text class=\"lblS\" x=\"208\" y=\"47\">behaviour</text><path class=\"th\" d=\"M296 44l-30 24\" stroke-dasharray=\"4 4\"/><path class=\"ln\" d=\"M266 68l9-1-3-8z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"250\" y=\"26\">evidence</text><path class=\"th\" d=\"M80 62L40 44\"/><path class=\"ln\" d=\"M40 44l9 1-3 8z\" fill=\"currentColor\"/><rect class=\"fillB\" x=\"14\" y=\"30\" width=\"104\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 30h104v26H14z\"/><text class=\"lblS\" x=\"20\" y=\"47\">more challenge</text><text class=\"lblS\" x=\"14\" y=\"150\">the same loop, run forwards, produces confidence</text><text class=\"lblS\" x=\"14\" y=\"168\">run backwards it produces withdrawal, and the athlete</text><text class=\"lblS\" x=\"14\" y=\"181\">cannot tell the difference afterwards</text><text class=\"lblS\" x=\"14\" y=\"188\">malleability is the claim that the direction is still</text><text class=\"lblS\" x=\"14\" y=\"201\">available</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Interventions that run the loop forwards",
+     "zh": "让回路向前运行的干预"
+    },
+    "cols": [
+     {
+      "en": "Direction of belief",
+      "zh": "信念方向"
+     },
+     {
+      "en": "Intervention",
+      "zh": "干预"
+     },
+     {
+      "en": "Why it works",
+      "zh": "为何有效"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Low self-efficacy",
+       "zh": "自我效能低"
+      },
+      {
+       "en": "Achievable tasks with honest feedback",
+       "zh": "可完成的任务加诚实的反馈"
+      },
+      {
+       "en": "Supplies a competence experience the athlete can attribute to effort",
+       "zh": "提供一次可归因于努力的胜任体验"
+      }
+     ],
+     [
+      {
+       "en": "Low self-efficacy",
+       "zh": "自我效能低"
+      },
+      {
+       "en": "A visible record of progress",
+       "zh": "一份看得见的进步记录"
+      },
+      {
+       "en": "Makes the change observable rather than felt",
+       "zh": "让改变变得可观察，而不只是可感觉"
+      }
+     ],
+     [
+      {
+       "en": "Avoiding competition",
+       "zh": "回避竞争"
+      },
+      {
+       "en": "A deliberately staged first competition",
+       "zh": "一次刻意安排的低级别首场比赛"
+      },
+      {
+       "en": "Breaks the avoid-reflect-avoid sequence that maintains it",
+       "zh": "打破维持它的回避—反思—回避序列"
+      }
+     ],
+     [
+      {
+       "en": "Over-confident, under-prepared",
+       "zh": "过度自信、准备不足"
+      },
+      {
+       "en": "Raised difficulty and protected from comparison",
+       "zh": "提高难度并保护其免于比较"
+      },
+      {
+       "en": "Supplies the experience of being genuinely stretched",
+       "zh": "提供真正被拉伸的体验"
+      }
+     ],
+     [
+      {
+       "en": "Flat and under-stimulated",
+       "zh": "平淡且刺激不足"
+      },
+      {
+       "en": "A harder, more interesting problem",
+       "zh": "一个更难、更有意思的问题"
+      },
+      {
+       "en": "Attention has to be spent on something, and boredom supplies none",
+       "zh": "注意总得被花在某处，而无聊不提供任何去处"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The intervention differs entirely in direction depending on which way the loop is currently running, which is why the diagnosis must come first.",
+     "zh": "干预的方向完全取决于回路当前朝哪边转，这就是为什么诊断必须先做。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: engineering a competence experience",
+    "zh": "例题：设计一次胜任体验"
+   },
+   "given": {
+    "en": "A 15-year-old labelled not committed has stopped volunteering for selection.",
+    "zh": "一名被贴上不投入标签的 15 岁运动员已不再主动报名参加选拔。"
+   },
+   "steps": [
+    {
+     "en": "The label predicted the behaviour, and the behaviour confirmed the label: a closed loop in the negative direction.",
+     "zh": "这个标签预测了行为，而行为又确认了标签：一个朝负方向闭合的回路。"
+    },
+    {
+     "en": "Ask what competence the athlete has actually been shown, rather than what effort they have been praised for.",
+     "zh": "问这位运动员实际被展示过什么胜任能力，而不是他因努力被表扬过什么。"
+    },
+    {
+     "en": "They had been told to work harder, which is not a demonstration of competence and is often heard as a verdict.",
+     "zh": "他被告知要更努力——那不是胜任的示范，而且常被听成一句判决。"
+    },
+    {
+     "en": "So put them in a task they can demonstrably do well, in front of a selector, and record it visibly.",
+     "zh": "因此把他放进一项他确实能做好、且在选人者面前完成的任务，并把结果明确记录下来。"
+    },
+    {
+     "en": "One such event, repeated, is worth more than a season of telling him he can do it.",
+     "zh": "这样一次经历重复几次，胜过整个赛季地对他说你可以的。"
+    }
+   ],
+   "answer": {
+    "en": "The intervention was not motivational. It was supplying the missing evidence, which the previous approach had been replacing with reassurance.",
+    "zh": "这个干预不是动机层面的，而是补上缺失的证据——而此前的做法是用安慰代替那份证据。"
+   }
+  }
+ },
+ "Learned helplessness, attribution and health": {
+  "figures": [
+   {
+    "title": {
+     "en": "Why effort stops, and where the belief comes from",
+     "zh": "努力为何停止，以及那个信念从何而来"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "helplessness forms when effort repeatedly produces no change, so stopping is a rational response to the evidence",
+      "zh": "当努力反复不产生变化时形成无助，因此停止是对证据的理性回应"
+     },
+     {
+      "en": "attribution decides what happens next: unstable or controllable explanations point to the next attempt, stable internal ones do not",
+      "zh": "归因决定接下来发生什么：不稳定或可控的解释指向下一次尝试，稳定的内归因则不会"
+     },
+     {
+      "en": "the default attributions are learned from us, so a coach teaches attribution whether or not they intend to",
+      "zh": "默认的归因是从我们这里学来的，所以教练无论有意与否都在教归因"
+     }
+    ],
+    "caption": {
+     "en": "The most useful question an athlete can be asked after a bad result is what they controlled, and what information they had at the time.",
+     "zh": "在一次糟糕结果之后，问运动员你控制了哪些、当时掌握了什么信息，是最有用的问题。"
+    },
+    "svg": "<text class=\"lblS\" x=\"14\" y=\"26\">effort</text><g><circle class=\"fillB\" cx=\"34\" cy=\"52\" r=\"7\"/><circle class=\"fillB\" cx=\"34\" cy=\"76\" r=\"7\"/><circle class=\"fillB\" cx=\"34\" cy=\"100\" r=\"7\"/><text class=\"lblS\" x=\"20\" y=\"122\">try</text></g><path class=\"th\" d=\"M46 52h34\"/><path class=\"ln\" d=\"M80 52l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"80\" y=\"40\" width=\"52\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M80 40h52v30H80z\"/><text class=\"lblS\" x=\"88\" y=\"58\">fail</text><path class=\"th\" d=\"M132 55h26\"/><path class=\"ln\" d=\"M158 55l-9-4.5v9z\" fill=\"currentColor\"/><g><circle class=\"fillB\" cx=\"176\" cy=\"52\" r=\"7\"/><circle class=\"fillB\" cx=\"176\" cy=\"76\" r=\"7\"/><circle class=\"fillB\" cx=\"176\" cy=\"100\" r=\"7\"/><text class=\"lblS\" x=\"162\" y=\"122\">try</text></g><path class=\"th\" d=\"M188 55h34\"/><path class=\"ln\" d=\"M222 55l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"222\" y=\"40\" width=\"52\" height=\"30\" rx=\"5\"/><path class=\"ln\" d=\"M222 40h52v30h-52z\"/><text class=\"lblS\" x=\"230\" y=\"58\">fail</text><text class=\"lblS\" x=\"222\" y=\"90\">repeat</text><path class=\"dash\" d=\"M250 76h40v40H120V76\"/><path class=\"ln\" d=\"M120 76l4.5-9h-9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"60\" y=\"132\" width=\"200\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M60 132h200v28H60z\"/><text class=\"lbl\" x=\"82\" y=\"151\">effort does not work here</text><text class=\"lblS\" x=\"14\" y=\"180\">a correct inference from the evidence, and it</text><text class=\"lblS\" x=\"14\" y=\"193\">generalises far past this one situation</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Three coping styles and what each one is for",
+     "zh": "三种应对方式及其用途"
+    },
+    "cols": [
+     {
+      "en": "Style",
+      "zh": "方式"
+     },
+     {
+      "en": "Aimed at",
+      "zh": "针对"
+     },
+     {
+      "en": "Adaptive?",
+      "zh": "有适应性吗"
+     },
+     {
+      "en": "Source",
+      "zh": "来源"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Problem-focused",
+       "zh": "问题聚焦"
+      },
+      {
+       "en": "The situation: information, planning, direct action",
+       "zh": "情境：信息、计划、直接行动"
+      },
+      {
+       "en": "Yes, when the situation is changeable",
+       "zh": "是，当情境可改变时"
+      },
+      {
+       "en": "Cartwright and Cooper, 1984",
+       "zh": "卡特赖特与库珀，1984"
+      }
+     ],
+     [
+      {
+       "en": "Emotion-focused",
+       "zh": "情绪聚焦"
+      },
+      {
+       "en": "The feeling: acceptance, adjustment, meaning",
+       "zh": "感受：接纳、调整、意义"
+      },
+      {
+       "en": "Yes, when the situation is not changeable",
+       "zh": "是，当情境不可改变时"
+      },
+      {
+       "en": "Cartwright and Cooper, 1984",
+       "zh": "卡特赖特与库珀，1984"
+      }
+     ],
+     [
+      {
+       "en": "Avoidant",
+       "zh": "回避型"
+      },
+      {
+       "en": "Neither: the athlete moves away from the feeling",
+       "zh": "都不是：运动员从感受中移开"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      },
+      {
+       "en": "Usually the most pleasant in the moment",
+       "zh": "通常是当下最舒服的"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A person can cope well with one thing and badly with another, and the difference is often whether they have done this particular thing before.",
+     "zh": "一个人可能对一件事应对得好、对另一件事应对得差，而差别常常在于他以前是否做过这一类事。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: an attribution that closes the door",
+    "zh": "例题：一个关上门的归因"
+   },
+   "given": {
+    "en": "A volleyball player misses three serves in a match and says I have no talent for this, I always choke.",
+    "zh": "一名排球运动员在比赛中三次发球失误，说我在这上面没天赋，我总是会崩。"
+   },
+   "steps": [
+    {
+     "en": "That is an internal, stable attribution applied to a specific event, and it closes the door on future attempts.",
+     "zh": "这是把内部的、稳定的归因用在一个具体事件上，而且它关上了未来尝试的门。"
+    },
+    {
+     "en": "The same miss, attributed to technique, would point directly at the next thing to practise.",
+     "zh": "同样一次失误，若归因于技术，就会直接指向下一件要练的事。"
+    },
+    {
+     "en": "The coach can shift the attribution without contradicting the athlete, by asking what the last good serve had in common.",
+     "zh": "教练可以在不反驳运动员的前提下改变归因，方法是问上一次发球好的那次有什么共同点。"
+    },
+    {
+     "en": "That question is answerable from the footage, so it produces a changeable, specific explanation.",
+     "zh": "这个问题可以从录像中回答，因此它产生了一个可改变、且具体的解释。"
+    },
+    {
+     "en": "Two sessions later the attribution has moved from ability to process, without a single argument about character.",
+     "zh": "两堂训练课之后，归因从能力转向了过程，而全程没有一次关于性格的争论。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing about the athlete changed except the explanation, and the explanation was the thing controlling the behaviour.",
+    "zh": "除了解释之外，运动员什么都没变——而解释正是控制行为的那一样东西。"
+   }
+  }
+ },
+ "Learning, performance and schemas": {
+  "figures": [
+   {
+    "title": {
+     "en": "One skill, two performances",
+     "zh": "一项技术，两种表现"
+    },
+    "viewBox": "0 0 320 204",
+    "legend": [
+     {
+      "en": "a skill is learned when the athlete can produce it under non-ideal conditions",
+      "zh": "当运动员能在不理想的条件下做出某项技术时，这项技术才算学会"
+     },
+     {
+      "en": "a schema is a stored pattern of body positions, recognised rather than consciously planned",
+      "zh": "图式是一组储存的身体位置模式，是被识别而不是被有意识规划的"
+     },
+     {
+      "en": "under pressure attention narrows, so a fast pattern has to be reconstructed deliberately, and that costs time",
+      "zh": "压力下注意变窄，因此快速模式必须被刻意重建，而那需要时间"
+     }
+    ],
+    "caption": {
+     "en": "A coach puzzled that an athlete performs badly in competition despite performing well in training is usually looking at two different processes.",
+     "zh": "一位对训练中好、比赛中差感到困惑的教练，通常是在看两个不同的过程。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"132\" height=\"96\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h132v96H14z\"/><text class=\"lbl\" x=\"30\" y=\"46\">learning</text><text class=\"lblS\" x=\"30\" y=\"68\">in training</text><text class=\"lblS\" x=\"30\" y=\"86\">schema forming</text><text class=\"lblS\" x=\"30\" y=\"104\">inconsistent, effortful</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"96\" rx=\"8\"/><path class=\"ln\" d=\"M166 24h140v96H166z\"/><text class=\"lbl\" x=\"182\" y=\"46\">performance</text><text class=\"lblS\" x=\"182\" y=\"68\">on the day</text><text class=\"lblS\" x=\"182\" y=\"86\">schema retrieved</text><text class=\"lblS\" x=\"182\" y=\"104\">fast, automatic</text></g><path class=\"th\" d=\"M146 60h20\"/><path class=\"ln\" d=\"M166 60l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"3\" y=\"146\">the gap between these two is the competition effect, and</text><text class=\"lblS\" x=\"14\" y=\"159\">it is a few percent</text><text class=\"lblS\" x=\"8\" y=\"164\">which is why a small drop is normal and a collapse is a</text><text class=\"lblS\" x=\"14\" y=\"177\">finding</text><text class=\"lblS\" x=\"14\" y=\"184\">practice responds to feedback; performance responds to</text><text class=\"lblS\" x=\"14\" y=\"197\">the day and to pressure</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What the two responses need",
+     "zh": "两种反应各自需要什么"
+    },
+    "cols": [
+     {
+      "en": "Process",
+      "zh": "过程"
+     },
+     {
+      "en": "Responds to",
+      "zh": "对什么作出反应"
+     },
+     {
+      "en": "Typical intervention",
+      "zh": "典型干预"
+     },
+     {
+      "en": "Where it shows up",
+      "zh": "出现在哪里"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Learning",
+       "zh": "学习"
+      },
+      {
+       "en": "Feedback, quality of the attempt, how the task is set",
+       "zh": "反馈、尝试质量、任务如何设置"
+      },
+      {
+       "en": "Make the task harder and the feedback sharper",
+       "zh": "让任务更难、反馈更具体"
+      },
+      {
+       "en": "Most coaching happens here",
+       "zh": "大部分教练工作发生在这里"
+      }
+     ],
+     [
+      {
+       "en": "Performance",
+       "zh": "表现"
+      },
+      {
+       "en": "How the athlete is that day, and the pressure added",
+       "zh": "运动员当天的状态，以及增加的压力"
+      },
+      {
+       "en": "Rehearse under pressure, and prepare rather than psych",
+       "zh": "在压力下预演，并做好准备而不是空想"
+      },
+      {
+       "en": "Most assessment happens here",
+       "zh": "大部分评估发生在这里"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Adding training changes learning and barely changes performance, which is why a well-drilled athlete can still fail on the day.",
+     "zh": "增加训练量改变的是学习、几乎不改变表现，这正是为什么一个训练有素的运动员仍可能在比赛日失败。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: pressure rehearsal that is not more practice",
+    "zh": "例题：不是多练的压力预演"
+   },
+   "given": {
+    "en": "A tennis player serves well in practice and double-faults on match point. The serve is identical in both.",
+    "zh": "一名网球运动员训练中发球很好、却在赛点双误。两种情况下的发球完全相同。"
+   },
+   "steps": [
+    {
+     "en": "Since the movement is identical, the difference cannot be in the technique.",
+     "zh": "既然动作完全相同，差别就不可能在技术上。"
+    },
+    {
+     "en": "Under pressure attention narrows, so the stored pattern must be rebuilt deliberately and takes longer.",
+     "zh": "压力下注意变窄，因此储存的模式必须被刻意重建，而那需要更长时间。"
+    },
+    {
+     "en": "The correct response is not more repetitions of the same serve but rehearsing the serve while scored and watched.",
+     "zh": "正确的应对不是把同一个发球多练几遍，而是在有计分、有人看的情况下演练发球。"
+    },
+    {
+     "en": "That trains the retrieval, not the movement, and it is the part that is actually failing.",
+     "zh": "那训练的是提取，而不是动作本身，而后者并不是真正失效的部分。"
+    },
+    {
+     "en": "Score 20 serves while fatigued, and treat the double faults as data about arousal, not about the serve.",
+     "zh": "在疲劳状态下计分打 20 个发球，并把双误当作关于唤醒的数据，而不是关于发球的数据。"
+    }
+   ],
+   "answer": {
+    "en": "Identical movement, different day. The intervention that follows from noticing that difference is a rehearsal of pressure, and the one that does not is another hundred serves.",
+    "zh": "动作相同、日子不同。由此注意到这个差别之后的干预是压力预演，而无效的干预是再做一百个发球。"
+   }
+  }
+ },
+ "Linear and non-linear pedagogy": {
+  "figures": [
+   {
+    "title": {
+     "en": "One solution, or a constraint to explore inside",
+     "zh": "一个解法，或一个供探索的约束"
+    },
+    "viewBox": "0 0 320 204",
+    "legend": [
+     {
+      "en": "linear assumes the coach holds the solution, and it scales to a group of twenty",
+      "zh": "线性假定教练手握答案，而它能扩展到二十人的组"
+     },
+     {
+      "en": "non-linear sets a boundary and lets the athlete find their own way of satisfying it",
+      "zh": "非线性设定一条边界，让运动员自己找到满足它的方法"
+     },
+     {
+      "en": "a movement repertoire built non-linearly has a better chance of containing something useful",
+      "zh": "以非线性方式建立的动作库有更好的机会包含某个有用的东西"
+     }
+    ],
+    "caption": {
+     "en": "The sensible reading is that they serve different stages, not that a programme should pick one.",
+     "zh": "合理的解读是两者服务于不同阶段，而不是一份计划应该二选一。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"140\" height=\"98\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h140v98H14z\"/><text class=\"lbl\" x=\"30\" y=\"46\">linear</text><text class=\"lblS\" x=\"30\" y=\"68\">coach supplies</text><text class=\"lblS\" x=\"30\" y=\"86\">the solution, athlete</text><text class=\"lblS\" x=\"30\" y=\"104\">repeats it</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"98\" rx=\"8\"/><path class=\"ln\" d=\"M166 24h140v98H166z\"/><text class=\"lbl\" x=\"182\" y=\"46\">non-linear</text><text class=\"lblS\" x=\"182\" y=\"68\">coach supplies</text><text class=\"lblS\" x=\"182\" y=\"86\">a constraint, athlete</text><text class=\"lblS\" x=\"182\" y=\"104\">finds a way</text></g><g><rect class=\"fillA\" x=\"14\" y=\"136\" width=\"292\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 136h292v26H14z\"/><text class=\"lblS\" x=\"8\" y=\"153\">the constraint is the same in both; what differs is who</text><text class=\"lblS\" x=\"22\" y=\"166\">solves inside it</text></g><text class=\"lblS\" x=\"3\" y=\"184\">most sport is taught linearly and most elite sport turns</text><text class=\"lblS\" x=\"14\" y=\"197\">out to be non-linear</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two approaches compared honestly",
+     "zh": "两种方法的诚实对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Linear",
+      "zh": "线性"
+     },
+     {
+      "en": "Non-linear",
+      "zh": "非线性"
+     },
+     {
+      "en": "Consequence",
+      "zh": "后果"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Who solves the problem",
+       "zh": "谁解决问题"
+      },
+      {
+       "en": "The coach",
+       "zh": "教练"
+      },
+      {
+       "en": "The athlete",
+       "zh": "运动员"
+      },
+      {
+       "en": "It scales to a whole group",
+       "zh": "可扩展到整个小组"
+      }
+     ],
+     [
+      {
+       "en": "Best for",
+       "zh": "最适用"
+      },
+      {
+       "en": "Early learning and reliability",
+       "zh": "早期学习与可靠性"
+      },
+      {
+       "en": "Adaptation to novelty",
+       "zh": "适应陌生情境"
+      },
+      {
+       "en": "Competence first, then transfer",
+       "zh": "先有胜任，再谈迁移"
+      }
+     ],
+     [
+      {
+       "en": "Cost",
+       "zh": "代价"
+      },
+      {
+       "en": "Produces one solution used repeatedly",
+       "zh": "产生一个被反复使用的解法"
+      },
+      {
+       "en": "Produces many, only some needed",
+       "zh": "产生许多解法，其中只有部分会被用到"
+      },
+      {
+       "en": "Time spent exploring",
+       "zh": "花在探索上的时间"
+      }
+     ],
+     [
+      {
+       "en": "When it fails",
+       "zh": "何时失败"
+      },
+      {
+       "en": "When the athlete meets something never described",
+       "zh": "当运动员遇到从未被描述过的情境"
+      },
+      {
+       "en": "When the athlete has no reliable solution at all",
+       "zh": "当运动员完全没有可靠解法时"
+      },
+      {
+       "en": "Both are wrong at opposite ends",
+       "zh": "两者在相反的两端都会失败"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most programmes that fail do so by staying linear too long rather than by becoming non-linear too early.",
+     "zh": "大多数失败的计划是因为在线性上停留太久，而不是因为过早变得非线性。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: knowing which stage you are in",
+    "zh": "例题：判断自己处在哪个阶段"
+   },
+   "given": {
+    "en": "A club teaches a single, fixed passing action for four years and produces players who cannot pass under pressure.",
+    "zh": "某俱乐部教授一个固定的传球动作四年，培养出的球员在压力下无法传球。"
+   },
+   "steps": [
+    {
+     "en": "Four years of one solution is the linear approach taken to its limit, and the limit is a repertoire of one.",
+     "zh": "四年只教一个解法，是把线性方式推到了极限，而这个极限就是只有一个动作库。"
+    },
+    {
+     "en": "Under pressure the athlete needs a different solution, and there is only the one they have.",
+     "zh": "在压力下运动员需要不同的解法，而他只有那一个。"
+    },
+    {
+     "en": "The fix is not to abandon linearity, which produced reliable basics, but to add constraint-based exploration now.",
+     "zh": "解决办法不是放弃线性——它培养了可靠的基础——而是从现在起加入基于约束的探索。"
+    },
+    {
+     "en": "So the stage question comes first: this club is not in the exploration stage, it is stuck at the end of the repetition stage.",
+     "zh": "所以阶段问题要先问：这家俱乐部并不处在探索阶段，而是卡在重复阶段的末尾。"
+    },
+    {
+     "en": "Naming the stage converts they need to be more creative into an actual change to the programme.",
+     "zh": "指出阶段，正是把他们需要更有创造力转化为对计划的一次实际改变。"
+    }
+   ],
+   "answer": {
+    "en": "The club diagnosed a motivation problem and actually had a repertoire problem. Naming the stage is cheaper than diagnosing personalities.",
+    "zh": "这家俱乐部诊断出的是动机问题，而实际存在的是动作库问题。指出阶段比诊断人格便宜得多。"
+   }
+  }
+ },
+ "Stages, PRP and transfer": {
+  "figures": [
+   {
+    "title": {
+     "en": "Three stages, and what each one is for",
+     "zh": "三个阶段，以及各自的目的"
+    },
+    "viewBox": "0 0 320 218",
+    "legend": [
+     {
+      "en": "the boundary between stages is fuzzy, and the practical guide is behavioural rather than numerical",
+      "zh": "阶段之间的边界是模糊的，而实用的判据是行为性的而不是数字性的"
+     },
+     {
+      "en": "periodisation exists because specificity means a specific session done fatigued is worth much less",
+      "zh": "周期化训练之所以存在，是因为专门性意味着状态疲劳时做的专项训练价值低得多"
+     },
+     {
+      "en": "transfer has three faces and all three are imperfect",
+      "zh": "迁移有三种面向，而三者都不完美"
+     }
+    ],
+    "caption": {
+     "en": "The judge of a stage is behavioural: is the athlete still thinking about the movement, thinking but reliably, or not thinking about it?",
+     "zh": "判断阶段的依据是行为性的：运动员仍在想着这个动作、想着但已经可靠、还是根本不再想着它？"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"90\" width=\"88\" height=\"70\" rx=\"7\"/><path class=\"ln\" d=\"M14 90h88v70H14z\"/><text class=\"lbl\" x=\"26\" y=\"112\">cognitive</text><text class=\"lblS\" x=\"26\" y=\"130\">thinking</text><text class=\"lblS\" x=\"26\" y=\"146\">while doing it</text></g><g><rect class=\"fillB\" x=\"116\" y=\"70\" width=\"88\" height=\"90\" rx=\"7\"/><path class=\"ln\" d=\"M116 70h88v90H116z\"/><text class=\"lbl\" x=\"128\" y=\"92\">associative</text><text class=\"lblS\" x=\"128\" y=\"110\">fewer errors,</text><text class=\"lblS\" x=\"128\" y=\"126\">less thinking</text></g><g><rect class=\"fillC\" x=\"218\" y=\"40\" width=\"88\" height=\"120\" rx=\"7\"/><path class=\"ln\" d=\"M218 40h88v120H218z\"/><text class=\"lbl\" x=\"230\" y=\"62\">autonomous</text><text class=\"lblS\" x=\"230\" y=\"80\">attention free</text><text class=\"lblS\" x=\"230\" y=\"96\">for the</text><text class=\"lblS\" x=\"230\" y=\"112\">environment</text></g><text class=\"lblS\" x=\"14\" y=\"180\">practising stage three while still in stage one is not</text><text class=\"lblS\" x=\"14\" y=\"193\">advanced training, it is noise</text><text class=\"lblS\" x=\"14\" y=\"198\">and transfer is imperfect in three separate ways, each</text><text class=\"lblS\" x=\"14\" y=\"211\">with its own pattern</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Transfer: what transfers well and what does not",
+     "zh": "迁移：迁移得好与不好的部分"
+    },
+    "cols": [
+     {
+      "en": "Transfer",
+      "zh": "迁移"
+     },
+     {
+      "en": "Transfers well",
+      "zh": "迁移得好"
+     },
+     {
+      "en": "Transfers poorly",
+      "zh": "迁移得差"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Task to similar task",
+       "zh": "任务到相似任务"
+      },
+      {
+       "en": "A closely matched movement",
+       "zh": "高度相似的动作"
+      },
+      {
+       "en": "A superficially similar one",
+       "zh": "表面相似的动作"
+      }
+     ],
+     [
+      {
+       "en": "Gym to sport",
+       "zh": "力量到运动表现"
+      },
+      {
+       "en": "Strength to strength-dominant skills",
+       "zh": "力量对力量主导的技术"
+      },
+      {
+       "en": "Strength to skill-dominant and speed-dominant skills",
+       "zh": "力量对技术主导与速度主导的技术"
+      }
+     ],
+     [
+      {
+       "en": "Training to competition",
+       "zh": "训练到比赛"
+      },
+      {
+       "en": "A well-rehearsed pattern under pressure",
+       "zh": "在压力下被充分排练过的模式"
+      },
+      {
+       "en": "Anything requiring a decision rather than a pattern",
+       "zh": "任何需要决策而非模式的东西"
+      }
+     ],
+     [
+      {
+       "en": "Specific examples",
+       "zh": "具体例子"
+      },
+      {
+       "en": "Vertical jump to jumping ability",
+       "zh": "垂直起跳对跳跃能力"
+      },
+      {
+       "en": "Squat strength to sprinting, more than people expect",
+       "zh": "深蹲力量对冲刺，比人们预期更差"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Transfer is where most of the promise of a programme is spent or lost.",
+     "zh": "迁移正是一份计划的承诺大多在此被兑现或落空的地方。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: ordering a week around freshness",
+    "zh": "例题：围绕状态新鲜安排一周"
+   },
+   "given": {
+    "en": "A sprinter has a sprint session, an easy run, a strength session and a set of high-speed runs in one week.",
+    "zh": "一名短跑运动员一周内有冲刺课、轻松跑、力量课以及一组高速跑。"
+   },
+   "steps": [
+    {
+     "en": "Placing the sprint session and the high-speed runs on the same day wastes both, because the second is done fatigued.",
+     "zh": "把冲刺课与高速跑放在同一天会浪费两者，因为后者是在疲劳状态下完成的。"
+    },
+    {
+     "en": "The strength session is best placed two days before the sprint, so the taper-like effect carries into it.",
+     "zh": "力量课最好放在冲刺前两天，让类似减量的效应延续到冲刺当天。"
+    },
+    {
+     "en": "The easy run serves recovery and should be genuinely easy, not medium-hard in disguise.",
+     "zh": "轻松跑起恢复作用，而且必须真正轻松，而不是伪装成中等偏难。"
+    },
+    {
+     "en": "That ordering alone changes the week from four sessions of moderate quality to two good ones and two supporting ones.",
+     "zh": "仅这个顺序就把一周从四堂中等质量的课，变成两堂好课加两堂支撑性训练。"
+    },
+    {
+     "en": "No session was added or removed; only the order changed, and the specific quality of each improved.",
+     "zh": "没有增加或减少任何一堂课；只是调整了顺序，而每一堂的具体质量都提升了。"
+    }
+   ],
+   "answer": {
+    "en": "Same four sessions, same total volume, materially different week. Periodisation is mostly this decision.",
+    "zh": "同样四堂课、同样总量，而这一周实质性地不同了。周期化训练大多就是这个决定。"
+   }
+  }
+ },
+ "Internal, external, broad and narrow": {
+  "figures": [
+   {
+    "title": {
+     "en": "Where the attention goes, and what it costs",
+     "zh": "注意去哪里，以及它的代价"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "a cue is a request for a limited resource, and several cues compete with each other",
+      "zh": "一条提示是对有限资源的一个请求，而多条提示会彼此竞争"
+     },
+     {
+      "en": "a well-chosen external cue is easy to check and sometimes unavailable at the moment it is needed",
+      "zh": "一条选好的外部提示容易检查，但有时在需要的时刻并不存在"
+     },
+     {
+      "en": "an early learner cannot use a narrow focus, which is why experts need it and beginners cannot",
+      "zh": "初学者无法使用窄焦点，这正是专家需要它而初学者用不了的原因"
+     }
+    ],
+    "caption": {
+     "en": "The skill is knowing which cues a particular athlete can actually use, at what stage of learning, and at what moment in the movement.",
+     "zh": "这项技能是知道某位特定运动员实际能用哪些提示、在学习的哪个阶段、以及在动作的哪个时刻给。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h140v60H14z\"/><text class=\"lbl\" x=\"28\" y=\"46\">internal</text><text class=\"lblS\" x=\"28\" y=\"68\">elbow, rhythm, feel</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M166 24h140v60H166z\"/><text class=\"lbl\" x=\"180\" y=\"46\">external</text><text class=\"lblS\" x=\"180\" y=\"68\">target, opponent, line</text></g><g><rect class=\"fillA\" x=\"14\" y=\"96\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M14 96h140v60H14z\"/><text class=\"lbl\" x=\"28\" y=\"118\">broad</text><text class=\"lblS\" x=\"28\" y=\"140\">the whole movement</text></g><g><rect class=\"fillC\" x=\"166\" y=\"96\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M166 96h140v60H166z\"/><text class=\"lbl\" x=\"180\" y=\"118\">narrow</text><text class=\"lblS\" x=\"180\" y=\"140\">one detail</text></g><path class=\"th\" d=\"M14 172h292\"/><text class=\"lblS\" x=\"8\" y=\"190\">narrow focus makes that detail excellent and everything</text><text class=\"lblS\" x=\"14\" y=\"203\">else invisible</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Cue types and when each works",
+     "zh": "提示类型及其适用时机"
+    },
+    "cols": [
+     {
+      "en": "Cue",
+      "zh": "提示"
+     },
+     {
+      "en": "Points to",
+      "zh": "指向"
+     },
+     {
+      "en": "Works best when",
+      "zh": "最适用时机"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Internal, sensory",
+       "zh": "内部、感觉性"
+      },
+      {
+       "en": "A body position or a feeling",
+       "zh": "一个身体位置或一种感觉"
+      },
+      {
+       "en": "A portable task, and a later learning stage",
+       "zh": "可移植的任务，以及较后的学习阶段"
+      }
+     ],
+     [
+      {
+       "en": "External, target",
+       "zh": "外部、目标性"
+      },
+      {
+       "en": "A target, a landing spot, a line",
+       "zh": "目标、落点、一条线"
+      },
+      {
+       "en": "Precision, and a task where the target is visible",
+       "zh": "需要精确性，且目标可见的任务"
+      }
+     ],
+     [
+      {
+       "en": "Broad",
+       "zh": "宽焦点"
+      },
+      {
+       "en": "The whole movement or picture",
+       "zh": "整个动作或整体图景"
+      },
+      {
+       "en": "Early learning, and open fast situations",
+       "zh": "早期学习，以及开放快速的情境"
+      }
+     ],
+     [
+      {
+       "en": "Narrow",
+       "zh": "窄焦点"
+      },
+      {
+       "en": "One detail",
+       "zh": "单一细节"
+      },
+      {
+       "en": "A skilled performer with a well-learned base",
+       "zh": "有扎实基础的熟练表演者"
+      }
+     ],
+     [
+      {
+       "en": "Distractor",
+       "zh": "干扰项"
+      },
+      {
+       "en": "A signal that takes attention and releases it",
+       "zh": "一个抓住注意又释放它的信号"
+      },
+      {
+       "en": "Immediately before the key instant",
+       "zh": "就在关键时刻之前"
+      }
+     ]
+    ],
+    "note": {
+     "en": "One cue per attempt, changed every few attempts, is a more effective design than three cues held constant.",
+     "zh": "每次尝试给一条提示、每几次尝试更换一次，是比固定三条提示更有效的设计。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: diagnosing a cue that is too hard to use",
+    "zh": "例题：诊断一条太难使用的提示"
+   },
+   "given": {
+    "en": "A coach tells a novice to feel the barrel of the bat. The novice cannot perceive it and performs worse.",
+    "zh": "一位教练告诉一名初学者感受球棒的棒头。该初学者感知不到它，表现反而更差。"
+   },
+   "steps": [
+    {
+     "en": "The cue asks for something the athlete cannot actually perceive, so the request cannot be met.",
+     "zh": "这条提示要求的东西是这位运动员实际感知不到的，因此这个请求无法被满足。"
+    },
+    {
+     "en": "What follows is not learning but a search for a sensation that is not there, plus a fault.",
+     "zh": "接下来发生的不是学习，而是对一个并不存在的感觉的搜寻，外加一个错误动作。"
+    },
+    {
+     "en": "The equivalent external cue for the same intent is visible: the front elbow pointing at the target.",
+     "zh": "同一意图的等效外部提示是可见的：前肘指向目标。"
+    },
+    {
+     "en": "That is checkable by the athlete in real time, which is what makes it usable.",
+     "zh": "那位运动员能在实时中自查，而这正是它可用的原因。"
+    },
+    {
+     "en": "Internal cues are for a later stage, once the athlete has something to feel.",
+     "zh": "内部提示属于较后的阶段，在运动员已经有了可感觉的东西之后。"
+    }
+   ],
+   "answer": {
+    "en": "The coach was not wrong about the intention and wrong about the stage. That combination is the most common form of this error.",
+    "zh": "教练在意图上没错、在阶段上错了。这个组合是这类错误最常见的形式。"
+   }
+  }
+ },
+ "Distractors and control strategies": {
+  "figures": [
+   {
+    "title": {
+     "en": "Moving attention on purpose, and before the moment",
+     "zh": "有意识地移动注意，并在关键时刻之前"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "a good distractor takes attention for a moment and then releases it, and it works because attention will be spent on something",
+      "zh": "一个好的干扰项抓住注意片刻又释放它，而它有效是因为注意总会被花在某处"
+     },
+     {
+      "en": "a distractor in sport psychology is a tool the athlete uses on their own attention, not something aimed at the opponent",
+      "zh": "运动心理学中的干扰项是运动员用在自己注意上的工具，而不是针对对手的"
+     },
+     {
+      "en": "a strategy decided in advance can be executed; one decided under pressure cannot",
+      "zh": "事先决定的策略可以被执行，而压力下决定的不能"
+     }
+    ],
+    "caption": {
+     "en": "The most useful thing a coach can do for an athlete who freezes is to decide, in advance and out loud, where the attention will be.",
+     "zh": "对于一位会僵住的运动员，教练能做的最有用的事，就是事先并且明说地把注意安排在哪里。"
+    },
+    "svg": "<g><circle class=\"fillB\" cx=\"60\" cy=\"60\" r=\"22\"/><path class=\"ln\" d=\"M60 38a22 22 0 1 1 0 44 22 22 0 1 1 0-44z\"/><text class=\"lblS\" x=\"42\" y=\"64\">eyes</text></g><path class=\"th\" d=\"M82 60h44\"/><path class=\"ln\" d=\"M126 60l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"126\" y=\"44\" width=\"70\" height=\"32\" rx=\"6\"/><path class=\"ln\" d=\"M126 44h70v32H126z\"/><text class=\"lblS\" x=\"134\" y=\"64\">distractor</text><path class=\"th\" d=\"M196 60h40\"/><path class=\"ln\" d=\"M236 60l-9-4.5v9z\" fill=\"currentColor\"/><circle class=\"fillA\" cx=\"266\" cy=\"60\" r=\"22\"/><path class=\"ln\" d=\"M266 38a22 22 0 1 1 0 44 22 22 0 1 1 0-44z\"/><text class=\"lblS\" x=\"248\" y=\"64\">contact</text><text class=\"lblS\" x=\"14\" y=\"110\">association · dissociation internal · dissociation</text><text class=\"lblS\" x=\"14\" y=\"123\">external</text><text class=\"lblS\" x=\"14\" y=\"130\">the choice is which suits this athlete in this</text><text class=\"lblS\" x=\"14\" y=\"143\">situation, not which is best</text><text class=\"lblS\" x=\"14\" y=\"152\">a pre-commitment strategy removes a decision from the</text><text class=\"lblS\" x=\"14\" y=\"165\">decisive instant</text><text class=\"lblS\" x=\"14\" y=\"170\">and removing a decision from that instant beats any</text><text class=\"lblS\" x=\"14\" y=\"183\">technique executable there</text><text class=\"lblS\" x=\"8\" y=\"190\">the window is short and sits immediately before the key</text><text class=\"lblS\" x=\"14\" y=\"203\">moment</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three control strategies",
+     "zh": "三种控制策略"
+    },
+    "cols": [
+     {
+      "en": "Strategy",
+      "zh": "策略"
+     },
+     {
+      "en": "Attention is on",
+      "zh": "注意落在"
+     },
+     {
+      "en": "Useful for",
+      "zh": "适合"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Association",
+       "zh": "联想式"
+      },
+      {
+       "en": "The movement itself: feel, position, rhythm",
+       "zh": "动作本身：感觉、位置、节奏"
+      },
+      {
+       "en": "Tuning a skill, early stages",
+       "zh": "调节技术、早期阶段"
+      }
+     ],
+     [
+      {
+       "en": "Dissociation, internal",
+       "zh": "分离式，内部"
+      },
+      {
+       "en": "A sensation such as breathing",
+       "zh": "呼吸这样的感觉"
+      },
+      {
+       "en": "Lowering arousal, managing nerves",
+       "zh": "降低唤醒、管理紧张"
+      }
+     ],
+     [
+      {
+       "en": "Dissociation, external",
+       "zh": "分离式，外部"
+      },
+      {
+       "en": "The outcome or environment: score, next point, opponent",
+       "zh": "结果或环境：比分、下一个分、对手"
+      },
+      {
+       "en": "Sustaining effort, blocking unhelpful thought",
+       "zh": "维持努力、阻断无用想法"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Autonomy support means providing rationale and offering real choice, not that the athlete decides everything.",
+     "zh": "自主支持意味着提供理由并提供真实选择，而不是由运动员决定一切。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: building a routine that survives a bad day",
+    "zh": "例题：构建一个能熬过糟糕日子的例程"
+   },
+   "given": {
+    "en": "A discus thrower performs well in training and poorly in competition, and reports thinking about the result throughout.",
+    "zh": "一名铁饼运动员训练中表现好、比赛中表现差，并报告全程都在想着结果。"
+   },
+   "steps": [
+    {
+     "en": "The content of the thought is outcome-based, which points attention at the one thing not controllable.",
+     "zh": "想法的内容是基于结果的，它把注意指向了唯一不可控的东西。"
+    },
+    {
+     "en": "So the plan is not to suppress the thought, which fails, but to displace it with a pre-set cue.",
+     "zh": "因此计划不是压制那个想法——那会失败——而是用一个预先设定的提示把它挤开。"
+    },
+    {
+     "en": "Three breaths with a long exhale, then one fixed word, then the delivery: the same three steps every time.",
+     "zh": "三次带长呼气的呼吸，然后一个固定的词，然后出手：每次都是同样三步。"
+    },
+    {
+     "en": "The routine occupies exactly the window in which the worry would otherwise occupy the athlete.",
+     "zh": "这个例程恰好占据了担忧原本会占据那位运动员的那段窗口。"
+    },
+    {
+     "en": "Assembled six weeks before a competition, not during the week of it.",
+     "zh": "在比赛前六周组装好，而不是在比赛那一周临时凑。"
+    }
+   ],
+   "answer": {
+    "en": "The routine is short, repeatable and dull, which are the qualities that make it work under pressure.",
+    "zh": "这个例程简短、可重复、乏味——而正是这些性质让它在压力下有效。"
+   }
+  }
+ },
+ "Task matching and self-talk": {
+  "figures": [
+   {
+    "title": {
+     "en": "The size of the question, and where the attention goes",
+     "zh": "问题的大小，以及注意的去向"
+    },
+    "viewBox": "0 0 320 194",
+    "legend": [
+     {
+      "en": "instructional self-talk points at controllable factors and is the one reliably associated with better technique",
+      "zh": "指令性自我对话指向可控因素，也是与更好技术稳定相关的那个"
+     },
+     {
+      "en": "motivational and negative self-talk both raise arousal and narrow attention, useful for effort and not for technique",
+      "zh": "动机性与负性自我对话都会提高唤醒并使注意变窄，对努力有用、对技术没用"
+     },
+     {
+      "en": "task matching makes today solvable, which is different from making it easy",
+      "zh": "任务匹配让今天的问题变得可解，这与把它变简单不同"
+     }
+    ],
+    "caption": {
+     "en": "Most of the anxiety athletes report at competition is outcome self-talk that has been rehearsed until it feels like strategy.",
+     "zh": "运动员在比赛中报告的大部分焦虑，其实是被反复排练到感觉像策略的结果性自我对话。"
+    },
+    "svg": "<g><rect class=\"fillB\" x=\"14\" y=\"24\" width=\"140\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h140v56H14z\"/><text class=\"lblS\" x=\"22\" y=\"46\">hit it perfectly</text><text class=\"lblS\" x=\"22\" y=\"66\">outcome goal</text></g><path class=\"th\" d=\"M154 52h24\"/><path class=\"ln\" d=\"M178 52l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillC\" x=\"178\" y=\"24\" width=\"128\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M178 24h128v56H178z\"/><text class=\"lblS\" x=\"186\" y=\"46\">get the bat to it</text><text class=\"lblS\" x=\"186\" y=\"66\">process goal</text></g><text class=\"lblS\" x=\"14\" y=\"104\">instructional · motivational · negative self-talk</text><g><rect class=\"fillA\" x=\"14\" y=\"118\" width=\"90\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 118h90v26H14z\"/><text class=\"lblS\" x=\"20\" y=\"135\">technique</text></g><g><rect class=\"fillA\" x=\"112\" y=\"118\" width=\"90\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M112 118h90v26H112z\"/><text class=\"lblS\" x=\"118\" y=\"135\">effort</text></g><g><rect class=\"fillB\" x=\"210\" y=\"118\" width=\"96\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M210 118h96v26H210z\"/><text class=\"lblS\" x=\"216\" y=\"135\">outcome, harmful</text></g><text class=\"lblS\" x=\"14\" y=\"168\">difficulty belongs to the task, attention belongs to</text><text class=\"lblS\" x=\"14\" y=\"181\">what the athlete rehearses saying</text><text class=\"lblS\" x=\"14\" y=\"186\">change either one and a stuck athlete moves</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Self-talk types and their effect",
+     "zh": "自我对话类型及其效果"
+    },
+    "cols": [
+     {
+      "en": "Type",
+      "zh": "类型"
+     },
+     {
+      "en": "Example",
+      "zh": "例子"
+     },
+     {
+      "en": "Raises arousal",
+      "zh": "提高唤醒"
+     },
+     {
+      "en": "Improves technique",
+      "zh": "改善技术"
+     },
+     {
+      "en": "Note",
+      "zh": "备注"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Instructional",
+       "zh": "指令性"
+      },
+      {
+       "en": "smooth, through the ball, tall",
+       "zh": "顺、穿球、高一点"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      },
+      {
+       "en": "Yes, reliably",
+       "zh": "是，稳定"
+      },
+      {
+       "en": "Rarely used, because athletes reach for motivational talk by default",
+       "zh": "很少被使用，因为运动员会默认去抓动机性对话"
+      }
+     ],
+     [
+      {
+       "en": "Motivational",
+       "zh": "动机性"
+      },
+      {
+       "en": "push, come on, again",
+       "zh": "顶住、再来、再一次"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      },
+      {
+       "en": "Rarely",
+       "zh": "很少"
+      },
+      {
+       "en": "Reliable for effort, so it is not wrong",
+       "zh": "对努力可靠，因此不算错"
+      }
+     ],
+     [
+      {
+       "en": "Negative",
+       "zh": "负性"
+      },
+      {
+       "en": "do not mess this up, do not lose",
+       "zh": "别搞砸了、别输"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      },
+      {
+       "en": "Points attention at the very moment it matters most",
+       "zh": "把注意指向恰恰最关键的时刻"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The instruction just relax names no behaviour, so it is a wish rather than a strategy.",
+     "zh": "放松一点这条指令没有指定任何行为，因此它是一个愿望而不是一个策略。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: making the question smaller",
+    "zh": "例题：把问题变小"
+   },
+   "given": {
+    "en": "A novice golfer is told to hit the target. He misses it, says I always miss this putt, and stops trying.",
+    "zh": "一名高尔夫初学者被告知把球打上果岭。他打偏了，说我总是推不进，然后不再尝试。"
+   },
+   "steps": [
+    {
+     "en": "Hit the target asks for an outcome, which is not fully in the control of a beginner.",
+     "zh": "把球打上果岭要求的是一个结果，而对初学者而言它并不完全可控。"
+    },
+    {
+     "en": "Task matching changes the question to get the putter face square through the ball, which is attemptable today.",
+     "zh": "任务匹配把问题改成让推杆面正着穿过球，这是今天就能尝试的。"
+    },
+    {
+     "en": "Self-talk follows: through the ball rather than do not miss, because one is a process and the other is a verdict.",
+     "zh": "自我对话随之改变：用穿过球而不是别推丢，因为前者是过程、后者是判决。"
+    },
+    {
+     "en": "The athlete now has something to do on the next attempt, and something to notice afterwards.",
+     "zh": "这位运动员下一次尝试时有了可做的事，之后也有了可观察的东西。"
+    },
+    {
+     "en": "The same person, the same swing, and the question is now the right size.",
+     "zh": "同一个人、同一个挥杆，而问题现在的大小是对的。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing about ability or personality changed. The only variable was the size of the question, and that is the one a coach controls directly.",
+    "zh": "能力与性格什么都没变。唯一的变量是问题的大小，而这正是教练能直接控制的那一个。"
+   }
+  }
+ },
+ "Need achievement and orientations": {
+  "figures": [
+   {
+    "title": {
+     "en": "Choosing tasks, and what a loss does afterwards",
+     "zh": "任务的选择，以及失败之后会发生什么"
+    },
+    "viewBox": "0 0 320 214",
+    "legend": [
+     {
+      "en": "the need for achievement shows as a preference for tasks of moderate difficulty",
+      "zh": "成就需要表现为对中等难度任务的偏好"
+     },
+     {
+      "en": "mastery orientation serves the need for competence; performance orientation serves it comparatively",
+      "zh": "掌握取向服务于胜任需要；绩效取向则以比较的方式服务于它"
+     },
+     {
+      "en": "the divergence appears in the effort that follows a bad outcome",
+      "zh": "分歧出现在糟糕结果之后的努力程度"
+     }
+    ],
+    "caption": {
+     "en": "Most athletes want both, so asking whether this athlete is achievement or performance oriented forces a binary on a person who has both.",
+     "zh": "多数运动员两者都想要，所以问这位运动员是成就取向还是绩效取向，是把一个两者都有的人塞进二分法。"
+    },
+    "svg": "<g><text class=\"lblS\" x=\"14\" y=\"26\">mastery orientation</text><g><circle class=\"fillA\" cx=\"30\" cy=\"48\" r=\"7\"/><circle class=\"fillA\" cx=\"70\" cy=\"48\" r=\"10\"/><circle class=\"fillC\" cx=\"116\" cy=\"48\" r=\"13\"/></g><text class=\"lblS\" x=\"140\" y=\"52\">harder tasks as skill grows</text><text class=\"lblS\" x=\"14\" y=\"82\">after a loss: effort usually rises</text></g><g><text class=\"lblS\" x=\"14\" y=\"118\">performance orientation</text><g><circle class=\"fillA\" cx=\"30\" cy=\"140\" r=\"6\"/><circle class=\"fillB\" cx=\"70\" cy=\"140\" r=\"8\"/><circle class=\"fillA\" cx=\"116\" cy=\"140\" r=\"10\"/></g><text class=\"lblS\" x=\"121\" y=\"144\">safe tasks, avoids being outclassed</text><text class=\"lblS\" x=\"14\" y=\"172\">after a loss: effort usually falls</text><text class=\"lblS\" x=\"3\" y=\"194\">the two look identical on the sideline and need opposite</text><text class=\"lblS\" x=\"14\" y=\"207\">coaching</text></g>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two orientations compared",
+     "zh": "两种取向的对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Mastery orientation",
+      "zh": "掌握取向"
+     },
+     {
+      "en": "Performance orientation",
+      "zh": "绩效取向"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Aim",
+       "zh": "目标"
+      },
+      {
+       "en": "To master, to grow, to be able to do what was not possible last month",
+       "zh": "掌握、成长、能做到上个月做不到的事"
+      },
+      {
+       "en": "To be superior, to beat others, to be seen as competent",
+       "zh": "优越、胜过他人、被视为有能力"
+      }
+     ],
+     [
+      {
+       "en": "Task choice",
+       "zh": "任务选择"
+      },
+      {
+       "en": "A task that is a real test",
+       "zh": "一项构成真实考验的任务"
+      },
+      {
+       "en": "A task that maximises the chance of looking good",
+       "zh": "最能看起来好的任务"
+      }
+     ],
+     [
+      {
+       "en": "Effort after a loss",
+       "zh": "失败后的努力"
+      },
+      {
+       "en": "Usually higher",
+       "zh": "通常更高"
+      },
+      {
+       "en": "Usually lower",
+       "zh": "通常更低"
+      }
+     ],
+     [
+      {
+       "en": "Attribution of outcome",
+       "zh": "结果的归因"
+      },
+      {
+       "en": "To controllable factors",
+       "zh": "归因于可控因素"
+      },
+      {
+       "en": "To ability, which is a durable identity",
+       "zh": "归因于能力，一个持久的身份"
+      }
+     ],
+     [
+      {
+       "en": "Response to a missed selection",
+       "zh": "对落选的回应"
+      },
+      {
+       "en": "Treated as information about what to work on",
+       "zh": "当作关于该练什么的信息"
+      },
+      {
+       "en": "Treated as information about the self",
+       "zh": "当作关于自己的信息"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The drop in effort after a loss is usually a change of direction rather than of motivation, and it is reversible by changing what the next session asks for.",
+     "zh": "失败之后的努力下降通常是方向的改变而不是动力的改变，而且可以通过改变下一堂训练课的要求来逆转。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading the task an athlete chooses",
+    "zh": "例题：解读运动员选择的任务"
+   },
+   "given": {
+    "en": "A player is offered two sessions: a shooting drill they know they can do well, or one they have not tried.",
+    "zh": "一名球员面前有两个选项：一堂他有把握做好的射门练习，或一堂他没试过的。"
+   },
+   "steps": [
+    {
+     "en": "Choosing the familiar one is usually read as caution. It is more often an orientation signal.",
+     "zh": "选择熟悉的那个通常被读作谨慎。而它更常是一个取向信号。"
+    },
+    {
+     "en": "A mastery-oriented athlete takes the unfamiliar one, because improvement is available there.",
+     "zh": "掌握取向的运动员会选没试过的那个，因为改进在那里才是可得的。"
+    },
+    {
+     "en": "A performance-oriented athlete takes the safe one, to protect a public verdict of competence.",
+     "zh": "绩效取向的运动员会选安全的那个，以保护一个关于胜任的公开判决。"
+    },
+    {
+     "en": "The coach can make the second choice informative by framing it as information rather than as failure.",
+     "zh": "教练可以让第二种选择变得有信息量，方法是把它框定为信息而不是失败。"
+    },
+    {
+     "en": "Have you tried the new finishing drill yet invites the choice without exposing the belief.",
+     "zh": "你试过那个新的终结练习了吗这句话，在不暴露信念的前提下邀请了这个选择。"
+    }
+   ],
+   "answer": {
+    "en": "The drill is the same either way. What changed is what the athlete thought choosing it would reveal about them.",
+    "zh": "两种情况下练习本身是一样的。改变的是运动员认为选择它会暴露自己的什么。"
+   }
+  }
+ },
+ "High ego with low ability and coach influence": {
+  "figures": [
+   {
+    "title": {
+     "en": "A belief that is robust against evidence",
+     "zh": "一个对证据稳健的信念"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "high certainty with low competence is stable, because the athlete does not seek information that would correct it",
+      "zh": "高确定感加低能力是稳定的，因为这位运动员不寻找能纠正它的信息"
+     },
+     {
+      "en": "early performance supports the belief, and so does everyone around them reading confidence as competence",
+      "zh": "早期表现支持这个信念，周围的每个人把自信读成能力也在支持它"
+     },
+     {
+      "en": "the effective intervention is indirect: raise the difficulty so the task, not the argument, tests the belief",
+      "zh": "有效的干预是间接的：提高难度，让任务而不是争论来检验这个信念"
+     }
+    ],
+    "caption": {
+     "en": "The athlete is entitled to believe what they believe until the performance contradicts it. The coach's job is to arrange the contradiction.",
+     "zh": "运动员有权相信他所相信的，直到表现与之矛盾。教练的工作是安排那次矛盾。"
+    },
+    "svg": "<g><circle class=\"fillC\" cx=\"80\" cy=\"80\" r=\"42\"/><path class=\"ln\" d=\"M80 38a42 42 0 1 1 0 84 42 42 0 1 1 0-84z\"/><text class=\"lbl\" x=\"60\" y=\"76\">high</text><text class=\"lbl\" x=\"64\" y=\"92\">certainty</text></g><path class=\"th\" d=\"M122 60h44\"/><path class=\"ln\" d=\"M166 60l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"166\" y=\"44\" width=\"140\" height=\"32\" rx=\"6\"/><path class=\"ln\" d=\"M166 44h140v32H166z\"/><text class=\"lblS\" x=\"166\" y=\"64\">selects flattering feedback</text><path class=\"th\" d=\"M122 100h44\"/><path class=\"ln\" d=\"M166 100l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"166\" y=\"84\" width=\"140\" height=\"32\" rx=\"6\"/><path class=\"ln\" d=\"M166 84h140v32H166z\"/><text class=\"lblS\" x=\"174\" y=\"104\">reads setbacks as luck</text><path class=\"th\" d=\"M80 38v-20\"/><path class=\"ln\" d=\"M80 18l-4.5 9h9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"88\" y=\"16\">reinforced by teammates</text><text class=\"lblS\" x=\"14\" y=\"152\">the coach created the belief and controls the</text><text class=\"lblS\" x=\"14\" y=\"165\">opportunities that could disprove it</text><text class=\"lblS\" x=\"14\" y=\"170\">confrontation invites defence and produces a public</text><text class=\"lblS\" x=\"14\" y=\"183\">contest the athlete will not lose socially</text><text class=\"lblS\" x=\"3\" y=\"190\">so the effective move is to raise the standard until the</text><text class=\"lblS\" x=\"14\" y=\"203\">task tests the belief</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What works and what does not, in practice",
+     "zh": "实践中有效与无效的做法"
+    },
+    "cols": [
+     {
+      "en": "Approach",
+      "zh": "做法"
+     },
+     {
+      "en": "Why",
+      "zh": "原因"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Confronting the belief publicly",
+       "zh": "公开反驳那个信念"
+      },
+      {
+       "en": "The athlete defends it, and the contest is lost socially rather than factually",
+       "zh": "运动员会捍卫它，而这场争论在社交上而不是事实上输了"
+      }
+     ],
+     [
+      {
+       "en": "Telling them to be humble",
+       "zh": "告诉他们要谦逊"
+      },
+      {
+       "en": "Names a character quality, which the athlete can decline to accept",
+       "zh": "指名一种品格，而运动员可以拒绝接受它"
+      }
+     ],
+     [
+      {
+       "en": "Raising the difficulty until the task tests it",
+       "zh": "提高难度直到任务检验它"
+      },
+      {
+       "en": "Produces evidence the athlete did not have to accept on trust",
+       "zh": "产生一份不必凭信任接受的证据"
+      }
+     ],
+     [
+      {
+       "en": "Feedback about the specific behaviour",
+       "zh": "关于具体行为的反馈"
+      },
+      {
+       "en": "Testable, so it can be acted on and checked",
+       "zh": "可被检验，因此能被执行和核对"
+      }
+     ],
+     [
+      {
+       "en": "Protecting the athlete from public comparison",
+       "zh": "保护运动员免于当众比较"
+      },
+      {
+       "en": "Removes the social cost of a data point that is usually accurate",
+       "zh": "移除了一次通常准确的数据点所带来的社交代价"
+      }
+     ],
+     [
+      {
+       "en": "Making the standard visible",
+       "zh": "让标准变得可见"
+      },
+      {
+       "en": "Converts a private belief into a public criterion",
+       "zh": "把一个私人信念转化为公开判据"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Humiliation produces compliance rather than learning, and it produces it only while the athlete is somewhere the coach cannot see.",
+     "zh": "羞辱产生的是顺从而不是学习，而且只持续到运动员走到教练看不见的地方为止。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: letting the task do the arguing",
+    "zh": "例题：让任务去做这场争论"
+   },
+   "given": {
+    "en": "A 16-year-old midfielder is confident he is a professional and is not, and coaches have told him so.",
+    "zh": "一名 16 岁中场自信自己是职业球员但并不是，而教练们已经告诉过他这一点。"
+   },
+   "steps": [
+    {
+     "en": "Telling him has not worked, because the belief is not updated by being contradicted verbally.",
+     "zh": "告诉他并没有起作用，因为这个信念不会因为被言语反驳而更新。"
+    },
+    {
+     "en": "So arrange a situation where the standard is visible and the outcome is unambiguous.",
+     "zh": "因此安排一个标准可见、结果毫不含糊的情境。"
+    },
+    {
+     "en": "Give him a real match against a higher-level side, in a position where the difference will show.",
+     "zh": "让他在真实比赛中对阵更高水平的队伍，并放在差距会显现的位置上。"
+    },
+    {
+     "en": "Coach the behaviour specifically, not the character, so the feedback is actionable.",
+     "zh": "针对具体行为而非品格来做教练工作，使反馈可以据以行动。"
+    },
+    {
+     "en": "The conclusion is then his own, reached without a public contest either party had to lose.",
+     "zh": "于是结论是他自己得出的，而且全程不需要任何一方输掉的公开争论。"
+    }
+   ],
+   "answer": {
+    "en": "The coach stopped trying to change the belief and changed what the athlete could observe instead.",
+    "zh": "这位教练不再试图改变那个信念，而是改变了这位运动员能够观察到的东西。"
+   }
+  }
+ },
+ "Coaching the environment": {
+  "figures": [
+   {
+    "title": {
+     "en": "What the club rewards and punishes",
+     "zh": "俱乐部奖励与惩罚什么"
+    },
+    "viewBox": "0 0 320 228",
+    "svg": "<text class=\"lblS\" x=\"20\" y=\"28\">what the club rewards</text><text class=\"lblS\" x=\"164\" y=\"28\" >what the club punishes</text><text class=\"lblXS\" x=\"20\" y=\"46\">mastery climate</text><text class=\"lblXS\" x=\"164\" y=\"46\">ego climate</text><rect class=\"fillB\" x=\"20\" y=\"56\" width=\"128\" height=\"42\" rx=\"6\"/><path class=\"ln\" d=\"M20 56h128v42H20z\"/><text class=\"lblS\" x=\"28\" y=\"74\">effort is information</text><text class=\"lblS\" x=\"28\" y=\"88\">effort is weakness</text><rect class=\"fillA\" x=\"164\" y=\"56\" width=\"128\" height=\"42\" rx=\"6\"/><path class=\"ln\" d=\"M164 56h128v42H164z\"/><text class=\"lblS\" x=\"172\" y=\"74\">mistakes are data</text><text class=\"lblS\" x=\"172\" y=\"88\">mistakes are exposure</text><rect class=\"fillB\" x=\"20\" y=\"106\" width=\"128\" height=\"42\" rx=\"6\"/><path class=\"ln\" d=\"M20 106h128v42H20z\"/><text class=\"lblS\" x=\"28\" y=\"124\">quiet players are asked</text><text class=\"lblS\" x=\"28\" y=\"138\">loud players are heard</text><rect class=\"fillA\" x=\"164\" y=\"106\" width=\"128\" height=\"42\" rx=\"6\"/><path class=\"ln\" d=\"M164 106h128v42H164z\"/><text class=\"lblS\" x=\"172\" y=\"124\">progress is measured</text><text class=\"lblS\" x=\"172\" y=\"138\">rank is the report</text><path class=\"dash\" d=\"M154 20v148\"/><path class=\"dash\" d=\"M14 98h296\"/><text class=\"lblS\" x=\"8\" y=\"192\">a beginner told publicly about their ability rationally</text><text class=\"lblS\" x=\"20\" y=\"205\">stops trying in public</text><text class=\"lblS\" x=\"19\" y=\"208\">which is a second-order effect of the climate, not of</text><text class=\"lblS\" x=\"20\" y=\"221\">the ability</text>",
+    "legend": [
+     {
+      "en": "a climate is what the club rewards and what it punishes",
+      "zh": "氛围就是俱乐部奖励什么、惩罚什么"
+     },
+     {
+      "en": "mastery climates make effort informative; ego climates make it exposing",
+      "zh": "掌握氛围让努力成为信息；表现氛围让努力成为暴露"
+     },
+     {
+      "en": "the four cells are the four questions a team answers silently",
+      "zh": "这四格就是团队默默回答的四个问题"
+     }
+    ],
+    "caption": {
+     "en": "A climate is not a philosophy. It is a standing answer to four concrete questions.",
+     "zh": "氛围不是一种理念，而是对四个具体问题的固定回答。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Mastery and ego climate compared",
+     "zh": "掌握氛围与自我氛围对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Mastery climate",
+      "zh": "掌握氛围"
+     },
+     {
+      "en": "Ego climate",
+      "zh": "自我氛围"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Definition of success",
+       "zh": "成功的定义"
+      },
+      {
+       "en": "The task: improved, executed the plan, solved it",
+       "zh": "任务本身：进步了、执行了计划、解决了问题"
+      },
+      {
+       "en": "Relative to others: better, superior, seen as competent",
+       "zh": "相对于他人：更强、更优越、被视为有能力"
+      }
+     ],
+     [
+      {
+       "en": "Effect on effort and persistence",
+       "zh": "对努力与坚持的影响"
+      },
+      {
+       "en": "Both increase, because a difficult task is where improvement is available",
+       "zh": "两者都增加，因为困难任务正是改进可得的地方"
+      },
+      {
+       "en": "Effort rises only where it is likely to be seen",
+       "zh": "努力只在可能被看见的地方才上升"
+      }
+     ],
+     [
+      {
+       "en": "Attribution",
+       "zh": "归因"
+      },
+      {
+       "en": "To controllable factors",
+       "zh": "归因于可控因素"
+      },
+      {
+       "en": "To ability, which is a durable identity",
+       "zh": "归因于能力，一个持久的身份"
+      }
+     ],
+     [
+      {
+       "en": "Effect of a bad outcome",
+       "zh": "糟糕结果的影响"
+      },
+      {
+       "en": "Information; effort usually rises afterwards",
+       "zh": "是信息；之后努力通常上升"
+      },
+      {
+       "en": "A verdict; effort usually falls afterwards",
+       "zh": "是判决；之后努力通常下降"
+      }
+     ],
+     [
+      {
+       "en": "Best used",
+       "zh": "最适用"
+      },
+      {
+       "en": "Learning, and youth sport",
+       "zh": "学习，以及青少年运动"
+      },
+      {
+       "en": "Where the outcome genuinely is the point",
+       "zh": "结果本身确实是目的的地方"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The error is applying one of them where the other belongs, and the effect of a climate on performance is larger than most coaches expect.",
+     "zh": "错误在于把其中一种用在了该用另一种的地方，而氛围对表现的影响大于多数教练的预期。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: finding the climate you actually have",
+    "zh": "例题：找出你实际拥有的氛围"
+   },
+   "given": {
+    "en": "A coach believes the club is mastery-oriented. The beginner midfielder has stopped volunteering for the first team.",
+    "zh": "一位教练认为俱乐部是掌握导向的。而那名新手中场已不再主动报名参加一队。"
+   },
+   "steps": [
+    {
+     "en": "The belief about the climate and the behaviour of the athlete do not match, so one of them is wrong.",
+     "zh": "对氛围的判断与运动员的行为不一致，因此两者中有一个是错的。"
+    },
+    {
+     "en": "Check what actually happens after a mistake: is it corrected with a specific action, or received as evidence about the player?",
+     "zh": "检查错误之后实际发生了什么：是被针对具体动作纠正，还是被当作关于球员的证据接受？"
+    },
+    {
+     "en": "Check who is praised, and for what. If only results are praised, the climate is ego regardless of the stated values.",
+     "zh": "检查谁被表扬、以及因为什么。如果只有成绩被表扬，那么无论嘴上宣称的价值观如何，氛围就是自我的。"
+    },
+    {
+     "en": "Check whether the beginner is still being asked to attempt things beyond them at the end of the month.",
+     "zh": "检查一个月之后，那位新成员是否仍在被要求尝试超出自己能力的事情。"
+    },
+    {
+     "en": "If not, the club is not mastery-oriented, and the fix is a behavioural one rather than a statement about values.",
+     "zh": "如果没有，那么俱乐部就不是掌握导向的，而解决办法是行为上的，而不是价值观声明上的。"
+    }
+   ],
+   "answer": {
+    "en": "The coach's intention was mastery and the environment was ego. That gap is the most common finding in a climate review.",
+    "zh": "教练的意图是掌握，而环境是自我的。这个落差是氛围审查中最常见的发现。"
+   }
+  }
+ },
+ "Three basic needs and continuum": {
+  "figures": [
+   {
+    "title": {
+     "en": "Three needs, all satisfiable and all frustrable at once",
+     "zh": "三种需要：可同时满足，也可同时受挫"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "all three can be satisfied or frustrated in any situation, in any proportion",
+      "zh": "在任何情境中，三者都可被满足或受挫，比例任意"
+     },
+     {
+      "en": "frustration is not the absence of satisfaction; it is a separate state with its own consequences",
+      "zh": "受挫并不等于满足的缺失，而是一个有自己后果的独立状态"
+     },
+     {
+      "en": "a session can be autonomy-supportive at the start and controlling by the end without anyone noticing the switch",
+      "zh": "一堂课可以在开头支持自主、在结尾变成控制型，却没有人注意到这个切换"
+     }
+    ],
+    "caption": {
+     "en": "The reason this matters is that frustration has its own responses, and they are what actually get observed.",
+     "zh": "这一点之所以重要，是因为受挫有其自身的反应，而那才是真正被观察到的东西。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"92\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h92v52H14z\"/><text class=\"lbl\" x=\"30\" y=\"48\">autonomy</text><text class=\"lblS\" x=\"30\" y=\"66\">self-endorsed</text></g><g><rect class=\"fillB\" x=\"114\" y=\"24\" width=\"92\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M114 24h92v52H114z\"/><text class=\"lbl\" x=\"130\" y=\"48\">competence</text><text class=\"lblS\" x=\"130\" y=\"66\">a real test met</text></g><g><rect class=\"fillA\" x=\"214\" y=\"24\" width=\"92\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M214 24h92v52H214z\"/><text class=\"lbl\" x=\"230\" y=\"48\">related</text><text class=\"lblS\" x=\"230\" y=\"66\">cared for</text></g><path class=\"th\" d=\"M14 92h292\"/><text class=\"lblS\" x=\"14\" y=\"110\">satisfied looks like:</text><text class=\"lblS\" x=\"14\" y=\"128\">enthusiasm · persistence · a willingness to be</text><text class=\"lblS\" x=\"14\" y=\"141\">vulnerable</text><text class=\"lblS\" x=\"3\" y=\"152\">frustrated looks like: compliance that mimics motivation</text><text class=\"lblS\" x=\"14\" y=\"165\">· helplessness and withdrawal</text><text class=\"lblS\" x=\"14\" y=\"168\">disengagement from the people rather than the task,</text><text class=\"lblS\" x=\"14\" y=\"181\">which reads as apathy</text><text class=\"lblS\" x=\"14\" y=\"190\">the practical question is which need is currently the</text><text class=\"lblS\" x=\"14\" y=\"203\">bottleneck</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three needs and what frustration produces",
+     "zh": "三种需要及受挫产生的结果"
+    },
+    "cols": [
+     {
+      "en": "Need",
+      "zh": "需要"
+     },
+     {
+      "en": "When satisfied",
+      "zh": "满足时"
+     },
+     {
+      "en": "When frustrated",
+      "zh": "受挫时"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Autonomy",
+       "zh": "自主"
+      },
+      {
+       "en": "Engagement experienced as self-endorsed",
+       "zh": "投入被体验为自我认可"
+      },
+      {
+       "en": "Compliance that looks identical to motivated behaviour",
+       "zh": "与有动机的行为看起来一模一样的顺从"
+      }
+     ],
+     [
+      {
+       "en": "Competence",
+       "zh": "胜任"
+      },
+      {
+       "en": "Feeling effective, mastering something",
+       "zh": "感到有效、掌握某样东西"
+      },
+      {
+       "en": "Helplessness and withdrawal: attempts stop being associated with evidence of inadequacy",
+       "zh": "无助与退缩：尝试不再与不足的证据相关联"
+      }
+     ],
+     [
+      {
+       "en": "Relatedness",
+       "zh": "归属"
+      },
+      {
+       "en": "Feeling connected to and cared for by the people involved",
+       "zh": "感到与相关的人有连接并被关心"
+      },
+      {
+       "en": "Disengagement from the people rather than the task, reading as apathy",
+       "zh": "对人的疏离而不是对任务的疏离，表现为冷漠"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Their relative strength varies by person and by situation, so the practical question is which one is currently the bottleneck.",
+     "zh": "它们的相对强度因人因情境而异，所以实际问题是眼下哪一个是瓶颈。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: an athlete who looks fine and is not",
+    "zh": "例题：看起来没问题、其实有问题的运动员"
+   },
+   "given": {
+    "en": "A 17-year-old attends every session, performs to a high standard, and says nothing about how it feels.",
+    "zh": "一名 17 岁运动员出席每一堂训练课、表现很高，并对自己的感受只字不提。"
+   },
+   "steps": [
+    {
+     "en": "Attendance and performance suggest no problem, and both are being read as evidence of motivation.",
+     "zh": "出席与表现看不出问题，而两者都被读作动机的证据。"
+    },
+    {
+     "en": "Ask the three needs separately, because a single average question hides which one is missing.",
+     "zh": "分别问三种需要，因为一个笼统的平均问题会掩盖到底缺哪一项。"
+    },
+    {
+     "en": "If competence is high but autonomy is low, the athlete is compliant rather than motivated, and will leave when something better appears.",
+     "zh": "如果胜任高而自主低，这位运动员是顺从而非有动力，一旦有更好的选择就会离开。"
+    },
+    {
+     "en": "The fix is a real decision: let him choose one part of the programme, with a consequence attached.",
+     "zh": "解决办法是一次真实的决定：让他选择方案中的某一部分，并附上相应的后果。"
+    },
+    {
+     "en": "If relatedness is low instead, the issue is who he is with, and changing the task will not help.",
+     "zh": "如果低的是归属，问题就出在他和谁在一起，而改变任务不会有帮助。"
+    }
+   ],
+   "answer": {
+    "en": "High attendance was the symptom, not the reassurance. It is consistent with both motivation and compliance, and the two need opposite responses.",
+    "zh": "高出席率是症状，而不是让人安心的证据。它与有动力和顺从都相符，而这两者需要相反的回应。"
+   }
+  }
+ },
+ "Controlled, autonomous and four extrinsic regulations": {
+  "figures": [
+   {
+    "title": {
+     "en": "The continuum a person moves along over months",
+     "zh": "一个人在数月里移动的连续体"
+    },
+    "viewBox": "0 0 320 202",
+    "legend": [
+     {
+      "en": "the continuum is the point; intrinsic versus extrinsic is a question answered with yes or no, which helps nobody",
+      "zh": "连续体才是要点；内在还是外在一个是用是否回答的问题，对谁都没有帮助"
+     },
+     {
+      "en": "extrinsic rewards tend to undermine an activity that was already interesting",
+      "zh": "外在奖励往往会破坏一项本来就有趣的活动"
+     },
+     {
+      "en": "the same reward given for something genuinely tedious can be the honest way to get it done",
+      "zh": "同样的奖励用在真正乏味的事情上，可以是把它做完的诚实办法"
+     }
+    ],
+    "caption": {
+     "en": "The sensible position is not that extrinsic motivation is bad, but that you should know which rung the athlete is on.",
+     "zh": "合理的立场不是外在动机是坏事，而是你应该知道运动员在哪一级。"
+    },
+    "svg": "<path class=\"th\" d=\"M20 140h280\"/><g><circle class=\"fillC\" cx=\"36\" cy=\"136\" r=\"8\"/><text class=\"lblS\" x=\"16\" y=\"112\">integrated</text><text class=\"lblS\" x=\"14\" y=\"160\">it fits who I am</text></g><g><circle class=\"fillB\" cx=\"92\" cy=\"130\" r=\"8\"/><text class=\"lblS\" x=\"76\" y=\"106\">identified</text><text class=\"lblS\" x=\"76\" y=\"160\">I judge it valuable</text></g><g><circle class=\"fillB\" cx=\"148\" cy=\"122\" r=\"8\"/><text class=\"lblS\" x=\"132\" y=\"98\">introjected</text><text class=\"lblS\" x=\"132\" y=\"160\">guilt if I do not</text></g><g><circle class=\"fillA\" cx=\"204\" cy=\"110\" r=\"8\"/><text class=\"lblS\" x=\"190\" y=\"86\">external</text><text class=\"lblS\" x=\"190\" y=\"160\">the reward</text></g><g><circle class=\"fillC\" cx=\"284\" cy=\"64\" r=\"10\"/><text class=\"lblS\" x=\"262\" y=\"42\">intrinsic</text><text class=\"lblS\" x=\"222\" y=\"160\">it is interesting</text></g><path class=\"dash\" d=\"M36 128C90 118 150 100 200 84c30 -10 60 -18 84 -20\"/><text class=\"lblS\" x=\"3\" y=\"182\">the two ends are not opposed, so a coach can use both at</text><text class=\"lblS\" x=\"14\" y=\"195\">once</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four extrinsic regulations and what each implies",
+     "zh": "四种外在调节及其含义"
+    },
+    "cols": [
+     {
+      "en": "Type",
+      "zh": "类型"
+     },
+     {
+      "en": "The reason",
+      "zh": "理由"
+     },
+     {
+      "en": "Sustainable?",
+      "zh": "可持续吗"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Intrinsic",
+       "zh": "内在"
+      },
+      {
+       "en": "The activity is inherently interesting or satisfying",
+       "zh": "活动本身就有趣或令人满足"
+      },
+      {
+       "en": "Yes, but not always available",
+       "zh": "是，但并非总是可得"
+      }
+     ],
+     [
+      {
+       "en": "External",
+       "zh": "外在"
+      },
+      {
+       "en": "Doing it for a separable reward or to avoid punishment",
+       "zh": "为了可分离的奖励而做，或为避免惩罚"
+      },
+      {
+       "en": "Poorly, and it can displace intrinsic motivation",
+       "zh": "差，而且会挤掉内在动机"
+      }
+     ],
+     [
+      {
+       "en": "Introjected",
+       "zh": "内摄"
+      },
+      {
+       "en": "Doing it because you would feel guilty or ashamed not to",
+       "zh": "因为不做会感到内疚或羞耻"
+      },
+      {
+       "en": "Poorly, and at a psychological cost",
+       "zh": "差，且有心理代价"
+      }
+     ],
+     [
+      {
+       "en": "Identified",
+       "zh": "认同"
+      },
+      {
+       "en": "You have concluded the value is real, so it functions more like intrinsic",
+       "zh": "你已认定这个价值是真的，因此功能上更接近内在"
+      },
+      {
+       "en": "Yes, and this is the durable one",
+       "zh": "是，而且这是最持久的那一个"
+      }
+     ],
+     [
+      {
+       "en": "Integrated",
+       "zh": "整合"
+      },
+      {
+       "en": "It fits the rest of who you are",
+       "zh": "它与你是一个什么样的人相契合"
+      },
+      {
+       "en": "Yes, and it is part of a coherent self",
+       "zh": "是，而且是一个连贯自我的一部分"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Many athletes are sustained by identified regulation, which is more durable and does not require the activity to be fun on the day.",
+     "zh": "许多运动员是靠认同调节维持的，而它更持久，也不要求这项活动当天就是有趣的。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: when a reward is the right answer",
+    "zh": "例题：奖励何时是正确的答案"
+   },
+   "given": {
+    "en": "A netball player's club introduces a small cash bonus for attending two extra sessions a week.",
+    "zh": "一名无板篮球运动员的俱乐部推出一项小现金奖励，条件是每周多参加两次训练。"
+   },
+   "steps": [
+    {
+     "en": "First ask which rung the activity already sits on for this athlete.",
+     "zh": "先问这项活动对这位运动员而言本来在哪一级。"
+    },
+    {
+     "en": "If she finds the training enjoyable, a tangible reward is likely to reduce the interest in it.",
+     "zh": "如果她觉得训练本身有趣，一个有形奖励很可能会减少她对它的兴趣。"
+    },
+    {
+     "en": "If she finds it tedious, the same reward is an honest way to get it done, and the answer is not a no.",
+     "zh": "如果她觉得它乏味，同样的奖励是把它做完的诚实办法，而答案并不是“不“。"
+    },
+    {
+     "en": "A better pair in the enjoyable case is information about her own progress, used as the reward.",
+     "zh": "在有趣的情形下更好的搭配是关于她自己进步的反馈，把它当作奖励。"
+    },
+    {
+     "en": "The error is applying one strategy uniformly across a team whose members stand on different rungs.",
+     "zh": "错误是对一个成员分别站在同一架梯子不同级上的团队统一套用一种策略。"
+    }
+   ],
+   "answer": {
+    "en": "The bonus is defensible for the tedious half of the team and counterproductive for the other half, which is why the question comes before the policy.",
+    "zh": "这笔奖励对团队中觉得乏味的那一半是站得住脚的，对另一半则是适得其反——这就是为什么问题要先于政策。"
+   }
+  }
+ },
+ "Six mini-theories": {
+  "figures": [
+   {
+    "title": {
+     "en": "The six mechanisms that make one claim true",
+     "zh": "让一个主张为真的六个机制"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "cognitive evaluation theory: is the event perceived as controlling or informational",
+      "zh": "认知评价理论：一个事件被感知为控制性的还是信息性的"
+     },
+     {
+      "en": "organismic integration: how a value goes from someone told me to this matters to me",
+      "zh": "有机体整合：一个价值如何从有人告诉我变成这对我重要"
+     },
+     {
+      "en": "basic psychological need theory: the three things the environment must supply",
+      "zh": "基本心理需要理论：环境必须提供的三样东西"
+     }
+    ],
+    "caption": {
+     "en": "The honest limitation is that the mini-theories are small and overlapping, and the practical guidance is more solid than the distinctions between them.",
+     "zh": "诚实的局限是：这些小理论既小又互相重叠，而实用指导比它们之间的区分更扎实。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"22\" width=\"140\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M14 22h140v52H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">cognitive</text><text class=\"lblS\" x=\"22\" y=\"56\">evaluation</text><text class=\"lblS\" x=\"22\" y=\"68\">controlling or informational</text></g><g><rect class=\"fillB\" x=\"166\" y=\"22\" width=\"140\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M166 22h140v52H166z\"/><text class=\"lblS\" x=\"174\" y=\"42\">organismic</text><text class=\"lblS\" x=\"174\" y=\"56\">integration</text><text class=\"lblS\" x=\"174\" y=\"68\">internalisation</text></g><g><rect class=\"fillA\" x=\"14\" y=\"86\" width=\"140\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M14 86h140v52H14z\"/><text class=\"lblS\" x=\"22\" y=\"106\">need</text><text class=\"lblS\" x=\"22\" y=\"120\">theory</text><text class=\"lblS\" x=\"22\" y=\"132\">the three needs</text></g><g><rect class=\"fillB\" x=\"166\" y=\"86\" width=\"140\" height=\"52\" rx=\"6\"/><path class=\"ln\" d=\"M166 86h140v52H166z\"/><text class=\"lblS\" x=\"174\" y=\"106\">goal content</text><text class=\"lblS\" x=\"174\" y=\"120\">theory</text><text class=\"lblS\" x=\"174\" y=\"132\">not all goals are equal</text></g><g><rect class=\"fillA\" x=\"14\" y=\"150\" width=\"140\" height=\"44\" rx=\"6\"/><path class=\"ln\" d=\"M14 150h140v44H14z\"/><text class=\"lblS\" x=\"22\" y=\"170\">work motivation</text><text class=\"lblS\" x=\"22\" y=\"184\">intrinsic vs identified</text></g><g><rect class=\"fillB\" x=\"166\" y=\"150\" width=\"140\" height=\"44\" rx=\"6\"/><path class=\"ln\" d=\"M166 150h140v44H166z\"/><text class=\"lblS\" x=\"174\" y=\"170\">behavioural outcomes</text><text class=\"lblS\" x=\"174\" y=\"184\">what athletes experience</text></g>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The six, and the question each one answers",
+     "zh": "六个小理论，以及各自回答的问题"
+    },
+    "cols": [
+     {
+      "en": "Mini-theory",
+      "zh": "小理论"
+     },
+     {
+      "en": "The question it answers",
+      "zh": "它回答的问题"
+     },
+     {
+      "en": "Practical use",
+      "zh": "实用用途"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Cognitive evaluation",
+       "zh": "认知评价"
+      },
+      {
+       "en": "Is this event perceived as controlling or informational?",
+       "zh": "这个事件被感知为控制性的还是信息性的？"
+      },
+      {
+       "en": "Adding a consequence makes the same activity feel controlling",
+       "zh": "加上一个后果会让同一项活动感觉是控制性的"
+      }
+     ],
+     [
+      {
+       "en": "Organismic integration",
+       "zh": "有机体整合"
+      },
+      {
+       "en": "How does a value move from external to internal?",
+       "zh": "一个价值如何从外在走向内在？"
+      },
+      {
+       "en": "The path a beginner travels before it becomes their own",
+       "zh": "初学者在它变成自己的东西之前走过的路径"
+      }
+     ],
+     [
+      {
+       "en": "Self-determination of behaviour",
+       "zh": "行为自我决定"
+      },
+      {
+       "en": "Does the action feel self-endorsed?",
+       "zh": "这个行动感觉是自我认可的吗？"
+      },
+      {
+       "en": "Distinguishes compliance from motivation",
+       "zh": "区分顺从与动机"
+      }
+     ],
+     [
+      {
+       "en": "Perceptions of competence",
+       "zh": "胜任知觉"
+      },
+      {
+       "en": "Does the task feel met rather than impossible or trivial?",
+       "zh": "任务感觉是被达到了，而不是不可能或琐碎？"
+      },
+      {
+       "en": "Task difficulty must sit in a narrow band",
+       "zh": "任务难度必须落在一个很窄的区间"
+      }
+     ],
+     [
+      {
+       "en": "Autonomy support",
+       "zh": "自主支持"
+      },
+      {
+       "en": "Is the reason offered, heard, and genuinely chosen?",
+       "zh": "理由是否被提供、被听见、并被真正选择？"
+      },
+      {
+       "en": "The most actionable of the six for a coach",
+       "zh": "六个中对教练最可行动的那一个"
+      }
+     ],
+     [
+      {
+       "en": "Goal content",
+       "zh": "目标内容"
+      },
+      {
+       "en": "Does the goal build mastery or erode it?",
+       "zh": "这个目标是建立掌握还是侵蚀掌握？"
+      },
+      {
+       "en": "Just set a goal is inadequate advice",
+       "zh": "设个目标就行是不充分的建议"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The value to a coach is that a general commitment becomes specific answers: the same activity becomes controlling when a consequence is added and informational when it is explained.",
+     "zh": "它对教练的价值在于把一种笼统的承诺转化为具体的答案：同一项活动在被加上后果时变成控制性的，在被解释时变成信息性的。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same session, two explanations",
+    "zh": "例题：同一堂训练课，两种解释"
+   },
+   "given": {
+    "en": "A coach tells a squad the session is optional but the squad will be selected on Monday. Attendance is 100 percent.",
+    "zh": "一位教练告诉球队这堂课可选，但球队将在周一选拔。出席率 100%。"
+   },
+   "steps": [
+    {
+     "en": "Attendance at 100 percent is being read as motivation, and it is equally consistent with external regulation.",
+     "zh": "100% 的出席率被读作有动力，而它与外在调节同样相符。"
+    },
+    {
+     "en": "The selection is the separable consequence, so the reason for attending is currently external.",
+     "zh": "选拔就是那个可分离的后果，因此出席的理由目前是外在的。"
+    },
+    {
+     "en": "Explain why the session content matters, and the same act can begin to be informational.",
+     "zh": "解释这堂课的内容为何重要，同一个行为就可以开始变成信息性的。"
+    },
+    {
+     "en": "Then offer a genuine choice about one part of it, and autonomy is added without removing the consequence.",
+     "zh": "然后就其中一部分提供真实选择，自主就被加入了，而没有移除那个后果。"
+    },
+    {
+     "en": "Do this across several months, and the regulation moves up the continuum rather than merely being replaced.",
+     "zh": "在数月里这样做，调节会沿着连续体上移，而不只是被替换掉。"
+    }
+   ],
+   "answer": {
+    "en": "The behaviour did not change, and the athlete's reason for it did. That is the whole claim of the theory, in one session.",
+    "zh": "行为没有变，而这位运动员做它的理由变了。这就是整个理论的主张，浓缩在一堂训练课里。"
+   }
+  }
+ },
+ "Mastery and ego climates": {
+  "figures": [
+   {
+    "title": {
+     "en": "The transition most athletes meet",
+     "zh": "多数运动员都会遇到的过渡"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "a youth programme is mastery by default, because the results do not matter yet",
+      "zh": "青少年计划默认是掌握导向的，因为成绩还不重要"
+     },
+     {
+      "en": "a club is performance by default, because outcome is the only thing anyone reports",
+      "zh": "俱乐部默认是表现导向的，因为结果是所有人唯一会汇报的东西"
+     },
+     {
+      "en": "a sudden move removes the reason the athlete was good, and the effect is often a drop in performance",
+      "zh": "突然转向会移除这位运动员当初变强的理由，而后果往往是表现下滑"
+     }
+    ],
+    "caption": {
+     "en": "The practical handling is to keep a mastery standard available alongside the competitive one.",
+     "zh": "实际处理方式是：在一个竞争性标准旁边保留一个掌握标准。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"26\" width=\"130\" height=\"80\" rx=\"7\"/><path class=\"ln\" d=\"M14 26h130v80H14z\"/><text class=\"lbl\" x=\"26\" y=\"48\">youth</text><text class=\"lblS\" x=\"26\" y=\"68\">mastery</text><text class=\"lblS\" x=\"26\" y=\"84\">results do not</text><text class=\"lblS\" x=\"26\" y=\"98\">matter yet</text></g><g><rect class=\"fillB\" x=\"176\" y=\"26\" width=\"130\" height=\"80\" rx=\"7\"/><path class=\"ln\" d=\"M176 26h130v80H176z\"/><text class=\"lbl\" x=\"188\" y=\"48\">club</text><text class=\"lblS\" x=\"188\" y=\"68\">performance</text><text class=\"lblS\" x=\"188\" y=\"84\">outcome is the</text><text class=\"lblS\" x=\"188\" y=\"98\">only report</text></g><path class=\"th\" d=\"M144 60h32\"/><path class=\"ln\" d=\"M176 60l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"128\" y=\"44\">the jump</text><path class=\"ln\" d=\"M60 116C120 150 200 150 260 116\"/><text class=\"lblS\" x=\"14\" y=\"132\">performance often falls after the jump, rather than</text><text class=\"lblS\" x=\"14\" y=\"145\">rising</text><text class=\"lblS\" x=\"14\" y=\"156\">the fix is not to remove the competitive standard</text><text class=\"lblS\" x=\"14\" y=\"174\">but to keep a technical criterion the athlete can</text><text class=\"lblS\" x=\"14\" y=\"187\">succeed at</text><text class=\"lblS\" x=\"14\" y=\"192\">that is not the same as being the best in the room</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What to keep available across the transition",
+     "zh": "过渡期应当保留的东西"
+    },
+    "cols": [
+     {
+      "en": "Standard",
+      "zh": "标准"
+     },
+     {
+      "en": "Source",
+      "zh": "来源"
+     },
+     {
+      "en": "Purpose",
+      "zh": "作用"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "A technical or process criterion",
+       "zh": "一个技术或过程判据"
+      },
+      {
+       "en": "Coach-set, visible in the session",
+       "zh": "由教练设定、在训练课中可见"
+      },
+      {
+       "en": "Gives a success the athlete can actually achieve",
+       "zh": "提供一个这位运动员真能达到的成功"
+      }
+     ],
+     [
+      {
+       "en": "A personal target",
+       "zh": "一个个人目标"
+      },
+      {
+       "en": "The athlete's own, revisited each block",
+       "zh": "运动员自己的，每个阶段重设"
+      },
+      {
+       "en": "Keeps progression measurable outside results",
+       "zh": "使进步在成绩之外仍可衡量"
+      }
+     ],
+     [
+      {
+       "en": "Visible progress record",
+       "zh": "看得见的进步记录"
+      },
+      {
+       "en": "Times, distances, control ratings",
+       "zh": "时间、距离、控制评分"
+      },
+      {
+       "en": "Converts improvement from feeling to evidence",
+       "zh": "把改进从感觉变成证据"
+      }
+     ],
+     [
+      {
+       "en": "The competitive standard",
+       "zh": "那个竞争性标准"
+      },
+      {
+       "en": "Results, selection, ranking",
+       "zh": "成绩、选拔、排名"
+      },
+      {
+       "en": "Gives the season a direction, and should stay",
+       "zh": "给赛季一个方向，而且应当保留"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A mastery climate without any competitive standard can produce an athlete who masters a sport they no longer want to compete in.",
+     "zh": "没有任何竞争性标准的掌握氛围，可能培养出一位掌握了自己已不再想参加比赛的项目的运动员。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: managing the youth-to-club transition",
+    "zh": "例题：处理从青少年到俱乐部的过渡"
+   },
+   "given": {
+    "en": "A 17-year-old leaves a mastery youth academy for a club where selection is weekly and results are published.",
+    "zh": "一名 17 岁运动员离开掌握导向的青少年学院，进入每周选拔、成绩公开的俱乐部。"
+   },
+   "steps": [
+    {
+     "en": "Expect a drop in performance in the first two months, and do not read it as loss of form.",
+     "zh": "预期头两个月表现下滑，且不要把它读作状态下滑。"
+    },
+    {
+     "en": "Keep one technical criterion visible in every session, chosen so the athlete can meet it this week.",
+     "zh": "在每堂训练课中保留一个可见的技术判据，选一个他这周就能达到的。"
+    },
+    {
+     "en": "Set a personal target alongside the competitive one, and review it every four weeks.",
+     "zh": "在竞争性目标旁边设一个个人目标，每四周回顾一次。"
+    },
+    {
+     "en": "Record progress visibly, so improvement is evidence rather than impression.",
+     "zh": "明确记录进步，使改进成为证据而不是印象。"
+    },
+    {
+     "en": "Review at eight weeks: if performance has not recovered, the transition itself is the problem, not the athlete.",
+     "zh": "八周时回顾：如果表现没有恢复，问题出在过渡本身，而不是运动员。"
+    }
+   ],
+   "answer": {
+    "en": "A talented adolescent dropping out after joining a results-driven club is one of the most common and most avoidable causes of loss from sport.",
+    "zh": "一位有天赋的青少年在进入以成绩驱动的俱乐部后退出，是运动中最常见也最可避免的流失原因之一。"
+   }
+  }
+ },
+ "TARGET framework": {
+  "figures": [
+   {
+    "title": {
+     "en": "Six decisions to make before the athletes arrive",
+     "zh": "在运动员到来之前要做的六个决定"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "a session designed around personal improvement produces different behaviour from one designed around beating the next team in the table",
+      "zh": "围绕个人进步设计的训练课，会产生与围绕击败积分榜下一队设计的训练课完全不同的行为"
+     },
+     {
+      "en": "recognition that is purely public and result-based makes status the currency of the session",
+      "zh": "纯粹公开且基于结果的认可，会让地位成为这堂课的货币"
+     },
+     {
+      "en": "the opening minutes set arousal and attention for everything after them",
+      "zh": "开头的几分钟为之后一切设定唤醒和注意力"
+     }
+    ],
+    "caption": {
+     "en": "It is useful precisely because it is boring: it converts vague intentions about a session into six decisions that can be made in advance.",
+     "zh": "它之所以有用恰恰因为它枯燥：它把对一堂训练课的模糊意图，转化成六项可以事先做出的决定。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 20h44v26H14z\"/><text class=\"lblS\" x=\"20\" y=\"37\">T</text><text class=\"lblS\" x=\"64\" y=\"37\">task</text></g><g><rect class=\"fillA\" x=\"112\" y=\"20\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M112 20h44v26H112z\"/><text class=\"lblS\" x=\"118\" y=\"37\">A</text><text class=\"lblS\" x=\"162\" y=\"37\">authority</text></g><g><rect class=\"fillB\" x=\"20\" y=\"56\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M20 56h44v26H20z\"/><text class=\"lblS\" x=\"26\" y=\"73\">R</text><text class=\"lblS\" x=\"70\" y=\"73\">recognition</text></g><g><rect class=\"fillB\" x=\"118\" y=\"56\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M118 56h44v26H118z\"/><text class=\"lblS\" x=\"124\" y=\"73\">G</text><text class=\"lblS\" x=\"168\" y=\"73\">grouping</text></g><g><rect class=\"fillC\" x=\"20\" y=\"92\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M20 92h44v26H20z\"/><text class=\"lblS\" x=\"26\" y=\"109\">E</text><text class=\"lblS\" x=\"70\" y=\"109\">evaluation</text></g><g><rect class=\"fillC\" x=\"118\" y=\"92\" width=\"44\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M118 92h44v26H118z\"/><text class=\"lblS\" x=\"124\" y=\"109\">T</text><text class=\"lblS\" x=\"168\" y=\"109\">timing</text></g><text class=\"lblS\" x=\"8\" y=\"140\">the six interact: recognition that rewards only results</text><text class=\"lblS\" x=\"14\" y=\"153\">will undo a mixed grouping structure</text><text class=\"lblS\" x=\"14\" y=\"160\">a session is a designed environment, and this is the</text><text class=\"lblS\" x=\"14\" y=\"173\">checklist for designing one</text><text class=\"lblS\" x=\"3\" y=\"180\">a session that opens with a long explanation has already</text><text class=\"lblS\" x=\"14\" y=\"193\">spent the part of the</text><text class=\"lblS\" x=\"14\" y=\"194\">athlete that was most ready</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The six elements and the question each answers",
+     "zh": "六个要素及其回答的问题"
+    },
+    "cols": [
+     {
+      "en": "Element",
+      "zh": "要素"
+     },
+     {
+      "en": "Question",
+      "zh": "问题"
+     },
+     {
+      "en": "Common error",
+      "zh": "常见错误"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Task",
+       "zh": "任务"
+      },
+      {
+       "en": "What is the task?",
+       "zh": "任务是什么？"
+      },
+      {
+       "en": "Set by habit rather than by the goal",
+       "zh": "由习惯而非目标设定"
+      }
+     ],
+     [
+      {
+       "en": "Authority",
+       "zh": "决策权"
+      },
+      {
+       "en": "Who decides what the session contains?",
+       "zh": "谁决定这堂课的内容？"
+      },
+      {
+       "en": "Giving a real decision, or none at all",
+       "zh": "要么给一个真实的决定，要么完全不给"
+      }
+     ],
+     [
+      {
+       "en": "Recognition",
+       "zh": "认可"
+      },
+      {
+       "en": "Who gets noticed, and for what?",
+       "zh": "谁被看见，因为什么？"
+      },
+      {
+       "en": "Public and result-based only, which makes status the currency",
+       "zh": "只公开且只基于结果，这让地位成为货币"
+      }
+     ],
+     [
+      {
+       "en": "Grouping",
+       "zh": "分组"
+      },
+      {
+       "en": "Who trains with whom?",
+       "zh": "谁和谁一起练？"
+      },
+      {
+       "en": "Grouping by level, which removes the comparison that aids learning",
+       "zh": "按水平分组，这移走了有助于学习的比较"
+      }
+     ],
+     [
+      {
+       "en": "Evaluation",
+       "zh": "评价"
+      },
+      {
+       "en": "How is the athlete judged, and when?",
+       "zh": "运动员是怎么被评价的，什么时候？"
+      },
+      {
+       "en": "Summative at the end, about a score",
+       "zh": "在最后做总结性评价、关于分数"
+      }
+     ],
+     [
+      {
+       "en": "Timing",
+       "zh": "时间"
+      },
+      {
+       "en": "When in the session does the work happen?",
+       "zh": "工作在训练课的什么时候进行？"
+      },
+      {
+       "en": "A long explanation at the start, before the athlete is ready",
+       "zh": "开头一段长讲解，趁运动员还没准备好"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Writing the six down is what turns a good session into a repeatable one, and most sessions run three or four of the six by habit and never revisit them.",
+     "zh": "把这六个写下来，正是把一堂好课变成可重复的课的东西；而大多数训练课是靠习惯在运行其中三四个、并且从未重新审视。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: designing one session with the six",
+    "zh": "例题：用六个要素设计一堂训练课"
+   },
+   "given": {
+    "en": "A 60-minute session for a mixed-ability youth squad, one hour before a fixture.",
+    "zh": "一节 60 分钟的训练课，对象是混水平青少年球队，在比赛前一小时。"
+   },
+   "steps": [
+    {
+     "en": "Task: a specific, learnable skill rather than a match simulation, because the fixture supplies the simulation.",
+     "zh": "任务：一项具体、可学的技术而不是比赛模拟，因为比赛本身就提供了模拟。"
+    },
+    {
+     "en": "Authority: the squad chooses the warm-up movement from three options, which costs nothing and is real.",
+     "zh": "决策权：球队从三个选项中选热身动作，这不花成本而且是真实的。"
+    },
+    {
+     "en": "Recognition: name one specific action well done by whoever did it, including someone who will not start.",
+     "zh": "认可：指出某个做得好的具体动作，由真正做到的人来获得，包括不会首发的那位。"
+    },
+    {
+     "en": "Grouping: mix ability, because grouping by level removes the comparison that makes mixed groups learn better.",
+     "zh": "分组：混编，因为按水平分组会移走让混水平组学得更好的那个比较。"
+    },
+    {
+     "en": "Evaluation: formative and about the specific action during the session, not a score at the end.",
+     "zh": "评价：训练课中针对具体动作的形成性评价，而不是最后的分数。"
+    },
+    {
+     "en": "Timing: the hard work in the first ten minutes while attention is highest, and a short talk near the end.",
+     "zh": "时间：把高强度内容放在最初十分钟、注意最高时，短谈放在接近结束时。"
+    }
+   ],
+   "answer": {
+    "en": "The same squad, the same hour, and a session that now has a stated design rather than a habit. Only two of the six took any extra time to decide.",
+    "zh": "同样的球队、同样的一小时，而这一堂课现在有了明确的设计而不是习惯。其中只有两个要素需要额外花时间来决定。"
+   }
+  }
+ },
+ "Links to motivation and SDT": {
+  "figures": [
+   {
+    "title": {
+     "en": "One question that spans all of the frameworks",
+     "zh": "一个贯穿所有框架的问题"
+    },
+    "viewBox": "0 0 320 212",
+    "legend": [
+     {
+      "en": "achievement motivation is a content theory: it predicts which direction an athlete is pulled",
+      "zh": "成就是内容理论：它预测运动员被拉向哪个方向"
+     },
+     {
+      "en": "self-determination theory is a process theory: it predicts when that pull holds",
+      "zh": "自我决定理论是过程理论：它预测那种拉扯何时能维持"
+     },
+     {
+      "en": "a coach who has read them together can ask one question that a coach who has read them separately cannot",
+      "zh": "合起来读的教练能问一个分别读的教练问不出来的问题"
+     }
+    ],
+    "caption": {
+     "en": "That single question is answerable, it is short, and it is a better use of a coach's attention than almost any individual technique in this theme.",
+     "zh": "那一个问题可以回答、它很短，而且比这个主题中几乎任何单项技术都更值得一位教练投入注意力。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"22\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 22h292v30H14z\"/><text class=\"lblS\" x=\"14\" y=\"41\">content theory: which direction is this athlete pulled</text><text class=\"lblS\" x=\"24\" y=\"54\">toward</text></g><g><rect class=\"fillB\" x=\"14\" y=\"60\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 60h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"79\">process theory: what must the environment supply for</text><text class=\"lblS\" x=\"24\" y=\"92\">that to hold</text></g><path class=\"th\" d=\"M160 94v18\"/><path class=\"ln\" d=\"M160 112l-4.5 9h9z\" fill=\"currentColor\"/><g><rect class=\"fillC\" x=\"14\" y=\"120\" width=\"292\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 120h292v56H14z\"/><text class=\"lblS\" x=\"24\" y=\"140\">is the athlete given a task that is a real test</text><text class=\"lblS\" x=\"24\" y=\"156\">did they have a say in it, and are they doing it</text><text class=\"lblS\" x=\"24\" y=\"170\">alongside people they are connected to</text></g><text class=\"lblS\" x=\"8\" y=\"192\">three needs, one regulation change, and a direction, in</text><text class=\"lblS\" x=\"14\" y=\"205\">a single question</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two frameworks side by side",
+     "zh": "两个框架并置"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Achievement motivation",
+      "zh": "成就动机"
+     },
+     {
+      "en": "Self-determination theory",
+      "zh": "自我决定理论"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Type of theory",
+       "zh": "理论类型"
+      },
+      {
+       "en": "Content theory: which direction",
+       "zh": "内容理论：哪个方向"
+      },
+      {
+       "en": "Process theory: what sustains it",
+       "zh": "过程理论：什么维持它"
+      }
+     ],
+     [
+      {
+       "en": "Central question",
+       "zh": "核心问题"
+      },
+      {
+       "en": "What is this athlete pulled toward?",
+       "zh": "这位运动员被拉向什么？"
+      },
+      {
+       "en": "What has the environment been providing?",
+       "zh": "环境一直在提供什么？"
+      }
+     ],
+     [
+      {
+       "en": "Best at",
+       "zh": "最擅长"
+      },
+      {
+       "en": "Reading the direction of a pull, and a change in it",
+       "zh": "读出拉扯的方向及其变化"
+      },
+      {
+       "en": "Diagnosing why a pull has weakened or reversed",
+       "zh": "诊断拉扯为何减弱或反向"
+      }
+     ],
+     [
+      {
+       "en": "Weak at",
+       "zh": "不擅长"
+      },
+      {
+       "en": "Saying what to do about it",
+       "zh": "说明该怎么做"
+      },
+      {
+       "en": "Saying which direction is appropriate",
+       "zh": "说明哪个方向是合适的"
+      }
+     ],
+     [
+      {
+       "en": "Use together for",
+       "zh": "合起来用于"
+      },
+      {
+       "en": "A design question, because supply can move direction",
+       "zh": "设计问题，因为供给能移动方向"
+      },
+      {
+       "en": "Reading a reversal as a supply failure rather than a character change",
+       "zh": "把一次反向读作供给失败，而不是性格改变"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The frameworks were developed for different purposes and the evidence does not always line up neatly, so a student should be able to say which claim comes from which theory.",
+     "zh": "这两个框架是为不同目的发展出来的，证据并不总是整齐吻合，所以学生应当能说出哪个主张来自哪个理论。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: an athlete whose orientation appears to change",
+    "zh": "例题：一位取向似乎发生变化的运动员"
+   },
+   "given": {
+    "en": "A distance runner begins avoiding races, choosing easier sessions and missing the hard interval session.",
+    "zh": "一名长跑运动员开始回避比赛、选择较轻的训练课，并缺席高强度间歇课。"
+   },
+   "steps": [
+    {
+     "en": "It looks like a change of orientation, from mastery toward performance.",
+     "zh": "看起来像是取向的改变，从掌握转向绩效。"
+    },
+    {
+     "en": "The content theory reads the direction: the athlete is now pulled toward not losing.",
+     "zh": "内容理论读出方向：这位运动员现在被拉向不输。"
+    },
+    {
+     "en": "The process theory asks what changed in the supply: the hard session is the one she now avoids.",
+     "zh": "过程理论追问供给中变了什么：她现在避开的正是那堂高强度训练课。"
+    },
+    {
+     "en": "If competence needs in that session have not been met for weeks, the reversal is a supply failure, not a character change.",
+     "zh": "如果那堂课的胜任需求已经数周未被满足，那么这次反向是供给失败，而不是性格改变。"
+    },
+    {
+     "en": "The design question: what would have to change in that session for her to attend it willingly?",
+     "zh": "设计问题：那堂课里必须改变什么，她才会自愿参加？"
+    }
+   ],
+   "answer": {
+    "en": "Read as character, the answer is to motivate her harder. Read across both frameworks, the answer is to change the session she is avoiding.",
+    "zh": "若读作性格，答案是更用力地激励她；若跨两个框架来读，答案是改变她正在避开的那堂课。"
+   }
+  }
+ },
+ "Arousal and theories": {
+  "figures": [
+   {
+    "title": {
+     "en": "One curve, and two things that are not the same",
+     "zh": "一条曲线，以及两件并不相同的事"
+    },
+    "viewBox": "0 0 320 208",
+    "legend": [
+     {
+      "en": "the inverted-U is a starting point, and on its own it is nearly useless",
+      "zh": "倒U形是起点，而单独看它几乎没用"
+     },
+     {
+      "en": "every task has its own optimum, the optimum moves with difficulty, and the curve says nothing about causation",
+      "zh": "每项任务有自己的最优点，这个最优随难度移动，而曲线对因果关系什么也没说"
+     },
+     {
+      "en": "catastrophe is the addition: past a critical point performance collapses rather than declining smoothly",
+      "zh": "灾难理论是那个补充：越过临界点后表现是崩塌而不是平滑下降"
+     }
+    ],
+    "caption": {
+     "en": "Turning arousal down is cheap and long-exhale based; turning it up is also achievable and is what some athletes need before a flat effort.",
+     "zh": "降低唤醒成本很低、靠长呼气实现；提高唤醒同样可做到，而且有些运动员在平淡表现之前需要它。"
+    },
+    "svg": "<g><line class=\"ln\" x1=\"24\" y1=\"150\" x2=\"304\" y2=\"150\"/><line class=\"ln\" x1=\"24\" y1=\"150\" x2=\"24\" y2=\"20\"/><path class=\"ln\" d=\"M24 140C90 30 160 30 240 90\"/><path class=\"ln\" d=\"M240 90C280 120 296 140 304 148\"/><text class=\"lblS\" x=\"14\" y=\"30\">performance</text><text class=\"lblS\" x=\"14\" y=\"164\">arousal</text><circle class=\"acc\" cx=\"118\" cy=\"52\" r=\"6\"/><text class=\"lblS\" x=\"128\" y=\"48\">optimum</text><path class=\"th\" d=\"M240 90l-6 34h12z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"216\" y=\"140\">collapse</text><path class=\"dash\" d=\"M240 124h64\"/><text class=\"lblS\" x=\"246\" y=\"118\">catastrophe</text><path class=\"dash\" d=\"M164 150V40\"/><text class=\"lblS\" x=\"150\" y=\"34\">inverted-U only</text><text class=\"lblS\" x=\"14\" y=\"188\">the critical point is lower for a harder task, a less</text><text class=\"lblS\" x=\"14\" y=\"201\">skilled performer, and an audience</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three theories and what each adds",
+     "zh": "三种理论及其各自补充的内容"
+    },
+    "cols": [
+     {
+      "en": "Theory",
+      "zh": "理论"
+     },
+     {
+      "en": "Its claim",
+      "zh": "主张"
+     },
+     {
+      "en": "Where it fails",
+      "zh": "在何处失效"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Drive theory",
+       "zh": "驱力理论"
+      },
+      {
+       "en": "Arousal is a performance of the nervous system, so more arousal means more capacity to respond",
+       "zh": "唤醒是神经系统的一种表现，所以更多唤醒意味着更多反应能力"
+      },
+      {
+       "en": "For complex tasks, which depend on selecting one response and suppressing the rest",
+       "zh": "对复杂任务，而复杂任务依赖选择一个反应并抑制其余"
+      }
+     ],
+     [
+      {
+       "en": "Inverted-U hypothesis",
+       "zh": "倒U形假设"
+      },
+      {
+       "en": "Performance improves to an optimum then deteriorates",
+       "zh": "表现提升到某个最优然后下降"
+      },
+      {
+       "en": "On its own, because the optimum is task-specific and it says nothing about cause",
+       "zh": "单独看它，因为最优是任务特定的，而且它对成因什么也没说"
+      }
+     ],
+     [
+      {
+       "en": "Catastrophe theory",
+       "zh": "灾难理论"
+      },
+      {
+       "en": "Past a critical point performance collapses abruptly rather than declining smoothly",
+       "zh": "越过临界点后表现是突然崩塌而不是平滑下降"
+      },
+      {
+       "en": "It is task-dependent, so the same arousal level is safe in one event and dangerous in another",
+       "zh": "它依赖任务，所以同一唤醒水平在一个项目中安全、在另一个项目中危险"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Pressure often deteriorates performance because the athlete is trying too hard: effort spent on controlling the uncontrollable consumes the attention the task needs.",
+     "zh": "压力下表现变差常常是因为运动员太用力：花在控制不可控之事上的努力，消耗掉了任务所需的注意。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the same athlete, two tasks, two optima",
+    "zh": "例题：同一运动员、两项任务、两个最优点"
+   },
+   "given": {
+    "en": "A rugby player is told to relax before a penalty kick, and to get psyched up before a heavy lift in the gym.",
+    "zh": "一位橄榄球运动员被告知罚球前要放松，而在健身房举重前要兴奋起来。"
+   },
+   "steps": [
+    {
+     "en": "The instruction looks inconsistent and is in fact correct, because the two tasks have different optima.",
+     "zh": "这条指令看起来矛盾，而实际上是正确的，因为两项任务的最优点不同。"
+    },
+    {
+     "en": "The kick is a fine-control task needing a low, narrow attentional focus and low physiological arousal.",
+     "zh": "罚球是一项精细控制任务，需要低而窄的注意焦点和低生理唤醒。"
+    },
+    {
+     "en": "The lift is a power task needing a high rate of force production, which is easier at higher arousal.",
+     "zh": "举重是一项功率任务，需要高的力产生速率，而这在更高唤醒下更容易。"
+    },
+    {
+     "en": "The catastrophe threshold is lower for the complex kick, so the extra arousal costs more there than it gains.",
+     "zh": "对复杂的罚球来说，灾难阈值更低，所以额外唤醒在那里的代价大于收益。"
+    },
+    {
+     "en": "A single team-wide pre-performance routine is therefore usually wrong for somebody.",
+     "zh": "因此一个全队统一的赛前例程通常对某个人来说是错的。"
+    }
+   ],
+   "answer": {
+    "en": "The coach was not being inconsistent. The prescription error would have been to prescribe by personal preference rather than by task demand.",
+    "zh": "教练并没有前后矛盾。真正的处方错误是按个人偏好而不是按任务需求来开方。"
+   }
+  }
+ },
+ "Anxiety dimensions and catastrophe": {
+  "figures": [
+   {
+    "title": {
+     "en": "Two things wearing the same coat",
+     "zh": "穿着同一件外套的两件事"
+    },
+    "viewBox": "0 0 320 200",
+    "legend": [
+     {
+      "en": "cognitive and somatic anxiety separate on the way in, through, and out",
+      "zh": "认知焦虑与躯体焦虑在输入时、过程中、输出时都是分开的"
+     },
+     {
+      "en": "cognitive anxiety is the better predictor of performance decrement",
+      "zh": "认知焦虑是表现下降更好的预测因子"
+     },
+     {
+      "en": "asking how you feel gets somatic information whether you want it or not",
+      "zh": "问“你感觉怎么样“拿到的就是躯体信息，无论你想不想要"
+     }
+    ],
+    "caption": {
+     "en": "The distinction is a prerequisite for responding appropriately, because the two need opposite treatment.",
+     "zh": "这个区分是做出恰当回应的前提，因为两者需要相反的处理。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"140\" height=\"86\" rx=\"8\"/><path class=\"ln\" d=\"M14 24h140v86H14z\"/><text class=\"lbl\" x=\"30\" y=\"46\">somatic</text><text class=\"lblS\" x=\"30\" y=\"68\">racing heart</text><text class=\"lblS\" x=\"30\" y=\"84\">sweating</text><text class=\"lblS\" x=\"30\" y=\"100\">shallow breath</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"86\" rx=\"8\"/><path class=\"ln\" d=\"M166 24h140v86H166z\"/><text class=\"lbl\" x=\"182\" y=\"46\">cognitive</text><text class=\"lblS\" x=\"182\" y=\"68\">a running list of</text><text class=\"lblS\" x=\"182\" y=\"84\">what could go</text><text class=\"lblS\" x=\"182\" y=\"100\">wrong, each convincing</text></g><path class=\"th\" d=\"M84 120h152\"/><path class=\"ln\" d=\"M236 120l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"14\" y=\"142\">movement and familiarity help the first</text><text class=\"lblS\" x=\"14\" y=\"158\">only a different way of thinking about the uncertainty</text><text class=\"lblS\" x=\"14\" y=\"171\">helps the second</text><path class=\"dash\" d=\"M166 176h140\"/><text class=\"lblS\" x=\"3\" y=\"180\">collapse threshold is lower for a harder task and a less</text><text class=\"lblS\" x=\"14\" y=\"193\">skilled performer</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two dimensions and what each responds to",
+     "zh": "两个维度及其各自对什么作出反应"
+    },
+    "cols": [
+     {
+      "en": "Dimension",
+      "zh": "维度"
+     },
+     {
+      "en": "What it is",
+      "zh": "它是什么"
+     },
+     {
+      "en": "What helps",
+      "zh": "什么有帮助"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Somatic anxiety",
+       "zh": "躯体焦虑"
+      },
+      {
+       "en": "A bodily state: raised heart rate, sweating, shallow breathing",
+       "zh": "一种身体状态：心率升高、出汗、呼吸浅"
+      },
+      {
+       "en": "Movement, familiarity, breathing with a long exhale",
+       "zh": "活动、熟悉感、带长呼气的呼吸"
+      }
+     ],
+     [
+      {
+       "en": "Cognitive anxiety",
+       "zh": "认知焦虑"
+      },
+      {
+       "en": "A thought process: worry, rumination, negative imagery",
+       "zh": "一个思维过程：担忧、反刍、负性意象"
+      },
+      {
+       "en": "Reframing the situation, a pre-committed plan, acceptance",
+       "zh": "重新框定情境、事先承诺的计划、接纳"
+      }
+     ],
+     [
+      {
+       "en": "Worry, which is cognitive",
+       "zh": "担忧，属于认知性"
+      },
+      {
+       "en": "A future-oriented, problem-focused thought process",
+       "zh": "一个面向未来、聚焦问题的思维过程"
+      },
+      {
+       "en": "Task-matching and planning",
+       "zh": "任务匹配与计划"
+      }
+     ],
+     [
+      {
+       "en": "State anxiety",
+       "zh": "状态焦虑"
+      },
+      {
+       "en": "An temporary condition tied to a situation",
+       "zh": "与某个情境相关的暂时状态"
+      },
+      {
+       "en": "Situation changes and it usually reduces",
+       "zh": "情境改变后通常减少"
+      }
+     ],
+     [
+      {
+       "en": "Trait anxiety",
+       "zh": "特质焦虑"
+      },
+      {
+       "en": "A relatively stable predisposition across situations",
+       "zh": "跨情境相对稳定的倾向"
+      },
+      {
+       "en": "Needs a different and longer approach",
+       "zh": "需要不同且更长的方法"
+      }
+     ]
+    ],
+    "note": {
+     "en": "An athlete who reports zero nerves before a final is often under-prepared rather than calm.",
+     "zh": "一位在决赛前报告毫不紧张的运动员，往往是准备不足而不是平静。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: asking the right question",
+    "zh": "例题：问对问题"
+   },
+   "given": {
+    "en": "A goalkeeper reports: I am not especially worried, but I cannot stop thinking about the last one.",
+    "zh": "一位守门员报告：我倒不是很担心，只是停不下来地想着刚才那一次。"
+   },
+   "steps": [
+    {
+     "en": "Asked how she feels, the answer is somatic and reassuring. The real content is cognitive.",
+     "zh": "问她感觉如何，得到的是躯体性的、令人安心的回答。真正的内容是认知性的。"
+    },
+    {
+     "en": "Cognitive anxiety predicts the performance decrement better, so this is the presentation to act on.",
+     "zh": "认知焦虑对表现下降的预测更好，所以这才是需要据此行动的表现形式。"
+    },
+    {
+     "en": "The content is a previous event being reviewed, which means the plan is a pre-set response to that moment.",
+     "zh": "内容是在反复回看之前的一次事件，这意味着方案是针对那个时刻的预设回应。"
+    },
+    {
+     "en": "Catastrophe threshold is lower in front of an audience, so a routine rather than a cue is what is needed.",
+     "zh": "在观众面前崩塌阈值更低，所以需要的是一套例程而不是一条提示。"
+    },
+    {
+     "en": "Asking about calm would have produced reassurance and no change at all.",
+     "zh": "若问她是否平静，得到的会是安心，而不会有任何改变。"
+    }
+   ],
+   "answer": {
+    "en": "The athlete was not calm, and the question that would have found that out was not the one that was asked.",
+    "zh": "这位运动员并不平静，而能发现这一点的问题并不是被问到的那个。"
+   }
+  }
+ },
+ "Measurement and regulation": {
+  "figures": [
+   {
+    "title": {
+     "en": "You cannot adjust a dial you have not looked at",
+     "zh": "你无法调整一个你从没看过的旋钮"
+    },
+    "viewBox": "0 0 320 216",
+    "legend": [
+     {
+      "en": "a short daily rating, kept for weeks, turns a vague impression into a pattern that can be designed for",
+      "zh": "一份短的每日评分，坚持数周，把模糊印象变成可以被设计的模式"
+     },
+     {
+      "en": "the athlete should be taught to read the dial themselves, not only to be told what it says",
+      "zh": "应当教会运动员自己读那个旋钮，而不只是被告知它说了什么"
+     },
+     {
+      "en": "measurement in sport is among the most self-reported things there is, and self-report is shaped by the moment",
+      "zh": "运动中的测量是最依赖自我报告的东西之一，而自我报告被当下塑造"
+     }
+    ],
+    "caption": {
+     "en": "The most valuable single habit is the cheapest one: a short daily rating, kept for weeks.",
+     "zh": "最有价值的单一习惯也是最便宜的那个：一份短的每日评分，坚持数周。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 20h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"39\">under 2 minutes, or it will not be done</text></g><g><rect class=\"fillB\" x=\"14\" y=\"58\" width=\"140\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 58h140v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"77\">baseline over weeks</text></g><g><rect class=\"fillC\" x=\"162\" y=\"58\" width=\"144\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M162 58h144v30H162z\"/><text class=\"lblS\" x=\"170\" y=\"77\">measured on the day</text></g><g><rect class=\"fillA\" x=\"14\" y=\"96\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 96h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"115\">only the athlete's own baseline makes a day</text><text class=\"lblS\" x=\"24\" y=\"128\">interpretable</text></g><g><rect class=\"fillB\" x=\"14\" y=\"134\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 134h292v30H14z\"/><text class=\"lblS\" x=\"8\" y=\"153\">in sport physiological measures are often confounded by</text><text class=\"lblS\" x=\"24\" y=\"166\">exertion</text></g><text class=\"lblS\" x=\"3\" y=\"182\">drinking to thirst is safe for most athletes and beats a</text><text class=\"lblS\" x=\"14\" y=\"195\">rigid schedule</text><text class=\"lblS\" x=\"8\" y=\"196\">under-hydration is the bigger problem; hyponatraemia is</text><text class=\"lblS\" x=\"14\" y=\"209\">the rare one</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The regulation toolkit, in order of use",
+     "zh": "调节工具箱，按使用顺序"
+    },
+    "cols": [
+     {
+      "en": "Tool",
+      "zh": "工具"
+     },
+     {
+      "en": "Targets",
+      "zh": "针对"
+     },
+     {
+      "en": "Notes",
+      "zh": "说明"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Reduce input",
+       "zh": "减少输入"
+      },
+      {
+       "en": "Pre-event thinking time, warm-up familiarity, uncertainty",
+       "zh": "赛前思考时间、热身熟悉度、不确定性"
+      },
+      {
+       "en": "The fastest and least costly interventions",
+       "zh": "最快且成本最低的干预"
+      }
+     ],
+     [
+      {
+       "en": "Raise the floor",
+       "zh": "抬高底线"
+      },
+      {
+       "en": "Long-exhale breathing, muscle tension and release, a physical routine",
+       "zh": "带长呼气的呼吸、肌肉紧张与放松、身体例程"
+      },
+      {
+       "en": "The most portable tool is breathing, because it is voluntarily controlled",
+       "zh": "最可移植的工具是呼吸，因为它处于随意控制之下"
+      }
+     ],
+     [
+      {
+       "en": "Change interpretation",
+       "zh": "改变解读"
+      },
+      {
+       "en": "The meaning of the situation",
+       "zh": "情境的含义"
+      },
+      {
+       "en": "The only one of the three that touches cognitive anxiety",
+       "zh": "三者中唯一触及认知焦虑的那一个"
+      }
+     ],
+     [
+      {
+       "en": "A pre-committed routine",
+       "zh": "事先承诺的例程"
+      },
+      {
+       "en": "The window in which worry would otherwise occupy the athlete",
+       "zh": "担忧原本会占据运动员的那段窗口"
+      },
+      {
+       "en": "Assemble it well before the event, not in the week of it",
+       "zh": "要在比赛前很久组装好，而不是在比赛那一周"
+      }
+     ],
+     [
+      {
+       "en": "Pre-event routine length",
+       "zh": "赛前例程长度"
+      },
+      {
+       "en": "Minutes rather than a qualitative description",
+       "zh": "以分钟计，而不是定性描述"
+      },
+      {
+       "en": "Minutes, not vibes, is what makes it repeatable",
+       "zh": "分钟而不是感觉，这才是它可重复的原因"
+      }
+     ]
+    ],
+    "note": {
+     "en": "In sport the clinical target is a level the athlete can function at, not the absence of anxiety, and that reframe is what makes a plan sustainable.",
+     "zh": "在运动中，临床目标是运动员能够正常发挥的水平，而不是焦虑的消失；正是这个重构让一份计划变得可持续。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: setting up a measurement that gets used",
+    "zh": "例题：建立一套会被真正使用的测量"
+   },
+   "given": {
+    "en": "A coach asks athletes to complete a 40-item personality questionnaire weekly, before training.",
+    "zh": "一位教练要求运动员每周在训练前填写一份 40 题的人格问卷。"
+   },
+   "steps": [
+    {
+     "en": "Forty items weekly will not be completed beyond the first fortnight.",
+     "zh": "每周 40 题不会在头两周之后被继续完成。"
+    },
+    {
+     "en": "Replace it with three items: how hard the session felt, how the body felt, how slept.",
+     "zh": "把它替换成三题：训练感觉多难、身体感觉如何、睡眠如何。"
+    },
+    {
+     "en": "Keep it under two minutes so the value comes from consistency rather than depth.",
+     "zh": "保持在两分钟以内，让价值来自一致性而不是深度。"
+    },
+    {
+     "en": "Record the athlete's own first-week numbers as their baseline, and compare only against that.",
+     "zh": "把这位运动员自己第一周的数字记为基线，且只与它比较。"
+    },
+    {
+     "en": "Review every four weeks and change one variable in the programme when the pattern shifts.",
+     "zh": "每四周回顾一次，当模式变化时对计划改动一个变量。"
+    }
+   ],
+   "answer": {
+    "en": "Less data, gathered reliably, beats more data gathered once. The measurement that survives contact with a real week is the one that takes two minutes.",
+    "zh": "更少但可靠取得的数据，胜过一次取得的大量数据。能在真实的一周中存活下来的测量，是那个只需两分钟的。"
+   }
+  }
+ },
+ "Stressors and strain": {
+  "figures": [
+   {
+    "title": {
+     "en": "The event, and the price of handling it",
+     "zh": "事件，以及处理它的代价"
+    },
+    "viewBox": "0 0 320 218",
+    "legend": [
+     {
+      "en": "the stressor is the event and strain is the cost of handling it, and two athletes pay different prices for the same event",
+      "zh": "压力源是事件，应激是处理它的代价，而两位运动员为同一事件付出不同代价"
+     },
+     {
+      "en": "demand is a property of the situation; cost is a property of what the athlete brought with them",
+      "zh": "需求是情境的属性；代价是运动员带进来的东西的属性"
+     },
+     {
+      "en": "confusing the two produces the very common advice to reduce the stressor when the athlete needed resources",
+      "zh": "混淆两者，就会产出那种很常见的建议：去减少压力源，而这位运动员需要的是资源"
+     }
+    ],
+    "caption": {
+     "en": "The assessment should begin with the athlete rather than with the calendar.",
+     "zh": "评估应当从运动员开始，而不是从赛历开始。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"130\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h130v46H14z\"/><text class=\"lbl\" x=\"26\" y=\"46\">demand</text><text class=\"lblS\" x=\"26\" y=\"62\">property of</text><text class=\"lblS\" x=\"26\" y=\"76\">the situation</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"46\" rx=\"7\"/><path class=\"ln\" d=\"M166 24h140v46H166z\"/><text class=\"lbl\" x=\"178\" y=\"46\">resources</text><text class=\"lblS\" x=\"178\" y=\"62\">coping, support,</text><text class=\"lblS\" x=\"178\" y=\"76\">sleep, history</text></g><text class=\"lblS\" x=\"14\" y=\"100\">strain appears where demand exceeds the resources</text><text class=\"lblS\" x=\"14\" y=\"113\">available to meet it</text><g><rect class=\"fillC\" x=\"14\" y=\"112\" width=\"140\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 112h140v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"131\">athlete A: little strain</text></g><g><rect class=\"fillB\" x=\"166\" y=\"112\" width=\"140\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M166 112h140v30H166z\"/><text class=\"lblS\" x=\"174\" y=\"131\">athlete B: a lot</text></g><text class=\"lblS\" x=\"8\" y=\"164\">adding resources can work without changing the stressor</text><text class=\"lblS\" x=\"14\" y=\"182\">and reducing the stressor can fail when resources were</text><text class=\"lblS\" x=\"14\" y=\"195\">never adequate</text><text class=\"lblS\" x=\"14\" y=\"198\">sport-specific and non-sport stressors interact rather</text><text class=\"lblS\" x=\"14\" y=\"211\">than adding up</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The stressors, and why the second list matters more",
+     "zh": "压力源，以及为什么第二张清单更重要"
+    },
+    "cols": [
+     {
+      "en": "Category",
+      "zh": "类别"
+     },
+     {
+      "en": "Examples",
+      "zh": "例子"
+     },
+     {
+      "en": "Usually negotiable?",
+      "zh": "通常可协商吗"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Sport-specific",
+       "zh": "运动专项"
+      },
+      {
+       "en": "Selection, injury, competition, judgement by officials",
+       "zh": "选拔、受伤、比赛、被裁判判罚"
+      },
+      {
+       "en": "Partly, through load and scheduling",
+       "zh": "部分，通过负荷与赛程安排"
+      }
+     ],
+     [
+      {
+       "en": "Non-sport-specific",
+       "zh": "非运动专项"
+      },
+      {
+       "en": "Job, family, finances, health, travel",
+       "zh": "工作、家庭、经济、健康、出行"
+      },
+      {
+       "en": "Rarely, and mostly not the coach's business",
+       "zh": "很少，而且大多不属于教练的事务"
+      }
+     ],
+     [
+      {
+       "en": "Interaction",
+       "zh": "相互作用"
+      },
+      {
+       "en": "A job change in the same month as pre-season is a combined demand no single stressor accounts for",
+       "zh": "在备赛月同时换工作，是一种没有任何单一压力源能解释的综合需求"
+      },
+      {
+       "en": "No, but it can be asked about",
+       "zh": "不能，但可以被问起"
+      }
+     ],
+     [
+      {
+       "en": "Appraisal: threatening",
+       "zh": "评价：威胁"
+      },
+      {
+       "en": "Something valued is at risk",
+       "zh": "看重的某样东西有风险"
+      },
+      {
+       "en": "Points to resources",
+       "zh": "指向资源"
+      }
+     ],
+     [
+      {
+       "en": "Appraisal: uncontrollability",
+       "zh": "评价：不可控"
+      },
+      {
+       "en": "The event cannot be influenced",
+       "zh": "事件无法被影响"
+      },
+      {
+       "en": "No, and it is the one most associated with poor outcomes",
+       "zh": "不能，而它与最差结果关联最紧密"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Most cases of unexplained under-performance in sport resolve into a stress or strain problem that was never asked about.",
+     "zh": "运动中大多数无法解释的状态下滑，最终都会归结为一个从未被问起的压力或应激问题。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: asking before assuming",
+    "zh": "例题：先问，再假设"
+   },
+   "given": {
+    "en": "A sprinter's times have slipped for three weeks and she reports flat training and low mood.",
+    "zh": "一名短跑运动员的成绩下滑三周，她报告训练平淡、情绪低落。"
+   },
+   "steps": [
+    {
+     "en": "The obvious reading is a fitness plateau, and the obvious response is to change the programme.",
+     "zh": "显而易见的解读是体能停滞，而显而易见的应对是改变训练计划。"
+    },
+    {
+     "en": "Ask instead: what has changed outside sport, and since when.",
+     "zh": "改为追问：运动之外发生了什么变化，从什么时候开始。"
+    },
+    {
+     "en": "It turns out a family situation deteriorated in the same fortnight.",
+     "zh": "结果是家庭状况在同一个两周内恶化了。"
+    },
+    {
+     "en": "That is a strain question, and the demand is not the training load at all.",
+     "zh": "这是一个应激问题，而需求根本不是训练负荷。"
+    },
+    {
+     "en": "Adding sleep, reducing one session and asking again in two weeks is the proportionate response.",
+     "zh": "增加睡眠、减少一堂训练课、并在两周后再问，是相称的应对。"
+    }
+   ],
+   "answer": {
+    "en": "A programme change would have been a reasonable guess and would have missed the cause. The cost of asking was one conversation.",
+    "zh": "改变训练计划会是一个合理的猜测，而且会错过真正的原因。问一句的代价是一次谈话。"
+   }
+  }
+ },
+ "Three coping categories": {
+  "figures": [
+   {
+    "title": {
+     "en": "What you do in the moment, and the moment matters most",
+     "zh": "你在当下所做的事，而当下最重要"
+    },
+    "viewBox": "0 0 320 216",
+    "legend": [
+     {
+      "en": "coping is not a personality type; the same athlete copes well with one thing and badly with another",
+      "zh": "应对不是一种人格类型；同一位运动员对一件事应对得好、对另一件事应对得差"
+     },
+     {
+      "en": "which one is used depends on whether the stressor is perceived as changeable",
+      "zh": "使用哪一种，取决于压力源被感知为可改变还是不可改变"
+     },
+     {
+      "en": "avoidant coping removes the athlete from the feeling rather than handling the problem or the emotion",
+      "zh": "回避型应对把运动员从感受中移开，而不是处理问题或情绪"
+     }
+    ],
+    "caption": {
+     "en": "The most useful coaching task is noticing which one is in use, because athletes rarely label it themselves.",
+     "zh": "教练最有用的任务是辨认正在使用的是哪一种，因为运动员很少会自己给它贴标签。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"140\" height=\"80\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h140v80H14z\"/><text class=\"lbl\" x=\"26\" y=\"46\">problem-focused</text><text class=\"lblS\" x=\"26\" y=\"66\">change the situation</text><text class=\"lblS\" x=\"26\" y=\"82\">plan, act, solve</text><text class=\"lblS\" x=\"26\" y=\"98\">usually adaptive</text></g><g><rect class=\"fillB\" x=\"166\" y=\"24\" width=\"140\" height=\"80\" rx=\"7\"/><path class=\"ln\" d=\"M166 24h140v80H166z\"/><text class=\"lbl\" x=\"178\" y=\"46\">emotion-focused</text><text class=\"lblS\" x=\"178\" y=\"66\">manage the feeling</text><text class=\"lblS\" x=\"178\" y=\"82\">accept, reframe</text><text class=\"lblS\" x=\"178\" y=\"98\">usually adaptive</text></g><g><rect class=\"fillB\" x=\"14\" y=\"116\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M14 116h140v60H14z\"/><text class=\"lbl\" x=\"26\" y=\"138\">avoidant</text><text class=\"lblS\" x=\"26\" y=\"156\">move away from it</text><text class=\"lblS\" x=\"26\" y=\"170\">most pleasant in the moment</text></g><g><rect class=\"fillC\" x=\"166\" y=\"116\" width=\"140\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M166 116h140v60H166z\"/><text class=\"lblS\" x=\"176\" y=\"138\">the flat athlete who is</text><text class=\"lblS\" x=\"176\" y=\"154\">avoiding is the one</text><text class=\"lblS\" x=\"176\" y=\"170\">easiest to miss</text></g><text class=\"lblS\" x=\"3\" y=\"196\">if the situation cannot be changed, the only options are</text><text class=\"lblS\" x=\"14\" y=\"209\">emotion-focused or avoidant</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three categories and how to tell them apart on the sideline",
+     "zh": "三个类别，以及在场边如何分辨"
+    },
+    "cols": [
+     {
+      "en": "Category",
+      "zh": "类别"
+     },
+     {
+      "en": "Looks like",
+      "zh": "看起来像"
+     },
+     {
+      "en": "Coach response",
+      "zh": "教练回应"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Problem-focused",
+       "zh": "问题聚焦"
+      },
+      {
+       "en": "Visible in preparation and planning",
+       "zh": "可见于准备与计划"
+      },
+      {
+       "en": "Help with the plan; the situation is changeable",
+       "zh": "帮助制定计划；情境是可改变的"
+      }
+     ],
+     [
+      {
+       "en": "Emotion-focused",
+       "zh": "情绪聚焦"
+      },
+      {
+       "en": "Talking about and accepting the situation",
+       "zh": "谈论并接纳情境"
+      },
+      {
+       "en": "Acknowledge the loss; do not push for a plan that cannot exist",
+       "zh": "承认失落；不要强求一个不可能存在的计划"
+      }
+     ],
+     [
+      {
+       "en": "Avoidant",
+       "zh": "回避型"
+      },
+      {
+       "en": "Absence of both: flatness, refusal to discuss, sudden improvement nobody believes",
+       "zh": "两者都缺席：平淡、拒绝讨论、没人相信的突然好转"
+      },
+      {
+       "en": "Ask what is being avoided, and name the cost of it",
+       "zh": "问在回避什么，并指出它的代价"
+      }
+     ],
+     [
+      {
+       "en": "The flexibility point",
+       "zh": "灵活性这一点"
+      },
+      {
+       "en": "The strategy that worked last time may not work this time",
+       "zh": "上次有效的策略这次可能无效"
+      },
+      {
+       "en": "Check whether the controllability changed, and redirect if it has",
+       "zh": "检查可控性是否改变，若改变了就转向"
+      }
+     ]
+    ],
+    "note": {
+     "en": "An athlete avoiding and an athlete processing grief from the same setback need opposite things and present similarly enough that the difference is easy to miss.",
+     "zh": "一位在回避的运动员和一位正在处理同一次挫折之哀伤的运动员，需要相反的东西，而他们的表现相似到很容易漏掉区别。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: switching strategy when controllability changes",
+    "zh": "例题：当可控性改变时切换策略"
+   },
+   "given": {
+    "en": "A rower misses selection after a season of fighting for it, and immediately books a marathon to prove something.",
+    "zh": "一名赛艇运动员在为选拔努力一整季后落选，随即报名一场马拉松以证明什么。"
+   },
+   "steps": [
+    {
+     "en": "Her usual strategy was to fight hard for a controllable outcome, and it worked in training competitions.",
+     "zh": "她惯用的策略是为可控结果而硬拼，而这在训练比赛中是有效的。"
+    },
+    {
+     "en": "Selection is not controllable, so the same strategy applied to it produces a loss she did not need to have.",
+     "zh": "选拔是不可控的，因此同一策略用在其上，会产生一场她本不必经历的失败。"
+    },
+    {
+     "en": "The change needed is from problem-focused to emotion-focused, which feels like giving up and is not.",
+     "zh": "需要做的改变是从问题聚焦转向情绪聚焦，这感觉像放弃而其实不是。"
+    },
+    {
+     "en": "The marathon is a further application of the wrong strategy, and it will compound the outcome.",
+     "zh": "那场马拉松是错误策略的进一步应用，而且会放大结果。"
+    },
+    {
+     "en": "So the coaching move is to recognise the change, and to redirect to grief or re-planning rather than to encourage harder.",
+     "zh": "所以教练的动作是识别出这个变化，并转向哀伤或重新规划，而不是鼓励他更拼。"
+    }
+   ],
+   "answer": {
+    "en": "The same athlete, the same temperament, and the correct response inverted, because the situation changed and the habit did not.",
+    "zh": "同一位运动员、同样的人格，而正确的应对完全相反，因为情境变了而习惯没变。"
+   }
+  }
+ },
+ "Decision flow and maladaptive responses": {
+  "figures": [
+   {
+    "title": {
+     "en": "How a bad moment becomes a bad month",
+     "zh": "一个糟糕的时刻如何变成糟糕的一个月"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "each maladaptive response is a short-circuit somewhere on the path, and each one shorts out at a different point",
+      "zh": "每一种适应不良反应都是这条路径上某处的一次短路，而每一种的短路位置都不同"
+     },
+     {
+      "en": "early decisions constrain later ones more than they seem to",
+      "zh": "早期的决定对后续的约束比看上去更大"
+     },
+     {
+      "en": "the most common sequence is self-sealing: avoid, therefore do not learn, therefore believe there was nothing to learn",
+      "zh": "最常见的序列是自我封闭的：回避、因此学不到、因此相信本来就没有什么可学"
+     }
+    ],
+    "caption": {
+     "en": "The way in is usually a change made before the athlete is asked to feel anything.",
+     "zh": "打破它的入口通常是在要求运动员先感受一下之前所做的某个改变。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"52\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M14 20h52v26H14z\"/><text class=\"lblS\" x=\"20\" y=\"37\">event</text></g><path class=\"th\" d=\"M66 33h20\"/><path class=\"ln\" d=\"M86 33l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"86\" y=\"20\" width=\"56\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M86 20h56v26H86z\"/><text class=\"lblS\" x=\"92\" y=\"37\">appraise</text></g><path class=\"th\" d=\"M142 33h20\"/><path class=\"ln\" d=\"M162 33l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"162\" y=\"20\" width=\"52\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M162 20h52v26H162z\"/><text class=\"lblS\" x=\"168\" y=\"37\">feeling</text></g><path class=\"th\" d=\"M214 33h20\"/><path class=\"ln\" d=\"M234 33l-9-4.5v9z\" fill=\"currentColor\"/><g><rect class=\"fillA\" x=\"234\" y=\"20\" width=\"70\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M234 20h70v26H234z\"/><text class=\"lblS\" x=\"240\" y=\"37\">impulse, act</text></g><path class=\"dash\" d=\"M40 46v18h120V46\"/><g><rect class=\"fillB\" x=\"14\" y=\"70\" width=\"88\" height=\"34\" rx=\"5\"/><path class=\"ln\" d=\"M14 70h88v34H14z\"/><text class=\"lblS\" x=\"20\" y=\"84\">avoid</text><text class=\"lblS\" x=\"20\" y=\"98\">the feeling</text></g><g><rect class=\"fillB\" x=\"110\" y=\"70\" width=\"88\" height=\"34\" rx=\"5\"/><path class=\"ln\" d=\"M110 70h88v34H110z\"/><text class=\"lblS\" x=\"116\" y=\"84\">avoid</text><text class=\"lblS\" x=\"116\" y=\"98\">the problem</text></g><g><rect class=\"fillB\" x=\"206\" y=\"70\" width=\"98\" height=\"34\" rx=\"5\"/><path class=\"ln\" d=\"M206 70h98v34H98z\"/><path class=\"ln\" d=\"M206 70h98v34h-98z\"/><text class=\"lblS\" x=\"212\" y=\"84\">substitute</text><text class=\"lblS\" x=\"212\" y=\"98\">another activity</text></g><text class=\"lblS\" x=\"14\" y=\"126\">the training-while-injured response looks like</text><text class=\"lblS\" x=\"14\" y=\"139\">dedication</text><text class=\"lblS\" x=\"3\" y=\"146\">it is avoidant emotion-focused coping with a moral story</text><text class=\"lblS\" x=\"14\" y=\"159\">attached</text><text class=\"lblS\" x=\"14\" y=\"166\">the unshakeably upbeat athlete has made the same trade</text><text class=\"lblS\" x=\"14\" y=\"179\">the other way</text><text class=\"lblS\" x=\"14\" y=\"190\">the recognition threshold differs for each clinical</text><text class=\"lblS\" x=\"14\" y=\"203\">category, and the referral</text><text class=\"lblS\" x=\"14\" y=\"202\">threshold differs with it</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The clinical categories a coach should be able to name",
+     "zh": "教练应当能够说出的临床类别"
+    },
+    "cols": [
+     {
+      "en": "Category",
+      "zh": "类别"
+     },
+     {
+      "en": "Signature",
+      "zh": "特征"
+     },
+     {
+      "en": "Coaching response",
+      "zh": "教练回应"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Generalised anxiety",
+       "zh": "广泛性焦虑"
+      },
+      {
+       "en": "Persistent, unfocused worry across domains",
+       "zh": "跨领域的、持续而不聚焦的担忧"
+      },
+      {
+       "en": "Recognise; it may exceed what a session plan can address",
+       "zh": "识别；它可能超出一份训练课计划能处理的范围"
+      }
+     ],
+     [
+      {
+       "en": "Specific phobia",
+       "zh": "特定恐惧"
+      },
+      {
+       "en": "Intense response to one object or situation, with avoidance of it",
+       "zh": "对某一个对象或情境的强烈反应并回避它"
+      },
+      {
+       "en": "Identify the object; graded exposure if appropriate",
+       "zh": "确定那个对象；必要时做分级暴露"
+      }
+     ],
+     [
+      {
+       "en": "Panic",
+       "zh": "惊恐发作"
+      },
+      {
+       "en": "A sudden surge with a strong bodily component",
+       "zh": "突然涌起并带有强烈躯体成分"
+      },
+      {
+       "en": "Refer; a breathing strategy helps but is not the treatment",
+       "zh": "转介；呼吸策略有帮助但不是治疗"
+      }
+     ],
+     [
+      {
+       "en": "Social anxiety",
+       "zh": "社交焦虑"
+      },
+      {
+       "en": "Fear of being observed and judged",
+       "zh": "对被观察和被评判的恐惧"
+      },
+      {
+       "en": "Gradual exposure to being watched",
+       "zh": "逐步暴露于被注视"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A coach can name these, recognise the presentation, and know when the referral threshold differs for each.",
+     "zh": "教练可以说出这些名称、辨认出表现，并知道每一种的转介阈值有何不同。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the self-sealing sequence",
+    "zh": "例题：自我封闭的序列"
+   },
+   "given": {
+    "en": "A player misses a knee ligament test, is not referred, and reports being fine, then stops volunteering for testing.",
+    "zh": "一名运动员膝韧带测试未通过、没有转诊，报告自己没问题，随后不再自愿接受测试。"
+   },
+   "steps": [
+    {
+     "en": "The first decision was to avoid the feeling, and the feeling was the result she did not want.",
+     "zh": "第一个决定是回避感受，而那个感受正是她不想要的结果。"
+    },
+    {
+     "en": "Avoiding it meant not getting the information about what the result actually was.",
+     "zh": "回避它意味着没有拿到关于那个结果究竟是什么的信息。"
+    },
+    {
+     "en": "Not knowing meant she could believe there was nothing to know, which was more comfortable.",
+     "zh": "不知道意味着她可以相信本来就没有什么可知道，而这更舒服。"
+    },
+    {
+     "en": "Believing that confirmed the avoidance, and so the sequence was self-sealing.",
+     "zh": "相信这一点又确认了回避，于是这个序列自我封闭了。"
+    },
+    {
+     "en": "The way in is a change made before the feeling is addressed: book the test, make it routine, remove the stakes.",
+     "zh": "入口是在处理感受之前所做的改变：预约测试、把它常规化、去掉利害关系。"
+    }
+   ],
+   "answer": {
+    "en": "She reported being fine throughout, and the reporting was the symptom rather than the reassurance.",
+    "zh": "她全程报告自己没问题，而那份报告正是症状，而不是安心。"
+   }
+  }
+ },
+ "Three goal types": {
+  "figures": [
+   {
+    "title": {
+     "en": "Three destinations, and what happens when each is reached",
+     "zh": "三种目的地，以及各自达成之后会发生什么"
+    },
+    "viewBox": "0 0 320 220",
+    "legend": [
+     {
+      "en": "the mistake is treating has a goal as the goal",
+      "zh": "错误在于把有目标本身当成了目标"
+     },
+     {
+      "en": "a met performance goal produces a new question: what now?",
+      "zh": "一个被达成的表现目标会产生一个新问题：接下来怎么办？"
+     },
+     {
+      "en": "a met health goal produces permission, the only one of the three that reliably produces rest",
+      "zh": "一个被达成的健康目标会产生许可，这是三者中唯一可靠地产生休息的"
+     }
+    ],
+    "caption": {
+     "en": "A process goal is controllable, so success is available on most days, and that is what makes competence experienced.",
+     "zh": "过程目标是可控的，因此成功在大多数日子里都是可得的，而这正是胜任感被体验到的原因。"
+    },
+    "svg": "<g><rect class=\"fillB\" x=\"14\" y=\"22\" width=\"140\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M14 22h140v44H14z\"/><text class=\"lbl\" x=\"26\" y=\"44\">performance</text><text class=\"lblS\" x=\"26\" y=\"60\">better than a standard or others</text></g><g><rect class=\"fillA\" x=\"166\" y=\"22\" width=\"140\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M166 22h140v44H166z\"/><text class=\"lbl\" x=\"178\" y=\"44\">learning</text><text class=\"lblS\" x=\"132\" y=\"60\">a specific skill or understanding</text></g><g><rect class=\"fillC\" x=\"14\" y=\"80\" width=\"140\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M14 80h140v44H14z\"/><text class=\"lbl\" x=\"26\" y=\"102\">health</text><text class=\"lblS\" x=\"26\" y=\"118\">the body staying healthy</text></g><path class=\"th\" d=\"M84 66v14M236 66v14M84 124v14\"/><path class=\"ln\" d=\"M84 80l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M236 80l-4.5 9h9z\" fill=\"currentColor\"/><path class=\"ln\" d=\"M84 138l-4.5 9h9z\" fill=\"currentColor\"/><g><rect class=\"fillB\" x=\"40\" y=\"138\" width=\"88\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M40 138h88v26H40z\"/><text class=\"lblS\" x=\"46\" y=\"155\">a new standard</text></g><g><rect class=\"fillA\" x=\"192\" y=\"138\" width=\"88\" height=\"26\" rx=\"5\"/><path class=\"ln\" d=\"M192 138h88v26H192z\"/><text class=\"lblS\" x=\"198\" y=\"155\">progression</text></g><text class=\"lblS\" x=\"3\" y=\"184\">pairing an outcome goal with a process goal and a health</text><text class=\"lblS\" x=\"14\" y=\"197\">goal is what makes an athlete</text><text class=\"lblS\" x=\"3\" y=\"200\">robust to a bad result, because the result was never the</text><text class=\"lblS\" x=\"14\" y=\"213\">only thing in the frame</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three goal types compared",
+     "zh": "三种目标类型对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Performance",
+      "zh": "表现"
+     },
+     {
+      "en": "Learning",
+      "zh": "学习"
+     },
+     {
+      "en": "Health",
+      "zh": "健康"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "What it names",
+       "zh": "它指什么"
+      },
+      {
+       "en": "A placing, a time, a selection",
+       "zh": "一个名次、一个成绩、一次入选"
+      },
+      {
+       "en": "A specific skill or understanding",
+       "zh": "一项具体技术或理解"
+      },
+      {
+       "en": "The body staying healthy, the career lasting",
+       "zh": "身体保持健康、职业生涯得以延续"
+      }
+     ],
+     [
+      {
+       "en": "Controllability",
+       "zh": "可控性"
+      },
+      {
+       "en": "Partly, which is why effort is unreliable",
+       "zh": "部分可控，因此努力并不可靠"
+      },
+      {
+       "en": "Mostly, on most days",
+       "zh": "在大多数日子里基本可控"
+      },
+      {
+       "en": "Mostly",
+       "zh": "基本可控"
+      }
+     ],
+     [
+      {
+       "en": "What is produced on reaching it",
+       "zh": "达成时产生什么"
+      },
+      {
+       "en": "Satisfaction, then an empty frame",
+       "zh": "满足，然后一个空掉的框架"
+      },
+      {
+       "en": "A natural next level",
+       "zh": "一个自然的下一层级"
+      },
+      {
+       "en": "Permission, which means rest",
+       "zh": "许可，也就是休息"
+      }
+     ],
+     [
+      {
+       "en": "Risk if used alone",
+       "zh": "单独使用的风险"
+      },
+      {
+       "en": "Chasing something bigger after a win",
+       "zh": "获胜后去追更大的东西"
+      },
+      {
+       "en": "Endless progression without an outcome",
+       "zh": "没有结果的无尽进阶"
+      },
+      {
+       "en": "Being capped by a conservative view of health",
+       "zh": "被对健康的保守看法所限制"
+      }
+     ],
+     [
+      {
+       "en": "Evidence base",
+       "zh": "证据基础"
+      },
+      {
+       "en": "Mixed",
+       "zh": "不一"
+      },
+      {
+       "en": "Strong, for mastery and process goals",
+       "zh": "强，对掌握与过程目标而言"
+      },
+      {
+       "en": "Strong for populations, weak as a limit on elite training",
+       "zh": "对人群很强，作为精英训练的限则则弱"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A medal is a perfectly good reason to get up in the morning. The error is making it the only one.",
+     "zh": "一块奖牌完全是一个值得早晨起床的理由。错误在于让它成为唯一的理由。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: pairing three goals for one season",
+    "zh": "例题：为一个赛季配对三个目标"
+   },
+   "given": {
+    "en": "A 20-year-old cyclist has a season goal of a national time trial podium place.",
+    "zh": "一名 20 岁自行车运动员的赛季目标是全国计时赛登上领奖台。"
+   },
+   "steps": [
+    {
+     "en": "The outcome goal stays exactly as it is, because it gives the season a direction and a reason to train.",
+     "zh": "结果目标原样保留，因为它给赛季一个方向和训练的理由。"
+    },
+    {
+     "en": "Add a process goal: hold the planned power in the final 20 minutes on the climbs, every session.",
+     "zh": "加入一个过程目标：每次训练都在爬坡的最后 20 分钟维持计划功率。"
+    },
+    {
+     "en": "Add a health goal: sleep 8 hours, and a weekly check that the resting heart rate has not risen.",
+     "zh": "加入一个健康目标：睡 8 小时，并每周检查静息心率没有上升。"
+    },
+    {
+     "en": "In a bad week the process goal is still achievable and the health goal still applies, so motivation has somewhere to live.",
+     "zh": "在糟糕的一周，过程目标仍可达到、健康目标仍然适用，因此动力有地方可待。"
+    },
+    {
+     "en": "In a good week the outcome goal is the one that gets finished, and it is finished properly.",
+     "zh": "在顺利的一周，被完成的是结果目标，而且是被完整地完成。"
+    }
+   ],
+   "answer": {
+    "en": "One athlete, three goals, and a bad result is now a bad day rather than a bad season.",
+    "zh": "一位运动员、三个目标，而一次糟糕的结果现在只是糟糕的一天，而不是糟糕的一个赛季。"
+   }
+  }
+ },
+ "Goal purpose and paradox": {
+  "figures": [
+   {
+    "title": {
+     "en": "Content is what the goal says; purpose is what it is for",
+     "zh": "内容是目标所说的；目的是它为了什么"
+    },
+    "viewBox": "0 0 320 222",
+    "legend": [
+     {
+      "en": "the same content can serve very different purposes in different athletes",
+      "zh": "相同的内容可以在不同运动员身上服务于非常不同的目的"
+     },
+     {
+      "en": "the purposes are what survive a losing run, because a time goal gives an athlete nothing to hold",
+      "zh": "目的是在失利的跑步中留下来的，而一个成绩目标在那天什么也留不住他"
+     },
+     {
+      "en": "some goals undermine the thing they aim at, which is not hypocrisy but a consequence",
+      "zh": "有些目标会破坏它们本身想要达成的东西，这不是虚伪，而是一个后果"
+     }
+    ],
+    "caption": {
+     "en": "The second question is what makes a difference: not what do you want to achieve, but what would it mean if you did, and if you did not.",
+     "zh": "第二个问题才是有区别的：不是你想取得什么，而是如果你做到了那意味着什么、如果你没做到那意味着什么。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"22\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 22h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"41\">content: run 11 seconds</text></g><g><rect class=\"fillB\" x=\"14\" y=\"60\" width=\"140\" height=\"64\" rx=\"7\"/><path class=\"ln\" d=\"M14 60h140v64H14z\"/><text class=\"lblS\" x=\"22\" y=\"78\">purpose: love of the sport</text><text class=\"lblS\" x=\"22\" y=\"94\">or belonging to a group</text><text class=\"lblS\" x=\"22\" y=\"112\">or proving a parent wrong</text></g><g><rect class=\"fillC\" x=\"166\" y=\"60\" width=\"140\" height=\"64\" rx=\"7\"/><path class=\"ln\" d=\"M166 60h140v64H166z\"/><text class=\"lblS\" x=\"174\" y=\"78\">the paradox:</text><text class=\"lblS\" x=\"174\" y=\"94\">proving you are not weak</text><text class=\"lblS\" x=\"171\" y=\"112\">prevents admitting fatigue</text></g><text class=\"lblS\" x=\"3\" y=\"146\">a goal of not disappointing a coach can sustain training</text><text class=\"lblS\" x=\"14\" y=\"159\">through pain</text><text class=\"lblS\" x=\"3\" y=\"164\">a goal of being the best turns a good performance into a</text><text class=\"lblS\" x=\"14\" y=\"177\">perceived failure</text><text class=\"lblS\" x=\"3\" y=\"188\">once a purpose is named it can be protected, and that is</text><text class=\"lblS\" x=\"14\" y=\"201\">what holds a difficult period</text><text class=\"lblS\" x=\"3\" y=\"202\">together; rest can then be framed as serving the purpose</text><text class=\"lblS\" x=\"14\" y=\"215\">rather than threatening it</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Content against purpose, and the goals that backfire",
+     "zh": "内容与目的，以及会适得其反的目标"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Example",
+      "zh": "例子"
+     },
+     {
+      "en": "Consequence",
+      "zh": "后果"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Content",
+       "zh": "内容"
+      },
+      {
+       "en": "Run 11 seconds, win the final, return to full training",
+       "zh": "跑进 11 秒、赢下决赛、完全恢复训练"
+      },
+      {
+       "en": "Names the destination and nothing else",
+       "zh": "只指明目的地，别无其他"
+      }
+     ],
+     [
+      {
+       "en": "Purpose",
+       "zh": "目的"
+      },
+      {
+       "en": "To feel competent, to belong, to prove a point, to avoid disappointing someone",
+       "zh": "感到胜任、归属于某个群体、证明某件事、不让某人失望"
+      },
+      {
+       "en": "Is what the athlete holds on a bad day",
+       "zh": "是这位运动员在糟糕那天抓住的东西"
+      }
+     ],
+     [
+      {
+       "en": "Backfire: proving ability",
+       "zh": "适得其反：证明能力"
+      },
+      {
+       "en": "A goal of proving you are not weak",
+       "zh": "证明自己不是弱者这个目标"
+      },
+      {
+       "en": "Prevents admitting fatigue, which raises injury risk",
+       "zh": "阻止承认疲劳，而那会提高受伤风险"
+      }
+     ],
+     [
+      {
+       "en": "Backfire: avoiding disappointment",
+       "zh": "适得其反：避免失望"
+      },
+      {
+       "en": "A goal of not disappointing a coach",
+       "zh": "不让教练失望这个目标"
+      },
+      {
+       "en": "Sustains training through pain",
+       "zh": "让训练在疼痛中继续"
+      }
+     ],
+     [
+      {
+       "en": "Backfire: being the best",
+       "zh": "适得其反：成为最强"
+      },
+      {
+       "en": "A goal of being the best",
+       "zh": "成为最强的目标"
+      },
+      {
+       "en": "Turns a good performance into a perceived failure, and the next one into a threat",
+       "zh": "把一次好的表现转变成被感知到的失败，并把下一次当作威胁"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The honest position is that the athlete is entitled to believe what they believe until the performance contradicts it.",
+     "zh": "诚实的立场是：运动员有权相信他所相信的，直到表现与之矛盾。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: asking the second question",
+    "zh": "例题：问第二个问题"
+   },
+   "given": {
+    "en": "A teenage sprinter wants a season best. Coaches celebrate it; she cries after the race.",
+    "zh": "一名十几岁的短跑运动员想要一个赛季最好成绩。教练们为此庆祝，而她赛后哭了。"
+   },
+   "steps": [
+    {
+     "en": "The content is clear and was probably agreed. The purpose has never been asked about.",
+     "zh": "内容是清楚的，而且大概已经达成一致。而目的从未被问起。"
+    },
+    {
+     "en": "Ask what it would mean if she got it, and what it would mean if she did not.",
+     "zh": "问她如果做到了意味着什么、如果没做到又意味着什么。"
+    },
+    {
+     "en": "It turns out the season best is her father repeating a sentence about her brother.",
+     "zh": "结果是那个赛季最好成绩，是她父亲在重复关于她哥哥的一句话。"
+    },
+    {
+     "en": "So the content is fine and the purpose is toxic, and only one of them was ever discussed.",
+     "zh": "因此内容没问题而目的有毒，而两者中只有一个曾被讨论过。"
+    },
+    {
+     "en": "The coach can keep the season best and change the purpose, or change both — but cannot leave it as it is.",
+     "zh": "教练可以保留那个赛季最好成绩而改变目的，或两者都改——但不能维持原样。"
+    }
+   ],
+   "answer": {
+    "en": "The technical problem was never the problem. Goal setting had a content and an unnamed purpose, and only one of the two was ever discussed.",
+    "zh": "技术问题从来不是问题。目标设定有一个内容和一个未命名的目的，而两者中只有一个被讨论过。"
+   }
+  }
+ },
+ "Adjustment and flexible goals": {
+  "figures": [
+   {
+    "title": {
+     "en": "A hierarchy of adjustments, arranged by cost",
+     "zh": "按代价排列的调整层级"
+    },
+    "viewBox": "0 0 320 222",
+    "legend": [
+     {
+      "en": "a plan that cannot bend is not a plan, it is a promise, and promises break when they are needed",
+      "zh": "一份不能弯折的计划不是计划，而是承诺，而承诺在需要它时崩断"
+     },
+     {
+      "en": "abandoning the direction is the most expensive and should always be last",
+      "zh": "放弃方向是代价最高的，而且永远应该放在最后"
+     },
+     {
+      "en": "reducing ambition while keeping direction is usually available and almost always under-used",
+      "zh": "保持方向但降低志向通常是可用的，而且几乎总是被用得太少"
+     }
+    ],
+    "caption": {
+     "en": "A good adjustment is invisible to anyone who is not looking for it, which is why it needs to be made visibly normal.",
+     "zh": "一次好的调整对任何不刻意去找它的人都是看不见的，这正是为什么它需要被做成明显正常的事。"
+    },
+    "svg": "<g><rect class=\"fillC\" x=\"14\" y=\"24\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 24h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"43\">cheapest: keep direction, change the timeframe</text></g><g><rect class=\"fillB\" x=\"14\" y=\"62\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 62h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"81\">reduce ambition, keep the direction</text></g><g><rect class=\"fillA\" x=\"14\" y=\"100\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 100h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"119\">change the target, keep the event</text></g><g><rect class=\"fillB\" x=\"14\" y=\"138\" width=\"292\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 138h292v30H14z\"/><text class=\"lblS\" x=\"24\" y=\"157\">most expensive: abandon the direction</text></g><text class=\"lblS\" x=\"8\" y=\"188\">a coach who climbs too fast makes the athlete quit; one</text><text class=\"lblS\" x=\"14\" y=\"201\">who never climbs trains</text><text class=\"lblS\" x=\"14\" y=\"202\">an athlete for a version of their life that no longer</text><text class=\"lblS\" x=\"14\" y=\"215\">exists</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The adjustment hierarchy and the tools for each level",
+     "zh": "调整层级及各级工具"
+    },
+    "cols": [
+     {
+      "en": "Level",
+      "zh": "级别"
+     },
+     {
+      "en": "What changes",
+      "zh": "改变什么"
+     },
+     {
+      "en": "Tool",
+      "zh": "工具"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Timeframe",
+       "zh": "时限"
+      },
+      {
+       "en": "When the target is reached, not what it is",
+       "zh": "何时达成靶标，而不是靶标是什么"
+      },
+      {
+       "en": "A written record reviewed at the midpoint of a block",
+       "zh": "一份书面记录，在一个周期中点回顾"
+      }
+     ],
+     [
+      {
+       "en": "Ambition",
+       "zh": "志向"
+      },
+      {
+       "en": "Placing rather than title, season rather than career",
+       "zh": "名次而不是冠军，赛季而不是职业生涯"
+      },
+      {
+       "en": "A health goal as the place to put any increase in difficulty",
+       "zh": "把任何难度增加放到健康目标里"
+      }
+     ],
+     [
+      {
+       "en": "Target",
+       "zh": "靶标"
+      },
+      {
+       "en": "The same event, a different criterion",
+       "zh": "同一项目，不同判据"
+      },
+      {
+       "en": "A technical or process criterion the athlete can meet",
+       "zh": "一个这位运动员能达到的技术或过程判据"
+      }
+     ],
+     [
+      {
+       "en": "Direction",
+       "zh": "方向"
+      },
+      {
+       "en": "The event or the sport itself",
+       "zh": "项目或这项运动本身"
+      },
+      {
+       "en": "The last resort, and never a decision made in a week",
+       "zh": "最后手段，而且绝不能在一周之内做出"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Set the next target at the moment the previous one is met, because a gap of even a few weeks is where a season quietly loses its purpose.",
+     "zh": "在上一个目标被达成的当下就设定下一个，因为哪怕几周的空档也是一个赛季悄悄失去目的的地方。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: adjusting without abandoning",
+    "zh": "例题：调整而不放弃"
+   },
+   "given": {
+    "en": "A 22-year-old was targeting a national 200 m final and has a stress fracture eight weeks out.",
+    "zh": "一名 22 岁运动员原定参加全国 200 米决赛，八周前遭遇应力性骨折。"
+   },
+   "steps": [
+    {
+     "en": "The direction, a national final, is kept. The target within it moves.",
+     "zh": "方向（全国决赛）被保留，而其中的靶标移动。"
+    },
+    {
+     "en": "The target becomes a qualifying standard, which is still the same event and the same standard of performance.",
+     "zh": "靶标变为一个达标线，而它仍是同一项目、同一表现标准。"
+    },
+    {
+     "en": "The timeframe moves to the following season, in writing, so it is a change to a document rather than a crisis.",
+     "zh": "时限移到下一赛季，并以书面形式记录，使它成为对一份文件的修改而不是一场危机。"
+    },
+    {
+     "en": "A third goal is added: bone tolerance, which is a health goal and therefore produces permission to rest.",
+     "zh": "再加入第三个目标：骨耐受，这是一个健康目标，因此它产生休息的许可。"
+    },
+    {
+     "en": "Direction and the standard of performance are preserved; the date is not. That is the whole content of adjustment.",
+     "zh": "方向与表现标准被保留，而日期没有。这就是调整的全部内容。"
+    }
+   ],
+   "answer": {
+    "en": "Nothing was given up except the date, and the athlete had something to train toward throughout the eight weeks.",
+    "zh": "除了日期什么都没放弃，而这位运动员在这八周里始终有东西可追。"
+   }
+  }
+ },
+ "Sensory imagery and functions": {
+  "figures": [
+   {
+    "title": {
+     "en": "Rehearsing without the equipment",
+     "zh": "不带器材的排练"
+    },
+    "viewBox": "0 0 320 214",
+    "legend": [
+     {
+      "en": "the brain has no clean divider between imagined and real, so what you picture is wired in by the same machinery",
+      "zh": "大脑并没有在想象的与真实的之间划一道干净的界线，因此你所描绘的东西由同一套机制接线"
+     },
+     {
+      "en": "a skier who visualises a course has genuinely skied it several times before the first run",
+      "zh": "一位在头脑中走过一遍线路的滑雪运动员，在第一次滑行之前已经真正滑过好几次"
+     },
+     {
+      "en": "visualising the wrong thing is therefore not a neutral act",
+      "zh": "因此对错误东西的意象不是一个中性的行为"
+     }
+    ],
+    "caption": {
+     "en": "Internal imagery, viewed from inside the body, is more closely tied to the motor system than the external fantasy view most athletes default to.",
+     "zh": "内部意象从身体内部去看，与运动系统的关系比多数运动员默认的外部幻想视角更紧密。"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"22\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 22h88v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"41\">visual</text></g><g><rect class=\"fillB\" x=\"110\" y=\"22\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M110 22h88v30H110z\"/><text class=\"lblS\" x=\"118\" y=\"41\">kinaesthetic</text></g><g><rect class=\"fillA\" x=\"206\" y=\"22\" width=\"46\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M206 22h46v30H206z\"/><text class=\"lblS\" x=\"212\" y=\"41\">audi</text></g><g><rect class=\"fillB\" x=\"260\" y=\"22\" width=\"46\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M260 22h46v30H260z\"/><text class=\"lblS\" x=\"266\" y=\"41\">olfact</text></g><text class=\"lblS\" x=\"14\" y=\"76\">functions:</text><g><rect class=\"fillA\" x=\"14\" y=\"86\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 86h88v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"105\">cognitive</text></g><g><rect class=\"fillB\" x=\"110\" y=\"86\" width=\"88\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M110 86h88v30H30z\"/><path class=\"ln\" d=\"M110 86h88v30h-88z\"/><text class=\"lblS\" x=\"118\" y=\"105\">affective</text></g><g><rect class=\"fillC\" x=\"206\" y=\"86\" width=\"100\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M206 86h100v30H206z\"/><text class=\"lblS\" x=\"214\" y=\"105\">performance</text></g><text class=\"lblS\" x=\"8\" y=\"136\">external mode: from the performer's eyes — a rehearsal,</text><text class=\"lblS\" x=\"14\" y=\"149\">and the default</text><text class=\"lblS\" x=\"3\" y=\"154\">internal mode: from inside the body — closer to what the</text><text class=\"lblS\" x=\"14\" y=\"167\">motor system needs</text><text class=\"lblS\" x=\"8\" y=\"180\">the limitation that matters: imagery draws on the motor</text><text class=\"lblS\" x=\"14\" y=\"193\">system, which reproduces what it</text><text class=\"lblS\" x=\"8\" y=\"194\">has already produced, so a never-succeeded skill has no</text><text class=\"lblS\" x=\"14\" y=\"207\">pattern to draw on</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Senses, modes and functions",
+     "zh": "感官、模式与功能"
+    },
+    "cols": [
+     {
+      "en": "Category",
+      "zh": "类别"
+     },
+     {
+      "en": "Options",
+      "zh": "选项"
+     },
+     {
+      "en": "Note",
+      "zh": "说明"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Senses used",
+       "zh": "使用的感官"
+      },
+      {
+       "en": "Visual, kinaesthetic, auditory, olfactory",
+       "zh": "视觉、动觉、听觉、嗅觉"
+      },
+      {
+       "en": "Olfactory works through an emotional pathway and is among the strongest results in the literature",
+       "zh": "嗅觉通过情绪通路起作用，并属于文献中最强的结果之一"
+      }
+     ],
+     [
+      {
+       "en": "External imagery",
+       "zh": "外部意象"
+      },
+      {
+       "en": "Viewing the scene from the performer's eyes",
+       "zh": "从表演者的眼睛看见场景"
+      },
+      {
+       "en": "A rehearsal, and what most athletes do by default",
+       "zh": "一次排练，也是多数运动员默认的做法"
+      }
+     ],
+     [
+      {
+       "en": "Internal imagery",
+       "zh": "内部意象"
+      },
+      {
+       "en": "Viewing the action from inside the body",
+       "zh": "从身体内部看见这个动作"
+      },
+      {
+       "en": "More closely tied to movement quality; if quality is the problem, try this",
+       "zh": "与动作质量关系更紧密；若问题在质量，就试这个"
+      }
+     ],
+     [
+      {
+       "en": "Cognitive function",
+       "zh": "认知功能"
+      },
+      {
+       "en": "Rehearsing a plan, seeing the options, learning conceptually",
+       "zh": "排练方案、看见选项、在概念上学习"
+      },
+      {
+       "en": "Best for tactical and decision work",
+       "zh": "最适合战术与决策工作"
+      }
+     ],
+     [
+      {
+       "en": "Affective function",
+       "zh": "情绪功能"
+      },
+      {
+       "en": "Reducing anxiety, building confidence, recovering",
+       "zh": "减轻焦虑、建立信心、恢复"
+      },
+      {
+       "en": "Often the higher-value use in sport",
+       "zh": "在运动中往往是价值更高的用法"
+      }
+     ],
+     [
+      {
+       "en": "Performance function",
+       "zh": "表现功能"
+      },
+      {
+       "en": "Generating a stronger motor pattern",
+       "zh": "生成一个更强的运动模式"
+      },
+      {
+       "en": "Fails when there is no existing pattern to reproduce",
+       "zh": "在没有可复制的既有模式时失效"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Short and often, combined with physical practice, beats long and occasional and it is combined rather than a replacement that works best.",
+     "zh": "短而频繁并与身体练习结合，胜过长而偶发；而结合而非取代才是有效的。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: choosing the mode from the problem",
+    "zh": "例题：从问题出发选择模式"
+   },
+   "given": {
+    "en": "A climber is strong and fit, falls off moves she has done before, and imagines her success in broad cinematic terms.",
+    "zh": "一名攀岩者强壮且体能好，却从以前做过的动作上掉下来，而她想象成功的方式是宽泛的电影式画面。"
+   },
+   "steps": [
+    {
+     "en": "Strength and fitness are not the problem, so the deficit is not capacity.",
+     "zh": "力量和体能不是问题，因此缺陷不在容量。"
+    },
+    {
+     "en": "Her imagery is external and general, so the motor system is not being given a proprioceptive picture.",
+     "zh": "她的意象是外部且笼统的，因此运动系统没有拿到本体感觉图像。"
+    },
+    {
+     "en": "The fix is internal kinaesthetic imagery of one specific move, felt from the feet and hands.",
+     "zh": "解决办法是对某一个具体动作做内部动觉意象，从脚和手去感觉。"
+    },
+    {
+     "en": "Short, most days, immediately before she climbs, and combined with actual practice on the route.",
+     "zh": "短时间、大多数天数、在攀爬前立即进行，并与路线上的实际练习结合。"
+    },
+    {
+     "en": "If the difficulty were reading the route, the answer would be cognitive imagery of the situation and the options instead.",
+     "zh": "如果难点在于读线路，答案就改为关于局面与可选项的认知意象。"
+    }
+   ],
+   "answer": {
+    "en": "The same athlete, the same ability, and a change of mode that addresses the mechanism that was actually failing.",
+    "zh": "同一位运动员、同样能力，而模式的改变针对的正是真正失效的那个机制。"
+   }
+  }
+ },
+ "PETTLEP and imagery quality": {
+  "figures": [
+   {
+    "title": {
+     "en": "Which letter to change depends on the error",
+     "zh": "改哪个字母取决于错误是什么"
+    },
+    "viewBox": "0 0 320 210",
+    "legend": [
+     {
+      "en": "P physical, E environment, T task, T timing, L learning, E emotion, P personality",
+      "zh": "P 身体、E 环境、T 任务、T 时间、L 学习、E 情绪、P 人格"
+     },
+     {
+      "en": "PETTLEP is a diagnostic instrument, not just a prescription",
+      "zh": "PETTLEP 是一份诊断工具，而不只是处方"
+     },
+     {
+      "en": "the external fantasy view feels excellent and produces almost nothing, because the motor system is not being used",
+      "zh": "外部的幻想视角感觉极好却几乎产生不了任何东西，因为运动系统没有被用到"
+     }
+    ],
+    "caption": {
+     "en": "The criteria for good quality are concrete, and an athlete never taught them will typically fail several.",
+     "zh": "好质量的判据是具体的，而一位从未被教过这些的运动员通常会在好几条上不合格。"
+    },
+    "svg": "<g><rect class=\"fillC\" x=\"14\" y=\"22\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M14 22h40v28H14z\"/><text class=\"lbl\" x=\"30\" y=\"40\">P</text><text class=\"lblS\" x=\"60\" y=\"40\">physical</text></g><g><rect class=\"fillA\" x=\"14\" y=\"56\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M14 56h40v28H14z\"/><text class=\"lbl\" x=\"30\" y=\"74\">E</text><text class=\"lblS\" x=\"60\" y=\"74\">environment</text></g><g><rect class=\"fillB\" x=\"14\" y=\"90\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M14 90h40v28H14z\"/><text class=\"lbl\" x=\"30\" y=\"108\">T</text><text class=\"lblS\" x=\"60\" y=\"108\">task</text></g><g><rect class=\"fillA\" x=\"120\" y=\"90\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M120 90h40v28H120z\"/><text class=\"lbl\" x=\"136\" y=\"108\">T</text><text class=\"lblS\" x=\"166\" y=\"108\">timing</text></g><g><rect class=\"fillB\" x=\"120\" y=\"22\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M120 22h40v28H120z\"/><text class=\"lbl\" x=\"136\" y=\"40\">L</text><text class=\"lblS\" x=\"166\" y=\"40\">learning</text></g><g><rect class=\"fillC\" x=\"224\" y=\"22\" width=\"40\" height=\"28\" rx=\"5\"/><path class=\"ln\" d=\"M224 22h40v28H224z\"/><text class=\"lbl\" x=\"240\" y=\"40\">E</text><text class=\"lblS\" x=\"270\" y=\"40\">emotion</text></g><g><rect class=\"fillA\" x=\"224\" y=\"56\" width=\"40\" height=\"28” rx=\"5\"/><path class=\"ln\" d=\"M224 56h40v28H40z\"/><path class=\"ln\" d=\"M224 56h40v28h-40z\"/><text class=\"lbl\" x=\"240\" y=\"74\">P</text><text class=\"lblS\" x=\"256\" y=\"74\">personality</text></g><text class=\"lblS\" x=\"14\" y=\"144\">the external view feels good and does nothing; the</text><text class=\"lblS\" x=\"14\" y=\"157\">internal view feels worse and works</text><text class=\"lblS\" x=\"14\" y=\"164\">so a coach can ask directly: how much of what you just</text><text class=\"lblS\" x=\"14\" y=\"177\">imagined did you feel from inside?</text><text class=\"lblS\" x=\"14\" y=\"190\">quality standards: internal, kinaesthetic, specific,</text><text class=\"lblS\" x=\"14\" y=\"203\">achievable, controllable, and</text><text class=\"lblS\" x=\"14\" y=\"204\">emotionally congruent, including the nerves</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The seven components and which problem each addresses",
+     "zh": "七个成分及其针对的问题"
+    },
+    "cols": [
+     {
+      "en": "Component",
+      "zh": "成分"
+     },
+     {
+      "en": "Use it for",
+      "zh": "适用于"
+     },
+     {
+      "en": "Ask about",
+      "zh": "要问什么"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "P, Physical",
+       "zh": "P，身体"
+      },
+      {
+       "en": "Movement quality and body position",
+       "zh": "动作质量与身体位置"
+      },
+      {
+       "en": "Did you feel the segments move?",
+       "zh": "你感觉到各节段的运动了吗？"
+      }
+     ],
+     [
+      {
+       "en": "E, Environment",
+       "zh": "E，环境"
+      },
+      {
+       "en": "The real venue, crowd and light",
+       "zh": "真实场地、观众与灯光"
+      },
+      {
+       "en": "Was it your actual pitch?",
+       "zh": "那是你们实际的球场吗？"
+      }
+     ],
+     [
+      {
+       "en": "T, Task",
+       "zh": "T，任务"
+      },
+      {
+       "en": "Tactical reading and decision-making",
+       "zh": "战术阅读与决策"
+      },
+      {
+       "en": "What options did you see?",
+       "zh": "你看见了哪些可选项？"
+      }
+     ],
+     [
+      {
+       "en": "T, Timing",
+       "zh": "T，时间"
+      },
+      {
+       "en": "The correct moment of the action",
+       "zh": "动作中正确的时刻"
+      },
+      {
+       "en": "Did you get the release moment right?",
+       "zh": "你把握准了出手时刻吗？"
+      }
+     ],
+     [
+      {
+       "en": "L, Learning",
+       "zh": "L，学习"
+      },
+      {
+       "en": "Acquiring, rather than performing, the skill",
+       "zh": "习得而非表现技术"
+      },
+      {
+       "en": "Was it about practice rather than competition?",
+       "zh": "那是关于练习而不是比赛吗？"
+      }
+     ],
+     [
+      {
+       "en": "E, Emotion",
+       "zh": "E，情绪"
+      },
+      {
+       "en": "Difficulty that appears only under pressure",
+       "zh": "只在压力下出现的困难"
+      },
+      {
+       "en": "Did you feel the nerves, not their absence?",
+       "zh": "你感到紧张本身，而不是没有紧张吗？"
+      }
+     ],
+     [
+      {
+       "en": "P, Personality",
+       "zh": "P，人格"
+      },
+      {
+       "en": "Which part of you performs",
+       "zh": "做动作的那个自我"
+      },
+      {
+       "en": "Was it the confident version of you?",
+       "zh": "那是自信版的你吗？"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Several of the components have weaker support than the physical one, so the honest account is that the internal kinaesthetic standard carries the technique.",
+     "zh": "其中几个成分的支持力度弱于身体成分，因此诚实的表述是内部动觉标准承担着这项技术。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: naming the letter that needs changing",
+    "zh": "例题：指出需要改变的那个字母"
+   },
+   "given": {
+    "en": "A tennis player double-faults in matches only, and imagines the serve as a successful, admired outcome.",
+    "zh": "一名网球运动员只在比赛中双误，而她想象的发球是一个成功的、被人羡慕的结果。"
+   },
+   "steps": [
+    {
+     "en": "The imagery is external, general and outcome-based, so it is not task-specific and not from inside the body.",
+     "zh": "她的意象是外部、笼统且基于结果的，因此它不是专项的，也不是从身体内部出发的。"
+    },
+    {
+     "en": "The two letters to change are the physical one and the task one.",
+     "zh": "需要改的两个字母是身体那个和任务那个。"
+    },
+    {
+     "en": "Rehearse the actual contact point, felt through the arm and the racquet handle.",
+     "zh": "排练真正的触球点，通过手臂和拍柄去感觉。"
+    },
+    {
+     "en": "Rehearse the tactical situation and the option she chose, because that is a cognitive use of the same tool.",
+     "zh": "排练那个战术局面和她选择的应对，因为那是同一工具的认知性用法。"
+    },
+    {
+     "en": "Short sessions, most days, and scored and watched, so the retrieval is practised under pressure.",
+     "zh": "短时间、大多数天数、并且在有计分有人看的情况下进行，使提取在压力下被演练。"
+    }
+   ],
+   "answer": {
+    "en": "Same athlete and same serve. The change was naming which component was wrong rather than adding more of the pleasant kind.",
+    "zh": "同一位运动员、同一个发球。改变之处是指出哪个成分错了，而不是增加更多那种愉快的种类。"
+   }
+  }
+ },
+ "Paivio, specificity and applications": {
+  "figures": [
+   {
+    "title": {
+     "en": "Who it works for, and what to rehearse",
+     "zh": "它对谁有效，以及该排练什么"
+    },
+    "viewBox": "0 0 320 216",
+    "legend": [
+     {
+      "en": "cognition and imagery are separate but interconnected systems acting as one large pool",
+      "zh": "认知与意象是既分离又相互连接的两个系统，共同作为一个巨大的意象池"
+     },
+     {
+      "en": "a physical task draws more on kinaesthetic coding, a cognitive task on verbal coding",
+      "zh": "身体任务更多地调用动觉编码，认知任务调用言语编码"
+     },
+     {
+      "en": "where the pool is small the athlete must add words and images consciously for imagery to run at all",
+      "zh": "在意象池较小的人身上，必须有意识地把言语和图像加进去，意象才会运转"
+     }
+    ],
+    "caption": {
+     "en": "The second question is the one most often skipped: should they picture this particular thing? The answer is usually no.",
+     "zh": "第二个问题是最常被跳过的：他们该不该想象这特定的东西？答案通常是否定的。"
+    },
+    "svg": "<g><rect class=\"fillB\" x=\"14\" y=\"22\" width=\"120\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M14 22h120v52H14z\"/><text class=\"lblS\" x=\"22\" y=\"42\">large imagery pool</text><text class=\"lblS\" x=\"22\" y=\"60\">imagery runs easily</text></g><g><rect class=\"fillA\" x=\"152\" y=\"22\" width=\"154\" height=\"52\" rx=\"7\"/><path class=\"ln\" d=\"M152 22h154v52H152z\"/><text class=\"lblS\" x=\"160\" y=\"42\">small pool</text><text class=\"lblS\" x=\"121\" y=\"60\">needs cueing and verbal scaffolding</text></g><g><rect class=\"fillA\" x=\"14\" y=\"88\" width=\"140\" height=\"40\" rx=\"6\"/><path class=\"ln\" d=\"M14 88h140v40H14z\"/><text class=\"lblS\" x=\"22\" y=\"106\">physical skill:</text><text class=\"lblS\" x=\"22\" y=\"120\">internal, kinaesthetic</text></g><g><rect class=\"fillB\" x=\"166\" y=\"88\" width=\"140\" height=\"40\" rx=\"6\"/><path class=\"ln\" d=\"M166 88h140v40H166z\"/><text class=\"lblS\" x=\"174\" y=\"106\">tactical problem:</text><text class=\"lblS\" x=\"174\" y=\"120\">the situation and options</text></g><text class=\"lblS\" x=\"3\" y=\"150\">general imagery, seeing yourself as a champion, produces</text><text class=\"lblS\" x=\"14\" y=\"163\">a pleasant state and no transfer</text><text class=\"lblS\" x=\"14\" y=\"170\">because the motor and decision systems are both left</text><text class=\"lblS\" x=\"14\" y=\"183\">without the specific information</text><text class=\"lblS\" x=\"8\" y=\"196\">in a sport where a mistake of judgement costs more than</text><text class=\"lblS\" x=\"14\" y=\"209\">a mistimed swing, the cognitive use</text><text class=\"lblS\" x=\"14\" y=\"210\">is often the higher-value one</text>"
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The two questions and what each decides",
+     "zh": "两个问题及其各自决定什么"
+    },
+    "cols": [
+     {
+      "en": "Question",
+      "zh": "问题"
+     },
+     {
+      "en": "What decides it",
+      "zh": "由什么决定"
+     },
+     {
+      "en": "Consequence",
+      "zh": "后果"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Can the athlete picture it?",
+       "zh": "这位运动员能想象得出来吗？"
+      },
+      {
+       "en": "The size of their imagery pool, which varies a great deal between people",
+       "zh": "他们意象池的大小，而人与人之间差异很大"
+      },
+      {
+       "en": "A small pool needs cueing, verbal scaffolding and a longer runway",
+       "zh": "意象池小的人需要提示、言语脚手架和更长的准备期"
+      }
+     ],
+     [
+      {
+       "en": "Should they picture this particular thing?",
+       "zh": "他们该不该想象这特定的东西？"
+      },
+      {
+       "en": "Whether the task is physical or cognitive",
+       "zh": "任务是身体性的还是认知性的"
+      },
+      {
+       "en": "General imagery produces no transfer to either system",
+       "zh": "笼统的意象对两个系统都不产生迁移"
+      }
+     ],
+     [
+      {
+       "en": "Physical application",
+       "zh": "身体性应用"
+      },
+      {
+       "en": "Internal kinaesthetic, short, frequent, combined with practice",
+       "zh": "内部动觉、短而频繁、与练习结合"
+      },
+      {
+       "en": "Generates a stronger motor pattern",
+       "zh": "生成一个更强的运动模式"
+      }
+     ],
+     [
+      {
+       "en": "Cognitive application",
+       "zh": "认知性应用"
+      },
+      {
+       "en": "The situation, the options, the cues to read",
+       "zh": "局面、可选项、要读的线索"
+      },
+      {
+       "en": "Often the higher-value use in sport",
+       "zh": "在运动中往往是价值更高的用法"
+      }
+     ],
+     [
+      {
+       "en": "The honest limitation",
+       "zh": "诚实的局限"
+      },
+      {
+       "en": "Less effective when the task is verbal or the athlete thinks in words",
+       "zh": "当任务是言语性的或运动员用词语思考时效果较差"
+      },
+      {
+       "en": "A real constraint on how universal the technique is",
+       "zh": "这是对这项技术普适性的一个真实限制"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The specificity argument explains the disappointing result that a pleasant, successful, general piece of imagery produces nothing measurable.",
+     "zh": "专门性的论点解释了那个令人失望的结果：一个愉快、成功、笼统的意象不产生任何可测量的变化。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: matching the application to the athlete",
+    "zh": "例题：让应用与运动员匹配"
+   },
+   "given": {
+    "en": "A goalkeeper reports that imagining the save feels vivid, yet the positioning in real matches is poor.",
+    "zh": "一名守门员报告想象扑救感觉很生动，而真实比赛中的站位很差。"
+   },
+   "steps": [
+    {
+     "en": "The sensory experience is fine, so the pool is not the problem.",
+     "zh": "感官体验没问题，因此意象池不是问题所在。"
+    },
+    {
+     "en": "The imagery is successful outcomes rather than the situation and the options, so it is not task-specific.",
+     "zh": "意象是成功的结果而不是局面与可选项，因此它不是专项的。"
+    },
+    {
+     "en": "The cognitive application is what a goalkeeper needs: angles, the shooter's body, the space behind.",
+     "zh": "守门员需要的正是认知性应用：角度、射门者的身体、身后的空当。"
+    },
+    {
+     "en": "So rehearse the reading, most days, for a few minutes before kick-off, in a standing position.",
+     "zh": "因此排练这种阅读，大多数天数、在开球前几分钟、以站立姿势进行。"
+    },
+    {
+     "en": "Keep the kinaesthetic imagery too, for the dive itself, since both are needed and they are not competitors.",
+     "zh": "动觉意象也保留，用于扑救本身，因为两者都需要，而它们并不互斥。"
+    }
+   ],
+   "answer": {
+    "en": "The vividness of her imagery made it look effective, and the missing piece was that she was rehearsing the wrong function.",
+    "zh": "她意象的生动感使它看起来有效，而缺的那一块是她排练了错误的功能。"
    }
   }
  }

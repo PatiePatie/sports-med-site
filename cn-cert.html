@@ -778,10 +778,11 @@ body.dark h1,body.dark h2,body.dark h3{
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=7">
-<script src="soft-fx.js?v=7" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=8">
+<script src="soft-fx.js?v=8" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=2">
 <script src="knowledge-fx.js?v=2" defer></script>
+<script src="ai-usage.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
@@ -2822,7 +2823,7 @@ function renderResourcesHub(){
 // ════════════════════════════════════════
 
 // ════════════════════════════════════════
-// Medical AI (Dr7.ai via Cloudflare Worker)
+// Medical AI (Cloudflare Worker: glm-4.5-air, Qwen3 30B-A3B for Vitaline)
 // MEDAI_URL is filled in once the worker is deployed (leave '' to show a friendly 'not configured' message).
 // ════════════════════════════════════════
 var MEDAI_URL = 'https://api.vitaliteplan.com';

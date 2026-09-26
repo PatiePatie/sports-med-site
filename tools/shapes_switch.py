@@ -30,10 +30,11 @@ ROOT = Path(__file__).resolve().parent.parent
 
 CSS = "shapes-skin.css?v=3"
 JS = "shapes-fx.js?v=5"
-SOFT_CSS = "soft-glass.css?v=7"
-SOFT_JS = "soft-fx.js?v=7"
+SOFT_CSS = "soft-glass.css?v=8"
+SOFT_JS = "soft-fx.js?v=8"
 KN_CSS = "knowledge.css?v=2"
 KN_JS = "knowledge-fx.js?v=2"
+AI_JS = "ai-usage.js?v=1"
 
 BEGIN = "<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->"
 END = "<!-- SHAPES-THEME:END -->"
@@ -45,6 +46,7 @@ BLOCK = (
     f'<script src="{SOFT_JS}" defer></script>\n'
     f'<link rel="stylesheet" href="{KN_CSS}">\n'
     f'<script src="{KN_JS}" defer></script>\n'
+    f'<script src="{AI_JS}" defer></script>\n'
     f"{END}\n"
 )
 # First thing in <head>, before ANY stylesheet or blocking script: the saved
@@ -95,7 +97,7 @@ def on(path):
     if text == orig:
         return "skip", "already applied"
     path.write_text(text, encoding="utf-8")
-    return "on", f"linked {CSS}, {JS}, {SOFT_CSS}, {SOFT_JS}, {KN_CSS}, {KN_JS}"
+    return "on", f"linked {CSS}, {JS}, {SOFT_CSS}, {SOFT_JS}, {KN_CSS}, {KN_JS}, {AI_JS}"
 
 
 def off(path):

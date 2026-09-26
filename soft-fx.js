@@ -814,6 +814,37 @@
      the old words out and the new ones in. Every page wires its own toggle
      handler, so this steps in front of the click, then replays it inside a
      view transition (or behind a fog overlay where there are none). */
+  /* The sky that rides the theme wipe: going dark, a crescent moon rises out
+     of the toggle and stars come on as the edge of the wipe reaches them;
+     going light, a sun bursts out with turning rays, a warm glare sweeps the
+     page and motes drift up. A thin ring of light rides the wipe's edge. It
+     has its own view-transition-name so it animates live above the swap. */
+  function sky(toDark, cx, cy, R) {
+    var el = document.createElement('div');
+    el.className = 'sg-sky ' + (toDark ? 'sg-sky-night' : 'sg-sky-day');
+    el.setAttribute('aria-hidden', 'true');
+    el.style.setProperty('--x', cx.toFixed(0) + 'px');
+    el.style.setProperty('--y', cy.toFixed(0) + 'px');
+    el.style.setProperty('--R', R.toFixed(0) + 'px');
+    var W = innerWidth, H = innerHeight, h = '<i class="sg-sky-ring"></i>';
+    el.style.setProperty('--mx', ((W / 2 - cx) * 0.55).toFixed(0) + 'px');      /* the moon/sun travels toward mid-sky */
+    el.style.setProperty('--my', (H * 0.2).toFixed(0) + 'px');
+    /* the wipe grows with cubic-bezier(.55,0,.25,1) over .75s: reaching distance d takes roughly this long */
+    function when(d) { var f = Math.min(1, d / R); return (0.75 * (0.35 + 0.65 * Math.sqrt(f)) * f + 0.05).toFixed(2); }
+    var n = toDark ? 34 : 22, i;
+    for (i = 0; i < n; i++) {
+      var x = Math.random() * W, y = Math.random() * H * (toDark ? 0.9 : 1);
+      var d = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
+      var sz = toDark ? (Math.random() < 0.18 ? 3.2 : 1.4 + Math.random() * 1.4) : 2 + Math.random() * 3;
+      h += '<b class="' + (toDark ? 'sg-star' : 'sg-mote') + '" style="left:' + x.toFixed(0) + 'px;top:' + y.toFixed(0) + 'px;width:' + sz.toFixed(1) +
+        'px;height:' + sz.toFixed(1) + 'px;animation-delay:' + when(d) + 's;--dr:' + (Math.random() * 40 + 20).toFixed(0) + 'px"></b>';
+    }
+    h += toDark ? '<i class="sg-moon"></i>' : '<i class="sg-sun"><i></i></i><i class="sg-glare"></i>';
+    el.innerHTML = h;
+    body.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2300);
+  }
+
   function swapFx() {
     if (REDUCE) return;
     var busy = false, passing = false;
@@ -832,7 +863,12 @@
       root.style.setProperty('--sg-tx', cx.toFixed(0) + 'px');
       root.style.setProperty('--sg-ty', cy.toFixed(0) + 'px');
       root.style.setProperty('--sg-tr', (far + 120).toFixed(0) + 'px');
-      function run() { passing = true; try { b.click(); } finally { passing = false; } }
+      var toDark = theme && !body.classList.contains('dark');
+      function run() {
+        passing = true; try { b.click(); } finally { passing = false; }
+        if (theme) sky(toDark, cx, cy, far + 120);
+      }
+      if (theme) { b.classList.remove('sg-tg-spin'); void b.offsetWidth; b.classList.add('sg-tg-spin'); setTimeout(function () { b.classList.remove('sg-tg-spin'); }, 900); }
       var cls = theme ? 'sg-vt-theme' : 'sg-vt-lang';
       function done() { root.classList.remove(cls); busy = false; }
       if (document.startViewTransition) {
@@ -848,9 +884,10 @@
       o.className = 'sg-swap ' + (theme ? 'sg-swap-theme' : 'sg-swap-lang');
       if (theme) o.style.background = body.classList.contains('dark') ? '#E4E9F0' : '#0B1628';
       body.appendChild(o);
+      if (theme) sky(toDark, cx, cy, far + 120);
       requestAnimationFrame(function () { requestAnimationFrame(function () { o.classList.add('go'); }); });
       setTimeout(function () {
-        run();
+        passing = true; try { b.click(); } finally { passing = false; }
         o.classList.add('done');
         setTimeout(function () { if (o.parentNode) o.parentNode.removeChild(o); busy = false; }, 480);
       }, theme ? 440 : 220);

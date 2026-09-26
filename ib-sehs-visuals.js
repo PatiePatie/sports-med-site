@@ -1282,6 +1282,1694 @@ window.IB_VISUALS = {
     "zh": "四周、两个数据点，而回归是由趋势和症状反应决定的，而不是由关于周数的规则决定的。90% 这个数字是参考，把它当作门槛会不必要地推迟这位运动员。"
    }
   }
+ },
+ "Communication systems": {
+  "figures": [
+   {
+    "title": {
+     "en": "Two systems, two speeds, two jobs",
+     "zh": "两套系统，两种速度，两种工作"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"24\" width=\"70\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 24h70v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"38\">nerve</text><text class=\"lblS\" x=\"22\" y=\"50\">ms</text><path class=\"th\" d=\"M84 41h30\"/><path class=\"ln\" d=\"M114 41l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"114\" y=\"24\" width=\"58\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M114 24h58v34h-58z\"/><text class=\"lblS\" x=\"122\" y=\"46\">muscle</text><path class=\"th\" d=\"M172 41h30\"/><path class=\"ln\" d=\"M202 41l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillB\" x=\"202\" y=\"24\" width=\"104\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M202 24h104v34H202z\"/><text class=\"lblS\" x=\"210\" y=\"38\">response</text><text class=\"lblS\" x=\"210\" y=\"50\">in ~1 s</text></g><g><rect class=\"fillA\" x=\"14\" y=\"86\" width=\"70\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M14 86h70v34H14z\"/><text class=\"lblS\" x=\"22\" y=\"100\">gland</text><text class=\"lblS\" x=\"22\" y=\"112\">hormone</text><path class=\"th\" d=\"M84 103h56\" stroke-dasharray=\"5 4\"/><rect class=\"fillA\" x=\"140\" y=\"86\" width=\"58\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M140 86h58v34h-58z\"/><text class=\"lblS\" x=\"148\" y=\"108\">blood</text><path class=\"th\" d=\"M198 103h30\" stroke-dasharray=\"5 4\"/><rect class=\"fillB\" x=\"228\" y=\"86\" width=\"78\" height=\"34\" rx=\"7\"/><path class=\"ln\" d=\"M228 86h78v34h-78z\"/><text class=\"lblS\" x=\"236\" y=\"100\">response</text><text class=\"lblS\" x=\"236\" y=\"112\">in 30 s – min</text></g><text class=\"lblS\" x=\"14\" y=\"140\">fast and short-lived</text><text class=\"lblS\" x=\"150\" y=\"140\">slower, longer-lived, whole-body</text>",
+    "viewBox": "0 0 320 150",
+    "legend": [
+     {
+      "en": "the nervous system is fast, targeted and stops the moment the signal stops",
+      "zh": "神经系统快速、有针对性，信号一停就结束"
+     },
+     {
+      "en": "the endocrine system is slower, diffuse and outlasts the stimulus",
+      "zh": "内分泌系统较慢、弥散，且在刺激之后仍持续"
+     },
+     {
+      "en": "most sport responses are both: a reflex to start, hormones to sustain",
+      "zh": "多数运动反应两者兼有：反射负责启动，激素负责维持"
+     }
+    ],
+    "caption": {
+     "en": "Both systems carry information and both change what a muscle does. The useful question is not which one matters but which one the task depends on.",
+     "zh": "两套系统都传递信息，也都改变肌肉的行为。有用的问题不是\"哪一套重要\"，而是\"这项任务依赖哪一套\"。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Nervous versus endocrine, side by side",
+     "zh": "神经系统与内分泌系统对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Nervous",
+      "zh": "神经系统"
+     },
+     {
+      "en": "Endocrine",
+      "zh": "内分泌系统"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Speed",
+       "zh": "速度"
+      },
+      {
+       "en": "Milliseconds — almost instant",
+       "zh": "毫秒级——近乎瞬时"
+      },
+      {
+       "en": "Seconds to minutes",
+       "zh": "秒到分钟"
+      }
+     ],
+     [
+      {
+       "en": "Route",
+       "zh": "通路"
+      },
+      {
+       "en": "A specific nerve to a specific muscle",
+       "zh": "特定神经到特定肌肉"
+      },
+      {
+       "en": "Chemical signal in the blood, carried everywhere",
+       "zh": "血液中的化学信号，送到全身"
+      }
+     ],
+     [
+      {
+       "en": "Duration",
+       "zh": "持续时间"
+      },
+      {
+       "en": "Ends when the impulse ends",
+       "zh": "冲动结束即终止"
+      },
+      {
+       "en": "Persists until the hormone is cleared",
+       "zh": "持续到激素被清除"
+      }
+     ],
+     [
+      {
+       "en": "Example in sport",
+       "zh": "运动中的例子"
+      },
+      {
+       "en": "Startle, rapid withdrawal, postural correction",
+       "zh": "惊跳、快速缩回、姿势修正"
+      },
+      {
+       "en": "Adrenaline, testosterone, growth hormone, cortisol",
+       "zh": "肾上腺素、睾酮、生长激素、皮质醇"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The two are not rivals. A 100 m sprint uses a nerve signal to start and adrenaline to sustain, and an athlete who cannot produce the hormonal response will fade even with a perfect start.",
+     "zh": "两者不是对手。100 米冲刺用神经信号启动、用肾上腺素维持；而一个无法产生这种激素反应的运动员，即使起跑完美也会在途中掉速。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: which system a sport actually depends on",
+    "zh": "例题：一项运动实际依赖哪一套系统"
+   },
+   "given": {
+    "en": "Compare a 100 m sprint, a penalty kick in football, and a marathon.",
+    "zh": "比较 100 米冲刺、足球点球和马拉松。"
+   },
+   "steps": [
+    {
+     "en": "Sprint: the whole race is 10 seconds, so almost everything must be neural. Hormones cannot switch on and off that fast.",
+     "zh": "冲刺：全程 10 秒，所以几乎一切都必须靠神经系统。激素无法如此快地开启与关闭。"
+    },
+    {
+     "en": "Penalty kick: also seconds long, and the cue for it is visual and arrives via the nervous system.",
+     "zh": "点球：同样只有数秒，而触发它的线索是视觉、经神经系统传来。"
+    },
+    {
+     "en": "Marathon: hours long. Adrenaline sets the pace, and cortisol and fluid balance govern what happens after 90 minutes.",
+     "zh": "马拉松：持续数小时。肾上腺素决定配速，皮质醇与水分平衡决定 90 分钟之后发生什么。"
+    },
+    {
+     "en": "So the same athlete may be nerve-limited in one event and hormone-limited in another.",
+     "zh": "所以同一位运动员在项目 A 上可能受神经限制，而在项目 B 上受激素限制。"
+    }
+   ],
+   "answer": {
+    "en": "The classification changes what a training plan should emphasise. A sprinter trains reactions and recruitment; a marathoner trains the capacity to sustain a hormonal and fluid state.",
+    "zh": "这个分类改变了训练计划应当强调什么。短跑运动员训练反应与募集；马拉松运动员训练的是维持一种激素与水分状态的能力。"
+   }
+  }
+ },
+ "Neural pathways and coordination": {
+  "figures": [
+   {
+    "title": {
+     "en": "The reflex arc and where coordination sits",
+     "zh": "反射弧以及协调位于何处"
+    },
+    "svg": "<g><circle class=\"fillB\" cx=\"30\" cy=\"40\" r=\"11\"/><path class=\"ln\" d=\"M30 29a11 11 0 1 1 0 22 11 11 0 1 1 0-22z\"/><text class=\"lblS\" x=\"16\" y=\"64\">receptor</text><path class=\"th\" d=\"M41 40h44\"/><path class=\"ln\" d=\"M85 40l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"85\" y=\"26\" width=\"52\" height=\"28\" rx=\"6\"/><path class=\"ln\" d=\"M85 26h52v28H85z\"/><text class=\"lblS\" x=\"93\" y=\"44\">spinal cord</text><path class=\"th\" d=\"M111 54v22\"/><path class=\"ln\" d=\"M111 76l-4.5-9h9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"85\" y=\"76\" width=\"52\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M85 76h52v26H85z\"/><text class=\"lblS\" x=\"93\" y=\"93\">effector</text><path class=\"th\" d=\"M137 40h40\" stroke-dasharray=\"5 4\"/><text class=\"lblS\" x=\"182\" y=\"36\">to brain</text><text class=\"lblS\" x=\"182\" y=\"50\">(feedback)</text></g><g><rect class=\"fillA\" x=\"14\" y=\"120\" width=\"86\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M14 120h86v30H14z\"/><text class=\"lblS\" x=\"22\" y=\"132\">motor cortex</text><text class=\"lblS\" x=\"22\" y=\"144\">voluntary</text><path class=\"th\" d=\"M100 135h32\"/><path class=\"ln\" d=\"M132 135l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillA\" x=\"132\" y=\"120\" width=\"80\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M132 120h80v30h-80z\"/><text class=\"lblS\" x=\"140\" y=\"132\">cerebellum</text><text class=\"lblS\" x=\"140\" y=\"144\">timing</text><path class=\"th\" d=\"M212 135h32\"/><path class=\"ln\" d=\"M244 135l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"244\" y=\"120\" width=\"62\" height=\"30\" rx=\"6\"/><path class=\"ln\" d=\"M244 120h62v30h-62z\"/><text class=\"lblS\" x=\"252\" y=\"139\">muscle</text></g>",
+    "viewBox": "0 0 320 165",
+    "legend": [
+     {
+      "en": "a reflex does not need the brain — the spinal cord answers first and reports afterwards",
+      "zh": "反射不需要大脑——脊髓先做出应答，之后才上报"
+     },
+     {
+      "en": "voluntary movement starts in the motor cortex and is timed by the cerebellum",
+      "zh": "随意运动起于运动皮层，由小脑负责计时"
+     },
+     {
+      "en": "coordination is largely the cerebellum comparing intended against actual movement",
+      "zh": "协调在很大程度上是小脑把\"计划的\"与\"实际的\"动作作比较"
+     }
+    ],
+    "caption": {
+     "en": "The separation matters practically: a reflex you can train is faster than one you have to think about, and a movement the cerebellum can predict is smooth while one it cannot is not.",
+     "zh": "这种分工有实际意义：能被训练的反射比需要思考的反射更快，而小脑能预测的动作是流畅的、不能预测的就不是。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Reflex, voluntary and coordination pathways",
+     "zh": "反射、随意运动与协调通路"
+    },
+    "cols": [
+     {
+      "en": "Control type",
+      "zh": "控制类型"
+     },
+     {
+      "en": "Where it happens",
+      "zh": "发生位置"
+     },
+     {
+      "en": "Speed",
+      "zh": "速度"
+     },
+     {
+      "en": "Sport example",
+      "zh": "运动例子"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Reflex / involuntary",
+       "zh": "反射 / 不随意"
+      },
+      {
+       "en": "Spinal cord, with the brain informed afterwards",
+       "zh": "脊髓，之后大脑才获知"
+      },
+      {
+       "en": "Under 100 ms",
+       "zh": "低于 100 毫秒"
+      },
+      {
+       "en": "Withdrawal from a hot surface, knee jerk, startle",
+       "zh": "缩手、膝跳、惊跳"
+      }
+     ],
+     [
+      {
+       "en": "Voluntary",
+       "zh": "随意"
+      },
+      {
+       "en": "Motor cortex via the corticospinal tract",
+       "zh": "运动皮层经皮质脊髓束"
+      },
+      {
+       "en": "Hundreds of milliseconds",
+       "zh": "数百毫秒"
+      },
+      {
+       "en": "Lifting a weight, choosing a lane, a serve",
+       "zh": "举起重量、选择跑道、发球"
+      }
+     ],
+     [
+      {
+       "en": "Coordination / timing",
+       "zh": "协调 / 计时"
+      },
+      {
+       "en": "Cerebellum and basal ganglia comparing plan to result",
+       "zh": "小脑与基底神经节把计划与结果作比较"
+      },
+      {
+       "en": "Continuous, anticipatory",
+       "zh": "持续且具预期性"
+      },
+      {
+       "en": "Rhythm of a swing, timing of a jump, balance while moving",
+       "zh": "挥拍节奏、起跳时机、移动中的平衡"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Training a reflex is not the same as training a skill. Reflexes are about speed of an involuntary response; skills are about the accuracy of a planned one.",
+     "zh": "训练反射与训练技术不是一回事。反射关乎一个不随意反应的速度；技术关乎一个有计划反应的准确度。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why a goalkeeper is beaten by a low driven shot",
+    "zh": "例题：为什么守门员会被低平抽射打穿"
+   },
+   "given": {
+    "en": "A shot arrives 25 m away at 25 m/s. Brain-to-muscle signal time is 200 ms for a deliberate movement.",
+    "zh": "射门距离 25 米、球速 25 米/秒。从大脑到肌肉的信号时间为 200 毫秒（一个刻意动作）。"
+   },
+   "steps": [
+    {
+     "en": "Time for the ball to travel 25 m: t = 25 / 25 = 1.0 s.",
+     "zh": "球飞行 25 米所需时间：t = 25 / 25 = 1.0 秒。"
+    },
+    {
+     "en": "Time for a deliberate movement: 200 ms = 0.2 s, so 0.8 s of flight remain once the decision is made.",
+     "zh": "一个刻意动作所需时间：200 毫秒 = 0.2 秒，因此决定做出后还剩 0.8 秒飞行时间。"
+    },
+    {
+     "en": "A true reflex is 60 to 80 ms = 0.07 s, leaving 0.93 s. The difference in available time is about 0.13 s.",
+     "zh": "一个真正的反射是 60 到 80 毫秒 = 0.07 秒，剩下 0.93 秒。可用时间的差别约为 0.13 秒。"
+    },
+    {
+     "en": "So the goalkeeper who waits to see the direction has already spent the margin the reflex needed.",
+     "zh": "因此那位等着看方向的守门员，已经把反射所必需的那点时间余量花掉了。"
+    }
+   ],
+   "answer": {
+    "en": "About 0.13 s, which is the entire margin. This is why anticipation, reaction training and reading the kicker matter more for a goalkeeper than additional throwing power.",
+    "zh": "大约 0.13 秒，而这就是全部余量。这就是为什么预判、反应训练和读出踢球者的动作，对守门员来说比增加踢球力量更重要。"
+   }
+  }
+ },
+ "Systems working together": {
+  "figures": [
+   {
+    "title": {
+     "en": "One jump, four systems, one time course",
+     "zh": "一次跳跃，四个系统，一条时间轴"
+    },
+    "svg": "<line class=\"th\" x1=\"20\" y1=\"132\" x2=\"304\" y2=\"132\"/><path class=\"ln\" d=\"M20 132l-0 0\"/><g><text class=\"lblS\" x=\"20\" y=\"152\">nerve</text><rect class=\"fillC\" x=\"20\" y=\"46\" width=\"34\" height=\"80\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"96\" y=\"152\">heart</text><rect class=\"fillC\" x=\"86\" y=\"76\" width=\"34\" height=\"50\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"170\" y=\"152\">lungs</text><rect class=\"fillC\" x=\"164\" y=\"86\" width=\"34\" height=\"40\" rx=\"4\"/></g><g><text class=\"lblS\" x=\"240\" y=\"152\">hormones</text><rect class=\"fillC\" x=\"234\" y=\"98\" width=\"34\" height=\"28\" rx=\"4\"/></g><text class=\"lblS\" x=\"20\" y=\"36\">onset</text><path class=\"th\" d=\"M54 32h250\"/><path class=\"ln\" d=\"M304 32l-9-4.5v9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"250\" y=\"26\">seconds →</text>",
+    "viewBox": "0 0 320 165",
+    "legend": [
+     {
+      "en": "the nervous system responds first and hardest — it is the trigger, not the sustainer",
+      "zh": "神经系统最先、也最强烈地响应——它是触发器，而不是维持器"
+     },
+     {
+      "en": "cardiovascular and respiratory follow within a few breaths",
+      "zh": "心肺系统在几次呼吸之内跟上"
+     },
+     {
+      "en": "hormonal response is the slowest and the longest lasting, and it is what an athlete can train",
+      "zh": "激素反应最慢也最持久，而它正是运动员可以训练的部分"
+     }
+    ],
+    "caption": {
+     "en": "Recovery is not a single event. Each system runs on its own clock, which is why an athlete can still feel exhausted after the heart rate has settled.",
+     "zh": "恢复不是一个单独的事件。每个系统各走自己的时钟，这正是为什么心率已经平稳之后运动员仍可能感到精疲力尽。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "What each system contributes, and how long it lasts",
+     "zh": "每个系统贡献什么、持续多久"
+    },
+    "cols": [
+     {
+      "en": "System",
+      "zh": "系统"
+     },
+     {
+      "en": "Onset",
+      "zh": "起效时间"
+     },
+     {
+      "en": "Sustains for",
+      "zh": "维持时间"
+     },
+     {
+      "en": "Trainable?",
+      "zh": "可训练？"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Nervous",
+       "zh": "神经系统"
+      },
+      {
+       "en": "Milliseconds",
+       "zh": "毫秒"
+      },
+      {
+       "en": "The action itself",
+       "zh": "动作本身"
+      },
+      {
+       "en": "Partly — reaction and recruitment",
+       "zh": "部分——反应与募集"
+      }
+     ],
+     [
+      {
+       "en": "Cardiovascular",
+       "zh": "心肺系统"
+      },
+      {
+       "en": "1–3 breaths",
+       "zh": "1 到 3 次呼吸"
+      },
+      {
+       "en": "Minutes to hours",
+       "zh": "分钟到小时"
+      },
+      {
+       "en": "Yes, strongly",
+       "zh": "是，且很显著"
+      }
+     ],
+     [
+      {
+       "en": "Respiratory",
+       "zh": "呼吸系统"
+      },
+      {
+       "en": "1–2 breaths",
+       "zh": "1 到 2 次呼吸"
+      },
+      {
+       "en": "Minutes to hours",
+       "zh": "分钟到小时"
+      },
+      {
+       "en": "Yes, strongly",
+       "zh": "是，且很显著"
+      }
+     ],
+     [
+      {
+       "en": "Endocrine",
+       "zh": "内分泌系统"
+      },
+      {
+       "en": "30 s and upward",
+       "zh": "30 秒及以上"
+      },
+      {
+       "en": "Minutes to days",
+       "zh": "分钟到天"
+      },
+      {
+       "en": "Yes, over weeks",
+       "zh": "是，以数周计"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The last column is the practical one. A coach can change all four, but on completely different timescales, and a plan that expects a change in one inside a week is usually misconceived.",
+     "zh": "最后一列才是实用的那一列。教练能改变这四者，但时间尺度完全不同；而一个期待其中一项在一周内改变的方案，通常是概念错了。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a recovery curve",
+    "zh": "例题：读懂一条恢复曲线"
+   },
+   "given": {
+    "en": "An athlete’s heart rate falls from 190 to 120 in 2 min, to 95 in 10 min, to 72 at 30 min, and 68 at 2 h.",
+    "zh": "一名运动员的心率从 190 降到 120 用了 2 分钟，10 分钟降到 95，30 分钟降到 72，2 小时降到 68。"
+   },
+   "steps": [
+    {
+     "en": "0–2 min: fast fall. Neural drive stops and the fast pathways recover first.",
+     "zh": "0 到 2 分钟：快速下降。神经驱动停止，快速通路先恢复。"
+    },
+    {
+     "en": "2–10 min: slower fall. The cardiovascular system is still clearing lactate and repaying oxygen deficit.",
+     "zh": "2 到 10 分钟：下降变慢。心血管系统仍在清除乳酸并偿还氧亏。"
+    },
+    {
+     "en": "10–30 min: near resting already, so the athlete feels \"recovered\" while the hormonal picture has not finished.",
+     "zh": "10 到 30 分钟：已接近静息，因此运动员感觉\"恢复了\"，而激素层面的变化尚未结束。"
+    },
+    {
+     "en": "Out to 2 h: glycogen resynthesis, rehydration and protein synthesis continue.",
+     "zh": "直到 2 小时：糖原再合成、再水合与蛋白质合成仍在继续。"
+    }
+   ],
+   "answer": {
+    "en": "Feeling recovered at 30 minutes and being recovered at 30 minutes are different claims. A second bout that is genuinely quality work needs the later number, not the earlier one.",
+    "zh": "30 分钟时\"感觉恢复\"与 30 分钟时\"已经恢复\"是两个不同的说法。一次真正高质量的第二训练需要后面那个数字，而不是前面那个。"
+   }
+  }
+ },
+ "Feedback and integrated examples": {
+  "figures": [
+   {
+    "title": {
+     "en": "Negative feedback, drawn once and used everywhere",
+     "zh": "负反馈：一张图，处处可用"
+    },
+    "svg": "<circle class=\"fillA\" cx=\"88\" cy=\"66\" r=\"30\"/><path class=\"ln\" d=\"M88 36a30 30 0 1 1 0 60 30 30 0 1 1 0-60z\"/><text class=\"lblS\" x=\"66\" y=\"62\">variable</text><text class=\"lblS\" x=\"70\" y=\"76\">being</text><text class=\"lblS\" x=\"66\" y=\"90\">regulated</text><rect class=\"fillB\" x=\"176\" y=\"26\" width=\"98\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M176 26h98v26h-98z\"/><text class=\"lblS\" x=\"184\" y=\"43\">receptor</text><rect class=\"fillB\" x=\"176\" y=\"106\" width=\"98\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M176 106h98v26h-98z\"/><text class=\"lblS\" x=\"184\" y=\"123\">effector</text><path class=\"th\" d=\"M118 50l42-16\"/><path class=\"ln\" d=\"M160 34l-9 4 7 6z\" fill=\"currentColor\"/><path class=\"th\" d=\"M118 84l42 16\"/><path class=\"ln\" d=\"M160 100l-9-4 7-6z\" fill=\"currentColor\"/><path class=\"th\" d=\"M225 52v54\"/><path class=\"ln\" d=\"M225 106l-4.5-9h9z\" fill=\"currentColor\"/><text class=\"lblS\" x=\"232\" y=\"82\">corrects</text><text class=\"lblS\" x=\"14\" y=\"152\">same shape as: thermoregulation · blood glucose · blood pressure · water balance · pacing in a race</text>",
+    "viewBox": "0 0 320 165",
+    "legend": [
+     {
+      "en": "a variable is sensed, a receptor reports, an effector corrects, and the correction reduces the error",
+      "zh": "变量被感知，受体报告，效应器纠正，而纠正减小了误差"
+     },
+     {
+      "en": "the loop is always the same shape; only the variable and the timescale change",
+      "zh": "这个回路永远是同一个形状；变化的只是变量和时间尺度"
+     },
+     {
+      "en": "that is why one diagram can carry five different physiological topics",
+      "zh": "这就是为什么一张图能承载五个不同的生理学主题"
+     }
+    ],
+    "caption": {
+     "en": "Negative feedback is the single most useful diagram in physiology, because it turns a list of facts into one mechanism. Positive feedback is the exception and it is used for childbirth and clotting.",
+     "zh": "负反馈是生理学中最有用的一张图，因为它把一份事实清单变成了一个机制。正反馈是例外，它用于分娩和凝血。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Five applications of one loop",
+     "zh": "一个回路的五种应用"
+    },
+    "cols": [
+     {
+      "en": "Variable",
+      "zh": "变量"
+     },
+     {
+      "en": "Receptor / sensor",
+      "zh": "受体 / 传感器"
+     },
+     {
+      "en": "Effector",
+      "zh": "效应器"
+     },
+     {
+      "en": "Timescale",
+      "zh": "时间尺度"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Core temperature",
+       "zh": "核心体温"
+      },
+      {
+       "en": "Hypothalamic thermosensors",
+       "zh": "下丘脑温度感受器"
+      },
+      {
+       "en": "Sweat glands, skin blood vessels, shivering",
+       "zh": "汗腺、皮肤血管、寒战"
+      },
+      {
+       "en": "Minutes",
+       "zh": "分钟"
+      }
+     ],
+     [
+      {
+       "en": "Blood glucose",
+       "zh": "血糖"
+      },
+      {
+       "en": "Pancreatic beta cells",
+       "zh": "胰岛 B 细胞"
+      },
+      {
+       "en": "Liver and muscle glycogen, insulin and glucagon",
+       "zh": "肝与肌肉糖原、胰岛素与胰高血糖素"
+      },
+      {
+       "en": "Minutes to hours",
+       "zh": "分钟到小时"
+      }
+     ],
+     [
+      {
+       "en": "Blood pressure",
+       "zh": "血压"
+      },
+      {
+       "en": "Baroreceptors in the carotid and aortic sinuses",
+       "zh": "颈动脉窦与主动脉窦压力感受器"
+      },
+      {
+       "en": "Heart rate, stroke volume, peripheral resistance",
+       "zh": "心率、每搏量、外周阻力"
+      },
+      {
+       "en": "Seconds to minutes",
+       "zh": "秒到分钟"
+      }
+     ],
+     [
+      {
+       "en": "Water balance",
+       "zh": "水分平衡"
+      },
+      {
+       "en": "Osmoreceptors and thirst centre",
+       "zh": "渗透压感受器与口渴中枢"
+      },
+      {
+       "en": "ADH release, renal water reabsorption",
+       "zh": "抗利尿激素释放、肾脏重吸收水"
+      },
+      {
+       "en": "Hours to a day",
+       "zh": "小时到一天"
+      }
+     ],
+     [
+      {
+       "en": "Race pacing",
+       "zh": "比赛配速"
+      },
+      {
+       "en": "Perceived exertion and feedback from the muscles",
+       "zh": "自觉用力程度与来自肌肉的反馈"
+      },
+      {
+       "en": "Change of pace, breathing, fuelling decisions",
+       "zh": "配速改变、呼吸、补糖决策"
+      },
+      {
+       "en": "Seconds to minutes",
+       "zh": "秒到分钟"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Notice that a 5 km run and a 400 m sprint are governed by the same loop at different settings. What differs is where the athlete sets the variable.",
+     "zh": "注意 5 公里跑和 400 米冲刺由同一个回路在不同设定下管理。不同的只是运动员把变量设在哪里。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: reading a heat drill the right way round",
+    "zh": "例题：如何正确解读一次高温训练"
+   },
+   "given": {
+    "en": "A runner’s core temperature rises 0.8 °C during a hard session in 28 °C heat.",
+    "zh": "一名跑者在 28 摄氏度的高温中进行高强度训练，核心体温上升 0.8 摄氏度。"
+   },
+   "steps": [
+    {
+     "en": "The variable is core temperature, and 0.8 °C is a normal response to hard exercise, not a fault.",
+     "zh": "变量是核心体温，而 0.8 摄氏度是高强度运动的正常反应，而不是故障。"
+    },
+    {
+     "en": "The effector is sweating and skin blood flow. Both work — unless the environment stops them.",
+     "zh": "效应器是出汗与皮肤血流。两者都在工作——除非环境让它们失效。"
+    },
+    {
+     "en": "In 28 °C with humidity, evaporation is impaired, so the sweat produced cannot cool the body.",
+     "zh": "在 28 摄氏度且潮湿的环境中，蒸发受阻，因此产出的汗无法给身体降温。"
+    },
+    {
+     "en": "So sweat rate rises while cooling does not — the loop is signalling, the effector is saturated, and the only variable left is the workload.",
+     "zh": "所以出汗率上升而降温并未发生——回路在发信号，效应器已经饱和，剩下唯一可调的是负荷。"
+    }
+   ],
+   "answer": {
+    "en": "The loop explains why \"drink more water\" alone fails here. The deficit is not fluid intake, it is evaporative capacity, and no amount of fluid compensates for sweat that cannot evaporate.",
+    "zh": "这个回路解释了为什么单靠\"多喝水\"在这里没用。缺口不是液体摄入量，而是蒸发能力，而任何液体量都无法补偿无法蒸发的汗。"
+   }
+  }
+ },
+ "Voluntary movement and reflexes": {
+  "figures": [
+   {
+    "title": {
+     "en": "The division of labour in movement",
+     "zh": "随意运动中的分工"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"20\" width=\"136\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 20h136v56H14z\"/><text class=\"lblS\" x=\"22\" y=\"36\">corticospinal</text><text class=\"lblS\" x=\"22\" y=\"50\">(pyramidal)</text><text class=\"lblS\" x=\"22\" y=\"64\">precise, voluntary</text><path class=\"th\" d=\"M150 48h34\"/><path class=\"ln\" d=\"M184 48l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"184\" y=\"26\" width=\"122\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M184 26h122v44H184z\"/><text class=\"lblS\" x=\"192\" y=\"44\">fine control</text><text class=\"lblS\" x=\"192\" y=\"58\">of distal muscles</text></g><g><rect class=\"fillA\" x=\"14\" y=\"92\" width=\"136\" height=\"56\" rx=\"7\"/><path class=\"ln\" d=\"M14 92h136v56H14z\"/><text class=\"lblS\" x=\"22\" y=\"108\">extrapyramidal</text><text class=\"lblS\" x=\"22\" y=\"122\">+ cerebellum</text><text class=\"lblS\" x=\"22\" y=\"136\">posture, tone, timing</text><path class=\"th\" d=\"M150 120h34\"/><path class=\"ln\" d=\"M184 120l-9-4.5v9z\" fill=\"currentColor\"/><rect class=\"fillC\" x=\"184\" y=\"98\" width=\"122\" height=\"44\" rx=\"7\"/><path class=\"ln\" d=\"M184 98h122v44H184z\"/><text class=\"lblS\" x=\"192\" y=\"116\">proximal muscles,</text><text class=\"lblS\" x=\"192\" y=\"130\">balance, coordination</text></g><text class=\"lblS\" x=\"14\" y=\"170\">damage shows as either weakness of precision or loss of postural control</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "the corticospinal system handles the precise, learned, deliberate part of a skill",
+      "zh": "皮质脊髓系统负责技术中精准、习得、刻意的那一部分"
+     },
+     {
+      "en": "the extrapyramidal system and cerebellum handle posture, tone and timing",
+      "zh": "锥体外系与小脑负责姿势、肌张力和计时"
+     },
+     {
+      "en": "an injury to either produces a different and recognisable pattern",
+      "zh": "任何一者受损都会产生不同且可识别的表现"
+     }
+    ],
+    "caption": {
+     "en": "Reflexes sit alongside both and are the fastest route of all. Practically, a rehab plan that retrains only voluntary control and ignores posture will fail at the movement that matters.",
+     "zh": "反射与两者并行存在，而且是最快的通路。实际上，只重训随意控制而忽略姿势的康复方案，会在真正重要的那个动作上失败。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Voluntary, reflex and postural control compared",
+     "zh": "随意控制、反射与姿势控制的比较"
+    },
+    "cols": [
+     {
+      "en": "Control",
+      "zh": "控制"
+     },
+     {
+      "en": "Mediated by",
+      "zh": "中介结构"
+     },
+     {
+      "en": "Latency",
+      "zh": "潜伏期"
+     },
+     {
+      "en": "Fatigues?",
+      "zh": "会疲劳？"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Voluntary / skilled",
+       "zh": "随意 / 技术性"
+      },
+      {
+       "en": "Motor cortex, corticospinal tract",
+       "zh": "运动皮层、皮质脊髓束"
+      },
+      {
+       "en": "~200 ms",
+       "zh": "约 200 毫秒"
+      },
+      {
+       "en": "Yes, quickly",
+       "zh": "是，很快"
+      }
+     ],
+     [
+      {
+       "en": "Reflex",
+       "zh": "反射"
+      },
+      {
+       "en": "Spinal cord, muscle spindle and Golgi tendon organ",
+       "zh": "脊髓、肌梭与腱器官"
+      },
+      {
+       "en": "~60–80 ms",
+       "zh": "约 60 到 80 毫秒"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      }
+     ],
+     [
+      {
+       "en": "Postural / anticipatory",
+       "zh": "姿势 / 预期性"
+      },
+      {
+       "en": "Cerebellum, brainstem, basal ganglia",
+       "zh": "小脑、脑干、基底神经节"
+      },
+      {
+       "en": "Continuous",
+       "zh": "持续"
+      },
+      {
+       "en": "No",
+       "zh": "不"
+      }
+     ],
+     [
+      {
+       "en": "Motor unit recruitment",
+       "zh": "运动单位募集"
+      },
+      {
+       "en": "Alpha motor neurons",
+       "zh": "α 运动神经元"
+      },
+      {
+       "en": "Gradual",
+       "zh": "渐进"
+      },
+      {
+       "en": "Yes",
+       "zh": "是"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Reflexes and postural control do not fatigue, which is why they are still available at the end of a maximal effort when voluntary control is not. This is the physiological basis of the saying that fatigued athletes fall over.",
+     "zh": "反射与姿势控制不会疲劳，因此在力竭努力的最后仍然可用，而随意控制已不可用。这正是\"疲劳的运动员会摔倒\"这句话的生理学基础。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the drop shot that goes short under fatigue",
+    "zh": "例题：疲劳时变短的制球"
+   },
+   "given": {
+    "en": "A badminton drop shot lands short once the athlete is tired. Voluntary command and proprioception are intact.",
+    "zh": "一名羽毛球运动员在疲劳后制球落点变短。随意指令与本体感觉完好。"
+   },
+   "steps": [
+    {
+     "en": "Voluntary arm position is still commanded correctly — so the cortex is working.",
+     "zh": "随意的手臂位置仍被正确指令——所以皮层在正常工作。"
+    },
+    {
+     "en": "Reflexes and proprioception are intact — so the feedback side is working.",
+     "zh": "反射与本体感觉完好——所以反馈侧也在正常工作。"
+    },
+    {
+     "en": "What fails is postural tone in the trunk and legs, which normally holds the stance.",
+     "zh": "失败的是躯干与腿部的姿势张力，它通常负责维持这个站姿。"
+    },
+    {
+     "en": "Without that tone the athlete sways forward, the contact point moves, and the shot goes short — a postural failure presenting as a technique failure.",
+     "zh": "失去这种张力后运动员会前倾，触球点偏移，制球因此变短——一个表现为技术问题的姿势问题。"
+    }
+   ],
+   "answer": {
+    "en": "Strengthening the arm would not have fixed it. The deficit was postural, and it only became visible once fatigue removed the compensation. This is a common finding in practice and a common misdiagnosis.",
+    "zh": "加强手臂力量并不能解决它。缺陷在姿势层面，而它只有在疲劳移走了代偿之后才显现出来。这在实践中很常见，也经常被误诊。"
+   }
+  }
+ },
+ "Hormonal influences and sport applications": {
+  "figures": [
+   {
+    "title": {
+     "en": "The adrenal response, minute by minute",
+     "zh": "肾上腺素反应：逐分钟的变化"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"120\" x2=\"304\" y2=\"120\"/><path class=\"ln\" d=\"M30 120C60 40 96 34 130 52c40 22 60 46 90 62 26 14 50 6 84 4\"/><line class=\"dash\" d=\"M30 120h274\"/><line class=\"dash\" d=\"M64 120V46\"/><text class=\"lblS\" x=\"40\" y=\"40\">adrenaline</text><text class=\"lblS\" x=\"46\" y=\"136\">0</text><line class=\"dash\" d=\"M130 120V52\"/><text class=\"lblS\" x=\"106\" y=\"66\">1 min</text><line class=\"dash\" d=\"M220 120V114\"/><text class=\"lblS\" x=\"196\" y=\"134\">20 min</text><text class=\"lblS\" x=\"30\" y=\"158\">onset</text><text class=\"lblS\" x=\"140\" y=\"158\">peak</text><text class=\"lblS\" x=\"238\" y=\"158\">fade</text><text class=\"lblS\" x=\"176\" y=\"96\">the race is won or lost here</text>",
+    "viewBox": "0 0 320 170",
+    "legend": [
+     {
+      "en": "adrenaline rises within 30 seconds, peaks early, and returns to baseline well before the event ends",
+      "zh": "肾上腺素在 30 秒内上升、早期达峰，并在比赛结束前很久就回到基线"
+     },
+     {
+      "en": "the effect that persists is the one that has had time to build — which is why a 400 m and a marathon are won differently",
+      "zh": "持续下来的效应是那些有时间建立起来的——这正是 400 米和马拉松取胜方式不同的原因"
+     },
+     {
+      "en": "cortisol behaves in the opposite pattern, rising under sustained stress",
+      "zh": "皮质醇的模式相反，它在持续压力下升高"
+     }
+    ],
+    "caption": {
+     "en": "Hormones are not switches. They are concentration curves, and a sport is won or lost on where the athlete sits on the curve at the decisive moment.",
+     "zh": "激素不是开关，而是浓度曲线；一项运动的胜负，取决于运动员在关键时刻处在这条曲线的哪个位置。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The main sport hormones",
+     "zh": "主要的运动激素"
+    },
+    "cols": [
+     {
+      "en": "Hormone",
+      "zh": "激素"
+     },
+     {
+      "en": "Main effect in sport",
+      "zh": "在运动中的主要作用"
+     },
+     {
+      "en": "Where it comes from",
+      "zh": "来源"
+     },
+     {
+      "en": "Training response",
+      "zh": "训练反应"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Adrenaline",
+       "zh": "肾上腺素"
+      },
+      {
+       "en": "Raises heart rate, force and rate of firing",
+       "zh": "提高心率、力量和放电频率"
+      },
+      {
+       "en": "Adrenal medulla",
+       "zh": "肾上腺髓质"
+      },
+      {
+       "en": "Trains with sprint and interval work",
+       "zh": "通过冲刺和间歇训练提高"
+      }
+     ],
+     [
+      {
+       "en": "Testosterone",
+       "zh": "睾酮"
+      },
+      {
+       "en": "Protein synthesis, aggression, recovery",
+       "zh": "蛋白质合成、攻击性、恢复"
+      },
+      {
+       "en": "Testes, ovaries, adrenal cortex",
+       "zh": "睾丸、卵巢、肾上腺皮质"
+      },
+      {
+       "en": "Responds to heavy loading and adequate sleep",
+       "zh": "对大负荷和充足睡眠有反应"
+      }
+     ],
+     [
+      {
+       "en": "Growth hormone",
+       "zh": "生长激素"
+      },
+      {
+       "en": "Growth, tissue repair, fat use",
+       "zh": "生长、组织修复、脂肪利用"
+      },
+      {
+       "en": "Anterior pituitary",
+       "zh": "垂体前叶"
+      },
+      {
+       "en": "Rises in deep sleep",
+       "zh": "在深度睡眠中升高"
+      }
+     ],
+     [
+      {
+       "en": "Cortisol",
+       "zh": "皮质醇"
+      },
+      {
+       "en": "Fuel availability, but catabolic when chronic",
+       "zh": "燃料可用性，但慢性升高时为分解代谢"
+      },
+      {
+       "en": "Adrenal cortex",
+       "zh": "肾上腺皮质"
+      },
+      {
+       "en": "Falls with recovery, rises with under-recovery",
+       "zh": "随恢复下降、随恢复不足上升"
+      }
+     ]
+    ],
+    "note": {
+     "en": "The same hormone can be helpful at one dose and harmful at another. Cortisol is the clearest case: it makes fuel available in the short term and breaks down tissue in the long term.",
+     "zh": "同一种激素在某个剂量下有益、在另一个剂量下有害。皮质醇是最清楚的例子：短期使燃料可用，长期则分解组织。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: why the second half of a race is decided",
+    "zh": "例题：为什么比赛的下半场才是决定性的"
+   },
+   "given": {
+    "en": "Adrenaline peaks at 1 minute and returns to baseline by 20 minutes. A race lasts 90 minutes.",
+    "zh": "肾上腺素在 1 分钟达峰，20 分钟回到基线。一场比赛持续 90 分钟。"
+   },
+   "steps": [
+    {
+     "en": "The first 20 minutes are adrenaline-driven, and everyone in the field feels it.",
+     "zh": "前 20 分钟由肾上腺素驱动，场上每个人都感受得到。"
+    },
+    {
+     "en": "After that the only thing distinguishing runners is what they built before the gun.",
+     "zh": "此后，区分跑者的唯一因素就是他们在发枪前建立起来的东西。"
+    },
+    {
+     "en": "A pacing plan that spends adrenaline in the first kilometre and then has to fight fatigue is racing the wrong curve.",
+     "zh": "一份在前一公里就把肾上腺素花光、之后不得不与疲劳搏斗的配速计划，是在与错误的曲线赛跑。"
+    },
+    {
+     "en": "Consistent with the deep section: pace is a decision made about the last 70 minutes, not the first 20.",
+     "zh": "与后面的深入内容一致：配速是关于最后 70 分钟做出的决定，而不是前 20 分钟。"
+    }
+   ],
+   "answer": {
+    "en": "The hormone is a shared resource across the field and it runs out for everyone at roughly the same time. What is not shared is the aerobic capacity underneath it.",
+    "zh": "这种激素是全场上共享的资源，而且它大致在同一时刻对所有人耗尽。并不共享的是它底下的有氧能力。"
+   }
+  }
+ },
+ "Functions, intake and loss": {
+  "figures": [
+   {
+    "title": {
+     "en": "Water balance: what goes in and what comes out",
+     "zh": "水分平衡：摄入与流失"
+    },
+    "svg": "<g><rect class=\"fillB\" x=\"14\" y=\"26\" width=\"128\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M14 26h128v60H14z\"/><text class=\"lblS\" x=\"22\" y=\"44\">GAIN</text><text class=\"lblS\" x=\"22\" y=\"60\">drink ~2.5 L/day</text><text class=\"lblS\" x=\"22\" y=\"74\">food 20–30%</text></g><g><rect class=\"fillA\" x=\"178\" y=\"26\" width=\"128\" height=\"60\" rx=\"7\"/><path class=\"ln\" d=\"M178 26h128v60H178z\"/><text class=\"lblS\" x=\"186\" y=\"44\">LOSS</text><text class=\"lblS\" x=\"186\" y=\"60\">urine ~1.4 L/day</text><text class=\"lblS\" x=\"186\" y=\"74\">sweat 0.5–1.5 L</text></g><line class=\"dash\" x1=\"20\" y1=\"104\" x2=\"300\" y2=\"104\"/><text class=\"lblS\" x=\"20\" y=\"122\">lungs 0.3 L  ·  skin 0.4 L  ·  gut 0.2 L  ·  sweat adds to skin loss</text><text class=\"lblS\" x=\"20\" y=\"142\">sweat is the only loss an athlete can raise deliberately</text><text class=\"lblS\" x=\"20\" y=\"160\">everything else is fixed by the environment and the diet</text>",
+    "viewBox": "0 0 320 172",
+    "legend": [
+     {
+      "en": "most of the loss is obligatory — breathing, skin and gut losses continue whatever you do",
+      "zh": "大部分流失是必需的——呼吸、皮肤和肠道流失无论你做什么都在继续"
+     },
+     {
+      "en": "sweat is the only term an athlete can increase on purpose",
+      "zh": "汗是运动员唯一能有意增加的项"
+     },
+     {
+      "en": "which is why heat illness risk scales with sweat rate and environment, not with thirst",
+      "zh": "因此中暑风险随出汗率与环境变化，而不随口渴程度变化"
+     }
+    ],
+    "caption": {
+     "en": "Water is a balance, not a target. Drinking more than you lose leaves you hyponatraemic, which is more dangerous than the dehydration it prevents.",
+     "zh": "水分是平衡而不是目标。喝得比流失更多会导致低钠血症，而这比它所预防的脱水更危险。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Daily water balance in a temperate environment",
+     "zh": "温带环境下的每日水分平衡"
+    },
+    "cols": [
+     {
+      "en": "Route",
+      "zh": "途径"
+     },
+     {
+      "en": "Typical volume",
+      "zh": "典型量"
+     },
+     {
+      "en": "Regulated by",
+      "zh": "受谁调节"
+     },
+     {
+      "en": "Can an athlete change it?",
+      "zh": "运动员能改变吗"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Drinking",
+       "zh": "饮水"
+      },
+      {
+       "en": "1.5–2.5 L",
+       "zh": "1.5 到 2.5 升"
+      },
+      {
+       "en": "Thirst",
+       "zh": "口渴"
+      },
+      {
+       "en": "Yes, deliberately",
+       "zh": "可以，有意为之"
+      }
+     ],
+     [
+      {
+       "en": "Food",
+       "zh": "食物"
+      },
+      {
+       "en": "0.5–1.0 L of water content",
+       "zh": "食物中 0.5 到 1.0 升水分"
+      },
+      {
+       "en": "Habit and diet",
+       "zh": "习惯与饮食"
+      },
+      {
+       "en": "Indirectly",
+       "zh": "间接"
+      }
+     ],
+     [
+      {
+       "en": "Urine",
+       "zh": "尿液"
+      },
+      {
+       "en": "1.0–2.0 L",
+       "zh": "1.0 到 2.0 升"
+      },
+      {
+       "en": "ADH and aldosterone",
+       "zh": "抗利尿激素与醛固酮"
+      },
+      {
+       "en": "No",
+       "zh": "不能"
+      }
+     ],
+     [
+      {
+       "en": "Skin and lungs",
+       "zh": "皮肤与肺"
+      },
+      {
+       "en": "0.5–1.0 L",
+       "zh": "0.5 到 1.0 升"
+      },
+      {
+       "en": "Environment only",
+       "zh": "仅由环境决定"
+      },
+      {
+       "en": "No",
+       "zh": "不能"
+      }
+     ],
+     [
+      {
+       "en": "Sweat",
+       "zh": "汗"
+      },
+      {
+       "en": "0.5–3.0 L, much more in heat",
+       "zh": "0.5 到 3.0 升，高温下更多"
+      },
+      {
+       "en": "Thermoregulation",
+       "zh": "体温调节"
+      },
+      {
+       "en": "Yes, deliberately",
+       "zh": "可以，有意为之"
+      }
+     ]
+    ],
+    "note": {
+     "en": "A marathon runner can lose 1 to 2 kg of body mass in a race. That is a measurable number, and it is far more informative than asking whether someone feels thirsty.",
+     "zh": "一名马拉松跑者在一场比赛中可以失去 1 到 2 公斤体重。那是一个可测量的数字，而且比问某人口渴与否更有信息量。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: the sweat-rate calculation that should be in every plan",
+    "zh": "例题：每个计划里都该有的出汗率计算"
+   },
+   "given": {
+    "en": "A 70 kg runner drinks 0.6 L during a 1 h run and finishes 1.4 kg lighter.",
+    "zh": "一名 70 公斤的跑者在 1 小时跑步中喝了 0.6 升，结束时体重轻了 1.4 公斤。"
+   },
+   "steps": [
+    {
+     "en": "Body mass lost: 1.4 kg, which is 1.4 L of fluid, before allowing for fuel burned.",
+     "zh": "体重减少 1.4 公斤，即 1.4 升液体，尚未计入消耗的燃料。"
+    },
+    {
+     "en": "Fluid replaced: 0.6 L, so the deficit is 1.4 - 0.6 = 0.8 L.",
+     "zh": "补入液体 0.6 升，因此缺口是 1.4 - 0.6 = 0.8 升。"
+    },
+    {
+     "en": "Sweat rate: 1.4 L over 60 minutes = about 1.4 L per hour.",
+     "zh": "出汗率：1.4 升 / 60 分钟 ≈ 每小时 1.4 升。"
+    },
+    {
+     "en": "Replacement target for the next long run: 0.6 to 0.8 L per hour, taken early and often.",
+     "zh": "下一次长距离跑的补液目标：每小时 0.6 到 0.8 升，早喝、频喝。"
+    },
+    {
+     "en": "Gains: 1.4 - 0.6 = 0.8 L, so gastric emptying needs practice, not more fluid.",
+     "zh": "可吸收量：1.4 - 0.6 = 0.8 升，因此需要训练的是胃排空，而不是更多的液体。"
+    }
+   ],
+   "answer": {
+    "en": "1.4 L per hour is a high but survivable sweat rate, and it tells the athlete to practise drinking rather than to drink more. Most runners in this situation under-drink, and a minority over-drink into hyponatraemia.",
+    "zh": "每小时 1.4 升是一个偏高但可以承受的出汗率，它告诉这位运动员需要练习的是\"喝\"，而不是\"多喝\"。多数这类跑者喝水不足，少数则喝到低钠血症。"
+   }
+  }
+ },
+ "Imbalance and hydration monitoring": {
+  "figures": [
+   {
+    "title": {
+     "en": "Monitoring body mass across a session",
+     "zh": "一次训练中监测体重变化"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"120\" x2=\"300\" y2=\"120\"/><path class=\"ln\" d=\"M30 76h270\"/><line class=\"dash\" d=\"M30 76v50\"/><line class=\"dash\" d=\"M300 76v50\"/><path class=\"fillA\" d=\"M30 76h270v44H30z\"/><text class=\"lbl\" x=\"150\" y=\"106\">~1.4 kg lost</text><text class=\"lbl\" x=\"150\" y=\"118\">= 1.4 L</text><line class=\"dash\" d=\"M30 140h270\"/><text class=\"lblS\" x=\"30\" y=\"60\">start</text><text class=\"lblS\" x=\"272\" y=\"60\">finish</text><text class=\"lblS\" x=\"30\" y=\"156\">2% body mass = the usual flag</text><text class=\"lblS\" x=\"196\" y=\"156\">1.4% here — under it, but trending</text>",
+    "viewBox": "0 0 320 170",
+    "legend": [
+     {
+      "en": "change in body mass, in the same clothing and on the same scales, is the most reliable field measure available",
+      "zh": "体重的变化，在同样衣着、同一台秤上称量，是最可靠的现场指标"
+     },
+     {
+      "en": "2 percent of body mass is the commonly used threshold for flagging a problem",
+      "zh": "体重的 2% 是用于标记问题的常用阈值"
+     },
+     {
+      "en": "a deficit below 2 percent still matters when it is the third session in a row",
+      "zh": "即使低于 2%，当这是连续第三堂训练课补液不足时，仍然重要"
+     }
+    ],
+    "caption": {
+     "en": "Thirst is a late and unreliable signal. Body mass measured under standard conditions is early, cheap and hard to argue with.",
+     "zh": "口渴是一个偏晚且不可靠的信号。在标准条件下测得的体重则是偏早、便宜且难以争辩的。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "Monitoring methods, ranked by usefulness in the field",
+     "zh": "监测方法按现场实用性排序"
+    },
+    "cols": [
+     {
+      "en": "Method",
+      "zh": "方法"
+     },
+     {
+      "en": "What it tells you",
+      "zh": "它能告诉你什么"
+     },
+     {
+      "en": "Practical?",
+      "zh": "实用？"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Change in body mass",
+       "zh": "体重变化"
+      },
+      {
+       "en": "Total fluid deficit, directly and in litres",
+       "zh": "总体液体缺口，直接以升计"
+      },
+      {
+       "en": "Very — the gold standard",
+       "zh": "非常实用——金标准"
+      }
+     ],
+     [
+      {
+       "en": "Urine colour",
+       "zh": "尿液颜色"
+      },
+      {
+       "en": "Hydration status, roughly",
+       "zh": "大致的水合状态"
+      },
+      {
+       "en": "Yes, but coarse",
+       "zh": "是，但很粗略"
+      }
+     ],
+     [
+      {
+       "en": "Urine specific gravity",
+       "zh": "尿液比重"
+      },
+      {
+       "en": "Concentration, and a reasonable trend",
+       "zh": "浓缩程度，以及一个合理趋势"
+      },
+      {
+       "en": "Yes, if strips are available",
+       "zh": "是，如果有试纸"
+      }
+     ],
+     [
+      {
+       "en": "Body weight relative to baseline",
+       "zh": "相对基线的体重"
+      },
+      {
+       "en": "Whether the athlete is still carrying a deficit from before",
+       "zh": "运动员是否仍带着赛前的缺口"
+      },
+      {
+       "en": "Very — track across days",
+       "zh": "非常实用——跨天追踪"
+      }
+     ],
+     [
+      {
+       "en": "Thirst",
+       "zh": "口渴"
+      },
+      {
+       "en": "That you are already behind",
+       "zh": "你已经落后了"
+      },
+      {
+       "en": "Unreliable — a late signal",
+       "zh": "不可靠——偏晚的信号"
+      }
+     ],
+     [
+      {
+       "en": "Heart rate drift",
+       "zh": "心率漂移"
+      },
+      {
+       "en": "An indirect marker of under-hydration at the same workload",
+       "zh": "同等负荷下脱水的一个间接指标"
+      },
+      {
+       "en": "Moderate — confounded by fitness",
+       "zh": "中等——受体能混淆"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Drinking to thirst is safe for most athletes and is better than drinking to a rigid schedule. Under-hydration is the bigger problem; hyponatraemia from over-drinking is the rare one.",
+     "zh": "对多数运动员而言按口渴饮水是安全的，而且好过按僵化的时间表饮水。脱水是更大的问题；过量饮水导致低钠血症是少见的问题。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: deciding whether a third hard day is safe",
+    "zh": "例题：判断第三个高强度训练日是否安全"
+   },
+   "given": {
+    "en": "A 60 kg athlete finishes three sessions in a week 1.9, 2.1 and 2.4 percent below baseline body mass.",
+    "zh": "一名 60 公斤的运动员一周内三堂训练课后体重分别低于基线 1.9%、2.1% 和 2.4%。"
+   },
+   "steps": [
+    {
+     "en": "Session 1: 1.9 percent is close to the flag but under it, and the fluid was replaced afterwards.",
+     "zh": "第 1 次：1.9% 接近阈值但未超过，且事后补液了。"
+    },
+    {
+     "en": "Session 2: 2.1 percent crosses it, and it is the second day without recovery — that is the pattern that matters.",
+     "zh": "第 2 次：2.1% 越过了阈值，而且这是连续第二天未恢复——这个模式才是关键。"
+    },
+    {
+     "en": "Session 3: 2.4 percent is the third consecutive deficit, and heart rate drift appears at the same pace.",
+     "zh": "第 3 次：2.4% 是连续第三次缺口，并且同样配速下出现了心率漂移。"
+    },
+    {
+     "en": "So the decision is about the trend, not any single number: reduce the third session or add fluid and carbohydrate.",
+     "zh": "所以决定应基于趋势而非任何单个数字：减少第三次训练，或补液并加碳水。"
+    }
+   ],
+   "answer": {
+    "en": "No single day breached a clinical threshold, yet the pattern is exactly the one that precedes heat illness. This is the case where averaging the data would have hidden the problem.",
+    "zh": "没有哪一天越过临床阈值，然而这个模式恰恰是导致中暑的前兆。这正是\"取平均\"会把问题掩盖掉的情形。"
+   }
+  }
+ },
+ "ADH and cardiovascular drift": {
+  "figures": [
+   {
+    "title": {
+     "en": "Cardiovascular drift and what causes it",
+     "zh": "心率漂移及其成因"
+    },
+    "svg": "<line class=\"th\" x1=\"30\" y1=\"132\" x2=\"300\" y2=\"132\"/><line class=\"dash\" d=\"M30 70h270\"/><path class=\"fillA\" d=\"M30 70C90 68 150 62 300 44v88H30z\"/><text class=\"lbl\" x=\"150\" y=\"106\">+ HR, same pace</text><text class=\"lblS\" x=\"30\" y=\"62\">start</text><text class=\"lblS\" x=\"264\" y=\"40\">60 min</text><g><rect class=\"fillB\" x=\"36\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M36 146h60v22H36z\"/><text class=\"lblS\" x=\"42\" y=\"161\">sweat</text><rect class=\"fillB\" x=\"106\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M106 146h60v22H60z\"/><path class=\"ln\" d=\"M106 146h60v22h-60z\"/><text class=\"lblS\" x=\"112\" y=\"161\">temp</text><rect class=\"fillB\" x=\"176\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M176 146h60v22h-60z\"/><text class=\"lblS\" x=\"182\" y=\"161\">HR</text><rect class=\"fillB\" x=\"246\" y=\"146\" width=\"60\" height=\"22\" rx=\"5\"/><path class=\"ln\" d=\"M246 146h60v22h-60z\"/><text class=\"lblS\" x=\"252\" y=\"161\">fuel</text></g>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "heart rate rises at the same pace — that is the drift, and it is measurable on a watch",
+      "zh": "同样配速下心率上升——这就是漂移，而且用手表就能测量"
+     },
+     {
+      "en": "four causes, and all four are trainable or avoidable: plasma volume, skin and core temperature, the temperature of the blood returning to the heart, and fuel depletion",
+      "zh": "四个成因，而且都可训练或可避免：血容量、皮肤与核心温度、回流血温度、以及燃料耗竭"
+     },
+     {
+      "en": "the response is to slow down deliberately rather than to fight it",
+      "zh": "正确的应对是有意减速，而不是与之硬扛"
+     }
+    ],
+    "caption": {
+     "en": "Drift is not deconditioning during a race. It is a set of compensations, and an athlete who understands it can plan around it instead of being surprised by it.",
+     "zh": "漂移不是比赛中体能下降。它是一组代偿，而理解它的运动员可以据此做计划，而不是被它打个措手不及。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The four drivers of drift",
+     "zh": "漂移的四个驱动因素"
+    },
+    "cols": [
+     {
+      "en": "Driver",
+      "zh": "驱动因素"
+     },
+     {
+      "en": "Mechanism",
+      "zh": "机制"
+     },
+     {
+      "en": "Effect of fitness",
+      "zh": "体能的影响"
+     },
+     {
+      "en": "Can be offset by",
+      "zh": "可通过什么抵消"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Reduced plasma volume",
+       "zh": "血浆容量下降"
+      },
+      {
+       "en": "Blood leaving the capillaries to the skin never fully returns",
+       "zh": "离开毛细血管去往皮肤的血没有全部回到循环"
+      },
+      {
+       "en": "Less drift",
+       "zh": "漂移更小"
+      },
+      {
+       "en": "Acclimatisation, hydration, sodium",
+       "zh": "热适应、补液、钠"
+      }
+     ],
+     [
+      {
+       "en": "Core temperature",
+       "zh": "核心体温"
+      },
+      {
+       "en": "Blood diverted to the skin for cooling",
+       "zh": "血液被分流到皮肤以散热"
+      },
+      {
+       "en": "A later rise in core temperature",
+       "zh": "核心体温升高更晚"
+      },
+      {
+       "en": "Heat acclimatisation",
+       "zh": "热适应"
+      }
+     ],
+     [
+      {
+       "en": "Warm blood returning to the heart",
+       "zh": "回流的血液温度升高"
+      },
+      {
+       "en": "A warmer heart fills less per beat",
+       "zh": "更热的心脏每次搏动充盈更少"
+      },
+      {
+       "en": "Partly resistant with training",
+       "zh": "训练产生部分抵抗"
+      },
+      {
+       "en": "Event design, cooling, pacing",
+       "zh": "赛事设计、降温、配速"
+      }
+     ],
+     [
+      {
+       "en": "Fuel depletion and metabolite accumulation",
+       "zh": "燃料耗竭与代谢物积累"
+      },
+      {
+       "en": "Less available ATP, more inorganic phosphate",
+       "zh": "可利用 ATP 减少，无机磷酸增加"
+      },
+      {
+       "en": "Larger glycogen stores delay it",
+       "zh": "更大的糖原储备可延后它"
+      },
+      {
+       "en": "Carbohydrate fuelling, pacing",
+       "zh": "碳水供能、配速"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Heat acclimatisation is the single most effective intervention, and it works by expanding plasma volume and starting to sweat earlier and more lightly. Ten to fourteen days produces most of the benefit.",
+     "zh": "热适应是最有效的单项干预，它通过扩大血容量、以及更早更轻地出汗而起作用。十到十四天可获得大部分收益。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: 10 percent rule for heat",
+    "zh": "例题：高温环境下的 10% 规则"
+   },
+   "given": {
+    "en": "A 60 kg runner, 32 °C, 70% humidity. Heart rate at 12 km/h is 168 at minute 5 and 181 at minute 55.",
+    "zh": "一名 60 公斤的跑者，32 摄氏度、湿度 70%。在 12 公里/小时时，第 5 分钟心率 168，第 55 分钟心率 181。"
+   },
+   "steps": [
+    {
+     "en": "Drift = (181 - 168) / 168 = 7.7 percent in 50 minutes.",
+     "zh": "漂移 = (181 - 168) / 168 = 50 分钟内 7.7%。"
+    },
+    {
+     "en": "Above 10 percent, the priority is heat illness, not finishing order.",
+     "zh": "超过 10% 时，优先事项是预防中暑，而不是名次。"
+    },
+    {
+     "en": "Adjustments in order: slow by about 10 percent, add sodium, increase fluid intake, add cooling.",
+     "zh": "调整顺序：减速约 10%、补钠、增加饮水、加入降温。"
+    },
+    {
+     "en": "Recheck the heart rate at the reduced pace; if drift is still rising, the event needs a further change.",
+     "zh": "在降速后复测心率；如果漂移仍在上升，这项赛事还需要进一步调整。"
+    }
+   ],
+   "answer": {
+    "en": "A 7.7 percent drift is survivable but worth acting on, and the adjustment order matters — changing pace first is cheap, changing the event last. The watch number is more actionable than any symptom report.",
+    "zh": "7.7% 的漂移是可以承受的，但值得处理；而调整顺序很重要——先改配速成本最低，最后才改赛事。手表上的数字比任何症状报告都更可操作。"
+   }
+  }
+ },
+ "Macronutrients and individual needs": {
+  "figures": [
+   {
+    "title": {
+     "en": "Where the energy goes",
+     "zh": "能量去向"
+    },
+    "svg": "<g><rect class=\"fillA\" x=\"14\" y=\"30\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 30h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"30\" width=\"196\" height=\"26\"/><text class=\"lbl\" x=\"24\" y=\"48\">carbohydrate 4–5 kcal/g</text></g><g><rect class=\"fillA\" x=\"14\" y=\"66\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 66h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"66\" width=\"292\" height=\"26\"/><text class=\"lbl\" x=\"24\" y=\"84\">fat 9 kcal/g — most efficient per gram</text></g><g><rect class=\"fillA\" x=\"14\" y=\"102\" width=\"292\" height=\"26\" rx=\"6\"/><path class=\"ln\" d=\"M14 102h292v26H14z\"/><rect class=\"fillC\" x=\"14\" y=\"102\" width=\"292\" height=\"26\" opacity=\".55\"/><text class=\"lbl\" x=\"24\" y=\"120\">protein 4 kcal/g — not a fuel</text></g><text class=\"lblS\" x=\"14\" y=\"150\">efficiency per gram is not the same as usefulness at 20 km/h</text><text class=\"lblS\" x=\"14\" y=\"168\">fuel for high intensity is limited; fuel for low intensity is not</text>",
+    "viewBox": "0 0 320 180",
+    "legend": [
+     {
+      "en": "carbohydrate and protein give 4 kcal per gram, fat gives 9 — so fat is the efficient one by mass",
+      "zh": "碳水与蛋白质每克 4 千卡，脂肪每克 9 千卡——所以按质量脂肪最\"高效\""
+     },
+     {
+      "en": "but carbohydrate is the only fuel that can be used anaerobically at a high rate, which is why it is sport-specific",
+      "zh": "但碳水是唯一能以高速率无氧使用的燃料，这就是它具有专项性的原因"
+     },
+     {
+      "en": "protein is a building material, not a fuel, and treating it as one is a category error",
+      "zh": "蛋白质是建材而非燃料，把它当作燃料是范畴错误"
+     }
+    ],
+    "caption": {
+     "en": "The energy density ranking and the sport-usefulness ranking are different, and confusing them is the most common nutritional error in sport.",
+     "zh": "能量密度的排序与运动适用性的排序是不同的，混淆这两者是运动营养中最常见的错误。"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "title": {
+     "en": "The three macronutrients compared",
+     "zh": "三大营养素对比"
+    },
+    "cols": [
+     {
+      "en": "Feature",
+      "zh": "特征"
+     },
+     {
+      "en": "Carbohydrate",
+      "zh": "碳水化合物"
+     },
+     {
+      "en": "Fat",
+      "zh": "脂肪"
+     },
+     {
+      "en": "Protein",
+      "zh": "蛋白质"
+     }
+    ],
+    "rows": [
+     [
+      {
+       "en": "Energy per gram",
+       "zh": "每克能量"
+      },
+      {
+       "en": "4 kcal",
+       "zh": "4 千卡"
+      },
+      {
+       "en": "9 kcal",
+       "zh": "9 千卡"
+      },
+      {
+       "en": "4 kcal",
+       "zh": "4 千卡"
+      }
+     ],
+     [
+      {
+       "en": "Can be used anaerobically at high rate",
+       "zh": "能以高速率无氧利用"
+      },
+      {
+       "en": "Yes — the only one",
+       "zh": "是——唯一一个"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      },
+      {
+       "en": "No",
+       "zh": "否"
+      }
+     ],
+     [
+      {
+       "en": "Stores in the body",
+       "zh": "体内储备"
+      },
+      {
+       "en": "~500 g, limited",
+       "zh": "约 500 克，有限"
+      },
+      {
+       "en": "Very large, effectively unlimited",
+       "zh": "很大，实际上无限"
+      },
+      {
+       "en": "No dedicated store",
+       "zh": "无专用储备"
+      }
+     ],
+     [
+      {
+       "en": "Main role",
+       "zh": "主要作用"
+      },
+      {
+       "en": "Fuel, especially at high intensity",
+       "zh": "供能，尤其高强度"
+      },
+      {
+       "en": "Fuel at low and moderate intensity",
+       "zh": "低到中强度供能"
+      },
+      {
+       "en": "Repair, enzymes, immunity",
+       "zh": "修复、酶、免疫"
+      }
+     ],
+     [
+      {
+       "en": "Timing matters",
+       "zh": "时机重要"
+      },
+      {
+       "en": "A great deal",
+       "zh": "非常"
+      },
+      {
+       "en": "Not much",
+       "zh": "不大"
+      },
+      {
+       "en": "Spread across the day",
+       "zh": "分散在全天"
+      }
+     ]
+    ],
+    "note": {
+     "en": "Carbohydrate availability is the single most performance-limiting nutrient in most endurance and team sports, which is why fuelling is a bigger lever than most athletes expect.",
+     "zh": "在多数耐力与团队项目中，碳水可用性是限制表现最明显的营养素，因此补糖是一个比多数运动员预期更大的抓手。"
+    }
+   }
+  ],
+  "example": {
+   "title": {
+    "en": "Worked example: fuelling a 90-minute match",
+    "zh": "例题：一场 90 分钟比赛的补糖"
+   },
+   "given": {
+    "en": "A player needs about 60 g of carbohydrate per hour. One gel supplies 25 g.",
+    "zh": "一名球员每小时需要约 60 克碳水。一支能量胶提供 25 克。"
+   },
+   "steps": [
+    {
+     "en": "Gels needed per hour: 60 / 25 = 2.4, so three to be practical.",
+     "zh": "每小时需要能量胶：60 / 25 = 2.4，因此实际取三支。"
+    },
+    {
+     "en": "With three gels the player gets 75 g per hour, which is above target and is the usual answer.",
+     "zh": "三支即每小时 75 克，高于目标，也是通常的答案。"
+    },
+    {
+     "en": "At 90 minutes that is about 110 g of carbohydrate in total.",
+     "zh": "90 分钟合计约 110 克碳水。"
+    },
+    {
+     "en": "The practical constraint is gastric emptying: more than about 60 g per hour in a single sitting causes discomfort, so it is split.",
+     "zh": "实际限制是胃排空：单次摄入超过约每小时 60 克会引起不适，因此必须分次。"
+    }
+   ],
+   "answer": {
+    "en": "The arithmetic says 2.4 and the practice answer is 3, because tolerance and timing decide the last gel. This is the ordinary place where a number from a table meets a human being.",
+    "zh": "算术答案是 2.4，而实践答案是 3，因为耐受性和时机决定了最后一支。这就是表格上的数字遇见真实的人的地方。"
+   }
+  }
  }
 };
 if(window.IB_VISUALS&&window.IB_VISUALS.shake){try{window.dispatchEvent(new Event('shake'))}catch(e){}}

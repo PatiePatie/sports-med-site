@@ -870,13 +870,14 @@ body:not(.dark) #v-splash{
 <link rel="stylesheet" href="notif-bell.css?v=2">
 <script src="notif-bell.js?v=1" defer></script>
 <!-- DRAFT-THEME:END -->
+<script src="vt-sources.js?v=1"></script>
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=9">
-<script src="soft-fx.js?v=9" defer></script>
-<link rel="stylesheet" href="knowledge.css?v=2">
-<script src="knowledge-fx.js?v=3" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=10">
+<script src="soft-fx.js?v=10" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=3">
+<script src="knowledge-fx.js?v=4" defer></script>
 <script src="ai-usage.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
@@ -989,7 +990,57 @@ body:not(.dark) #v-splash{
     var rule=document.createElement('div');rule.className='v-rule';
     var tag=document.createElement('div');tag.className='v-tag';
     tag.textContent=zh?'运动医学 · 恢复 · 营养':'Sports Medicine · Recovery · Nutrition';
-    s.appendChild(forest);s.appendChild(hosp);s.appendChild(tile);s.appendChild(name);s.appendChild(rule);s.appendChild(tag);
+    /* 50 versions per theme: a sky (5 for dark, 5 for light, so the words
+       stay readable) × a scene × a finale. Never the same as last time;
+       ?splash=N forces one. */
+    var dk=document.body.classList.contains('dark');
+    var SKY=dk?['dusk','night','aurora','storm','deep']:['dawn','day','sunset','snow','spring'];
+    var SCN=['hosp','stadium','track','city','campus'],FIN=['ring','burst'];
+    var NV=SKY.length*SCN.length*FIN.length,lastV=-1,sv=null;
+    try{lastV=parseInt(localStorage.getItem('vt_sp_last_'+(dk?'d':'l')),10);}catch(e){}
+    try{var fsp=/[?&]splash=(\d+)/.exec(location.search);if(fsp)sv=(parseInt(fsp[1],10)-1)%NV;}catch(e){}
+    if(sv===null||isNaN(sv)){do{sv=Math.floor(Math.random()*NV);}while(sv===lastV&&NV>1);}
+    try{localStorage.setItem('vt_sp_last_'+(dk?'d':'l'),String(sv));}catch(e){}
+    var sky=SKY[sv%SKY.length],scene=SCN[Math.floor(sv/SKY.length)%SCN.length],fin=FIN[Math.floor(sv/(SKY.length*SCN.length))];
+    s.setAttribute('data-sky',sky);s.setAttribute('data-scene',scene);s.setAttribute('data-fin',fin);s.setAttribute('data-version',String(sv+1));
+    /* sky particles */
+    var fx=document.createElement('div');fx.className='sg-skyfx';fx.setAttribute('aria-hidden','true');
+    var R=function(a,b){return a+Math.random()*(b-a);},fh='',k;
+    if(sky==='night'||sky==='aurora'||sky==='dusk'){for(k=0;k<(sky==='night'?70:30);k++)fh+='<i class="st" style="left:'+R(0,100).toFixed(1)+'%;top:'+R(0,58).toFixed(1)+'%;--s:'+R(1,2.6).toFixed(1)+'px;animation-delay:'+R(0,4).toFixed(2)+'s"></i>';}
+    if(sky==='dusk'||sky==='night')fh+='<i class="moon"></i>';
+    if(sky==='aurora')fh+='<i class="au a1"></i><i class="au a2"></i><i class="au a3"></i>';
+    if(sky==='storm')fh+='<i class="rain"></i><i class="rain r2"></i><i class="flash"></i>';
+    if(sky==='deep'){for(k=0;k<26;k++)fh+='<i class="bub" style="left:'+R(0,100).toFixed(1)+'%;--s:'+R(4,14).toFixed(0)+'px;animation-duration:'+R(5,11).toFixed(1)+'s;animation-delay:-'+R(0,10).toFixed(1)+'s"></i>';fh+='<i class="caus"></i>';}
+    if(sky==='dawn'||sky==='sunset')fh+='<i class="sun"></i><i class="haze"></i>';
+    if(sky==='day'||sky==='spring'){for(k=0;k<5;k++)fh+='<i class="cl" style="top:'+R(4,34).toFixed(0)+'%;--w:'+R(160,320).toFixed(0)+'px;animation-duration:'+R(40,80).toFixed(0)+'s;animation-delay:-'+R(0,60).toFixed(0)+'s"></i>';}
+    if(sky==='snow'){for(k=0;k<60;k++)fh+='<i class="sn" style="left:'+R(0,100).toFixed(1)+'%;--s:'+R(2,6).toFixed(1)+'px;animation-duration:'+R(6,14).toFixed(1)+'s;animation-delay:-'+R(0,14).toFixed(1)+'s;--dx:'+R(-40,40).toFixed(0)+'px"></i>';}
+    if(sky==='spring'){for(k=0;k<22;k++)fh+='<i class="pt" style="left:'+R(0,100).toFixed(1)+'%;animation-duration:'+R(7,13).toFixed(1)+'s;animation-delay:-'+R(0,13).toFixed(1)+'s;--dx:'+R(-80,80).toFixed(0)+'px;--r:'+R(-200,200).toFixed(0)+'deg"></i>';}
+    fx.innerHTML=fh;s.appendChild(fx);
+    /* scenes other than the hospital are drawn here, in the same silhouette palette */
+    function scn(kind){
+      var v=document.createElementNS(NS,'svg');v.setAttribute('class','v-hosp v-scene');v.setAttribute('viewBox','0 0 1200 360');v.setAttribute('preserveAspectRatio','xMidYMax slice');v.setAttribute('aria-hidden','true');
+      var h='<defs><pattern id="v-win2" width="18" height="24" patternUnits="userSpaceOnUse"><rect x="3" y="3" width="10" height="14" rx="1.5" class="v-gold" opacity=".36"/></pattern></defs>';
+      if(kind==='stadium'){
+        h+='<path class="v-bldg" d="M318,360 L318,262 C420,222 780,222 882,262 L882,360 Z"/><path class="v-gold-stroke" stroke-width="2" opacity=".35" d="M340,292 C440,262 760,262 860,292 M334,318 C440,290 760,290 866,318 M330,342 C440,316 760,316 870,342"/>';
+        h+='<path class="v-bldg" d="M306,262 C420,214 780,214 894,262 L894,252 C780,204 420,204 306,252 Z"/>';
+        [260,940].forEach(function(x){h+='<rect class="v-bldg" x="'+(x-3)+'" y="96" width="6" height="264"/><rect class="v-gold" x="'+(x-18)+'" y="86" width="36" height="14" rx="2"/><circle class="v-gold sg-lamp" cx="'+x+'" cy="93" r="30" opacity=".22"/>';});
+      }else if(kind==='track'){
+        h+='<polygon class="v-row-back" points="0,360 0,250 150,150 290,244 420,166 560,258 700,132 860,246 990,184 1200,262 1200,360"/>';
+        h+='<polygon class="v-gold" opacity=".45" points="150,150 128,172 170,170"/><polygon class="v-gold" opacity=".45" points="700,132 672,160 726,158"/><polygon class="v-gold" opacity=".45" points="420,166 402,184 440,182"/>';
+        h+='<ellipse class="v-bldg" cx="600" cy="338" rx="470" ry="46"/><ellipse class="v-gold-stroke" stroke-width="2.5" cx="600" cy="338" rx="440" ry="38" opacity=".7"/><ellipse class="v-gold-stroke" stroke-width="1.5" cx="600" cy="338" rx="404" ry="30" opacity=".45"/><ellipse class="v-row-front" cx="600" cy="338" rx="360" ry="22"/>';
+        h+='<path class="v-gold-stroke" stroke-width="2" d="M820,318 L820,290 L846,296 L820,302" opacity=".8"/>';
+      }else if(kind==='city'){
+        var x=150,ws=[54,80,46,96,62,74,40,88,58,70,50,92,64],hs=[120,190,150,236,170,110,204,160,224,140,186,128,176],j;
+        for(j=0;j<ws.length&&x<1050;j++){var w=ws[j],hh=hs[j];h+='<rect class="v-bldg" x="'+x+'" y="'+(360-hh)+'" width="'+w+'" height="'+hh+'"/><rect x="'+(x+6)+'" y="'+(372-hh)+'" width="'+(w-12)+'" height="'+(hh-24)+'" fill="url(#v-win2)"/>';if(j%3===1)h+='<rect class="v-bldg" x="'+(x+w/2-1.5)+'" y="'+(330-hh)+'" width="3" height="30"/><circle class="v-gold sg-lamp" cx="'+(x+w/2)+'" cy="'+(330-hh)+'" r="3.5"/>';x+=w+8;}
+        h+='<rect class="v-bldg" x="560" y="164" width="80" height="196"/><rect x="566" y="176" width="68" height="100" fill="url(#v-win2)"/><rect class="v-gold-stroke" stroke-width="2.5" x="586" y="286" width="28" height="24" rx="2"/><path class="v-gold-stroke" stroke-width="3" stroke-linecap="round" d="M600,292 L600,304 M594,298 L606,298"/>';
+      }else{
+        h+='<rect class="v-bldg" x="430" y="262" width="340" height="98"/><polygon class="v-bldg" points="420,262 600,196 780,262"/><polygon class="v-gold" opacity=".3" points="470,254 600,210 730,254"/>';
+        for(var c=0;c<7;c++)h+='<rect class="v-gold" opacity=".42" x="'+(452+c*46)+'" y="272" width="10" height="72" rx="2"/>';
+        h+='<rect class="v-bldg" x="410" y="344" width="380" height="16"/><rect class="v-bldg" x="598" y="134" width="4" height="64"/><path class="v-gold sg-flag" d="M602,136 L636,146 L602,156 Z"/><circle class="v-gold" cx="600" cy="232" r="10" opacity=".55"/>';
+      }
+      v.innerHTML=h;return v;
+    }
+    s.appendChild(forest);s.appendChild(scene==='hosp'?hosp:scn(scene));s.appendChild(tile);s.appendChild(name);s.appendChild(rule);s.appendChild(tag);
     document.body.appendChild(s);
     document.body.style.overflow='hidden';
     /* hero entrance — same rise, staggered, as the splash fades (Linear handoff) */

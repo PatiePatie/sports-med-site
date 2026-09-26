@@ -490,6 +490,7 @@ body:not(.dark) #v-splash{
 @keyframes sg-part-in{from{opacity:0;transform:translateY(22px) scale(.6) rotate(-10deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 .sg-fact{max-width:min(560px,86vw);min-height:2.9em;text-align:center;font-size:.9rem;line-height:1.5;color:var(--vname);opacity:0;animation:v-rise .6s 1.4s cubic-bezier(.16,1,.3,1) forwards}
 .sg-fact b{color:var(--vacc);font-weight:800;letter-spacing:.04em}
+.sg-fact cite{display:block;margin-top:.25rem;font-style:normal;font-size:.72rem;opacity:.65;letter-spacing:.03em}
 .sg-caret{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.12em;background:var(--vacc);animation:sg-caret .8s steps(2) infinite}
 @keyframes sg-caret{50%{opacity:0}}
 .sg-prog{display:flex;flex-direction:column;align-items:center;gap:.4rem;opacity:0;animation:v-rise .5s .5s cubic-bezier(.16,1,.3,1) forwards}
@@ -624,23 +625,28 @@ html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}
 /* ── Page arrival: the page comes up out of a fog ────────────────────────────
    html.sg-lf is set by the head-first script before first paint, so the page
    is born blurred. The fog HOLDS until soft-fx.js adds .sg-lf-go two frames
-   after it runs (the page has really painted), then lifts. Only opacity
-   animates, which the compositor does on its own: the old mask-radius
-   animation repainted a full-screen backdrop blur every frame, and that is
-   what made arriving on a page (and switching category) stutter, worst in
-   Firefox/Zen. The tint is stronger in the middle-out gradient so the centre
-   still reads as clearing first. If the script never runs, the fog lifts
-   after 5 s anyway. */
-html.sg-lf::after,html.sg-lf-hand::after{content:"";position:fixed;inset:0;z-index:2147482994;pointer-events:none;
-  background:radial-gradient(120% 110% at 50% 46%,color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 22%,transparent) 0%,color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 46%,transparent) 100%);
-  -webkit-backdrop-filter:blur(16px) saturate(.8);backdrop-filter:blur(16px) saturate(.8);will-change:opacity}
-html.sg-lf:not(.sg-lf-go)::after{animation:sg-page-safety 1.6s 5s cubic-bezier(.4,0,.2,1) both}
-html.sg-lf.sg-lf-go::after{animation:sg-page-in 1.6s .12s cubic-bezier(.4,0,.2,1) both}
-@keyframes sg-page-in{0%{opacity:1}100%{opacity:0}}
-@keyframes sg-page-safety{0%{opacity:1}100%{opacity:0}}   /* a different name, so .sg-lf-go restarts from full fog */
-/* after a splash/loader: it leaves sharp → the fog rolls in → lifts */
-html.sg-lf-hand::after{animation:sg-page-hand 2.2s cubic-bezier(.4,0,.2,1) both}
-@keyframes sg-page-hand{0%{opacity:0}22%{opacity:1}34%{opacity:1}100%{opacity:0}}
+   after it runs (the page has really painted), then clears from the middle
+   outward. Only transform and opacity animate, which the compositor does on
+   its own: the old mask-radius animation repainted a full-screen backdrop
+   blur every frame, and that is what made arriving on a page (and switching
+   category) stutter, worst in Firefox/Zen. If the script never runs, the fog
+   lifts after 5 s anyway. */
+html.sg-lf::after,html.sg-lf-hand::after{content:"";position:fixed;left:50%;top:50%;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;
+  z-index:2147482994;pointer-events:none;transform:scale(.36);transform-origin:50% 50%;will-change:transform,opacity;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 16%,transparent),color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 44%,transparent));
+  -webkit-backdrop-filter:blur(16px) saturate(.8);backdrop-filter:blur(16px) saturate(.8);
+  /* a hole in the middle of an oversized veil: scaling the veil up opens the
+     hole outward, so the centre clears first and the edges last, and the
+     compositor does it without repainting anything */
+  -webkit-mask-image:radial-gradient(closest-side,transparent 0%,rgba(0,0,0,.4) 5%,#000 13%);
+          mask-image:radial-gradient(closest-side,transparent 0%,rgba(0,0,0,.4) 5%,#000 13%)}
+html.sg-lf:not(.sg-lf-go)::after{animation:sg-page-safety 1.9s 5s cubic-bezier(.55,0,.35,1) both}
+html.sg-lf.sg-lf-go::after{animation:sg-page-in 1.9s .1s cubic-bezier(.55,0,.35,1) both}
+@keyframes sg-page-in{0%{transform:scale(.36);opacity:1}70%{opacity:1}100%{transform:scale(3.4);opacity:0}}
+@keyframes sg-page-safety{0%{transform:scale(.36);opacity:1}70%{opacity:1}100%{transform:scale(3.4);opacity:0}}   /* a different name, so .sg-lf-go restarts from full fog */
+/* after a splash/loader: it leaves sharp → the fog rolls in → clears from the middle */
+html.sg-lf-hand::after{animation:sg-page-hand 2.4s cubic-bezier(.5,0,.35,1) both}
+@keyframes sg-page-hand{0%{transform:scale(.36);opacity:0}18%{transform:scale(.36);opacity:1}30%{transform:scale(.4);opacity:1}80%{opacity:1}100%{transform:scale(3.4);opacity:0}}
 
 /* ── Theme + language swaps (soft-fx.js → view transition) ───────────────── */
 @property --sg-r{syntax:'<length>';inherits:true;initial-value:0px}
@@ -926,3 +932,79 @@ html.sg-guestbar .sg-signup{display:inline-flex;align-items:center;justify-conte
 html.sg-guestbar .sg-signup:hover{transform:translateY(-1px)}
 html.sg-guestbar .sg-signup:active{transform:scale(.96);box-shadow:var(--sg-press-sm)}
 .sg-signup{display:none}
+
+/* ── Splash versions (index.html picks data-sky / data-scene / data-fin) ─────
+   5 skies per theme × 5 scenes × 2 finales = 50 per theme. A sky only swaps
+   the palette the silhouettes already use and adds its own particles. */
+html body #v-splash[data-sky=night]{--vbg1:#0B1A38;--vbg2:#060E22;--vbg3:#02060F;--vback:#101E3E;--vfront:#040A18;--vhosp:#0C1A36;--vgold:#F2D98B}
+html body #v-splash[data-sky=aurora]{--vbg1:#0E2C3A;--vbg2:#0A1A2C;--vbg3:#040A14;--vback:#0F2A36;--vfront:#03090F;--vhosp:#0B2230;--vgold:#9FF0D0;--vacc:#7FE3C4}
+html body #v-splash[data-sky=storm]{--vbg1:#2A3645;--vbg2:#18212C;--vbg3:#0B1016;--vback:#222C38;--vfront:#0A0F15;--vhosp:#1C2530;--vgold:#BFD4EA}
+html body #v-splash[data-sky=deep]{--vbg1:#0B3B55;--vbg2:#07233A;--vbg3:#03101D;--vback:#0A2D44;--vfront:#021019;--vhosp:#08263A;--vgold:#7FE3F0;--vacc:#7FE3F0}
+html body #v-splash[data-sky=dawn]{--vbg1:#FFE3D0;--vbg2:#F3E6EE;--vbg3:#D9E6F4;--vback:#C9B7CC;--vfront:#8E86A8;--vhosp:#7C7FA6;--vgold:#FFFFFF}
+html body #v-splash[data-sky=day]{--vbg1:#FFFFFF;--vbg2:#E6F1FB;--vbg3:#C9DDF0;--vback:#B8CCE2;--vfront:#7F9DC2;--vhosp:#5F84B3;--vgold:#FFFFFF}
+html body #v-splash[data-sky=sunset]{--vbg1:#FFD2A6;--vbg2:#F6B7A4;--vbg3:#C9A6C9;--vback:#C58C8E;--vfront:#7E5A7A;--vhosp:#8A5E80;--vgold:#FFE8B0}
+html body #v-splash[data-sky=snow]{--vbg1:#FFFFFF;--vbg2:#EEF3F8;--vbg3:#DCE6F0;--vback:#C7D3E0;--vfront:#9FB2C8;--vhosp:#8EA4BE;--vgold:#FFFFFF}
+html body #v-splash[data-sky=spring]{--vbg1:#F4FFF4;--vbg2:#E4F4EA;--vbg3:#CFE6DA;--vback:#A9CDB6;--vfront:#6E9E84;--vhosp:#6A9483;--vgold:#FFFFFF;--vacc:#2F8A5B}
+html #v-splash > div.sg-skyfx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.sg-skyfx i{position:absolute;display:block}
+.sg-skyfx .st{width:var(--s);height:var(--s);border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(200,220,255,.8);animation:sg-tw 3.2s ease-in-out infinite}
+@keyframes sg-tw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.sg-skyfx .moon{right:12%;top:12%;width:64px;height:64px;border-radius:50%;box-shadow:inset -16px 10px 0 0 #EEF3FB;filter:drop-shadow(0 0 18px rgba(200,220,255,.6));animation:sg-float 9s ease-in-out infinite}
+.sg-skyfx .au{left:-10%;right:-10%;height:34%;border-radius:50%;opacity:.55;mix-blend-mode:screen;animation:sg-au 10s ease-in-out infinite alternate}
+.sg-skyfx .a1{top:6%;background:radial-gradient(60% 50% at 40% 50%,rgba(80,240,170,.55),transparent 70%)}
+.sg-skyfx .a2{top:14%;background:radial-gradient(50% 45% at 65% 50%,rgba(90,190,255,.45),transparent 70%);animation-duration:13s}
+.sg-skyfx .a3{top:2%;background:radial-gradient(40% 40% at 25% 50%,rgba(170,110,255,.35),transparent 70%);animation-duration:16s}
+@keyframes sg-au{from{transform:translateX(-4%) skewX(-8deg) scaleY(.9)}to{transform:translateX(5%) skewX(10deg) scaleY(1.15)}}
+.sg-skyfx .rain{inset:-20% 0 0;background:repeating-linear-gradient(105deg,transparent 0 22px,rgba(190,215,240,.22) 22px 23px);animation:sg-rain .5s linear infinite}
+.sg-skyfx .rain.r2{background:repeating-linear-gradient(105deg,transparent 0 34px,rgba(190,215,240,.14) 34px 35px);animation-duration:.8s}
+@keyframes sg-rain{to{transform:translate(-14px,60px)}}
+.sg-skyfx .flash{inset:0;background:rgba(220,235,255,.5);opacity:0;animation:sg-flash 7s linear infinite 1.6s}
+@keyframes sg-flash{0%,93%,100%{opacity:0}94%{opacity:.8}95%{opacity:.1}96%{opacity:.6}97%{opacity:0}}
+.sg-skyfx .bub{bottom:-20px;width:var(--s);height:var(--s);border-radius:50%;border:1px solid rgba(160,235,255,.45);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.5),transparent 45%);animation:sg-bub linear infinite}
+@keyframes sg-bub{to{transform:translateY(-110vh) translateX(18px)}}
+.sg-skyfx .caus{inset:0;background:repeating-radial-gradient(circle at 30% -10%,rgba(127,227,240,.035) 0 18px,transparent 18px 44px);animation:sg-float 8s ease-in-out infinite}
+.sg-skyfx .sun{left:50%;bottom:30%;width:220px;height:220px;margin-left:-110px;border-radius:50%;background:radial-gradient(circle,#FFF6E0 0 34%,rgba(255,190,120,.55) 52%,transparent 70%);animation:sg-rise 7s cubic-bezier(.2,.7,.3,1) both}
+[data-sky=sunset] .sg-skyfx .sun{background:radial-gradient(circle,#FFE0B0 0 36%,rgba(255,120,90,.5) 54%,transparent 72%);animation-name:sg-set}
+@keyframes sg-rise{from{transform:translateY(80px);opacity:.4}}
+@keyframes sg-set{from{transform:translateY(-40px)}to{transform:translateY(50px)}}
+.sg-skyfx .haze{left:0;right:0;bottom:24%;height:30%;background:linear-gradient(to top,rgba(255,255,255,.4),transparent)}
+.sg-skyfx .cl{left:-30%;width:var(--w);height:calc(var(--w) * .32);border-radius:50%;background:radial-gradient(ellipse at 50% 60%,rgba(255,255,255,.9),rgba(255,255,255,0) 68%);animation:sg-cloud linear infinite}
+@keyframes sg-cloud{to{transform:translateX(160vw)}}
+.sg-skyfx .sn{top:-12px;width:var(--s);height:var(--s);border-radius:50%;background:#fff;box-shadow:0 0 4px rgba(150,180,210,.6);animation:sg-snow linear infinite}
+@keyframes sg-snow{to{transform:translate(var(--dx),110vh)}}
+.sg-skyfx .pt{top:-14px;width:10px;height:7px;border-radius:70% 0;background:#F4A9C0;opacity:.85;animation:sg-petal linear infinite}
+@keyframes sg-petal{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+@keyframes sg-float{50%{transform:translateY(-8px)}}
+#v-splash .sg-lamp{animation:sg-lamp 2.6s ease-in-out infinite}
+@keyframes sg-lamp{50%{opacity:.08}}
+#v-splash .sg-flag{transform-origin:602px 146px;animation:sg-flagw 1.6s ease-in-out infinite}
+@keyframes sg-flagw{50%{transform:scaleX(.8) skewY(4deg)}}
+/* the second finale: a burst of sparks off the mark instead of a ring */
+#v-splash[data-fin=burst].sg-welcome .v-tile::before{display:none}
+.sg-burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+.sg-burst i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--vacc);box-shadow:0 0 10px var(--vacc);
+  transform:rotate(var(--a)) translateX(0);opacity:0;animation:sg-spark .9s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes sg-spark{0%{opacity:1;transform:rotate(var(--a)) translateX(30px) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translateX(150px) scale(.3)}}
+/* splash on phones and short landscape screens */
+@media (max-width:600px){
+  #v-splash{gap:.55rem!important;padding:0 16px min(18vh,160px)}
+  #v-splash .v-name{font-size:1.7rem}
+  #v-splash .v-tag{font-size:.6rem;letter-spacing:.12em;text-align:center}
+  .sg-vital{min-width:0;padding:.25rem .4rem}.sg-vital .k{font-size:.46rem}.sg-vital .v{font-size:.78rem}.sg-vital .u{display:none}
+  .sg-vital:nth-child(even){top:46px}
+  .sg-skyfx .moon{width:44px;height:44px;box-shadow:inset -11px 7px 0 0 #EEF3FB}
+  .sg-skyfx .sun{width:150px;height:150px;margin-left:-75px}
+}
+@media (max-width:600px){#v-splash .sg-ico-heart,#v-splash .sg-ico-bone{display:none}}
+@media (max-width:360px){.sg-vitals{display:none}}
+@media (max-height:560px) and (orientation:landscape){
+  #v-splash{flex-direction:row!important;flex-wrap:wrap;align-content:center;justify-content:center;column-gap:1.4rem;row-gap:.35rem;padding:0 24px 0!important}
+  #v-splash .v-hosp,#v-splash .v-forest{height:40vh}
+  #v-splash .v-tile{transform:scale(.75)}
+  .sg-vitals,.sg-parts,#v-splash .v-rule{display:none!important}
+  .sg-fact{flex-basis:100%;font-size:.8rem;min-height:0}
+  .sg-prog{flex-basis:100%}
+  .sg-skip{top:8px}
+  .sg-icons{display:none}
+}
+@media (prefers-reduced-motion:reduce){.sg-skyfx i{animation:none!important}}

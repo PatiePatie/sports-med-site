@@ -1394,9 +1394,28 @@
     });
     t.rebuild = function () { trayLabels(t); if (cur) { var m = cur; cur = ''; var b = t.querySelector('.ks-tab[data-m="' + m + '"]'); if (b) b.click(); } };
   }
+  /* Trays are built as their section comes within ~900px of the screen (or
+     opens), not all at once on load: building all 87 on guide.html up front
+     was a chunk of the main-thread work that made arriving on a page stutter.
+     A section that was still empty when it came near is watched again the next
+     time content lands (watchPractice calls this again). */
+  var ksIO = window.IntersectionObserver ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var t = e.target;
+      ksIO.unobserve(t);
+      safe(function () { tray(t); });
+      if (!t.hasAttribute('data-ks')) t._ksObs = 0;
+    });
+  }, { rootMargin: '900px 0px' }) : null;
   function practice(scope) {
-    $$('.acc-body-inner', scope || document).forEach(function (inner) { safe(function () { tray(inner); }); });
-    $$('section.native-section', scope || document).forEach(function (s) { safe(function () { tray(s); }); });
+    $$('.acc-body-inner, section.native-section', scope || document).forEach(function (t) {
+      if (t.hasAttribute('data-ks')) return;
+      if (!ksIO) { safe(function () { tray(t); }); return; }
+      if (t._ksObs) return;
+      t._ksObs = 1;
+      ksIO.observe(t);
+    });
   }
   function watchPractice() {
     var pend = 0;

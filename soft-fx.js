@@ -118,7 +118,7 @@
       '#version 300 es',
       'precision highp float;',
       'uniform sampler2D uH;uniform vec2 uGrid;uniform float uCell;uniform vec2 uView;uniform float uRes;',
-      'uniform vec2 uP;uniform float uDepth;uniform float uSig;uniform vec2 uDir;uniform float uDrag;uniform float uT;uniform float uOn;uniform float uDark;',
+      'uniform vec2 uP;uniform float uDepth;uniform float uSig;uniform vec2 uDir;uniform float uDrag;uniform float uT;uniform float uOn;uniform float uDark;uniform vec3 uLp;',
       'out vec4 o;',
       'float sim(vec2 p){return texture(uH,(p/uCell+.5)/uGrid).r;}',
       /* a point pressed into a taut sheet makes a funnel, not a bowl: height falls
@@ -152,12 +152,15 @@
       '  float dx=(H(p+vec2(e,0.))-H(p-vec2(e,0.)))/(2.*e);',
       '  float dy=(H(p+vec2(0.,e))-H(p-vec2(0.,e)))/(2.*e);',
       '  vec3 n=normalize(vec3(-dx,-dy,1.));',
-      '  vec3 L=normalize(vec3(-.5,-.62,.6));',
+      /* a lamp that drifts over the page: the light comes from where it is,
+         so the dent's lit and shaded walls swing round as the pointer passes
+         it (mixed with a little of the skin's fixed top-left light) */
+      '  vec3 L=normalize(mix(normalize(vec3(-.5,-.62,.6)),normalize(vec3(uLp.xy-p,uLp.z)),.93));',
       '  float diff=dot(n,L)-L.z;',
       '  vec3 hv=normalize(L+vec3(0.,0.,1.));',
       '  float sp=pow(max(dot(n,hv),0.),48.)-pow(hv.z,48.);',
       /* soft cast shadow: walk toward the light, see whether the rim rises above the ray */
-      '  vec2 ld=normalize(L.xy);float tn=L.z/length(L.xy),occ=0.,hs0=HS(p);',
+      '  vec2 ld=normalize(L.xy+vec2(1e-4));float tn=L.z/max(length(L.xy),.05),occ=0.,hs0=HS(p);',
       '  for(int k=1;k<11;k++){float t=float(k)*3.5;occ=max(occ,(HS(p+ld*t)-hs0)/t-tn);}',
       '  float csh=1.-exp(-occ*4.);',
       '  float dn=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)*.012;',
@@ -179,7 +182,7 @@
     } catch (e) { if (window.console) console.warn('[soft-fx] cloth', e); return false; }
     gl.useProgram(prog);
     var U = {};
-    ['uH', 'uGrid', 'uCell', 'uView', 'uRes', 'uP', 'uDepth', 'uSig', 'uDir', 'uDrag', 'uT', 'uOn', 'uDark'].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+    ['uH', 'uGrid', 'uCell', 'uView', 'uRes', 'uP', 'uDepth', 'uSig', 'uDir', 'uDrag', 'uT', 'uOn', 'uDark', 'uLp'].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
     var vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
@@ -270,25 +273,28 @@
       var dt = last ? Math.min(50, now - last) : 16;
       last = now;
       var idle = now - movedAt;
-      var shown = present && (down || idle < 6500);     /* the resting finger lifts after a while */
+      /* a resting finger lifts slowly: after 1.6 s of stillness the dent fades out over ~3 s */
+      var still = down ? 1 : Math.max(0, Math.min(1, 1 - (idle - 1600) / 3000));
+      still = still * still * (3 - 2 * still);
+      var shown = present && (down || still > 0);
       on += ((present ? 1 : 0) - on) * ease(dt, present ? 120 : 260);
       if (down) want = 1 + Math.min((now - downAt) / 700, 1) * 0.28;
       else if (!shown) want = 0;
-      else if (!bounce) want = rest();
+      else if (!bounce) want = rest() * still;
       press += ((down ? 1 : 0) - press) * ease(dt, down ? 70 : 140);
       var px = x, py = y, k = ease(dt, 14 + press * 50);   /* tight on the arrow; only a pressed finger drags heavy cloth */
       x += (tx - x) * k; y += (ty - y) * k;
       var kv = ease(dt, 60);
       vx += ((x - px) / dt * 16 - vx) * kv;
       vy += ((y - py) / dt * 16 - vy) * kv;
-      dent += (want - dent) * ease(dt, down ? 90 : (want === 0 ? 260 : 120));
+      dent += (want - dent) * ease(dt, down ? 90 : (want === 0 ? 400 : 120));
       var sp = Math.sqrt(vx * vx + vy * vy);
       if (sp > 0.6) { var ka = ease(dt, 70); ax += (vx / sp - ax) * ka; ay += (vy / sp - ay) * ka; }
       drag += (press * Math.min(sp / 12, 1) - drag) * ease(dt, 90);
       var al = Math.sqrt(ax * ax + ay * ay) || 1, ux = ax / al, uy = ay / al;
       var t = (now - t0) / 1000;
       var breathe = 1 + 0.09 * Math.sin(t * 2.4) + 0.04 * Math.sin(t * 5.3 + 1.1);
-      var depth = dent * 24 * (down ? 1 : breathe), sig = 18 + dent * 7 + press * 4;
+      var depth = dent * 18 * (down ? 1 : breathe), sig = 12 + dent * 6 + press * 3;
       var fx = x - vx * press * 1.6, fy = y - vy * press * 1.6;   /* a pressed finger drags the cloth behind it */
       /* the funnel itself is drawn exactly in the shader; the membrane carries a
          shallower, wider share of it, so a drag leaves a wake and a release wobbles */
@@ -310,6 +316,8 @@
           gl.uniform2f(U.uP, fx, fy); gl.uniform1f(U.uDepth, depth); gl.uniform1f(U.uSig, sig);
           gl.uniform2f(U.uDir, ux, uy); gl.uniform1f(U.uDrag, drag); gl.uniform1f(U.uT, t);
           gl.uniform1f(U.uOn, on); gl.uniform1f(U.uDark, dark ? 1 : 0);
+          /* the lamp wanders a slow figure over the viewport, 240px above it */
+          gl.uniform3f(U.uLp, VW * (0.5 + 0.45 * Math.sin(t * 0.23)), VH * (0.45 + 0.4 * Math.sin(t * 0.13 + 1.3)), 170);
           gl.drawArrays(gl.TRIANGLES, 0, 3);
         }
       }
@@ -581,18 +589,47 @@
       });
       host.appendChild(parts);
     }
-    var f = FACTS[Math.floor(Math.random() * FACTS.length)], txt = zh ? f[1] : f[0];
+    /* vitals on a monitor either side of the mark; the heart rate ticks with the beat */
+    if (tile) {
+      var V = [['HR', '72', 'bpm', 'l'], ['SpO₂', '98', '%', 'l'], ['BP', '118/76', 'mmHg', 'r'], [zh ? '体温' : 'Temp', '36.8', '°C', 'r']];
+      var vit = document.createElement('div');
+      vit.className = 'sg-vitals';
+      vit.setAttribute('aria-hidden', 'true');
+      vit.innerHTML = V.map(function (v, i) {
+        return '<div class="sg-vital sg-vital-' + v[3] + '" style="--i:' + i + '"><span class="k">' + v[0] + '</span><span class="v">' + v[1] + '</span><span class="u">' + v[2] + '</span></div>';
+      }).join('');
+      tile.appendChild(vit);
+      var hr = vit.querySelector('.v'), bpm = 72;
+      (function tick() {
+        if (!host.isConnected) return;
+        bpm = Math.max(66, Math.min(80, bpm + Math.round(Math.random() * 4 - 2)));
+        hr.textContent = bpm;
+        setTimeout(tick, 60000 / bpm * 1.5);
+      })();
+    }
+    /* two facts, one after the other, typed out */
+    var pick = FACTS.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 2);
     var fact = document.createElement('div');
     fact.className = 'sg-fact';
     fact.innerHTML = '<b>' + (zh ? '你知道吗？' : 'Did you know?') + '</b> <span></span><i class="sg-caret"></i>';
     host.appendChild(fact);
-    var sp = fact.querySelector('span'), k = 0;
-    setTimeout(function type() {
-      if (!host.isConnected || k >= txt.length) return;
-      k += zh ? 1 : 2; sp.textContent = txt.slice(0, k);
-      setTimeout(type, zh ? 42 : 24);
-    }, 1500);
-    var STAGES = zh ? ['热身中', '拉伸中', '检查生命体征', '准备就绪'] : ['Warming up', 'Stretching', 'Checking vitals', 'Ready'];
+    var sp = fact.querySelector('span');
+    function typeFact(txt, at) {
+      var k = 0;
+      setTimeout(function type() {
+        if (!host.isConnected || k >= txt.length) return;
+        k += zh ? 1 : 2; sp.textContent = txt.slice(0, k);
+        setTimeout(type, zh ? 40 : 20);
+      }, at);
+    }
+    typeFact(zh ? pick[0][1] : pick[0][0], 1400);
+    if (hold > 5000 && pick[1]) {
+      setTimeout(function () { if (!host.isConnected) return; fact.classList.add('swap'); setTimeout(function () { sp.textContent = ''; fact.classList.remove('swap'); }, 380); }, hold * 0.52);
+      typeFact(zh ? pick[1][1] : pick[1][0], hold * 0.52 + 420);
+    }
+    /* the last moment: a pulse of light off the mark and a shine across the name */
+    setTimeout(function () { if (host.isConnected) host.classList.add('sg-welcome'); }, Math.max(0, hold - 1100));
+    var STAGES = zh ? ['热身中', '拉伸中', '检查生命体征', '载入章节', '准备练习', '准备就绪'] : ['Warming up', 'Stretching', 'Checking vitals', 'Loading chapters', 'Preparing practice', 'Ready'];
     var prog = document.createElement('div');
     prog.className = 'sg-prog';
     prog.style.setProperty('--hold', hold + 'ms');
@@ -747,9 +784,10 @@
       if (!root.classList.contains('os-semi')) return;
       var R = sb.clientHeight / 2, st = sb.scrollTop;
       var RV = R * 0.84;           /* the glass feathers out at ~0.86R: fit the ribbons to what you see */
-      rows.forEach(function (row) {
-        var h = row.offsetHeight;
-        var dy = topIn(row) - st + h / 2 - R;
+      /* read every row's geometry first, then write: interleaving forced a layout per row */
+      var geo = rows.map(function (row) { return topIn(row) + row.offsetHeight / 2; });
+      rows.forEach(function (row, i) {
+        var dy = geo[i] - st - R;
         var ad = Math.min(Math.abs(dy), RV * 0.999), k = ad / RV;
         var w = Math.sqrt(RV * RV - ad * ad);
         row.style.setProperty('--sg-w', Math.max(56, w - 6).toFixed(0) + 'px');
@@ -788,7 +826,7 @@
   var fogT = 0;
   function settle() {
     clearTimeout(fogT);
-    root.classList.remove('sg-lf', 'sg-lf-hand');
+    root.classList.remove('sg-lf', 'sg-lf-hand', 'sg-lf-go');
   }
   function armSettle() {
     clearTimeout(fogT);
@@ -796,16 +834,25 @@
   }
   function pageFogIn(hand) {
     if (REDUCE) return;
-    root.classList.remove('sg-lf', 'sg-lf-hand');
+    root.classList.remove('sg-lf', 'sg-lf-hand', 'sg-lf-go');
     void root.offsetWidth;                      /* restart the animation */
-    root.classList.add(hand ? 'sg-lf-hand' : 'sg-lf');
+    root.classList.add(hand ? 'sg-lf-hand' : 'sg-lf', 'sg-lf-go');
     armSettle();
   }
   function pageFog() {
     root.addEventListener('animationend', function (e) {
       if (e.target === root && /^sg-page-/.test(e.animationName)) settle();
     });
-    if (root.classList.contains('sg-lf')) armSettle();
+    /* the fog holds, fully blurred, until the page has really painted: two
+       frames after the deferred scripts ran. Starting it on a clock meant a
+       slow load (CDN scripts, a long page) finished the animation before the
+       first frame ever showed, so the page just appeared sharp. */
+    if (root.classList.contains('sg-lf')) {
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        root.classList.add('sg-lf-go');
+        armSettle();
+      }); });
+    }
     window.addEventListener('pageshow', function (e) { if (e.persisted) settle(); });
   }
 
@@ -1092,6 +1139,40 @@
     sync();
   }
 
+  /* ─── Landing top bar for visitors who aren't signed in ────────────── */
+  /* index.html is the signed-out front door (accounts are redirected to
+     home.html unless they ask for ?landing=1). There the bar keeps only what
+     a visitor needs: the wordmark, the page's own anchors, 中/EN, the theme,
+     Log in and a Sign up pill. The category pills, Study Tools, search, the
+     tutorial replay and the bell stay for people with an account. */
+  function guestBar() {
+    if (!body.classList.contains('landing')) return;
+    var u = null;
+    try { u = JSON.parse(localStorage.getItem('sm_user') || 'null'); } catch (e) {}
+    if (u && u.email && !u.suspended) return;
+    root.classList.add('sg-guestbar');
+    function addSignup() {
+      var login = document.getElementById('loginBtn');
+      if (!login || document.querySelector('.sg-signup')) return !!login;
+      var a = document.createElement('a');
+      a.className = 'sg-signup';
+      a.href = 'login.html?tab=signup';
+      a.setAttribute('data-en', 'Sign up'); a.setAttribute('data-zh', '注册');
+      a.textContent = body.classList.contains('lang-zh') ? '注册' : 'Sign up';
+      (login.closest('#logWrap') || login).insertAdjacentElement('afterend', a);
+      return true;
+    }
+    if (!addSignup()) {                                /* auth-widget may build the button later */
+      var mo = new MutationObserver(function () { if (addSignup()) mo.disconnect(); });
+      mo.observe(body, { childList: true, subtree: true });
+      setTimeout(function () { mo.disconnect(); }, 8000);
+    }
+    new MutationObserver(function () {
+      var a = document.querySelector('.sg-signup');
+      if (a) a.textContent = body.classList.contains('lang-zh') ? '注册' : 'Sign up';
+    }).observe(body, { attributes: true, attributeFilter: ['class'] });
+  }
+
   /* ─── Boot ───────────────────────────────────────────────────────────── */
   function boot() {
     safe(mountGrain);
@@ -1105,6 +1186,7 @@
     safe(wheel);
     safe(pillEmblems);
     safe(mobileNav);
+    safe(guestBar);
     safe(readBar);
     safe(studyDeepLink);
     safe(fog);

@@ -873,10 +873,10 @@ body:not(.dark) #v-splash{
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
 <script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=8">
-<script src="soft-fx.js?v=8" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=9">
+<script src="soft-fx.js?v=9" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=2">
-<script src="knowledge-fx.js?v=2" defer></script>
+<script src="knowledge-fx.js?v=3" defer></script>
 <script src="ai-usage.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
@@ -1009,7 +1009,7 @@ body:not(.dark) #v-splash{
     }
     /* long enough to take in (the skin layer plays a heartbeat, the three
        parts of the site and a fact over it); any tap or key skips it */
-    var hold=reduce?1000:4600,left=false;
+    var hold=reduce?1000:7600,left=false;
     s.setAttribute('data-hold',hold);
     function skip(){leave();}
     ['pointerdown','keydown','wheel','touchstart'].forEach(function(t){window.addEventListener(t,skip,{passive:true,once:true});});

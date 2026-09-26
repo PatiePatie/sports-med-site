@@ -74,7 +74,7 @@ body{background-color:var(--bg)}
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:sg-vt-out .28s cubic-bezier(.4,0,1,1) both}
 ::view-transition-new(root){animation:sg-vt-in .3s ease-out both}
-@keyframes sg-vt-out{to{opacity:0;filter:blur(10px);transform:scale(.992)}}
+@keyframes sg-vt-out{to{opacity:0;transform:scale(.992)}}   /* no blur: a full-page filter per frame stutters */
 @keyframes sg-vt-in{from{opacity:0}}   /* the blur-to-clear is html.sg-lf's job */
 /* the top bar holds still between pages instead of fading with them */
 body.lin-v2 .lin-topbar{view-transition-name:sg-topbar}
@@ -461,7 +461,7 @@ body:not(.dark) #v-splash{
 #v-splash .v-forest,#v-splash .v-hosp{display:block!important}
 #v-splash .v-hosp{opacity:.92!important}
 #v-splash .v-forest{opacity:.7!important}
-#v-splash.v-splash-off,#v-loader.v-loader-off{
+#v-splash.v-splash-off{
   opacity:0!important;filter:blur(18px);transform:scale(1.04);
   transition:opacity .7s var(--sg-ease),filter .7s var(--sg-ease),transform .9s var(--sg-ease)!important}
 .sg-icons{position:absolute;inset:0;pointer-events:none;z-index:0}
@@ -501,6 +501,32 @@ body:not(.dark) #v-splash{
 .sg-prog-t.flip{animation:sg-flip .45s cubic-bezier(.16,1,.3,1)}
 @keyframes sg-flip{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .sg-skip{position:absolute!important;top:1.4rem;left:0;right:0;text-align:center;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--vtag);opacity:0;animation:v-rise .6s 1.8s forwards}
+/* vitals either side of the mark, like a bedside monitor */
+.sg-vitals{position:absolute;inset:0;pointer-events:none}
+.sg-vital{position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:80px;padding:.4rem .65rem;border-radius:13px;
+  color:var(--vname);font-family:inherit;font-variant-numeric:tabular-nums;white-space:nowrap;
+  background:color-mix(in srgb,var(--vname) 6%,transparent);border:1px solid color-mix(in srgb,var(--vname) 14%,transparent);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;
+  animation:sg-vital-in .7s cubic-bezier(.34,1.4,.64,1) forwards;animation-delay:calc(1s + var(--i) * .16s)}
+.sg-vital-l{right:calc(100% + 20px)}
+.sg-vital-r{left:calc(100% + 20px)}
+.sg-vital:nth-child(odd){top:-20px}
+.sg-vital:nth-child(even){top:52px}
+.sg-vital .k{font-size:.54rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+.sg-vital .v{font-size:1.05rem;font-weight:800;line-height:1.1}
+.sg-vital .u{font-size:.54rem;letter-spacing:.1em;opacity:.55}
+.sg-vital:first-child .v{color:var(--vacc)}
+@keyframes sg-vital-in{from{opacity:0;transform:translateY(10px) scale(.85);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.sg-fact span{transition:opacity .35s,filter .35s}
+.sg-fact.swap span{opacity:0;filter:blur(5px)}
+/* the finale: light pulses off the mark, a shine runs across the name */
+#v-splash .v-tile::before{content:"";position:absolute;inset:-4px;border-radius:26px;pointer-events:none;opacity:0;border:2px solid var(--vacc)}
+#v-splash.sg-welcome .v-tile::before{animation:sg-welcome-ring 1.1s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes sg-welcome-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.6)}}
+#v-splash.sg-welcome .v-name{opacity:1;animation:v-rise .01s both,sg-shine 1.1s cubic-bezier(.3,.6,.3,1) both}
+@keyframes sg-shine{0%{text-shadow:0 0 0 transparent;letter-spacing:-.02em}45%{text-shadow:0 0 22px color-mix(in srgb,var(--vacc) 70%,transparent),0 0 2px #fff;letter-spacing:.01em}100%{text-shadow:0 0 0 transparent;letter-spacing:-.02em}}
+@media (max-width:640px){.sg-vital{min-width:60px;padding:.3rem .45rem}.sg-vital .v{font-size:.85rem}.sg-vital-l{right:calc(100% + 10px)}.sg-vital-r{left:calc(100% + 10px)}}
+@media (prefers-reduced-motion:reduce){.sg-vital{animation:none;opacity:1}}
 @media (max-width:640px){.sg-ico-apple,.sg-ico-dumbbell{display:none}.sg-parts{gap:1rem}.sg-part-i{width:42px;height:42px}.sg-fact{font-size:.82rem}}
 @media (prefers-reduced-motion:reduce){.sg-part,.sg-fact,.sg-prog,.sg-skip{animation:none;opacity:1}.sg-ecg path{animation:none;stroke-dashoffset:0}#v-splash .v-tile.sg-beat{animation:none}}
 @media (max-width:640px){.sg-ico{width:calc(var(--w,96px) * .62)}}
@@ -595,32 +621,26 @@ body.dark .sg-f-wake{background:repeating-linear-gradient(0deg,transparent 0 9px
    so with the dimple parked the sheen and the button spotlight both stay. */
 html.sg-fab .sg-sheen::before,html.sg-fab .vt-spot{display:none!important}
 
-/* ── Page arrival: the page comes up out of a fog, clearing from the middle ──
-   html.sg-lf is set by the head-first script before first paint. The fog is a
-   fixed veil (backdrop blur + a milky tint) whose mask is a hole that opens
-   from the centre of the screen outward, so the middle is sharp first and the
-   edges clear last. soft-fx.js drops the class when the animation ends, so no
-   backdrop filter is left behind on the page. */
-@property --sg-fr{syntax:'<length>';inherits:false;initial-value:0px}
+/* ── Page arrival: the page comes up out of a fog ────────────────────────────
+   html.sg-lf is set by the head-first script before first paint, so the page
+   is born blurred. The fog HOLDS until soft-fx.js adds .sg-lf-go two frames
+   after it runs (the page has really painted), then lifts. Only opacity
+   animates, which the compositor does on its own: the old mask-radius
+   animation repainted a full-screen backdrop blur every frame, and that is
+   what made arriving on a page (and switching category) stutter, worst in
+   Firefox/Zen. The tint is stronger in the middle-out gradient so the centre
+   still reads as clearing first. If the script never runs, the fog lifts
+   after 5 s anyway. */
 html.sg-lf::after,html.sg-lf-hand::after{content:"";position:fixed;inset:0;z-index:2147482994;pointer-events:none;
-  background:color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 34%,transparent);
-  -webkit-backdrop-filter:blur(18px) saturate(.8);backdrop-filter:blur(18px) saturate(.8);
-  -webkit-mask-image:radial-gradient(circle at 50% 46%,transparent var(--sg-fr),#000 calc(var(--sg-fr) + 34vmax));
-          mask-image:radial-gradient(circle at 50% 46%,transparent var(--sg-fr),#000 calc(var(--sg-fr) + 34vmax))}
-html.sg-lf::after{animation:sg-page-in 2.4s cubic-bezier(.33,.1,.25,1) both}
-@keyframes sg-page-in{
-  0%{--sg-fr:-34vmax;opacity:1}
-  12%{--sg-fr:-30vmax;opacity:1}
-  86%{opacity:1}
-  100%{--sg-fr:96vmax;opacity:0}}
-/* after a splash/loader: it leaves sharp → the fog rolls in → clears from the middle */
-html.sg-lf-hand::after{animation:sg-page-hand 2.7s cubic-bezier(.33,.1,.25,1) both}
-@keyframes sg-page-hand{
-  0%{--sg-fr:-34vmax;opacity:0}
-  20%{--sg-fr:-34vmax;opacity:1}
-  30%{--sg-fr:-30vmax}
-  88%{opacity:1}
-  100%{--sg-fr:96vmax;opacity:0}}
+  background:radial-gradient(120% 110% at 50% 46%,color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 22%,transparent) 0%,color-mix(in srgb,var(--sg-wash-base,#E4E9F0) 46%,transparent) 100%);
+  -webkit-backdrop-filter:blur(16px) saturate(.8);backdrop-filter:blur(16px) saturate(.8);will-change:opacity}
+html.sg-lf:not(.sg-lf-go)::after{animation:sg-page-safety 1.6s 5s cubic-bezier(.4,0,.2,1) both}
+html.sg-lf.sg-lf-go::after{animation:sg-page-in 1.6s .12s cubic-bezier(.4,0,.2,1) both}
+@keyframes sg-page-in{0%{opacity:1}100%{opacity:0}}
+@keyframes sg-page-safety{0%{opacity:1}100%{opacity:0}}   /* a different name, so .sg-lf-go restarts from full fog */
+/* after a splash/loader: it leaves sharp → the fog rolls in → lifts */
+html.sg-lf-hand::after{animation:sg-page-hand 2.2s cubic-bezier(.4,0,.2,1) both}
+@keyframes sg-page-hand{0%{opacity:0}22%{opacity:1}34%{opacity:1}100%{opacity:0}}
 
 /* ── Theme + language swaps (soft-fx.js → view transition) ───────────────── */
 @property --sg-r{syntax:'<length>';inherits:true;initial-value:0px}
@@ -696,7 +716,7 @@ html.sg-catgo::before,.sg-catwash{
     radial-gradient(70% 60% at 50% 44%,color-mix(in srgb,var(--sg-wash-ink) 34%,var(--sg-wash-base)) 0%,transparent 70%),
     radial-gradient(120% 90% at 50% 110%,color-mix(in srgb,var(--sg-wash-ink) 16%,var(--sg-wash-base)),var(--sg-wash-base) 70%)}
 html.sg-catgo::before{content:"";position:fixed;inset:0;z-index:2147482995}
-.sg-catwash{position:fixed;inset:0;z-index:2147482995;display:flex;align-items:center;justify-content:center;
+.sg-catwash{position:fixed;inset:0;z-index:2147482995;display:flex;will-change:opacity,transform;align-items:center;justify-content:center;
   pointer-events:none;color:var(--sg-wash-text)}
 .sg-cw-in{display:flex;flex-direction:column;align-items:center;gap:.7rem}
 .sg-cw-emb{width:132px;filter:drop-shadow(0 14px 24px color-mix(in srgb,var(--sg-wash-ink) 40%,transparent))}
@@ -706,13 +726,13 @@ html.sg-catgo::before{content:"";position:fixed;inset:0;z-index:2147482995}
 /* leaving: the wash fogs in over the old page */
 .sg-catwash.sg-cw-enter{animation:sg-cw-enter .34s cubic-bezier(.3,.6,.3,1) both}
 .sg-catwash.sg-cw-enter .sg-cw-in{animation:sg-cw-rise .5s var(--sg-ease) .06s both}
-@keyframes sg-cw-enter{from{opacity:0;filter:blur(18px)}}
+@keyframes sg-cw-enter{from{opacity:0}}
 @keyframes sg-cw-rise{from{opacity:0;transform:translateY(14px) scale(.9);filter:blur(8px)}}
 /* arriving: the wash lifts off like mist while the page clears underneath */
 .sg-catwash.sg-cw-out{animation:sg-cw-out .75s cubic-bezier(.4,0,.2,1) both}
 .sg-catwash.sg-cw-out .sg-cw-in{animation:sg-cw-float .75s cubic-bezier(.4,0,.2,1) both}
-@keyframes sg-cw-out{to{opacity:0;filter:blur(20px);transform:scale(1.05)}}
-@keyframes sg-cw-float{to{transform:translateY(-18px) scale(1.06)}}
+@keyframes sg-cw-out{to{opacity:0;transform:scale(1.04)}}
+@keyframes sg-cw-float{to{transform:translateY(-18px) scale(1.06);filter:blur(6px)}}
 @media (prefers-reduced-motion:reduce){
   html.sg-lf::after,html.sg-lf-hand::after{display:none}
   html.sg-catgo::before,.sg-catwash{display:none}
@@ -889,3 +909,20 @@ header a:hover,.lin-topbar a:hover,.landing-nav a:hover,.log-item:hover,.lin-stu
 }
 @keyframes sgNavIn{from{opacity:0;transform:translateX(-22px);filter:blur(3px)}}
 @media (prefers-reduced-motion:reduce){html.sg-nav-open .sidebar *{animation:none!important}}
+
+/* ── Landing bar for visitors who aren't signed in (soft-fx.js guestBar) ────
+   Wordmark, the page's anchors, 中/EN, theme, Log in and Sign up — nothing
+   that only makes sense with an account. */
+html.sg-guestbar .sec-switcher,
+html.sg-guestbar .lin-study-wrap,
+html.sg-guestbar .tut-replay,
+html.sg-guestbar .lin-search,
+html.sg-guestbar .nb-bell,html.sg-guestbar .nb-pop,
+html.sg-guestbar .sg-menu{display:none!important}
+html.sg-guestbar .sg-signup{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 1.05rem;margin-left:.5rem;border-radius:999px;
+  font-weight:700;font-size:.82rem;letter-spacing:.04em;text-decoration:none!important;white-space:nowrap;color:#fff!important;
+  background:linear-gradient(135deg,var(--os-crimson,#C23A43),#9E2A33);box-shadow:var(--sg-raise-xs),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .25s var(--sg-ease),box-shadow .25s var(--sg-ease)}
+html.sg-guestbar .sg-signup:hover{transform:translateY(-1px)}
+html.sg-guestbar .sg-signup:active{transform:scale(.96);box-shadow:var(--sg-press-sm)}
+.sg-signup{display:none}

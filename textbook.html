@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
-<title>IB SEHS First Assessment 2026 — Vitalité</title>
+<title>Vitalité Textbook — Vitalité</title>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
 <link rel="stylesheet" href="tutorial-widget.css?v=6">
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="vitalite-skin.css?v=20">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js" defer></script>
-<script src="linear-layout.js?v=14" defer></script>
+<script src="linear-layout.js?v=15" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -37,6 +37,10 @@
 <script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 <style>
+/* the cover title, set as a proper name */
+.tb-title{font-weight:800;letter-spacing:.06em}
+.tb-hero h1{text-transform:uppercase}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{--bg:#edf3f8;--surface:#fff;--surface2:#f5f8fb;--text:#10213a;--text2:#465b73;--line:#d5e0e9;--blue:#173f80;--blue2:#2563a8;--red:#b4232f;--gold:#d7a829;--green:#24745a;--shadow:0 12px 34px rgba(16,33,58,.09);--radius:18px;--font:"Avenir Next","Helvetica Neue",Arial,"Songti SC","SimSun",sans-serif;--serif:Georgia,"Songti SC",serif}
@@ -294,7 +298,7 @@ body.lang-zh .tb-arc{border-left-color:var(--accent)}
     <section class="hero tb-hero" id="start">
       <div class="container">
         <span class="kicker" data-en="Vitalité · Sports Medicine" data-zh="Vitalité · 运动医学">Vitalité · Sports Medicine</span>
-        <h1><span data-en="The Vitalité Textbook" data-zh="Vitalité 教材">The Vitalité Textbook</span></h1>
+        <h1 class="tb-title"><span data-en="VITALITE TEXTBOOK" data-zh="VITALITE 教材">VITALITE TEXTBOOK</span></h1>
         <p class="lead" data-en="A bilingual sports-medicine textbook in 14 chapters, built for the NPTE and the 运动康复师资格证 tracks. Read a chapter, test yourself on it, then come back to the one that failed you." data-zh="一本双语运动医学教材，共14章，面向 NPTE 与运动康复师资格证两条路径。读一章，测一章，再回到没掌握的那一章。">A bilingual sports-medicine textbook in 14 chapters, built for the NPTE and the 运动康复师资格证 tracks. Read a chapter, test yourself on it, then come back to the one that failed you.</p>
         <div class="tb-cta">
           <a class="btn primary" href="guide.html#ch1" data-en="Start Learning · 开始学习" data-zh="开始学习 · Start Learning">Start Learning · 开始学习</a>

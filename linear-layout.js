@@ -78,6 +78,7 @@
   var PAGES = [
     { file: 'index.html',   en: 'Overview',       zh: '概览',              icon: 'home' },
     { file: 'home.html',    en: 'Home',           zh: '首页',              icon: 'home' },
+    { file: 'textbook.html', en: 'Textbook Cover', zh: '教材封面',          icon: 'bookmark' },
     { file: 'guide.html',   en: 'Vitalite Textbook', zh: 'Vitalité 教材',       icon: 'book' },
     { file: 'toc.html',     en: 'Knowledge Hub',  zh: '知识中心',          icon: 'list' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },

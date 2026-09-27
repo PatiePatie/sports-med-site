@@ -768,6 +768,73 @@ body.dark h1,body.dark h2,body.dark h3{
 .sidebar-group.part.open .part-body{max-height:700px}
 .part-body .sidebar-link{padding-left:1.7rem}
 .part-body .sidebar-link.sub{padding-left:2.2rem}
+
+
+/* ═══ G10 Biology · interactive layer (quiz + flashcards) ═══════════════ */
+.g10-modal{position:fixed;inset:0;z-index:9200;display:none;align-items:center;justify-content:center;padding:1rem}
+.g10-modal.open{display:flex}
+.g10-backdrop{position:absolute;inset:0;background:rgba(8,14,24,.62);backdrop-filter:blur(3px)}
+.g10-box{position:relative;width:min(720px,100%);max-height:88vh;overflow-y:auto;
+  background:var(--surface);border:1px solid var(--border);border-radius:18px;
+  box-shadow:0 24px 60px rgba(8,14,24,.35);padding:1.4rem 1.5rem}
+.g10-box.wide{width:min(880px,100%)}
+.g10-close{position:absolute;top:.7rem;right:.7rem;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:1.1rem;line-height:1}
+.g10-head{margin-bottom:1rem}
+.g10-head h2{font-family:var(--font-heading);font-size:1.35rem;margin:0 0 .25rem;color:var(--text)}
+.g10-head p{margin:0;color:var(--text2);font-size:.86rem}
+.g10-setup{display:grid;gap:1rem}
+.g10-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.g10-row b{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.g10-chip{min-height:40px;padding:.5rem .85rem;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font:inherit;font-size:.84rem;font-weight:600;cursor:pointer}
+.g10-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.g10-bar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--accent) 14%,transparent);overflow:hidden;margin:.8rem 0}
+.g10-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .3s ease}
+.g10-meta{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--text3);margin-bottom:.8rem}
+.g10-q{font-size:1.05rem;font-weight:600;line-height:1.5;color:var(--text);margin-bottom:.9rem}
+.g10-opts{display:grid;gap:.5rem;margin-bottom:.9rem}
+.g10-opt{text-align:left;min-height:48px;padding:.7rem .9rem;border-radius:12px;
+  border:1px solid var(--border);background:var(--surface2);color:var(--text);
+  font:inherit;font-size:.92rem;line-height:1.45;cursor:pointer;transition:border-color .15s,background .15s}
+.g10-opt:hover:not(:disabled){border-color:var(--accent)}
+.g10-opt.correct{border-color:var(--green);background:color-mix(in srgb,var(--green) 14%,var(--surface2));font-weight:700}
+.g10-opt.wrong{border-color:#dc2626;background:color-mix(in srgb,#dc2626 12%,var(--surface2))}
+.g10-opt:disabled{cursor:default;opacity:.95}
+.g10-ex{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);
+  padding:.75rem .9rem;border-radius:0 10px 10px 0;font-size:.88rem;line-height:1.55;color:var(--text2);margin-bottom:.9rem}
+.g10-ex b{color:var(--text)}
+.g10-acts{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:space-between}
+.g10-btn{min-height:44px;padding:.6rem 1.1rem;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font:inherit;font-size:.88rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.g10-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.g10-btn:disabled{opacity:.45;cursor:not-allowed}
+.g10-score{text-align:center;padding:1rem 0}
+.g10-score .big{font-family:var(--font-heading);font-size:3rem;font-weight:900;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.g10-score p{color:var(--text2);margin:.6rem 0 1.1rem}
+.g10-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(10px,1fr));gap:5px;max-width:340px;margin:0 auto 1.1rem}
+.g10-grid i{aspect-ratio:1;border-radius:3px;background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.g10-grid i.ok{background:var(--green)}
+.g10-grid i.no{background:#dc2626}
+/* flashcard */
+.g10-fc{perspective:1200px;margin-bottom:1rem}
+.g10-fci{position:relative;min-height:190px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.g10-fc.flipped .g10-fci{transform:rotateY(180deg)}
+.g10-face{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:1.3rem;border-radius:16px;border:1px solid var(--border)}
+.g10-front{background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 16%,var(--surface)),var(--surface))}
+.g10-back{background:linear-gradient(150deg,color-mix(in srgb,var(--green) 14%,var(--surface)),var(--surface));transform:rotateY(180deg)}
+.g10-face b{font-family:var(--font-heading);font-size:1.3rem;line-height:1.3;color:var(--text)}
+.g10-face span{margin-top:.7rem;font-size:.92rem;line-height:1.6;color:var(--text2)}
+.g10-hint{text-align:center;font-size:.76rem;color:var(--text3);margin-top:.5rem}
+@media (max-width:600px){
+  .g10-box{padding:1.1rem 1rem;border-radius:16px}
+  .g10-face b{font-size:1.1rem}
+  .g10-acts .g10-btn{flex:1 1 auto;justify-content:center}
+}
+/* the three launcher buttons on the page */
+.g10-launch{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+.g10-launch .g10-btn{min-height:46px}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -775,13 +842,13 @@ body.dark h1,body.dark h2,body.dark h3{
 <script src="tutorial-widget.js?v=6"></script>
 <script src="auth-gate.js?v=2"></script>
 <link rel="stylesheet" href="gold-blue-theme.css?v=14">
-  <script src="loader.js?v=6"></script>
+  <script src="loader.js?v=7"></script>
 <link rel="stylesheet" href="sections.css?v=9">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=20">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=15" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -3524,6 +3591,297 @@ document.addEventListener('DOMContentLoaded', function(){
   if(!toOpen){ toOpen=side.querySelector('.sidebar-group.part'); }
   if(toOpen&&!toOpen.classList.contains('open')) toOpen.classList.add('open');
 
+})();
+</script>
+
+
+<script>
+/* G10 Biology interactive layer — self-contained quiz + flashcards.
+   g10-bio.html inherits openQuizMode/openFlashcards from the shared engine
+   but ships none of the panels they drive, so they throw. These do not rely
+   on that contract. */
+(function(){
+  'use strict';
+  var BANK = [{"unit": 1, "en": "Which four elements make up the bulk of living matter?", "zh": "构成生命物质的四种主要元素是什么？", "opts": ["Carbon, hydrogen, oxygen and nitrogen", "Carbon, oxygen, iron and calcium", "Sodium, potassium, chlorine and calcium", "Carbon, hydrogen, oxygen and phosphorus"], "optsz": ["碳、氢、氧、氮", "碳、氧、铁、钙", "钠、钾、氯、钙", "碳、氢、氧、磷"], "c": 0, "ex": "Section 1.1 lists CHON — carbon, hydrogen, oxygen and nitrogen — as the four elements life is built from. Phosphorus matters for DNA and ATP but is not one of the four bulk elements.", "exz": "1.1 节列出 CHON——碳、氢、氧、氮——是构成生命的四种元素。磷对 DNA 和 ATP 很重要，但不属于这四种主要元素。"}, {"unit": 1, "en": "CO₂ contains carbon. Why is it still classed as an inorganic compound?", "zh": "CO₂ 含有碳，为什么仍被归为无机化合物？", "opts": ["Because it dissolves in water", "Because it contains no C–H bonds", "Because it is a gas", "Because it has an even number of atoms"], "optsz": ["因为它能溶于水", "因为它不含 C–H 键", "因为它是气体", "因为它的原子数是偶数"], "c": 1, "ex": "Section 1.2 gives the key exception: CO₂ has carbon but no C–H bond, so it is inorganic. The C–H bond, not carbon alone, is the test.", "exz": "1.2 节给出关键例外：CO₂ 含碳但没有 C–H 键，因此属于无机物。判断标准是 C–H 键，而非是否含碳。"}, {"unit": 1, "en": "An element is best defined as…", "zh": "元素最准确的定义是……", "opts": ["Any substance found only in living things", "A molecule made of one type of atom", "A substance that cannot be broken down into simpler substances", "The smallest unit of an element"], "optsz": ["只存在于生命体中的物质", "由同种原子组成的分子", "不能再分解成更简单物质的物质", "元素的最小单位"], "c": 2, "ex": "Section 1.1 separates the three terms: an element cannot be broken down further, an atom is its smallest unit, and a molecule is atoms joined together.", "exz": "1.1 节区分了这三个术语：元素不能再分解，原子是元素的最小单位，分子是原子结合而成的。"}, {"unit": 1, "en": "Protein powder is digestible mainly because…", "zh": "蛋白粉之所以能被消化，主要是因为……", "opts": ["Stomach acid dissolves the protein into sugars", "The powder is already broken down into amino acids", "Fat in the powder protects the protein from enzymes", "Digestive enzymes hydrolyse peptide bonds, releasing free amino acids"], "optsz": ["胃酸把蛋白质分解成糖", "蛋白粉本身已是氨基酸", "粉末中的脂肪保护蛋白质免受酶作用", "消化酶水解肽键，释放游离氨基酸"], "c": 3, "ex": "Section 1.3: enzymes break peptide bonds by hydrolysis, so amino acids are released in a form the intestine can absorb.", "exz": "1.3 节：酶通过水解断裂肽键，因此以小肠可吸收的氨基酸形式释放。"}, {"unit": 2, "en": "Which element set distinguishes proteins from carbohydrates?", "zh": "哪一组元素可以区分蛋白质与碳水化合物？", "opts": ["Proteins contain nitrogen; carbohydrates do not", "Proteins contain phosphorus; carbohydrates do not", "Carbohydrates contain nitrogen; proteins do not", "Both contain exactly the same four elements in the same ratio"], "optsz": ["蛋白质含氮，碳水化合物不含氮", "蛋白质含磷，碳水化合物不含磷", "碳水化合物含氮，蛋白质不含氮", "两者含相同四种元素且比例相同"], "c": 0, "ex": "Section 2.2's mnemonic: carbs and lipids are CHO, proteins are CHON, nucleic acids CHONP. Nitrogen is the extra element in proteins.", "exz": "2.2 节的口诀：碳水与脂肪为 CHO，蛋白质为 CHON，核酸为 CHONP。氮是蛋白质多出的元素。"}, {"unit": 2, "en": "Both carbohydrates and lipids contain only C, H and O. How do you tell them apart?", "zh": "碳水化合物与脂肪都只含 C、H、O，如何区分？", "opts": ["Lipids have a 1:2:1 carbon-to-hydrogen-to-oxygen ratio", "Lipids have far more carbon and hydrogen relative to oxygen, and form long chains", "Lipids always contain nitrogen", "Carbohydrates are always branched"], "optsz": ["碳水化合物的碳氢氧比例为 1:2:1", "脂肪的碳氢相对氧多得多，且形成长链", "脂肪一定含氮", "碳水化合物一定是支链的"], "c": 1, "ex": "Section 2.2 flags exactly this trap. Carbohydrates hold a roughly 1:2:1 C:H:O ratio; lipids are far more C and H rich.", "exz": "2.2 节特别指出这个陷阱。碳水化合物的碳氢氧比约为 1:2:1，而脂肪的碳、氢比例远高于此。"}, {"unit": 2, "en": "What is the monomer of a polysaccharide?", "zh": "多糖的单体是什么？", "opts": ["A nucleotide", "A fatty acid", "A monosaccharide", "An amino acid"], "optsz": ["核苷酸", "脂肪酸", "单糖", "氨基酸"], "c": 2, "ex": "Section 2.1 pairs each biomolecule with its monomer: carbohydrate → monosaccharide, protein → amino acid, nucleic acid → nucleotide.", "exz": "2.1 节把每类生物分子与其单体对应：碳水化合物→单糖，蛋白质→氨基酸，核酸→核苷酸。"}, {"unit": 2, "en": "Which biomolecule contains phosphorus?", "zh": "哪一类生物分子含磷？", "opts": ["Carbohydrates", "Lipids", "Proteins", "Nucleic acids"], "optsz": ["碳水化合物", "脂肪", "蛋白质", "核酸"], "c": 3, "ex": "Section 2.2's CHONP belongs to nucleic acids — the P is the phosphate in the backbone of DNA and RNA.", "exz": "2.2 节的 CHONP 属于核酸，其中的 P 是 DNA 与 RNA 骨架上的磷酸基团。"}, {"unit": 3, "en": "In a condensation reaction…", "zh": "在缩合反应中……", "opts": ["Monomers join to form a polymer and water is released", "A polymer breaks into monomers and water is used", "Water is released and monomers are separated", "Nothing changes; only energy is exchanged"], "optsz": ["单体结合形成聚合物，同时释放水", "聚合物分解为单体，同时消耗水", "释放水并将单体分开", "没有变化，只交换能量"], "c": 0, "ex": "Section 3.2: condensation builds polymers and RELEASES water; it is the anabolic (合成代谢) direction.", "exz": "2.3 节：缩合构建聚合物并释放水，属于合成代谢方向。"}, {"unit": 3, "en": "Hydrolysis is the chemical opposite of condensation. What does it consume?", "zh": "水解是缩合的化学逆反应，它消耗什么？", "opts": ["Oxygen, oxidising the polymer", "Water, splitting a polymer back into monomers", "Water, joining monomers into a polymer", "Glucose, producing ATP directly"], "optsz": ["氧，氧化聚合物", "水，将聚合物分解为单体", "水，将单体连成聚合物", "葡萄糖，直接产生 ATP"], "c": 1, "ex": "Section 3.2: hydrolysis splits a polymer and USES water. It is the catabolic (分解代谢) direction — the basis of digestion.", "exz": "3.2 节：水解分解聚合物并消耗水，属于分解代谢方向，也是消化的基础。"}, {"unit": 3, "en": "Which macromolecule class stores long-term energy and forms membranes?", "zh": "哪一大类大分子储存长期能量并构成细胞膜？", "opts": ["Proteins", "Nucleic acids", "Lipids", "Carbohydrates"], "optsz": ["蛋白质", "核酸", "脂肪", "碳水化合物"], "c": 2, "ex": "Section 3.3: lipids give long-term energy, membranes, insulation and hormones. Carbohydrates are the fast energy.", "exz": "3.3 节：脂肪提供长期能量、构成膜起保温作用并含激素；碳水化合物是快速能量。"}, {"unit": 3, "en": "A monomer is best described as…", "zh": "单体最恰当的描述是……", "opts": ["Any large molecule made of carbon", "The product of hydrolysis", "A unit that always carries a phosphate group", "A single building-block unit that repeats in a polymer"], "optsz": ["任何由碳组成的大分子", "水解的产物", "总是带有磷酸基团的单位", "在聚合物中反复出现的单个结构单元"], "c": 3, "ex": "Section 3.1 uses the Lego analogy: one block is a monomer, the assembled chain is the polymer, and snapping them together is polymerisation.", "exz": "3.1 节用乐高类比：一块是单体，装配起来的链条是聚合物，把它们拼在一起就是聚合。"}, {"unit": 4, "en": "How many different amino acids occur naturally?", "zh": "天然存在多少种不同的氨基酸？", "opts": ["20", "4", "64", "2"], "optsz": ["20", "4", "64", "2"], "c": 0, "ex": "Section 4.1: 20 different amino acids exist in nature, each with a unique R group.", "exz": "4.1 节：天然存在 20 种氨基酸，每种都有独特的 R 基团。"}, {"unit": 4, "en": "The bond that links two amino acids together is a…", "zh": "连接两个氨基酸的键是……", "opts": ["Ionic bond, formed by hydrolysis", "Peptide bond, formed by condensation", "Disulfide bridge, formed by oxidation", "Hydrogen bond, formed by dehydration"], "optsz": ["水解形成的离子键", "缩合形成的肽键", "氧化形成的二硫键", "脱水形成的氢键"], "c": 1, "ex": "Section 4.1: amino acids link via covalent peptide bonds through condensation. A chain of them is a polypeptide.", "exz": "4.1 节：氨基酸通过缩合形成共价的肽键连接，连成的链称为多肽。"}, {"unit": 4, "en": "Which level of protein structure is the amino acid sequence itself?", "zh": "蛋白质结构的哪一级就是氨基酸的排列顺序？", "opts": ["Tertiary", "Quaternary", "Primary", "Secondary"], "optsz": ["三级结构", "四级结构", "一级结构", "二级结构"], "c": 2, "ex": "Section 4.2: primary = the sequence, held by peptide bonds. Secondary = folding (α-helix, β-sheet) held by hydrogen bonds.", "exz": "4.2 节：一级结构是序列，由肽键维持；二级结构是折叠（α-螺旋、β-折叠），由氢键维持。"}, {"unit": 4, "en": "Which bond type holds the secondary structure of a protein?", "zh": "哪一类键维持蛋白质的二级结构？", "opts": ["Peptide bonds", "Disulfide bonds", "Ionic bonds only", "Hydrogen bonds"], "optsz": ["肽键", "二硫键", "仅离子键", "氢键"], "c": 3, "ex": "Section 4.2: secondary structure (α-helix, β-sheet) is stabilised by hydrogen bonds between backbone groups.", "exz": "4.2 节：二级结构（α-螺旋、β-折叠）由主链之间的氢键稳定。"}, {"unit": 4, "en": "A protein made of several polypeptide chains is said to have…", "zh": "由多条多肽链组成的蛋白质具有……", "opts": ["Quaternary structure", "Primary structure only", "No tertiary structure", "Denatured structure"], "optsz": ["四级结构", "仅一级结构", "没有三级结构", "变性结构"], "c": 0, "ex": "Section 4.2: quaternary structure is the assembly of multiple polypeptides — for example haemoglobin's four subunits.", "exz": "4.2 节：四级结构指多条多肽链的装配，例如血红蛋白的四个亚基。"}, {"unit": 4, "en": "Which protein is globular, and what does that shape allow?", "zh": "哪种蛋白质是球状的？这种形状使其能做什么？", "opts": ["Actin — it forms a triple helix", "Haemoglobin — it can carry oxygen and move in blood", "Collagen — it can carry oxygen and move in blood", "Keratin — it acts as an enzyme"], "optsz": ["肌动蛋白——形成三螺旋", "血红蛋白——可携带氧并在血液中运输", "胶原蛋白——可携带氧并在血液中运输", "角蛋白——可作为酶"], "c": 1, "ex": "Section 4.3: globular proteins are rounded and functional — haemoglobin transports oxygen, insulin is a hormone, enzymes catalyse. Collagen and keratin are fibrous.", "exz": "4.3 节：球状蛋白呈圆形并承担功能——血红蛋白运输氧、胰岛素是激素、酶负责催化。胶原蛋白与角蛋白属于纤维状。"}, {"unit": 4, "en": "After denaturation, which part of a protein is still intact?", "zh": "变性之后，蛋白质的哪一部分仍然完好？", "opts": ["The quaternary structure", "Nothing remains", "The primary structure — the amino acid sequence", "The tertiary structure"], "optsz": ["四级结构", "什么都没剩下", "一级结构——氨基酸序列", "三级结构"], "c": 2, "ex": "Section 4.4: denaturation destroys secondary, tertiary and quaternary structure, but peptide bonds and the primary sequence survive.", "exz": "4.4 节：变性破坏二级、三级和四级结构，但肽键与一级序列仍然保留。"}, {"unit": 4, "en": "Denaturation is best described as…", "zh": "变性最恰当的描述是……", "opts": ["Reversible, caused by mild warming", "A gain in primary structure", "The joining of monomers into a polymer", "Irreversible, usually caused by extreme pH or high temperature"], "optsz": ["可逆，由轻微升温引起", "一级结构的增加", "单体连接成聚合物", "不可逆，通常由极端 pH 或高温引起"], "c": 3, "ex": "Section 4.4 marks denaturation as irreversible and caused by extreme pH or high temperature.", "exz": "4.4 节指出变性是不可逆的，由极端 pH 或高温引起。"}, {"unit": 5, "en": "Enzymes are best described as…", "zh": "酶最恰当的描述是……", "opts": ["Large globular proteins that act as organic catalysts", "Small lipids that dissolve in water", "Carbohydrates used for energy", "Living cells that consume food"], "optsz": ["作为有机催化剂的大分子球状蛋白", "溶于水的小分子脂质", "用于供能的碳水化合物", "消耗食物的活细胞"], "c": 0, "ex": "Section 5.1: enzymes are large globular proteins acting as organic catalysts — which also explains why most are globular.", "exz": "5.1 节：酶是作为有机催化剂的大分子球状蛋白，这也解释了为何大多数酶是球状的。"}, {"unit": 5, "en": "What does an enzyme do to a reaction?", "zh": "酶对反应起什么作用？", "opts": ["Changes the final products", "Lowers the activation energy, increasing the rate", "Raises the activation energy, slowing the reaction", "Is consumed as a reactant"], "optsz": ["改变最终产物", "降低活化能，从而加快反应速率", "提高活化能，使反应变慢", "作为反应物被消耗"], "c": 1, "ex": "Section 5.1: enzymes lower activation energy and increase reaction rate. They are not consumed and work at low concentration.", "exz": "5.1 节：酶降低活化能并提高反应速率；酶本身不被消耗，且在很低浓度下即可起作用。"}, {"unit": 5, "en": "The region of an enzyme where the substrate binds is the…", "zh": "酶与底物结合的区域是……", "opts": ["R group", "Proteoform", "Active site", "Peptide backbone"], "optsz": ["R 基团", "蛋白质组", "活性部位", "肽主链"], "c": 2, "ex": "Section 5.1 defines the active site as the region where the substrate binds; the R group is what makes each amino acid unique.", "exz": "5.1 节定义活性部位为底物结合的区域；R 基团是每种氨基酸的独特部分。"}, {"unit": 5, "en": "Enzyme specificity means that…", "zh": "酶的特异性是指……", "opts": ["An enzyme can catalyse every reaction in the cell", "An enzyme works equally well at every pH", "An enzyme is used up after one reaction", "Each enzyme acts on one substrate or one class of closely related substrates"], "optsz": ["一种酶能催化细胞内所有反应", "酶在任何 pH 下效率相同", "酶在一次反应后即被耗尽", "每种酶只作用于一种底物或一类相近底物"], "c": 3, "ex": "Section 5.1 attributes specificity to the shape of the active site matching its substrate.", "exz": "5.1 节指出特异性来自活性部位的形状与其底物相匹配。"}, {"unit": 5, "en": "At about 37 °C a human enzyme works best. Above roughly 60 °C…", "zh": "人体酶在约 37 °C 活性最佳。超过约 60 °C 时……", "opts": ["The enzyme denatures and activity falls sharply", "Activity rises further", "The enzyme becomes a polymer", "The substrate turns into product faster"], "optsz": ["酶变性，活性急剧下降", "活性进一步升高", "酶变成聚合物", "底物转化为产物的速度加快"], "c": 0, "ex": "Section 5.2: activity peaks near 37 °C, then denaturation causes a steep fall toward 100 °C.", "exz": "5.2 节：活性在约 37 °C 达到峰值，随后因变性在接近 100 °C 时急剧下降。"}, {"unit": 5, "en": "Why does a denatured enzyme stop working?", "zh": "变性的酶为何停止工作？", "opts": ["It releases too much water", "Its active site changes shape, so the substrate can no longer bind", "It loses all of its amino acids", "It becomes insoluble and dissolves"], "optsz": ["释放了过多的水", "活性部位形状改变，底物无法再结合", "失去了全部氨基酸", "变得不溶并溶解了"], "c": 1, "ex": "Section 5.3: heat or extreme pH breaks the bonds holding the shape, the active site changes, and the substrate no longer fits.", "exz": "5.3 节：高温或极端 pH 破坏维持形状的键，活性部位改变，底物无法契合。"}, {"unit": 5, "en": "As substrate concentration rises, enzyme activity…", "zh": "随着底物浓度升高，酶活性……", "opts": ["Stays exactly constant", "Drops to zero once half the substrate is used", "Rises, then plateaus when all active sites are occupied", "Falls immediately"], "optsz": ["保持完全不变", "当底物用掉一半时降为零", "上升，在活性部位被占满后趋于平台", "立即下降"], "c": 2, "ex": "Section 5.2's substrate graph plateaus because the enzyme becomes saturated — all active sites are full.", "exz": "5.2 节的底物曲线出现平台，因为酶已饱和——所有活性部位都被占满。"}, {"unit": 5, "en": "Which two factors change enzyme activity in the body?", "zh": "在体内影响酶活性的两个因素是什么？", "opts": ["Light and colour", "Pressure and volume", "Oxygen and nitrogen", "Temperature and pH"], "optsz": ["光照与颜色", "压强与体积", "氧与氮", "温度与 pH"], "c": 3, "ex": "Section 5.2 graphs activity against temperature and against pH, each with its own optimum.", "exz": "5.2 节分别绘制了活性随温度和 pH 变化的曲线，各有各自的最适值。"}, {"unit": 5, "en": "Which pH is likely to suit a human digestive enzyme such as pepsin?", "zh": "人体消化酶如胃蛋白酶适合的 pH 大约是多少？", "opts": ["Acidic, around pH 2", "Neutral, around pH 7", "Alkaline, around pH 9", "It works equally at every pH"], "optsz": ["酸性，约 pH 2", "中性，约 pH 7", "碱性，约 pH 9", "在任何 pH 下都一样"], "c": 0, "ex": "Section 5.2 shows each enzyme has its own optimum. Pepsin acts in the stomach, so its optimum is acidic.", "exz": "5.2 节显示每种酶都有自己的最适 pH。胃蛋白酶在胃中作用，因此最适 pH 为酸性。"}, {"unit": 5, "en": "An enzyme is a catalyst, which means it…", "zh": "酶是催化剂，这意味着它……", "opts": ["Only works at high pH", "Is not used up by the reaction it speeds up", "Is permanently consumed", "Raises the temperature of the reaction"], "optsz": ["只在高 pH 下工作", "不会因所加速的反应而被消耗", "被永久消耗", "提高反应温度"], "c": 1, "ex": "Section 5.1 lists being not consumed, and working at low concentration, among the defining properties of an enzyme.", "exz": "5.1 节把“不被消耗”和“低浓度下即可起作用”列为酶的定义性特征。"}, {"unit": 5, "en": "Why are most enzymes globular rather than fibrous?", "zh": "为什么大多数酶是球状而不是纤维状？", "opts": ["Globular proteins are always soluble in acid", "Fibrous proteins are made of lipids", "A rounded shape fits a substrate into a cleft and allows conformational change", "Fibrous proteins cannot bind anything"], "optsz": ["球状蛋白总是溶于酸", "纤维状蛋白由脂质构成", "圆形形状便于底物嵌入凹槽并产生构象变化", "纤维状蛋白不能结合任何东西"], "c": 2, "ex": "Section 4.3 links globular shape to function, and section 5.1's active site needs a folded 3D pocket to bind substrate and change shape.", "exz": "4.3 节把球状形状与功能联系起来；5.1 节的活性部位需要折叠的三维口袋来结合底物并改变形状。"}];
+  var CARDS = [{"unit": 1, "term": "Element", "termz": "元素", "en": "A substance that cannot be broken down into simpler substances. Examples: carbon, oxygen.", "zh": "不能再分解成更简单物质的物质。例如：碳、氧。"}, {"unit": 1, "term": "Atom", "termz": "原子", "en": "The smallest unit of an element — a single carbon atom.", "zh": "元素的最小单位——一个碳原子。"}, {"unit": 1, "term": "Molecule", "termz": "分子", "en": "Two or more atoms bonded together, such as H₂O or CO₂.", "zh": "两个或更多原子结合形成的物质，例如 H₂O 或 CO₂。"}, {"unit": 1, "term": "The four elements of life (CHON)", "termz": "生命的四种元素（CHON）", "en": "Carbon, hydrogen, oxygen and nitrogen — the bulk of living matter.", "zh": "碳、氢、氧、氮——构成生命物质的主要成分。"}, {"unit": 1, "term": "Organic compound", "termz": "有机化合物", "en": "A compound containing carbon with C–H bonds; found in living systems, e.g. glucose, DNA.", "zh": "含碳并具有 C–H 键的化合物，存在于生命体系中，例如葡萄糖、DNA。"}, {"unit": 1, "term": "Inorganic compound", "termz": "无机化合物", "en": "A compound without C–H bonds, e.g. CO₂, H₂O, NaCl.", "zh": "不含 C–H 键的化合物，例如 CO₂、H₂O、NaCl。"}, {"unit": 1, "term": "The CO₂ exception", "termz": "CO₂ 的例外", "en": "CO₂ contains carbon but is inorganic, because it lacks a C–H bond.", "zh": "CO₂ 含碳但属于无机物，因为它缺少 C–H 键。"}, {"unit": 1, "term": "Why protein powder works", "termz": "蛋白粉为何有效", "en": "Digestive enzymes hydrolyse peptide bonds, releasing free amino acids for absorption.", "zh": "消化酶水解肽键，释放可吸收的游离氨基酸。"}, {"unit": 2, "term": "Four biomolecule classes", "termz": "四大生物分子", "en": "Carbohydrates, lipids, proteins and nucleic acids — all carbon-based macromolecules.", "zh": "碳水化合物、脂肪、蛋白质和核酸——都是含碳的大分子。"}, {"unit": 2, "term": "Element mnemonic CHO / CHON / CHONP", "termz": "元素口诀 CHO / CHON / CHONP", "en": "Carbs and lipids = CHO; proteins = CHON; nucleic acids = CHONP.", "zh": "碳水与脂肪为 CHO；蛋白质为 CHON；核酸为 CHONP。"}, {"unit": 2, "term": "Carbohydrate vs lipid", "termz": "碳水化合物与脂肪的区别", "en": "Both are CHO. Lipids have far more C and H relative to O and form long chains; carbs hold ~1:2:1.", "zh": "两者都只含 CHO。脂肪的碳氢相对氧多得多并形成长链；碳水化合物约为 1:2:1。"}, {"unit": 2, "term": "Monomer of a carbohydrate", "termz": "碳水化合物的单体", "en": "A monosaccharide — a single sugar unit, usually drawn as a ring.", "zh": "单糖——单个糖单位，通常画成环状。"}, {"unit": 2, "term": "Monomer of a protein", "termz": "蛋白质的单体", "en": "An amino acid. There are 20 different ones in nature.", "zh": "氨基酸。天然共有 20 种。"}, {"unit": 2, "term": "Monomer of a nucleic acid", "termz": "核酸的单体", "en": "A nucleotide — a sugar, a phosphate and a nitrogenous base.", "zh": "核苷酸——由糖、磷酸和含氮碱基组成。"}, {"unit": 2, "term": "Which class contains phosphorus?", "termz": "哪一类含磷？", "en": "Nucleic acids — the phosphate in the DNA/RNA backbone.", "zh": "核酸——DNA/RNA 骨架上的磷酸基团。"}, {"unit": 3, "term": "Monomer", "termz": "单体", "en": "A single building-block unit that repeats within a polymer.", "zh": "在聚合物中反复出现的单个结构单元。"}, {"unit": 3, "term": "Polymer", "termz": "聚合物", "en": "A chain of many monomers joined together.", "zh": "由许多单体连接而成的链。"}, {"unit": 3, "term": "Condensation", "termz": "缩合", "en": "Monomers join to form a polymer and water is RELEASED. An anabolic reaction.", "zh": "单体结合形成聚合物并释放水。属于合成代谢反应。"}, {"unit": 3, "term": "Hydrolysis", "termz": "水解", "en": "A polymer is split into monomers and water is USED. A catabolic reaction.", "zh": "聚合物被分解为单体并消耗水。属于分解代谢反应。"}, {"unit": 3, "term": "Anabolism", "termz": "合成代谢", "en": "Building molecules up; condensation; requires energy input.", "zh": "构建分子；对应缩合；需要能量输入。"}, {"unit": 3, "term": "Catabolism", "termz": "分解代谢", "en": "Breaking molecules down; hydrolysis; releases energy.", "zh": "分解分子；对应水解；释放能量。"}, {"unit": 3, "term": "Carbohydrate function", "termz": "碳水化合物的功能", "en": "Fast energy, structural support and storage — glucose, starch, glycogen, cellulose.", "zh": "快速供能、结构支撑与储存——葡萄糖、淀粉、糖原、纤维素。"}, {"unit": 3, "term": "Lipid function", "termz": "脂肪的功能", "en": "Long-term energy, membranes, insulation and hormones — oil, wax, cholesterol.", "zh": "长期能量、细胞膜、保温与激素——油脂、蜡、胆固醇。"}, {"unit": 3, "term": "Protein function", "termz": "蛋白质的功能", "en": "Structure, transport, enzymes and antibodies — collagen, haemoglobin.", "zh": "结构、运输、酶与抗体——胶原蛋白、血红蛋白。"}, {"unit": 4, "term": "Amino acid structure", "termz": "氨基酸的结构", "en": "Three parts: an NH₂ amino group, a central carbon, a COOH carboxyl group, plus a unique R group.", "zh": "三部分：NH₂ 氨基、中心碳、COOH 羧基，以及独特的 R 基团。"}, {"unit": 4, "term": "Peptide bond", "termz": "肽键", "en": "The covalent bond linking two amino acids, formed by condensation.", "zh": "连接两个氨基酸的共价键，由缩合反应形成。"}, {"unit": 4, "term": "Polypeptide", "termz": "多肽", "en": "A chain of amino acids joined by peptide bonds.", "zh": "由肽键连接而成的氨基酸链。"}, {"unit": 4, "term": "Primary structure", "termz": "一级结构", "en": "The amino acid sequence itself; held by peptide bonds.", "zh": "氨基酸的排列顺序；由肽键维持。"}, {"unit": 4, "term": "Secondary structure", "termz": "二级结构", "en": "Local folding into α-helices and β-sheets; held by hydrogen bonds.", "zh": "局部折叠成 α-螺旋与 β-折叠；由氢键维持。"}, {"unit": 4, "term": "Tertiary structure", "termz": "三级结构", "en": "The overall 3D arrangement of one polypeptide; hydrogen bonds, disulfides and ionic interactions.", "zh": "单条多肽的整体三维构象；由氢键、二硫键和离子作用维持。"}, {"unit": 4, "term": "Quaternary structure", "termz": "四级结构", "en": "Several polypeptides assembled together, e.g. haemoglobin's four subunits.", "zh": "多条多肽装配在一起，例如血红蛋白的四个亚基。"}, {"unit": 4, "term": "Fibrous protein", "termz": "纤维状蛋白", "en": "Long strands for structural support; less soluble. Collagen, keratin, actin.", "zh": "长链状，用于结构支撑；溶解性较低。胶原蛋白、角蛋白、肌动蛋白。"}, {"unit": 4, "term": "Globular protein", "termz": "球状蛋白", "en": "Rounded and functional — transport, catalysis, hormones. Haemoglobin, insulin, enzymes.", "zh": "圆形并承担功能——运输、催化、激素。血红蛋白、胰岛素、酶。"}, {"unit": 4, "term": "Denaturation", "termz": "变性", "en": "Irreversible loss of secondary, tertiary and quaternary structure from extreme pH or heat. Primary survives.", "zh": "由极端 pH 或高温导致的二级、三级、四级结构不可逆破坏，一级结构仍保留。"}, {"unit": 4, "term": "Proteome", "termz": "蛋白质组", "en": "The complete set of proteins produced by an organism or cell at one time.", "zh": "某个生物或细胞在特定时刻产生的全部蛋白质的集合。"}, {"unit": 5, "term": "Enzyme", "termz": "酶", "en": "A large globular protein acting as an organic catalyst.", "zh": "作为有机催化剂的大分子球状蛋白。"}, {"unit": 5, "term": "Activation energy", "termz": "活化能", "en": "The energy barrier of a reaction; enzymes lower it so the reaction runs faster.", "zh": "反应的能量门槛；酶降低它以加快反应。"}, {"unit": 5, "term": "Active site", "termz": "活性部位", "en": "The region of the enzyme where the substrate binds.", "zh": "酶上与底物结合的区域。"}, {"unit": 5, "term": "Substrate", "termz": "底物", "en": "The molecule an enzyme acts upon.", "zh": "酶作用的分子。"}, {"unit": 5, "term": "Specificity", "termz": "特异性", "en": "Each enzyme acts on one substrate or a closely related class, because the active site shape must match.", "zh": "每种酶只作用于一种底物或相近的一类，因为活性部位的形状必须匹配。"}, {"unit": 5, "term": "Optimum temperature", "termz": "最适温度", "en": "About 37 °C for human enzymes; above ~60 °C activity falls sharply through denaturation.", "zh": "人体酶约 37 °C；超过约 60 °C 因变性而急剧下降。"}, {"unit": 5, "term": "Optimum pH", "termz": "最适 pH", "en": "Each enzyme has its own — pepsin works in the acidic stomach, around pH 2.", "zh": "每种酶各不相同——胃蛋白酶在酸性胃中工作，约 pH 2。"}, {"unit": 5, "term": "Substrate saturation", "termz": "底物饱和", "en": "As substrate rises, activity rises then plateaus once all active sites are occupied.", "zh": "随底物增加，活性上升并在活性部位占满后趋于平台。"}, {"unit": 5, "term": "How enzymes denature", "termz": "酶如何变性", "en": "Heat adds kinetic energy and extreme pH breaks hydrogen bonds; the active site changes shape, so the substrate no longer fits. Irreversible.", "zh": "高温增加动能、极端 pH 破坏氢键；活性部位形状改变，底物无法契合。不可逆。"}];
+  var UNITS = {"1": ["Unit 1 · Chemistry of life", "第1单元 · 生命的化学"], "2": ["Unit 2 · Biomolecules", "第2单元 · 生物分子"], "3": ["Unit 3 · Monomers, polymers & energy", "第3单元 · 单体、聚合物与能量"], "4": ["Unit 4 · Proteins", "第4单元 · 蛋白质"], "5": ["Unit 5 · Enzymes", "第5单元 · 酶"]};
+
+  function cn(){ return typeof showCN!=='undefined' ? !!showCN
+                    : document.documentElement.classList.contains('lang-zh'); }
+  function t(en,zh){ return cn() ? zh : en; }
+  function el(tag, cls, html){
+    var n=document.createElement(tag);
+    if(cls) n.className=cls;
+    if(html!==undefined) n.innerHTML=html;
+    return n;
+  }
+  function shuffle(a){
+    a=a.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), tmp=a[i]; a[i]=a[j]; a[j]=tmp; }
+    return a;
+  }
+  function unitName(u){ return u ? t(UNITS[u][0], UNITS[u][1]) : t('All units','全部单元'); }
+
+  /* ═══ QUIZ ═════════════════════════════════════════════════════════ */
+  var Q = { pool:[], i:0, answered:false, marks:[], unit:0, count:10 };
+
+  function quizModal(){ return document.getElementById('g10QuizModal'); }
+  function openModal(m){ m.classList.add('open'); m.setAttribute('aria-hidden','false');
+                         document.body.style.overflow='hidden'; }
+  function closeModal(m){ m.classList.remove('open'); m.setAttribute('aria-hidden','true');
+                          document.body.style.overflow=''; }
+
+  function renderQuizSetup(){
+    var b=document.getElementById('g10QuizBody'); b.innerHTML='';
+    b.appendChild(el('div','g10-head',
+      '<h2>'+esc(t('G10 Biology Quiz','十年级生物测验'))+'</h2><p>'+
+      esc(t('One practical question per topic. Answer, read the explanation, then use the score to decide what to re-read.',
+            '每个主题一道应用题。作答、查看解释，再根据得分决定复习内容。'))+'</p>'));
+    var s=el('div','g10-setup');
+
+    var r1=el('div','g10-row'); r1.appendChild(el('b',null,esc(t('Unit','单元'))));
+    var all=el('button','g10-chip',esc(t('All','全部')));
+    all.setAttribute('aria-pressed', Q.unit? 'false':'true');
+    all.onclick=function(){ Q.unit=0; renderQuizSetup(); };
+    r1.appendChild(all);
+    Object.keys(UNITS).forEach(function(k){
+      var u=+k;
+      var c=el('button','g10-chip',esc(unitName(u)));
+      c.setAttribute('aria-pressed', Q.unit===u?'true':'false');
+      c.onclick=function(){ Q.unit=u; renderQuizSetup(); };
+      r1.appendChild(c);
+    });
+    s.appendChild(r1);
+
+    var r2=el('div','g10-row'); r2.appendChild(el('b',null,esc(t('Questions','题数'))));
+    [10,20,31].forEach(function(n){
+      var c=el('button','g10-chip', String(n));
+      c.setAttribute('aria-pressed', Q.count===n?'true':'false');
+      c.onclick=function(){ Q.count=n; renderQuizSetup(); };
+      r2.appendChild(c);
+    });
+    s.appendChild(r2);
+
+    var pool=BANK.filter(function(q){ return !Q.unit || q.unit===Q.unit; });
+    var start=el('button','g10-btn primary',esc(t('Start','开始')));
+    start.onclick=function(){
+      Q.pool=shuffle(pool).slice(0, Math.min(Q.count,pool.length));
+      Q.i=0; Q.marks=[]; Q.answered=false;
+      renderQuizQuestion();
+    };
+    var wrap=el('div','g10-row'); wrap.appendChild(start);
+    s.appendChild(wrap);
+    b.appendChild(s);
+  }
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function renderQuizQuestion(){
+    var b=document.getElementById('g10QuizBody'); b.innerHTML='';
+    var q=Q.pool[Q.i];
+    if(!q){ renderQuizScore(); return; }
+    b.appendChild(el('div','g10-head',
+      '<h2>'+esc(t('G10 Biology Quiz','十年级生物测验'))+'</h2><p>'+esc(unitName(q.unit))+'</p>'));
+    var bar=el('div','g10-bar','<i style="width:'+Math.round(Q.i/Q.pool.length*100)+'%"></i>');
+    b.appendChild(bar);
+    b.appendChild(el('div','g10-meta',
+      '<span>'+esc(t('Question','第'))+' '+(Q.i+1)+' / '+Q.pool.length+'</span>'+
+      '<span>'+esc(t('Score','得分'))+' '+scoreNow()+'</span>'));
+
+    b.appendChild(el('div','g10-q', esc(t(q.en,q.zh))));
+
+    var opts=el('div','g10-opts');
+    var order=shuffle([0,1,2,3]);
+    order.forEach(function(oi){
+      var btn=el('button','g10-opt', esc(t(q.opts[oi],q.optsz[oi])));
+      btn.onclick=function(){
+        if(Q.answered) return;
+        Q.answered=true;
+        var ok = oi===q.c;
+        Q.marks.push(ok);
+        Array.prototype.forEach.call(opts.children,function(c,k){
+          var idx=order[k];
+          c.disabled=true;
+          if(idx===q.c) c.classList.add('correct');
+          else if(idx===oi) c.classList.add('wrong');
+        });
+        b.appendChild(el('div','g10-ex','<b>'+esc(t('Why:','解析：'))+'</b> '+esc(t(q.ex,q.exz))));
+        renderQuizNav(b);
+      };
+      opts.appendChild(btn);
+    });
+    b.appendChild(opts);
+    renderQuizNav(b);
+  }
+
+  function scoreNow(){ return Q.marks.filter(Boolean).length; }
+
+  function renderQuizNav(b){
+    var old=b.querySelector('.g10-acts'); if(old) old.remove();
+    var a=el('div','g10-acts');
+    var quit=el('button','g10-btn',esc(t('Change unit','更换单元')));
+    quit.onclick=function(){ renderQuizSetup(); };
+    a.appendChild(quit);
+    var right=el('div','g10-row');
+    if(!Q.answered){
+      var skip=el('button','g10-btn',esc(t('Skip','跳过')));
+      skip.onclick=function(){ Q.marks.push(false); Q.answered=true; Q.i++; renderQuizQuestion(); };
+      right.appendChild(skip);
+    } else {
+      var nx=el('button','g10-btn primary',
+        esc(Q.i+1>=Q.pool.length ? t('See score','查看得分') : t('Next','下一题')));
+      nx.onclick=function(){ Q.i++; renderQuizQuestion(); };
+      right.appendChild(nx);
+    }
+    a.appendChild(right);
+    b.appendChild(a);
+  }
+
+  function renderQuizScore(){
+    var b=document.getElementById('g10QuizBody'); b.innerHTML='';
+    var pct=Math.round(scoreNow()/Q.pool.length*100);
+    var verdict = pct>=90 ? t('Mastered — move on.','已掌握——可以进入下一单元。')
+                : pct>=70 ? t('Solid. Re-read the ones you missed.','不错。复习做错的题。')
+                : t('Worth another pass through the section.','建议再通读一遍本节。');
+    var s=el('div','g10-score');
+    s.appendChild(el('div','big', pct+'%'));
+    s.appendChild(el('p', null, esc(verdict)));
+    var grid=el('div','g10-grid');
+    Q.marks.forEach(function(ok){ grid.appendChild(el('i', ok?'ok':'no')); });
+    s.appendChild(grid);
+    s.appendChild(el('p', null, esc(t('You answered '+scoreNow()+' of '+Q.pool.length+' correctly.',
+                                        '你答对了 '+scoreNow()+' / '+Q.pool.length+' 题。'))));
+    b.appendChild(s);
+    var a=el('div','g10-acts');
+    var again=el('button','g10-btn primary',esc(t('Try again','再试一次')));
+    again.onclick=function(){ renderQuizSetup(); };
+    var back=el('button','g10-btn',esc(t('Back to the page','返回页面')));
+    back.onclick=function(){ closeModal(quizModal()); };
+    a.appendChild(again); a.appendChild(back);
+    b.appendChild(a);
+  }
+
+  /* ═══ FLASHCARDS ═══════════════════════════════════════════════════ */
+  var F = { deck:[], i:0, flipped:false, unit:0 };
+
+  function cardModal(){ return document.getElementById('g10CardModal'); }
+
+  function renderCards(){
+    var b=document.getElementById('g10CardBody'); b.innerHTML='';
+    if(!F.deck.length){
+      b.appendChild(el('div','g10-head',
+        '<h2>'+esc(t('G10 Biology Flashcards','十年级生物闪卡'))+'</h2><p>'+
+        esc(t('Filter by unit, flip, use the arrow keys and shuffle.',
+              '按单元筛选、翻面、使用方向键并打乱顺序。'))+'</p>'));
+      var s=el('div','g10-setup');
+      var r1=el('div','g10-row'); r1.appendChild(el('b',null,esc(t('Unit','单元'))));
+      var all=el('button','g10-chip',esc(t('All','全部')));
+      all.setAttribute('aria-pressed', F.unit? 'false':'true');
+      all.onclick=function(){ F.unit=0; F.deck=[]; renderCards(); };
+      r1.appendChild(all);
+      Object.keys(UNITS).forEach(function(k){
+        var u=+k;
+        var c=el('button','g10-chip',esc(unitName(u)));
+        c.setAttribute('aria-pressed', F.unit===u?'true':'false');
+        c.onclick=function(){ F.unit=u; F.deck=[]; renderCards(); };
+        r1.appendChild(c);
+      });
+      s.appendChild(r1);
+      var r2=el('div','g10-row');
+      var go=el('button','g10-btn primary',esc(t('Start reviewing','开始复习')));
+      go.onclick=function(){
+        var pool=CARDS.filter(function(c){ return !F.unit || c.unit===F.unit; });
+        F.deck=shuffle(pool); F.i=0; F.flipped=false; renderCards();
+      };
+      var sh=el('button','g10-btn',esc(t('Shuffle','打乱')));
+      sh.onclick=function(){ F.deck=shuffle(F.deck); F.i=0; F.flipped=false; renderCards(); };
+      r2.appendChild(go); if(F.deck.length) r2.appendChild(sh);
+      s.appendChild(r2);
+      b.appendChild(s);
+      return;
+    }
+    var c=F.deck[F.i];
+    b.appendChild(el('div','g10-head',
+      '<h2>'+esc(t('G10 Biology Flashcards','十年级生物闪卡'))+'</h2><p>'+esc(unitName(c.unit))+'</p>'));
+    var bar=el('div','g10-bar','<i style="width:'+Math.round(F.i/F.deck.length*100)+'%"></i>');
+    b.appendChild(bar);
+    b.appendChild(el('div','g10-meta',
+      '<span>'+esc(t('Card','第'))+' '+(F.i+1)+' / '+F.deck.length+'</span>'+
+      '<span>'+esc(t('Tap the card to flip','点击卡片翻面'))+'</span>'));
+    var wrap=el('div','g10-fc'+(F.flipped?' flipped':''));
+    var inner=el('div','g10-fci');
+    inner.appendChild(el('div','g10-face g10-front','<b>'+esc(t(c.term,c.termz))+'</b>'+
+      '<span>'+esc(t('Tap to reveal','点击查看答案'))+'</span>'));
+    inner.appendChild(el('div','g10-face g10-back','<span>'+esc(t(c.en,c.zh))+'</span>'));
+    inner.onclick=function(){ F.flipped=!F.flipped; renderCards(); };
+    wrap.appendChild(inner);
+    b.appendChild(wrap);
+
+    var a=el('div','g10-acts');
+    var back=el('button','g10-btn',esc(t('All cards','全部卡片')));
+    back.onclick=function(){ F.deck=[]; renderCards(); };
+    a.appendChild(back);
+    var nav=el('div','g10-row');
+    var pv=el('button','g10-btn',esc(t('Previous','上一张')));
+    pv.disabled = F.i===0;
+    pv.onclick=function(){ if(F.i>0){ F.i--; F.flipped=false; renderCards(); } };
+    var nx=el('button','g10-btn primary', F.i+1>=F.deck.length ? esc(t('Finish','完成')) : esc(t('Next','下一张')));
+    nx.onclick=function(){
+      if(F.i+1>=F.deck.length){ F.deck=[]; renderCards(); }
+      else { F.i++; F.flipped=false; renderCards(); }
+    };
+    nav.appendChild(pv); nav.appendChild(nx);
+    a.appendChild(nav);
+    b.appendChild(a);
+  }
+
+  /* ═══ WIRING ════════════════════════════════════════════════════════ */
+  function boot(){
+    if(document.getElementById('g10QuizBody')) return;   /* already in */
+    var mount=document.getElementById('quiz-g10');
+    if(mount){
+      var sec = mount.closest('section') || mount;
+      sec.insertAdjacentHTML('afterbegin', "<div class=\"g10-launch\" id=\"g10Launch\">\n  <button class=\"g10-btn primary\" type=\"button\" id=\"g10OpenQuiz\" data-en=\"Take the quiz\" data-zh=\"\u5f00\u59cb\u6d4b\u9a8c\">Take the quiz</button>\n  <button class=\"g10-btn\" type=\"button\" id=\"g10OpenCards\" data-en=\"Open flashcards\" data-zh=\"\u6253\u5f00\u95ea\u5361\">Open flashcards</button>\n  <span class=\"g10-btn\" style=\"pointer-events:none;cursor:default\" data-en=\"31 questions \u00b7 44 cards \u00b7 5 units\" data-zh=\"31\u9053\u9898 \u00b7 44\u5f20\u5361 \u00b7 5\u4e2a\u5355\u5143\">31 questions \u00b7 44 cards \u00b7 5 units</span>\n</div>");
+    }
+    document.body.insertAdjacentHTML('beforeend', "<div class=\"g10-modal\" id=\"g10QuizModal\" role=\"dialog\" aria-modal=\"true\" aria-hidden=\"true\">\n  <div class=\"g10-backdrop\" data-close></div>\n  <div class=\"g10-box wide\">\n    <button class=\"g10-close\" type=\"button\" data-close aria-label=\"Close\">\u00d7</button>\n    <div id=\"g10QuizBody\"></div>\n  </div>\n</div>\n\n<div class=\"g10-modal\" id=\"g10CardModal\" role=\"dialog\" aria-modal=\"true\" aria-hidden=\"true\">\n  <div class=\"g10-backdrop\" data-close></div>\n  <div class=\"g10-box\">\n    <button class=\"g10-close\" type=\"button\" data-close aria-label=\"Close\">\u00d7</button>\n    <div id=\"g10CardBody\"></div>\n  </div>\n</div>");
+    var qb=document.getElementById('g10OpenQuiz'), cb=document.getElementById('g10OpenCards');
+    if(qb) qb.onclick=function(){ Q.unit=0; renderQuizSetup(); openModal(quizModal()); };
+    if(cb) cb.onclick=function(){ F.deck=[]; F.unit=0; renderCards(); openModal(cardModal()); };
+    document.querySelectorAll('[data-close]').forEach(function(n){
+      n.addEventListener('click', function(){
+        var m = n.closest('.g10-modal');
+        if(m) closeModal(m);
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      var qm=quizModal(), cm=cardModal();
+      if(e.key==='Escape'){ if(qm.classList.contains('open')) closeModal(qm);
+                             else if(cm.classList.contains('open')) closeModal(cm); }
+      if(cm.classList.contains('open') && F.deck.length){
+        if(e.key==='ArrowRight'){ e.preventDefault();
+          if(F.i+1>=F.deck.length){ F.deck=[]; renderCards(); } else { F.i++; F.flipped=false; renderCards(); } }
+        if(e.key==='ArrowLeft'){ e.preventDefault(); if(F.i>0){ F.i--; F.flipped=false; renderCards(); } }
+        if(e.key===' '){ e.preventDefault(); F.flipped=!F.flipped; renderCards(); }
+      }
+    });
+    // follow the page's language toggle
+    var lt=document.getElementById('langToggle');
+    if(lt) lt.addEventListener('click', function(){
+      setTimeout(function(){
+        if(quizModal().classList.contains('open')){ Q.answered=false; renderQuizQuestion(); }
+        if(cardModal().classList.contains('open')) renderCards();
+        var q=document.getElementById('g10OpenQuiz'), c=document.getElementById('g10OpenCards');
+        if(q) q.textContent=t('Take the quiz','开始测验');
+        if(c) c.textContent=t('Open flashcards','打开闪卡');
+      },40);
+    });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+
+  window.G10Q={open:function(){ Q.unit=0; renderQuizSetup(); openModal(quizModal()); }};
+  window.G10F={open:function(){ F.deck=[]; F.unit=0; renderCards(); openModal(cardModal()); }};
 })();
 </script>
 

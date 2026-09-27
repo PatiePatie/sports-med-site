@@ -920,6 +920,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
+<script>window.__vtEntryHash=location.hash||"";</script>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
@@ -1025,7 +1026,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <section id="vtCover" class="vt-cover">
  <div class="container">
   <span class="vt-badge"><span class="dot"></span><span data-en="Vitalité Textbook" data-zh="Vitalité 教材">Vitalité Textbook</span></span>
-  <h1 data-en="Fourteen chapters. <em>One path</em> through them." data-zh="十四章，<em>一条完整的路</em>。">Fourteen chapters. <em>One path</em> through them.</h1>
+  <h1><span data-en="Fourteen chapters. " data-zh="十四章，">Fourteen chapters. </span><em><span data-en="One path" data-zh="一条完整的路">One path</span></em><span data-en=" through them." data-zh="。"> through them.</span></h1>
   <p class="vt-sub" data-en="Sports medicine, recovery and nutrition, written to be read in order — from what the body is made of, to what to do when it fails. Every chapter carries a model diagram, a data table and a worked example." data-zh="运动医学、恢复与营养，按顺序阅读——从身体由什么构成，到受损时该怎么做。每一章都配有模型图、数据表与实例演算。">Sports medicine, recovery and nutrition, written to be read in order — from what the body is made of, to what to do when it fails. Every chapter carries a model diagram, a data table and a worked example.</p>
   <div class="vt-cta">
    <button class="vt-btn primary" id="vtStart" type="button" data-en="▶  Start studying" data-zh="▶  开始学习">▶  Start studying</button>
@@ -5749,14 +5750,17 @@ document.addEventListener('keydown',function(e){
   if(!cover)return;
   var start=document.getElementById('vtStart');
   var back=document.getElementById('vtBack');
-  function deepLinked(){return /^#ch\d+$/.test(location.hash||'');}
+  /* The chapter script below rewrites the URL to #ch1 on every load, so by the
+     time this runs, location.hash cannot be trusted to mean "the reader linked
+     here". __vtEntryHash is captured at the top of <body>, before that runs. */
+  var entry=window.__vtEntryHash||'';
+  function deepLinked(){return /^#ch\d+$/.test(entry);}
   function show(){cover.classList.remove('gone');document.body.classList.remove('vt-started');}
   function begin(){
     cover.classList.add('gone');
     document.body.classList.add('vt-started');
     var target=document.getElementById('ch1');
     if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}
-    if(history.replaceState)history.replaceState(null,'','#ch1');
   }
   if(start)start.addEventListener('click',begin);
   if(back)back.addEventListener('click',function(){
@@ -5772,8 +5776,26 @@ document.addEventListener('keydown',function(e){
   /* landing on a chapter -- by deep link, or by using the sidebar while the
      title page is still up -- must not leave the cover covering the text */
   if(deepLinked()){cover.classList.add('gone');document.body.classList.add('vt-started');}
+  /* showChapter() and the sticky topbar both try to scroll on load, which drops
+     the reader past their own title page. Hold the page at the top until they
+     scroll for themselves, then never fight them again. */
+  if(!deepLinked()){
+    var yielding=false;
+    function yieldControl(){yielding=true;}
+    ['wheel','touchstart','keydown','mousedown'].forEach(function(t){
+      window.addEventListener(t,yieldControl,{passive:true,once:true});
+    });
+    var t0=Date.now();
+    (function hold(){
+      if(yielding||Date.now()-t0>900||deepLinked())return;
+      if(window.scrollY>0)window.scrollTo(0,0);
+      window.requestAnimationFrame(hold);
+    })();
+  }
   window.addEventListener('hashchange',function(){
-    if(deepLinked()){cover.classList.add('gone');document.body.classList.add('vt-started');}
+    if(/^#ch\d+$/.test(location.hash||'')){
+      cover.classList.add('gone');document.body.classList.add('vt-started');
+    }
   });
 })();
 </script>

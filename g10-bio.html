@@ -3742,6 +3742,7 @@ document.addEventListener('DOMContentLoaded', function(){
         Q.answered=true;
         var ok = oi===q.c;
         Q.marks.push(ok);
+        g10Rec(q.unit,ok);
         Array.prototype.forEach.call(opts.children,function(c,k){
           var idx=order[k];
           c.disabled=true;
@@ -3783,6 +3784,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function renderQuizScore(){
     var b=document.getElementById('g10QuizBody'); b.innerHTML='';
     var pct=Math.round(scoreNow()/Q.pool.length*100);
+    g10Best(pct);
     var verdict = pct>=90 ? t('Mastered — move on.','已掌握——可以进入下一单元。')
                 : pct>=70 ? t('Solid. Re-read the ones you missed.','不错。复习做错的题。')
                 : t('Worth another pass through the section.','建议再通读一遍本节。');
@@ -3924,7 +3926,33 @@ document.addEventListener('DOMContentLoaded', function(){
   else boot();
 
   window.G10Q={open:function(){ Q.unit=0; renderQuizSetup(); openModal(quizModal()); }};
-  window.G10F={open:function(){ F.deck=[]; F.unit=0; renderCards(); openModal(cardModal()); }};
+    /* ── progress store, so the home page's G10 box shows real numbers ──── */
+  var PK='sm_g10_';
+  function pj(suf,d){ try{ var v=JSON.parse(localStorage.getItem(PK+suf)||'null'); return v==null?d:v; }catch(e){ return d; } }
+  function ps(suf,v){ try{ localStorage.setItem(PK+suf,JSON.stringify(v)); }catch(e){} }
+  function gHeads(){ return Array.prototype.slice.call(document.querySelectorAll('.acc-item > .acc-header')); }
+  function g10Rec(unit,ok){
+    var r=pj('quiz',[]); r.push({u:unit,ok:!!ok,t:Date.now()});
+    if(r.length>400) r=r.slice(-400);
+    ps('quiz',r);
+  }
+  function g10Best(pct){ var b=pj('best',0); if(pct>b){ ps('best',pct); } }
+  document.addEventListener('click',function(e){
+    var h=e.target&&e.target.closest?e.target.closest('.acc-item > .acc-header'):null;
+    if(!h) return;
+    var i=gHeads().indexOf(h); if(i<0) return;
+    var r=pj('read',[]); if(r.indexOf(i)<0){ r.push(i); ps('read',r); }
+    ps('last',{i:i,t:Date.now()});
+  });
+  window.G10P={
+    tot:function(){ return gHeads().length; },
+    read:function(){ return pj('read',[]); },
+    last:function(){ return pj('last',null); },
+    quiz:function(){ return pj('quiz',[]); },
+    best:function(){ return pj('best',0); }
+  };
+window.G10F={open:function(){ F.deck=[]; F.unit=0; renderCards(); openModal(cardModal()); }};
+
 })();
 </script>
 

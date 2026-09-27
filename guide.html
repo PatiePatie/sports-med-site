@@ -11,55 +11,6 @@
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <style>
-/* ═══ Vitalité 教材 · title page ═══════════════════════════════════════════
-   Sits above every chapter and hides itself once the reader starts, so the
-   book opens like a book and then gets out of the way. Uses the page's own
-   tokens, so light and dark both come for free. */
-.vt-cover{padding:clamp(2.5rem,7vh,5.5rem) 0 3rem;background:
-  linear-gradient(180deg,color-mix(in srgb,var(--accent) 7%,transparent),transparent 70%)}
-.vt-cover.gone{display:none}
-.vt-badge{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .8rem;border-radius:99px;
-  border:1px solid var(--border);background:var(--surface2);color:var(--text2);
-  font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
-.vt-badge .dot{width:.5rem;height:.5rem;border-radius:99px;background:var(--accent)}
-.vt-cover h1{margin:1.1rem 0 0;font-size:clamp(2.1rem,5.2vw,3.4rem);line-height:1.08;
-  font-weight:800;letter-spacing:-.02em;max-width:22ch}
-.vt-cover h1 em{font-style:normal;color:var(--accent)}
-.vt-sub{margin:.9rem 0 0;max-width:62ch;font-size:clamp(1rem,1.5vw,1.12rem);line-height:1.6;color:var(--text2)}
-.vt-cta{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin:1.7rem 0 0}
-.vt-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.5rem;border-radius:99px;
-  border:1px solid var(--border);background:var(--surface2);color:var(--text);font:inherit;
-  font-weight:700;cursor:pointer;text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
-.vt-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-.vt-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.vt-hint{margin:1.5rem 0 0;font-size:.84rem;color:var(--text3)}
-.vt-block{margin:2.6rem 0 0}
-.vt-block h2{margin:0 0 .2rem;font-size:1.02rem;font-weight:800;letter-spacing:.01em}
-.vt-block .lead{margin:0 0 1rem;font-size:.86rem;color:var(--text3)}
-.vt-fns{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:.6rem}
-.vt-fn{display:flex;flex-direction:column;gap:.15rem;padding:.7rem .85rem;border:1px solid var(--border);
-  border-radius:var(--radius);background:var(--surface2);text-decoration:none;color:inherit;transition:border-color .12s ease,transform .12s ease}
-.vt-fn:hover{border-color:var(--accent);transform:translateY(-1px)}
-.vt-fn b{font-size:.9rem;font-weight:700}
-.vt-fn span{font-size:.74rem;color:var(--text3)}
-.vt-chs{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:.6rem;counter-reset:vtch}
-.vt-ch{display:flex;gap:.7rem;align-items:flex-start;padding:.7rem .8rem;border:1px solid var(--border);
-  border-radius:var(--radius);background:var(--surface);text-decoration:none;color:inherit;transition:border-color .12s ease,transform .12s ease}
-.vt-ch:hover{border-color:var(--accent);transform:translateY(-1px)}
-.vt-ch .n{flex:0 0 auto;width:1.7rem;height:1.7rem;border-radius:8px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);
-  font-size:.78rem;font-weight:800}
-.vt-ch .t{font-size:.86rem;font-weight:700;line-height:1.3}
-.vt-ch .z{font-size:.74rem;color:var(--text3)}
-.vt-back{display:inline-flex;align-items:center;gap:.4rem;margin:0 0 1.4rem;padding:.45rem .95rem;
-  border:1px solid var(--border);border-radius:99px;background:var(--surface2);color:var(--text2);
-  font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit}
-.vt-back:hover{border-color:var(--accent);color:var(--accent)}
-body.vt-started .vt-back{display:inline-flex}
-.vt-back{display:none}
-@media (prefers-reduced-motion:reduce){.vt-btn,.vt-fn,.vt-ch{transition:none}}
-@media print{.vt-cover,.vt-back{display:none}}
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
@@ -176,6 +127,7 @@ p{margin-bottom:.85rem}
 .q-reveal{display:none;margin-top:.5rem;padding:.75rem 1rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.93rem;line-height:1.6}
 .q-reveal.show{display:block}
 .reveal-btn{font-size:.82rem;color:var(--accent);cursor:pointer;border:none;background:none;font-weight:600;padding:.2rem 0}
+.reveal-btn{min-height:40px;padding:.55rem 0;display:inline-flex;align-items:center}
 .reveal-btn:hover{text-decoration:underline}
 
 /* ── Stats ── */
@@ -829,7 +781,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
 <link rel="stylesheet" href="tutorial-widget.css?v=6">
-<script src="tutorial-widget.js?v=7"></script>
+<script src="tutorial-widget.js?v=6"></script>
 <script src="auth-gate.js?v=2"></script>
 
 <script>
@@ -883,11 +835,10 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css?v=14">
-  <script src="vt-sources.js?v=1"></script>
-  <script src="loader.js?v=8"></script>
+  <script src="loader.js?v=6"></script>
 <link rel="stylesheet" href="sections.css?v=9">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
-<link rel="stylesheet" href="vitalite-skin.css?v=19">
+<link rel="stylesheet" href="vitalite-skin.css?v=20">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
 <script src="linear-layout.js?v=14" defer></script>
@@ -911,16 +862,14 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 
 <!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
 <link rel="stylesheet" href="shapes-skin.css?v=3">
-<script src="shapes-fx.js?v=5" defer></script>
-<link rel="stylesheet" href="soft-glass.css?v=10">
-<script src="soft-fx.js?v=10" defer></script>
-<link rel="stylesheet" href="knowledge.css?v=3">
-<script src="knowledge-fx.js?v=4" defer></script>
-<script src="ai-usage.js?v=1" defer></script>
+<script src="shapes-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=4">
+<script src="soft-fx.js?v=4" defer></script>
+<link rel="stylesheet" href="knowledge.css?v=2">
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body>
-<script>window.__vtEntryHash=location.hash||"";</script>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <!-- Sidebar Toggle (mobile) -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
@@ -1022,58 +971,6 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- Chapter nav lives in the left sidebar (Chapters list under Test Prep) -->
 
 <!-- Chapter 1 -->
-<!-- Vitalité 教材 · title page -->
-<section id="vtCover" class="vt-cover">
- <div class="container">
-  <span class="vt-badge"><span class="dot"></span><span data-en="Vitalité Textbook" data-zh="Vitalité 教材">Vitalité Textbook</span></span>
-  <h1><span data-en="Fourteen chapters. " data-zh="十四章，">Fourteen chapters. </span><em><span data-en="One path" data-zh="一条完整的路">One path</span></em><span data-en=" through them." data-zh="。"> through them.</span></h1>
-  <p class="vt-sub" data-en="Sports medicine, recovery and nutrition, written to be read in order — from what the body is made of, to what to do when it fails. Every chapter carries a model diagram, a data table and a worked example." data-zh="运动医学、恢复与营养，按顺序阅读——从身体由什么构成，到受损时该怎么做。每一章都配有模型图、数据表与实例演算。">Sports medicine, recovery and nutrition, written to be read in order — from what the body is made of, to what to do when it fails. Every chapter carries a model diagram, a data table and a worked example.</p>
-  <div class="vt-cta">
-   <button class="vt-btn primary" id="vtStart" type="button" data-en="▶  Start studying" data-zh="▶  开始学习">▶  Start studying</button>
-   <a class="vt-btn" href="#vtFns" data-en="What else is here" data-zh="这里还有什么">What else is here</a>
-  </div>
-  <p class="vt-hint" data-en="Starts at Chapter 1. The left sidebar stays with you the whole way." data-zh="从第一章开始，左侧目录全程陪伴。">Starts at Chapter 1. The left sidebar stays with you the whole way.</p>
-
-  <div class="vt-block" id="vtFns">
-   <h2 data-en="Everything on this site" data-zh="本站全部功能">Everything on this site</h2>
-   <p class="lead" data-en="The book is the spine. These are the tools around it." data-zh="教材是主干，以下是配套工具。">The book is the spine. These are the tools around it.</p>
-   <div class="vt-fns">
-        <a class="vt-fn" href="guide.html?study=flashcards"><b data-en="Flashcards" data-zh="闪卡">Flashcards</b><span data-en="Every term, spaced for recall" data-zh="全部术语，按遗忘曲线排布">Every term, spaced for recall</span></a>
-        <a class="vt-fn" href="guide.html?study=quiz"><b data-en="Quizzes" data-zh="测验">Quizzes</b><span data-en="Adaptive, finds your gaps" data-zh="自适应出题，找出薄弱点">Adaptive, finds your gaps</span></a>
-        <a class="vt-fn" href="toc.html#practice"><b data-en="Diagnostic" data-zh="诊断测试">Diagnostic</b><span data-en="A full test, then a plan" data-zh="完整测试，再给出计划">A full test, then a plan</span></a>
-        <a class="vt-fn" href="guide.html?study=ai"><b data-en="Vitaline AI" data-zh="AI 助手">Vitaline AI</b><span data-en="Ask anything, any chapter" data-zh="任何章节，随时提问">Ask anything, any chapter</span></a>
-        <a class="vt-fn" href="exam.html"><b data-en="NPTE (US)" data-zh="美国 NPTE">NPTE (US)</b><span data-en="Timed practice for licensure" data-zh="执照考试计时练习">Timed practice for licensure</span></a>
-        <a class="vt-fn" href="cn-cert.html"><b data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</b><span data-en="The Chinese certification track" data-zh="中国运动康复师考试路线">The Chinese certification track</span></a>
-        <a class="vt-fn" href="usabo.html"><b data-en="USABO" data-zh="USABO 生物奥赛">USABO</b><span data-en="Biology olympiad preparation" data-zh="生物奥赛备考">Biology olympiad preparation</span></a>
-        <a class="vt-fn" href="toc.html#resources"><b data-en="Videos" data-zh="视频">Videos</b><span data-en="A watch for every chapter" data-zh="每章配套视频">A watch for every chapter</span></a>
-        <a class="vt-fn" href="toc.html#refs"><b data-en="References" data-zh="参考文献">References</b><span data-en="Where the claims come from" data-zh="结论的出处">Where the claims come from</span></a>
-        <a class="vt-fn" href="toc.html#progress"><b data-en="Your progress" data-zh="我的进度">Your progress</b><span data-en="What you have finished" data-zh="已完成的进度">What you have finished</span></a>
-   </div>
-  </div>
-
-  <div class="vt-block">
-   <h2 data-en="The fourteen chapters" data-zh="十四章目录">The fourteen chapters</h2>
-   <p class="lead" data-en="Pick one, or start at the top." data-zh="可直接选择，也可从第一章开始。">Pick one, or start at the top.</p>
-   <div class="vt-chs">
-        <a class="vt-ch" href="#ch1"><span class="n">1</span><span class="t" data-en="The Body as a Machine" data-zh="身体如机器">The Body as a Machine</span></a>
-        <a class="vt-ch" href="#ch2"><span class="n">2</span><span class="t" data-en="Nervous System" data-zh="神经系统">Nervous System</span></a>
-        <a class="vt-ch" href="#ch3"><span class="n">3</span><span class="t" data-en="Cardiovascular System" data-zh="心血管系统">Cardiovascular System</span></a>
-        <a class="vt-ch" href="#ch4"><span class="n">4</span><span class="t" data-en="Integumentary System" data-zh="皮肤系统">Integumentary System</span></a>
-        <a class="vt-ch" href="#ch5"><span class="n">5</span><span class="t" data-en="Training Principles" data-zh="训练原则">Training Principles</span></a>
-        <a class="vt-ch" href="#ch6"><span class="n">6</span><span class="t" data-en="Injury & Healing" data-zh="损伤与愈合">Injury & Healing</span></a>
-        <a class="vt-ch" href="#ch7"><span class="n">7</span><span class="t" data-en="Recovery Science" data-zh="恢复科学">Recovery Science</span></a>
-        <a class="vt-ch" href="#ch8"><span class="n">8</span><span class="t" data-en="Sports Nutrition" data-zh="运动营养学">Sports Nutrition</span></a>
-        <a class="vt-ch" href="#ch9"><span class="n">9</span><span class="t" data-en="Supplements & Evidence" data-zh="补剂与证据分级">Supplements & Evidence</span></a>
-        <a class="vt-ch" href="#ch10"><span class="n">10</span><span class="t" data-en="Ethics & Professional Responsibility" data-zh="伦理与职业责任">Ethics & Professional Responsibility</span></a>
-        <a class="vt-ch" href="#ch11"><span class="n">11</span><span class="t" data-en="Becoming a Physical Therapist" data-zh="成为物理治疗师">Becoming a Physical Therapist</span></a>
-        <a class="vt-ch" href="#ch12"><span class="n">12</span><span class="t" data-en="Assessment" data-zh="康复评定学">Assessment</span></a>
-        <a class="vt-ch" href="#ch13"><span class="n">13</span><span class="t" data-en="TCM" data-zh="中医健康管理">TCM</span></a>
-        <a class="vt-ch" href="#ch14"><span class="n">14</span><span class="t" data-en="Emergency Medicine & Field Care" data-zh="急救医学与场边处置">Emergency Medicine & Field Care</span></a>
-   </div>
-  </div>
- </div>
-</section>
-<button class="vt-back" id="vtBack" type="button" data-en="←  Title page" data-zh="←  返回封面">←  Title page</button>
 <!-- Full Guide -->
 <section id="guide">
 <div class="container">
@@ -5289,7 +5186,7 @@ function renderResourcesHub(){
 // ════════════════════════════════════════
 
 // ════════════════════════════════════════
-// Medical AI (Cloudflare Worker: glm-4.5-air, Qwen3 30B-A3B for Vitaline)
+// Medical AI (Dr7.ai via Cloudflare Worker)
 // MEDAI_URL is filled in once the worker is deployed (leave '' to show a friendly 'not configured' message).
 // ════════════════════════════════════════
 var MEDAI_URL = 'https://api.vitaliteplan.com';
@@ -5740,64 +5637,5 @@ document.addEventListener('keydown',function(e){
 </script>
 
 <script src="site-content.js"></script>
-<script>
-/* ── Vitalité 教材 title page ──────────────────────────────────────────────
-   The cover is visible until the reader starts, then it goes away for good
-   so the chapter text owns the page. A deep link like guide.html#ch7 skips
-   the cover entirely -- arriving at a chapter should not require a click. */
-(function(){
-  var cover=document.getElementById('vtCover');
-  if(!cover)return;
-  var start=document.getElementById('vtStart');
-  var back=document.getElementById('vtBack');
-  /* The chapter script below rewrites the URL to #ch1 on every load, so by the
-     time this runs, location.hash cannot be trusted to mean "the reader linked
-     here". __vtEntryHash is captured at the top of <body>, before that runs. */
-  var entry=window.__vtEntryHash||'';
-  function deepLinked(){return /^#ch\d+$/.test(entry);}
-  function show(){cover.classList.remove('gone');document.body.classList.remove('vt-started');}
-  function begin(){
-    cover.classList.add('gone');
-    document.body.classList.add('vt-started');
-    var target=document.getElementById('ch1');
-    if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}
-  }
-  if(start)start.addEventListener('click',begin);
-  if(back)back.addEventListener('click',function(){
-    show();
-    if(history.replaceState)history.replaceState(null,'',location.pathname);
-    window.scrollTo({top:0,behavior:'smooth'});
-  });
-  /* a click on any chapter card on the cover starts the book too */
-  cover.addEventListener('click',function(e){
-    var a=e.target.closest?e.target.closest('a[href^="#ch"]'):null;
-    if(a){cover.classList.add('gone');document.body.classList.add('vt-started');}
-  });
-  /* landing on a chapter -- by deep link, or by using the sidebar while the
-     title page is still up -- must not leave the cover covering the text */
-  if(deepLinked()){cover.classList.add('gone');document.body.classList.add('vt-started');}
-  /* showChapter() and the sticky topbar both try to scroll on load, which drops
-     the reader past their own title page. Hold the page at the top until they
-     scroll for themselves, then never fight them again. */
-  if(!deepLinked()){
-    var yielding=false;
-    function yieldControl(){yielding=true;}
-    ['wheel','touchstart','keydown','mousedown'].forEach(function(t){
-      window.addEventListener(t,yieldControl,{passive:true,once:true});
-    });
-    var t0=Date.now();
-    (function hold(){
-      if(yielding||Date.now()-t0>900||deepLinked())return;
-      if(window.scrollY>0)window.scrollTo(0,0);
-      window.requestAnimationFrame(hold);
-    })();
-  }
-  window.addEventListener('hashchange',function(){
-    if(/^#ch\d+$/.test(location.hash||'')){
-      cover.classList.add('gone');document.body.classList.add('vt-started');
-    }
-  });
-})();
-</script>
 </body>
 </html>

@@ -541,3 +541,76 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label{
    equalization above applies in every state, so no per-state re-assertion
    is needed here. Touch layouts and medium windows keep the base 224px
    sidebar untouched. */
+
+/* ═══ PHONE ADAPTATION (≤600px) ══════════════════════════════════════════
+   Three defects found by measuring every page in a real 390px viewport:
+
+   1. `.lin-search-cluster{display:none}` at ≤480px deleted search outright
+      on the phones most people own (360–412px) with nothing to replace it.
+      The bar has ~176px of slack at 390px, so the field is restored as a
+      flexible child that shares the leftover space instead.
+   2. Bar controls were built for a mouse: the Study Tools pill was 26px
+      tall and the tutorial-replay pill 22px. Both are primary phone
+      controls, so they are grown to a 40px target with `::before` keeping
+      the painted pill the original size — the hit area grows, the design
+      does not.
+   3. Sidebar rows inside the drawer were 26px, under the 44px comfortable
+      target, so the chapter list was fiddly to thumb through. */
+@media (max-width:600px){
+
+  /* 1 · search stays reachable */
+  @media (max-width:480px){
+    body.lin-v2 .lin-search-cluster{
+      display:flex;flex:1 1 auto;min-width:0;
+    }
+    body.lin-v2 .lin-search,
+    body.lin-v2.lang-zh .lin-search{
+      width:100%;min-width:0;
+    }
+    body.lin-v2 .lin-search-cluster{gap:8px}
+  }
+  body.lin-v2 .lin-search-input{height:38px}
+  body.lin-v2 .lin-search-kbd{display:none}
+
+  /* 2 · bar controls get a real tap target */
+  body.lin-v2 .lin-study-wrap{align-self:stretch;display:flex;align-items:center}
+  body.lin-v2 .lin-study-btn{position:relative;padding:.62rem .55rem;min-height:40px}
+  body.lin-v2 .lin-study-btn::before{content:"";position:absolute;left:0;right:0;top:50%;height:40px;transform:translateY(-50%)}
+  body.lin-v2 .lin-topleft .btn-icon{width:40px;height:40px}
+  #tutReplay,#tutReplay.tut-replay{position:relative;min-height:40px;padding:.55rem .5rem}
+  #tutReplay::before{content:"";position:absolute;left:0;right:0;top:50%;height:40px;transform:translateY(-50%)}
+
+  /* 3 · drawer rows are thumb-sized.
+         These selectors deliberately MIRROR the row-equalization block above
+         (`... .sidebar-group.part > .part-body .sidebar-link`, specificity
+         0-6-0) instead of being shorter ones, because a lower-specificity
+         rule here is simply overridden by that block's height:32px. */
+  body.lin-v2 .sidebar .part-toggle,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.sub,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label,
+  /* `.gc` carries an EXTRA class, so guide.html's 26px "thinned" chapter row
+     (0-7-2) outranks a plain selector (0-6-2). It has to be named here or the
+     chapter list — the main way into a chapter on a phone — stays 26px. */
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.gc,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.gc.sub,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
+    height:40px;min-height:40px;margin:2px 0;line-height:1;
+    display:flex;align-items:center;padding-top:.4rem;padding-bottom:.4rem;
+  }
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.sub,
+  body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-link.gc.sub{padding-left:1.9rem}
+}
+
+/* Phone portrait is narrower than 600px but very short in landscape on some
+   handsets; nothing here depends on height, so no extra breakpoint. */
+
+/* Long unbroken strings (URLs, formula tokens) are the classic cause of a
+   sideways-scrolling page on a phone. Only apply where nothing is expected
+   to wrap, so prose is untouched. */
+@media (max-width:600px){
+  .acc-body-inner p,.acc-body-inner li,.hero p,.card p{overflow-wrap:break-word;word-break:break-word}
+  .table-wrap,.vis-table-wrap,.native-table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .guide-tabs{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  img.inline-img,.native-figure img,.vis-figures img{max-width:100%;height:auto}
+}

@@ -11,43 +11,6 @@
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <style>
-/* ═══ every section, as a numbered disc ═══════════════════════════════════
-   The disc, the serif title, the dotted subtitle and the Enter link follow
-   the chapter-card language already used further down this page. */
-.xlinks{display:flex;flex-direction:column;gap:.5rem;max-width:1000px;margin:1.1rem auto 0}
-.xlink{display:flex;align-items:center;gap:1.1rem;padding:1.05rem 1.3rem;border:1px solid var(--border);
-  border-radius:var(--radius-lg,16px);background:var(--surface);text-decoration:none;color:inherit;
-  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease}
-.xlink:hover{border-color:var(--k,var(--accent));transform:translateY(-2px);
-  box-shadow:var(--shadow,0 2px 8px rgba(0,0,0,.08))}
-.xlink .disc{flex:0 0 auto;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
-  font-family:var(--font-heading,Georgia,serif);font-size:1.35rem;font-weight:700;color:#fff;
-  background:radial-gradient(circle at 32% 28%,
-    color-mix(in srgb,var(--k,var(--accent)) 82%,#fff),
-    color-mix(in srgb,var(--k,var(--accent)) 62%,#000) 62%,
-    var(--k,var(--accent)));
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--k,var(--accent)) 22%,transparent),
-             0 0 0 7px color-mix(in srgb,var(--k,var(--accent)) 8%,transparent)}
-.xlink .txt{flex:1 1 auto;min-width:0}
-.xlink h3{margin:0;font-family:var(--font-heading,Georgia,serif);font-size:1.16rem;font-weight:700;
-  letter-spacing:.02em;line-height:1.25}
-.xlink .z{display:block;margin-top:.1rem;font-size:.8rem;color:var(--text3,var(--text2))}
-.xlink p{margin:.3rem 0 0;font-size:.87rem;line-height:1.5;color:var(--text2)}
-.xlink .go{flex:0 0 auto;font-family:var(--font-heading,Georgia,serif);font-size:1rem;font-weight:700;
-  color:color-mix(in srgb,var(--k,var(--accent)) 62%,#fff);white-space:nowrap}
-body.dark .xlink .go{color:color-mix(in srgb,var(--k,var(--accent)) 55%,#fff)}
-
-/* the knowledge-part introduction */
-.kfn{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.75rem;max-width:1080px;margin:1.1rem auto 0}
-.kfn .c{padding:1rem 1.1rem;border:1px solid var(--border);border-radius:var(--radius,12px);background:var(--surface2)}
-.kfn .c .i{font-size:1.3rem;line-height:1}
-.kfn .c h3{margin:.45rem 0 0;font-size:1rem;font-weight:800}
-.kfn .c .z{display:block;margin-top:.1rem;font-size:.76rem;color:var(--text3,var(--text2))}
-.kfn .c p{margin:.4rem 0 0;font-size:.83rem;line-height:1.55;color:var(--text2)}
-@media (max-width:640px){.xlink{gap:.8rem;padding:.9rem 1rem}.xlink .disc{width:46px;height:46px;font-size:1.1rem}
-  .xlink h3{font-size:1.02rem}.xlink .go{font-size:.9rem}}
-@media (prefers-reduced-motion:reduce){.xlink{transition:none}}
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
@@ -784,13 +747,13 @@ body.dark h1,body.dark h2,body.dark h3{
 <script src="tutorial-widget.js?v=6"></script>
 <script src="auth-gate.js?v=2"></script>
 <link rel="stylesheet" href="gold-blue-theme.css?v=14">
-  <script src="loader.js?v=6"></script>
+  <script src="loader.js?v=7"></script>
 <link rel="stylesheet" href="sections.css?v=9">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=20">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=15" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -826,7 +789,7 @@ body.dark h1,body.dark h2,body.dark h3{
     <div class="part-body">
       <a class="sidebar-link active" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
       <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
-      <a class="sidebar-link" href="textbook.html" data-en="📔 Textbook Cover" data-zh="📔 教材封面">📔 Textbook Cover</a> <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
+      <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
       <a class="sidebar-link sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
       <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
       <div class="sidebar-label" data-en="🧰 Practice" data-zh="🧰 练习">🧰 Practice</div>
@@ -895,8 +858,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="hero" class="hero">
 <div class="container">
   <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Knowledge Hub" data-zh="Vitalité 知识中心">Vitalite Knowledge Hub</span></div>
-  <h1 class="kh-promise-title" data-en="The most complete sports-medicine study library on the web" data-zh="网络上最完整的运动医学学习库">The most complete sports-medicine study library on the web</h1>
-  <p class="kh-promise" data-en="Fourteen chapters, two full courses, three exam tracks and a diagnostic that finds what you don't know yet. Every word in English and 中文, every diagram drawn from the evidence, every number sourced." data-zh="十四章正文、两门完整课程、三条备考路线，以及一个能找出你不知道什么的诊断测试。每个词都有中英双语，每张图都依据证据，每个数字都有出处。">Fourteen chapters, two full courses, three exam tracks and a diagnostic that finds what you don't know yet. Every word in English and 中文, every diagram drawn from the evidence, every number sourced.</p>
+  <h1 data-en="Learn it, practise it, prove it" data-zh="学会它，练熟它，证明它"><span>Learn it, practise it, prove it</span></h1>
+  <p data-en="Sports medicine, recovery &amp; nutrition in English / 中文 — 14 chapters with interactive visuals, flip cards, adaptive quizzes and exam tracks." data-zh="中英双语的运动医学、恢复与营养 — 14 章互动图解、翻卡、自适应测验与考试路线。">Sports medicine, recovery &amp; nutrition in English / 中文 — 14 chapters with interactive visuals, flip cards, adaptive quizzes and exam tracks.</p>
   <div class="hero-actions">
     <a class="qo-btn next kh-continue" id="khContinue" href="guide.html#ch1" data-en="📖 Start with Chapter 1" data-zh="📖 从第 1 章开始">📖 Start with Chapter 1</a>
     <button class="qo-btn next" onclick="openFlashcards()" style="background:var(--green)" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
@@ -905,200 +868,42 @@ body.dark h1,body.dark h2,body.dark h3{
 </div>
 </section>
 
-
-<section id="kfunctions" class="section">
- <div class="container">
-  <div class="toc-intro">
-   <span class="section-label" data-en="What you can do here" data-zh="这里能做什么">What you can do here</span>
-   <h2 data-en="Every part of the knowledge programme" data-zh="知识板块的全部功能">Every part of the knowledge programme</h2>
-  </div>
-  <div class="kfn">
-    <div class="c">
-     <span class="i" aria-hidden="true">📖</span>
-     <h3 data-en="The Textbook" data-zh="十四章正文">The Textbook</h3><span class="z" data-en="十四章正文" data-zh="十四章正文">十四章正文</span>
-     <p data-en="Fourteen chapters, read in order. Anatomy, neurology, cardio, skin, training, injury, recovery, nutrition, supplements, ethics, assessment, TCM and emergency care." data-zh="十四章，按顺序阅读。解剖、神经、心血管、皮肤、训练、损伤、恢复、营养、补剂、伦理、评定、中医与急救。">Fourteen chapters, read in order. Anatomy, neurology, cardio, skin, training, injury, recovery, nutrition, supplements, ethics, assessment, TCM and emergency care.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">🎓</span>
-     <h3 data-en="IB SEHS" data-zh="IB 体育与健康科学">IB SEHS</h3><span class="z" data-en="IB 体育与健康科学" data-zh="IB 体育与健康科学">IB 体育与健康科学</span>
-     <p data-en="The full International Baccalaureate course, section by section, with a deep explanatory layer under every topic." data-zh="完整的 IB 课程，逐节讲解，每个主题下都有一层深入解析。">The full International Baccalaureate course, section by section, with a deep explanatory layer under every topic.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">🔬</span>
-     <h3 data-en="Science Courses" data-zh="科学课程">Science Courses</h3><span class="z" data-en="科学课程" data-zh="科学课程">科学课程</span>
-     <p data-en="G10 Biology and USABO, both bilingual, following the syllabus you are actually taught and the style you are actually examined in." data-zh="十年级生物与生物奥赛，中英双语，对应真实考纲与真实出题风格。">G10 Biology and USABO, both bilingual, following the syllabus you are actually taught and the style you are actually examined in.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">🃏</span>
-     <h3 data-en="Recall" data-zh="记忆">Recall</h3><span class="z" data-en="记忆" data-zh="记忆">记忆</span>
-     <p data-en="Flashcards on every term, spaced so they come back just before you would have forgotten them." data-zh="覆盖全部术语的闪卡，按遗忘曲线排布，在快要忘记之前重新出现。">Flashcards on every term, spaced so they come back just before you would have forgotten them.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">📝</span>
-     <h3 data-en="Testing" data-zh="测试">Testing</h3><span class="z" data-en="测试" data-zh="测试">测试</span>
-     <p data-en="Adaptive quizzes that keep asking what you got wrong, and a full diagnostic that hands you a study plan." data-zh="自适应测验不断追问你的错题，完整诊断测试给出学习计划。">Adaptive quizzes that keep asking what you got wrong, and a full diagnostic that hands you a study plan.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">💬</span>
-     <h3 data-en="Asking" data-zh="提问">Asking</h3><span class="z" data-en="提问" data-zh="提问">提问</span>
-     <p data-en="Vitaline AI answers questions about any chapter, in either language, at the moment you get stuck." data-zh="Vitaline AI 用中英双语回答任何章节的问题，在你卡住的那一刻给出答案。">Vitaline AI answers questions about any chapter, in either language, at the moment you get stuck.</p>
-    </div>
-    <div class="c">
-     <span class="i" aria-hidden="true">🏁</span>
-     <h3 data-en="Certification" data-zh="考证">Certification</h3><span class="z" data-en="考证" data-zh="考证">考证</span>
-     <p data-en="NPTE for the US licensure exam and 运动康复师资格证 for the Chinese track, both with timed practice and a certificate." data-zh="美国执照考试 NPTE 与中国运动康复师资格证，均含计时练习与证书。">NPTE for the US licensure exam and 运动康复师资格证 for the Chinese track, both with timed practice and a certificate.</p>
-    </div>
-  </div>
- </div>
-</section>
-
-<section id="xlinks" class="section">
- <div class="container">
-  <div class="toc-intro">
-   <span class="section-label" data-en="Go anywhere" data-zh="直达任意板块">Go anywhere</span>
-   <h2 data-en="Every section" data-zh="全部板块">Every section</h2>
-  </div>
-  <div class="xlinks">
-    <a class="xlink" href="textbook.html" style="--k:#2563eb">
-     <span class="disc" aria-hidden="true">1</span>
-     <span class="txt">
-      <h3 data-en="Vitalité Textbook" data-zh="Vitalité 教材">Vitalité Textbook</h3><span class="z" data-en="Vitalité Textbook" data-zh="Vitalité 教材">Vitalité Textbook</span>
-      <p data-en="The cover · Fourteen chapters · Start at Chapter 1" data-zh="教材封面 · 十四章 · 从第一章开始">The cover · Fourteen chapters · Start at Chapter 1</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="guide.html" style="--k:#0d9488">
-     <span class="disc" aria-hidden="true">2</span>
-     <span class="txt">
-      <h3 data-en="Vitalité Textbook — Chapters" data-zh="Vitalité 教材 — 全文">Vitalité Textbook — Chapters</h3><span class="z" data-en="Vitalité Textbook — Chapters" data-zh="Vitalité 教材 — 全文">Vitalité Textbook — Chapters</span>
-      <p data-en="All 14 chapters · Model diagrams · Data tables · Worked examples" data-zh="十四章全文 · 模型图解 · 数据表 · 实例演算">All 14 chapters · Model diagrams · Data tables · Worked examples</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="ib-sehs.html" style="--k:#7c3aed">
-     <span class="disc" aria-hidden="true">3</span>
-     <span class="txt">
-      <h3 data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</h3><span class="z" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</span>
-      <p data-en="Biology · Biomechanics · Training · Injury · Health" data-zh="生理 · 生物力学 · 训练 · 损伤 · 健康">Biology · Biomechanics · Training · Injury · Health</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="g10-bio.html" style="--k:#0891b2">
-     <span class="disc" aria-hidden="true">4</span>
-     <span class="txt">
-      <h3 data-en="G10 Biology" data-zh="十年级生物">G10 Biology</h3><span class="z" data-en="G10 Biology" data-zh="十年级生物">G10 Biology</span>
-      <p data-en="Cells · Genetics · Ecology · Human systems" data-zh="细胞 · 遗传 · 生态 · 人体系统">Cells · Genetics · Ecology · Human systems</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="usabo.html" style="--k:#c2410c">
-     <span class="disc" aria-hidden="true">5</span>
-     <span class="txt">
-      <h3 data-en="USABO" data-zh="生物奥赛">USABO</h3><span class="z" data-en="USABO" data-zh="生物奥赛">USABO</span>
-      <p data-en="Olympiad concepts · Question style · Past-paper logic" data-zh="奥赛概念 · 出题风格 · 真题逻辑">Olympiad concepts · Question style · Past-paper logic</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="exam.html" style="--k:#be123c">
-     <span class="disc" aria-hidden="true">6</span>
-     <span class="txt">
-      <h3 data-en="NPTE Preparation" data-zh="美国 NPTE 备考">NPTE Preparation</h3><span class="z" data-en="NPTE Preparation" data-zh="美国 NPTE 备考">NPTE Preparation</span>
-      <p data-en="Licensure exam · Timed practice · Blueprint-weighted" data-zh="执照考试 · 计时练习 · 按考纲配比">Licensure exam · Timed practice · Blueprint-weighted</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="cn-cert.html" style="--k:#4f46e5">
-     <span class="disc" aria-hidden="true">7</span>
-     <span class="txt">
-      <h3 data-en="运动康复师资格证" data-zh="运动康复师考试">运动康复师资格证</h3><span class="z" data-en="运动康复师资格证" data-zh="运动康复师考试">运动康复师资格证</span>
-      <p data-en="解剖 · 生理 · 评定 · 损伤 · 中医 · 82 题库" data-zh="解剖 · 生理 · 评定 · 损伤 · 中医 · 82 道题库">解剖 · 生理 · 评定 · 损伤 · 中医 · 82 题库</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="guide.html?study=flashcards" style="--k:#b45309">
-     <span class="disc" aria-hidden="true">8</span>
-     <span class="txt">
-      <h3 data-en="Flashcards" data-zh="闪卡记忆">Flashcards</h3><span class="z" data-en="Flashcards" data-zh="闪卡记忆">Flashcards</span>
-      <p data-en="Every term · Spaced repetition · Flip to reveal" data-zh="全部术语 · 间隔重复 · 翻面揭示">Every term · Spaced repetition · Flip to reveal</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="guide.html?study=quiz" style="--k:#db2777">
-     <span class="disc" aria-hidden="true">9</span>
-     <span class="txt">
-      <h3 data-en="Quizzes & Practice" data-zh="测验与练习">Quizzes & Practice</h3><span class="z" data-en="Quizzes & Practice" data-zh="测验与练习">Quizzes & Practice</span>
-      <p data-en="Adaptive · Chapter by chapter · Immediate correction" data-zh="自适应 · 逐章练习 · 即时订正">Adaptive · Chapter by chapter · Immediate correction</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="guide.html?study=ai" style="--k:#059669">
-     <span class="disc" aria-hidden="true">10</span>
-     <span class="txt">
-      <h3 data-en="Vitaline AI" data-zh="AI 助手">Vitaline AI</h3><span class="z" data-en="Vitaline AI" data-zh="AI 助手">Vitaline AI</span>
-      <p data-en="Ask anything · Any chapter · English & 中文" data-zh="随时提问 · 任意章节 · 中英双语">Ask anything · Any chapter · English & 中文</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="toc.html#practice" style="--k:#0284c7">
-     <span class="disc" aria-hidden="true">11</span>
-     <span class="txt">
-      <h3 data-en="Diagnostic" data-zh="诊断测试">Diagnostic</h3><span class="z" data-en="Diagnostic" data-zh="诊断测试">Diagnostic</span>
-      <p data-en="Full test · Finds your gaps · Returns a plan" data-zh="完整测试 · 找出薄弱点 · 生成计划">Full test · Finds your gaps · Returns a plan</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="toc.html#progress" style="--k:#9333ea">
-     <span class="disc" aria-hidden="true">12</span>
-     <span class="txt">
-      <h3 data-en="Your Progress" data-zh="我的进度">Your Progress</h3><span class="z" data-en="Your Progress" data-zh="我的进度">Your Progress</span>
-      <p data-en="Mastery per topic · Weakest areas · What is finished" data-zh="各主题掌握度 · 薄弱环节 · 已完成部分">Mastery per topic · Weakest areas · What is finished</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="toc.html#resources" style="--k:#65a30d">
-     <span class="disc" aria-hidden="true">13</span>
-     <span class="txt">
-      <h3 data-en="Videos & References" data-zh="视频与参考文献">Videos & References</h3><span class="z" data-en="Videos & References" data-zh="视频与参考文献">Videos & References</span>
-      <p data-en="A watch per chapter · Where the claims come from" data-zh="每章配套视频 · 结论的出处">A watch per chapter · Where the claims come from</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="infirmary.html" style="--k:#e11d48">
-     <span class="disc" aria-hidden="true">14</span>
-     <span class="txt">
-      <h3 data-en="Vitaxamine" data-zh="Vitaxamine 诊所">Vitaxamine</h3><span class="z" data-en="Vitaxamine" data-zh="Vitaxamine 诊所">Vitaxamine</span>
-      <p data-en="Symptom guidance · Dosage · When to see a doctor" data-zh="症状指导 · 用药剂量 · 何时就医">Symptom guidance · Dosage · When to see a doctor</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="checkup.html" style="--k:#0f766e">
-     <span class="disc" aria-hidden="true">15</span>
-     <span class="txt">
-      <h3 data-en="Checkup" data-zh="AI 体检">Checkup</h3><span class="z" data-en="Checkup" data-zh="AI 体检">Checkup</span>
-      <p data-en="Body checkup · Symptom review · Next steps" data-zh="身体检查 · 症状梳理 · 后续建议">Body checkup · Symptom review · Next steps</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="plan.html" style="--k:#6366f1">
-     <span class="disc" aria-hidden="true">16</span>
-     <span class="txt">
-      <h3 data-en="Plan Builder" data-zh="学习计划">Plan Builder</h3><span class="z" data-en="Plan Builder" data-zh="学习计划">Plan Builder</span>
-      <p data-en="Build a plan · Four phases · Adjust as you go" data-zh="制定计划 · 四个阶段 · 随时调整">Build a plan · Four phases · Adjust as you go</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-    <a class="xlink" href="social.html" style="--k:#2563eb">
-     <span class="disc" aria-hidden="true">17</span>
-     <span class="txt">
-      <h3 data-en="Forum" data-zh="社区">Forum</h3><span class="z" data-en="Forum" data-zh="社区">Forum</span>
-      <p data-en="Ask other members · Share progress · Discussion" data-zh="向会员提问 · 分享进度 · 讨论交流">Ask other members · Share progress · Discussion</p>
-     </span>
-     <span class="go" data-en="Enter →" data-zh="进入 →">Enter →</span>
-    </a>
-  </div>
- </div>
-</section>
 <!-- Pathways: four ways into Vitalite Knowledge -->
+<section id="pathways" class="kh-paths-sec">
+<div class="container">
+  <div class="toc-intro">
+    <span class="section-label" data-en="Choose your path" data-zh="选择你的路线">Choose your path</span>
+    <h2 data-en="Four ways in" data-zh="四条学习路线">Four ways in</h2>
+  </div>
+  <div class="kh-paths">
+    <div class="kh-path kh-learn">
+      <div class="kh-ico" aria-hidden="true">📖</div>
+      <h3 data-en="Learn" data-zh="学习">Learn</h3>
+      <p data-en="Read the key points, play with a visual, go deeper only when you want." data-zh="先读要点、玩互动图解，想深入时再展开全文。">Read the key points, play with a visual, go deeper only when you want.</p>
+      <div class="kh-links"><a href="guide.html" data-en="Vitalite Textbook" data-zh="Vitalité 教材">Vitalite Textbook</a><a href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a><a href="g10-bio.html" data-en="G10 Bio" data-zh="十年级生物">G10 Bio</a></div>
+    </div>
+    <div class="kh-path kh-practice">
+      <div class="kh-ico" aria-hidden="true">🧪</div>
+      <h3 data-en="Practise" data-zh="练习">Practise</h3>
+      <p data-en="Flip cards, adaptive quizzes and a diagnostic that finds your weak spots." data-zh="翻卡、自适应测验，以及找出薄弱点的诊断测试。">Flip cards, adaptive quizzes and a diagnostic that finds your weak spots.</p>
+      <div class="kh-links"><a href="guide.html?study=flashcards" data-en="Flashcards" data-zh="闪卡">Flashcards</a><a href="guide.html?study=quiz" data-en="Quizzes" data-zh="测验">Quizzes</a><a href="#practice" data-en="Diagnostic" data-zh="诊断测试">Diagnostic</a><a href="guide.html?study=ai" data-en="Vitaline AI" data-zh="AI 助手">Vitaline AI</a></div>
+    </div>
+    <div class="kh-path kh-prepare">
+      <div class="kh-ico" aria-hidden="true">🏁</div>
+      <h3 data-en="Prepare" data-zh="备考">Prepare</h3>
+      <p data-en="Exam tracks with timed practice for licensing and olympiad tests." data-zh="面向执照与奥赛的备考路线，含计时练习。">Exam tracks with timed practice for licensing and olympiad tests.</p>
+      <div class="kh-links"><a href="exam.html" data-en="NPTE (US)" data-zh="美国 NPTE">NPTE (US)</a><a href="cn-cert.html" data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</a><a href="usabo.html" data-en="USABO" data-zh="USABO 生物奥赛">USABO</a></div>
+    </div>
+    <div class="kh-path kh-explore">
+      <div class="kh-ico" aria-hidden="true">🎬</div>
+      <h3 data-en="Explore" data-zh="拓展">Explore</h3>
+      <p data-en="Videos for every chapter and the references behind the content." data-zh="每章配套视频，以及内容背后的参考文献。">Videos for every chapter and the references behind the content.</p>
+      <div class="kh-links"><a href="#resources" data-en="Videos" data-zh="视频">Videos</a><a href="#refs" data-en="References" data-zh="参考文献">References</a><a href="#progress" data-en="Your progress" data-zh="我的进度">Your progress</a></div>
+    </div>
+  </div>
+</div>
+</section>
+
 <!-- Chapter Grid -->
 <section id="chapters">
 <div class="container">

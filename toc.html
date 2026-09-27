@@ -11,6 +11,39 @@
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
 <style>
+/* ═══ Knowledge Hub · showcase ═══════════════════════════════════════════
+   The function cards used to be a row of links. They are now labels: the
+   page shows what the site can do and lets the sidebar do the navigating,
+   so the top of the page reads as an introduction rather than a menu. */
+.kh-tag{font-size:.78rem;font-weight:700;padding:.32rem .62rem;border-radius:999px;
+  color:color-mix(in srgb,var(--k) 70%,#fff);
+  background:color-mix(in srgb,var(--k) 11%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--k) 30%,transparent);white-space:nowrap}
+body.dark .kh-tag{color:color-mix(in srgb,var(--k) 70%,#fff)}
+.kh-path .kh-note{margin-top:.7rem;padding-top:.7rem;border-top:1px dashed var(--border2,var(--border));
+  font-size:.74rem;color:var(--text3,var(--text2))}
+.kh-hero h1{letter-spacing:-.022em}
+.kh-hero .kh-promise{max-width:64ch;font-size:clamp(1rem,1.5vw,1.12rem);line-height:1.62}
+.kh-lede{margin:.7rem 0 0;max-width:64ch;font-size:.92rem;color:var(--text2)}
+
+/* the courses themselves, as a showcase row */
+.kh-suite{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.85rem;max-width:1080px;margin:1.2rem auto 0}
+.kh-card{display:flex;flex-direction:column;gap:.35rem;padding:1.05rem 1.1rem;border:1px solid var(--border);
+  border-radius:var(--radius-lg,16px);background:var(--surface);text-decoration:none;color:inherit;
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease}
+a.kh-card:hover{border-color:var(--k,var(--accent));transform:translateY(-2px);box-shadow:var(--shadow,0 2px 8px rgba(0,0,0,.08))}
+.kh-card .k{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;margin-bottom:.25rem;
+  background:color-mix(in srgb,var(--k,var(--accent)) 16%,var(--surface))}
+.kh-card h3{margin:0;font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.kh-card .z{font-size:.78rem;color:var(--text3,var(--text2))}
+.kh-card p{margin:.15rem 0 0;font-size:.83rem;line-height:1.5;color:var(--text2)}
+.kh-card .go{margin-top:auto;padding-top:.6rem;font-size:.76rem;font-weight:800;
+  color:color-mix(in srgb,var(--k,var(--accent)) 70%,#fff)}
+@media (max-width:900px){.kh-paths{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.kh-paths{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.kh-card{transition:none}}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#EAF1F6;--surface:#FFFFFF;--surface2:#F1F6F9;--surface3:#E3ECF2;
@@ -859,8 +892,8 @@ body.dark h1,body.dark h2,body.dark h3{
 <section id="hero" class="hero">
 <div class="container">
   <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Knowledge Hub" data-zh="Vitalité 知识中心">Vitalite Knowledge Hub</span></div>
-  <h1 data-en="Learn it, practise it, prove it" data-zh="学会它，练熟它，证明它"><span>Learn it, practise it, prove it</span></h1>
-  <p data-en="Sports medicine, recovery &amp; nutrition in English / 中文 — 14 chapters with interactive visuals, flip cards, adaptive quizzes and exam tracks." data-zh="中英双语的运动医学、恢复与营养 — 14 章互动图解、翻卡、自适应测验与考试路线。">Sports medicine, recovery &amp; nutrition in English / 中文 — 14 chapters with interactive visuals, flip cards, adaptive quizzes and exam tracks.</p>
+  <h1 class="kh-promise-title" data-en="The most complete sports-medicine study library on the web" data-zh="网络上最完整的运动医学学习库">The most complete sports-medicine study library on the web</h1>
+  <p class="kh-promise" data-en="Fourteen chapters, two full courses, three exam tracks and a diagnostic that finds what you don't know yet. Every word in English and 中文, every diagram drawn from the evidence, every number sourced." data-zh="十四章正文、两门完整课程、三条备考路线，以及一个能找出你不知道什么的诊断测试。每个词都有中英双语，每张图都依据证据，每个数字都有出处。">Fourteen chapters, two full courses, three exam tracks and a diagnostic that finds what you don't know yet. Every word in English and 中文, every diagram drawn from the evidence, every number sourced.</p>
   <div class="hero-actions">
     <a class="qo-btn next kh-continue" id="khContinue" href="guide.html#ch1" data-en="📖 Start with Chapter 1" data-zh="📖 从第 1 章开始">📖 Start with Chapter 1</a>
     <button class="qo-btn next" onclick="openFlashcards()" style="background:var(--green)" data-en="🃏 Flashcards" data-zh="🃏 闪卡记忆">🃏 Flashcards</button>
@@ -881,29 +914,76 @@ body.dark h1,body.dark h2,body.dark h3{
       <div class="kh-ico" aria-hidden="true">📖</div>
       <h3 data-en="Learn" data-zh="学习">Learn</h3>
       <p data-en="Read the key points, play with a visual, go deeper only when you want." data-zh="先读要点、玩互动图解，想深入时再展开全文。">Read the key points, play with a visual, go deeper only when you want.</p>
-      <div class="kh-links"><a href="guide.html" data-en="Vitalite Textbook" data-zh="Vitalité 教材">Vitalite Textbook</a><a href="ib-sehs.html" data-en="IB SEHS" data-zh="IB SEHS">IB SEHS</a><a href="g10-bio.html" data-en="G10 Bio" data-zh="十年级生物">G10 Bio</a></div>
+      <div class="kh-links"><span class="kh-tag">Vitalite Textbook</span><span class="kh-tag">IB SEHS</span><span class="kh-tag">G10 Bio</span></div>
     </div>
     <div class="kh-path kh-practice">
       <div class="kh-ico" aria-hidden="true">🧪</div>
       <h3 data-en="Practise" data-zh="练习">Practise</h3>
       <p data-en="Flip cards, adaptive quizzes and a diagnostic that finds your weak spots." data-zh="翻卡、自适应测验，以及找出薄弱点的诊断测试。">Flip cards, adaptive quizzes and a diagnostic that finds your weak spots.</p>
-      <div class="kh-links"><a href="guide.html?study=flashcards" data-en="Flashcards" data-zh="闪卡">Flashcards</a><a href="guide.html?study=quiz" data-en="Quizzes" data-zh="测验">Quizzes</a><a href="#practice" data-en="Diagnostic" data-zh="诊断测试">Diagnostic</a><a href="guide.html?study=ai" data-en="Vitaline AI" data-zh="AI 助手">Vitaline AI</a></div>
+      <div class="kh-links"><span class="kh-tag">Flashcards</span><span class="kh-tag">Quizzes</span><span class="kh-tag">Diagnostic</span><span class="kh-tag">Vitaline AI</span></div>
     </div>
     <div class="kh-path kh-prepare">
       <div class="kh-ico" aria-hidden="true">🏁</div>
       <h3 data-en="Prepare" data-zh="备考">Prepare</h3>
       <p data-en="Exam tracks with timed practice for licensing and olympiad tests." data-zh="面向执照与奥赛的备考路线，含计时练习。">Exam tracks with timed practice for licensing and olympiad tests.</p>
-      <div class="kh-links"><a href="exam.html" data-en="NPTE (US)" data-zh="美国 NPTE">NPTE (US)</a><a href="cn-cert.html" data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</a><a href="usabo.html" data-en="USABO" data-zh="USABO 生物奥赛">USABO</a></div>
+      <div class="kh-links"><span class="kh-tag">NPTE (US)</span><span class="kh-tag">运动康复师资格证</span><span class="kh-tag">USABO</span></div>
     </div>
     <div class="kh-path kh-explore">
       <div class="kh-ico" aria-hidden="true">🎬</div>
       <h3 data-en="Explore" data-zh="拓展">Explore</h3>
       <p data-en="Videos for every chapter and the references behind the content." data-zh="每章配套视频，以及内容背后的参考文献。">Videos for every chapter and the references behind the content.</p>
-      <div class="kh-links"><a href="#resources" data-en="Videos" data-zh="视频">Videos</a><a href="#refs" data-en="References" data-zh="参考文献">References</a><a href="#progress" data-en="Your progress" data-zh="我的进度">Your progress</a></div>
+      <div class="kh-links"><span class="kh-tag">Videos</span><span class="kh-tag">References</span><span class="kh-tag">Your progress</span></div>
     </div>
   </div>
 </div>
 </section>
+<section id="suite" class="section">
+ <div class="container">
+  <div class="toc-intro">
+   <span class="section-label" data-en="What is here" data-zh="这里有什么">What is here</span>
+   <h2 data-en="The courses" data-zh="课程与考证">The courses</h2>
+  </div>
+  <div class="kh-suite">
+    <a class="kh-card" href="guide.html" style="--k:#2563eb">
+     <span class="k" aria-hidden="true">📖</span>
+     <h3 data-en="Vitalité Textbook" data-zh="Vitalité 教材">Vitalité Textbook</h3>
+     <p data-en="Fourteen chapters of sports medicine, recovery and nutrition — read in order, with a model diagram, a data table and a worked example in every one." data-zh="十四章运动医学、恢复与营养，按顺序阅读；每一章都配模型图、数据表与实例演算。">Fourteen chapters of sports medicine, recovery and nutrition — read in order, with a model diagram, a data table and a worked example in every one.</p>
+     <span class="go" data-en="Open the textbook →" data-zh="打开教材 →">Open the textbook →</span>
+    </a>
+    <a class="kh-card" href="ib-sehs.html" style="--k:#0d9488">
+     <span class="k" aria-hidden="true">🎓</span>
+     <h3 data-en="IB SEHS Study" data-zh="IB SEHS 学习">IB SEHS Study</h3>
+     <p data-en="The whole International Baccalaureate Sports, Exercise and Health Science course, bilingual, with a deep explanatory layer under every topic." data-zh="完整的 IB 体育与健康科学课程，中英双语，每个主题下都有一层深入讲解。">The whole International Baccalaureate Sports, Exercise and Health Science course, bilingual, with a deep explanatory layer under every topic.</p>
+     <span class="go" data-en="Open IB SEHS →" data-zh="打开 IB SEHS →">Open IB SEHS →</span>
+    </a>
+    <a class="kh-card" href="exam.html" style="--k:#c2410c">
+     <span class="k" aria-hidden="true">🏁</span>
+     <h3 data-en="NPTE Preparation" data-zh="美国 NPTE 备考">NPTE Preparation</h3>
+     <p data-en="Timed practice for the US physical therapy licensure exam, weighted to the real blueprint, with a certificate when you finish." data-zh="美国物理治疗执照考试计时练习，按真实考纲配比，完成后可获得证书。">Timed practice for the US physical therapy licensure exam, weighted to the real blueprint, with a certificate when you finish.</p>
+     <span class="go" data-en="Open NPTE prep →" data-zh="打开 NPTE 备考 →">Open NPTE prep →</span>
+    </a>
+    <a class="kh-card" href="cn-cert.html" style="--k:#be123c">
+     <span class="k" aria-hidden="true">🥋</span>
+     <h3 data-en="运动康复师资格证" data-zh="运动康复师考试">运动康复师资格证</h3>
+     <p data-en="The Chinese certification track — anatomy, physiology, assessment, injury and TCM, with a full 82-question bank in both languages." data-zh="中国运动康复师考证路线：解剖、生理、评定、损伤与中医，附 82 道双语题库。">The Chinese certification track — anatomy, physiology, assessment, injury and TCM, with a full 82-question bank in both languages.</p>
+     <span class="go" data-en="Open the CN track →" data-zh="打开中文课程 →">Open the CN track →</span>
+    </a>
+    <a class="kh-card" href="g10-bio.html" style="--k:#7c3aed">
+     <span class="k" aria-hidden="true">🧬</span>
+     <h3 data-en="G10 Biology" data-zh="十年级生物">G10 Biology</h3>
+     <p data-en="Grade 10 biology, bilingual, following the syllabus you are actually being taught." data-zh="十年级生物，中英双语，对应你正在学的考纲。">Grade 10 biology, bilingual, following the syllabus you are actually being taught.</p>
+     <span class="go" data-en="Open G10 Bio →" data-zh="打开十年级生物 →">Open G10 Bio →</span>
+    </a>
+    <a class="kh-card" href="usabo.html" style="--k:#0891b2">
+     <span class="k" aria-hidden="true">🔬</span>
+     <h3 data-en="USABO" data-zh="生物奥赛">USABO</h3>
+     <p data-en="Biology Olympiad preparation — the concepts, and the question style they are actually asked in." data-zh="生物奥赛备考：核心概念，以及奥赛真实的出题风格。">Biology Olympiad preparation — the concepts, and the question style they are actually asked in.</p>
+     <span class="go" data-en="Open USABO →" data-zh="打开生物奥赛 →">Open USABO →</span>
+    </a>
+  </div>
+ </div>
+</section>
+
 
 <!-- Chapter Grid -->
 <section id="chapters">

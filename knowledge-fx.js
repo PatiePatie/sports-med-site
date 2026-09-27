@@ -833,7 +833,7 @@
     $$('.kn-learn').forEach(function (p) { if (+p.getAttribute('data-ch') !== ch) { var pn = p.querySelector('.kn-pane'); if (pn && pn._stop) pn._stop(); } });
   }
 
-  /* ═══ 7b · Knowledge Hub (toc.html): continue, rings, tracks ══════════ */
+  /* ═══ 7b · Knowledge Hub (the front of guide.html): rings, tracks ═════ */
   function chapterPct(ch) {
     var tot = load('kn_tot', {})[ch] || 0, n = (load('kn_read', {})[ch] || []).length;
     return tot ? Math.min(1, n / tot) : 0;
@@ -864,7 +864,8 @@
     }
     var go = document.getElementById('khContinue'), last = load('kn_last', null);
     if (go && last && last.ch) {
-      go.href = 'guide.html#ch' + last.ch;
+      /* on guide.html the hub is already this page, so the jump stays in-page */
+      go.href = (GUIDE ? '' : 'guide.html') + '#ch' + last.ch;
       go.setAttribute('data-en', '📖 Continue Chapter ' + last.ch);
       go.setAttribute('data-zh', '📖 继续第 ' + last.ch + ' 章');
       go.textContent = T('📖 Continue Chapter ' + last.ch, '📖 继续第 ' + last.ch + ' 章');
@@ -1549,7 +1550,7 @@
         new MutationObserver(function () { if (s.classList.contains('shown')) safe(onChapter); }).observe(s, { attributes: true, attributeFilter: ['class'] });
       });
     }
-    if (FILE === 'toc.html') safe(hub);
+    if (FILE === 'toc.html' || GUIDE) safe(hub);
     safe(sources);
     safe(watchLang);
   }

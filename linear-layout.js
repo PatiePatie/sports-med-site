@@ -78,9 +78,8 @@
   var PAGES = [
     { file: 'index.html',   en: 'Overview',       zh: '概览',              icon: 'home' },
     { file: 'home.html',    en: 'Home',           zh: '首页',              icon: 'home' },
-    { file: 'textbook.html', en: 'Textbook Cover', zh: '教材封面',          icon: 'bookmark' },
     { file: 'guide.html',   en: 'Vitalite Textbook', zh: 'Vitalité 教材',       icon: 'book' },
-    { file: 'toc.html',     en: 'Knowledge Hub',  zh: '知识中心',          icon: 'list' },
+    { file: 'toc.html',     en: 'All Resources',  zh: '全部资源',          icon: 'grid' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
     { file: 'ib-sehs.html', en: 'IB SEHS',        zh: 'IB SEHS',             icon: 'activity' },
@@ -117,7 +116,7 @@
   var ICONS = {
     home:      '<path d="M3 7.2 8 3.5l5 3.7V13a.5.5 0 0 1-.5.5h-3v-4h-3v4h-3A.5.5 0 0 1 3 13Z"/>',
     book:      '<path d="M3 3.5h3.6c.8 0 1.4.6 1.4 1.4v7.6c0-.6-.5-1-1.1-1H3Zm10 0H9.4c-.8 0-1.4.6-1.4 1.4v7.6c0-.6.5-1 1.1-1H13Z"/>',
-    list:      '<path d="M6 4.5h7M6 8h7M6 11.5h7M3.2 4.5h.01M3.2 8h.01M3.2 11.5h.01"/>',
+    grid:      '<rect x="2.8" y="2.8" width="4.6" height="4.6" rx="1"/><rect x="8.6" y="2.8" width="4.6" height="4.6" rx="1"/><rect x="2.8" y="8.6" width="4.6" height="4.6" rx="1"/><rect x="8.6" y="8.6" width="4.6" height="4.6" rx="1"/>',
     clipboard: '<path d="M6 3.5H5a1 1 0 0 0-1 1V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.5a1 1 0 0 0-1-1h-1M6 3.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v.5M6 3.5h4M6 9l1.4 1.4L10 7.8"/>',
     award:     '<circle cx="8" cy="6.5" r="3.5"/><path d="M5.8 9.6 5 14l3-1.5L11 14l-.8-4.4"/>',
     activity:  '<path d="M2.8 8h2.4l1.4-3.5 2.3 7 1.4-3.5h2.9"/>',

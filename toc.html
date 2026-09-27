@@ -37,21 +37,18 @@ body.dark .tp-stat b{color:color-mix(in srgb,var(--accent) 62%,#fff)}
    sections underneath it */
 .fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));
   gap:.6rem;max-width:1080px;margin:1.1rem auto 0}
+/* not a link: no pointer, no lift. The accent bar is the only thing that
+   separates one function from the next. */
 .fn-card{display:flex;align-items:flex-start;gap:.9rem;padding:.9rem 1.05rem;
   border:1px solid var(--border);border-left:3px solid var(--k,var(--accent));
-  border-radius:var(--radius,12px);background:var(--surface);text-decoration:none;color:inherit;
-  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease}
-.fn-card:hover{transform:translateY(-2px);border-color:var(--k,var(--accent));
-  box-shadow:var(--shadow,0 2px 8px rgba(0,0,0,.08))}
+  border-radius:var(--radius,12px);background:var(--surface);color:inherit}
 .fn-n{flex:0 0 auto;font-family:var(--font-heading,Georgia,serif);font-size:.92rem;
   font-weight:700;color:color-mix(in srgb,var(--k,var(--accent)) 70%,var(--text3));
   padding-top:.18rem;font-variant-numeric:tabular-nums}
 .fn-txt{flex:1 1 auto;min-width:0}
 .fn-txt b{display:block;font-size:.98rem;font-weight:800;letter-spacing:.01em}
 .fn-txt p{margin:.24rem 0 0;font-size:.83rem;line-height:1.55;color:var(--text2)}
-.fn-go{flex:0 0 auto;align-self:center;font-size:.82rem;font-weight:700;
-  color:color-mix(in srgb,var(--k,var(--accent)) 72%,#fff);white-space:nowrap}
-@media (max-width:640px){.fn-card{padding:.8rem .9rem;gap:.7rem}.fn-go{display:none}}
+@media (max-width:640px){.fn-card{padding:.8rem .9rem;gap:.7rem}}
 
 /* the six sections — the loudest thing on the page, which is the point */
 .sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
@@ -96,7 +93,7 @@ body.dark .sec-go{color:color-mix(in srgb,var(--k,var(--accent)) 55%,#fff)}
   .sec-disc i{font-size:1.2rem}
   .sec-go{display:none}
 }
-@media (prefers-reduced-motion:reduce){.fn-card,.sec-card{transition:none}}
+@media (prefers-reduced-motion:reduce){.sec-card{transition:none}}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -954,7 +951,6 @@ body.dark h1,body.dark h2,body.dark h3{
       <div class="tp-stat"><b data-en="0" data-zh="0">0</b><span data-en="cost, no account needed" data-zh="元，无需注册">cost, no account needed</span></div>
     </div>
     <div class="hero-actions">
-      <a class="qo-btn next" href="guide.html" data-en="📖 Start with the textbook" data-zh="📖 从教材开始">📖 Start with the textbook</a>
       <a class="qo-btn next" href="#sections" style="background:var(--green)" data-en="🧭 See every section" data-zh="🧭 查看全部板块">🧭 See every section</a>
     </div>
   </div>
@@ -969,70 +965,62 @@ body.dark h1,body.dark h2,body.dark h3{
    <p class="toc-sub" data-en="Every function reads the same material, so a concept met in the textbook turns up again in the quiz, the flashcards and the exam." data-zh="每个功能都用同一套材料，所以在教材里遇到的概念，会在测验、闪卡和考试里再次出现。">Every function reads the same material, so a concept met in the textbook turns up again in the quiz, the flashcards and the exam.</p>
   </div>
   <div class="fn-grid">
-      <a class="fn-card" href="guide.html" style="--k:#B8860B">
+      <div class="fn-card" style="--k:#B8860B">
         <span class="fn-n" aria-hidden="true">01</span>
         <span class="fn-txt">
           <b data-en="Read the textbook" data-zh="阅读教材">Read the textbook</b>
           <p data-en="Fourteen chapters in order, from how a muscle produces force to how a clinic actually runs." data-zh="十四章按顺序读，从肌肉如何产生力量，到诊所如何真正运转。">Fourteen chapters in order, from how a muscle produces force to how a clinic actually runs.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="guide.html?study=flashcards" style="--k:#B45309">
+      </div>
+      <div class="fn-card" style="--k:#B45309">
         <span class="fn-n" aria-hidden="true">02</span>
         <span class="fn-txt">
           <b data-en="Flip flashcards" data-zh="闪卡记忆">Flip flashcards</b>
           <p data-en="Spaced-repetition cards for all fourteen chapters, tracked so you know what is actually sticking." data-zh="覆盖全部十四章的间隔重复卡片，并记录哪些真的记住了。">Spaced-repetition cards for all fourteen chapters, tracked so you know what is actually sticking.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="guide.html?study=quiz" style="--k:#DB2777">
+      </div>
+      <div class="fn-card" style="--k:#DB2777">
         <span class="fn-n" aria-hidden="true">03</span>
         <span class="fn-txt">
           <b data-en="Take a chapter quiz" data-zh="章节测验">Take a chapter quiz</b>
           <p data-en="Curated bilingual questions per topic, with the explanation shown after you answer." data-zh="每个知识点的双语精选题目，作答后立刻给出解析。">Curated bilingual questions per topic, with the explanation shown after you answer.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="guide.html#practice" style="--k:#0284C7">
+      </div>
+      <div class="fn-card" style="--k:#0284C7">
         <span class="fn-n" aria-hidden="true">04</span>
         <span class="fn-txt">
           <b data-en="Run the diagnostic" data-zh="诊断测试">Run the diagnostic</b>
           <p data-en="Find the chapters you have not learned yet instead of re-reading the ones you have." data-zh="找出你还没学会的章节，而不是反复读已经会的部分。">Find the chapters you have not learned yet instead of re-reading the ones you have.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="guide.html?study=ai" style="--k:#059669">
+      </div>
+      <div class="fn-card" style="--k:#059669">
         <span class="fn-n" aria-hidden="true">05</span>
         <span class="fn-txt">
           <b data-en="Ask Vitaline AI" data-zh="Vitaline AI 助手">Ask Vitaline AI</b>
           <p data-en="A local helper that explains, compares and applies a topic. No request leaves your browser." data-zh="本地运行的助手，负责解释、对比与应用。请求不会离开你的浏览器。">A local helper that explains, compares and applies a topic. No request leaves your browser.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="exam.html" style="--k:#BE123C">
+      </div>
+      <div class="fn-card" style="--k:#BE123C">
         <span class="fn-n" aria-hidden="true">06</span>
         <span class="fn-txt">
           <b data-en="Sit the exams" data-zh="参加考试">Sit the exams</b>
           <p data-en="NPTE blueprint, a timed 160-question bank, a certificate of completion, and the China track." data-zh="NPTE 考纲、160 题限时题库、结业证书，以及中国考线。">NPTE blueprint, a timed 160-question bank, a certificate of completion, and the China track.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="infirmary.html" style="--k:#E11D48">
+      </div>
+      <div class="fn-card" style="--k:#E11D48">
         <span class="fn-n" aria-hidden="true">07</span>
         <span class="fn-txt">
           <b data-en="Use the Infirmary" data-zh="使用诊所工具">Use the Infirmary</b>
           <p data-en="Vitaxamine, a symptom and posture checkup, and a plan builder that reads your own profile." data-zh="Vitaxamine、症状与体态自查，以及读取你个人档案的计划生成器。">Vitaxamine, a symptom and posture checkup, and a plan builder that reads your own profile.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
-      <a class="fn-card" href="social.html" style="--k:#2563EB">
+      </div>
+      <div class="fn-card" style="--k:#2563EB">
         <span class="fn-n" aria-hidden="true">08</span>
         <span class="fn-txt">
           <b data-en="Ask the forum" data-zh="社区讨论">Ask the forum</b>
           <p data-en="The cohort argument about the tricky cases, which is where most of it gets settled." data-zh="与同学讨论棘手案例——大部分争议都在这里解决。">The cohort argument about the tricky cases, which is where most of it gets settled.</p>
         </span>
-        <span class="fn-go" data-en="Open →" data-zh="打开 →">Open →</span>
-      </a>
+      </div>
   </div>
  </div>
 </section>

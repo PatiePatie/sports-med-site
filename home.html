@@ -710,6 +710,109 @@ body.dark h1,body.dark h2,body.dark h3{
 .sidebar-group.part.open .part-body{max-height:700px}
 .part-body .sidebar-link{padding-left:1.7rem}
 .part-body .sidebar-link.sub{padding-left:2.2rem}
+/* ═══ Home: three course boxes + the "learn it your way" panel ═══════════
+   Level and streak deliberately sit ABOVE the boxes, in .hm-hero, because
+   they are the only two numbers that span all three courses. ═══ */
+
+/* ── the three boxes ─────────────────────────────────────────────────── */
+.hm-courses{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 6px}
+.cr{display:flex;flex-direction:column;background:var(--surface,var(--card,#fff));
+  border:1px solid var(--border);border-radius:18px;padding:16px 16px 14px;
+  box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.cr-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cr-ico{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;
+  border-radius:10px;font-size:17px;background:var(--cr-tint,rgba(124,58,237,.12))}
+.cr-name{margin:0;font-size:1.02rem;line-height:1.2;font-weight:800}
+.cr-meta{font-size:.72rem;color:var(--text2,#64748b);margin-top:2px}
+.cr-prog{height:5px;border-radius:99px;background:var(--border);overflow:hidden;margin-top:8px}
+.cr-prog>i{display:block;height:100%;border-radius:99px;background:var(--cr-key,var(--accent,#7c3aed));
+  transform-origin:left;transform:scaleX(0);transition:transform .5s ease}
+
+/* continue learning */
+.cr-cont{display:flex;gap:10px;align-items:center;background:var(--surface2,#f6f7fb);
+  border-radius:12px;padding:10px 11px;margin-bottom:10px;text-decoration:none;color:inherit}
+.cr-cont:hover{background:var(--border)}
+.cr-cont-n{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:9px;
+  font-weight:800;font-size:.9rem;color:#fff;background:var(--cr-key,var(--accent,#7c3aed))}
+.cr-cont-t{font-weight:700;font-size:.86rem;line-height:1.25}
+.cr-cont-m{font-size:.7rem;color:var(--text2,#64748b);margin-top:2px}
+
+/* idea of the day */
+.cr-idea{border-left:3px solid var(--cr-key,var(--accent,#7c3aed));padding:2px 0 2px 9px;margin-bottom:12px}
+.cr-idea b{display:block;font-size:.82rem;line-height:1.3}
+.cr-idea p{margin:4px 0 0;font-size:.73rem;line-height:1.5;color:var(--text2,#475569)}
+/* Standalone action link, not prose: give it a real 40px target. */
+.cr-idea a{display:inline-flex;align-items:center;min-height:40px;margin-top:2px;font-size:.72rem}
+
+/* ── toolbox tabs ────────────────────────────────────────────────────── */
+.cr-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--surface2,#f1f3f9);
+  border-radius:10px;padding:3px;margin-bottom:10px}
+.cr-tabs button{border:0;background:transparent;font:inherit;font-size:.68rem;font-weight:700;
+  color:var(--text2,#64748b);padding:7px 2px;border-radius:8px;cursor:pointer;min-height:30px}
+.cr-tabs button[aria-selected="true"]{background:var(--surface,var(--card,#fff));color:var(--cr-key,var(--accent,#7c3aed));
+  box-shadow:0 1px 2px rgba(15,23,42,.08)}
+.cr-panel{display:none}
+.cr-panel.on{display:block}
+
+/* ── interactive panel: the model ────────────────────────────────────── */
+.cr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cr-seg{display:flex;background:var(--surface2,#f1f3f9);border-radius:8px;padding:2px}
+.cr-seg button{border:0;background:transparent;font:inherit;font-size:.66rem;font-weight:700;
+  color:var(--text2,#64748b);padding:4px 8px;border-radius:6px;cursor:pointer;min-height:24px}
+.cr-seg button[aria-pressed="true"]{background:var(--cr-key,var(--accent,#7c3aed));color:#fff}
+/* Painted size stays compact; a transparent 40px overlay supplies the tap
+   area, so the row does not have to grow. */
+.cr-tabs button::before,.cr-seg button::before{content:"";position:absolute;left:0;right:0;
+  top:50%;height:40px;transform:translateY(-50%)}
+.cr-tabs button,.cr-seg button{position:relative}
+.cr-read{font-size:.66rem;color:var(--text2,#64748b);text-align:right}
+.cr-mrow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cr-mrow label{font-size:.64rem;font-weight:700;color:var(--text2,#64748b);white-space:nowrap}
+.cr-mrow input[type=range]{flex:1;min-width:0;accent-color:var(--cr-key,var(--accent,#7c3aed));height:22px}
+.cr-mrow output{font-size:.64rem;font-weight:800;color:var(--cr-key,var(--accent,#7c3aed));min-width:52px;text-align:right}
+.cr-fig{margin:0;background:var(--surface2,#f6f7fb);border-radius:12px;padding:8px}
+.cr-fig svg{display:block;width:100%;height:auto}
+.cr-legend{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px}
+.cr-legend span{display:inline-flex;align-items:center;gap:4px;font-size:.63rem;color:var(--text2,#475569)}
+.cr-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.cr-looks{margin:7px 0 0;font-size:.64rem;line-height:1.45;color:var(--text2,#475569)}
+.cr-looks b{color:var(--text,#0f172a)}
+.cr-cap{margin:5px 0 0;font-size:.63rem;line-height:1.45;color:var(--text3,#94a3b8)}
+
+/* ── other panels ────────────────────────────────────────────────────── */
+.cr-stat{display:flex;gap:8px;margin-bottom:9px}
+.cr-stat>div{flex:1;background:var(--surface2,#f6f7fb);border-radius:10px;padding:7px 8px;text-align:center}
+.cr-stat b{display:block;font-size:.95rem;font-weight:800;line-height:1.1}
+.cr-stat span{font-size:.6rem;color:var(--text2,#64748b);display:block;margin-top:2px;line-height:1.25}
+.cr-map{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.cr-map a{position:relative;aspect-ratio:1;border-radius:9px;background:var(--surface2,#f1f3f9);
+  display:grid;place-items:center;font-size:.66rem;font-weight:800;text-decoration:none;color:var(--text2,#475569);
+  overflow:hidden}
+.cr-map a i{position:absolute;left:0;bottom:0;width:100%;background:var(--cr-key,var(--accent,#7c3aed));opacity:.22}
+.cr-map a b{position:relative}
+.cr-map a:hover b{color:var(--cr-key,var(--accent,#7c3aed))}
+.cr-go{display:block;text-align:center;background:var(--cr-key,var(--accent,#7c3aed));color:#fff;
+  text-decoration:none;font-size:.7rem;font-weight:700;padding:8px;border-radius:9px;margin-top:9px;min-height:34px}
+.cr-go:hover{filter:brightness(1.08)}
+
+/* course colour keys */
+.cr[data-c="vt"]{--cr-key:#B45309;--cr-tint:rgba(180,83,9,.13)}
+.cr[data-c="ib"]{--cr-key:#0E7490;--cr-tint:rgba(14,116,144,.13)}
+.cr[data-c="g10"]{--cr-key:#15803D;--cr-tint:rgba(21,128,61,.13)}
+
+/* streak moved up beside the level */
+.hm-streak{display:flex;align-items:baseline;gap:6px}
+.hm-streak b{font-size:1.5rem;font-weight:800;line-height:1}
+.hm-streak span{font-size:.7rem;color:var(--text2,#64748b)}
+
+/* ── phones ──────────────────────────────────────────────────────────── */
+@media(max-width:1080px){.hm-courses{grid-template-columns:1fr}}
+@media(max-width:520px){
+  .cr{padding:14px 13px 12px}
+  .cr-tabs button{font-size:.62rem}
+  .cr-map{grid-template-columns:repeat(7,1fr)}
+}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -813,7 +916,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
 <link rel="stylesheet" href="vitalite-skin.css?v=20">
 <script src="sections.js?v=9" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=16" defer></script>
+<script src="linear-layout.js?v=14" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=2" defer></script>
@@ -828,7 +931,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
 <link rel="stylesheet" href="soft-glass.css?v=4">
 <script src="soft-fx.js?v=4" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=2">
-<script src="knowledge-fx.js?v=2" defer></script>
+<script src="knowledge-fx.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
 </head><body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
@@ -843,7 +946,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="toc.html" data-en="🌐 All Resources" data-zh="🌐 全部资源">🌐 All Resources</a>
+      <a class="sidebar-link" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
       <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
       <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
       <a class="sidebar-link sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
@@ -856,7 +959,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
       <a class="sidebar-link sub" href="exam.html" data-en="🇺🇸 NPTE &amp; exam prep" data-zh="🇺🇸 NPTE 与备考冲刺">🇺🇸 NPTE &amp; exam prep</a>
       <a class="sidebar-link sub" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证" data-zh="🇨🇳 运动康复师资格证">🇨🇳 运动康复师资格证</a>
       <a class="sidebar-link sub" href="usabo.html" data-en="🧬 USABO (Biology Olympiad)" data-zh="🧬 USABO (生物奥赛)">🧬 USABO (Biology Olympiad)</a>
-      <a class="sidebar-link" href="guide.html#resources" data-en="🎬 Videos &amp; references" data-zh="🎬 视频与参考文献">🎬 Videos &amp; references</a>
+      <a class="sidebar-link" href="toc.html#resources" data-en="🎬 Videos &amp; references" data-zh="🎬 视频与参考文献">🎬 Videos &amp; references</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-infirmary">
@@ -917,35 +1020,24 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
       <div class="hm-lv-ring"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="34" class="hm-rbg"/><circle cx="40" cy="40" r="34" class="hm-rfg" id="hmLvRing"/></svg><b id="hmLvNum">Lv 1</b></div>
       <div><div class="hm-lv-title" id="hmLvTitle"></div><div class="hm-lv-next" id="hmLvNext"></div></div>
     </div>
-  </section>
-
-  <section class="hm-grid">
-    <a class="hm-card hm-continue" id="hmContinue" href="guide.html#ch1">
-      <div class="hm-k" data-en="Continue learning" data-zh="继续学习">Continue learning</div>
-      <div class="hm-cont-row">
-        <div class="hm-cont-num" id="hmContNum">1</div>
-        <div class="hm-cont-body">
-          <div class="hm-cont-title" id="hmContTitle"></div>
-          <div class="hm-bar"><i id="hmContBar"></i></div>
-          <div class="hm-cont-meta" id="hmContMeta"></div>
-        </div>
-      </div>
-      <span class="hm-go" id="hmContGo"></span>
-    </a>
-
-    <div class="hm-card hm-week">
+<div class="hm-streak-card">
       <div class="hm-k" data-en="This week" data-zh="本周">This week</div>
       <div class="hm-streak"><b id="hmStreak">0</b><span id="hmStreakLab"></span></div>
       <div class="hm-days" id="hmDays"></div>
     </div>
+  </section>
 
-    <div class="hm-card hm-concept">
-      <div class="hm-k" data-en="Idea of the day" data-zh="今日一念">Idea of the day</div>
-      <div class="hm-concept-t" id="hmConceptT"></div>
-      <p id="hmConceptB"></p>
-      <a class="hm-link" id="hmConceptGo" href="guide.html"></a>
-    </div>
-    <div class="hm-card hm-stats">
+  <section class="hm-courses" id="hmCourses"></section>
+
+  <section class="hm-sec">
+    <h2 data-en="Jump back in" data-zh="快速开始">Jump back in</h2>
+    <div class="hm-actions" id="hmActions"></div>
+  </section>
+
+
+  <section class="hm-sec">
+    <h2 data-en="Your numbers" data-zh="我的数据">Your numbers</h2>
+<div class="hm-stats-card">
       <div class="hm-k" data-en="Your numbers" data-zh="我的数据">Your numbers</div>
       <div class="hm-stat-grid">
         <div><b id="hmRead">0</b><span data-en="sections read" data-zh="已读小节">sections read</span></div>
@@ -954,19 +1046,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
         <div><b id="hmCards">0</b><span data-en="flashcards known" data-zh="已掌握卡片">flashcards known</span></div>
       </div>
     </div>
-
   </section>
-
-  <section class="hm-sec">
-    <h2 data-en="Jump back in" data-zh="快速开始">Jump back in</h2>
-    <div class="hm-actions" id="hmActions"></div>
-  </section>
-
-  <section class="hm-sec">
-    <div class="hm-sec-head"><h2 data-en="Your textbook" data-zh="我的教材">Your textbook</h2><a class="hm-link" href="toc.html" data-en="Knowledge Hub →" data-zh="知识中心 →">Knowledge Hub →</a></div>
-    <div class="hm-chapters" id="hmChapters"></div>
-  </section>
-
   <p class="hm-foot"><a href="index.html?landing=1" data-en="About Vitalité" data-zh="关于 Vitalité">About Vitalité</a> · <a href="account.html" data-en="My account" data-zh="我的账户">My account</a></p>
 </main>
 
@@ -979,130 +1059,7 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">↑</button>
 
 </div>
-<script>
-/* ═══ Home: the signed-in dashboard. Everything comes from this device's
-   progress keys (kn_* from knowledge-fx.js, sm_* from the quiz engine). ═══ */
-(function(){
-var showCN = localStorage.getItem('sm_lang')==='zh';
-var bodyEl=document.body;
-var darkBtn=document.getElementById('darkToggle');
-if(localStorage.getItem('dark')!=='false'){ bodyEl.classList.add('dark'); darkBtn.textContent='☀️'; }
-darkBtn.addEventListener('click',function(){ bodyEl.classList.toggle('dark'); localStorage.setItem('dark', bodyEl.classList.contains('dark')?'true':'false'); darkBtn.textContent = bodyEl.classList.contains('dark')?'☀️':'🌙'; });
 
-function J(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)||'null'); return v==null?d:v; }catch(e){ return d; } }
-function t(en,zh){ return showCN?zh:en; }
-function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-function $(id){ return document.getElementById(id); }
-
-var CH=[
- ['The Body as a Machine','身体如机器'],['Nervous System','神经系统'],['Cardiovascular System','心血管系统'],['Integumentary System','皮肤系统'],
- ['Training Principles','训练原则'],['Injury & Healing','损伤与愈合'],['Recovery Science','恢复科学'],['Sports Nutrition','运动营养学'],
- ['Supplements & Evidence','补剂与证据'],['Ethics & Responsibility','伦理与职业责任'],['Becoming a PT','成为物理治疗师'],['Assessment','康复评定学'],
- ['TCM Health','中医健康管理'],['Emergency & Field Care','急救与场边处置']];
-var IDEAS=[
- [1,'Rest is where you get stronger','休息时才真正变强','Training is the stress; adaptation happens during recovery — the body rebuilds slightly above where it started.','训练是刺激，适应发生在恢复期——身体会重建到略高于起点的水平。'],
- [5,'SAID: you get what you train','SAID：练什么得什么','Specific Adaptation to Imposed Demands — endurance builds mitochondria, heavy loads build force.','特定适应原则——耐力训练增加线粒体，大重量训练提升力量。'],
- [6,'PEACE, then LOVE','先 PEACE，后 LOVE','Protect and calm things down in the first days, then load gradually — tissues heal along the stress you put through them.','受伤初期保护与消肿，随后循序加载——组织沿你施加的应力方向愈合。'],
- [7,'Sleep is the best recovery tool','睡眠是最好的恢复工具','Teen athletes sleeping under 8 hours were about 1.7× more likely to be injured.','睡眠少于 8 小时的青少年运动员受伤风险约高 1.7 倍。'],
- [8,'Carbs scale with training','碳水随训练量增减','From 3–5 g/kg on light days up to 8–12 g/kg for very heavy training; protein sits at 1.2–2.0 g/kg.','轻训练日 3–5 g/kg，极大训练量可达 8–12 g/kg；蛋白质约 1.2–2.0 g/kg。'],
- [9,'Most supplements do little','大多数补剂作用有限','Creatine and caffeine have strong evidence; BCAAs and fat burners mostly don’t. Choose batch-tested products.','肌酸和咖啡因证据充分；支链氨基酸和燃脂剂大多无效。请选择批次检测产品。'],
- [2,'Spastic or floppy tells you where','痉挛还是弛缓，提示病变位置','Upper motor neuron damage brings high tone and brisk reflexes; lower motor neuron damage brings weakness, wasting and low tone.','上运动神经元损伤表现为张力高、反射亢进；下运动神经元损伤表现为无力、萎缩、张力低。'],
- [3,'Heart-rate reserve sets the zones','心率储备决定训练区间','Zone = resting HR + % × (max HR − resting HR). Max HR ≈ 208 − 0.7 × age.','区间 = 静息心率 + % ×（最大心率 − 静息心率）。最大心率 ≈ 208 − 0.7 × 年龄。'],
- [14,'Push hard, push fast','用力按，快速按','CPR: 5–6 cm deep at 100–120 a minute with full recoil, and get the AED on as soon as it arrives.','心肺复苏：深度 5–6 cm，频率 100–120 次/分，充分回弹；AED 一到立即使用。'],
- [10,'Safety beats a request','安全高于请求','A suspected concussion means out of play, even if the athlete begs — "when in doubt, sit them out".','疑似脑震荡必须离场，即使运动员恳求——“有疑问就下场”。'],
- [12,'Always compare with the other side','永远与健侧对比','Normal ROM tables are averages. The uninjured side is the best reference for that person.','正常关节活动度只是平均值，健侧才是该个体的最佳参照。'],
- [4,'Depth decides how burns heal','烧伤深度决定愈合方式','Superficial burns heal in days; full-thickness burns are painless because the nerves are gone — and need grafting.','浅度烧伤数日愈合；全层烧伤因神经被毁而无痛，需要植皮。'],
- [13,'Five phases, one cycle','五行相生相克','Wood feeds Fire, Fire feeds Earth, Earth feeds Metal, Metal feeds Water, Water feeds Wood.','木生火，火生土，土生金，金生水，水生木。'],
- [11,'Three years to DPT','DPT 需三年','In the US, a PT needs a bachelor’s, a ~3-year DPT, and the NPTE before a state licence.','在美国成为物理治疗师需本科、约 3 年 DPT，再通过 NPTE 获得州执照。']];
-var LEVELS=[[0,'Novice · 新手'],[12,'Apprentice · 学徒'],[24,'Student · 学员'],[36,'Practitioner · 实践者'],[48,'Clinician · 临床者'],[60,'Therapist · 治疗师'],[72,'Specialist · 专科者'],[84,'Expert · 专家'],[92,'Master · 大师'],[100,'Legend · 传奇']];
-
-function level(){
-  var m=J('sm_mastery',{}), tops=Object.keys(m).filter(function(k){ return m[k]&&typeof m[k].score==='number'; });
-  var sum=0, asked=0; tops.forEach(function(k){ sum+=m[k].score; asked+=(m[k].totalQ||0); });
-  var overall=tops.length?Math.round(sum/tops.length):0, exam=parseInt(localStorage.getItem('sm_exam')||'0',10)||0;
-  var grade=Math.round(overall*0.7+exam*0.3), lvl=1;
-  for(var i=0;i<LEVELS.length;i++) if(grade>=LEVELS[i][0]) lvl=i+1;
-  var lo=LEVELS[lvl-1][0], hi=lvl<LEVELS.length?LEVELS[lvl][0]:100;
-  return {grade:grade,overall:overall,asked:asked,lvl:lvl,pct:lvl>=LEVELS.length?100:Math.min(100,Math.round((grade-lo)/(hi-lo)*100))};
-}
-function name(){
-  var u=J('sm_user',{}), p=J('sm_profile',{});
-  var n=p.name||u.name||(u.email?String(u.email).split('@')[0]:'');
-  return n?String(n).split(/\s+/)[0]:'';
-}
-function dayKey(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
-function pct(ch){ var tot=J('kn_tot',{})[ch]||0, n=(J('kn_read',{})[ch]||[]).length; return tot?Math.min(1,n/tot):0; }
-
-function render(){
-  bodyEl.classList.toggle('lang-zh',showCN); bodyEl.classList.toggle('lang-en',!showCN);
-  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){ el.textContent=el.getAttribute('data-'+(showCN?'zh':'en')); });
-  $('langToggle').textContent=showCN?'中':'EN';
-  var now=new Date(), h=now.getHours(), nm=name();
-  $('hmDate').textContent=now.toLocaleDateString(showCN?'zh-CN':'en-US',{weekday:'long',month:'long',day:'numeric'});
-  var hi=h<5?t('Still up','夜深了'):h<12?t('Good morning','早上好'):h<18?t('Good afternoon','下午好'):t('Good evening','晚上好');
-  $('hmGreet').textContent=hi+(nm?(showCN?'，':', ')+nm:'')+(showCN?'':'.');
-
-  /* level */
-  var L=level(), C=2*Math.PI*34, ring=$('hmLvRing');
-  ring.setAttribute('stroke-dasharray',C.toFixed(1)); ring.setAttribute('stroke-dashoffset',(C*(1-L.pct/100)).toFixed(1));
-  $('hmLvNum').textContent='Lv '+L.lvl;
-  var title=LEVELS[L.lvl-1][1].split(' · ');
-  $('hmLvTitle').textContent=showCN?title[1]:title[0];
-  $('hmLvNext').textContent=L.lvl>=LEVELS.length?t('Top level reached.','已达最高等级。'):t('Quizzes and exam practice raise your level.','做测验和模拟考可以提升等级。');
-
-  /* continue */
-  var last=J('kn_last',null), ch=last&&last.ch?last.ch:1, p=pct(ch);
-  $('hmContinue').href='guide.html#ch'+ch;
-  $('hmContNum').textContent=ch;
-  $('hmContTitle').textContent=showCN?CH[ch-1][1]:CH[ch-1][0];
-  setTimeout(function(){ $('hmContBar').style.transform='scaleX('+p+')'; },120);
-  $('hmContMeta').textContent=last?t(Math.round(p*100)+'% of sections read','已读 '+Math.round(p*100)+'% 小节'):t('A good place to start','一个好的起点');
-  $('hmContGo').textContent=last?t('Continue chapter '+ch+' →','继续第 '+ch+' 章 →'):t('Start chapter 1 →','开始第 1 章 →');
-  var read=J('kn_read',{}), readN=0; Object.keys(read).forEach(function(k){ readN+=(read[k]||[]).length; });
-  $('hmSub').textContent=last?t('You were last in Chapter '+ch+'. Pick up where you left off, or try something new below.','你上次学到第 '+ch+' 章。继续学习，或在下面换个方式。')
-    :t('Your Vitalité home — continue learning, practise, or check an injury, all from here.','这是你的 Vitalité 首页——继续学习、练习或自查伤病，都从这里开始。');
-
-  /* week */
-  var days=J('kn_days',[]), set={}; days.forEach(function(d){ set[d]=1; }); set[dayKey(now)]=1;
-  var html='', streak=0, names=showCN?['日','一','二','三','四','五','六']:['S','M','T','W','T','F','S'];
-  for(var i=6;i>=0;i--){ var d=new Date(now); d.setDate(now.getDate()-i); var k=dayKey(d);
-    html+='<div class="hm-day'+(set[k]?' on':'')+(i===0?' today':'')+'"><i></i>'+names[d.getDay()]+'</div>'; }
-  for(var j=0;j<60;j++){ var d2=new Date(now); d2.setDate(now.getDate()-j); if(set[dayKey(d2)]) streak++; else break; }
-  $('hmDays').innerHTML=html; $('hmStreak').textContent=streak;
-  $('hmStreakLab').textContent=t(streak===1?'day in a row':'days in a row','天连续学习');
-
-  /* numbers */
-  var fc=J('kn_fc',{}), known=0; Object.keys(fc).forEach(function(k){ known+=(fc[k]||[]).length; });
-  $('hmRead').textContent=readN; $('hmMastery').textContent=L.overall+'%'; $('hmQs').textContent=L.asked;
-  $('hmCards').textContent=known+(parseInt(localStorage.getItem('sm_fc')||'0',10)||0);
-
-  /* idea of the day */
-  var dn=Math.floor((now-new Date(now.getFullYear(),0,0))/864e5), idea=IDEAS[dn%IDEAS.length];
-  $('hmConceptT').textContent=showCN?idea[2]:idea[1];
-  $('hmConceptB').textContent=showCN?idea[4]:idea[3];
-  $('hmConceptGo').href='guide.html#ch'+idea[0];
-  $('hmConceptGo').textContent=t('Open Chapter '+idea[0]+' →','打开第 '+idea[0]+' 章 →');
-
-  /* actions */
-  var A=[['📖','Textbook','教材','14 chapters, interactive','14 章互动教材','guide.html','var(--accent)'],
-    ['🃏','Flashcards','闪卡','Spaced review','间隔复习','guide.html?study=flashcards','var(--green)'],
-    ['📝','Quiz','测验','Adaptive practice','自适应练习','guide.html?study=quiz','var(--amber)'],
-    ['💬','Vitaline AI','AI 助手','Ask anything','随时提问','guide.html?study=ai','var(--accent)'],
-    ['🩺','Checkup','自查','Where does it hurt?','哪里不舒服？','checkup.html','var(--red)'],
-    ['📋','Plan Builder','计划生成器','Build a rehab plan','制定康复计划','plan.html','var(--green)'],
-    ['🏁','Exam prep','备考冲刺','NPTE · 运动康复师 · USABO','NPTE · 运动康复师 · USABO','exam.html','var(--accent2)'],
-    ['👥','Forum','论坛','Ask the community','向社区提问','social.html','var(--amber)']];
-  $('hmActions').innerHTML=A.map(function(a){ return '<a class="hm-act" href="'+a[5]+'" style="--k:'+a[6]+'"><span class="hm-act-i" aria-hidden="true">'+a[0]+'</span><span>'+esc(t(a[1],a[2]))+'<small>'+esc(t(a[3],a[4]))+'</small></span></a>'; }).join('');
-
-  /* chapters */
-  var Cr=2*Math.PI*21;
-  $('hmChapters').innerHTML=CH.map(function(c,i){ var n=i+1, q=pct(n);
-    return '<a class="hm-ch'+(last&&last.ch===n?' last':'')+'" href="guide.html#ch'+n+'" aria-label="'+esc(t(c[0],c[1]))+' — '+Math.round(q*100)+'%"><span class="hm-ch-ring"><svg viewBox="0 0 50 50" aria-hidden="true"><circle class="bg" cx="25" cy="25" r="21"/><circle class="fg" cx="25" cy="25" r="21" stroke-dasharray="'+Cr.toFixed(1)+'" stroke-dashoffset="'+(Cr*(1-q)).toFixed(1)+'"/></svg><b>'+n+'</b></span>'+esc(t(c[0],c[1]))+'</a>'; }).join('');
-}
-$('langToggle').addEventListener('click',function(){ showCN=!showCN; localStorage.setItem('sm_lang',showCN?'zh':'en'); render(); });
-render();
-})();
-</script>
 <script>
 /* ═══ Vitalite sidebar: 4-part accordion + compact mode ═══ */
 (function(){
@@ -1131,5 +1088,515 @@ render();
 })();
 </script>
 
+<script>
+/* Home: three course boxes. Level + streak live above them in .hm-hero. */
+/* ═══ Home: three course boxes ═════════════════════════════════════════
+   Each box reads only the keys its own course actually writes, so nothing
+   on this page is invented:
+
+     Vitalite Textbook  kn_read / kn_tot / kn_last / kn_fc   (knowledge-fx.js)
+     IB SEHS            sm_ibsehs_mastery / _quizProgress / _flashcards
+     G10 Bio            sm_g10_read / _quiz / _best / _last
+
+   The three stores are deliberately separate: the textbook keys by chapter
+   number 1-14, IB namespaces itself, and G10 got its own prefix in the
+   same PR that added this page's dependency on it. ═══ */
+(function(){
+var showCN=localStorage.getItem('sm_lang')==='zh';
+var bodyEl=document.body, $=function(i){return document.getElementById(i)};
+function J(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
+function I(k){var n=parseInt(localStorage.getItem(k)||'',10);return isNaN(n)?0:n}
+function t(en,zh){return showCN?zh:en}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+/* ── colours, shared by the SVG model and its legend ─────────────────── */
+var K={amber:'#D97706',teal:'#0E7490',crimson:'#BE123C',violet:'#7C3AED',
+       green:'#15803D',slate:'#64748B',blue:'#1D4ED8'};
+
+/* ═══ course registry ════════════════════════════════════════════════ */
+var VT_SECTIONS=90;
+var CH=[['The Body as a Machine','身体如机器'],['Nervous System','神经系统'],
+ ['Cardiovascular System','心血管系统'],['Integumentary System','皮肤系统'],
+ ['Training Principles','训练原则'],['Injury & Healing','损伤与愈合'],
+ ['Recovery Science','恢复科学'],['Sports Nutrition','运动营养学'],
+ ['Supplements & Evidence','补剂与证据'],['Ethics & Responsibility','伦理与职业责任'],
+ ['Becoming a PT','成为物理治疗师'],['Assessment','康复评定学'],
+ ['TCM Health','中医健康管理'],['Emergency & Field Care','急救与场边处置']];
+
+var IB_THEMES=[['ib-ch1','Theme A · Exercise Physiology & Nutrition','主题A · 运动生理与营养'],
+               ['ib-ch2','Theme B · Biomechanics','主题B · 生物力学'],
+               ['ib-ch3','Theme C · Psychology & Motor Learning','主题C · 心理与动作学习']];
+var G10_UNITS=[['Unit 1 · Chemistry of life','第1单元 · 生命的化学'],
+               ['Unit 2 · Biomolecules','第2单元 · 生物分子'],
+               ['Unit 3 · Monomers, polymers & energy','第3单元 · 单体、聚合物与能量'],
+               ['Unit 4 · Proteins','第4单元 · 蛋白质'],
+               ['Unit 5 · Enzymes','第5单元 · 酶']];
+
+/* per-course progress, each reading only its own keys */
+var COURSES=[
+{id:'vt',ico:'📖',name:['Vitalite Textbook','Vitalité 教材'],href:'textbook.html',
+ readWord:['sections read','已读小节'],
+ prog:function(){
+   var tot=J('kn_tot',{}),read=J('kn_read',{}),T=0,R=0;
+   Object.keys(tot).forEach(function(k){T+=tot[k]||0});
+   /* kn_tot is only written by knowledge-fx.js, so on a device that has not
+      opened the textbook yet it is empty and this box would read "0 / 0".
+      90 is the number of .acc-item sections guide.html actually carries. */
+   if(!T) T=VT_SECTIONS;
+   Object.keys(read).forEach(function(k){R+=(read[k]||[]).length});
+   var last=J('kn_last',null),p=0;
+   if(last&&tot[last.ch]) p=Math.min(1,(read[last.ch]||[]).length/tot[last.ch]);
+   var fc=J('kn_fc',{}),known=0;Object.keys(fc).forEach(function(k){known+=(fc[k]||[]).length});
+   var m=J('sm_mastery',{}),sum=0,n=0;
+   Object.keys(m).forEach(function(k){if(m[k]&&typeof m[k].score==='number'){sum+=m[k].score;n++}});
+   return {tot:T,read:Math.min(R,T),pct:T?Math.min(100,Math.round(R/T*100)):0,
+     last:last?last.ch:0,lastName:last?CH[last.ch-1]:null,lastPct:Math.round(p*100),
+     cards:known+I('sm_fc'),cardsTot:0,mastery:n?Math.round(sum/n):0,asked:0,
+     quizBest:I('sm_exam'),unit:CH,unitHref:function(i){return 'guide.html#ch'+(i+1)}};
+ }},
+
+{id:'ib',ico:'🎓',name:['IB SEHS','IB SEHS 教材'],href:'ib-sehs-learn.html',
+ readWord:['topics practised','已练主题'],
+ prog:function(){
+   var m=J('sm_ibsehs_mastery',{}),covered=0;
+   Object.keys(m).forEach(function(k){if(Number(m[k])>0)covered++});
+   var q=J('sm_ibsehs_quizProgress',{}),att=0,ok=0;
+   Object.keys(q).forEach(function(k){att+=Number(q[k].attempts||0);ok+=Number(q[k].correct||0)});
+   var f=J('sm_ibsehs_flashcards',{}),rev=0;
+   Object.keys(f).forEach(function(k){rev+=Number(f[k].reviews||0)});
+   return {tot:29,read:Math.min(covered,29),pct:Math.round(Math.min(covered,29)/29*100),
+     last:0,lastName:null,lastPct:0,cards:rev,cardsTot:29,
+     mastery:att?Math.round(ok/att*100):0,asked:att,quizBest:0,
+     unit:IB_THEMES,unitHref:function(i){return 'ib-sehs-learn.html#'+IB_THEMES[i][0]}};
+ }},
+
+{id:'g10',ico:'🧬',name:['G10 Bio','十年级生物'],href:'g10-bio.html',
+ readWord:['sections read','已读小节'],
+ prog:function(){
+   var r=J('sm_g10_read',[]),last=J('sm_g10_last',null);
+   var q=J('sm_g10_quiz',[]),ok=0;q.forEach(function(x){if(x&&x.ok)ok++});
+   return {tot:15,read:Math.min(r.length,15),pct:Math.round(Math.min(r.length,15)/15*100),
+     last:last?last.i:-1,lastName:null,lastPct:0,cards:0,cardsTot:44,
+     mastery:q.length?Math.round(ok/q.length*100):0,asked:q.length,quizBest:I('sm_g10_best'),
+     unit:G10_UNITS,unitHref:function(i){return 'g10-bio.html#s'+i}};
+ }}];
+
+/* ── one idea per course per day, all grounded in that course ───────── */
+var IDEAS={
+ vt:[[7,'Sleep is the best recovery tool','睡眠是最好的恢复工具',
+      'Teen athletes sleeping under 8 hours were about 1.7× more likely to be injured.',
+      '睡眠少于 8 小时的青少年运动员受伤风险约高 1.7 倍。'],
+     [4,'Depth decides how burns heal','烧伤深度决定愈合方式',
+      'Superficial burns heal in days; full-thickness burns are painless because the nerves are gone — and need grafting.',
+      '浅度烧伤数日愈合；全层烧伤因神经被毁而无痛，需要植皮。'],
+     [8,'Carbs scale with training','碳水随训练量增减',
+      'From 3–5 g/kg on light days up to 8–12 g/kg for very heavy training; protein sits at 1.2–2.0 g/kg.',
+      '轻训练日 3–5 g/kg，极大训练量可达 8–12 g/kg；蛋白质约 1.2–2.0 g/kg。']],
+ ib:[[0,'ATP-PCr lasts about 10 seconds','ATP-磷酸肌约维持 10 秒',
+      'Phosphagen supplies almost all of a 10 s sprint and almost none of a 90-minute match.',
+      '磷酸原几乎供能全部的 10 秒冲刺，却几乎不供 90 分钟比赛。'],
+     [1,'Force is torque over a distance','力是力矩乘以距离',
+      'Hip extensors sit close to the joint, so gluteal strength beats hamstring bulk for jumping.',
+      '髋伸肌靠近关节，因此跳跃时臀肌力量胜过腘绳肌围度。'],
+     [2,'Feedback only helps if it is specific','反馈只有具体才有用',
+      'Telling an athlete "that was good" changes nothing; "your knee collapsed at 60°" changes technique.',
+      '只说“很好”毫无作用；说“60° 时膝塌陷”才能改变技术。']],
+ g10:[[4,'Enzymes lower the activation energy','酶降低活化能',
+      'They do not add energy — they make the same reaction reachable far faster.',
+      '酶不提供能量，只是让同一个反应快得多。'],
+     [1,'Water is a polar molecule','水是极性分子',
+      'Its partial charges are why it dissolves salts and sugars, and why it is the basis of cell structure.',
+      '水的部分正负电荷使它能溶解盐与糖，也构成细胞结构的基础。'],
+     [2,'ATP couples energy to work','ATP 把能量与做功偶联',
+      'Hydrolysis releases energy, and the phosphate you release is what powers the next step.',
+      '水解释放能量，而释放的磷酸基团正驱动下一步反应。']]
+};
+
+/* ═══ the three models ═══════════════════════════════════════════════
+   Labels inside the SVG stay language-neutral (numbers, units, symbols)
+   so the 中 / EN toggle keeps working; the surrounding copy is bilingual. */
+function poly(pts,fill,extra){return '<polygon points="'+pts+'" fill="'+fill+'" '+(extra||'')+'/>'}
+function line(x1,y1,x2,y2,stroke,w,dash){
+  return '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+
+         '" stroke="'+stroke+'" stroke-width="'+(w||2)+'" stroke-linecap="round"'+
+         (dash?' stroke-dasharray="'+dash+'"':'')+'/>'}
+function txt(x,y,s,size,fill,anchor,weight){
+  return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+(size||8)+'" fill="'+(fill||K.slate)+
+         '" text-anchor="'+(anchor||'start')+'" font-weight="'+(weight||600)+
+         '" font-family="ui-monospace,Menlo,monospace">'+s+'</text>'}
+function curve(pts,stroke,w,dash){return '<polyline points="'+pts+'" fill="none" stroke="'+stroke+
+  '" stroke-width="'+(w||2.2)+'" stroke-linecap="round" stroke-linejoin="round"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/>'}
+
+var AX={w:320,h:150,l:26,r:8,t:10,b:22};
+function axes(xLab,yLab,xticks){
+  var x0=AX.l,y0=AX.t+AX.h-AX.b,x1=AX.w-AX.r;
+  var s=line(x0,y0,x1,y0,K.slate,1)+line(x0,y0,x0,AX.t,K.slate,1);
+  xticks.forEach(function(t){
+    var px=x0+(x1-x0)*t.p;
+    s+=line(px,y0,px,y0+3,K.slate,1)+txt(px,y0+11,t.l,7,K.slate,'middle');
+  });
+  if(xLab)s+=txt((x0+x1)/2,AX.h-3,xLab,7,K.slate,'middle');
+  if(yLab)s+='<text x="7" y="'+(y0-2)+'" font-size="7" fill="'+K.slate+'" font-family="ui-monospace,monospace">'+yLab+'</text>';
+  return s}
+function plotY(v,vmax){return AX.t+(AX.h-AX.b-AX.t)*(1-Math.max(0,Math.min(1,v/vmax)))}
+function plotX(p){return AX.l+(AX.w-AX.r-AX.l)*Math.max(0,Math.min(1,p))}
+
+/* 1 · Textbook — training load against recovery capacity, week by week.
+      A single week that pokes above the capacity line is what a spike is. */
+function mVT(week,full){
+  var vmax=120,weeks=[52,48,60,96,54,58],cap=[50,54,58,62,66,72];
+  var s='',i,x,y;
+  for(i=0;i<weeks.length;i++){
+    x=plotX(i/(weeks.length-1)); y=plotY(weeks[i],vmax);
+    var on=(i===week);
+    s+=poly([x-9,y,x+9,y,x+9,AX.h-AX.b,x-9,AX.h-AX.b].join(' '),
+      on?K.amber:'rgba(217,119,6,.32)');
+    s+=txt(x,y-4,String(weeks[i]),7,on?'#fff':K.amber,'middle',800);
+  }
+  var cp=[];for(i=0;i<cap.length;i++)cp.push(plotX(i/(cap.length-1)).toFixed(1)+','+plotY(cap[i],vmax).toFixed(1));
+  s+=curve(cp.join(' '),K.teal,2.4);
+  var over=weeks[week]>cap[week];
+  if(full){
+    var rp=[];for(i=0;i<weeks.length;i++){
+      var v=Math.max(0,(weeks[i]-cap[i]))*1.9;rp.push(plotX(i/(weeks.length-1)).toFixed(1)+','+plotY(v,vmax).toFixed(1));}
+    s+=curve(rp.join(' '),K.crimson,1.8,'4 3');
+  }
+  x=plotX(week/(weeks.length-1));
+  s+=line(x,AX.t,x,AX.h-AX.b,over?K.crimson:K.slate,1,'2 3');
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(cap[week],vmax).toFixed(1)+'" r="3.4" fill="'+K.teal+'" stroke="#fff" stroke-width="1.4"/>';
+  s+=axes(t('weeks','第几周'),'%',[0,.5,1].map(function(p){return {p:p,l:p===0?'1':(p===1?'6':'3')}}));
+  return {svg:s,
+    legend:[[K.amber,t('Training load','训练负荷'),weeks[week]+'%'],
+            [K.teal,t('Recovery capacity','恢复能力'),cap[week]+'%']]
+      .concat(full?[[K.crimson,t('Gap = injury risk','差值 = 受伤风险'),Math.max(0,weeks[week]-cap[week])+'%']]:[]),
+    looks:over?t('This week the bar is above the line — a spike, and spikes are what cause injury.',
+                 '本周柱高越过横线——这就是「加量过猛」，也正是受伤的来源。')
+             :t('This week sits under the line — the body got the signal and did not get hurt.',
+                 '本周柱在横线之下——身体收到了刺激，也没有受伤。'),
+    cap:t('Each bar is a week of training. The line is what your body could recover by Sunday.',
+          '每根柱代表一周训练量，横线是到周日时身体能恢复到的水平。')};
+}
+
+/* 2 · IB SEHS — which energy system carries the work, across durations. */
+function mIB(dur,full){
+  var vmax=100,pctOf=function(s){return Math.max(0,Math.min(100,s))};
+  function shares(d){
+    var ph=100*Math.exp(-d/6),gly=42*Math.exp(-Math.pow(Math.log10(d+1)/1.9,2)*1.5),aer=100-ph-gly;
+    if(aer<0){gly+=aer;aer=0}
+    return [pctOf(ph),pctOf(gly),pctOf(aer)]}
+  var steps=[0,1,3,10,30,90,300,900,1800,3600];
+  var x=plotX(1-(dur-1)/(3600-1)),s='',i;
+  for(i=0;i<steps.length;i++){
+    var sh=shares(steps[i]),px=plotX(1-(steps[i]-1)/(3600-1)),acc=0;
+    [['crimson',sh[0]],['amber',sh[1]],['teal',sh[2]]].forEach(function(pair){
+      var yTop=AX.t+(AX.h-AX.b-AX.t)*((100-acc-pair[1])/100);
+      var yBot=AX.t+(AX.h-AX.b-AX.t)*((100-acc)/100);
+      s+=poly([px-7,yTop,px+7,yTop,px+7,yBot,px-7,yBot].join(' '),pair[0]+'d9');
+      acc+=pair[1];
+    });
+  }
+  var sh=shares(dur);
+  s+=line(x,AX.t,x,AX.h-AX.b,'#fff',1.4);
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+(AX.t+3).toFixed(1)+'" r="3" fill="#fff" stroke="'+K.slate+'" stroke-width="1.2"/>';
+  if(full){
+    var ep=Math.min(38,8+14*Math.exp(-dur/45));
+    s+=curve(plotX(1-(1-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.42).toFixed(1)+' '+
+             plotX(1-(30-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.20).toFixed(1)+' '+
+             plotX(1-(300-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.10).toFixed(1),
+      K.violet,1.8,'4 3');
+  }
+  s+=axes(t('seconds (log)','秒（对数）'),'%',[0,.5,1].map(function(p){
+    var v=[1,60,3600][p===0?0:(p===1?1:2)];
+    return {p:1-(v-1)/(3600-1),l:v>=3600?'60m':(v>=60?v+'s':v+'s')}}));
+  var lead=sh[0]>=sh[1]&&sh[0]>=sh[2]?0:(sh[1]>=sh[2]?1:2);
+  return {svg:s,
+    legend:[[K.crimson,t('Phosphagen','磷酸原'),Math.round(sh[0])+'%'],
+            [K.amber,t('Glycolysis','糖酵解'),Math.round(sh[1])+'%'],
+            [K.teal,t('Aerobic','有氧'),Math.round(sh[2])+'%']]
+      .concat(full?[[K.violet,t('EPOC repaid later','后程偿还'),'~'+Math.round(Math.min(38,8+14*Math.exp(-dur/45)))+'%']]:[]),
+    looks:t('At '+fmtDur(dur)+' the '+[t('phosphagen','磷酸原'),t('glycolysis','糖酵解'),t('aerobic','有氧')][lead]+
+            ' does most of the work — change the duration and the leader changes.',
+            fmtDur(dur)+' 时主要由'+[t('磷酸原','磷酸原'),t('糖酵解','糖酵解'),t('有氧','有氧')][lead]+'供能——改变持续时间，主体就换人。'),
+    cap:t('Each column is one activity. Read the three shares as a budget, not a switch.',
+          '每根柱是一种运动。三个比例是「预算」，不是开关。')};
+}
+function fmtDur(d){
+  if(d<60)return d+' s';
+  if(d<3600)return Math.round(d/60)+' min';
+  return (d/3600).toFixed(1).replace(/\.0$/,'')+' h';
+}
+
+/* 3 · G10 — enzyme rate against substrate, at two temperatures. */
+function mG10(sub,full){
+  var vmax=110,rate=function(s,t){ var km=t?7:4, vmaxT=t?78:100;
+    return vmaxT*s/(km+s)*1.15 };
+  var s='',i,pts37=[],pts60=[],vmaxLine=[];
+  for(i=0;i<=20;i++){
+    var c=i/20,px=plotX(c);
+    pts37.push(px.toFixed(1)+','+plotY(rate(c*20,0),vmax).toFixed(1));
+    pts60.push(px.toFixed(1)+','+plotY(rate(c*20,1),vmax).toFixed(1));
+  }
+  s+=curve(pts60.join(' '),K.crimson,2.2);
+  s+=curve(pts37.join(' '),K.teal,2.4);
+  var yv=plotY(115,vmax);
+  s+=line(AX.l,yv,AX.w-AX.r,yv,K.slate,1.2,'4 3')+txt(AX.w-AX.r-2,yv-4,'Vmax',7,K.slate,'end');
+  var x=plotX(sub/20),r37=rate(sub,0),r60=rate(sub,1);
+  s+=line(x,AX.t,x,AX.h-AX.b,'#94A3B8',1,'2 3');
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(r37,vmax).toFixed(1)+'" r="3.2" fill="'+K.teal+'" stroke="#fff" stroke-width="1.4"/>';
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(r60,vmax).toFixed(1)+'" r="3.2" fill="'+K.crimson+'" stroke="#fff" stroke-width="1.4"/>';
+  if(full){ s+=txt(plotX(4/20),plotY(rate(4,0),vmax)-6,'Km',7,K.teal,'middle',800); }
+  s+=axes(t('substrate concentration','底物浓度'),'v',[0,.5,1].map(function(p){
+    return {p:p,l:String(Math.round(p*20))}}));
+  return {svg:s,
+    legend:[[K.teal,t('37 °C — works','37 °C — 正常'),Math.round(r37/vmax*100)+'%'],
+            [K.crimson,t('60 °C — denatured','60 °C — 已变性'),Math.round(r60/vmax*100)+'%']],
+    looks:sub<4?t('Below Km every extra bit of substrate helps — this is the steep part of the curve.',
+                  '底物低于 Km 时，每加一点都有用——这是曲线最陡的一段。')
+            :t('The active sites are full. Adding more substrate now changes nothing.',
+               '活性部位已被占满，此时再加底物也没有变化。'),
+    cap:t('Two enzymes, same active site, different shape after heating. Dashed line is Vmax.',
+          '同一种酶，受热后形状改变。虚线是最大反应速率 Vmax。')};
+}
+
+var MODEL={
+  vt :{fn:mVT, max:5,    step:1, lab:function(v){return t('week ','第 ')+v}},
+  ib :{fn:mIB, max:3600, step:10, lab:fmtDur},
+  g10:{fn:mG10,max:20,   step:.5, lab:function(v){return v+' g/L'}}
+};
+
+var full={vt:false,ib:false,g10:false}, val={vt:3,ib:600,g10:8}, tab={vt:0,ib:0,g10:0};
+
+/* ═══ render ═════════════════════════════════════════════════════════ */
+function panelModel(c){
+  var M=MODEL[c.id],d=M.fn(val[c.id],full[c.id]);
+  var leg=d.legend.map(function(l){
+    return '<span><i style="background:'+l[0]+'"></i>'+esc(l[1])+' <b style="font-weight:800">'+esc(l[2])+'</b></span>'}).join('');
+  return '<div class="cr-top">'
+    +'<div class="cr-seg"><button type="button" data-seg="0" aria-pressed="'+(!full[c.id])+'">'+esc(t('Concise','精简'))+'</button>'
+    +'<button type="button" data-seg="1" aria-pressed="'+full[c.id]+'">'+esc(t('Full','完整'))+'</button></div>'
+    +'<div class="cr-read">'+c.p.read+' / '+c.p.tot+' '+esc(t(c.readWord[0],c.readWord[1]))+'</div></div>'
+    +'<div class="cr-mrow"><label>'+esc(t('Effort','强度'))+'</label>'
+    +'<input type="range" min="'+((c.id==='ib')?1:1)+'" max="'+M.max+'" step="'+(M.step||1)+'" value="'+val[c.id]+'" data-slider aria-label="'+esc(t('Effort','强度'))+'">'
+    +'<output>'+esc(M.lab(val[c.id]))+'</output></div>'
+    +'<figure class="cr-fig"><svg viewBox="0 0 '+AX.w+' '+AX.h+'" role="img" aria-label="'+esc(t('Model','模型'))+'">'+d.svg+'</svg>'
+    +'<div class="cr-legend">'+leg+'</div>'
+    +'<p class="cr-looks"><b>'+esc(t('Looks like:','看起来像：'))+'</b> '+esc(d.looks)+'</p>'
+    +'<p class="cr-cap">'+esc(d.cap)+'</p></figure>';
+}
+function panelCards(c){
+  return '<div class="cr-stat"><div><b>'+c.p.cards+'</b><span>'+esc(t('reviewed','已复习'))+'</span></div>'
+    +'<div><b>'+c.p.tot+'</b><span>'+esc(t('sections','小节'))+'</span></div></div>'
+    +'<p class="cr-cap">'+esc(t('Flip, shuffle, and filter by section. Arrow keys work too.',
+                              '翻面、打乱，并可按小节筛选；方向键同样可用。'))+'</p>'
+    +'<a class="cr-go" data-go="cards">'+esc(t('Open flip cards','打开闪卡'))+'</a>';
+}
+function panelQuiz(c){
+  return '<div class="cr-stat"><div><b>'+(c.p.quizBest||c.p.mastery)+'%</b><span>'+esc(t('best','最佳'))+'</span></div>'
+    +'<div><b>'+c.p.asked+'</b><span>'+esc(t('answered','已答'))+'</span></div>'
+    +'<div><b>'+c.p.mastery+'%</b><span>'+esc(t('accuracy','正确率'))+'</span></div></div>'
+    +'<p class="cr-cap">'+esc(t('Every answer shows why it was right or wrong.',
+                              '每道题都会解释对错原因。'))+'</p>'
+    +'<a class="cr-go" data-go="quiz">'+esc(t('Start quick check','开始快速测验'))+'</a>';
+}
+function panelMap(c){
+  var u=c.p.unit,html='';
+  u.forEach(function(item,i){
+    var v=c.id==='vt'?vtChapterPct(i+1):(c.id==='ib'?ibThemePct(i):g10UnitPct(i));
+    html+='<a href="'+c.p.unitHref(i)+'" title="'+esc(showCN?item[1]:item[0])+'">'
+      +'<i style="height:'+Math.round(v*100)+'%"></i><b>'+(i+1)+'</b></a>';
+  });
+  return '<div class="cr-map">'+html+'</div>'
+    +'<p class="cr-cap">'+esc(t('The bar behind each number is how far through that part you are.',
+                              '数字背后的条形表示该部分的学习进度。'))+'</p>'
+    +'<a class="cr-go" href="'+c.href+'">'+esc(t('Open the course','打开课程'))+'</a>';
+}
+function vtChapterPct(n){
+  var tot=J('kn_tot',{})[n]||0,read=(J('kn_read',{})[n]||[]).length;
+  return tot?Math.min(1,read/tot):0;}
+function ibThemePct(i){ return COURSES[1].prog().pct/100; }
+function g10UnitPct(i){ return 0; }
+
+function renderBox(c){
+  var p=c.prog(); c.p=p;
+  var idea=IDEAS[c.id][dayIndex()%IDEAS[c.id].length];
+  var contHref=c.id==='vt'?(p.last?'guide.html#ch'+p.last:'guide.html')
+             :c.id==='ib'?'ib-sehs-learn.html':'g10-bio.html';
+  var contTitle=c.id==='vt'?(p.lastName?(showCN?p.lastName[1]:p.lastName[0]):t('Start from the top','从头开始'))
+             :(c.id==='ib'?t('29 topics · 3 themes','29 个主题 · 3 大主题'):t('15 sections · 5 units','15 小节 · 5 单元'));
+  var contNum=c.id==='vt'?(p.last||1):(c.id==='ib'?3:5);
+  var panels=[panelModel,panelCards,panelQuiz,panelMap];
+  var box=document.createElement('article');
+  box.className='cr'; box.setAttribute('data-c',c.id);
+  box.innerHTML=
+    '<div class="cr-h"><span class="cr-ico">'+c.ico+'</span><div style="min-width:0">'
+    +'<h3 class="cr-name">'+esc(t(c.name[0],c.name[1]))+'</h3>'
+    +'<div class="cr-meta">'+p.read+' / '+p.tot+' '+esc(t(c.readWord[0],c.readWord[1]))+'</div></div></div>'
+    +'<div class="cr-prog"><i data-bar style="width:'+p.pct+'%"></i></div>'
+    +'<a class="cr-cont" href="'+contHref+'"><span class="cr-cont-n">'+contNum+'</span><span style="min-width:0">'
+    +'<span class="cr-cont-t">'+esc(contTitle)+'</span>'
+    +'<span class="cr-cont-m">'+esc(c.id==='vt'?(p.last?t(p.lastPct+'% read','已读 '+p.lastPct+'%'):t('nothing read yet','尚未开始'))
+        :t(p.pct+'% complete','已完成 '+p.pct+'%'))+'</span></span></a>'
+    +'<div class="cr-idea"><b>'+esc(t(idea[1],idea[2]))+'</b><p>'+esc(t(idea[3],idea[4]))+'</p>'
+    +'<a class="hm-link" href="'+contHref+'">'+esc(t('Open →','打开 →'))+'</a></div>'
+    +'<div class="cr-tabs" role="tablist">'
+    +[['Interactive','互动'],['Flip cards','闪卡'],['Quick check','快测'],['Chapter map','章节图']]
+      .map(function(n,i){return '<button type="button" role="tab" data-tab="'+i+'" aria-selected="'+(tab[c.id]===i)+'">'+esc(t(n[0],n[1]))+'</button>'}).join('')
+    +'</div>'
+    +panels.map(function(fn,i){return '<div class="cr-panel'+(tab[c.id]===i?' on':'')+'" data-p="'+i+'">'+fn(c)+'</div>'}).join('');
+  return box;
+}
+function dayIndex(){var n=new Date();return Math.floor((n-new Date(n.getFullYear(),0,0))/864e5)}
+
+/* ── dark mode (moved over verbatim from the script this one replaces) ── */
+var darkBtn=$('darkToggle');
+if(localStorage.getItem('dark')!=='false'){bodyEl.classList.add('dark');darkBtn.textContent='☀️'}
+darkBtn.addEventListener('click',function(){
+  bodyEl.classList.toggle('dark');
+  localStorage.setItem('dark',bodyEl.classList.contains('dark')?'true':'false');
+  darkBtn.textContent=bodyEl.classList.contains('dark')?'☀️':'🌙';});
+
+/* ── the two numbers that span all three courses: level and streak ───── */
+var LEVELS=[[0,'Novice · 新手'],[12,'Apprentice · 学徒'],[24,'Student · 学员'],
+ [36,'Practitioner · 实践者'],[48,'Clinician · 临床者'],[60,'Therapist · 治疗师'],
+ [72,'Specialist · 专科者'],[84,'Expert · 专家'],[92,'Master · 大师'],[100,'Legend · 传奇']];
+function level(){
+  var m=J('sm_mastery',{}),sum=0,n=0;
+  Object.keys(m).forEach(function(k){if(m[k]&&typeof m[k].score==='number'){sum+=m[k].score;n++}});
+  var overall=n?Math.round(sum/n):0,grade=Math.round(overall*0.7+I('sm_exam')*0.3),lvl=1,i;
+  for(i=0;i<LEVELS.length;i++)if(grade>=LEVELS[i][0])lvl=i+1;
+  var lo=LEVELS[lvl-1][0],hi=lvl<LEVELS.length?LEVELS[lvl][0]:100;
+  return {lvl:lvl,pct:lvl>=LEVELS.length?100:Math.min(100,Math.round((grade-lo)/(hi-lo)*100))};
+}
+function userName(){var u=J('sm_user',{}),p=J('sm_profile',{});
+  var n=p.name||u.name||(u.email?String(u.email).split('@')[0]:'');
+  return n?String(n).split(/\s+/)[0]:''}
+function dayKey(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+
+function renderHero(){
+  var now=new Date(),h=now.getHours(),nm=userName();
+  $('hmDate').textContent=now.toLocaleDateString(showCN?'zh-CN':'en-US',{weekday:'long',month:'long',day:'numeric'});
+  var hi=h<5?t('Still up','夜深了'):h<12?t('Good morning','早上好')
+        :h<18?t('Good afternoon','下午好'):t('Good evening','晚上好');
+  $('hmGreet').textContent=hi+(nm?(showCN?'，':', ')+nm:'')+(showCN?'':'.');
+
+  var L=level(),C=2*Math.PI*34;
+  $('hmLvRing').setAttribute('stroke-dasharray',C.toFixed(1));
+  $('hmLvRing').setAttribute('stroke-dashoffset',(C*(1-L.pct/100)).toFixed(1));
+  $('hmLvNum').textContent='Lv '+L.lvl;
+  var title=LEVELS[L.lvl-1][1].split(' · ');
+  $('hmLvTitle').textContent=showCN?title[1]:title[0];
+  $('hmLvNext').textContent=L.lvl>=LEVELS.length?t('Top level reached.','已达最高等级。')
+    :t('Quizzes and exam practice raise your level.','做测验和模拟考可以提升等级。');
+
+  var days=J('kn_days',[]),set={},i,d;
+  days.forEach(function(x){set[x]=1});set[dayKey(now)]=1;
+  var names=showCN?['日','一','二','三','四','五','六']:['S','M','T','W','T','F','S'],html='';
+  for(i=6;i>=0;i--){d=new Date(now);d.setDate(now.getDate()-i);
+    html+='<div class="hm-day'+(set[dayKey(d)]?' on':'')+(i===0?' today':'')+'"><i></i>'+names[d.getDay()]+'</div>';}
+  var streak=0;
+  for(i=0;i<60;i++){d=new Date(now);d.setDate(now.getDate()-i);if(set[dayKey(d)])streak++;else break;}
+  $('hmDays').innerHTML=html;
+  $('hmStreak').textContent=streak;
+  $('hmStreakLab').textContent=t(streak===1?'day in a row':'days in a row','天连续学习');
+
+  $('hmSub').textContent=t('Three courses, one progress bar between them. Pick up where you stopped, or try a different way of learning.',
+                          '三门课程，一套进度。继续上次的地方，或换个方式学。');
+}
+function renderStats(){
+  var read=J('kn_read',{}),n=0;Object.keys(read).forEach(function(k){n+=(read[k]||[]).length});
+  var m=J('sm_mastery',{}),sum=0,c=0,asked=0;
+  Object.keys(m).forEach(function(k){if(m[k]&&typeof m[k].score==='number'){sum+=m[k].score;c++;asked+=m[k].totalQ||0}});
+  var fc=J('kn_fc',{}),known=0;Object.keys(fc).forEach(function(k){known+=(fc[k]||[]).length});
+  $('hmRead').textContent=n;
+  $('hmMastery').textContent=(c?Math.round(sum/c):0)+'%';
+  $('hmQs').textContent=asked;
+  $('hmCards').textContent=known+I('sm_fc');
+}
+function renderActions(){
+  var A=[['📖','Textbook','教材','14 chapters, interactive','14 章互动教材','textbook.html','var(--amber)'],
+    ['🃏','Flashcards','闪卡','Spaced review','间隔复习','guide.html?study=flashcards','var(--green)'],
+    ['📝','Quiz','测验','Adaptive practice','自适应练习','guide.html?study=quiz','var(--accent)'],
+    ['💬','Vitaline AI','AI 助手','Ask anything','随时提问','guide.html?study=ai','var(--accent2)'],
+    ['🩺','Checkup','自查','Where does it hurt?','哪里不舒服？','checkup.html','var(--red)'],
+    ['📋','Plan Builder','计划生成器','Build a rehab plan','制定康复计划','plan.html','var(--green)'],
+    ['🏁','Exam prep','备考冲刺','NPTE · 运动康复师 · USABO','NPTE · 运动康复师 · USABO','exam.html','var(--accent2)'],
+    ['👥','Forum','论坛','Ask the community','向社区提问','social.html','var(--amber)']];
+  $('hmActions').innerHTML=A.map(function(a){
+    return '<a class="hm-act" href="'+a[5]+'" style="--k:'+a[6]+'"><span class="hm-act-i" aria-hidden="true">'+a[0]+
+           '</span><span>'+esc(t(a[1],a[2]))+'<small>'+esc(t(a[3],a[4]))+'</small></span></a>'}).join('');
+}
+
+function render(){
+  /* Re-read rather than trust a flag: several other widgets bind #langToggle,
+     and one of them re-renders the page from its own state. Whoever wrote
+     sm_lang last wins, so this stays correct no matter who runs first. */
+  showCN=localStorage.getItem('sm_lang')==='zh';
+  renderHero(); renderStats(); renderActions();
+  bodyEl.classList.toggle('lang-zh',showCN); bodyEl.classList.toggle('lang-en',!showCN);
+  document.querySelectorAll('[data-en][data-zh]').forEach(function(el){
+    el.textContent=el.getAttribute('data-'+(showCN?'zh':'en'));});
+  $('langToggle').textContent=showCN?'中':'EN';
+  $('hmCourses').innerHTML='';
+  COURSES.forEach(function(c){$('hmCourses').appendChild(renderBox(c))});
+  COURSES.forEach(function(c){ wire($('hmCourses').querySelector('.cr[data-c="'+c.id+'"]'), c.id); });
+  setTimeout(function(){
+    document.querySelectorAll('.cr-prog>i').forEach(function(b){b.style.transform='scaleX(1)'});},80);
+}
+
+/* ── events ────────────────────────────────────────────────────────── */
+$('hmCourses').addEventListener('click',function(e){
+  var box=e.target.closest('.cr'); if(!box) return;
+  var c=box.getAttribute('data-c');
+  var tabB=e.target.closest('[data-tab]');
+  if(tabB){ tab[c]=+tabB.dataset.tab;
+    box.querySelectorAll('[data-tab]').forEach(function(b){b.setAttribute('aria-selected',b===tabB)});
+    box.querySelectorAll('[data-panel],.cr-panel').forEach(function(p){p.classList.toggle('on',+p.dataset.p===tab[c])});
+    return; }
+  var segB=e.target.closest('[data-seg]');
+  if(segB){ full[c]=segB.dataset.seg==='1';
+    box.querySelectorAll('[data-seg]').forEach(function(b){b.setAttribute('aria-pressed',(b.dataset.seg==='1')===full[c])});
+    var p=box.querySelector('.cr-panel[data-p="0"]'); var old=p.innerHTML; p.innerHTML=old;
+    var rebuilt=renderBox(COURSES.filter(function(x){return x.id===c})[0]);
+    p.innerHTML=rebuilt.querySelector('.cr-panel[data-p="0"]').innerHTML;
+    wire(box,c);
+    return; }
+  var go=e.target.closest('[data-go]');
+  if(go){ location.href=c==='vt'?'guide.html?study='+go.dataset.go
+                      :c==='ib'?'ib-sehs-learn.html':'g10-bio.html';
+    return; }
+});
+function wire(box,c){
+  var sl=box.querySelector('[data-slider]');
+  if(!sl) return;
+  sl.addEventListener('input',function(){
+    val[c]=parseFloat(sl.value);
+    var p=box.querySelector('.cr-panel[data-p="0"]');
+    var keepFocus=true;
+    p.innerHTML=panelModel(COURSES.filter(function(x){return x.id===c})[0]);
+    wire(box,c);
+    var s2=p.querySelector('[data-slider]'); if(s2){s2.value=val[c];s2.focus();}
+  });
+}
+document.addEventListener('click',function(e){
+  var box=e.target.closest&&e.target.closest('.cr'); if(!box)return;
+  var c=box.getAttribute('data-c');
+  if(e.target.closest('[data-slider]')||e.target.closest('[data-seg]'))return;
+  if(!e.target.closest('[data-tab]'))wire(box,c);
+});
+document.addEventListener('click',function(e){
+  if(!(e.target.closest&&e.target.closest('#langToggle'))) return;
+  /* Whoever handles the toggle owns sm_lang. Re-render a tick later so we
+     read the value they wrote, and toggle it ourselves only if nothing did. */
+  var before=localStorage.getItem('sm_lang');
+  setTimeout(function(){
+    if(localStorage.getItem('sm_lang')===before)
+      localStorage.setItem('sm_lang',before==='zh'?'en':'zh');
+    render();
+  },120);
+},true);
+render();
+})();
+</script>
 </body>
 </html>

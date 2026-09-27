@@ -946,10 +946,9 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="guide.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
-      <a class="sidebar-link" href="toc.html" data-en="🌐 All Resources" data-zh="🌐 全部资源">🌐 All Resources</a>
+      <a class="sidebar-link" href="toc.html" data-en="🧭 Knowledge Hub" data-zh="🧭 知识中心">🧭 Knowledge Hub</a>
       <div class="sidebar-label" data-en="📚 Learn" data-zh="📚 学习">📚 Learn</div>
-      <a class="sidebar-link sb-parent" href="textbook.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
+      <a class="sidebar-link sb-parent" href="guide.html" data-en="📖 Vitalite Textbook" data-zh="📖 Vitalité 教材">📖 Vitalite Textbook</a>
       <a class="sidebar-link sb-parent" href="ib-sehs.html" data-en="🎓 IB SEHS" data-zh="🎓 IB SEHS">🎓 IB SEHS</a>
       <a class="sidebar-link" href="g10-bio.html" data-en="🔬 G10 Bio" data-zh="🔬 十年级生物">🔬 G10 Bio</a>
       <div class="sidebar-label" data-en="🧰 Practice" data-zh="🧰 练习">🧰 Practice</div>
@@ -1136,7 +1135,7 @@ var G10_UNITS=[['Unit 1 · Chemistry of life','第1单元 · 生命的化学'],
 
 /* per-course progress, each reading only its own keys */
 var COURSES=[
-{id:'vt',ico:'📖',name:['Vitalite Textbook','Vitalité 教材'],href:'textbook.html',
+{id:'vt',ico:'📖',name:['Vitalite Textbook','Vitalité 教材'],href:'guide.html',
  readWord:['sections read','已读小节'],
  prog:function(){
    var tot=J('kn_tot',{}),read=J('kn_read',{}),T=0,R=0;
@@ -1515,7 +1514,7 @@ function renderStats(){
   $('hmCards').textContent=known+I('sm_fc');
 }
 function renderActions(){
-  var A=[['📖','Textbook','教材','14 chapters, interactive','14 章互动教材','textbook.html','var(--amber)'],
+  var A=[['📖','Textbook','教材','14 chapters, interactive','14 章互动教材','guide.html','var(--amber)'],
     ['🃏','Flashcards','闪卡','Spaced review','间隔复习','guide.html?study=flashcards','var(--green)'],
     ['📝','Quiz','测验','Adaptive practice','自适应练习','guide.html?study=quiz','var(--accent)'],
     ['💬','Vitaline AI','AI 助手','Ask anything','随时提问','guide.html?study=ai','var(--accent2)'],

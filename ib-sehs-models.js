@@ -764,6 +764,719 @@
     draw();
   };
 
+  /* ══ component helpers — thin wrappers over the shipped .kv-* kit ═════ */
+  /* every one of these returns the markup the textbook panel already uses, so
+     a model built here is visually identical to the reference model */
+  function zones(rows) {
+    return '<div class="kv-zones">' + rows.map(function (r) {
+      return '<div class="kv-zone kv-z' + r[4] + '"><span class="kv-zn">' + esc(r[0]) + '</span>' +
+        '<span class="kv-zl">' + esc(r[1]) + (r[2] ? '<small>' + esc(r[2]) + '</small>' : '') + '</span>' +
+        '<b>' + esc(r[3] == null ? '' : r[3]) + '</b></div>';
+    }).join('') + '</div>';
+  }
+  function meter(label, id, cls) {
+    return '<div class="kv-meter"><span>' + esc(label) + '</span><div class="kv-bar"><i class="' + id +
+      (cls ? ' ' + cls : '') + '"></i></div><b class="v' + id + '"></b></div>';
+  }
+  function tools(items, active) {
+    return '<div class="kv-tools" role="group">' + items.map(function (o) {
+      return '<button type="button" data-v="' + esc(o[0]) + '" class="' + (o[0] === active ? 'on' : '') +
+        '" aria-pressed="' + (o[0] === active ? 'true' : 'false') + '">' + esc(o[1]) + '</button>';
+    }).join('') + '</div>';
+  }
+  function wire(host, sel, fn) {
+    host.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest(sel + ' button');
+      if (!b || !host.contains(b)) return;
+      fn(b.getAttribute('data-v'), b);
+    });
+  }
+  function marks(host, sel, v) {
+    $$(sel + ' button', host).forEach(function (b) {
+      var on = b.getAttribute('data-v') === String(v);
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function path(steps, active, cls) {
+    return '<ol class="kv-path ' + (cls || '') + '" style="grid-template-columns:repeat(' + steps.length + ',minmax(0,1fr))">' +
+      steps.map(function (s, i) {
+        return '<li><button type="button" data-v="' + i + '" aria-pressed="' + (i === active ? 'true' : 'false') + '">' +
+          '<b>' + (i + 1) + '</b><span>' + esc(s) + '</span></button></li>';
+      }).join('') + '</ol>';
+  }
+  function pyr(rows) {
+    return '<div class="kv-pyr">' + rows.map(function (r) {
+      return '<div class="kv-lv' + (r[3] ? ' on' : '') + '" style="--w:' + r[1] + '%">' + esc(r[0]) +
+        (r[2] ? ' <em class="kv-grade ' + r[4] + '">' + esc(r[2]) + '</em>' : '') + '</div>';
+    }).join('') + '</div>';
+  }
+  function frow(label, id, cls) {
+    return '<div class="kv-frow"><span>' + esc(label) + '</span><div class="kv-fbar ' + (cls || '') +
+      '"><i class="' + id + '"></i></div><b class="v' + id + '"></b></div>';
+  }
+  function bar(node, frac, colour) {
+    node.style.width = (clamp(frac, 0, 1) * 100).toFixed(1) + '%';
+    if (colour) node.style.background = colour;
+  }
+  function scaleBar(node, frac) { node.style.transform = 'scaleX(' + clamp(frac, 0, 1).toFixed(3) + ')'; }
+  function stars(n) {
+    var s = '<em class="kv-stars">';
+    for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆';
+    return s + '</em>';
+  }
+  function axisY(PY, PH, v, top, fmt) {
+    return PY + PH - v / top * PH;
+  }
+
+  /* ══ 11 · C.1.1 Trait-environment interaction ══════════════════════════
+     Two sliders and a quadrant: the same trait behaves differently in a
+     different environment. */
+  MODELS['Trait-environment interaction'] = function (host) {
+    var Q = [
+      { id: 'hi-hi', en: 'Developed', zh: '已发展', dEn: 'capacity and environment both strong — the athlete is hard to move and hard to stop developing', dZh: '能力与环境都强——这名运动员难被打动，也难停止进步' },
+      { id: 'hi-lo', en: 'Fragile', zh: '脆弱', dEn: 'real capacity, poor environment — it works until the environment stops supporting it, then it plateaus', dZh: '能力真实但环境欠佳——环境一旦不再支持就会停滞' },
+      { id: 'lo-hi', en: 'Nurtured', zh: '被培养', dEn: 'good environment, limited capacity — effort and coaching are maximised but the ceiling stays', dZh: '环境好但能力有限——努力与执教都用尽，但上限仍在' },
+      { id: 'lo-lo', en: 'At risk', zh: '有风险', dEn: 'neither — low capacity in a low environment is where motivation and retention are lost', dZh: '两者皆低——低能力遇上低环境，最容易失去动力与留队' }
+    ];
+    var PX = 96, PY = 36, PW = 432, PH = 236;
+    function X(v) { return PX + (v - 1) / 9 * PW; }
+    function Y(v) { return PY + PH - (v - 1) / 9 * PH; }
+    host.innerHTML =
+      '<div class="kv-grid2">' +
+      srange('cap', T('Trained capacity', '训练能力'), 1, 10, 6, 1, '6 / 10') +
+      srange('env', T('Quality of the environment', '环境质量'), 1, 10, 8, 1, '8 / 10') +
+      '</div>' +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Trait and environment quadrants', '能力与环境的四象限')) + '">' +
+      '<rect class="q1" x="' + PX + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + (PX + PW / 2).toFixed(1) + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + PX + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q1" x="' + (PX + PW / 2).toFixed(1) + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<line class="axis" x1="' + (PX + PW / 2) + '" y1="' + PY + '" x2="' + (PX + PW / 2) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH / 2) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH / 2) + '"/>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + 20) + '" id="q-tl">' + esc(T('fragile', '脆弱')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + 20) + '" text-anchor="end" id="q-tr">' + esc(T('developed', '已发展')) + '</text>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + PH - 10) + '" id="q-bl">' + esc(T('at risk', '有风险')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + PH - 10) + '" text-anchor="end" id="q-br">' + esc(T('nurtured', '被培养')) + '</text>' +
+      '<circle class="marker" r="9" cx="0" cy="0"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('environment: coaches, peers, facilities, pressure', '环境：教练、队友、设施、压力')) + '</text>' +
+      '<text class="small" x="' + (PX - 10) + '" y="' + (PY + PH / 2) + '" text-anchor="end" id="q-yl">' + esc(T('trait', '特质')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-callout"></div>' +
+      note('Traits are relatively stable and biologically influenced, while the environment supplies coaches, peers, facilities, pressure and level of competition. The same trait can produce different behaviour in different contexts — which is why personality alone cannot predict performance.', '特质相对稳定并受生物因素影响，而环境提供教练、队友、设施、压力与竞争水平。同样的特质在不同情境下可能产生不同行为——这正是单靠人格无法预测表现的原因。');
+    var ins = $$('input[type=range]', host);
+    function draw() {
+      var cap = +ins[0].value, env = +ins[1].value;
+      setv(host, 'cap', '.kv-v', cap + ' / 10');
+      setv(host, 'env', '.kv-v', env + ' / 10');
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(env).toFixed(1)); m.setAttribute('cy', Y(cap).toFixed(1));
+      var q = cap >= 6 ? (env >= 6 ? 0 : 1) : (env >= 6 ? 3 : 2);
+      var row = Q[q];
+      outs(host, '.kv-callout', T(row.en, row.zh) + ' — ' + T(row.dEn, row.dZh) + '. ' +
+        T('Looks like: the same competitor behaves differently in a supportive club and in a hostile one.', '例如：同一位选手在支持性的俱乐部与在充满敌意的环境中表现不同。'));
+      m.classList.toggle('ok', q === 0 || q === 3);
+      m.classList.toggle('risk', q === 1 || q === 2);
+    }
+    ins.forEach(function (i) { i.addEventListener('input', draw); });
+    draw();
+  };
+
+  /* ══ 12 · C.1.1 Big Five and measurement ═══════════════════════════════
+     Five traits as continua, each with the instrument that measures it and
+     what a high or low score means in sport. */
+  MODELS['Big Five and measurement'] = function (host) {
+    var T5 = [
+      { id: 'o', en: 'Openness', zh: '开放性', lo: 'prefers familiar routines, resists new methods', loZh: '偏好熟悉套路、抗拒新方法', hi: 'seeks novelty, tries new methods and ideas', hiZh: '追求新颖、乐于尝试新方法与新想法', tool: 'BFI / NEO PI-R' },
+      { id: 'c', en: 'Conscientiousness', zh: '尽责性', lo: 'disorganised, misses sessions and preparation', loZh: '缺乏条理、缺席训练与准备', hi: 'plans, prepares, follows through on detail', hiZh: '有计划、充分准备、注重细节落实', tool: 'BFI / NEO PI-R' },
+      { id: 'e', en: 'Extraversion', zh: '外向性', lo: 'quiet, prefers individual tasks, drains in crowds', loZh: '安静、偏好个人任务、在人群中消耗', hi: 'energised by teammates, loud and assertive in a group', hiZh: '被队友带动、在群体中活跃而坚定', tool: 'BFI / NEO PI-R' },
+      { id: 'a', en: 'Agreeableness', zh: '宜人性', lo: 'blunt and confrontational when under pressure', loZh: '压力大时直接或对抗', hi: 'cooperative, trusted in the group, protects team harmony', hiZh: '合作、受群体信任、维护团队和谐', tool: 'BFI / Sport Personality Scale' },
+      { id: 'n', en: 'Emotional stability', zh: '情绪稳定性', lo: 'worry and tension, mood swings after setbacks', loZh: '担忧紧张、挫折后情绪起伏', hi: 'stays composed, recovers quickly from mistakes', hiZh: '保持镇定、失误后迅速恢复', tool: 'BFI / Sport Personality Scale' }
+    ];
+    var pick = 'n';
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which trait are you looking at?', '你要看哪一维？')) + '</div>' +
+      tools(T5.map(function (t) { return [t.id, T(t.en, t.zh)]; }), pick) +
+      srange('score', T('Score on this trait', '该维度得分'), 0, 100, 55, 1, '55 / 100') +
+      '<div class="kv-zones"></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('The ends of the scale you selected', '你所选维度的两端')) + '</div>' +
+      '<div class="kv-ends"></div>' +
+      '<div class="kv-callout"></div>' +
+      note('Traits are continua, not fixed categories. A measure is only useful if it is reliable (consistent results) and valid (evidence that it assesses what it claims to). Use it to find a development opportunity, never to label or rank an athlete — with consent, confidentiality and feedback.', '特质是连续维度，不是固定分类。一个测量工具只有在可靠（结果一致）且有效（有证据表明它测到了所声称的内容）时才有价值。用于发现可发展的方面，绝不用于给运动员贴标签或排名——并需知情同意、保密与反馈。');
+    var inp = host.querySelector('input');
+    function cur() { return T5.filter(function (t) { return t.id === pick; })[0]; }
+    function draw() {
+      var s = +inp.value, t = cur();
+      setv(host, 'score', '.kv-v', s + ' / 100');
+      marks(host, '.kv-tools', pick);
+      var lvl = s < 20 ? 1 : s < 40 ? 2 : s < 60 ? 3 : s < 80 ? 4 : 5;
+      host.querySelector('.kv-zones').innerHTML = T5.map(function (x) {
+        return '<div class="kv-zone kv-z' + (x.id === pick ? lvl : 1) + (x.id === pick ? ' on' : '') + '">' +
+          '<span class="kv-zn">' + x.id.toUpperCase() + '</span>' +
+          '<span class="kv-zl">' + esc(T(x.en, x.zh)) + '<small>' + esc(x.tool) + '</small></span>' +
+          '<b>' + (x.id === pick ? s : '') + '</b></div>';
+      }).join('');
+      var hi = s >= 60;
+      host.querySelector('.kv-ends').innerHTML =
+        '<div class="kv-side"><b>' + (hi ? esc(T('High end', '高端')) : esc(T('Low end', '低端'))) + '</b>' +
+        '<p>' + esc(hi ? T(t.hi, t.hiZh) : T(t.lo, t.loZh)) + '</p></div>' +
+        '<div class="kv-side"><b>' + esc(T('Typical instrument', '常用工具')) + '</b><p>' + esc(t.tool) + '</p>' +
+        stars(hi ? 4 : 3) + '</div>';
+      outs(host, '.kv-callout', T(t.en, t.zh) + ': ' + (hi ? T(t.hi, t.hiZh) : T(t.lo, t.loZh)) + '. ' +
+        T('A score is a starting point for feedback, not a label.', '得分是反馈的起点，不是标签。'));
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.kv-tools', function (v) { pick = v; inp.value = 55; draw(); });
+    draw();
+  };
+
+  /* ══ 13 · C.1.1 Social learning and development ═══════════════════════
+     The four processes between watching and doing, and how much a model
+     influences them. */
+  MODELS['Social learning and development'] = function (host) {
+    var S = [
+      { id: 0, en: 'Observation', zh: '观察', what: 'the athlete notices what the model does and takes in the relevant cues', whatZh: '运动员注意到模型的行为并接收相关线索', block: 'the demonstration is too fast, too far away, or the athlete is looking elsewhere', blockZh: '示范太快、太远，或运动员注意力在别处', coach: 'bring the model closer, slow the demonstration, repeat with one point in mind', coachZh: '让模型靠近、放慢示范、每次只强调一个要点' },
+      { id: 1, en: 'Retention', zh: '保持', what: 'the action is encoded and can be recalled later without seeing it', whatZh: '动作被编码，之后不看示范也能回忆出来', block: 'no verbal label or image, so the action never becomes a memory', blockZh: '没有语言标签或表象，动作无法形成记忆', coach: 'name the key cue, add an image, review it later in the session', coachZh: '说出关键线索、加入表象，并在训练后回顾', },
+      { id: 2, en: 'Reproduction', zh: '再现', what: 'the athlete can actually produce the action with their own body', whatZh: '运动员能用自己的身体真正做出该动作', block: 'the model is far more capable or experienced than the learner', blockZh: '示范者能力或经验远超学习者', coach: 'use a model the learner can physically copy, break the action into parts', coachZh: '选择学习者能实际模仿的模型，把动作拆成部分', },
+      { id: 3, en: 'Consequences', zh: '后果', what: 'the athlete repeats the behaviour because of what followed it', whatZh: '运动员因为行为之后的结果而重复它', block: 'effort is not noticed, or the wrong behaviour is the one that is praised', blockZh: '努力没有被看见，或被表扬的恰恰是错误行为', coach: 'reward effort and strategy specifically, right after the attempt', coachZh: '在动作之后具体地表扬努力与策略' }
+    ];
+    var cur = 0;
+    host.innerHTML =
+      path([T('Observe', '观察'), T('Retain', '保持'), T('Reproduce', '再现'), T('Consequence', '后果')], 0) +
+      srange('sim', T('How similar and successful is the model?', '模型有多相似、多成功？'), 0, 100, 55, 1, '55 / 100') +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('What happens', '发生什么')) + '</dt><dd class="vwhat"></dd>' +
+      '<dt>' + esc(T('What blocks it', '什么会阻碍')) + '</dt><dd class="vblock"></dd>' +
+      '<dt>' + esc(T('What the coach does', '教练怎么做')) + '</dt><dd class="vcoach"></dd>' +
+      '</dl></div>' +
+      meter(T('Modelling influence', '示范影响力'), 'infl') +
+      '<div class="kv-callout"></div>' +
+      note('Social learning theory proposes observation, retention, reproduction and consequences. A model who is similar or successful has more influence, which is why a peer in the same position can teach more than a star. Personality can also develop through maturation, experience, success, failure, feedback, deliberate practice and supportive social environments.', '社会学习理论提出观察、保持、再现与后果四个过程。相似或成功的模型影响力更大，因此同位置的同伴有时比明星更能教会人。人格也可通过成熟、经验、成功、失败、反馈、有意练习与支持性的社会环境发展。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var s = +inp.value, r = S[cur];
+      setv(host, 'sim', '.kv-v', s + ' / 100');
+      marks(host, '.kv-path', cur);
+      outs(host, '.vwhat', T(r.what, r.whatZh));
+      outs(host, '.vblock', T(r.block, r.blockZh));
+      outs(host, '.vcoach', T(r.coach, r.coachZh));
+      var infl = clamp(s / 100 * (cur === 3 ? 1 : 0.55 + s / 200), 0, 1);
+      scaleBar(host.querySelector('.infl'), infl);
+      outs(host, '.vinfl', Math.round(infl * 100) + ' %');
+      outs(host, '.kv-callout', s < 35
+        ? T('Low influence: the athlete is watching a model far removed from their own situation.', '影响力低：运动员观察到的模型与自身情境相距很远。')
+        : T('Looks like: a first-year player copying a teammate two years above them, because that model is reachable and rewarded.', '例如：一名第一年队员模仿比自己高两届的队友，因为那个模型可接近、也得到回报。'));
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.kv-path', function (v) { cur = +v; draw(); });
+    draw();
+  };
+
+  /* ══ 14 · C.1.2 The five core attributes ═════════════════════════════
+     The five Cs, and which one a pressure moment actually leans on. */
+  MODELS['The five core attributes'] = function (host) {
+    var A = [
+      { id: 0, en: 'Challenge appraisal', zh: '挑战评价', dEn: 'seeing pressure as growth rather than threat', dZh: '把压力看作成长而非威胁', cue: 'this is a chance to show it', cueZh: '这是展示实力的机会' },
+      { id: 1, en: 'Commitment', zh: '投入', dEn: 'staying with meaningful goals when it stops being easy', dZh: '在不再轻松时仍坚持有意义的目标', cue: 'I am still in this for the whole season', cueZh: '整个赛季我都还在为它付出' },
+      { id: 2, en: 'Confidence', zh: '自信', dEn: 'trust in preparation, not in luck or comparison', dZh: '相信准备，而不是运气或比较', cue: 'I have done this before', cueZh: '我以前做到过' },
+      { id: 3, en: 'Perceived control', zh: '感知控制', dEn: 'focusing on what can be influenced right now', dZh: '专注于当下能影响的部分', cue: 'my effort and decision are mine', cueZh: '努力和决定权在我手上' },
+      { id: 4, en: 'Resilience', zh: '韧性', dEn: 'recovering after a setback and learning from it', dZh: '挫折后恢复并从中学习', cue: 'reset, then next action', cueZh: '重置，然后做下一个动作' }
+    ];
+    var M = [
+      { id: 'penalty', en: 'a penalty', zh: '点球', key: 0, note: 'control first, then confidence', noteZh: '先控制，再自信' },
+      { id: 'quarter', en: 'a close final quarter', zh: '第四节最后阶段', key: 2, note: 'challenge appraisal and confidence carry it', noteZh: '靠挑战评价与自信撑住' },
+      { id: 'error', en: 'just made an error', zh: '刚出现失误', key: 4, note: 'resilience, then re-commitment', noteZh: '先韧性，再重新投入' },
+      { id: 'finals', en: 'a season final', zh: '赛季决赛', key: 1, note: 'commitment to the goal that matters', noteZh: '对真正重要的目标保持投入' }
+    ];
+    var cur = 0, moment = 'quarter';
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which pressure moment?', '哪个压力时刻？')) + '</div>' +
+      seg(M.map(function (m) { return [m.id, T(m.en, m.zh)]; }), moment) +
+      path([T('Challenge', '挑战'), T('Commitment', '投入'), T('Confidence', '自信'), T('Control', '控制'), T('Resilience', '韧性')], 0) +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('What it is', '含义')) + '</dt><dd class="vwhat"></dd>' +
+      '<dt>' + esc(T('The cue an athlete uses', '运动员用的自我提示')) + '</dt><dd class="vcue"></dd>' +
+      '</dl></div>' +
+      '<div class="kv-callout"></div>' +
+      note('A pressure moment may call on all five attributes, but the emphasis depends on the task and the person. Mental toughness is not a single score: it is a set of processes that can each be trained, and the relevant one changes with the situation.', '一个压力时刻可能需要全部五个方面，但重点取决于任务与人。心理韧性不是单一分数，而是一组可以分别训练的过程，且关键的那一个会随情境改变。');
+    function draw() {
+      var m = M.filter(function (x) { return x.id === moment; })[0], a = A[cur];
+      marks(host, '.kv-path', cur);
+      outs(host, '.vwhat', T(a.dEn, a.dZh));
+      outs(host, '.vcue', T('“' + a.cue + '”', '“' + a.cueZh + '”'));
+      outs(host, '.kv-callout', T(m.en, m.zh) + ' — ' + T(m.note, m.noteZh) + '. ' +
+        T('Emphasis here: ', '此处的重点：') + T(a.en, a.zh) + '.');
+    }
+    wire(host, '.kv-path', function (v) { cur = +v; draw(); });
+    wireSeg(host, function (v) { moment = v; cur = M.filter(function (x) { return x.id === v; })[0].key; draw(); });
+    draw();
+  };
+
+  /* ══ 15 · C.1.2 Malleability and self-fulfilling belief ════════════════
+     The loop runs in either direction, and belief strength sets the slope. */
+  MODELS['Malleability and self-fulfilling belief'] = function (host) {
+    var PX = 62, PW = 474, PY = 40, PH = 236, WKS = 12;
+    function X(w) { return PX + w / WKS * PW; }
+    function Y(v) { return PY + PH - clamp(v, -10, 110) / 120 * PH; }
+    host.innerHTML =
+      seg([['up', T('The loop builds confidence', '循环强化自信')], ['down', T('The loop erodes confidence', '循环削弱自信')]], 'up') +
+      srange('s', T('Strength of the belief', '信念强度'), 0, 100, 60, 1, '60 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Confidence and performance over time', '自信与表现随时间变化')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + Y(50) + '" x2="' + (PX + PW) + '" y2="' + Y(50) + '"/>' +
+      '<text class="small" x="' + (PX - 8) + '" y="' + (Y(50) + 4) + '" text-anchor="end">50</text>' +
+      '<path class="curve a" d=""/><path class="curve b" d=""/>' +
+      '<text class="small" x="' + X(2.2) + '" y="' + (PY - 10) + '" id="l-a"></text>' +
+      '<text class="small" x="' + (PX + PW - 4) + '" y="' + (Y(90) - 8) + '" text-anchor="end" id="l-b"></text>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      [0, 3, 6, 9, 12].map(function (w) {
+        return '<text class="small" x="' + X(w).toFixed(0) + '" y="' + (PY + PH + 18) + '" text-anchor="middle">' + w + '</text>';
+      }).join('') +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('weeks', '周')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-legend">' +
+      '<span><i class="kv-dot blue"></i>' + esc(T('confidence', '自信')) + '</span>' +
+      '<span><i class="kv-dot red"></i>' + esc(T('performance', '表现')) + '</span></div>' +
+      '<div class="kv-callout"></div>' +
+      note('Mental toughness is malleable through goals, deliberate practice, reflection, challenge, stress management and feedback. A self-fulfilling prophecy happens when confidence increases effort, persistence and effective strategies, which improves performance and reinforces confidence. The MTQ48 is a 48-item self-report tool that identifies strengths and development areas — it does not guarantee an outcome.', '心理韧性可通过目标、有意练习、反思、挑战、压力管理与反馈发展。自我实现预言发生在自信提高努力、坚持与有效策略，进而提升表现并强化自信之时。MTQ48 是 48 题自评工具，用于识别优势与可发展之处，并不保证结果。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var s = +inp.value / 100, dir = host.querySelector('.kv-seg button[data-v=up]').getAttribute('aria-pressed') === 'true' ? 1 : -1;
+      setv(host, 's', '.kv-v', Math.round(s * 100) + ' / 100');
+      var k = 0.4 + s * 2.6 * dir, ca = '', cb = '', i, w, conf, perf, wob = [3, -4, 2, -5, 3, -2, 1, -4, 2, -2, 1, -3];
+      for (i = 0; i <= 48; i++) {
+        w = i * WKS / 48;
+        conf = 50 + 40 * (1 - Math.exp(-k * w * 1.05));
+        perf = 50 + 34 * (1 - Math.exp(-k * w * 0.5)) + wob[i % 12] * (1 - w / WKS * .6);
+        ca += (i ? ' L' : 'M') + X(w).toFixed(1) + ',' + Y(conf).toFixed(1);
+        cb += (i ? ' L' : 'M') + X(w).toFixed(1) + ',' + Y(clamp(perf, -10, 110)).toFixed(1);
+      }
+      host.querySelector('.curve.a').setAttribute('d', ca);
+      host.querySelector('.curve.b').setAttribute('d', cb);
+      outs(host, '#l-a', T('confidence rises first', '自信先上升'));
+      outs(host, '#l-b', T('performance follows', '表现随后跟进'));
+      host.querySelector('.kv-cursor').setAttribute('x1', X(WKS).toFixed(1));
+      host.querySelector('.kv-cursor').setAttribute('x2', X(WKS).toFixed(1));
+      var end = 50 + 40 * (1 - Math.exp(-k * WKS * 1.05));
+      outs(host, '.kv-callout', dir > 0
+        ? T('A learner who treats a hard routine as learnable practises more carefully, succeeds, and becomes more confident — the loop compounds. After 12 weeks confidence is at about ' + Math.round(end) + '.', '把困难套路视为可学习的动作，会让人练习得更仔细、更容易成功、进而更自信——循环会累积。12 周后自信约在 ' + Math.round(end) + '。')
+        : T('The same loop runs the other way: a belief that ability is fixed reduces effort, effort drops, performance drops, and the belief looks confirmed. That is the self-fulfilling part.', '同一个循环也可以反向运行：能力固定的信念会减少努力，努力下降、表现下降，于是该信念似乎被证实——这正是“自我实现”的含义。'));
+    }
+    inp.addEventListener('input', draw);
+    wireSeg(host, function () { draw(); });
+    draw();
+  };
+
+  /* ══ 16 · C.1.2 Learned helplessness, attribution and health ══════════
+     Pick the attribution after a miss; see the loop it feeds. */
+  MODELS['Learned helplessness, attribution and health'] = function (host) {
+    var A = [
+      { id: 'iu', en: 'Internal, unstable', zh: '内部、不稳定', locus: T('internal', '内部'), stable: T('unstable — can change', '不稳定——可以改变'), ctrl: T('controllable', '可控'), eff: .85, col: 'var(--green)', why: 'the most adaptive option: it points at something the athlete can practise', whyZh: '最具适应性的选项：它指向运动员可以练习的东西' },
+      { id: 'es', en: 'Internal, stable', zh: '内部、稳定', locus: T('internal', '内部'), stable: T('stable — will not change', '稳定——不会改变'), ctrl: T('not controllable', '不可控'), eff: .25, col: 'var(--amber)', why: 'self-blame: effort falls because the cause is seen as permanent', whyZh: '自责：因为原因被视为永久，努力随之下降' },
+      { id: 'eu', en: 'External, unstable', zh: '外部、不稳定', locus: T('external', '外部'), stable: T('unstable — it can change', '不稳定——可以改变'), ctrl: T('partly controllable', '部分可控'), eff: .45, col: 'var(--amber)', why: 'the cause is outside the athlete, so practice feels pointless', whyZh: '原因在运动员之外，于是练习显得没有意义' },
+      { id: 'ee', en: 'External, stable', zh: '外部、稳定', locus: T('external', '外部'), stable: T('stable — nothing to do with me', '稳定——与我无关'), ctrl: T('not controllable', '不可控'), eff: .18, col: 'var(--red)', why: 'bad luck, and the learned-helpless loop closes', whyZh: '归因于运气，习得性无助的循环就此闭合' }
+    ];
+    var pick = 'iu';
+    var PX = 96, PY = 40, PW = 420, PH = 226;
+    function X(v) { return PX + (v - 1) / 3 * PW; }
+    function Y(v) { return PY + PH - (v - 1) / 3 * PH; }
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('A penalty is missed. What does the athlete say next?', '点球罚丢了。运动员接着会怎么说？')) + '</div>' +
+      tools([['iu', T('“My routine needs adjusting”', '“我的动作需要调整”')],
+      ['es', T('“I am not a penalty taker”', '“我不是点球手”')],
+      ['eu', T('“The keeper was lucky”', '“守门员运气好”')],
+      ['ee', T('“I always miss penalties”', '“我点球总是罚丢”')]], pick) +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Attribution on locus and stability', '归因在内外与稳定维度上的位置')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="gl" x1="' + (PX + PW / 2) + '" y1="' + PY + '" x2="' + (PX + PW / 2) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + (PY + PH / 2) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH / 2) + '"/>' +
+      '<text class="small" x="' + (PX - 10) + '" y="' + (PY + PH / 2) + '" text-anchor="end">' + esc(T('internal', '内部')) + '</text>' +
+      '<text class="small" x="' + (PX + PW + 10) + '" y="' + (PY + PH / 2) + '">' + esc(T('external', '外部')) + '</text>' +
+      '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY + PH + 20) + '" text-anchor="middle">' + esc(T('unstable — changeable', '不稳定——可改变')) + '</text>' +
+      '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY - 10) + '" text-anchor="middle">' + esc(T('stable — permanent', '稳定——永久')) + '</text>' +
+      '<circle class="marker" r="9" cx="0" cy="0"/>' +
+      '</svg>' +
+      meter(T('Motivation to practise again', '再次练习的动力'), 'mot') +
+      meter(T('Support from the environment', '环境支持'), 'sup') +
+      '<div class="kv-callout"></div>' +
+      note('Learned helplessness develops when an athlete perceives no control, reduces effort and avoids challenge, which produces poorer performance and confirms the belief. Internal, unstable attributions are generally more adaptive than stable, external explanations. Higher mental toughness is associated with better stress management, fewer depressive or burnout symptoms, better sleep and positive mood.', '当运动员感知不到控制、减少努力、回避挑战时，就形成习得性无助；表现随之变差，反过来印证了原有信念。内部、不稳定的归因通常比稳定的外部解释更具适应性。较高的心理韧性与更好的压力管理、更少的抑郁或倦怠症状、更佳睡眠和积极情绪相关。');
+    function draw() {
+      var a = A.filter(function (x) { return x.id === pick; })[0];
+      marks(host, '.kv-tools', pick);
+      var lx = a.locus === T('internal', '内部') ? 2 : 4, ly = a.stable.indexOf('unstable') === 0 ? 2 : 4;
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(lx).toFixed(1)); m.setAttribute('cy', Y(ly).toFixed(1));
+      m.style.fill = a.col; m.style.stroke = a.col;
+      scaleBar(host.querySelector('.mot'), a.eff);
+      scaleBar(host.querySelector('.sup'), a.eff * .9 + .05);
+      outs(host, '.vmot', Math.round(a.eff * 100) + ' %');
+      outs(host, '.vsup', Math.round((a.eff * .9 + .05) * 100) + ' %');
+      outs(host, '.kv-callout', T(a.en, a.zh) + ' — ' + T(a.stable, a.stable) + ', ' + a.ctrl + '. ' + T(a.why, a.whyZh) + '.');
+    }
+    wire(host, '.kv-tools', function (v) { pick = v; draw(); });
+    draw();
+  };
+
+  /* ══ 17 · C.2.1 Learning, performance and schemas ═════════════════════
+     One skill, two curves: learning keeps rising, performance is noisy. */
+  MODELS['Learning, performance and schemas'] = function (host) {
+    var PX = 66, PW = 470, PY = 40, PH = 240, SESS = 12;
+    function X(s) { return PX + s / SESS * PW; }
+    function Y(v) { return PY + PH - clamp(v, 0, 100) / 100 * PH; }
+    host.innerHTML =
+      srange('sess', T('Sessions of practice', '训练课次'), 1, 12, 6, 1, '6 sessions') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Learning and performance across sessions', '学习与表现随课次变化')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      [0, 25, 50, 75, 100].map(function (v) {
+        return '<line class="gl" x1="' + PX + '" y1="' + Y(v) + '" x2="' + (PX + PW) + '" y2="' + Y(v) + '"/>' +
+          '<text class="small" x="' + (PX - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+      }).join('') +
+      '<path class="curve a" d=""/>' +
+      '<path class="perf" d=""/>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      [1, 3, 6, 9, 12].map(function (s) {
+        return '<text class="small" x="' + X(s).toFixed(0) + '" y="' + (PY + PH + 18) + '" text-anchor="middle">' + s + '</text>';
+      }).join('') +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('sessions', '课次')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-legend">' +
+      '<span><i class="kv-dot blue"></i>' + esc(T('learning (the capability)', '学习（能力本身）')) + ' <b class="vl"></b></span>' +
+      '<span><i class="kv-dot red"></i>' + esc(T('performance on the day', '当日表现')) + ' <b class="vp"></b></span></div>' +
+      meter(T('Schema strength', '图式强度'), 'sch', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Learning is a relatively permanent change in capability and keeps rising with practice. Performance is what can be produced at a particular moment, so it is affected by fatigue, motivation, stress and environment — it can drop even while learning continues. A schema is a generalised memory that guides recognition and response: a volleyball player uses it to choose a pass from the position of the set and the conditions.', '学习是能力的相对永久改变，会随练习持续上升。表现是当下能产出的东西，因此受疲劳、动机、压力与环境影响——即使学习仍在继续，表现也可能下降。图式是一种概括化的记忆，用于指导识别与反应：排球运动员依据来球位置和场上条件选择传球方式。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var s = +inp.value, i, x, learn, perf, d1 = '', d2 = '', noise = [9, -6, 5, -8, 6, -4, 3, -7, 5, -3, 2, -5];
+      setv(host, 'sess', '.kv-val', s + ' ' + T(s === 1 ? 'session' : 'sessions', '课次'));
+      for (i = 1; i <= 48; i++) {
+        x = 1 + (s - 1) * i / 48;
+        learn = 100 * (1 - Math.exp(-x * 0.26));
+        perf = 100 * (1 - Math.exp(-x * 0.3)) + noise[Math.floor((x - 1) * 0.9) % 12] * (1 - x / s * .5);
+        d1 += (i > 1 ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(learn).toFixed(1);
+        d2 += (i > 1 ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(clamp(perf, 0, 100)).toFixed(1);
+      }
+      host.querySelector('.curve').setAttribute('d', d1);
+      host.querySelector('.perf').setAttribute('d', d2);
+      var cx = X(s).toFixed(1);
+      host.querySelector('.kv-cursor').setAttribute('x1', cx);
+      host.querySelector('.kv-cursor').setAttribute('x2', cx);
+      var learn = 100 * (1 - Math.exp(-s * .26)), perf = 100 * (1 - Math.exp(-s * .3));
+      outs(host, '.vl', Math.round(learn) + ' %');
+      outs(host, '.vp', Math.round(clamp(perf + (s % 2 ? 4 : -3), 0, 100)) + ' %');
+      scaleBar(host.querySelector('.sch'), learn / 100);
+      outs(host, '.vsch', Math.round(learn) + ' %');
+      outs(host, '.kv-callout', T('Looks like: session 2 can look worse than session 1 while the capability has already improved — that is performance, not learning.', '例如：第 2 节课可能比第 1 节看起来更差，但能力已经提高——那是表现，不是学习。') +
+        ' ' + T('Schema strength ' + Math.round(learn) + ' %: the player now chooses the pass from the set position rather than guessing.', '图式强度 ' + Math.round(learn) + '%：队员开始根据来球位置选择传球，而不是靠猜。'));
+    }
+    inp.addEventListener('input', draw);
+    draw();
+  };
+
+  /* ══ 18 · C.2.1 Linear and non-linear pedagogy ═══════════════════════
+     Same goal, two ways of practising it: the environment decides how well
+     the skill transfers. */
+  MODELS['Linear and non-linear pedagogy'] = function (host) {
+    var PX = 66, PW = 474, PY = 40, PH = 244, TRIALS = 10;
+    function X(t) { return PX + t / TRIALS * PW; }
+    host.innerHTML =
+      seg([['linear', T('Linear (step-by-step)', '线性（逐步分解）')], ['nonlinear', T('Constraints-led (explore)', '约束引导（探索）')]], 'linear') +
+      srange('var', T('How changeable is the environment?', '环境变化有多大？'), 0, 100, 30, 1, '30 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Trials needed against a changing environment', '环境下所需尝试次数')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      [0, 25, 50, 75, 100].map(function (v) {
+        return '<line class="gl" x1="' + PX + '" y1="' + Y(v) + '" x2="' + (PX + PW) + '" y2="' + Y(v) + '"/>' +
+          '<text class="small" x="' + (PX - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+      }).join('') +
+      '<path class="curve a" d=""/><path class="curve b" d=""/>' +
+      '<text class="small" x="' + (PX + 10) + '" y="' + (Y(20) - 8) + '" id="c-a"></text>' +
+      '<text class="small" x="' + (PX + 10) + '" y="' + (Y(75) - 8) + '" id="c-b"></text>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('environment variability', '环境变化程度')) + '</text>' +
+      '</svg>' +
+      meter(T('Transfer to a new environment', '迁移到新环境'), 'tr', 'gold') +
+      meter(T('Trials needed to be consistent', '达到稳定所需尝试'), 'trials') +
+      '<div class="kv-callout"></div>' +
+      note('Linear pedagogy teaches a model step by step and suits predictable, self-paced skills. A constraints-led session keeps the goal and manipulates constraints on the performer, the task or the environment so the learner explores adaptations. Open-loop skills are planned before action; closed-loop skills use feedback during and after the movement.', '线性教学逐步教授一个模型，适合可预测的自定节奏技能。约束引导式训练保持目标不变，通过改变运动员、任务或环境的约束，让学习者探索适应方式。开放回路技能在动作前计划，闭环技能在动作中与动作后使用反馈。');
+    var inp = host.querySelector('input');
+    function Y(v) { return PY + PH - clamp(v, 0, 100) / 100 * PH; }
+    function draw() {
+      var v = +inp.value, lin = host.querySelector('.kv-seg button[data-v=linear]').getAttribute('aria-pressed') === 'true';
+      setv(host, 'var', '.kv-v', v + ' / 100');
+      var a = 18 + v * 0.72, b = 18 + v * 0.1, d1 = '', d2 = '', i;
+      for (i = 0; i <= 40; i++) {
+        var x = i * 100 / 40;
+        d1 += (i ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(a).toFixed(1);
+        d2 += (i ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(b).toFixed(1);
+      }
+      host.querySelector('.curve.a').setAttribute('d', d1);
+      host.querySelector('.curve.b').setAttribute('d', d2);
+      outs(host, '#c-a', T('linear', '线性'));
+      outs(host, '#c-b', T('constraints-led', '约束引导'));
+      var tr = lin ? 34 + v * 0.28 : 52 + v * 0.44;
+      scaleBar(host.querySelector('.tr'), tr / 100);
+      outs(host, '.vtr', Math.round(tr) + ' %');
+      var trials = Math.round(lin ? 6 + v * 3.2 : 11 + v * 1.2);
+      scaleBar(host.querySelector('.trials'), trials / 40);
+      outs(host, '.vtrials', trials + ' ' + T('trials', '次尝试'));
+      outs(host, '.kv-callout', lin
+        ? T('Linear teaching is efficient in a stable environment: a clear model, few errors, fast consistency — but transfer stays low when the environment moves.', '线性教学在稳定环境中效率高：模型清晰、错误少、稳定得快——但环境一变，迁移能力就低。')
+        : T('Constraints-led practice costs more trials up front and buys adaptability: the learner discovers which cues matter and transfers better.', '约束引导式练习前期尝试更多，换来的是适应力：学习者会发现哪些线索真正重要，迁移也更好。'));
+    }
+    inp.addEventListener('input', draw);
+    wireSeg(host, function () { draw(); });
+    draw();
+  };
+
+  /* ══ 19 · C.2.1 Stages, PRP and transfer ═════════════════════════════
+     Three stages of practice, then what transfers to what. */
+  MODELS['Stages, PRP and transfer'] = function (host) {
+    var ST = [
+      { id: 0, en: 'Cognitive', zh: '认知阶段', err: 46, speed: 34, guid: 88, cons: 22, dEn: 'many errors, slow, needs a lot of guidance', dZh: '错误多、速度慢、需要大量指导', stop: 'keep the task simple and the feedback frequent', stopZh: '任务保持简单，反馈保持频繁' },
+      { id: 1, en: 'Associative', zh: '联结阶段', err: 20, speed: 68, guid: 52, cons: 62, dEn: 'refining the skill, fewer errors, becoming consistent', dZh: '打磨动作、错误减少、开始稳定', stop: 'reduce the guidance and start varying the conditions', stopZh: '减少指导，开始变化条件' },
+      { id: 2, en: 'Autonomous', zh: '自主阶段', err: 8, speed: 94, guid: 18, cons: 90, dEn: 'automatic, consistent under pressure, less dependent on feedback', dZh: '自动化、压力下仍稳定、对反馈依赖减少', stop: 'stop once it is consistent, effective and transferable — overlearning creates stiffness', stopZh: '一旦稳定、有效且可迁移就停——过度练习会造成僵硬' }
+    ];
+    var TR = [
+      { id: 's2s', en: 'Skill to skill', zh: '技能到技能', v: 1, ex: 'a chest pass helps a bounce pass', exZh: '胸前传球有助于双手抱球传球' },
+      { id: 'p2p', en: 'Practice to performance', zh: '练习到表现', v: 1, ex: 'training under fatigue transfers to the last quarter', exZh: '在疲劳下训练可迁移到最后阶段' },
+      { id: 'bil', en: 'Bilateral', zh: '双侧迁移', v: 1, ex: 'training the other leg protects the injured one', exZh: '训练另一侧腿可保护受伤腿' },
+      { id: 's2s2', en: 'Stage to stage', zh: '阶段到阶段', v: 1, ex: 'balance learned earlier helps advanced gymnastics', exZh: '早期学到的平衡帮助完成高级体操' },
+      { id: 'a2s', en: 'Abilities to skills', zh: '能力到技能', v: 1, ex: 'leg strength transfers to a jumping skill', exZh: '腿部力量迁移到跳跃技能' },
+      { id: 'p2s', en: 'Principles to skills', zh: '原理到技能', v: -1, ex: 'a flat, stiff swing pattern fights an earlier wrist action', exZh: '平直僵硬的挥拍模式会与先前的腕部动作冲突' }
+    ];
+    var st = 0, tr = 's2s';
+    host.innerHTML =
+      path([T('Cognitive', '认知'), T('Associative', '联结'), T('Autonomous', '自主')], 0) +
+      '<div class="kv-el-out"><dl><dt>' + esc(T('This stage looks like', '这个阶段的表现')) + '</dt><dd class="vstage"></dd>' +
+      '<dt>' + esc(T('What to do in practice', '训练中该做什么')) + '</dt><dd class="vstop"></dd></dl></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('Practice chart', '练习图表')) + '</div>' +
+      '<div class="kv-frows"></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('Which transfer?', '哪种迁移？')) + '</div>' +
+      tools(TR.map(function (t) { return [t.id, T(t.en, t.zh)]; }), tr) +
+      '<div class="kv-verdict"></div>' +
+      '<div class="kv-callout"></div>' +
+      note('The psychological refractory period means a second closely timed task can delay the first response, so a cognitive-stage athlete cannot yet do two things at once. Six transfer types exist; positive transfer helps and negative transfer can hinder, which is why practice should stop when the skill is consistent, effective and transferable.', '心理不应期意味着时间上紧邻的第二个任务会延迟第一个反应，因此认知阶段的运动员还不能同时做两件事。迁移有六种类型：正迁移有帮助，负迁移会妨碍——这正是技能稳定、有效且可迁移时就应该停止练习的原因。');
+    function draw() {
+      var s = ST[st], t = TR.filter(function (x) { return x.id === tr; })[0];
+      marks(host, '.kv-path', st);
+      marks(host, '.kv-tools', tr);
+      outs(host, '.vstage', T(s.dEn, s.dZh));
+      outs(host, '.vstop', T(s.stop, s.stopZh));
+      host.querySelector('.kv-frows').innerHTML =
+        frow(T('Errors', '错误'), 'err') + frow(T('Speed', '速度'), 'spd') +
+        frow(T('Guidance needed', '所需指导'), 'gui') + frow(T('Consistency', '稳定性'), 'con');
+      [['err', s.err, 'var(--c0)'], ['spd', s.speed, 'var(--c2)'], ['gui', s.guid, 'var(--c1)'], ['con', s.cons, 'var(--green)']].forEach(function (x) {
+        bar(host.querySelector('.' + x[0]), x[1] / 100, x[2]);
+        outs(host, '.v' + x[0], x[1] + ' %');
+      });
+      var v = host.querySelector('.kv-verdict');
+      v.className = 'kv-verdict ' + (t.v > 0 ? 'good' : 'bad');
+      v.textContent = (t.v > 0 ? T('Positive transfer: ', '正迁移：') : T('Negative transfer: ', '负迁移：')) + T(t.ex, t.exZh);
+      outs(host, '.kv-callout', T('In the ' + s.en.toLowerCase() + ' stage the PRP still bites: two close tasks delay the second response.', '在' + s.zh + '，心理不应期仍在起作用：时间上紧邻的两个任务会延迟第二个反应。'));
+    }
+    wire(host, '.kv-path', function (v) { st = +v; draw(); });
+    wire(host, '.kv-tools', function (v) { tr = v; draw(); });
+    draw();
+  };
+
+  /* ══ 20 · C.2.2 Internal, external, broad and narrow ══════════════════
+     Where the attention goes, and what it costs, for two different tasks. */
+  MODELS['Internal, external, broad and narrow'] = function (host) {
+    var TASK = [
+      { id: 'penalty', en: 'a penalty', zh: '一次点球', focus: 'external', width: 'narrow', dEn: 'closed and self-paced: one target, no traffic', dZh: '封闭且自定节奏：只有一个目标，没有干扰' },
+      { id: 'rally', en: 'a rally in a 5-a-side game', zh: '五人制比赛中的回合', focus: 'external', width: 'broad', dEn: 'open and dynamic: teammates, opponents and space all matter', dZh: '开放且动态：队友、对手与空间都很重要' }
+    ];
+    var focus = 'external', width = 'narrow', task = 'penalty', stage = 70;
+    host.innerHTML =
+      seg(TASK.map(function (t) { return [t.id, T(t.en, t.zh)]; }), task) +
+      '<div class="kv-grid2">' +
+      '<div class="ib-fw">' + tools([['internal', T('Internal — body', '内部——身体')], ['external', T('External — effect', '外部——效果')]], focus) + '</div>' +
+      '<div class="ib-ww">' + tools([['broad', T('Broad — wide', '宽——广域')], ['narrow', T('Narrow — narrow', '窄——聚焦')]], width) + '</div>' +
+      '</div>' +
+      srange('skill', T('How skilled is the athlete?', '运动员的技术水平？'), 0, 100, 70, 1, '70 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Attentional field in a penalty', '点球中的注意场')) + '">' +
+      '<rect class="wide" x="30" y="30" width="500" height="86" rx="10"/>' +
+      '<path class="cone" d=""/>' +
+      '<rect class="goal" x="150" y="236" width="260" height="18" rx="4"/>' +
+      '<line class="post" x1="150" y1="236" x2="150" y2="272"/><line class="post" x1="410" y1="236" x2="410" y2="272"/>' +
+      '<circle class="spot" cx="280" cy="300" r="9"/>' +
+      '<g class="body-marks"><circle class="joint" cx="272" cy="292" r="5"/><circle class="joint" cx="292" cy="294" r="5"/><circle class="joint" cx="280" cy="306" r="5"/></g>' +
+      '<circle class="target" cx="196" cy="245" r="13"/>' +
+      '<text class="small" x="196" y="228" text-anchor="middle" id="t-target"></text>' +
+      '<text class="small" x="280" y="332" text-anchor="middle" id="t-body"></text>' +
+      '<text class="small" x="30" y="20" id="t-task"></text>' +
+      '</svg>' +
+      meter(T('Attentional load', '注意负荷'), 'load') +
+      meter(T('Performance for this task', '该任务下的表现'), 'perf', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Internal attention is on the body and the technique, external attention on the effect or the target. Broad attention suits open, dynamic skills, narrow attention suits closed, self-paced tasks. External focus is generally more effective for skilled performance, while internal focus can help early learning.', '内部注意关注身体与技术，外部注意关注效果或目标。宽注意适合开放、动态的技能，窄注意适合封闭、自定节奏的任务。对技术熟练者，外部注意通常更有效；而在学习早期，内部注意可能更有帮助。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var t = TASK.filter(function (x) { return x.id === task; })[0];
+      setv(host, 'skill', '.kv-v', stage + ' / 100');
+      marks(host, '.ib-fw .kv-tools', focus);
+      marks(host, '.ib-ww .kv-tools', width);
+      marks(host, '.kv-seg', task);
+      var wide = width === 'broad';
+      host.querySelector('.wide').style.opacity = wide ? '.5' : '0';
+      var cone = host.querySelector('.cone');
+      cone.setAttribute('d', wide
+        ? 'M280,300 L40,40 L520,40 Z'
+        : 'M280,300 L206,236 L354,236 Z');
+      cone.classList.toggle('narrow', !wide);
+      host.querySelector('.body-marks').style.opacity = focus === 'internal' ? '1' : '.25';
+      host.querySelector('.target').style.opacity = focus === 'external' ? '1' : '.25';
+      outs(host, '#t-target', T('external target', '外部目标'));
+      outs(host, '#t-body', T('internal: the body', '内部：身体'));
+      outs(host, '#t-task', T(t.dEn, t.dZh));
+      var load = (wide ? 78 : 26) + (focus === 'internal' ? 22 : 6);
+      var match = (focus === t.focus ? 0 : 26) + (width === t.width ? 0 : 26);
+      var perf = clamp(stage * .72 + 42 - match - (focus === 'internal' ? (100 - stage) * .22 : 0), 0, 100);
+      scaleBar(host.querySelector('.load'), load / 100);
+      outs(host, '.vload', load + ' %');
+      scaleBar(host.querySelector('.perf'), perf / 100);
+      outs(host, '.vperf', Math.round(perf) + ' %');
+      outs(host, '.kv-callout',
+        T('Best for this task: ', '该任务的最佳设置：') + T(t.focus, t.focus === 'external' ? '外部' : '内部') + ' · ' +
+        T(t.width, t.width === 'broad' ? '宽' : '窄') + '. ' +
+        (focus === t.focus && width === t.width
+          ? T('Matches the recommendation — keep it.', '与建议一致——保持。')
+          : T('Does not match: a long list of body instructions can overload attention.', '与建议不符：过多身体指令会使注意超载。')));
+    }
+    inp.addEventListener('input', draw);
+    stage = 70;
+    wire(host, '.ib-fw .kv-tools', function (v) { focus = v; draw(); });
+    wire(host, '.ib-ww .kv-tools', function (v) { width = v; draw(); });
+    wireSeg(host, function (v) { task = v; draw(); });
+    draw();
+  };
+
+  /* ══ 21 · C.2.2 Distractors and control strategies ═══════════════════
+     Pick the distraction, pick the strategy, watch the error rate. */
+  MODELS['Distractors and control strategies'] = function (host) {
+    var D = [
+      { id: 'crowd', en: 'crowd noise', zh: '观众噪音', k: 'ext', load: 55, ex: 'a final with full stands', exZh: '满座的决赛' },
+      { id: 'opponent', en: 'an opponent taunting', zh: '对手挑衅', k: 'ext', load: 48, ex: 'a rivalry match', exZh: '宿敌之战' },
+      { id: 'photos', en: 'flash photography', zh: '闪光灯', k: 'ext', load: 22, ex: 'a presentation ceremony', exZh: '颁奖仪式' },
+      { id: 'board', en: 'the scoreboard', zh: '记分牌', k: 'ext', load: 30, ex: 'a close match', exZh: '比分接近的比赛' },
+      { id: 'ref', en: 'a referee decision', zh: '裁判判罚', k: 'ext', load: 44, ex: 'a disputed line call', exZh: '一次有争议的边线判罚' },
+      { id: 'worry', en: 'worry about failing', zh: '担心失败', k: 'int', load: 62, ex: 'a penalty that decides the tie', exZh: '决定平局的一记点球' },
+      { id: 'doubt', en: 'self-doubt', zh: '自我怀疑', k: 'int', load: 58, ex: 'after a bad first half', exZh: '上半场表现糟糕之后' },
+      { id: 'last', en: 'the last mistake', zh: '上一次的失误', k: 'int', load: 50, ex: 'a double fault in the previous set', exZh: '上一盘的两次失误' },
+      { id: 'fatigue', en: 'attention to fatigue or discomfort', zh: '过度关注疲劳或不适', k: 'int', load: 40, ex: 'a tight hamstring in the fourth quarter', exZh: '第四节腿后肌发紧' }
+    ];
+    var S = [
+      { id: 'none', en: 'No strategy', zh: '不采取策略', cut: 0, dEn: 'the distraction stays and attention narrows', dZh: '分心持续存在，注意变窄' },
+      { id: 'breath', en: 'Breathing', zh: '呼吸', cut: .22, dEn: 'lowers arousal, so fewer cues are lost', dZh: '降低唤醒，因此丢失的线索更少' },
+      { id: 'routine', en: 'Pre-performance routine', zh: '赛前常规流程', cut: .32, dEn: 'a fixed sequence gives attention a job', dZh: '固定流程给注意力一个任务' },
+      { id: 'cue', en: 'A focus cue', zh: '注意线索', cut: .26, dEn: 'one word or one target replaces the noise', dZh: '一个词或一个目标取代噪音' },
+      { id: 'talk', en: 'Self-talk', zh: '自我对话', cut: .24, dEn: 'short, positive, present-tense instructions', dZh: '简短、积极、现在时的指令' },
+      { id: 'process', en: 'Process goals', zh: '过程目标', cut: .30, dEn: 'focus moves to what the athlete controls', dZh: '注意力转向运动员能控制的部分' }
+    ];
+    var d = 'worry', s = 'routine';
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which distraction?', '哪个分心因素？')) + '</div>' +
+      '<div class="ib-dk">' + tools(D.map(function (x) { return [x.id, T(x.en, x.zh)]; }), d) + '</div>' +
+      '<div class="kv-q kv-q2">' + esc(T('Which control strategy?', '用哪个控制策略？')) + '</div>' +
+      '<div class="ib-sk">' + tools(S.map(function (x) { return [x.id, T(x.en, x.zh)]; }), s) + '</div>' +
+      srange('ar', T('Arousal', '唤醒水平'), 0, 100, 60, 1, '60 / 100') +
+      meter(T('Distraction still in attention', '仍在占用注意的分心'), 'load') +
+      meter(T('Error rate', '错误率'), 'err', 'gold') +
+      meter(T('Tunnel vision', '隧道视觉'), 'tun') +
+      '<div class="kv-callout"></div>' +
+      note('External distractors include crowd noise, movement, opponents, flash photography, flags, scoreboards and referee decisions. Internal distractors include worry, fear of failure, self-doubt, past errors, goal-irrelevant thoughts and excessive attention to fatigue. High arousal creates tunnel vision, fewer cues and poorer decisions.', '外部分心包括观众噪音、他人的动作、对手、闪光灯、旗帜、记分牌与裁判判罚。内部分心包括担忧、失败恐惧、自我怀疑、过去失误、与目标无关的想法，以及过度关注疲劳或不适。唤醒过高会造成隧道视觉、线索减少与决策变差。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var x = D.filter(function (y) { return y.id === d; })[0], st = S.filter(function (y) { return y.id === s; })[0], a = +inp.value;
+      setv(host, 'ar', '.kv-v', a + ' / 100');
+      marks(host, '.ib-dk .kv-tools', d); marks(host, '.ib-sk .kv-tools', s);
+      var tun = a / 100 * .8;
+      var load = clamp(x.load * (.6 + tun * .8) * (1 - st.cut), 0, 100);
+      var err = clamp(load * .55 + tun * 18, 0, 100);
+      scaleBar(host.querySelector('.load'), load / 100);
+      scaleBar(host.querySelector('.err'), err / 100);
+      scaleBar(host.querySelector('.tun'), tun);
+      outs(host, '.vload', Math.round(load) + ' %');
+      outs(host, '.verr', Math.round(err) + ' %');
+      outs(host, '.vtun', Math.round(tun * 100) + ' %');
+      outs(host, '.kv-callout', T(x.en, x.zh) + T(' (' + (x.k === 'ext' ? 'external' : 'internal') + ')', '（' + (x.k === 'ext' ? '外部' : '内部') + '）') +
+        '. ' + T(st.en, st.zh) + ': ' + T(st.dEn, st.dZh) + '. ' +
+        T('Looks like: ', '例如：') + T(x.ex, x.exZh) + '.');
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.ib-dk .kv-tools', function (v) { d = v; draw(); });
+    wire(host, '.ib-sk .kv-tools', function (v) { s = v; draw(); });
+    draw();
+  };
+
+  /* ══ 22 · C.2.2 Task matching and self-talk ═══════════════════════════
+     The task picks the attentional width; self-talk moves arousal. */
+  MODELS['Task matching and self-talk'] = function (host) {
+    var TASK = [
+      { id: 'invasion', en: 'invasion game', zh: '入侵型项目', w: 'broad', ar: 62, dEn: 'read teammates, opponents and space', dZh: '要读队友、对手与空间' },
+      { id: 'penalty', en: 'penalty / free throw', zh: '点球 / 罚球', w: 'narrow', ar: 40, dEn: 'one target, one routine, no traffic', dZh: '一个目标、一套流程、没有干扰' },
+      { id: 'set', en: 'set play', zh: '定位球战术', w: 'narrow', ar: 48, dEn: 'a rehearsed pattern with assigned roles', dZh: '有固定角色分配的排练套路' },
+      { id: 'dive', en: 'dive or long jump', zh: '跳水 / 跳远', w: 'narrow', ar: 30, dEn: 'precision: the run-up and the board must be exact', dZh: '精确性要求：助跑与起跳板必须精准' }
+    ];
+    var TALK = [
+      { id: 'dont', en: '“Do not miss”', zh: '“别罚失”', ar: 88, ctrl: 8, dEn: 'raises anxiety, and the result is not controllable', dZh: '提高焦虑，而结果并不可控' },
+      { id: 'calm', en: '“Calm and focused”', zh: '“冷静且专注”', ar: 34, ctrl: 82, dEn: 'controllable and task-relevant', dZh: '可控且与任务相关' },
+      { id: 'target', en: '“See the target”', zh: '“看着目标”', ar: 42, ctrl: 92, dEn: 'external focus and directly controllable', dZh: '外部注意，且直接可控' },
+      { id: 'lift', en: '“Lift and accelerate”', zh: '“抬高并加速”', ar: 74, ctrl: 88, dEn: 'a controllable cue for a power task', dZh: '力量型项目的可控线索' },
+      { id: 'hustle', en: '“Hustle”', zh: '“拼一点”', ar: 70, ctrl: 64, dEn: 'effort-focused, works for a long task', dZh: '聚焦努力，适合长时间任务' }
+    ];
+    var task = 'penalty', talk = 'target';
+    var PX = 68, PW = 456, PY = 34, PH = 250;
+    function X(a) { return PX + a / 100 * PW; }
+    function Y(c) { return PY + PH - c / 100 * PH; }
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which task?', '哪个任务？')) + '</div>' +
+      seg(TASK.map(function (t) { return [t.id, T(t.en, t.zh)]; }), task) +
+      '<div class="kv-q kv-q2">' + esc(T('What does the athlete say to themselves?', '运动员对自己说什么？')) + '</div>' +
+      tools(TALK.map(function (t) { return [t.id, T(t.en, t.zh)]; }), talk) +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Self-talk on arousal and controllability', '自我对话在唤醒与可控性上的位置')) + '">' +
+      '<rect class="zone" x="' + PX + '" y="' + PY + '" width="' + PW + '" height="' + PH + '"/>' +
+      '<rect class="target-zone" x=""/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('arousal', '唤醒')) + '</text>' +
+      '<text class="small" x="' + (PX - 10) + '" y="' + (PY + 4) + '" text-anchor="end">' + esc(T('controllable', '可控') ) + '</text>' +
+      '<g class="dots"></g>' +
+      '<circle class="chosen" r="10" cx="0" cy="0"/>' +
+      '</svg>' +
+      meter(T('Likely performance', '预期表现'), 'perf', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Use a broad external focus in invasion games and team sports to read teammates and opponents; use a narrow external focus for a penalty, free throw or set play. Self-talk such as “do not miss” can increase anxiety, while “calm and focused” or “see the target” is controllable and task-relevant.', '入侵型项目与团队项目使用宽的外部注意来读队友与对手；点球、罚球或定位球战术使用窄的外部注意。“别罚失”之类的自我对话会提高焦虑，而“冷静且专注”“看着目标”既可控又与任务相关。');
+    function draw() {
+      var t = TASK.filter(function (x) { return x.id === task; })[0], k = TALK.filter(function (x) { return x.id === talk; })[0];
+      marks(host, '.kv-seg', task); marks(host, '.kv-tools', talk);
+      var wm = t.w === 'narrow' ? 16 : 60;
+      host.querySelector('.target-zone').setAttribute('x', X(t.ar - wm).toFixed(1));
+      host.querySelector('.target-zone').setAttribute('width', (X(t.ar + wm) - X(t.ar - wm)).toFixed(1));
+      host.querySelector('.target-zone').setAttribute('y', PY);
+      host.querySelector('.target-zone').setAttribute('height', PH);
+      host.querySelector('.dots').innerHTML = TALK.map(function (x) {
+        return '<circle class="dot" data-id="' + x.id + '" cx="' + X(x.ar).toFixed(1) + '" cy="' + Y(x.ctrl).toFixed(1) + '" r="5"/>';
+      }).join('');
+      $$('.dot', host).forEach(function (d) { d.classList.toggle('on', d.getAttribute('data-id') === talk); });
+      var c = host.querySelector('.chosen');
+      c.setAttribute('cx', X(k.ar).toFixed(1)); c.setAttribute('cy', Y(k.ctrl).toFixed(1));
+      var fit = Math.abs(k.ar - t.ar) / 60, ctrl = k.ctrl / 100;
+      var perf = clamp(96 - fit * 46 + (ctrl - .5) * 26, 0, 100);
+      scaleBar(host.querySelector('.perf'), perf / 100);
+      outs(host, '.vperf', Math.round(perf) + ' %');
+      outs(host, '.kv-callout', T(t.en, t.zh) + ' — ' + T(t.dEn, t.dZh) + '. ' + T(k.en, k.zh) + ': ' + T(k.dEn, k.dZh) + '. ' +
+        T('Width that fits: ', '合适的注意宽度：') + T(t.w, t.w === 'broad' ? '宽' : '窄') + '.');
+    }
+    wireSeg(host, function (v) { task = v; draw(); });
+    wire(host, '.kv-tools', function (v) { talk = v; draw(); });
+    draw();
+  };
+
   /* ══ layer: mount, lazy build, language + mode refresh ═══════════════ */
   window.IB_MODELS = MODELS;
 

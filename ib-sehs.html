@@ -222,6 +222,14 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
   color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD)}
 .ib-model .ib-target-b button.on{background:var(--green);border-color:transparent;color:#fff}
 .ib-model .ib-target-r{font-size:.78rem;color:var(--text3)}
+.ib-model .ib-ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;margin-top:.4rem}
+.ib-model .ib-ch button{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;width:100%;text-align:left;
+  font:inherit;padding:.55rem .7rem;border-radius:11px;cursor:pointer;color:var(--text);
+  background:var(--surface);border:1px solid var(--border2,#C6D1DD);transition:background .2s,border-color .2s}
+.ib-model .ib-ch button b{font-size:.86rem}
+.ib-model .ib-ch button span{font-size:.78rem;color:var(--text3);line-height:1.35}
+.ib-model .ib-ch button.on{background:color-mix(in srgb,var(--accent) 13%,var(--surface));border-color:var(--accent)}
+.ib-model .ib-ch button.on span{color:var(--text2)}
 .ib-model .ib-cats{display:grid;gap:.4rem;margin-top:.4rem}
 .ib-model .ib-cats button{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;width:100%;text-align:left;
   font:inherit;padding:.6rem .75rem;border-radius:12px;cursor:pointer;color:var(--text);
@@ -229,7 +237,8 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 .ib-model .ib-cats button b{font-size:.88rem}
 .ib-model .ib-cats button span{font-size:.8rem;color:var(--text3)}
 .ib-model .ib-cats button.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
-@media (max-width:640px){.ib-model .ib-practices{grid-template-columns:1fr}
+@media (max-width:640px){.ib-model .ib-practices,.ib-model .ib-ch{grid-template-columns:1fr}
+  .ib-model .ib-ch button{min-height:40px}
   .ib-model .ib-target-row{grid-template-columns:1.2rem 1fr}
   .ib-model .ib-target-r{display:none}
   .ib-model .kv-cl-row{grid-template-columns:6.5rem 1fr 3rem}
@@ -367,7 +376,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <div class="ib-modal" id="ibQuizOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box wide"><button class="modal-close" type="button" data-close-modal="ibQuizOverlay" aria-label="Close quiz">×</button><div id="ibQuizContent"></div></div></div>
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
-<script src="ib-sehs-models.js?v=3" defer></script>
+<script src="ib-sehs-models.js?v=4" defer></script>
 <script src="ib-sehs-course.js?v=13" defer></script>
 </body>
 </html>

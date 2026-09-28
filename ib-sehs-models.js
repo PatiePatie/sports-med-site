@@ -1477,6 +1477,772 @@
     draw();
   };
 
+  /* ══ 23 · C.3.1 Need achievement and orientations ═════════════════════
+     Task choice, persistence and what feedback an orientation seeks. */
+  MODELS['Need achievement and orientations'] = function (host) {
+    var O = {
+      task: { en: 'Task-oriented', zh: '任务定向', keep: 'improves after a win, keeps working after a loss', keepZh: '胜利后继续提高，失败后继续努力', ask: 'informational — what improved and what to change', askZh: '信息型——什么提高了，下一步改什么' },
+      ego: { en: 'Ego-oriented', zh: '自我定向', keep: 'risk-averse after a loss, effort drops when winning looks easy', keepZh: '失败后回避风险 winning 看起来容易时努力下降', ask: 'normative — whether they won or lost against others', askZh: '规范型——相对他人是赢是输' }
+    };
+    var orient = 'task';
+    var PX = 66, PW = 468, PY = 40, PH = 232;
+    function X(p) { return PX + p / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    function curve(k) {
+      var d = '', i;
+      for (i = 0; i <= 40; i++) { var x = i * 2.5; d += (i ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(100 * Math.exp(-Math.pow(x - 50, 2) / (2 * k * k))).toFixed(1); }
+      return d;
+    }
+    host.innerHTML =
+      seg([['task', T('Task orientation', '任务定向')], ['ego', T('Ego orientation', '自我定向')]], orient) +
+      srange('d', T('How hard does the task feel?', '任务感觉有多难？'), 0, 100, 55, 1, '55 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Chosen task difficulty against probability of success', '选择的任务难度与成功概率')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<path class="curve a" d="' + curve(22) + '"/>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      '<circle class="marker" r="8" cx="0" cy="0"/>' +
+      [0, 25, 50, 75, 100].map(function (v) {
+        return '<line class="gl" x1="' + PX + '" y1="' + Y(v) + '" x2="' + (PX + PW) + '" y2="' + Y(v) + '"/>' +
+          '<text class="small" x="' + (PX - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+      }).join('') +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('probability of success', '成功概率')) + '</text>' +
+      '<text class="small" x="' + (PX + 6) + '" y="' + (PY - 10) + '">' + esc(T('chose this task', '选择该任务')) + '</text>' +
+      '</svg>' +
+      meter(T('Effort and persistence', '努力与坚持'), 'eff') +
+      meter(T('Enjoyment of the session', '训练愉悦感'), 'joy', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Need for achievement is a relatively stable personality factor, but situational factors — task difficulty, goals, feedback, social climate, rewards and norms — decide how an athlete behaves. People high in need for achievement tend to choose tasks of moderate difficulty, where success is likely but not guaranteed.', '成就需要是相对稳定的人格因素，但情境因素——任务难度、目标、反馈、社会氛围、奖励与规范——决定运动员的行为。成就需要较高者倾向选择中等难度的任务：成功可能性大，又不是十拿九稳。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var d = +inp.value, o = O[orient], task = orient === 'task';
+      setv(host, 'd', '.kv-val', d + ' / 100');
+      marks(host, '.kv-seg', orient);
+      var want = task ? 50 + Math.abs(d - 55) * .35 : clamp(88 - d * .7, 12, 95);
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(want).toFixed(1));
+      m.setAttribute('cy', Y(100 * Math.exp(-Math.pow(want - 50, 2) / (2 * 22 * 22))).toFixed(1));
+      var eff = clamp(58 + (task ? 26 : 6) - Math.abs(d - want) * .35, 0, 100);
+      var joy = clamp(48 + (task ? 34 : 4) - Math.abs(d - want) * .2, 0, 100);
+      scaleBar(host.querySelector('.eff'), eff / 100);
+      scaleBar(host.querySelector('.joy'), joy / 100);
+      outs(host, '.veff', Math.round(eff) + ' %');
+      outs(host, '.vjoy', Math.round(joy) + ' %');
+      outs(host, '.kv-callout', T(o.en, o.zh) + ' — ' + T(o.keep, o.keepZh) + '. ' +
+        T('Feedback sought: ', '寻求的反馈：') + T(o.ask, o.askZh) + '. ' +
+        T('Looks like: ', '例如：') + T('after a difficult session, a task-oriented athlete asks what to change; an ego-oriented athlete asks who did better.',
+          '一次困难训练后，任务定向的运动员会问“下一步改什么”；自我定向的运动员会问“谁做得更好”。'));
+    }
+    inp.addEventListener('input', draw);
+    wireSeg(host, function (v) { orient = v; draw(); });
+    draw();
+  };
+
+  /* ══ 24 · C.3.1 High ego with low ability ════════════════════════════
+     The combination that costs the most, and what the coach can say. */
+  MODELS['High ego with low ability and coach influence'] = function (host) {
+    var SAY = [
+      { id: 'best', en: '“You are the best”', zh: '“你是最强的”', dEn: 'a controlling comparison message: the athlete is defined by winning, so a loss threatens self-worth', dZh: '强制性的比较信息：运动员的价值被胜负定义，失败就威胁自我价值', eff: 34, anx: 74, good: false },
+      { id: 'prep', en: '“Your preparation and decision improved this set”', zh: '“你的准备和决策让这一节变好了”', dEn: 'informational and process-focused: it names something the athlete actually did', dZh: '信息型且聚焦过程：指出运动员真正做到的事', eff: 82, anx: 38, good: true },
+      { id: 'none', en: 'Say nothing', zh: '不评价', dEn: 'no message: the athlete keeps the belief it brought in', dZh: '没有信息：运动员保留自己原有的信念', eff: 48, anx: 58, good: false }
+    ];
+    var say = 'prep';
+    var PX = 70, PW = 460, PY = 40, PH = 236;
+    function X(v) { return PX + v / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    host.innerHTML =
+      '<div class="kv-grid2">' +
+      srange('ego', T('Ego orientation', '自我定向'), 0, 100, 70, 1, '70 / 100') +
+      srange('ab', T('Perceived ability', '感知能力'), 0, 100, 35, 1, '35 / 100') +
+      '</div>' +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Approach behaviour against ego orientation and ability', '趋近行为随自我定向与能力变化')) + '">' +
+      '<rect class="q1" x="' + PX + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + (PX + PW / 2).toFixed(1) + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + PX + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q1" x="' + (PX + PW / 2).toFixed(1) + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<circle class="marker" r="9" cx="0" cy="0"/>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + 20) + '">' + esc(T('low ability', '能力低')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + 20) + '" text-anchor="end">' + esc(T('high ability', '能力高')) + '</text>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + PH - 10) + '">' + esc(T('effort falls', '努力下降')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + PH - 10) + '" text-anchor="end">' + esc(T('approach grows', '趋近增加')) + '</text>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('perceived ability', '感知能力')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-q kv-q2">' + esc(T('What does the coach say?', '教练说什么？')) + '</div>' +
+      tools(SAY.map(function (x) { return [x.id, T(x.en, x.zh)]; }), say) +
+      meter(T('Approach behaviour', '趋近行为'), 'app') +
+      meter(T('Anxiety before the next session', '下次训练前的焦虑'), 'anx', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('High ego orientation with low perceived ability can increase anxiety, reduce effort, encourage excuses and blame, lead to withdrawal and limit potential. Coaches can change the pattern with personal and process goals, task difficulty that matches the athlete, specific constructive feedback, rewarding effort and improvement, and a climate of support and teamwork.', '自我定向高而感知能力低，会提高焦虑、减少努力、助长借口与推责，导致退缩并限制潜力。教练可以通过个人与过程目标、与运动员水平匹配的任务难度、具体而有建设性的反馈、奖励努力与进步，以及支持与团队合作的氛围来改变这种模式。');
+    var ins = $$('input[type=range]', host);
+    function draw() {
+      var ego = +ins[0].value, ab = +ins[1].value, x = SAY.filter(function (z) { return z.id === say; })[0];
+      setv(host, 'ego', '.kv-v', ego + ' / 100');
+      setv(host, 'ab', '.kv-v', ab + ' / 100');
+      marks(host, '.kv-tools', say);
+      var base = clamp(30 + ab * .58 + (100 - ego) * .22, 0, 100);
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(ab).toFixed(1));
+      m.setAttribute('cy', Y(base).toFixed(1));
+      m.classList.toggle('ok', base > 55);
+      m.classList.toggle('risk', base <= 55);
+      var eff = clamp(base * .6 + x.eff * .4, 0, 100), anx = clamp(100 - eff * .8 + (100 - x.good * 100) * 18, 0, 100);
+      scaleBar(host.querySelector('.app'), eff / 100);
+      scaleBar(host.querySelector('.anx'), anx / 100);
+      outs(host, '.vapp', Math.round(eff) + ' %');
+      outs(host, '.vanx', Math.round(anx) + ' %');
+      outs(host, '.kv-callout', T(x.en, x.zh) + ' — ' + T(x.dEn, x.dZh) + '. ' +
+        (eff < 55 ? T('This is where excuses, blame and withdrawal start.', '这正是借口、推责与退缩开始的地方。')
+          : T('The message matches the behaviour it wants.', '这条信息与它想要的行为一致。')));
+    }
+    ins.forEach(function (i) { i.addEventListener('input', draw); });
+    wire(host, '.kv-tools', function (v) { say = v; draw(); });
+    draw();
+  };
+
+  /* ══ 25 · C.3.1 Coaching the environment ══════════════════════════════
+     Toggle what the club rewards and watch the climate move. */
+  MODELS['Coaching the environment'] = function (host) {
+    var P = [
+      { id: 'effort', en: 'Rewards effort and improvement', zh: '奖励努力与进步', m: 1, dEn: 'effort and progress are what count', dZh: '努力与进步才算数' },
+      { id: 'learning', en: 'Values learning and progress', zh: '重视学习与进步', m: 1, dEn: 'the club says learning is the point', dZh: '俱乐部明确表示学习才是目的' },
+      { id: 'support', en: 'Encourages support and respect', zh: '鼓励支持与尊重', m: 1, dEn: 'teammates are valued over results', dZh: '队友比成绩更受重视' },
+      { id: 'personal', en: 'Sets personal and process goals', zh: '设定个人与过程目标', m: 1, dEn: 'standards the athlete can control', dZh: '标准是运动员能控制的' },
+      { id: 'difficulty', en: 'Matches task difficulty', zh: '匹配任务难度', m: 1, dEn: 'challenge that can be taken on', dZh: '有挑战但能应对' },
+      { id: 'winning', en: 'Rewards winning only', zh: '只奖励获胜', m: -1, dEn: 'results are the only thing recognised', dZh: '只有成绩会被认可' },
+      { id: 'ranking', en: 'Ranks athletes publicly', zh: '公开排名', m: -1, dEn: 'comparison becomes the message', dZh: '比较成了核心信息' },
+      { id: 'blame', en: 'Blames the weakest player', zh: '责怪最弱的队员', m: -1, dEn: 'effort disappears when it is punished', dZh: '努力在被惩罚时消失' }
+    ];
+    var on = { effort: 1, learning: 1, support: 0, personal: 1, difficulty: 1, winning: 0, ranking: 0, blame: 0 };
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which of these does the club actually do?', '俱乐部实际在做哪些？')) + '</div>' +
+      '<div class="ib-practices">' + P.map(function (p) {
+        return '<button type="button" data-v="' + p.id + '" aria-pressed="' + (on[p.id] ? 'true' : 'false') + '" class="' + (on[p.id] ? 'on' : '') + '">' + esc(T(p.en, p.zh)) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="kv-climate">' +
+      '<div class="kv-cl-row"><span>' + esc(T('mastery climate', '掌握氛围')) + '</span><div class="kv-bar"><i class="cm"></i></div><b class="vcm"></b></div>' +
+      '<div class="kv-cl-row"><span>' + esc(T('ego climate', '自我氛围')) + '</span><div class="kv-bar"><i class="ce"></i></div><b class="vce"></b></div></div>' +
+      meter(T('Persistence and effort', '坚持与努力'), 'per') +
+      meter(T('Enjoyment and wellbeing', '愉悦与幸福感'), 'joy', 'gold') +
+      meter(T('Likelihood of staying in the sport', '继续参与的可能性'), 'ret') +
+      '<div class="kv-callout"></div>' +
+      note('A coach can vary difficulty, set personal and process goals, give feedback on improvement, encourage support and respect, reward effort and sportsmanship and value learning and progress — and those choices encourage challenge, effort, persistence and positive emotion. Reward structure, norms, social climate and task design all send messages about what is valued.', '教练可以调整难度、设定个人与过程目标、就进步给予反馈、鼓励支持与尊重、奖励努力与体育道德，并重视学习与进步——这些选择会鼓励挑战、努力、坚持与积极情绪。奖励结构、规范、社会氛围与任务设计都会传递“什么被重视”的信息。');
+    function draw() {
+      var m = 0, i, p;
+      $$('.ib-practices button', host).forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('aria-pressed') === 'true');
+      });
+      for (i = 0; i < P.length; i++) {
+        p = P[i];
+        m += (on[p.id] ? 1 : 0) * p.m;
+      }
+      var mastery = clamp(50 + m * 12.5, 0, 100), ego = clamp(50 - m * 12.5, 0, 100);
+      var per = clamp(mastery * .8 + 20, 0, 100), joy = clamp(mastery * .85 + 12, 0, 100), ret = clamp(mastery * .9 + 8, 0, 100);
+      scaleBar(host.querySelector('.cm'), mastery / 100);
+      host.querySelector('.cm').style.background = 'var(--green)';
+      scaleBar(host.querySelector('.ce'), ego / 100);
+      host.querySelector('.ce').style.background = 'var(--c0)';
+      outs(host, '.vcm', Math.round(mastery) + ' %');
+      outs(host, '.vce', Math.round(ego) + ' %');
+      scaleBar(host.querySelector('.per'), per / 100);
+      scaleBar(host.querySelector('.joy'), joy / 100);
+      scaleBar(host.querySelector('.ret'), ret / 100);
+      outs(host, '.vper', Math.round(per) + ' %');
+      outs(host, '.vjoy', Math.round(joy) + ' %');
+      outs(host, '.vret', Math.round(ret) + ' %');
+      outs(host, '.kv-callout',
+        mastery > 62 ? T('A mastery climate: effort, cooperation, improvement and enjoyment are what count.', '掌握氛围：努力、合作、进步与愉悦才是被认可的东西。')
+          : ego > 62 ? T('An ego climate: comparison and winning dominate, and anxiety, burnout and dropout rise.', '自我氛围：比较与获胜主导一切，焦虑、倦怠与退出上升。')
+            : T('A mixed climate: the message the athletes receive is inconsistent.', '混合氛围：运动员收到的信息前后不一致。'));
+    }
+    wire(host, '.ib-practices', function (v) { on[v] = on[v] ? 0 : 1; draw(); });
+    draw();
+  };
+
+  /* ══ 26 · C.3.2 Three basic needs and continuum ══════════════════════
+     Three needs, a frustration profile, and a place on the continuum. */
+  MODELS['Three basic needs and continuum'] = function (host) {
+    var N = [
+      { id: 'auto', en: 'Autonomy', zh: '自主', dEn: 'experiencing choice and volition', dZh: '体验选择与自愿' },
+      { id: 'comp', en: 'Competence', zh: '胜任', dEn: 'feeling effective and able to improve', dZh: '感到有效并能进步' },
+      { id: 'rel', en: 'Relatedness', zh: '联结', dEn: 'feeling connected, valued and supported', dZh: '感到有联结、被重视与支持' }
+    ];
+    var C = [
+      { id: 'amot', w: 100, en: 'Amotivation', zh: '无动机' },
+      { id: 'ext', w: 84, en: 'External regulation', zh: '外部调节' },
+      { id: 'intro', w: 68, en: 'Introjected', zh: '内摄' },
+      { id: 'ident', w: 52, en: 'Identified', zh: '认同' },
+      { id: 'integ', w: 36, en: 'Integrated', zh: '整合' },
+      { id: 'intro3', w: 20, en: 'Intrinsic', zh: '内在' }
+    ];
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('How satisfied are the three needs here?', '这里三个需要的满足程度如何？')) + '</div>' +
+      '<div class="kv-grid2">' +
+      srange('auto', T('Autonomy', '自主'), 0, 100, 70, 1, '70 / 100') +
+      srange('comp', T('Competence', '胜任'), 0, 100, 70, 1, '70 / 100') +
+      '</div>' +
+      srange('rel', T('Relatedness', '联结'), 0, 100, 70, 1, '70 / 100') +
+      '<div class="kv-q kv-q2">' + esc(T('Where the athlete lands', '运动员落在哪一段')) + '</div>' +
+      pyr(C.map(function (c, i) { return [T(c.en, c.zh), c.w, '', false, 'kv-gA']; })) +
+      meter(T('Motivation quality', '动机质量'), 'mq', 'gold') +
+      meter(T('Persistence and enjoyment', '坚持与愉悦'), 'pe') +
+      meter(T('Mental health load', '心理负担'), 'mh') +
+      '<div class="kv-callout"></div>' +
+      note('Autonomy is feeling in control with real choice, competence is feeling effective and able to master challenges, and relatedness is feeling connected and valued. Need satisfaction supports autonomous motivation, persistence, enjoyment and mental health; need frustration moves the athlete toward controlled motivation and away from wellbeing.', '自主是感到掌控并有真实选择，胜任是感到有效并能掌握挑战，联结是感到有归属、被重视。需要满足支持自主动机、坚持、愉悦与心理健康；需要受挫会把运动员推向受控动机，远离幸福感。');
+    var ins = $$('input[type=range]', host);
+    function draw() {
+      var a = +ins[0].value, c = +ins[1].value, r = +ins[2].value;
+      setv(host, 'auto', '.kv-v', a + ' / 100');
+      setv(host, 'comp', '.kv-v', c + ' / 100');
+      setv(host, 'rel', '.kv-v', r + ' / 100');
+      var sat = (a + c + r) / 300, frustr = 1 - sat;
+      var idx = clamp(Math.round(frustr * 5.2), 0, 5), row = C[idx];
+      $$('.kv-lv', host).forEach(function (n, i) { n.classList.toggle('on', i === idx); });
+      var mq = clamp(sat * 100, 0, 100), pe = clamp(30 + mq * .62, 0, 100), mh = clamp(frustr * 86, 0, 100);
+      scaleBar(host.querySelector('.mq'), mq / 100);
+      scaleBar(host.querySelector('.pe'), pe / 100);
+      scaleBar(host.querySelector('.mh'), mh / 100);
+      outs(host, '.vmq', Math.round(mq) + ' %');
+      outs(host, '.vpe', Math.round(pe) + ' %');
+      outs(host, '.vmh', Math.round(mh) + ' %');
+      outs(host, '.kv-callout',
+        (a < 35 || c < 35 || r < 35) ? T('One need is frustrated — that is enough to move the athlete down the continuum.', '只要有一个需要受挫，就足以把运动员拉低到连续体的下一段。')
+          : sat > .74 ? T('All three are reasonably satisfied, so the motivation is self-endorsed: ' + T(row.en, row.zh) + '.', '三个需要都得到较好的满足，因此动机是自我认可的：' + T(row.en, row.zh) + '。')
+            : T('Mixed: ' + T(row.en, row.zh) + '. Partial frustration shows up as inconsistent effort across the week.', '情况混合：' + T(row.en, row.zh) + '。部分受挫会表现为一周内努力不稳定。'));
+    }
+    ins.forEach(function (i) { i.addEventListener('input', draw); });
+    draw();
+  };
+
+  /* ══ 27 · C.3.2 Controlled, autonomous, four regulations ═══════════════
+     The continuum over months, and what a controlling reward does to it. */
+  MODELS['Controlled, autonomous and four extrinsic regulations'] = function (host) {
+    var C = [
+      { id: 'amot', w: 100, en: 'Amotivation', zh: '无动机', q: '“I do not see the point”', qZh: '“我看不到意义”' },
+      { id: 'ext', w: 84, en: 'External — I must', zh: '外部——“我不得不”', q: '“I train or I am dropped”', qZh: '“不训练就会被淘汰”' },
+      { id: 'intro', w: 68, en: 'Introjected — guilt', zh: '内摄——内疚', q: '“I would feel bad if I did not”', qZh: '“不做我会内疚”' },
+      { id: 'ident', w: 52, en: 'Identified — I should', zh: '认同——“我应该”', q: '“it matters to me, so I do it”', qZh: '“这对我重要，所以我做”' },
+      { id: 'integ', w: 36, en: 'Integrated — I value it', zh: '整合——“我重视它”', q: '“it fits who I am”', qZh: '“它符合我是谁”' },
+      { id: 'intro3', w: 20, en: 'Intrinsic — I want to', zh: '内在——“我就是想”', q: '“the activity itself is the reward”', qZh: '“活动本身就是回报”' }
+    ];
+    var reward = 0, weeks = 6;
+    host.innerHTML =
+      srange('w', T('Weeks of participation', '参与周数'), 1, 12, 6, 1, '6 weeks') +
+      '<div class="kv-q kv-q2">' + esc(T('Has a controlling reward been introduced?', '是否引入了强制性奖励？')) + '</div>' +
+      tools([['no', T('No — informational feedback and choice', '否——信息型反馈与选择')], ['yes', T('Yes — a prize for winning', '是——为获胜设立奖品')]], 'no') +
+      pyr(C.map(function (c) { return [T(c.en, c.zh), c.w, '', false, 'kv-gA']; })) +
+      meter(T('Persistence', '坚持'), 'per') +
+      meter(T('Enjoyment', '愉悦'), 'joy', 'gold') +
+      meter(T('Anxiety about performance', '表现焦虑'), 'anx') +
+      '<div class="kv-callout"></div>' +
+      note('Controlled motivation is driven by reward, punishment, guilt, ego or shame, and comes with lower persistence, higher anxiety and lower wellbeing. Extrinsic regulation moves from external, through introjected and identified, to integrated: from “I must”, to “I should”, to “I want to because it matters”, to “I value it”. Introducing a controlling reward for an activity already enjoyed can reduce that enjoyment — the overjustification effect.', '受控动机由奖励、惩罚、内疚、自我或羞耻驱动，并伴随更低的坚持、更高的焦虑与更低的幸福感。外在调节从外部出发，经内摄、认同到整合：从“我不得不”“我应该”“我想要，因为它重要”到“我重视它”。为一项本就喜欢的活动引入强制性奖励，反而会降低这种愉悦——这就是过度理由效应。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var w = +inp.value;
+      setv(host, 'w', '.kv-val', w + ' ' + T(w === 1 ? 'week' : 'weeks', '周'));
+      marks(host, '.kv-tools', reward ? 'yes' : 'no');
+      /* internalisation rises with time; a controlling reward pulls it back down */
+      var lvl = clamp(Math.round((w - 1) / 11 * 4), 0, 4);
+      if (reward) lvl = Math.max(0, lvl - 2);
+      var row = C[lvl];
+      $$('.kv-lv', host).forEach(function (n, i) { n.classList.toggle('on', i === lvl); });
+      var per = clamp(24 + lvl * 13, 0, 100), joy = clamp(16 + lvl * 15, 0, 100);
+      var anx = clamp(78 - lvl * 13, 0, 100);
+      scaleBar(host.querySelector('.per'), per / 100);
+      scaleBar(host.querySelector('.joy'), joy / 100);
+      scaleBar(host.querySelector('.anx'), anx / 100);
+      outs(host, '.vper', Math.round(per) + ' %');
+      outs(host, '.vjoy', Math.round(joy) + ' %');
+      outs(host, '.vanx', Math.round(anx) + ' %');
+      outs(host, '.kv-callout', T(row.en, row.zh) + ' — ' + T(row.q, row.qZh) + '. ' +
+        (reward ? T('The controlling reward pulled the athlete two steps back down the continuum.', '强制性奖励把运动员沿连续体拉低了两级。')
+          : T('Internalisation needs time, choice and informational feedback.', '内化需要时间、选择与信息型反馈。')));
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.kv-tools', function (v) { reward = v === 'yes' ? 1 : 0; draw(); });
+    draw();
+  };
+
+  /* ══ 28 · C.3.2 Six mini-theories ════════════════════════════════════
+     Six lenses on the same claim, and how they connect. */
+  MODELS['Six mini-theories'] = function (host) {
+    var T6 = [
+      { id: 'cet', en: 'CET', full: 'Context and intrinsic motivation', fullZh: '情境与内在动机', claim: 'autonomy support, informational feedback and optimal challenge raise intrinsic motivation', claimZh: '自主支持、信息型反馈与适度挑战提升内在动机', ex: 'a coach explains why the task is set and lets the athlete choose one variation', exZh: '教练解释任务设定的理由，并让运动员选择一种变化' },
+      { id: 'oit', en: 'OIT', full: 'Internalisation', fullZh: '内化', claim: 'external reasons are taken over time until they are self-endorsed', claimZh: '外在理由随时间被吸收，直到成为自我认可', ex: '“I must train” becoming “I want to train” over a season', exZh: '一个赛季里从“我必须训练”变成“我想训练”' },
+      { id: 'cot', en: 'COT', full: 'Causal orientations', fullZh: '因果取向', claim: 'internal, stable and controllable attributions support internalisation', claimZh: '内部、稳定且可控的归因支持内化', ex: '“I won because my preparation improved”', exZh: '“我赢了，因为准备提升了”' },
+      { id: 'bpnt', en: 'BPNT', full: 'Basic psychological needs', fullZh: '基本心理需要', claim: 'autonomy, competence and relatedness explain quality motivation', claimZh: '自主、胜任与联结解释动机质量', ex: 'choice, matched challenge and a team that includes the beginner', exZh: '给予选择、匹配挑战、让团队接纳新手' },
+      { id: 'goal', en: 'Goal contents', full: 'Goal content', fullZh: '目标内容', claim: 'learning and mastery goals differ from ego and comparison goals', claimZh: '学习与掌握目标不同于自我与比较目标', ex: '“improve my first serve percentage” rather than “be number one”', exZh: '“把一发成功率提高”而不是“要拿第一”' },
+      { id: 'rel', en: 'RMT', full: 'Relationship motivation', fullZh: '关系动机', claim: 'caring coach-athlete and teammate relationships support motivation', claimZh: '关怀备至的教练与队友关系支持动机', ex: 'a coach who notices who is struggling before it is said', exZh: '在有人开口之前就注意到他遇到了困难' }
+    ];
+    var pick = 'cet';
+    host.innerHTML =
+      tools(T6.map(function (t) { return [t.id, t.en + ' — ' + T(t.full, t.fullZh)]; }), pick) +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('The claim it examines', '它考察的命题')) + '</dt><dd class="vclaim"></dd>' +
+      '<dt>' + esc(T('In a training session', '在一次训练中')) + '</dt><dd class="vex"></dd>' +
+      '</dl></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('How they connect', '它们如何连接')) + '</div>' +
+      '<div class="kv-chain">' +
+      ['rel', 'goal', 'bpnt', 'cot', 'oit', 'intro3'].map(function (k, i) {
+        return '<span class="kv-chain-i">' + esc(T(k === 'rel' ? 'relationships' : k === 'goal' ? 'goals' : k === 'bpnt' ? 'needs' : k === 'cot' ? 'causal orientation' : k === 'oit' ? 'internalisation' : 'intrinsic motivation', k === 'rel' ? '关系' : k === 'goal' ? '目标' : k === 'bpnt' ? '需要' : k === 'cot' ? '因果取向' : k === 'oit' ? '内化' : '内在动机')) + '</span>';
+      }).join('<b>→</b>') + '</div>' +
+      '<div class="kv-callout"></div>' +
+      note('The six mini-theories address context and intrinsic motivation, internalisation, causal orientations, basic needs, goal content and relationships. They interconnect: needs influence motivation, causal orientations support internalisation, goals and relationships shape the context, and the context influences intrinsic motivation.', '六个小理论分别考察情境与内在动机、内化、因果取向、基本需要、目标内容与关系。它们彼此连接：需要影响动机，因果取向支持内化，目标与关系塑造情境，情境又影响内在动机。');
+    function draw() {
+      var t = T6.filter(function (x) { return x.id === pick; })[0];
+      marks(host, '.kv-tools', pick);
+      outs(host, '.vclaim', T(t.claim, t.claimZh));
+      outs(host, '.vex', T(t.ex, t.exZh));
+      outs(host, '.kv-callout', t.en + ' — ' + T(t.full, t.fullZh) + '. ' +
+        T('Theories do not compete: they answer different parts of the same question.', '这些理论并不互相竞争：它们回答的是同一个问题的不同部分。'));
+    }
+    wire(host, '.kv-tools', function (v) { pick = v; draw(); });
+    draw();
+  };
+
+  /* ══ 29 · C.3.3 Mastery and ego climates ══════════════════════════════
+     What the coach values moves persistence, enjoyment and retention. */
+  MODELS['Mastery and ego climates'] = function (host) {
+    var PX = 66, PW = 466, PY = 40, PH = 238;
+    function X(v) { return PX + v / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    function path(fn) {
+      var d = '', i;
+      for (i = 0; i <= 40; i++) { var x = i * 2.5; d += (i ? ' L' : 'M') + X(x).toFixed(1) + ',' + Y(clamp(fn(x), 0, 100)).toFixed(1); }
+      return d;
+    }
+    host.innerHTML =
+      srange('m', T('The coach values winning rather than learning', '教练更看重获胜而非学习'), 0, 100, 40, 1, '40 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Climate against the coach value', '氛围随教练取向变化')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      [0, 25, 50, 75, 100].map(function (v) {
+        return '<line class="gl" x1="' + PX + '" y1="' + Y(v) + '" x2="' + (PX + PW) + '" y2="' + Y(v) + '"/>' +
+          '<text class="small" x="' + (PX - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+      }).join('') +
+      '<path class="curve a" d="' + path(function (x) { return 22 + x * 0.6; }) + '"/>' +
+      '<path class="curve b" d="' + path(function (x) { return 92 - x * 0.62; }) + '"/>' +
+      '<path class="curve c" d="' + path(function (x) { return 96 - x * 0.74; }) + '"/>' +
+      '<text class="small" x="' + (PX + 8) + '" y="' + (Y(38) - 8) + '">' + esc(T('persistence', '坚持')) + '</text>' +
+      '<text class="small" x="' + (PX + 8) + '" y="' + (Y(88) - 8) + '">' + esc(T('enjoyment', '愉悦')) + '</text>' +
+      '<text class="small" x="' + (PX + 8) + '" y="' + (Y(96) - 22) + '">' + esc(T('staying in the sport', '继续参与')) + '</text>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('the coach values winning →', '教练更看重获胜 →')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-callout"></div>' +
+      note('In a mastery climate, effort, cooperation, improvement and enjoyment are valued, and athletes are more likely to show persistence, confidence, wellbeing, learning and retention. In an ego climate athletes are compared, winning is prioritised, and anxiety, burnout and dropout can increase. Rewriting “you are the best” as “your effort and strategy improved” reinforces mastery.', '在掌握氛围中，努力、合作、进步与愉悦被重视，运动员更可能表现出坚持、自信、幸福感、学习与留队。在自我氛围中，运动员被相互比较、获胜被优先，焦虑、倦怠与退出都会上升。把“你是最强的”改写为“你的努力与策略提高了”，就是在强化掌握。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var m = +inp.value;
+      setv(host, 'm', '.kv-val', m + ' / 100');
+      host.querySelector('.kv-cursor').setAttribute('x1', X(m).toFixed(1));
+      host.querySelector('.kv-cursor').setAttribute('x2', X(m).toFixed(1));
+      var per = Math.round(clamp(22 + m * 0.6, 0, 100)), joy = Math.round(clamp(92 - m * 0.62, 0, 100)), ret = Math.round(clamp(96 - m * 0.74, 0, 100));
+      outs(host, '.kv-callout',
+        m < 30 ? T('A mastery climate at ' + per + ' % persistence, ' + ret + ' % staying in the sport.', '掌握氛围：坚持 ' + per + '%，继续参与 ' + ret + '%。')
+          : m > 66 ? T('An ego climate: enjoyment down to ' + joy + ' % and retention to ' + ret + ' %.', '自我氛围：愉悦降到 ' + joy + '%，留队降到 ' + ret + '%。')
+            : T('A mixed climate — the message athletes receive is not consistent.', '混合氛围——运动员收到的信息并不一致。') +
+              ' ' + T('Rewrite one sentence the coach says this week.', '改写教练这周会说的一句话。'));
+    }
+    inp.addEventListener('input', draw);
+    draw();
+  };
+
+  /* ══ 30 · C.3.3 TARGET framework ══════════════════════════════════════
+     Six decisions, each with a mastery and an ego version. */
+  MODELS['TARGET framework'] = function (host) {
+    var D = [
+      { id: 'T', en: 'Task', zh: '任务', m: T('a meaningful challenge that can be taken on', '可应对的有意义挑战'), e: T('a scripted drill with one right answer', '只有唯一正确答案的固定练习'), q: T('What is the task asking the athlete to solve?', '这个任务要运动员解决什么？') },
+      { id: 'A', en: 'Authority', zh: '决策权', m: T('shared decisions, athletes have input', '共同决策，运动员有发言权'), e: T('the coach decides everything', '一切都由教练决定'), q: T('Who decides how the session runs?', '谁决定训练怎么进行？') },
+      { id: 'R', en: 'Recognition', zh: '认可', m: T('effort and strategy are praised in public', '公开表扬努力与策略'), e: T('only winners are recognised', '只有获胜者被认可'), q: T('What gets praised in front of the group?', '在群体面前被表扬的是什么？') },
+      { id: 'G', en: 'Grouping', zh: '分组', m: T('mixed and flexible groups that rotate', '混合且轮换的分组'), e: T('ability-grouped, sorted once and fixed', '按能力分一次然后固定'), q: T('Who practises with whom?', '谁和谁一起练？') },
+      { id: 'E', en: 'Evaluation', zh: '评价', m: T('individual progress feedback against your own standard', '对照自己的标准给出个人进步反馈'), e: T('public ranking and comparison', '公开排名与比较'), q: T('How is progress judged?', '进步如何被评判？') },
+      { id: 'T2', en: 'Time', zh: '时间', m: T('fair practice time for every athlete', '每位运动员练习时间公平'), e: T('stars get the most time', '主力获得最多时间'), q: T('Who gets the minutes?', '谁获得训练时间？') }
+    ];
+    var mode = {};
+    D.forEach(function (d) { mode[d.id] = 'm'; });
+    var cur = 'T';
+    host.innerHTML =
+      tools(D.map(function (d) { return [d.id, d.id + ' · ' + T(d.en, d.zh)]; }), cur) +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('The question the coach answers', '教练要回答的问题')) + '</dt><dd class="vq"></dd>' +
+      '<dt>' + esc(T('Mastery version', '掌握式做法')) + '</dt><dd class="vm"></dd>' +
+      '<dt>' + esc(T('Ego version', '自我式做法')) + '</dt><dd class="ve"></dd>' +
+      '</dl></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('Which version is this club using?', '俱乐部在用哪一种？')) + '</div>' +
+      '<div class="ib-target">' + D.map(function (d) {
+        return '<div class="ib-target-row"><span class="ib-target-l">' + d.id + '</span>' +
+          '<div class="ib-target-b"><button type="button" data-v="' + d.id + '|m" aria-pressed="true" class="on">' + esc(T('mastery', '掌握')) + '</button>' +
+          '<button type="button" data-v="' + d.id + '|e" aria-pressed="false">' + esc(T('ego', '自我')) + '</button></div>' +
+          '<span class="ib-target-r" data-r="' + d.id + '"></span></div>';
+      }).join('') + '</div>' +
+      meter(T('Mastery climate', '掌握氛围'), 'cl', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('TARGET stands for Task, Authority, Recognition, Grouping, Evaluation and Time. Manipulating these six dimensions — what is emphasised, who decides, what is praised, how groups are formed, how performance is judged and how time is allocated — is how a coach builds a mastery or an ego climate.', 'TARGET 指任务、决策权、认可、分组、评价与时间。操控这六个维度——强调什么、谁做决定、表扬什么、如何分组、如何评判表现、如何分配时间——正是教练建立掌握氛围或自我氛围的方式。');
+    function draw() {
+      var d = D.filter(function (x) { return x.id === cur; })[0];
+      marks(host, '.kv-tools', cur);
+      outs(host, '.vq', T(d.q, d.qZh));
+      outs(host, '.vm', T(d.m, d.mZh));
+      outs(host, '.ve', T(d.e, d.eZh));
+      var m = 0;
+      D.forEach(function (x) {
+        var on = mode[x.id] === 'm';
+        m += on ? 1 : -1;
+        var row = host.querySelector('[data-r="' + x.id + '"]');
+        if (row) row.textContent = on ? T('effort, learning, support', '努力、学习、支持') : T('comparison, winning, status', '比较、获胜、地位');
+        var btns = host.querySelectorAll('.ib-target-b button[data-v^="' + x.id + '|"]');
+        Array.prototype.slice.call(btns).forEach(function (b) {
+          var v = b.getAttribute('data-v').split('|')[1], isOn = v === mode[x.id];
+          b.classList.toggle('on', isOn);
+          b.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+        });
+      });
+      var cl = clamp(50 + m * 8.3, 0, 100);
+      scaleBar(host.querySelector('.cl'), cl / 100);
+      outs(host, '.vcl', Math.round(cl) + ' %');
+      outs(host, '.kv-callout',
+        cl > 66 ? T('All six point to mastery: this is the climate where effort, learning and support are visible.', '六个维度都指向掌握：这是努力、学习与支持都能被看见的氛围。')
+          : cl < 34 ? T('All six point to ego: comparison and winning become the message.', '六个维度都指向自我：比较与获胜成为核心信息。')
+            : T('Mixed: change one dimension at a time and watch the index move.', '情况混合：一次改一个维度，观察指数的变化。'));
+    }
+    wire(host, '.kv-tools', function (v) { cur = v; draw(); });
+    wire(host, '.ib-target-b', function (v) { var p = v.split('|'); mode[p[0]] = p[1]; cur = p[0]; draw(); });
+    draw();
+  };
+
+  /* ══ 31 · C.3.3 Links to motivation and SDT ══════════════════════════
+     The same climate, three settings, three things it protects. */
+  MODELS['Links to motivation and SDT'] = function (host) {
+    var S = [
+      { id: 'team', en: 'Team sport', zh: '团队项目', builds: T('culture and cohesion', '团队文化与凝聚力'), why: 'the climate shapes how teammates treat each other, not just how they train', whyZh: '氛围塑造的是队友之间如何相处，而不只是如何训练' },
+      { id: 'ind', en: 'Individual sport', zh: '个人项目', builds: T('confidence', '自信'), why: 'there is nobody to hide behind, so the internal message matters most', whyZh: '没有队友可依靠，因此内心的信息最重要' },
+      { id: 'youth', en: 'Youth sport', zh: '青少年运动', builds: T('long-term enjoyment and participation', '长期的愉悦与参与'), why: 'the point is staying in the sport for years, not winning one event', whyZh: '目标是多年留在这项运动中，而不是赢一场比赛' }
+    ];
+    var set = 'team';
+    host.innerHTML =
+      seg(S.map(function (s) { return [s.id, T(s.en, s.zh)]; }), set) +
+      srange('m', T('The climate is mastery rather than ego', '氛围偏掌握而非自我'), 0, 100, 70, 1, '70 / 100') +
+      '<div class="kv-q kv-q2">' + esc(T('The three needs under that climate', '该氛围下的三个需要')) + '</div>' +
+      zones([['A', T('Autonomy', '自主'), '', '', 1], ['C', T('Competence', '胜任'), '', '', 1], ['R', T('Relatedness', '联结'), '', '', 1]]) +
+      '<div class="kv-q kv-q2">' + esc(T('What it protects or builds', '它保护或建立什么')) + '</div>' +
+      '<div class="kv-builds"></div>' +
+      meter(T('Quality motivation', '动机质量'), 'qm', 'gold') +
+      meter(T('Long-term participation', '长期参与'), 'lt') +
+      '<div class="kv-callout"></div>' +
+      note('Achievement motivation is the desire to meet challenging goals; self-determination theory explains the quality of motivation through autonomy, competence and relatedness. A mastery climate tends to satisfy those needs and an ego climate tends to frustrate them. A mastery climate supports achievement goals and quality motivation at the same time — it does not replace one with the other.', '成就动机是达到挑战性目标的愿望；自我决定理论通过自主、胜任与联结解释动机质量。掌握氛围往往满足这些需要，自我氛围往往使其受挫。掌握氛围同时支持成就目标与高质量动机——它不是用后者取代前者。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var m = +inp.value, s = S.filter(function (x) { return x.id === set; })[0];
+      setv(host, 'm', '.kv-v', m + ' / 100');
+      marks(host, '.kv-seg', set);
+      var need = [m, clamp(m * 0.94 + 4, 0, 100), clamp(m * 0.88 + 6, 0, 100)];
+      var rows = host.querySelectorAll('.kv-zones .kv-zone');
+      Array.prototype.slice.call(rows).forEach(function (r, i) {
+        var v = Math.round(need[i]);
+        r.className = 'kv-zone kv-z' + (v < 30 ? 5 : v < 50 ? 4 : v < 70 ? 3 : 2) + (i === 0 ? ' on' : '');
+        r.querySelector('b').textContent = v + ' %';
+      });
+      host.querySelector('.kv-builds').innerHTML = '<div class="kv-side"><b>' + esc(T(s.builds, s.builds === S[0].builds ? S[0].buildsZh : s.builds === S[1].builds ? S[1].buildsZh : S[2].buildsZh)) + '</b>' +
+        '<p>' + esc(T(s.why, s.whyZh)) + '</p></div>';
+      var qm = clamp(m * 1.02, 0, 100), lt = clamp(m * 0.9 + 8, 0, 100);
+      scaleBar(host.querySelector('.qm'), qm / 100);
+      scaleBar(host.querySelector('.lt'), lt / 100);
+      outs(host, '.vqm', Math.round(qm) + ' %');
+      outs(host, '.vlt', Math.round(lt) + ' %');
+      outs(host, '.kv-callout', T(s.en, s.zh) + ' — ' + T(s.why, s.whyZh) + '. ' +
+        (m > 62 ? T('A mastery climate satisfies the needs and supports both kinds of goal.', '掌握氛围满足需要，并同时支持两类目标。')
+          : T('An ego climate frustrates the needs: enjoyment and staying both fall.', '自我氛围使需要受挫：愉悦与留下都会下降。')));
+    }
+    inp.addEventListener('input', draw);
+    wireSeg(host, function (v) { set = v; draw(); });
+    draw();
+  };
+
+  /* ══ 32 · C.4.1 Anxiety dimensions and catastrophe ═════════════════════
+     Somatic arousal can help; cognitive anxiety is what collapses. */
+  MODELS['Anxiety dimensions and catastrophe'] = function (host) {
+    var TASK = [
+      { id: 'sprint', en: '100 m sprint', zh: '100 米冲刺', z: 74, som: 80, note: 'high somatic arousal is useful here; cognitive worry is not', noteZh: '此处高躯体唤醒是有用的；认知担忧则不是' },
+      { id: 'putt', en: 'golf putt', zh: '高尔夫推杆', z: 28, som: 30, note: 'precision needs a low, narrow state', noteZh: '精确性需要低而窄的状态' },
+      { id: 'pen', en: 'penalty', zh: '点球', z: 38, som: 55, note: 'arousal helps the approach, worry hurts the target', noteZh: '唤醒有助于助跑，担忧却妨碍瞄准' },
+      { id: 'final', en: 'one-minute final', zh: '一分钟决赛', z: 66, som: 70, note: 'arousal helps to start; the last 20 s is where worry bites', noteZh: '唤醒有助于起动；最后 20 秒是担忧发作之处' }
+    ];
+    var task = 'pen', cogn = 45, som = 60;
+    var PX = 66, PW = 468, PY = 40, PH = 236;
+    function X(v) { return PX + v / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    host.innerHTML =
+      seg(TASK.map(function (t) { return [t.id, T(t.en, t.zh)]; }), task) +
+      '<div class="kv-grid2">' +
+      srange('cog', T('Cognitive anxiety', '认知焦虑'), 0, 100, 45, 1, '45 / 100') +
+      srange('som', T('Somatic anxiety', '躯体焦虑'), 0, 100, 60, 1, '60 / 100') +
+      '</div>' +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Performance against cognitive anxiety', '表现随认知焦虑变化')) + '">' +
+      '<rect class="target-zone" x=""/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      [0, 25, 50, 75, 100].map(function (v) {
+        return '<line class="gl" x1="' + PX + '" y1="' + Y(v) + '" x2="' + (PX + PW) + '" y2="' + Y(v) + '"/>' +
+          '<text class="small" x="' + (PX - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+      }).join('') +
+      '<path class="curve a" d=""/>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + 4) + '" y="' + (PY - 10) + '">' + esc(T('performance', '表现水平')) + '</text>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('cognitive anxiety', '认知焦虑')) + '</text>' +
+      '</svg>' +
+      meter(T('Energy available from arousal', '唤醒带来的可用能量'), 'en', 'gold') +
+      meter(T('Performance', '表现水平'), 'pf') +
+      '<div class="kv-callout"></div>' +
+      note('Somatic anxiety — a high heart rate, tension, sweating — can energise up to a point, while cognitive anxiety is negative worry and self-doubt. Catastrophe theory predicts that performance stays relatively stable until cognitive anxiety is too high, then collapses suddenly. Low anxiety is not the same as no anxiety: it can feel like excitement and positive challenge.', '躯体焦虑——心率升高、紧张、出汗——在一定范围内可以提供能量；而认知焦虑是消极担忧与自我怀疑。灾难理论预测：表现会保持相对稳定，直到认知焦虑过高，然后突然崩塌。低焦虑并不等于没有焦虑：它可以是兴奋与积极挑战。');
+    var ins = $$('input[type=range]', host);
+    function draw() {
+      var t = TASK.filter(function (x) { return x.id === task; })[0], c = +ins[0].value, s = +ins[1].value;
+      setv(host, 'cog', '.kv-val', c + ' / 100');
+      setv(host, 'som', '.kv-val', s + ' / 100');
+      marks(host, '.kv-seg', task);
+      var d = '', i, v;
+      for (i = 0; i <= 50; i++) {
+        v = i * 2;
+        var perf = v < 55 ? 62 + v * 0.55 : Math.max(0, 92 - Math.pow(v - 55, 1.9) * 0.16);
+        d += (i ? ' L' : 'M') + X(v).toFixed(1) + ',' + Y(clamp(perf, 0, 100)).toFixed(1);
+      }
+      host.querySelector('.curve').setAttribute('d', d);
+      var zw = 14;
+      host.querySelector('.target-zone').setAttribute('x', X(t.z - zw).toFixed(1));
+      host.querySelector('.target-zone').setAttribute('width', (X(t.z + zw) - X(t.z - zw)).toFixed(1));
+      host.querySelector('.target-zone').setAttribute('y', PY);
+      host.querySelector('.target-zone').setAttribute('height', PH);
+      var perf = c < 55 ? 62 + c * 0.55 : Math.max(0, 92 - Math.pow(c - 55, 1.9) * 0.16);
+      var en = clamp(20 + s * 0.9, 0, 100);
+      scaleBar(host.querySelector('.en'), en / 100);
+      scaleBar(host.querySelector('.pf'), perf / 100);
+      outs(host, '.ven', Math.round(en) + ' %');
+      outs(host, '.vpf', Math.round(perf) + ' %');
+      host.querySelector('.kv-cursor').setAttribute('x1', X(c).toFixed(1));
+      host.querySelector('.kv-cursor').setAttribute('x2', X(c).toFixed(1));
+      outs(host, '.kv-callout', T(t.en, t.zh) + ' — ' + T(t.note, t.noteZh) + '. ' +
+        (c > t.z + 14 ? T('Cognitive worry is past the catastrophic threshold for this task.', '认知担忧已越过该任务的灾难阈值。')
+          : T('The somatic level is useful here; the part to lower is the worry.', '此处躯体水平是有用的；需要降低的是担忧。')));
+    }
+    ins.forEach(function (i) { i.addEventListener('input', draw); });
+    wireSeg(host, function (v) { task = v; draw(); });
+    draw();
+  };
+
+  /* ══ 33 · C.4.1 Measurement and regulation ═══════════════════════════
+     What each instrument tells you — and what it cannot. */
+  MODELS['Measurement and regulation'] = function (host) {
+    var M = [
+      { id: 'hr', en: 'Heart rate', zh: '心率', obj: 1, yes: 'arousal, effort, recovery status', yesZh: '唤醒、用力、恢复状态', no: 'cannot identify the thought content', noZh: '无法识别想法内容', bias: 'a fit person has a high resting rate', biasZh: '体能好的人静息心率本就偏高' },
+      { id: 'bp', en: 'Blood pressure', zh: '血压', obj: 1, yes: 'sustained arousal, stress load', yesZh: '持续的唤醒与压力负荷', no: 'very reactive, hard to read moment to moment', noZh: '反应很大，难以逐刻解读', bias: 'affected by caffeine, heat, talking', biasZh: '受咖啡因、高温与说话影响' },
+      { id: 'gsr', en: 'Galvanic skin response', zh: '皮肤电反应', obj: 1, yes: 'sympathetic activation — sweating, stress', yesZh: '交感神经激活——出汗、压力', no: 'also rises with temperature and exertion', noZh: '体温与用力也会升高', bias: 'no thought content at all', biasZh: '完全不包含想法内容' },
+      { id: 'stai', en: 'STAI / worry scale', zh: 'STAI / 担忧量表', obj: 0, yes: 'worry, tension, confidence before a task', yesZh: '任务前的担忧、紧张与自信', no: 'can be biased by what the athlete wants to show', noZh: '可能受运动员想表现什么的影响', bias: 'self-report: social desirability matters', biasZh: '自评：社会赞许性有影响' },
+      { id: 'csr', en: 'CSR-18 / self-talk', zh: 'CSR-18 / 自我对话', obj: 0, yes: 'the content of the thinking', yesZh: '思维的具体内容', no: 'says nothing about physiology', noZh: '完全不涉及生理', bias: 'only what is remembered or reported', biasZh: '只有被记住或被报告的部分' }
+    ];
+    var pick = 'stai', fix = 'breath';
+    var FIX = [
+      { id: 'breath', en: 'Breathing', zh: '呼吸', cut: 22, dEn: 'lengthens exhale, lowers arousal within a minute', dZh: '延长呼气，一分钟内降低唤醒' },
+      { id: 'routine', en: 'Pre-performance routine', zh: '赛前常规流程', cut: 26, dEn: 'gives attention a fixed job and steadies the first action', dZh: '给注意力一个固定任务，稳定第一个动作' },
+      { id: 'talk', en: 'Self-talk', zh: '自我对话', cut: 18, dEn: 'short, positive, present-tense and realistic', dZh: '简短、积极、现在时且真实' },
+      { id: 'im', en: 'Imagery', zh: '意象', cut: 16, dEn: 'rehearses the successful outcome and the routine around it', dZh: '预演成功结果及其周围的流程' }
+    ];
+    host.innerHTML =
+      '<div class="ib-instr">' + tools(M.map(function (m) { return [m.id, T(m.en, m.zh)]; }), pick) + '</div>' +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('It tells you', '它能告诉你')) + '</dt><dd class="vy"></dd>' +
+      '<dt>' + esc(T('It cannot tell you', '它不能告诉你')) + '</dt><dd class="vn"></dd>' +
+      '<dt>' + esc(T('Its weakness', '它的局限')) + '</dt><dd class="vb"></dd>' +
+      '</dl></div>' +
+      '<div class="kv-q kv-q2 ib-q2">' + esc(T('Regulation before the attempt', '尝试前的调节')) + '</div>' +
+      tools(FIX.map(function (f) { return [f.id, T(f.en, f.zh)]; }), fix) +
+      meter(T('Arousal at the moment', '此刻的唤醒'), 'ar') +
+      '<div class="kv-callout"></div>' +
+      note('Subjective anxiety can be measured by questionnaires, rating scales and interviews about worry, tension and confidence. Objective indicators include heart rate, blood pressure and galvanic skin response. Using both gives a fuller picture: self-report can be biased, and physiological measures do not identify thought content on their own.', '主观焦虑可通过问卷、评定量表与访谈测量，内容包括担忧、紧张与自信。客观指标包括心率、血压与皮肤电反应。两者并用能形成更完整的图景：自评可能有偏，而生理指标本身无法识别想法内容。');
+    function draw() {
+      var m = M.filter(function (x) { return x.id === pick; })[0], f = FIX.filter(function (x) { return x.id === fix; })[0];
+      marks(host, '.ib-instr .kv-tools', pick);
+      marks(host, '.ib-q2 + .kv-tools', fix);
+      outs(host, '.vy', T(m.yes, m.yesZh));
+      outs(host, '.vn', T(m.no, m.noZh));
+      outs(host, '.vb', T(m.bias, m.biasZh));
+      var ar = clamp(72 - f.cut, 0, 100);
+      scaleBar(host.querySelector('.ar'), ar / 100);
+      outs(host, '.var', Math.round(ar) + ' %');
+      outs(host, '.kv-callout', T(m.en, m.zh) + T(' (objective)', '（客观）') + '. ' + T(f.en, f.zh) + ': ' + T(f.dEn, f.dZh) + '. ' +
+        T('Ask both: the number and the sentence.', '两者都问：数字与那句话。'));
+    }
+    wire(host, '.ib-instr .kv-tools', function (v) { pick = v; draw(); });
+    $$('.ib-q2 + .kv-tools button', host).forEach(function (b) {
+      b.addEventListener('click', function () { fix = b.getAttribute('data-v'); draw(); });
+    });
+    draw();
+  };
+
+  /* ══ 34 · C.4.2 Stressors and strain ══════════════════════════════════
+     Demand against perceived resources decides eustress or distress. */
+  MODELS['Stressors and strain'] = function (host) {
+    var S = [
+      { id: 'comp', en: 'competition pressure', zh: '比赛压力', d: 72, res: 60, ex: 'a final against a direct rival', exZh: '与直接对手的决赛' },
+      { id: 'injury', en: 'injury and rehabilitation', zh: '伤病与康复', d: 80, res: 48, ex: 'a season out with a long rehabilitation', exZh: '赛季报销、长期康复' },
+      { id: 'study', en: 'academic or work demands', zh: '学业或工作要求', d: 58, res: 62, ex: 'exams during a competition block', exZh: '训练期内遇上考试' },
+      { id: 'time', en: 'time pressure', zh: '时间压力', d: 62, res: 66, ex: 'three deadlines in one week', exZh: '一周内三个截止日期' },
+      { id: 'select', en: 'selection', zh: '选拔', d: 70, res: 58, ex: 'squad cut before the season', exZh: '赛季前的名单调整' },
+      { id: 'travel', en: 'travel', zh: '旅行', d: 44, res: 70, ex: 'a five-leg tournament trip', exZh: '五段转场的比赛旅行' },
+      { id: 'money', en: 'finances', zh: '经济', d: 54, res: 52, ex: 'unpaid or part-paid club sport', exZh: '无薪或兼职的俱乐部运动' },
+      { id: 'slump', en: 'a goal-setting slump', zh: '目标低谷', d: 48, res: 64, ex: 'a season with no PB', exZh: '整个赛季没有个人最好成绩' },
+      { id: 'rel', en: 'relationship issues', zh: '人际关系', d: 50, res: 60, ex: 'a conflict inside the squad', exZh: '队内冲突' }
+    ];
+    var pick = 'comp';
+    var PX = 66, PW = 468, PY = 40, PH = 236;
+    function X(v) { return PX + v / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    host.innerHTML =
+      tools(S.map(function (x) { return [x.id, T(x.en, x.zh)]; }), pick) +
+      srange('r', T('Perceived resources', '感知到的资源'), 0, 100, 60, 1, '60 / 100') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Demand against resources', '需求与资源')) + '">' +
+      '<path class="eu" d="M' + X(30).toFixed(1) + ',' + (PY + PH) + ' L' + X(100).toFixed(1) + ',' + Y(100) + ' L' + (PX + PW) + ',' + Y(100) + ' L' + (PX + PW) + ',' + (PY + PH) + ' Z"/>' +
+      '<path class="di" d="M' + X(30).toFixed(1) + ',' + (PY + PH) + ' L' + (PX + PW) + ',' + Y(0) + ' L' + (PX + PW) + ',' + (PY + PH) + ' Z"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + Y(50) + '" x2="' + (PX + PW) + '" y2="' + Y(50) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW - 6) + '" y="' + (Y(88) + 14) + '" text-anchor="end">' + esc(T('eustress: energising', '良性压力：提供能量')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 6) + '" y="' + (Y(16) - 6) + '" text-anchor="end">' + esc(T('distress: overwhelming', '恶性压力：难以承受')) + '</text>' +
+      '<circle class="marker" r="8" cx="0" cy="0"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('perceived resources', '感知资源')) + '</text>' +
+      '<text class="small" x="' + (PX - 8) + '" y="' + (PY - 10) + '" text-anchor="end">' + esc(T('demand', '需求')) + '</text>' +
+      '</svg>' +
+      meter(T('Strain', '紧张度'), 'st') +
+      '<div class="kv-verdict"></div>' +
+      '<div class="kv-callout"></div>' +
+      note('Common stressors include competition pressure, injury and rehabilitation, academic or work demands, time pressure, selection, travel, finances, goal-setting slumps and relationship issues. Appraising demands and resources decides whether strain is eustress or distress: positive strain can energise focus and performance when it is manageable, while negative strain reduces concentration and confidence and contributes to burnout and injury risk.', '常见压力源包括比赛压力、伤病与康复、学业或工作要求、时间压力、选拔、旅行、经济、目标低谷与人际关系。对需求与资源的评估决定紧张属于良性还是恶性：当压力可承受时，良性紧张能激发专注与表现；而恶性紧张会降低注意力与自信，并增加倦怠与受伤风险。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var s = S.filter(function (x) { return x.id === pick; })[0], r = +inp.value;
+      setv(host, 'r', '.kv-v', r + ' / 100');
+      marks(host, '.kv-tools', pick);
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(r).toFixed(1));
+      m.setAttribute('cy', Y(s.d).toFixed(1));
+      var strain = clamp(s.d - r + 50, 0, 100);
+      m.classList.toggle('ok', strain < 52);
+      m.classList.toggle('risk', strain >= 52);
+      scaleBar(host.querySelector('.st'), strain / 100);
+      outs(host, '.vst', Math.round(strain) + ' %');
+      var v = host.querySelector('.kv-verdict');
+      var eu = strain < 48;
+      v.className = 'kv-verdict ' + (eu ? 'good' : strain < 68 ? 'meh' : 'bad');
+      v.textContent = eu ? T('Eustress: manageable, and it can sharpen focus.', '良性压力：可承受，并能让专注更敏锐。')
+        : strain < 68 ? T('On the edge: the outcome depends on the day.', '临界：结果取决于当天状态。')
+          : T('Distress: concentration and confidence fall, and burnout and injury risk rise.', '恶性压力：专注与自信下降，倦怠与受伤风险上升。');
+      outs(host, '.kv-callout', T(s.en, s.zh) + ' — ' + T('demand ', '需求 ') + s.d + ' %, ' +
+        T('resources ', '资源 ') + r + ' %. ' +
+        T('Looks like: ', '例如：') + T(s.ex, s.exZh) + '. ' +
+        T('Appraisal, not the event, decides which it is.', '决定因素是对它的评估，而不是事件本身。'));
+
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.kv-tools', function (v) { pick = v; draw(); });
+    draw();
+  };
+
+  /* ══ 35 · C.4.2 Three coping categories ═══════════════════════════════
+     Controllable or not, then which strategy. */
+  MODELS['Three coping categories'] = function (host) {
+    var C = [
+      { id: 'p', en: 'Problem-focused', zh: '问题聚焦', ex: ['plan a conversation', 'practise the skill', 'organise the time', 'ask for help or resources'], exZh: ['计划一次沟通', '练习该技能', '安排时间', '寻求帮助或资源'], fits: 1 },
+      { id: 'e', en: 'Emotion-focused', zh: '情绪聚焦', ex: ['breathing or relaxation', 'self-talk or reframing', 'mindfulness', 'imagery or acceptance'], exZh: ['呼吸或放松', '自我对话或重构', '正念', '意象或接纳'], fits: -1 },
+      { id: 'a', en: 'Avoidance', zh: '回避', ex: ['withdrawing from the team', 'venting without addressing it', 'self-blame', 'distraction to avoid thinking'], exZh: ['退出团队', '发泄而不处理问题', '自责', '用分心回避思考'], fits: 0 }
+    ];
+    var control = 1, cat = 'p', strat = 0;
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Can the stressor be changed?', '这个压力源能被改变吗？')) + '</div>' +
+      tools([['yes', T('Yes — something can be done', '可以——有可做的事')], ['no', T('No — it has to be managed', '不能——只能应对')]], control ? 'yes' : 'no') +
+      '<div class="kv-q kv-q2">' + esc(T('Which strategy is the athlete using?', '运动员在用哪种策略？')) + '</div>' +
+      '<div class="ib-cats">' + C.map(function (c, ci) {
+        return '<button type="button" data-v="' + c.id + '" class="' + (ci === cat ? 'on' : '') + '" aria-pressed="' + (ci === cat ? 'true' : 'false') + '">' +
+          '<b>' + esc(T(c.en, c.zh)) + '</b><span>' + esc(T(c.ex[strat % c.ex.length], c.exZh[strat % c.ex.length])) + '</span></button>';
+      }).join('') + '</div>' +
+      '<div class="kv-q kv-q2">' + esc(T('Try another example', '换个例子')) + '</div>' +
+      tools([['0', T('Next example', '下一个例子')]], '0') +
+      meter(T('Strain left after coping', '应对后残留的紧张'), 'st') +
+      meter(T('Support over the long term', '长期支持'), 'sup', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Problem-focused coping changes a controllable stressor through planning, skill practice, resources or communication. Emotion-focused coping manages thoughts, feelings and arousal through relaxation, self-talk, mindfulness, reframing, breathing and imagery. Avoidance escapes the problem and is rarely helpful long term. No single strategy works for all stressors: assess controllability and combine the two useful categories when needed.', '问题聚焦通过计划、练习、资源或沟通来改变可控的压力源。情绪聚焦通过放松、自我对话、正念、重构、呼吸与意象管理想法、感受与唤醒。回避型策略逃避问题，长期很少有用。不存在适用于所有压力源的单一策略：先评估可控性，必要时组合上述两种有用的类别。');
+    function draw() {
+      marks(host, '.kv-tools', control ? 'yes' : 'no');
+      var want = control ? 'p' : 'e';
+      $$('.ib-cats button', host).forEach(function (b) {
+        var on = b.getAttribute('data-v') === cat;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var c = C.filter(function (x) { return x.id === cat; })[0];
+        b.querySelector('span').textContent = T(c.ex[strat % c.ex.length], c.exZh[strat % c.ex.length]);
+      });
+      var c = C.filter(function (x) { return x.id === cat; })[0];
+      var good = cat === want;
+      var st = clamp(control ? (good ? 26 : 58) : (cat === 'a' ? 72 : 38), 0, 100);
+      var sup = clamp(good ? 82 : cat === 'a' ? 22 : 54, 0, 100);
+      scaleBar(host.querySelector('.st'), st / 100);
+      scaleBar(host.querySelector('.sup'), sup / 100);
+      outs(host, '.vst', Math.round(st) + ' %');
+      outs(host, '.vsup', Math.round(sup) + ' %');
+      outs(host, '.kv-callout', T(c.en, c.zh) + '. ' +
+        (cat === 'a'
+          ? T('Avoidance may feel better for an hour, then support, confidence and motivation all fall.', '回避可能让人一小时好受些，随后支持、自信与动机都会下降。')
+          : good
+            ? T('This matches the controllability: the right tool for this stressor.', '这与可控性匹配：是对这个压力源合适的工具。')
+            : T('Mismatched: ' + (control
+              ? T('when the stressor can be changed, plan and act rather than only regulating yourself.', '当压力源可改变时，应计划并行动，而不只是调节自己。')
+              : T('when it cannot be changed, regulating yourself is what actually helps.', '当压力源无法改变时，调节自己才真正有用。')))));
+    }
+    wire(host, '.kv-tools', function (v) { if (v === 'yes' || v === 'no') control = v === 'yes' ? 1 : 0; else strat++; draw(); });
+    wire(host, '.ib-cats', function (v) { cat = v; draw(); });
+    draw();
+  };
+
+  /* ══ 36 · C.4.2 Decision flow and maladaptive responses ═══════════════
+     The flow first, then the four responses to avoid. */
+  MODELS['Decision flow and maladaptive responses'] = function (host) {
+    var BAD = [
+      { id: 'withdraw', en: 'Withdrawal', zh: '退缩', short: 'brief relief', shortZh: '短暂缓解', cost: 'support and team cohesion fall', costZh: '支持与团队凝聚力下降' },
+      { id: 'vent', en: 'Venting', zh: '发泄', short: 'immediate release', shortZh: '即时释放', cost: 'the problem stays exactly where it was', costZh: '问题原封不动地留在那里' },
+      { id: 'blame', en: 'Self-blame', zh: '自责', short: 'a sense of control', shortZh: '一种掌控感', cost: 'confidence and approach both drop', costZh: '自信与趋近同时下降' },
+      { id: 'distract', en: 'Distraction', zh: '分心', short: 'thoughts stop', shortZh: '想法停止', cost: 'nothing is solved and nothing is learned', costZh: '既没解决，也没学到' }
+    ];
+    var step = 0, bad = 'withdraw';
+    host.innerHTML =
+      path([T('Can it be changed?', '能被改变吗？'), T('Act on it', '采取行动'), T('Or manage it', '或加以管理')], 0) +
+      '<div class="kv-el-out"><dl><dt>' + esc(T('This step', '这一步')) + '</dt><dd class="vstep"></dd></dl></div>' +
+      tools(BAD.map(function (b) { return [b.id, T(b.en, b.zh)]; }), bad) +
+      meter(T('Support after this response', '此反应后的支持'), 'sup') +
+      meter(T('Motivation next week', '下周的动机'), 'mot', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Ask whether the stressor can be changed. If yes, primarily plan, practise, seek help, set goals, organise and solve. If no, use relaxation, self-talk, imagery, mindfulness, positive reframing, acceptance and focus on process. Maladaptive strategies — withdrawal, venting, self-blame and distraction — may give brief relief but reduce support, confidence, motivation and long-term performance. Self-talk should be short, positive, present-tense and realistic: “one point at a time”, “I control my effort”.', '先问：这个压力源能被改变吗？若能，主要靠计划、练习、寻求帮助、设定目标、组织与解决。若不能，则用放松、自我对话、意象、正念、积极重构、接纳，并专注于过程。适应不良策略——退缩、发泄、自责与分心——可能带来短暂缓解，却会降低支持、自信、动机与长期表现。自我对话应简短、积极、现在时且真实：“一次一分”“我能掌控自己的努力”。');
+    var STEPS = [
+      function () { return [T('Decide whether the stressor can be changed at all.', '先判断这个压力源到底能否被改变。'), T('If yes, plan, practise, seek help, set goals, organise and solve.', '若能，计划、练习、寻求帮助、设定目标、组织并解决。')]; },
+      function () { return [T('Act on what is controllable: plan, practise, ask for help, set a goal, organise.', '处理可控的部分：计划、练习、寻求帮助、设定目标、组织。'), T('Examples: plan the conversation, restructure the training week, request resources.', '例如：计划一次沟通、重组训练周、申请资源。')]; },
+      function () { return [T('If it cannot be changed, manage the response: relaxation, self-talk, imagery, mindfulness, reframing, acceptance, focus on process.', '若不能改变，则管理反应：放松、自我对话、意象、正念、重构、接纳、专注过程。'), T('Self-talk stays short, positive, present-tense and realistic.', '自我对话保持简短、积极、现在时且真实。')]; }
+    ];
+    function draw() {
+      var b = BAD.filter(function (x) { return x.id === bad; })[0], s = STEPS[step]();
+      marks(host, '.kv-path', step);
+      marks(host, '.kv-tools', bad);
+      outs(host, '.vstep', T(s[0], s[1]));
+      var sup = clamp(88 - step * 30, 0, 100), mot = clamp(84 - step * 32, 0, 100);
+      scaleBar(host.querySelector('.sup'), sup / 100);
+      scaleBar(host.querySelector('.mot'), mot / 100);
+      outs(host, '.vsup', Math.round(sup) + ' %');
+      outs(host, '.vmot', Math.round(mot) + ' %');
+      outs(host, '.kv-callout', T(b.en, b.zh) + ' — ' + T(b.short, b.shortZh) + ', but ' + T(b.cost, b.costZh) + '. ' +
+        T('Alternative: ', '替代做法：') + (step === 1 ? T('plan, practise, ask for help', '计划、练习、寻求帮助') : T('breathe, reframe, focus on process', '呼吸、重构、专注过程')) + '.');
+    }
+    wire(host, '.kv-path', function (v) { step = +v; draw(); });
+    wire(host, '.kv-tools', function (v) { bad = v; draw(); });
+    draw();
+  };
+
   /* ══ layer: mount, lazy build, language + mode refresh ═══════════════ */
   window.IB_MODELS = MODELS;
 

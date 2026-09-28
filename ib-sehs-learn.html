@@ -114,6 +114,58 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 .vis-example li{margin:.2rem 0}
 .vis-answer{margin:.45rem 0 0;font-size:.87rem;font-weight:700}
 @media print{.vis-figure,.vis-example,.vis-table-wrap{break-inside:avoid}}
+
+/* ═══ IB SEHS interactive models (ib-sehs-models.js) ══════════════════ */
+.ib-model{max-width:620px;margin:.15rem auto .35rem;padding-top:.1rem}
+.ib-model .ib-head{display:flex;justify-content:flex-end;margin:-.1rem 0 .5rem}
+.ib-model .kv-lab{display:block;margin-top:.55rem}
+.ib-model .ibm-q{display:block;font-weight:700;color:var(--text)}
+.ib-model .kv-lab b{color:var(--accent);font-weight:800;margin-left:.25rem;font-variant-numeric:tabular-nums}
+.ib-model .kv-lab input[type=range]{display:block;width:100%}
+.ib-model .kv-svg text{font-size:13px}
+.ib-model .kv-svg text.small{font-size:11px}
+.ib-model .kv-svg .axis{stroke:var(--border2,#C6D1DD);stroke-width:1}
+.ib-model .kv-svg .gl{stroke:var(--text3);stroke-width:1;stroke-dasharray:4 4;opacity:.5}
+.ib-model .kv-svg .window{fill:var(--c1);opacity:.15}
+.ib-model .kv-svg .window.red{fill:var(--c0);opacity:.13}
+.ib-model .kv-svg .bar{fill:var(--c2);opacity:.35}
+.ib-model .kv-svg .bar.on{fill:var(--c2);opacity:.95}
+.ib-model .kv-svg .chron{fill:none;stroke:var(--text3);stroke-width:2.5;stroke-dasharray:5 4}
+.ib-model .kv-svg .curve{fill:none;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.ib-model .kv-svg .curve.a{stroke:var(--c2)}
+.ib-model .kv-svg .curve.b{stroke:var(--c0)}
+.ib-model .kv-svg .curve.thin{stroke-width:2;opacity:.45}
+.ib-model .kv-svg .traj{fill:none;stroke:var(--c2);stroke-width:3;stroke-linejoin:round}
+.ib-model .kv-svg .apex{fill:var(--c2);stroke:var(--surface);stroke-width:2}
+.ib-model .kv-svg .work{fill:var(--c1);opacity:.22}
+.ib-model .kv-svg .vx{stroke:var(--c0);stroke-width:2;stroke-dasharray:5 4}
+.ib-model .kv-svg .vy{stroke:var(--c1);stroke-width:2;stroke-dasharray:5 4}
+.ib-model .kv-svg .plane{fill:color-mix(in srgb,var(--text) 5%,transparent);stroke:var(--border2,#C6D1DD);stroke-width:1;stroke-dasharray:5 4}
+.ib-model .kv-svg .ax{stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4}
+.ib-model .kv-svg .sk{fill:color-mix(in srgb,var(--text) 20%,transparent);stroke:var(--text3);stroke-width:2}
+.ib-model .kv-svg .body{stroke:var(--text3);stroke-width:3.5;stroke-linecap:round;fill:none}
+.ib-model .kv-svg .body.on{stroke:var(--accent);stroke-width:5}
+.ib-model .kv-svg .body.thin{stroke-width:2.5}
+.ib-model .kv-svg .joint{fill:var(--surface2,#EEF2F7);stroke:var(--text3);stroke-width:1.5}
+.ib-model .portrait{display:block;margin:0 auto;height:262px}
+.ib-model .kv-gon{width:190px;max-width:100%}
+.ib-model .kv-bar i.red{background:var(--red)}
+.ib-model .kv-bar i.gold{background:var(--c1)}
+.ib-model .kv-bar i.blue{background:var(--c2)}
+.ib-model .kv-dot.red{background:var(--c0)}
+.ib-model .kv-dot.gold{background:var(--c1)}
+.ib-model .kv-dot.blue{background:var(--c2)}
+.ibm-band{position:relative;height:16px;border-radius:99px;margin:.55rem 0 .25rem;background:color-mix(in srgb,var(--text) 10%,transparent)}
+.ibm-band i{position:absolute;top:0;bottom:0;opacity:.3}
+.ibm-band .z1{left:0;width:25%;background:var(--green)}
+.ibm-band .z2{left:25%;width:37.5%;background:var(--amber)}
+.ibm-band .z3{left:62.5%;width:37.5%;background:var(--red)}
+.ibm-band u{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--text);text-decoration:none}
+.ibm-scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text3)}
+.ibm-key{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.82rem;color:var(--text2);margin-top:.4rem}
+.ibm-key span{display:inline-flex;align-items:center;gap:.35rem}
+.ibm-key i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media (max-width:640px){.ib-model .kv-seg button{min-height:40px}.ib-model .kv-lab input[type=range]{height:40px}}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -210,6 +262,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
 
+<script src="ib-sehs-models.js?v=1" defer></script>
 <script src="ib-sehs-course.js?v=11" defer></script>
 </body>
 </html>

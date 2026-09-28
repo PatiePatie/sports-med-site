@@ -734,8 +734,12 @@ body.dark h1,body.dark h2,body.dark h3{
 .cr-cont:hover{background:var(--border)}
 .cr-cont-n{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:9px;
   font-weight:800;font-size:.9rem;color:#fff;background:var(--cr-key,var(--accent,#7c3aed))}
-.cr-cont-t{font-weight:700;font-size:.86rem;line-height:1.25}
-.cr-cont-m{font-size:.7rem;color:var(--text2,#64748b);margin-top:2px}
+/* Title and the "% read" note are two lines, not one: both used to be
+   inline spans, so the note ran straight into the chapter title. */
+.cr-cont-t{display:block;font-weight:700;font-size:.86rem;line-height:1.25}
+.cr-cont-m{display:inline-block;margin-top:6px;font-size:.7rem;line-height:1.4;
+  color:var(--text2,#64748b);background:var(--surface,var(--card,#fff));
+  border:1px solid var(--border);border-radius:99px;padding:2px 9px}
 
 /* idea of the day */
 .cr-idea{border-left:3px solid var(--cr-key,var(--accent,#7c3aed));padding:2px 0 2px 9px;margin-bottom:12px}
@@ -745,7 +749,7 @@ body.dark h1,body.dark h2,body.dark h3{
 .cr-idea a{display:inline-flex;align-items:center;min-height:40px;margin-top:2px;font-size:.72rem}
 
 /* ── toolbox tabs ────────────────────────────────────────────────────── */
-.cr-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--surface2,#f1f3f9);
+.cr-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--surface2,#f1f3f9);
   border-radius:10px;padding:3px;margin-bottom:10px}
 .cr-tabs button{border:0;background:transparent;font:inherit;font-size:.68rem;font-weight:700;
   color:var(--text2,#64748b);padding:7px 2px;border-radius:8px;cursor:pointer;min-height:30px}
@@ -754,32 +758,14 @@ body.dark h1,body.dark h2,body.dark h3{
 .cr-panel{display:none}
 .cr-panel.on{display:block}
 
-/* ── interactive panel: the model ────────────────────────────────────── */
-.cr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
-.cr-seg{display:flex;background:var(--surface2,#f1f3f9);border-radius:8px;padding:2px}
-.cr-seg button{border:0;background:transparent;font:inherit;font-size:.66rem;font-weight:700;
-  color:var(--text2,#64748b);padding:4px 8px;border-radius:6px;cursor:pointer;min-height:24px}
-.cr-seg button[aria-pressed="true"]{background:var(--cr-key,var(--accent,#7c3aed));color:#fff}
 /* Painted size stays compact; a transparent 40px overlay supplies the tap
    area, so the row does not have to grow. */
-.cr-tabs button::before,.cr-seg button::before{content:"";position:absolute;left:0;right:0;
+.cr-tabs button{position:relative}
+.cr-tabs button::before{content:"";position:absolute;left:0;right:0;
   top:50%;height:40px;transform:translateY(-50%)}
-.cr-tabs button,.cr-seg button{position:relative}
-.cr-read{font-size:.66rem;color:var(--text2,#64748b);text-align:right}
-.cr-mrow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.cr-mrow label{font-size:.64rem;font-weight:700;color:var(--text2,#64748b);white-space:nowrap}
-.cr-mrow input[type=range]{flex:1;min-width:0;accent-color:var(--cr-key,var(--accent,#7c3aed));height:22px}
-.cr-mrow output{font-size:.64rem;font-weight:800;color:var(--cr-key,var(--accent,#7c3aed));min-width:52px;text-align:right}
-.cr-fig{margin:0;background:var(--surface2,#f6f7fb);border-radius:12px;padding:8px}
-.cr-fig svg{display:block;width:100%;height:auto}
-.cr-legend{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px}
-.cr-legend span{display:inline-flex;align-items:center;gap:4px;font-size:.63rem;color:var(--text2,#475569)}
-.cr-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
-.cr-looks{margin:7px 0 0;font-size:.64rem;line-height:1.45;color:var(--text2,#475569)}
-.cr-looks b{color:var(--text,#0f172a)}
-.cr-cap{margin:5px 0 0;font-size:.63rem;line-height:1.45;color:var(--text3,#94a3b8)}
 
 /* ── other panels ────────────────────────────────────────────────────── */
+.cr-cap{margin:5px 0 0;font-size:.63rem;line-height:1.45;color:var(--text3,#94a3b8)}
 .cr-stat{display:flex;gap:8px;margin-bottom:9px}
 .cr-stat>div{flex:1;background:var(--surface2,#f6f7fb);border-radius:10px;padding:7px 8px;text-align:center}
 .cr-stat b{display:block;font-size:.95rem;font-weight:800;line-height:1.1}
@@ -1110,10 +1096,6 @@ function t(en,zh){return showCN?zh:en}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
-/* ── colours, shared by the SVG model and its legend ─────────────────── */
-var K={amber:'#D97706',teal:'#0E7490',crimson:'#BE123C',violet:'#7C3AED',
-       green:'#15803D',slate:'#64748B',blue:'#1D4ED8'};
-
 /* ═══ course registry ════════════════════════════════════════════════ */
 var VT_SECTIONS=90;
 var CH=[['The Body as a Machine','身体如机器'],['Nervous System','神经系统'],
@@ -1213,177 +1195,9 @@ var IDEAS={
       '水解释放能量，而释放的磷酸基团正驱动下一步反应。']]
 };
 
-/* ═══ the three models ═══════════════════════════════════════════════
-   Labels inside the SVG stay language-neutral (numbers, units, symbols)
-   so the 中 / EN toggle keeps working; the surrounding copy is bilingual. */
-function poly(pts,fill,extra){return '<polygon points="'+pts+'" fill="'+fill+'" '+(extra||'')+'/>'}
-function line(x1,y1,x2,y2,stroke,w,dash){
-  return '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+
-         '" stroke="'+stroke+'" stroke-width="'+(w||2)+'" stroke-linecap="round"'+
-         (dash?' stroke-dasharray="'+dash+'"':'')+'/>'}
-function txt(x,y,s,size,fill,anchor,weight){
-  return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+(size||8)+'" fill="'+(fill||K.slate)+
-         '" text-anchor="'+(anchor||'start')+'" font-weight="'+(weight||600)+
-         '" font-family="ui-monospace,Menlo,monospace">'+s+'</text>'}
-function curve(pts,stroke,w,dash){return '<polyline points="'+pts+'" fill="none" stroke="'+stroke+
-  '" stroke-width="'+(w||2.2)+'" stroke-linecap="round" stroke-linejoin="round"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/>'}
-
-var AX={w:320,h:150,l:26,r:8,t:10,b:22};
-function axes(xLab,yLab,xticks){
-  var x0=AX.l,y0=AX.t+AX.h-AX.b,x1=AX.w-AX.r;
-  var s=line(x0,y0,x1,y0,K.slate,1)+line(x0,y0,x0,AX.t,K.slate,1);
-  xticks.forEach(function(t){
-    var px=x0+(x1-x0)*t.p;
-    s+=line(px,y0,px,y0+3,K.slate,1)+txt(px,y0+11,t.l,7,K.slate,'middle');
-  });
-  if(xLab)s+=txt((x0+x1)/2,AX.h-3,xLab,7,K.slate,'middle');
-  if(yLab)s+='<text x="7" y="'+(y0-2)+'" font-size="7" fill="'+K.slate+'" font-family="ui-monospace,monospace">'+yLab+'</text>';
-  return s}
-function plotY(v,vmax){return AX.t+(AX.h-AX.b-AX.t)*(1-Math.max(0,Math.min(1,v/vmax)))}
-function plotX(p){return AX.l+(AX.w-AX.r-AX.l)*Math.max(0,Math.min(1,p))}
-
-/* 1 · Textbook — training load against recovery capacity, week by week.
-      A single week that pokes above the capacity line is what a spike is. */
-function mVT(week,full){
-  var vmax=120,weeks=[52,48,60,96,54,58],cap=[50,54,58,62,66,72];
-  var s='',i,x,y;
-  for(i=0;i<weeks.length;i++){
-    x=plotX(i/(weeks.length-1)); y=plotY(weeks[i],vmax);
-    var on=(i===week);
-    s+=poly([x-9,y,x+9,y,x+9,AX.h-AX.b,x-9,AX.h-AX.b].join(' '),
-      on?K.amber:'rgba(217,119,6,.32)');
-    s+=txt(x,y-4,String(weeks[i]),7,on?'#fff':K.amber,'middle',800);
-  }
-  var cp=[];for(i=0;i<cap.length;i++)cp.push(plotX(i/(cap.length-1)).toFixed(1)+','+plotY(cap[i],vmax).toFixed(1));
-  s+=curve(cp.join(' '),K.teal,2.4);
-  var over=weeks[week]>cap[week];
-  if(full){
-    var rp=[];for(i=0;i<weeks.length;i++){
-      var v=Math.max(0,(weeks[i]-cap[i]))*1.9;rp.push(plotX(i/(weeks.length-1)).toFixed(1)+','+plotY(v,vmax).toFixed(1));}
-    s+=curve(rp.join(' '),K.crimson,1.8,'4 3');
-  }
-  x=plotX(week/(weeks.length-1));
-  s+=line(x,AX.t,x,AX.h-AX.b,over?K.crimson:K.slate,1,'2 3');
-  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(cap[week],vmax).toFixed(1)+'" r="3.4" fill="'+K.teal+'" stroke="#fff" stroke-width="1.4"/>';
-  s+=axes(t('weeks','第几周'),'%',[0,.5,1].map(function(p){return {p:p,l:p===0?'1':(p===1?'6':'3')}}));
-  return {svg:s,
-    legend:[[K.amber,t('Training load','训练负荷'),weeks[week]+'%'],
-            [K.teal,t('Recovery capacity','恢复能力'),cap[week]+'%']]
-      .concat(full?[[K.crimson,t('Gap = injury risk','差值 = 受伤风险'),Math.max(0,weeks[week]-cap[week])+'%']]:[]),
-    looks:over?t('This week the bar is above the line — a spike, and spikes are what cause injury.',
-                 '本周柱高越过横线——这就是「加量过猛」，也正是受伤的来源。')
-             :t('This week sits under the line — the body got the signal and did not get hurt.',
-                 '本周柱在横线之下——身体收到了刺激，也没有受伤。'),
-    cap:t('Each bar is a week of training. The line is what your body could recover by Sunday.',
-          '每根柱代表一周训练量，横线是到周日时身体能恢复到的水平。')};
-}
-
-/* 2 · IB SEHS — which energy system carries the work, across durations. */
-function mIB(dur,full){
-  var vmax=100,pctOf=function(s){return Math.max(0,Math.min(100,s))};
-  function shares(d){
-    var ph=100*Math.exp(-d/6),gly=42*Math.exp(-Math.pow(Math.log10(d+1)/1.9,2)*1.5),aer=100-ph-gly;
-    if(aer<0){gly+=aer;aer=0}
-    return [pctOf(ph),pctOf(gly),pctOf(aer)]}
-  var steps=[0,1,3,10,30,90,300,900,1800,3600];
-  var x=plotX(1-(dur-1)/(3600-1)),s='',i;
-  for(i=0;i<steps.length;i++){
-    var sh=shares(steps[i]),px=plotX(1-(steps[i]-1)/(3600-1)),acc=0;
-    [['crimson',sh[0]],['amber',sh[1]],['teal',sh[2]]].forEach(function(pair){
-      var yTop=AX.t+(AX.h-AX.b-AX.t)*((100-acc-pair[1])/100);
-      var yBot=AX.t+(AX.h-AX.b-AX.t)*((100-acc)/100);
-      s+=poly([px-7,yTop,px+7,yTop,px+7,yBot,px-7,yBot].join(' '),pair[0]+'d9');
-      acc+=pair[1];
-    });
-  }
-  var sh=shares(dur);
-  s+=line(x,AX.t,x,AX.h-AX.b,'#fff',1.4);
-  s+='<circle cx="'+x.toFixed(1)+'" cy="'+(AX.t+3).toFixed(1)+'" r="3" fill="#fff" stroke="'+K.slate+'" stroke-width="1.2"/>';
-  if(full){
-    var ep=Math.min(38,8+14*Math.exp(-dur/45));
-    s+=curve(plotX(1-(1-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.42).toFixed(1)+' '+
-             plotX(1-(30-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.20).toFixed(1)+' '+
-             plotX(1-(300-1)/(3600-1)).toFixed(1)+','+(AX.t+(AX.h-AX.b-AX.t)*0.10).toFixed(1),
-      K.violet,1.8,'4 3');
-  }
-  s+=axes(t('seconds (log)','秒（对数）'),'%',[0,.5,1].map(function(p){
-    var v=[1,60,3600][p===0?0:(p===1?1:2)];
-    return {p:1-(v-1)/(3600-1),l:v>=3600?'60m':(v>=60?v+'s':v+'s')}}));
-  var lead=sh[0]>=sh[1]&&sh[0]>=sh[2]?0:(sh[1]>=sh[2]?1:2);
-  return {svg:s,
-    legend:[[K.crimson,t('Phosphagen','磷酸原'),Math.round(sh[0])+'%'],
-            [K.amber,t('Glycolysis','糖酵解'),Math.round(sh[1])+'%'],
-            [K.teal,t('Aerobic','有氧'),Math.round(sh[2])+'%']]
-      .concat(full?[[K.violet,t('EPOC repaid later','后程偿还'),'~'+Math.round(Math.min(38,8+14*Math.exp(-dur/45)))+'%']]:[]),
-    looks:t('At '+fmtDur(dur)+' the '+[t('phosphagen','磷酸原'),t('glycolysis','糖酵解'),t('aerobic','有氧')][lead]+
-            ' does most of the work — change the duration and the leader changes.',
-            fmtDur(dur)+' 时主要由'+[t('磷酸原','磷酸原'),t('糖酵解','糖酵解'),t('有氧','有氧')][lead]+'供能——改变持续时间，主体就换人。'),
-    cap:t('Each column is one activity. Read the three shares as a budget, not a switch.',
-          '每根柱是一种运动。三个比例是「预算」，不是开关。')};
-}
-function fmtDur(d){
-  if(d<60)return d+' s';
-  if(d<3600)return Math.round(d/60)+' min';
-  return (d/3600).toFixed(1).replace(/\.0$/,'')+' h';
-}
-
-/* 3 · G10 — enzyme rate against substrate, at two temperatures. */
-function mG10(sub,full){
-  var vmax=110,rate=function(s,t){ var km=t?7:4, vmaxT=t?78:100;
-    return vmaxT*s/(km+s)*1.15 };
-  var s='',i,pts37=[],pts60=[],vmaxLine=[];
-  for(i=0;i<=20;i++){
-    var c=i/20,px=plotX(c);
-    pts37.push(px.toFixed(1)+','+plotY(rate(c*20,0),vmax).toFixed(1));
-    pts60.push(px.toFixed(1)+','+plotY(rate(c*20,1),vmax).toFixed(1));
-  }
-  s+=curve(pts60.join(' '),K.crimson,2.2);
-  s+=curve(pts37.join(' '),K.teal,2.4);
-  var yv=plotY(115,vmax);
-  s+=line(AX.l,yv,AX.w-AX.r,yv,K.slate,1.2,'4 3')+txt(AX.w-AX.r-2,yv-4,'Vmax',7,K.slate,'end');
-  var x=plotX(sub/20),r37=rate(sub,0),r60=rate(sub,1);
-  s+=line(x,AX.t,x,AX.h-AX.b,'#94A3B8',1,'2 3');
-  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(r37,vmax).toFixed(1)+'" r="3.2" fill="'+K.teal+'" stroke="#fff" stroke-width="1.4"/>';
-  s+='<circle cx="'+x.toFixed(1)+'" cy="'+plotY(r60,vmax).toFixed(1)+'" r="3.2" fill="'+K.crimson+'" stroke="#fff" stroke-width="1.4"/>';
-  if(full){ s+=txt(plotX(4/20),plotY(rate(4,0),vmax)-6,'Km',7,K.teal,'middle',800); }
-  s+=axes(t('substrate concentration','底物浓度'),'v',[0,.5,1].map(function(p){
-    return {p:p,l:String(Math.round(p*20))}}));
-  return {svg:s,
-    legend:[[K.teal,t('37 °C — works','37 °C — 正常'),Math.round(r37/vmax*100)+'%'],
-            [K.crimson,t('60 °C — denatured','60 °C — 已变性'),Math.round(r60/vmax*100)+'%']],
-    looks:sub<4?t('Below Km every extra bit of substrate helps — this is the steep part of the curve.',
-                  '底物低于 Km 时，每加一点都有用——这是曲线最陡的一段。')
-            :t('The active sites are full. Adding more substrate now changes nothing.',
-               '活性部位已被占满，此时再加底物也没有变化。'),
-    cap:t('Two enzymes, same active site, different shape after heating. Dashed line is Vmax.',
-          '同一种酶，受热后形状改变。虚线是最大反应速率 Vmax。')};
-}
-
-var MODEL={
-  vt :{fn:mVT, max:5,    step:1, lab:function(v){return t('week ','第 ')+v}},
-  ib :{fn:mIB, max:3600, step:10, lab:fmtDur},
-  g10:{fn:mG10,max:20,   step:.5, lab:function(v){return v+' g/L'}}
-};
-
-var full={vt:false,ib:false,g10:false}, val={vt:3,ib:600,g10:8}, tab={vt:0,ib:0,g10:0};
+var tab={vt:0,ib:0,g10:0};
 
 /* ═══ render ═════════════════════════════════════════════════════════ */
-function panelModel(c){
-  var M=MODEL[c.id],d=M.fn(val[c.id],full[c.id]);
-  var leg=d.legend.map(function(l){
-    return '<span><i style="background:'+l[0]+'"></i>'+esc(l[1])+' <b style="font-weight:800">'+esc(l[2])+'</b></span>'}).join('');
-  return '<div class="cr-top">'
-    +'<div class="cr-seg"><button type="button" data-seg="0" aria-pressed="'+(!full[c.id])+'">'+esc(t('Concise','精简'))+'</button>'
-    +'<button type="button" data-seg="1" aria-pressed="'+full[c.id]+'">'+esc(t('Full','完整'))+'</button></div>'
-    +'<div class="cr-read">'+c.p.read+' / '+c.p.tot+' '+esc(t(c.readWord[0],c.readWord[1]))+'</div></div>'
-    +'<div class="cr-mrow"><label>'+esc(t('Effort','强度'))+'</label>'
-    +'<input type="range" min="'+((c.id==='ib')?1:1)+'" max="'+M.max+'" step="'+(M.step||1)+'" value="'+val[c.id]+'" data-slider aria-label="'+esc(t('Effort','强度'))+'">'
-    +'<output>'+esc(M.lab(val[c.id]))+'</output></div>'
-    +'<figure class="cr-fig"><svg viewBox="0 0 '+AX.w+' '+AX.h+'" role="img" aria-label="'+esc(t('Model','模型'))+'">'+d.svg+'</svg>'
-    +'<div class="cr-legend">'+leg+'</div>'
-    +'<p class="cr-looks"><b>'+esc(t('Looks like:','看起来像：'))+'</b> '+esc(d.looks)+'</p>'
-    +'<p class="cr-cap">'+esc(d.cap)+'</p></figure>';
-}
 function panelCards(c){
   return '<div class="cr-stat"><div><b>'+c.p.cards+'</b><span>'+esc(t('reviewed','已复习'))+'</span></div>'
     +'<div><b>'+c.p.tot+'</b><span>'+esc(t('sections','小节'))+'</span></div></div>'
@@ -1425,7 +1239,7 @@ function renderBox(c){
   var contTitle=c.id==='vt'?(p.lastName?(showCN?p.lastName[1]:p.lastName[0]):t('Start from the top','从头开始'))
              :(c.id==='ib'?t('29 topics · 3 themes','29 个主题 · 3 大主题'):t('15 sections · 5 units','15 小节 · 5 单元'));
   var contNum=c.id==='vt'?(p.last||1):(c.id==='ib'?3:5);
-  var panels=[panelModel,panelCards,panelQuiz,panelMap];
+  var panels=[panelCards,panelQuiz,panelMap];
   var box=document.createElement('article');
   box.className='cr'; box.setAttribute('data-c',c.id);
   box.innerHTML=
@@ -1440,7 +1254,7 @@ function renderBox(c){
     +'<div class="cr-idea"><b>'+esc(t(idea[1],idea[2]))+'</b><p>'+esc(t(idea[3],idea[4]))+'</p>'
     +'<a class="hm-link" href="'+contHref+'">'+esc(t('Open →','打开 →'))+'</a></div>'
     +'<div class="cr-tabs" role="tablist">'
-    +[['Interactive','互动'],['Flip cards','闪卡'],['Quick check','快测'],['Chapter map','章节图']]
+    +[['Flip cards','闪卡'],['Quick check','快测'],['Chapter map','章节图']]
       .map(function(n,i){return '<button type="button" role="tab" data-tab="'+i+'" aria-selected="'+(tab[c.id]===i)+'">'+esc(t(n[0],n[1]))+'</button>'}).join('')
     +'</div>'
     +panels.map(function(fn,i){return '<div class="cr-panel'+(tab[c.id]===i?' on':'')+'" data-p="'+i+'">'+fn(c)+'</div>'}).join('');
@@ -1539,7 +1353,6 @@ function render(){
   $('langToggle').textContent=showCN?'中':'EN';
   $('hmCourses').innerHTML='';
   COURSES.forEach(function(c){$('hmCourses').appendChild(renderBox(c))});
-  COURSES.forEach(function(c){ wire($('hmCourses').querySelector('.cr[data-c="'+c.id+'"]'), c.id); });
   setTimeout(function(){
     document.querySelectorAll('.cr-prog>i').forEach(function(b){b.style.transform='scaleX(1)'});},80);
 }
@@ -1553,37 +1366,12 @@ $('hmCourses').addEventListener('click',function(e){
     box.querySelectorAll('[data-tab]').forEach(function(b){b.setAttribute('aria-selected',b===tabB)});
     box.querySelectorAll('[data-panel],.cr-panel').forEach(function(p){p.classList.toggle('on',+p.dataset.p===tab[c])});
     return; }
-  var segB=e.target.closest('[data-seg]');
-  if(segB){ full[c]=segB.dataset.seg==='1';
-    box.querySelectorAll('[data-seg]').forEach(function(b){b.setAttribute('aria-pressed',(b.dataset.seg==='1')===full[c])});
-    var p=box.querySelector('.cr-panel[data-p="0"]'); var old=p.innerHTML; p.innerHTML=old;
-    var rebuilt=renderBox(COURSES.filter(function(x){return x.id===c})[0]);
-    p.innerHTML=rebuilt.querySelector('.cr-panel[data-p="0"]').innerHTML;
-    wire(box,c);
-    return; }
   var go=e.target.closest('[data-go]');
   if(go){ location.href=c==='vt'?'guide.html?study='+go.dataset.go
                       :c==='ib'?'ib-sehs-learn.html':'g10-bio.html';
     return; }
 });
-function wire(box,c){
-  var sl=box.querySelector('[data-slider]');
-  if(!sl) return;
-  sl.addEventListener('input',function(){
-    val[c]=parseFloat(sl.value);
-    var p=box.querySelector('.cr-panel[data-p="0"]');
-    var keepFocus=true;
-    p.innerHTML=panelModel(COURSES.filter(function(x){return x.id===c})[0]);
-    wire(box,c);
-    var s2=p.querySelector('[data-slider]'); if(s2){s2.value=val[c];s2.focus();}
-  });
-}
-document.addEventListener('click',function(e){
-  var box=e.target.closest&&e.target.closest('.cr'); if(!box)return;
-  var c=box.getAttribute('data-c');
-  if(e.target.closest('[data-slider]')||e.target.closest('[data-seg]'))return;
-  if(!e.target.closest('[data-tab]'))wire(box,c);
-});
+
 document.addEventListener('click',function(e){
   if(!(e.target.closest&&e.target.closest('#langToggle'))) return;
   /* Whoever handles the toggle owns sm_lang. Re-render a tick later so we

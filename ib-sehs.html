@@ -175,7 +175,31 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 .ibm-key{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.82rem;color:var(--text2);margin-top:.4rem}
 .ibm-key span{display:inline-flex;align-items:center;gap:.35rem}
 .ibm-key i{width:10px;height:10px;border-radius:3px;display:inline-block}
-@media (max-width:640px){.ib-model .kv-seg button{min-height:40px}.ib-model .kv-lab input[type=range]{height:40px}}
+@media (max-width:640px){.ib-model .kv-seg button{min-height:40px}.ib-model .kv-lab input[type=range]{height:40px}.ib-model .kv-tools button{min-height:40px}.ib-model .kv-path button{min-height:44px}}
+
+.ib-model .kv-zone.on{outline:2px solid var(--accent);outline-offset:-2px}
+.ib-model .kv-ends{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.4rem}
+.ib-model .kv-ends p{margin:.25rem 0 0;color:var(--text2);font-size:.88rem}
+.ib-model .kv-svg .q1{fill:color-mix(in srgb,var(--green) 11%,transparent)}
+.ib-model .kv-svg .q2{fill:color-mix(in srgb,var(--c1) 12%,transparent)}
+.ib-model .kv-svg .marker{fill:var(--c2);stroke:var(--surface);stroke-width:3;transition:cx .2s,cy .2s}
+.ib-model .kv-svg .marker.ok{fill:var(--green)}
+.ib-model .kv-svg .marker.risk{fill:var(--c0)}
+.ib-model .kv-svg .perf{fill:none;stroke:var(--c0);stroke-width:2.5;stroke-dasharray:5 4}
+.ib-model .kv-svg .cone{fill:var(--c2);opacity:.16;stroke:var(--c2);stroke-width:1.5;transition:opacity .25s}
+.ib-model .kv-svg .cone.narrow{fill:var(--c1);stroke:var(--c1);opacity:.26}
+.ib-model .kv-svg .wide{fill:var(--c2);opacity:.10;transition:opacity .25s}
+.ib-model .kv-svg .goal{fill:none;stroke:var(--text3);stroke-width:2}
+.ib-model .kv-svg .post{stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .kv-svg .spot{fill:var(--text3)}
+.ib-model .kv-svg .joint{fill:var(--c0);transition:opacity .25s}
+.ib-model .kv-svg .target{fill:none;stroke:var(--c0);stroke-width:2.5;transition:opacity .25s}
+.ib-model .kv-svg .zone{fill:color-mix(in srgb,var(--text) 4%,transparent)}
+.ib-model .kv-svg .target-zone{fill:var(--green);opacity:.15}
+.ib-model .kv-svg .dot{fill:var(--text3);transition:fill .2s}
+.ib-model .kv-svg .dot.on{fill:var(--c0)}
+.ib-model .kv-svg .chosen{fill:none;stroke:var(--c0);stroke-width:2.5}
+@media (max-width:640px){.ib-model .kv-ends{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -309,7 +333,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <div class="ib-modal" id="ibQuizOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box wide"><button class="modal-close" type="button" data-close-modal="ibQuizOverlay" aria-label="Close quiz">×</button><div id="ibQuizContent"></div></div></div>
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
-<script src="ib-sehs-models.js?v=1" defer></script>
-<script src="ib-sehs-course.js?v=12" defer></script>
+<script src="ib-sehs-models.js?v=2" defer></script>
+<script src="ib-sehs-course.js?v=13" defer></script>
 </body>
 </html>

@@ -1094,7 +1094,7 @@
       '<line class="gl" x1="' + (PX + PW / 2) + '" y1="' + PY + '" x2="' + (PX + PW / 2) + '" y2="' + (PY + PH) + '"/>' +
       '<line class="gl" x1="' + PX + '" y1="' + (PY + PH / 2) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH / 2) + '"/>' +
       '<text class="small" x="' + (PX - 10) + '" y="' + (PY + PH / 2) + '" text-anchor="end">' + esc(T('internal', '内部')) + '</text>' +
-      '<text class="small" x="' + (PX + PW + 10) + '" y="' + (PY + PH / 2) + '">' + esc(T('external', '外部')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 2) + '" y="' + (PY + PH / 2) + '" text-anchor="end">' + esc(T('external', '外部')) + '</text>' +
       '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY + PH + 20) + '" text-anchor="middle">' + esc(T('unstable — changeable', '不稳定——可改变')) + '</text>' +
       '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY - 10) + '" text-anchor="middle">' + esc(T('stable — permanent', '稳定——永久')) + '</text>' +
       '<circle class="marker" r="9" cx="0" cy="0"/>' +
@@ -2240,6 +2240,335 @@
     }
     wire(host, '.kv-path', function (v) { step = +v; draw(); });
     wire(host, '.kv-tools', function (v) { bad = v; draw(); });
+    draw();
+  };
+
+  /* ══ 37 · C.5.1 Three goal types ══════════════════════════════════════
+     How much of the goal the athlete actually controls. */
+  MODELS['Three goal types'] = function (host) {
+    var G = [
+      { id: 'out', en: 'Outcome', zh: '结果目标', ctl: 15, worry: 62, habit: 12, ex: 'finish in the top three', exZh: '进入前三名', dEn: 'norm-referenced: the result depends on everyone else', dZh: '以他人为参照：结果取决于所有其他人' },
+      { id: 'perf', en: 'Performance', zh: '表现目标', ctl: 74, worry: 34, habit: 46, ex: 'run 5 km under 18:30', exZh: '5 公里跑进 18 分 30 秒', dEn: 'self-referenced and measurable: only the athlete decides', dZh: '以自己为参照且可测量：只由运动员决定' },
+      { id: 'proc', en: 'Process', zh: '过程目标', ctl: 96, worry: 16, habit: 92, ex: 'hold cadence and relaxed shoulders', exZh: '保持步频与放松的肩膀', dEn: 'controllable technique or strategy: this is where habits are built', dZh: '可控的技术或策略：习惯在这里形成' }
+    ];
+    var pick = 'out';
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which kind of goal is the athlete working with?', '运动员在用哪一种目标？')) + '</div>' +
+      tools(G.map(function (g) { return [g.id, T(g.en, g.zh)]; }), pick) +
+      '<div class="kv-convert"></div>' +
+      meter(T('Under the athlete’s control', '在运动员掌控内'), 'ctl') +
+      meter(T('Worry about the result', '对结果的担忧'), 'worry', 'gold') +
+      meter(T('Habit and routine built', '养成的习惯'), 'hab') +
+      '<div class="kv-callout"></div>' +
+      note('Outcome goals are norm-referenced results such as winning a final. Performance goals are self-referenced and measurable, such as swimming 50 m freestyle in 24.50 s. Process goals target controllable technique or strategy, such as a high elbow catch. Process goals build habits, regulate arousal and reduce worry, because the athlete can control them directly.', '结果目标是参照他人的结果，如赢得决赛。表现目标是以自己为参照且可测量的目标，如 50 米自由泳游进 24 秒 50。过程目标指向可控的技术或策略，如高肘抱水。过程目标能形成习惯、调节唤醒并减少担忧，因为运动员能直接掌控它们。');
+    function draw() {
+      var g = G.filter(function (x) { return x.id === pick; })[0];
+      marks(host, '.kv-tools', pick);
+      scaleBar(host.querySelector('.ctl'), g.ctl / 100);
+      scaleBar(host.querySelector('.worry'), g.worry / 100);
+      scaleBar(host.querySelector('.hab'), g.habit / 100);
+      outs(host, '.vctl', g.ctl + ' %');
+      outs(host, '.vworry', g.worry + ' %');
+      outs(host, '.vhab', g.habit + ' %');
+      host.querySelector('.kv-convert').innerHTML =
+        '<div class="kv-side"><b>' + esc(T('The running example', '跑步的例子')) + '</b>' +
+        '<p>' + esc(T('finish in the top three', '进入前三名')) + ' → ' +
+        esc(T('run 5 km under 18:30', '5 公里跑进 18 分 30 秒')) + ' → ' +
+        esc(T('hold cadence and relaxed shoulders', '保持步频与放松的肩膀')) + '</p></div>' +
+        '<div class="kv-side"><b>' + esc(T('This kind of goal', '这一类目标')) + '</b>' +
+        '<p>' + esc(T(g.en + ': ' + g.dEn, g.zh + '：' + g.dZh)) + '</p></div>';
+      outs(host, '.kv-callout', T(g.en, g.zh) + ' — ' + T(g.dEn, g.dZh) + '. ' +
+        T('Looks like: ', '例如：') + T(g.ex, g.exZh) + '. ' +
+        (pick === 'out' ? T('Keep it, but always convert it into a performance and a process goal.', '可以保留它，但必须同时转化为表现目标与过程目标。')
+          : pick === 'perf' ? T('Self-referenced, so the athlete knows straight away whether it happened.', '以自己为参照，因此运动员立刻知道是否达成。')
+            : T('Directly controllable, so it builds habits and lowers worry.', '直接可控，因此能形成习惯并降低担忧。')));
+    }
+    wire(host, '.kv-tools', function (v) { pick = v; draw(); });
+    draw();
+  };
+
+  /* ══ 38 · C.5.1 Goal purpose and the paradox ══════════════════════════
+     Drive rises towards the goal, then falls after success — unless a new
+     goal is set. */
+  MODELS['Goal purpose and paradox'] = function (host) {
+    var PX = 66, PW = 468, PY = 40, PH = 236, WKS = 20;
+    function X(w) { return PX + w / WKS * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    host.innerHTML =
+      srange('w', T('Weeks from now', '距离目标还有几周'), 0, 20, 12, 1, '12 weeks') +
+      tools([['none', T('Nothing changes after success', '成功后什么都不变')], ['new', T('A new process and performance goal is set', '设定新的过程与表现目标')]], 'none') +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Drive across the approach to a goal', '迈向目标过程中的驱动力')) + '">' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="gl" x1="' + PX + '" y1="' + Y(50) + '" x2="' + (PX + PW) + '" y2="' + Y(50) + '"/>' +
+      '<path class="curve a" d=""/><path class="curve b thin" d=""/>' +
+      '<text class="small" x="' + (PX + 4) + '" y="' + (PY - 10) + '">' + esc(T('drive', '驱动力')) + '</text>' +
+      '<text class="small" x="' + X(WKS / 2).toFixed(0) + '" y="' + (PY + PH + 34) + '" text-anchor="middle">' + esc(T('success', '达成目标')) + '</text>' +
+      '<line class="kv-cursor" y1="' + (PY - 6) + '" y2="' + (PY + PH) + '"/>' +
+      [0, 5, 10, 15, 20].map(function (w) {
+        return '<text class="small" x="' + X(w).toFixed(0) + '" y="' + (PY + PH + 18) + '" text-anchor="middle">' + w + '</text>';
+      }).join('') +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('weeks', '周')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-legend">' +
+      '<span><i class="kv-dot blue"></i>' + esc(T('nothing set after success', '成功后不设新目标')) + '</span>' +
+      '<span><i class="kv-dot red"></i>' + esc(T('new goal set', '设定新目标')) + '</span></div>' +
+      '<div class="kv-callout"></div>' +
+      note('Goals direct attention to key cues, motivate effort, improve practice, provide standards and support adjustment. A very high goal can raise effort and performance, but after success the goal may no longer challenge the athlete and drive can deflate — the paradox. External rewards can also replace internal motivation once success arrives, so the purpose and the reasons for taking part are worth revisiting.', '目标把注意力引向关键线索、激励努力、改进练习、提供标准并支持调整。一个很高的目标可以提高努力与表现，但达成之后该目标可能不再构成挑战，驱动力反而下降——这就是悖论。成功后外部奖励也可能取代内在动机，因此值得重新审视目的与参与的理由。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var w = +inp.value, on = host.querySelector('.kv-tools button[data-v=new]').getAttribute('aria-pressed') === 'true';
+      setv(host, 'w', '.kv-val', w + ' ' + T(w === 1 ? 'week' : 'weeks', '周'));
+      marks(host, '.kv-tools', on ? 'new' : 'none');
+      var d1 = '', d2 = '', i, t, v1, v2;
+      for (i = 0; i <= 60; i++) {
+        t = i * WKS / 60;
+        v1 = t < 10 ? 34 + t * 4.6 : Math.max(22, 80 - (t - 10) * 5.8);
+        v2 = t < 10 ? 34 + t * 4.6 : Math.min(98, 80 + (t - 10) * 2.2);
+        d1 += (i ? ' L' : 'M') + X(t).toFixed(1) + ',' + Y(clamp(v1, 0, 100)).toFixed(1);
+        d2 += (i ? ' L' : 'M') + X(t).toFixed(1) + ',' + Y(clamp(v2, 0, 100)).toFixed(1);
+      }
+      host.querySelector('.curve.a').setAttribute('d', d1);
+      host.querySelector('.curve.b').setAttribute('d', d2);
+      host.querySelector('.kv-cursor').setAttribute('x1', X(w).toFixed(1));
+      host.querySelector('.kv-cursor').setAttribute('x2', X(w).toFixed(1));
+      var now = w < 10 ? 34 + w * 4.6 : Math.max(22, 80 - (w - 10) * 5.8);
+      outs(host, '.kv-callout', w < 10
+        ? T('Approaching the goal: drive is rising, which is why a hard target can raise effort and performance.', '接近目标时驱动力在上升——这正是高目标能提高努力与表现的原因。')
+        : on ? T('Success arrived at week 10, and a new process and performance goal was set, so drive continues.', '第 10 周达成目标，并设定了新的过程与表现目标，因此驱动力延续。')
+          : T('Success arrived at week 10 and nothing was set: drive falls from about 80 to about 20. That is the paradox.', '第 10 周达成目标却什么都没设：驱动力从约 80 掉到约 20。这就是悖论。'));
+    }
+    inp.addEventListener('input', draw);
+    wire(host, '.kv-tools', function () { draw(); });
+    draw();
+  };
+
+  /* ══ 39 · C.5.1 Adjustment and flexible goals ═══════════════════════════
+     Why a goal has to move, and what stays. */
+  MODELS['Adjustment and flexible goals'] = function (host) {
+    var WHY = [
+      { id: 'perf', en: 'Performance plateau', zh: '表现停滞', dEn: 'the standard is reached and no longer stretches the athlete', dZh: '标准已达成，不再能拉动运动员', keep: T('progress against your own times', '对照自己的成绩看进步') },
+      { id: 'injury', en: 'Injury', zh: '伤病', dEn: 'training and competing are not available', dZh: '无法训练与参赛', keep: T('quality of movement and safe rehabilitation', '动作质量与安全康复') },
+      { id: 'ill', en: 'Illness', zh: '疾病', dEn: 'a period of reduced capacity', dZh: '一段能力下降的时期', keep: T('returning gradually', '逐步回归') },
+      { id: 'time', en: 'Time constraint', zh: '时间限制', dEn: 'study, work or family hours cut the week', dZh: '学业、工作或家庭时间压缩了训练周', keep: T('consistency of what is left', '把剩下的时间做稳定') },
+      { id: 'comp', en: 'Competition change', zh: '竞赛变化', dEn: 'a new rival, a different format, a new coach', dZh: '新对手、新赛制或新教练', keep: T('what you can control in the new situation', '在新情境中能掌控的部分') },
+      { id: 'env', en: 'Environment', zh: '环境', dEn: 'facilities, funding, location or support change', dZh: '设施、经费、地点或支持发生变化', keep: T('the parts of the plan still available', '计划中仍然可用的部分') }
+    ];
+    var FORM = [
+      { id: 'dobest', en: 'Do-your-best', zh: '尽力目标', dEn: 'maximum effort and the best strategy, without a fixed result', dZh: '追求最大努力与最佳策略，不设固定结果', keep: 82 },
+      { id: 'open', en: 'Open goal', zh: '开放目标', dEn: 'experience, exploration and participation', dZh: '体验、探索与参与', keep: 90 }
+    ];
+    var why = 'injury', form = 'open', move = 60;
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Why is the goal being adjusted?', '为什么要调整目标？')) + '</div>' +
+      tools(WHY.map(function (w) { return [w.id, T(w.en, w.zh)]; }), why) +
+      srange('m', T('How much has the context moved?', '情境变化有多大？'), 0, 100, 60, 1, '60 / 100') +
+      '<div class="kv-q kv-q2">' + esc(T('Which flexible form?', '采用哪种灵活形式？')) + '</div>' +
+      tools(FORM.map(function (f) { return [f.id, T(f.en, f.zh)]; }), form) +
+      '<div class="kv-steps"></div>' +
+      meter(T('Motivation retained', '保住的动机'), 'mot') +
+      meter(T('Disruption to the plan', '对计划的干扰'), 'dis', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Review current performance and context, then maintain the goal, modify it or set a new one, and update the plan and strategies. Do-your-best goals focus on maximum effort and the best strategies; open goals focus on experience, exploration and participation. A goal may need adjusting because of performance, injury, illness, time constraints, competition changes or the environment.', '先回顾当前表现与情境，然后保持、修改或重设目标，并更新计划与策略。尽力目标聚焦最大努力与最佳策略；开放目标聚焦体验、探索与参与。目标可能因表现、伤病、疾病、时间限制、竞赛变化或环境而需要调整。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var w = WHY.filter(function (x) { return x.id === why; })[0], f = FORM.filter(function (x) { return x.id === form; })[0], m = +inp.value;
+      setv(host, 'm', '.kv-v', m + ' / 100');
+      marks(host, '.ib-why', why);
+      marks(host, '.ib-form', form);
+      var dis = clamp(m * (why === 'perf' ? 0.5 : 0.9), 0, 100);
+      var mot = clamp(f.keep - dis * 0.55, 0, 100);
+      scaleBar(host.querySelector('.mot'), mot / 100);
+      scaleBar(host.querySelector('.dis'), dis / 100);
+      outs(host, '.vmot', Math.round(mot) + ' %');
+      outs(host, '.vdis', Math.round(dis) + ' %');
+      host.querySelector('.kv-steps').innerHTML = path([
+        T('Review performance and context', '回顾表现与情境'),
+        T('Maintain, modify or set new', '保持、修改或重设'),
+        T('Update plan and strategies', '更新计划与策略')
+      ], 0);
+      outs(host, '.kv-callout', T(w.en, w.zh) + ' — ' + T(w.dEn, w.dZh) + '. ' + T(f.en, f.zh) + ': ' + T(f.dEn, f.dZh) + '. ' +
+        T('What stays: ', '保留下来的：') + T(w.keep, w.keepZh) + '.');
+    }
+    inp.addEventListener('input', draw);
+    $$('.ib-why button', host).forEach(function (b) { b.addEventListener('click', function () { why = b.getAttribute('data-v'); draw(); }); });
+    $$('.ib-form button', host).forEach(function (b) { b.addEventListener('click', function () { form = b.getAttribute('data-v'); draw(); }); });
+    draw();
+  };
+
+  /* ══ 40 · C.5.2 Sensory imagery and functions ═════════════════════════
+     How many channels are in use sets how vivid the rehearsal is. */
+  MODELS['Sensory imagery and functions'] = function (host) {
+    var CH = [
+      { id: 'vis', en: 'Visual', zh: '视觉', dEn: 'seeing the line, the turn, the target', dZh: '看到路线、弯道、目标' },
+      { id: 'aud', en: 'Auditory', zh: '听觉', dEn: 'the wind, the contact, the crowd', dZh: '风声、触球声、观众声' },
+      { id: 'kin', en: 'Kinaesthetic', zh: '动觉', dEn: 'edge pressure, timing, the burn in the legs', dZh: '刃压、时机、腿部的灼热感' },
+      { id: 'int', en: 'Interoceptive', zh: '内脏觉', dEn: 'breathing, heart rate, effort', dZh: '呼吸、心率、用力感' },
+      { id: 'olf', en: 'Olfactory', zh: '嗅觉', dEn: 'snow, pine, chlorine', dZh: '雪、松木、氯味' },
+      { id: 'gus', en: 'Gustatory', zh: '味觉', dEn: 'sweat, cold air', dZh: '汗、冷空气' }
+    ];
+    var FN = [
+      { id: 'skill', at: 40, en: 'Skill rehearsal', zh: '技能演练' },
+      { id: 'strategy', at: 55, en: 'Strategy rehearsal', zh: '策略演练' },
+      { id: 'goal', at: 62, en: 'Goal setting', zh: '目标设定' },
+      { id: 'arousal', at: 70, en: 'Arousal regulation', zh: '唤醒调节' },
+      { id: 'conf', at: 78, en: 'Confidence and emotion', zh: '自信与情绪控制' }
+    ];
+    var on = { vis: 1, aud: 1, kin: 1, int: 1, olf: 0, gus: 0 }, quality = 60;
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('Which channels does the athlete rehearse in?', '运动员在哪些通道上排练？')) + '</div>' +
+      '<div class="ib-ch">' + CH.map(function (c) {
+        return '<button type="button" data-v="' + c.id + '" class="' + (on[c.id] ? 'on' : '') + '" aria-pressed="' + (on[c.id] ? 'true' : 'false') + '">' +
+          '<b>' + esc(T(c.en, c.zh)) + '</b><span>' + esc(T(c.dEn, c.dZh)) + '</span></button>';
+      }).join('') + '</div>' +
+      srange('q', T('How regular and controlled is the practice?', '练习有多规律、可控？'), 0, 100, 60, 1, '60 / 100') +
+      meter(T('Resulting vividness', '由此产生的清晰度'), 'viv', 'gold') +
+      '<div class="kv-q kv-q2">' + esc(T('Functions it unlocks', '它能开启哪些功能')) + '</div>' +
+      '<div class="kv-fns"></div>' +
+      '<div class="kv-callout"></div>' +
+      note('Imagery can draw on visual, auditory, kinaesthetic, interoceptive, olfactory and gustatory information. Cognitive functions include skill rehearsal and strategy rehearsal; motivational functions include goal setting, arousal regulation, confidence and emotional control. Imagery is not visual-only and not limited to perfect outcomes: it can include effort, mistakes, recovery and negative scenarios.', '意象可以调用视觉、听觉、动觉、内脏觉、嗅觉与味觉信息。认知功能包括技能演练与策略演练；动机功能包括目标设定、唤醒调节、自信与情绪控制。意象并非只有视觉，也不限于完美结果：它可以包含努力、失误、恢复以及负面情境。');
+    var inp = host.querySelector('input');
+    function draw() {
+      var q = +inp.value, n = 0, k;
+      for (k in on) if (on[k]) n++;
+      var viv = clamp((n / 4) * 46 + q * 0.54, 0, 100);
+      setv(host, 'q', '.kv-v', q + ' / 100');
+      $$('.ib-ch button', host).forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('aria-pressed') === 'true');
+      });
+      scaleBar(host.querySelector('.viv'), viv / 100);
+      outs(host, '.vviv', Math.round(viv) + ' %');
+      host.querySelector('.kv-fns').innerHTML = zones(FN.map(function (f, i) {
+        var open = viv >= f.at;
+        return [String(i + 1), T(f.en, f.zh), open ? T('active', '已开启') : T('needs more vividness', '需要更清晰的意象'), open ? '✓' : '·', open ? 2 : 5];
+      }));
+      outs(host, '.kv-callout', n < 2
+        ? T('One channel alone is thin. The more channels in use, the more vivid and transferable the rehearsal.', '只用单一通道偏薄。使用的通道越多，排练越清晰、越容易迁移。')
+        : T('Looks like: a skier rehearsing the line, the wind, edge pressure and the burn in the legs — and also the turn that went wrong.', '例如：滑雪者预演路线、风声、刃压与腿部的灼热感——也预演那个失误的弯道。'));
+    }
+    inp.addEventListener('input', draw);
+    $$('.ib-ch button', host).forEach(function (b) {
+      b.addEventListener('click', function () { var v = b.getAttribute('data-v'); on[v] = on[v] ? 0 : 1; draw(); });
+    });
+    draw();
+  };
+
+  /* ══ 41 · C.5.2 PETTLEP and imagery quality ════════════════════════════
+     Seven letters, then the four qualities that decide transfer. */
+  MODELS['PETTLEP and imagery quality'] = function (host) {
+    var P = [
+      { id: 'P', en: 'Physical', zh: '身体感觉', dEn: 'simulate the physical sensations: effort, contact, tension', dZh: '模拟身体感觉：用力、触球、紧张', ex: 'feel the legs burn through the last two turns', exZh: '感受最后两个弯道腿部的灼热' },
+      { id: 'E', en: 'Environment', zh: '环境', dEn: 'rehearse in the real competition setting', dZh: '在真实比赛场景中预演', ex: 'the actual court, stands and lighting', exZh: '真实的球场、看台与灯光' },
+      { id: 'T', en: 'Task', zh: '任务', dEn: 'a specific skill or strategy, not “the whole match”', dZh: '具体的技能或策略，而不是“整场比赛”', ex: 'the serve with the second serve in mind', exZh: '发球，想清楚二发' },
+      { id: 'T2', en: 'Timing', zh: '时序', dEn: 'match the timing and sequence to real movement', dZh: '让时序与真实动作一致', ex: 'the ball toss, the contact, the follow-through', exZh: '抛球、触球、随挥' },
+      { id: 'L', en: 'Learning', zh: '学习', dEn: 'use it for goals and to correct errors', dZh: '用于目标设定与纠错', ex: 'rehearse the version with the balanced follow-through', exZh: '预演随挥平衡的那一版' },
+      { id: 'E2', en: 'Emotion', zh: '情绪', dEn: 'include the emotion that will actually be there', dZh: '包含真实会出现的情绪', ex: 'the pressure of the third set', exZh: '第三盘的 pressure' },
+      { id: 'P2', en: 'Perspective', zh: '视角', dEn: 'internal or external, chosen deliberately', dZh: '内部或外部视角，有意识地选择', ex: 'from behind the eyes, or from the sideline', exZh: '从自己眼中，或从场边' }
+    ];
+    var pick = 'P', q = { v: 60, c: 55, s: 60, r: 50 };
+    host.innerHTML =
+      tools(P.map(function (p) { return [p.id, p.id + ' · ' + T(p.en, p.zh)]; }), pick) +
+      '<div class="kv-el-out"><dl>' +
+      '<dt>' + esc(T('What to simulate', '要模拟什么')) + '</dt><dd class="vd"></dd>' +
+      '<dt>' + esc(T('In a serve rehearsal', '在发球预演中')) + '</dt><dd class="ve"></dd>' +
+      '</dl></div>' +
+      '<div class="kv-q kv-q2">' + esc(T('The four qualities', '四项质量')) + '</div>' +
+      '<div class="kv-grid2">' +
+      srange('v', T('Vivid', '清晰'), 0, 100, 60, 1, '60 / 100') +
+      srange('c', T('Controllable', '可控'), 0, 100, 55, 1, '55 / 100') +
+      '</div>' +
+      '<div class="kv-grid2">' +
+      srange('s', T('Specific', '具体'), 0, 100, 60, 1, '60 / 100') +
+      srange('r', T('Regular', '规律'), 0, 100, 50, 1, '50 / 100') +
+      '</div>' +
+      meter(T('Likelihood of transfer', '迁移的可能性'), 'tr', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('PETTLEP structures Physical sensations, Environment, Task, Timing, Learning, Emotion and Perspective. Imagery that is vivid, controllable, specific and practised regularly is more likely to transfer to performance. Each letter is one decision, and the model is a checklist rather than a ritual.', 'PETTLEP 依次为身体感觉、环境、任务、时序、学习、情绪与视角。清晰、可控、具体且规律练习的意象更容易迁移到表现。每个字母都是一个决定，这个模型是一份检查表而非仪式。');
+    var ins = $$('input[type=range]', host);
+    function draw() {
+      var p = P.filter(function (x) { return x.id === pick; })[0];
+      q.v = +ins[0].value; q.c = +ins[1].value; q.s = +ins[2].value; q.r = +ins[3].value;
+      setv(host, 'v', '.kv-v', q.v + ' / 100');
+      setv(host, 'c', '.kv-v', q.c + ' / 100');
+      setv(host, 's', '.kv-v', q.s + ' / 100');
+      setv(host, 'r', '.kv-v', q.r + ' / 100');
+      marks(host, '.kv-tools', pick);
+      outs(host, '.vd', T(p.dEn, p.dZh));
+      outs(host, '.ve', T(p.ex, p.exZh));
+      var tr = (q.v * .3 + q.c * .24 + q.s * .26 + q.r * .2);
+      scaleBar(host.querySelector('.tr'), tr / 100);
+      outs(host, '.vtr', Math.round(tr) + ' %');
+      outs(host, '.kv-callout', p.id + ' — ' + T(p.en, p.zh) + ': ' + T(p.dEn, p.dZh) + '. ' +
+        (tr > 70 ? T('Quality is high enough that this should show up in performance.', '质量足够高，这部分内容应能体现在表现中。')
+          : T('The weakest link is quality, not the model: raise the scores above.', '短板是质量而不是模型：把上面四项分数提上去。')));
+    }
+    ins.forEach(function (i) { i.addEventListener('input', draw); });
+    wire(host, '.kv-tools', function (v) { pick = v; draw(); });
+    draw();
+  };
+
+  /* ══ 42 · C.5.2 Paivio, specificity and applications ═════════════════
+     Two channels, two functions, and when to use it. */
+  MODELS['Paivio, specificity and applications'] = function (host) {
+    var WHEN = [
+      { id: 'pre', en: 'Before training', zh: '训练前', f: ['plan the session', 'set the focus', 'visualise the first action'], fZh: ['规划训练课', '设定注意焦点', '想象第一个动作'], sp: 1 },
+      { id: 'comp', en: 'Before competition', zh: '比赛前', f: ['prepare for the event', 'regulate arousal', 'build confidence'], fZh: ['为比赛做准备', '调节唤醒', '建立自信'], sp: 1 },
+      { id: 'post', en: 'After performance', zh: '表现之后', f: ['review what happened', 'correct the error', 'rehearse the fix'], fZh: ['回顾发生了什么', '纠正错误', '预演修正'], sp: 1 }
+    ];
+    var Q = {
+      cog: { en: 'Cognitive', zh: '认知性', verb: 'non-verbal channels carry the rehearsal of a skill or plan', verbZh: '非语言通道承载技能或计划的预演' },
+      mot: { en: 'Motivational', zh: '动机性', verb: 'verbal channels carry goals, confidence and arousal', verbZh: '语言通道承载目标、自信与唤醒' },
+      spec: { en: 'Specific', zh: '具体', verb: 'detailed, concrete and sport-specific', verbZh: '细致、具体且针对本项目' },
+      gen: { en: 'General', zh: '一般', verb: 'broad and outcome-focused; useful for direction, weak for detail', verbZh: '宽泛且以结果为主：适合定方向，细节弱' }
+    };
+    var when = 'comp', ch = 'cog', spec = 'spec';
+    var PX = 78, PY = 44, PW = 442, PH = 228;
+    function X(v) { return PX + v / 100 * PW; }
+    function Y(v) { return PY + PH - v / 100 * PH; }
+    host.innerHTML =
+      '<div class="kv-q">' + esc(T('When is the imagery used?', '在什么时候使用意象？')) + '</div>' +
+      seg(WHEN.map(function (w) { return [w.id, T(w.en, w.zh)]; }), when) +
+      '<div class="kv-q kv-q2">' + esc(T('Which channel carries it?', '用哪个通道承载？')) + '</div>' +
+      tools([['cog', T('Non-verbal — picture and feel', '非语言——画面与感觉')], ['mot', T('Verbal — words and self-talk', '语言——词语与自我对话')]], ch) +
+      '<svg class="kv-svg" viewBox="0 0 560 340" role="img" aria-label="' + esc(T('Paivio’s two channels and two functions', 'Paivio 的两个通道与两种功能')) + '">' +
+      '<rect class="q1" x="' + PX + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + (PX + PW / 2).toFixed(1) + '" y="' + PY + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q2" x="' + PX + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<rect class="q1" x="' + (PX + PW / 2).toFixed(1) + '" y="' + (PY + PH / 2).toFixed(1) + '" width="' + (PW / 2).toFixed(1) + '" height="' + (PH / 2).toFixed(1) + '"/>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + 20) + '">' + esc(T('non-verbal', '非语言')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + 20) + '" text-anchor="end">' + esc(T('verbal', '语言')) + '</text>' +
+      '<text class="small" x="' + (PX + 12) + '" y="' + (PY + PH - 10) + '">' + esc(T('specific', '具体')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + PH - 10) + '" text-anchor="end">' + esc(T('general', '一般')) + '</text>' +
+      '<circle class="marker" r="9" cx="0" cy="0"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
+      '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
+      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' + esc(T('verbal → motivational', '语言 → 动机')) + '</text>' +
+      '</svg>' +
+      '<div class="kv-fns2"></div>' +
+      meter(T('Transfer to performance', '迁移到表现'), 'tr', 'gold') +
+      '<div class="kv-callout"></div>' +
+      note('Paivio’s dual coding framework uses verbal and non-verbal channels, corresponding to cognitive and motivational functions. Imagery can be specific and concrete or general and abstract. Applications are skill acquisition, competition strategy, confidence, motivation and arousal regulation: before training, use it to plan and focus; before competition, to prepare and regulate; after performance, to review and learn.', 'Paivio 的双编码框架使用语言与非语言两个通道，分别对应认知与动机功能。意象可以是具体细致的，也可以是宽泛抽象的。应用包括技能获得、比赛策略、自信、动机与唤醒调节：训练前用于计划与聚焦；比赛前用于准备与调节；表现之后用于回顾与学习。');
+    function draw() {
+      var w = WHEN.filter(function (x) { return x.id === when; })[0];
+      marks(host, '.kv-seg', when);
+      marks(host, '.kv-tools', ch);
+      var lv = ch === 'cog' ? 1 : 3, ls = spec === 'spec' ? 0 : 2;
+      var m = host.querySelector('.marker');
+      m.setAttribute('cx', X(ls === 0 ? 22 : 78).toFixed(1));
+      m.setAttribute('cy', Y(lv === 1 ? 74 : 26).toFixed(1));
+      m.classList.toggle('ok', spec === 'spec' && ch === 'cog');
+      m.classList.toggle('risk', !(spec === 'spec' && ch === 'cog'));
+      host.querySelector('.kv-fns2').innerHTML = zones([
+        ['1', T(w.f[0], w.fZh[0]), '', '', 2], ['2', T(w.f[1], w.fZh[1]), '', '', 2], ['3', T(w.f[2], w.fZh[2]), '', '', 2]
+      ]);
+      var tr = clamp((spec === 'spec' ? 74 : 40) + (ch === 'cog' ? 12 : 4) + (when === 'post' ? 8 : 0), 0, 100);
+      scaleBar(host.querySelector('.tr'), tr / 100);
+      outs(host, '.vtr', tr + ' %');
+      outs(host, '.kv-callout', T(Q[ch].en, Q[ch].zh) + ' — ' + T(Q[ch].verb, Q[ch].verbZh) + '. ' +
+        T(Q[spec].en, Q[spec].zh) + ': ' + T(Q[spec].verb, Q[spec].verbZh) + '. ' +
+        T('Looks like: ', '例如：') + T('a skier sees a clean run, hears the wind, feels the balance — and imagines correcting the turn that went wrong.', '滑雪者看到干净的一滑、听到风声、感到平衡——并想象修正那个失误的弯道。'));
+    }
+    wireSeg(host, function (v) { when = v; draw(); });
+    wire(host, '.kv-tools', function (v) { ch = v; spec = v === 'cog' ? 'spec' : 'gen'; draw(); });
     draw();
   };
 

@@ -68,6 +68,18 @@
   function srange(id, question, min, max, val, step, shown) {
     return '<label class="kv-lab" data-v="' + id + '"><span class="ibm-q">' + esc(question) + ' <b class="kv-v">' + esc(shown) + '</b></span>' + range(min, max, val, step) + '</label>';
   }
+  /* Range inputs MUST be delegated from `host`, never bound to the element.
+     Most models rebuild host.innerHTML on every change, so a listener bound
+     straight to a range input dies with the element it was attached to and the
+     slider stops responding after the first step. `host` is never replaced, so
+     a listener on it survives every re-render. */
+  function wireRange(host, fn) {
+    host.addEventListener('input', function (e) {
+      var i = e.target && e.target.closest ? e.target.closest('input[type=range]') : null;
+      if (!i || !host.contains(i)) return;
+      fn(i);
+    });
+  }
   function setv(root, id, sel, txt) { var n = root.querySelector('[data-v="' + id + '"] ' + sel); if (n) n.textContent = txt; }
   function outs(root, cls, txt) { var n = root.querySelector(cls); if (n) n.textContent = txt; }
 
@@ -3084,156 +3096,228 @@
     return g + '</g>';
   };
 
+  /* ── movement: every connection carries something, visibly ─────────────
+     A bare line between two shapes is unreadable — you cannot tell whether it
+     means "connects to", "flows into" or "sits next to". Two devices fix it:
+     conn()  a connector whose dash marches along it, so the direction of
+             travel is obvious
+     run()   a signal that travels the actual path, so you can see WHAT goes
+             where, and watch it arrive                                     */
+  AN.conn = function (x1, y1, x2, y2, cls) {
+    return '<path class="an-conn ' + (cls || '') + '" d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '"/>';
+  };
+  AN.connPath = function (d, cls) {
+    return '<path class="an-conn ' + (cls || '') + '" d="' + d + '"/>';
+  };
+  AN.run = function (x1, y1, x2, y2, cls, dur) {
+    var len = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) || 1;
+    return '<circle class="an-sig ' + (cls || '') + '" r="4.5">' +
+      '<animateMotion dur="' + (dur || (len / 70)) + 's" repeatCount="indefinite" path="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '"/></circle>';
+  };
+  AN.runPath = function (d, cls, dur) {
+    return '<circle class="an-sig ' + (cls || '') + '" r="4.5">' +
+      '<animateMotion dur="' + (dur || 1.6) + 's" repeatCount="indefinite" path="' + d + '"/></circle>';
+  };
+  AN.runOrbit = function (cx, cy, rx, ry, cls, dur) {
+    var d = 'M' + (cx - rx) + ' ' + cy + ' a' + rx + ' ' + ry + ' 0 1 0 ' + (rx * 2) + ' 0 a' + rx + ' ' + ry + ' 0 1 0 ' + (-rx * 2) + ' 0';
+    return '<circle class="an-sig ' + (cls || '') + '" r="4">' +
+      '<animateMotion dur="' + (dur || 2.4) + 's" repeatCount="indefinite" path="' + d + '"/></circle>';
+  };
+  AN.beat = function (cx, cy, r, cls) {
+    return '<circle class="an-beat ' + (cls || '') + '" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/>';
+  };
+
   /* ── D1.1 · A.1.1 Neural pathways and coordination ─────────────────────
      The control room and the wires, then the split between the two exits:
      somatic to skeletal muscle, autonomic to everything you cannot choose. */
   MODELS['Neural pathways and coordination'] = function (host) {
     var sys = 'somatic';
     function draw() {
+      var CX = 96, OUT = 150;              /* the cord's output point */
       var s = svgWrap(T('The central nervous system, the peripheral nerves, and the two exits',
-        '中枢神经系统、周围神经与两条出口'), 560, 262,
+        '中枢神经系统、周围神经与两条出口'), 560, 330,
         AN.head('d1a') +
-        /* the control room */
-        AN.brain(96, 96, 1) +
-        '<text class="small" x="96" y="246" text-anchor="middle">' + esc(T('CNS · brain + cord', '中枢 · 脑与脊髓')) + '</text>' +
-        AN.cord(96, 210, 34) + AN.canal(96, 210, 34) +
-        /* the trunk of the cord */
-        '<line class="an-cordline" x1="96" y1="150" x2="96" y2="182"/>' +
-        /* the two exits as real destinations */
-        AN.spindle(300, 96, 110) +
-        '<rect class="an-muscle" x="252" y="132" width="96" height="34" rx="14"/>' +
-        '<text class="small" x="300" y="182" text-anchor="middle">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
-        AN.heart(432, 92, 0.62) + AN.lungs(492, 96, 0.55) + AN.kidney(432, 176, 0.6) + AN.liver(492, 176, 0.6) +
-        '<text class="small" x="462" y="228" text-anchor="middle">' + esc(T('glands · smooth · heart', '腺体 · 平滑肌 · 心肌')) + '</text>' +
-        /* the routes */
+        /* ── the control room, on the left ── */
+        AN.brain(CX, 78, 1) +
+        '<line class="an-cordline" x1="' + CX + '" y1="126" x2="' + CX + '" y2="158"/>' +
+        AN.cord(CX, 190, 38) + AN.canal(CX, 190, 38) +
+        /* a single, clearly marked outlet on the right edge of the cord */
+        '<circle class="an-comdot" cx="' + (CX + 44) + '" cy="190" r="7"/>' +
+        '<text class="small" x="' + CX + '" y="248" text-anchor="middle">' + esc(T('CNS · brain + cord', '中枢 · 脑与脊髓')) + '</text>' +
+        /* ── row 1: somatic target, ABOVE the outlet ── */
+        AN.spindle(320, 74, 108) +
+        '<rect class="an-muscle" x="272" y="112" width="96" height="36" rx="14"/>' +
+        '<text class="small" x="320" y="168" text-anchor="middle" class="an-lab-neg">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
+        /* ── row 2: autonomic targets, BELOW the outlet ── */
+        AN.heart(268, 244, 0.5) + AN.lungs(340, 240, 0.5) +
+        AN.kidney(410, 248, 0.52) + AN.liver(470, 246, 0.5) +
+        '<text class="small" x="368" y="302" text-anchor="middle">' + esc(T('glands · smooth muscle · heart', '腺体 · 平滑肌 · 心肌')) + '</text>' +
+        /* every autonomic line leaves from the SAME outlet point */
         (sys === 'somatic'
-          ? AN.axon(140, 210, 246, 132, 'on') + '<text class="small" x="188" y="186" text-anchor="middle">' + esc(T('somatic', '躯体')) + '</text>'
-          : AN.axon(140, 210, 400, 96, 'on') + AN.axon(400, 96, 470, 100, 'on') + AN.axon(400, 96, 492, 104, 'on') +
-          AN.axon(400, 96, 432, 180, 'on') + AN.axon(400, 96, 492, 180, 'on') +
-          '<text class="small" x="228" y="150" text-anchor="middle">' + esc(T('autonomic', '自主')) + '</text>') +
-        (sys === 'autonomic' ? '<line class="an-dim" x1="140" y1="210" x2="246" y2="132" stroke-dasharray="5 4"/>' : ''));
+          ? AN.connPath('M' + OUT + ' 190 C' + (OUT + 30) + ' 190 ' + 300 + ' 130 300 128', 'hot') +
+          AN.runPath('M' + OUT + ' 190 C' + (OUT + 30) + ' 190 ' + 300 + ' 130 300 128', 'hot', 1.5) +
+          '<text class="small" x="' + (OUT + 46) + '" y="150" text-anchor="middle" class="an-lab-neg">' + esc(T('somatic', '躯体')) + '</text>'
+          : [268, 340, 410, 470].map(function (tx, k) {
+            var d = 'M' + OUT + ' 190 C' + (OUT + 26) + ' 190 ' + (OUT + 26) + ' ' + (250 + k * 12) + ' ' + tx + ' ' + (244 + k * 4);
+            return AN.connPath(d, 'hot') + AN.runPath(d, 'hot', 1.4 + k * 0.12);
+          }).join('') +
+          '<text class="small" x="' + (OUT + 30) + '" y="216" text-anchor="middle" class="an-lab-neg">' + esc(T('autonomic', '自主')) + '</text>') +
+        /* the inactive route stays visible but dead, so you can compare */
+        (sys === 'somatic'
+          ? '<path class="an-conn off" d="M' + OUT + ' 190 C' + (OUT + 26) + ' 190 ' + (OUT + 26) + ' 230 268 246"/>'
+          : '<path class="an-conn off" d="M' + OUT + ' 190 C' + (OUT + 30) + ' 190 300 130 300 128"/>'));
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which set of nerves is carrying the signal?', '正在传递信号的是哪一套神经？')) + '</div>' +
-        tools([['somatic', T('Voluntary — skeletal muscle', '躯体 · 随意控制骨骼肌')],
-        ['autonomic', T('Automatic — organs and glands', '自主 · 内脏与腺体')]], sys) +
-        '<div class="a11-panel" data-p="main"><div class="a11-hd"><b>' +
-        esc(T('Two exits from one control room', '同一个控制中心，两条出口')) + '</b></div>' + s +
-        '<div class="kv-legend a11-leg">' +
-        lg('an-l-grey', T('grey matter (decides)', '灰质（决策）')) +
-        lg('an-l-white', T('white matter (carries)', '白质（传导）')) +
-        lg('an-l-muscle', T('skeletal muscle', '骨骼肌')) +
-        lg('an-l-organ', T('internal organ', '内脏器官')) + '</div></div>' +
+        tools([['somatic', T('Voluntary — to skeletal muscle', '躯体 · 到达骨骼肌')],
+        ['autonomic', T('Automatic — to organs and glands', '自主 · 到达内脏与腺体')]], sys) +
+        apanel('main', T('Two exits from one control room', '同一个控制中心，两条出口'),
+          T('The red dot is the single outlet. Every line leaves from that dot.', '红点是唯一的出口点，所有连线都从该点引出。'), s,
+          lg('an-l-grey', T('grey matter (decides)', '灰质（决策）')) +
+          lg('an-l-white', T('white matter (carries)', '白质（传导）')) +
+          lg('an-l-muscle', T('skeletal muscle', '骨骼肌')) +
+          lg('an-l-organ', T('internal organ', '内脏器官'))) +
         '<div class="kv-callout"></div>' +
-        note('The CNS — brain and spinal cord — processes information and coordinates the response. The PNS is every nerve outside it, and it carries nothing but traffic. Somatic pathways end in skeletal muscle, so you can decide when they fire. Autonomic pathways end in glands, smooth muscle and cardiac muscle, so you cannot decide when they fire — they run while you sleep.',
-          '中枢神经系统（脑与脊髓）处理信息并协调反应；周围神经系统是它以外的所有神经，只负责“跑腿”。躯体通路终止于骨骼肌，你可以决定何时兴奋；自主通路终止于腺体、平滑肌和心肌，你无法决定——它们在你睡觉时仍在工作。');
+        note('The CNS — brain and spinal cord — processes information and coordinates the response. The PNS is every nerve outside it, and it carries nothing but traffic. Somatic pathways end in skeletal muscle, so you can decide when they fire: that is why you can start a jump on purpose. Autonomic pathways end in glands, smooth muscle and cardiac muscle, so you cannot decide when they fire — they keep running while you sleep.',
+          '中枢神经系统（脑与脊髓）处理信息并协调反应；周围神经系统是它以外的所有神经，只负责“跑腿”。躯体通路终止于骨骼肌，你可以决定何时兴奋——这正是你能主动起跳的原因。自主通路终止于腺体、平滑肌和心肌，你无法决定——它们在你睡觉时仍在工作。');
       outs(host, '.kv-callout', sys === 'somatic'
-        ? T('Somatic: you choose the moment. That is why you can start a jump on purpose — and why you cannot start your own heartbeat.',
-          '躯体神经：时机由你决定。所以你能主动起跳，却无法主动让自己的心跳开始。')
-        : T('Autonomic: the body decides the moment. These are the nerves that keep you alive while your attention is somewhere else entirely.',
-          '自主神经：时机由身体决定。正是它们在你注意力完全 elsewhere 时维持着你的生命。'));
+        ? T('The signal leaves the cord for skeletal muscle only. You choose the moment — which is also why you cannot choose your heartbeat.',
+          '信号只从脊髓走向骨骼肌。时机由你决定——这也正是你无法决定自己心跳的原因。')
+        : T('The same outlet now fans out to four organs at once. Notice every line starts at the same red dot, so you can see it is one system leaving one place.',
+          '同一个出口点现在同时向四个器官分送。注意每条线都从同一个红点出发，可见这是同一系统从同一处发出。'));
       marks(host, '.kv-tools', sys);
     }
     wire(host, '.kv-tools', function (v) { sys = v; draw(); });
     draw();
   };
 
-  /* ── D1.2 · A.1.2 Systems working together ─────────────────────────────
-     Real organs, and what each one is actually doing to the others. */
-  MODELS['Systems working together'] = function (host) {
+MODELS['Systems working together'] = function (host) {
     var D = [
-      { id: 'o2', en: 'Oxygen in, carbon dioxide out', zh: '吸入氧气，排出二氧化碳', why: 'Lungs feed every other organ; muscles only burn fuel if the lungs keep supplying it.', whyZh: '肺供养其他所有器官；没有氧，肌肉就烧不动燃料。' },
-      { id: 'c', en: 'Pump oxygenated blood to the muscle', zh: '把含氧血泵到肌肉', why: 'The heart is the delivery system; a muscle can only use what arrives.', whyZh: '心脏是配送系统；肌肉只能用送到的东西。' },
-      { id: 'm', en: 'Burn fuel for heat and force', zh: '燃烧燃料产生热与力', why: 'Muscle turns glucose and oxygen into ATP, heat and force.', whyZh: '肌肉把葡萄糖与氧气变成 ATP、热量和力量。' },
-      { id: 'k', en: 'Balance water and salts', zh: '平衡水分与盐分', why: 'Every cell needs the right ion concentration, or it cannot work.', whyZh: '每个细胞都需要正确的离子浓度才能工作。' },
-      { id: 'l', en: 'Store fuel, detoxify, make proteins', zh: '储存燃料、解毒、制造蛋白质', why: 'The liver buffers glucose and clears what the muscles left behind.', whyZh: '肝脏缓冲血糖，并清除肌肉留下的东西。' }
+      { id: 'o2', en: 'Oxygen in, carbon dioxide out', zh: '吸入氧气，排出二氧化碳', on: 1 },
+      { id: 'c', en: 'Pump oxygenated blood to the muscle', zh: '把含氧血泵到肌肉', on: 1 },
+      { id: 'm', en: 'Burn fuel for heat and force', zh: '燃烧燃料产生热与力', on: 1 },
+      { id: 'k', en: 'Balance water and salts', zh: '平衡水分与盐分', on: 0 },
+      { id: 'l', en: 'Store fuel, detoxify, make proteins', zh: '储存燃料、解毒、制造蛋白质', on: 0 }
     ];
-    var on = { o2: 1, c: 1, m: 1, k: 0, l: 0 };
+    var ORG = { lungs: [108, 80], heart: [250, 80], muscle: [392, 80], kidney: [392, 206], liver: [250, 206] };
+    var HUB = [392, 104];                 /* the one point on the muscle */
+    var R = { lungs: 34, heart: 30, kidney: 30, liver: 32, muscle: 52 };
     function draw() {
-      var s = svgWrap(T('Five organs that depend on each other during exercise', '运动时相互依赖的五个器官'), 560, 260,
-        AN.head('d2a') +
-        AN.lungs(90, 92, 0.8) + AN.heart(190, 88, 0.66) +
-        '<rect class="an-muscle" x="266" y="66" width="104" height="46" rx="18"/>' +
-        '<text class="small" x="318" y="128" text-anchor="middle">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
-        AN.kidney(90, 186, 0.72) + AN.liver(200, 186, 0.72) +
-        /* the couplings, dimmed when the organ is not in play */
-        '<path class="an-link' + (on.o2 && on.m ? ' on' : '') + '" d="M112 92 h44" marker-end="url(#d2a)"/>' +
-        '<path class="an-link' + (on.c ? ' on' : '') + '" d="M212 88 h50" marker-end="url(#d2a)"/>' +
-        '<path class="an-link' + (on.l && on.m ? ' on' : '') + '" d="M318 116 v40 h-90" marker-end="url(#d2a)"/>' +
-        '<path class="an-link' + (on.k ? ' on' : '') + '" d="M300 190 h-176" marker-end="url(#d2a)"/>' +
-        '<text class="small" x="90" y="248" text-anchor="middle">' + esc(T('kidney', '肾')) + '</text>' +
-        '<text class="small" x="200" y="248" text-anchor="middle">' + esc(T('liver', '肝')) + '</text>' +
-        '<text class="small" x="90" y="42" text-anchor="middle">' + esc(T('lungs', '肺')) + '</text>' +
-        '<text class="small" x="190" y="42" text-anchor="middle">' + esc(T('heart', '心')) + '</text>');
-      var hits = D.filter(function (d) { return on[d.id]; });
+      var on = {}; D.forEach(function (d) { on[d.id] = d.on; });
+      /* lungs → heart → muscle → kidney → liver → muscle: a closed ring */
+      var LINKS = [
+        ['lungs', 'heart', 'o2', false], ['heart', 'muscle', 'c', false],
+        ['muscle', 'kidney', 'm', true], ['kidney', 'liver', 'k', true],
+        ['liver', 'muscle', 'l', true]
+      ];
+      function pt(o) { return o === 'muscle' ? HUB : ORG[o]; }
+      var s = svgWrap(T('Five organs arranged in a ring so every link is short', '五个器官排成环状，每条连线都很短'), 560, 300,
+        /* organs, drawn first so the links sit on top and read as connections */
+        AN.lungs(ORG.lungs[0], ORG.lungs[1], 0.86) + AN.heart(ORG.heart[0], ORG.heart[1], 0.8) +
+        '<rect class="an-muscle" x="' + (ORG.muscle[0] - 52) + '" y="' + (ORG.muscle[1] - 24) +
+        '" width="104" height="48" rx="18"/>' +
+        AN.kidney(ORG.kidney[0], ORG.kidney[1], 0.78) + AN.liver(ORG.liver[0], ORG.liver[1], 0.78) +
+        LINKS.map(function (L) {
+          var a = pt(L[0]), b = pt(L[1]), live = on[L[2]];
+          var d = 'M' + a[0] + ' ' + a[1] + ' L' + b[0] + ' ' + b[1];
+          return AN.connPath(d, live ? 'hot' : 'off') + (live ? AN.runPath(d, 'hot', 1.4) : '');
+        }).join('') +
+        /* the hub, drawn last and on top, so it is unmistakably the source */
+        '<circle class="an-hub" cx="' + HUB[0] + '" cy="' + HUB[1] + '" r="7"/>' +
+        /* row one: labels ABOVE, clear of every shape and every link */
+        '<text class="small" x="108" y="42" text-anchor="middle">' + esc(T('lungs', '肺')) + '</text>' +
+        '<text class="small" x="250" y="42" text-anchor="middle">' + esc(T('heart', '心')) + '</text>' +
+        '<text class="small" x="392" y="42" text-anchor="middle">' + esc(T('muscle', '肌肉')) + '</text>' +
+        /* row two: labels BELOW */
+        '<text class="small" x="392" y="262" text-anchor="middle">' + esc(T('kidney', '肾')) + '</text>' +
+        '<text class="small" x="250" y="262" text-anchor="middle">' + esc(T('liver', '肝')) + '</text>' +
+        '<text class="small" x="320" y="288" text-anchor="middle">' +
+        esc(T('the dot on the muscle is the one point every muscle link leaves from', '肌肉上的红点是所有肌肉连线的唯一起点')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('What is the body actually doing right now?', '身体此刻在做什么？')) + '</div>' +
         '<div class="ib-practices">' + D.map(function (d) {
-          return '<button type="button" data-v="' + d.id + '" aria-pressed="' + (on[d.id] ? 'true' : 'false') + '" class="' + (on[d.id] ? 'on' : '') + '">' +
-            esc(T(d.en, d.zh)) + '</button>';
+          return '<button type="button" data-v="' + d.id + '" aria-pressed="' + (d.on ? 'true' : 'false') +
+            '" class="' + (d.on ? 'on' : '') + '">' + esc(T(d.en, d.zh)) + '</button>';
         }).join('') + '</div>' +
-        apanel('main', T('Five organs, one loop', '五个器官，一个闭环'), T('Tap what is happening — the links light up when both ends are working', '点选正在发生的事——两端都在工作时连线才亮起'), s,
-          lg('an-l-on', T('this pair is coupled', '这一对正在耦合')) + lg('an-l-off', T('not involved right now', '此刻不参与'))) +
+        apanel('main', T('Five organs, one closed ring', '五个器官，一个闭环'),
+          T('A marching line means the signal is flowing. A faint line means it is not.', '行进的虚线表示信号正在流动；暗淡的线表示没有。'), s,
+          lg('an-l-on', T('flowing now', '正在流动')) + lg('an-l-off', T('not involved', '不参与'))) +
         '<div class="kv-callout"></div>';
-      outs(host, '.kv-callout', hits.length === 0
-        ? T('Nothing switched on yet. Pick one — a body at rest is still doing all five, just at a lower rate.', '还没有选任何一项。身体在休息时五件事仍然都在做，只是速率更低。')
-        : T(hits.length === 1 ? hits[0].why : hits[0].why + ' ' + hits[1].why,
-          hits.length === 1 ? hits[0].whyZh : hits[0].whyZh + hits[1].whyZh));
-      $$('.ib-practices button', host).forEach(function (b) { b.classList.toggle('on', b.getAttribute('aria-pressed') === 'true'); });
+      var n = D.filter(function (d) { return d.on; }).length;
+      outs(host, '.kv-callout', n === 0
+        ? T('Nothing switched on yet. A body at rest is still doing all five — just more slowly.',
+          '还没有选任何一项。休息中的身体五件事仍然都在做，只是更慢。')
+        : n + T(' of 5 organs are running. Follow any line from end to end: it leaves the centre of the organ it comes from — or the muscle’s single red dot — and ends at the centre of the organ it feeds.',
+          ' 个器官正在工作。沿着任意一条线从一端看到另一端：它从所离开器官的中心（或肌肉唯一的红点）出发，终止于它所供给器官的中心。'));
     }
-    wire(host, '.ib-practices', function (v) { on[v] = on[v] ? 0 : 1; draw(); });
+    wire(host, '.ib-practices', function (v) {
+      D.forEach(function (d) { if (d.id === v) d.on = d.on ? 0 : 1; });
+      draw();
+    });
     draw();
   };
 
-  /* ── D1.3 · A.1.2 Feedback and integrated examples ─────────────────────
-     The same loop drawn twice: one that corrects, one that amplifies. */
-  MODELS['Feedback and integrated examples'] = function (host) {
+MODELS['Feedback and integrated examples'] = function (host) {
     var VAR = [
-      { id: 'temp', en: 'Temperature', zh: '体温', neg: T('Too hot → you sweat → you cool down', '太热 → 出汗 → 降温'), pos: T('Too cold → you shiver → you warm up', '太冷 → 寒战 → 升温') },
-      { id: 'glu', en: 'Blood glucose', zh: '血糖', neg: T('Too high → insulin releases it → back to range', '过高 → 胰岛素释放 → 回到范围'), pos: T('Too low → glucagon releases it → back to range', '过低 → 胰高血糖素释放 → 回升') },
-      { id: 'bp', en: 'Blood pressure', zh: '血压', neg: T('Too high → heart slows and vessels widen → pressure falls', '过高 → 心率下降、血管舒张 → 血压回落'), pos: T('During birth → oxytocin amplifies → stronger contractions', '分娩时 → 催产素放大 → 宫缩更强') }
+      { id: 'temp', en: 'Temperature', zh: '体温', neg: 'sweating and shivering pull it back to the set point', negZh: '出汗与寒战把它拉回设定点' },
+      { id: 'glu', en: 'Blood glucose', zh: '血糖', neg: 'insulin releases glucose, glucagon restores it', negZh: '胰岛素释放葡萄糖，胰高血糖素将其恢复' },
+      { id: 'bp', en: 'Blood pressure', zh: '血压', neg: 'baroreceptors reset it within seconds', negZh: '压力感受器在数秒内重置' }
     ];
     var v = 'temp';
     function draw() {
-      var g = VAR.filter(function (x) { return x.id === v; })[0];
-      var s = svgWrap(T('Negative and positive feedback on ' + g.en, '关于' + g.zh + '的负反馈与正反馈'), 560, 250,
-        AN.head('d3a') +
-        /* a variable, a sensor, a control centre, an effector, drawn as objects */
-        '<circle class="an-var" cx="110" cy="80" r="26"/><text class="small" x="110" y="84" text-anchor="middle">' + esc(T(g.en, g.zh)) + '</text>' +
-        '<rect class="an-effector" x="216" y="58" width="88" height="44" rx="12"/><text class="small" x="260" y="85" text-anchor="middle">' + esc(T('effector', '效应器')) + '</text>' +
-        '<path class="an-box" d="M356 52 h120 v56 h-120 z"/><text class="small" x="416" y="76" text-anchor="middle">' + esc(T('control centre', '控制中心')) + '</text>' +
-        '<text class="small" x="416" y="94" text-anchor="middle">' + esc(T('set point', '设定点')) + '</text>' +
-        /* the correcting loop */
-        '<path class="an-flow neg" d="M136 80 h74" marker-end="url(#d3a)"/>' +
-        '<path class="an-flow neg" d="M304 80 h46" marker-end="url(#d3a)"/>' +
-        '<path class="an-flow neg" d="M416 108 v46 h-306 v-30" marker-end="url(#d3a)"/>' +
-        '<text class="small" x="264" y="176" text-anchor="middle" class="an-lab-neg">' + esc(T('negative feedback · counters the change', '负反馈 · 抵消变化')) + '</text>' +
-        /* the amplifying loop, in the other colour */
-        '<path class="an-flow pos" d="M356 130 h-44 v34" marker-end="url(#d3a)"/>' +
-        '<text class="small" x="200" y="230" text-anchor="middle" class="an-lab-pos">' + esc(T('positive feedback · amplifies to an endpoint', '正反馈 · 放大直至终点')) + '</text>');
+      var cur = VAR.filter(function (x) { return x.id === v; })[0];
+      var X0 = 168, Y0 = 74, X1 = 452, Y1 = 214, R = 20;
+      var d = 'M' + (X0 + R) + ' ' + Y0 + ' H' + (X1 - R) + ' A' + R + ' ' + R + ' 0 0 1 ' + X1 + ' ' + (Y0 + R) +
+        ' V' + (Y1 - R) + ' A' + R + ' ' + R + ' 0 0 1 ' + (X1 - R) + ' ' + Y1 + ' H' + (X0 + R) +
+        ' A' + R + ' ' + R + ' 0 0 1 ' + X0 + ' ' + (Y1 - R) + ' V' + (Y0 + R) +
+        ' A' + R + ' ' + R + ' 0 0 1 ' + (X0 + R) + ' ' + Y0;
+      /* the return leg: leaves box 1, runs clear of the loop, comes home */
+      var dRet = 'M' + 104 + ' 168 V246 H' + 300;
+      var s = svgWrap(T('The loop carries the signal; the return leg carries the response', '环路传递信号，返回支路传递反应'), 560, 300,
+        /* the loop, with the signal running all the way round it */
+        AN.connPath(d, '') + AN.runPath(d, '', 3.4) +
+        AN.connPath(dRet, 'ret-neg') + AN.runPath(dRet, 'ret-neg', 1.6) +
+        /* an arrowhead on the return leg, so its direction is unmistakable */
+        '<path class="an-arrowhead" d="M300 240 l12 6 l-12 6 z"/>' +
+        /* 1 — the thing being measured, on the left edge */
+        '<rect class="an-var" x="58" y="140" width="92" height="42" rx="12"/>' +
+        '<text class="small" x="104" y="132" text-anchor="middle">' + esc(T('1 measured', '1 测量')) + '</text>' +
+        '<text class="small" x="104" y="166" text-anchor="middle">' + esc(T('variable', '变量')) + '</text>' +
+        /* 2 — the effector, on the top edge */
+        '<rect class="an-effector" x="' + (X0 + 46) + '" y="' + (Y0 - 44) + '" width="96" height="40" rx="12"/>' +
+        '<text class="small" x="' + (X0 + 94) + '" y="' + (Y0 - 50) + '" text-anchor="middle">' + esc(T('2 responds', '2 反应')) + '</text>' +
+        '<text class="small" x="' + (X0 + 94) + '" y="' + (Y0 - 18) + '" text-anchor="middle">' + esc(T('effector', '效应器')) + '</text>' +
+        /* 3 — the control centre, on the right edge */
+        '<rect class="an-box" x="' + (X1 + 18) + '" y="140" width="96" height="42" rx="12"/>' +
+        '<text class="small" x="' + (X1 + 66) + '" y="132" text-anchor="middle">' + esc(T('3 decides', '3 决策')) + '</text>' +
+        '<text class="small" x="' + (X1 + 66) + '" y="166" text-anchor="middle">' + esc(T('control', '控制中心')) + '</text>' +
+        /* the two captions, in their own bands */
+        '<text class="small" x="300" y="272" text-anchor="middle">' +
+        esc(T('the signal runs clockwise: 1 → 2 → 3 → back to 1', '信号顺时针运行：1 → 2 → 3 → 回到 1')) + '</text>' +
+        '<text class="small" x="200" y="288" text-anchor="middle" class="an-lab-neg">' +
+        esc(T('return leg: the only thing that decides + or −', '返回支路：决定正负的唯一部分')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which variable are you following?', '你在跟踪哪个变量？')) + '</div>' +
         tools(VAR.map(function (x) { return [x.id, T(x.en, x.zh)]; }), v) +
-        apanel('main', T('One loop, two directions', '同一个环，两个方向'), T('The parts are the same — only the sign of the response differs', '结构完全相同，区别只在于反应的方向'), s,
-          lg('an-l-neg', T('negative · returns to the set point', '负反馈 · 回到设定点')) +
-          lg('an-l-pos', T('positive · runs to an endpoint', '正反馈 · 放大到终点'))) +
+        apanel('main', T('One loop, drawn once and used everywhere', '同一个环路，处处通用'),
+          T('The moving dot is the signal. The green leg is the response coming back.', '移动的小点是信号；绿色的支路是返回的响应。'), s,
+          lg('an-l-neg', T('counters the change', '抵消变化')) +
+          lg('an-l-pos', T('amplifies to an endpoint', '放大至终点'))) +
         '<div class="kv-meters">' +
-        '<div class="kv-frow"><span>' + esc(T('counters the change', '抵消变化')) + '</span><div class="kv-fbar"><i class="an-b-neg"></i></div><b class="vneg"></b></div>' +
-        '<div class="kv-frow"><span>' + esc(T('amplifies the change', '放大变化')) + '</span><div class="kv-fbar"><i class="an-b-pos"></i></div><b class="vpos"></b></div>' +
+        frow(T('counters the change', '抵消变化'), 'an-b-neg') +
+        frow(T('amplifies the change', '放大变化'), 'an-b-pos') +
         '</div>' +
-        note('Both loops contain a receptor, a control centre and an effector. The only difference is what happens after the effector acts: a negative feedback loop opposes the original change and brings the variable back to its set point, which is what homeostasis is made of. A positive feedback loop pushes the same direction harder until it reaches an endpoint and switches itself off — useful in blood clotting and in childbirth, dangerous everywhere else.',
-          '两种环路都包含受体、控制中心和效应器。唯一的区别在于效应器作用之后会发生什么：负反馈环路抵消原来的变化，把变量拉回设定点——稳态正是由它构成的；正反馈环路朝同一方向不断加强，直到达到某个终点并自行关闭——在凝血和分娩中有用，在其他地方都危险。');
+        note('Every feedback loop has the same three parts: a receptor that measures the variable, a control centre that compares it with the set point, and an effector that acts. The signal travels the loop in one direction, and that journey is identical in every loop on this page. What makes a loop negative or positive is only the sign of the return leg — the response coming back. If the response opposes the original change the variable returns to its set point, and that is what homeostasis is made of. If the response pushes the same way the loop runs away until it reaches an endpoint and switches itself off, as in blood clotting and childbirth. The three parts never change between loops; only the sign does.',
+          '每个反馈环路都有同样的三个部件：测量变量的受体、把它与设定点比较的控制中心，以及采取行动的效应器。信号沿环路单向运行——在本页的每一个环路中，这段行程完全相同。决定正负的只有返回支路的符号，也就是返回的响应。如果响应与原来的变化相反，变量就回到设定点，稳态正由此构成；如果响应与原变化同向，环路便不断放大，直到达到某个终点并自行关闭，凝血与分娩即是如此。三个部件在环路之间从不改变，改变的只有符号。');
       bar(host.querySelector('.an-b-neg'), 1, 'var(--green)');
       bar(host.querySelector('.an-b-pos'), 0, 'var(--c0)');
-      outs(host, '.vneg', T('always', '始终'));
-      outs(host, '.vpos', T('only to an endpoint', '只在有终点时'));
+      outs(host, '.van-b-neg', T('always', '始终'));
+      outs(host, '.van-b-pos', T('only to an endpoint', '只在有终点时'));
     }
     wire(host, '.kv-tools', function (x) { v = x; draw(); });
     draw();
   };
 
-  /* ── D1.4 · A.1.3 Voluntary movement and reflexes ───────────────────────
-     The same muscle, two routes in. A reflex never reaches the brain. */
-  MODELS['Voluntary movement and reflexes'] = function (host) {
+MODELS['Voluntary movement and reflexes'] = function (host) {
     var mode = 'reflex';
     function draw() {
       var brainY = 78, cordY = 186, musY = 268;
@@ -3376,11 +3460,10 @@
           ? T('Slightly down — normal on a hot day. The body is drawing on its own reserves.', '略微亏空——炎热天气的正常现象，身体正在动用自身储备。')
           : T('In balance. Surplus is just a larger urine volume, not storage.', '处于平衡。多出的部分只会变成更多的尿液，并不会被储存起来。'));
     }
-    $$('input[type=range]', host).forEach(function (inp) {
-      inp.addEventListener('input', function () {
+    wireRange(host, function (inp) {
         if (inp.closest('[data-v=i]')) intake = Number(inp.value); else sweat = Number(inp.value);
         draw();
-      });
+
     });
     draw();
   };
@@ -3390,68 +3473,74 @@
   MODELS['ADH and cardiovascular drift'] = function (host) {
     var hrs = 2, sweat = 2;
     function draw() {
-      /* plasma volume falls → venous return falls → stroke volume falls → HR rises */
-      var lost = hrs * sweat * 0.6;             /* rough litres */
+      var lost = hrs * sweat * 0.6;
       var vol = clamp(100 - lost * 4.2, 46, 100);
       var hr = Math.round(62 + (100 - vol) * 0.78);
       var sbv = Math.round(78 - (100 - vol) * 0.32);
-      var s = svgWrap(T('How sweating pulls water out of the blood', '出汗如何把水从血液中拉走'), 560, 270,
-        AN.head('d7a') +
-        AN.pituitary(84, 76, 0.8) +
-        AN.kidney(212, 168, 0.82) +
-        AN.eccrine(452, 118, 92) +
-        /* the loop */
-        AN.axon(112, 90, 196, 150, 'on') +
-        '<circle class="an-horm" cx="156" cy="122" r="7"/>' +
-        '<text class="small" x="156" y="106" text-anchor="middle">' + esc(T('ADH', 'ADH')) + '</text>' +
-        AN.axon(238, 176, 430, 122, 'on') +
-        '<path class="an-flow bad" d="M470 150 v40 h-250" marker-end="url(#d7a)"/>' +
-        '<text class="small" x="330" y="212" text-anchor="middle">' + esc(T('water leaves the blood', '水离开血液')) + '</text>' +
-        AN.heart(112, 200, 0.66) +
-        AN.axon(212, 206, 132, 206, 'on') +
-        '<text class="small" x="172" y="196" text-anchor="middle">' + esc(T('faster beat', '心跳加快')) + '</text>');
+      var Y = 132;
+      var P = [88, Y], K = [232, Y], G = [376, Y], H = [500, Y];
+      var dADH = 'M' + (P[0] + 36) + ' ' + P[1] + ' H' + (K[0] - 40);
+      var dSave = 'M' + K[0] + ' ' + (K[1] - 34) + ' V' + (K[1] - 74);
+      var dLose = 'M' + (G[0] + 40) + ' ' + G[1] + ' H' + (H[0] - 28);
+      var s = svgWrap(T('The drift chain: gland, hormone, kidney, consequence', '漂移链条：腺体、激素、肾脏、后果'), 560, 262,
+        AN.pituitary(P[0], P[1] - 16, 0.8) + AN.kidney(K[0], K[1] - 4, 0.8) +
+        AN.eccrine(G[0], G[1] - 12, 84) + AN.heart(H[0], H[1] - 4, 0.62) +
+        /* route 1 — the hormone, in red, with the molecule travelling */
+        AN.connPath(dADH, 'hot') + AN.runPath(dADH, 'hot', 1.3) +
+        '<circle class="an-horm" cx="' + ((P[0] + 36 + K[0] - 40) / 2) + '" cy="' + P[1] + '" r="8"/>' +
+        '<text class="small" x="160" y="' + (P[1] - 16) + '" text-anchor="middle" class="an-lab-pos">ADH</text>' +
+        /* water that IS saved, shown as an upward stub with a blocked bar */
+        AN.connPath(dSave, '') + '<path class="an-block" d="M' + (K[0] - 14) + ' ' + (K[1] - 74) +
+        ' h28 M' + (K[0] - 8) + ' ' + (K[1] - 84) + ' l-8 10 l8 10"/>' +
+        '<text class="small" x="' + K[0] + '" y="' + (K[1] - 92) + '" text-anchor="middle">' +
+        esc(T('water kept', '水被留住')) + '</text>' +
+        /* route 2 — the loss that carries on regardless */
+        AN.connPath(dLose, 'off') + AN.runPath(dLose, 'off', 1.5) +
+        '<text class="small" x="438" y="' + (G[1] - 16) + '" text-anchor="middle" class="an-lab-pos">' +
+        esc(T('sweat', '汗液')) + '</text>' +
+        /* the label band above, one short label per station */
+        '<text class="small" x="' + P[0] + '" y="52" text-anchor="middle">' + esc(T('1 · pituitary', '1 · 垂体')) + '</text>' +
+        '<text class="small" x="' + K[0] + '" y="52" text-anchor="middle">' + esc(T('2 · kidney', '2 · 肾脏')) + '</text>' +
+        '<text class="small" x="' + G[0] + '" y="52" text-anchor="middle">' + esc(T('3 · sweat', '3 · 出汗')) + '</text>' +
+        '<text class="small" x="' + H[0] + '" y="52" text-anchor="middle">' + esc(T('4 · heart', '4 · 心脏')) + '</text>' +
+        /* the caption band below */
+        '<text class="small" x="300" y="228" text-anchor="middle">' +
+        esc(T('ADH can reduce urine loss, but it cannot stop sweat —', 'ADH 能减少尿量流失，但止不住出汗——')) + '</text>' +
+        '<text class="small" x="300" y="248" text-anchor="middle">' +
+        esc(T('so plasma volume still falls, and the heart compensates', '因此血容量仍在下降，心脏必须代偿')) + '</text>');
       host.innerHTML =
-        '<label class="kv-lab" data-v="h"><span class="ibm-q">' + esc(T('Hours in the heat', '在高温环境中的小时数')) +
-        ' <b class="kv-v"></b></span><input type="range" min="0" max="60" step="1" value="' + hrs + '"></label>' +
-        '<label class="kv-lab" data-v="s"><span class="ibm-q">' + esc(T('Sweat rate (L per hour)', '出汗速率（升／小时）')) +
-        ' <b class="kv-v"></b></span><input type="range" min="0" max="30" step="1" value="' + sweat + '"></label>' +
-        apanel('main', T('The drift loop, drawn as a loop', '漂移环路，画成一个环'), T('Pituitary → ADH → kidney holds on; blood volume still falls', '垂体 → ADH → 肾脏保水；但血容量仍在下降'), s,
+        qrange('h', T('Hours in the heat', '在高温环境中的小时数'), 0, 60, hrs, 1) +
+        qrange('s', T('Sweat rate (L per hour)', '出汗速率（升／小时）'), 0, 30, sweat, 1) +
+        apanel('main', T('The drift chain, in four stations', '漂移链条，四个站点'),
+          T('Read it 1 → 4. The filled circle travelling the red line is the hormone.', '按 1→4 阅读。沿红线移动的实心圆是激素。'), s,
           lg('an-l-gland', T('water reabsorbed back', '水被回收')) +
           lg('an-l-bad', T('volume lost from the blood', '血容量流失'))) +
         '<div class="kv-meters">' +
-        '<div class="kv-frow"><span>' + esc(T('plasma volume', '血浆容量')) + '</span><div class="kv-fbar"><i class="an-b-vol"></i></div><b class="vvol"></b></div>' +
-        '<div class="kv-frow"><span>' + esc(T('stroke volume', '每搏输出量')) + '</span><div class="kv-fbar"><i class="an-b-sv"></i></div><b class="vsv"></b></div>' +
-        '<div class="kv-frow"><span>' + esc(T('heart rate', '心率')) + '</span><div class="kv-fbar"><i class="an-b-hr"></i></div><b class="vhr"></b></div>' +
+        frow(T('plasma volume', '血浆容量'), 'an-b-vol') +
+        frow(T('stroke volume', '每搏输出量'), 'an-b-sv') +
+        frow(T('heart rate', '心率'), 'an-b-hr') +
         '</div><div class="kv-callout"></div>' +
-        note('Sweat comes from plasma, so plasma volume falls. Less blood returns to the heart, so stroke volume falls. Cardiac output is stroke volume × heart rate, so if one factor drops the other must rise to keep output steady — that is the rise in heart rate you feel. At the same time the pituitary releases ADH, which makes the kidney reabsorb water and produce a smaller, more concentrated urine. ADH is the body’s water-saving response, but it cannot stop the loss; it only reduces a different one.',
-          '汗来自血浆，因此血浆容量下降；回到心脏的血减少，每搏输出量随之下降。心输出量＝每搏输出量×心率，所以一项下降，另一项必须上升以维持输出——这正是你感觉到的心率加快。与此同时，垂体释放 ADH，使肾脏重吸收水分，排出更少更浓的尿。ADH 是身体的保水反应，但它无法阻止流失，只能减少另一条途径的流失。');
-      setv(host, 'h', '.kv-v', hrs + ' h');
-      setv(host, 's', '.kv-v', (sweat / 10).toFixed(1) + ' L/h');
+        note('Sweat comes from plasma, so plasma volume falls. Less blood returns to the heart, so stroke volume falls. Cardiac output is stroke volume × heart rate, so if one drops the other must rise to keep output steady — that is the rise in heart rate you feel. At the same time the pituitary releases ADH, which makes the kidney reabsorb water and produce a smaller, more concentrated urine. ADH is the body’s water-saving response, but it can only reduce a different route; it cannot stop the loss you care about.',
+          '汗来自血浆，因此血浆容量下降；回到心脏的血减少，每搏输出量随之下降。心输出量＝每搏输出量×心率，所以一项下降，另一项必须上升以维持输出——这正是你感觉到的心率加快。与此同时，垂体释放 ADH，使肾脏重吸收水分，排出更少更浓的尿。ADH 是身体的保水反应，但它只能减少另一条途径的流失，无法阻止你真正在意的这条。');
+      setv(host, 'h', '.kv-val', hrs + ' h');
+      setv(host, 's', '.kv-val', (sweat / 10).toFixed(1) + ' L/h');
       bar(host.querySelector('.an-b-vol'), vol / 100, 'var(--c2)');
       bar(host.querySelector('.an-b-sv'), sbv / 100, 'var(--green)');
       bar(host.querySelector('.an-b-hr'), (hr - 50) / 110, 'var(--c0)');
-      outs(host, '.vvol', vol + '%');
-      outs(host, '.vsv', sbv + '%');
-      outs(host, '.vhr', hr + ' bpm');
+      outs(host, '.van-b-vol', Math.round(vol) + '%');
+      outs(host, '.van-b-sv', sbv + '%');
+      outs(host, '.van-b-hr', hr + ' bpm');
       outs(host, '.kv-callout', lost < 0.4
-        ? T('Nothing much lost yet. Plasma volume is still essentially normal.',
-          '目前几乎没有流失，血浆容量基本正常。')
+        ? T('Nothing much lost yet. Plasma volume is still essentially normal.', '目前几乎没有流失，血浆容量基本正常。')
         : T('About ' + lost.toFixed(1) + ' L gone. The heart is compensating by beating ' + (hr - 62) + ' times a minute faster, and the kidney is saving what it can.',
           '已流失约 ' + lost.toFixed(1) + ' 升。心脏以每分钟多跳 ' + (hr - 62) + ' 次来补偿，肾脏则尽力保水。'));
     }
-    $$('input[type=range]', host).forEach(function (inp) {
-      inp.addEventListener('input', function () {
-        if (inp.closest('[data-v=h]')) hrs = Number(inp.value); else sweat = Number(inp.value);
-        draw();
-      });
+    wireRange(host, function (i) {
+      if (i.closest('[data-v=h]')) hrs = Number(i.value); else sweat = Number(i.value);
+      draw();
     });
     draw();
   };
-
-/* ══ batch D2 ══ */
-/* ══ batch D2 · Theme A, part 2 ══════════════════════════════════════════
-   The last ten Theme A sections. Same skeleton as every other model:
-   question -> control -> shape drawing -> legend -> callout -> bilingual note. */
 
   /* ── D2.1 · A.2.2 Macronutrients and individual needs ─────────────────── */
   MODELS['Macronutrients and individual needs'] = function (host) {
@@ -3546,7 +3635,7 @@
       outs(host, '.kv-callout', T(m.en + '. ' + m.job, m.zh + '。' + m.jobZh));
       marks(host, '.kv-tools', sel);
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { ea = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { ea = Number(i.value); draw(); });
     wire(host, '.kv-tools', function (v) { sel = v; draw(); });
     draw();
   };
@@ -3600,7 +3689,7 @@
       outs(host, '.kv-callout', T('At ' + fmt(t) + ' the dominant supply is ' + dom + '. All three are working; the mix is the only thing that changes.',
         '在' + fmt(t) + '时，主导的供应是' + dom + '。三者都在工作，变的只是比例。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { work = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { work = Number(i.value); draw(); });
     draw();
   };
 
@@ -3701,9 +3790,9 @@
             : T('Recovery is running ahead of load. That is detraining, not rest. Add a little stimulus.',
               '恢复跑在负荷前面。这不是休息，而是退步训练。加点刺激。')));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+    wireRange(host, function (i) {
       if (i.closest('[data-v=l]')) load = Number(i.value); else rec = Number(i.value); draw();
-    }); });
+    });
     draw();
   };
 
@@ -3788,7 +3877,7 @@
         : T('Regular activity slows the build-up and improves what you can do with the narrowing you already have.',
           '规律活动能减缓斑块的堆积，也能改善在已有狭窄情况下你能做到的程度。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { yrs = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { yrs = Number(i.value); draw(); });
     draw();
   };
 
@@ -3877,7 +3966,7 @@
           '已经超过第一个窗口。现在的任务就是在一整天里正常地继续吃和喝。'));
       marks(host, '.kv-tools', 'carb');
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { mins = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { mins = Number(i.value); draw(); });
     wire(host, '.kv-tools', function () { });
     draw();
   };
@@ -3926,9 +4015,9 @@
         : T('Indicators are trending back toward baseline. This is a good night to train, not to add load.',
           '各项指标正回到基线附近。今晚适合训练，不适合加量。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+    wireRange(host, function (i) {
       if (i.closest('[data-v=h]')) hrs = Number(i.value); else zones = Number(i.value); draw();
-    }); });
+    });
     draw();
   };
 
@@ -4149,7 +4238,7 @@
           : T('Type IIx recruited. Roughly ten times the power of a slow fibre — and the reason you cannot hold it.',
             'IIx 型被募集。功率约为慢肌纤维的十倍——这也正是你无法持续的原因。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { effort = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { effort = Number(i.value); draw(); });
     draw();
   };
 
@@ -4236,7 +4325,7 @@
           : T('Full contraction. Maximum overlap, minimum sarcomere length — and the point where tendon and connective tissue are taking the most strain.',
             '完全收缩。重叠最大、肌节最短——也正是在这个位置，肌腱与结缔组织承受的牵拉最大。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { w = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { w = Number(i.value); draw(); });
     draw();
   };
 
@@ -4326,9 +4415,9 @@
             : T('MA ' + ma.toFixed(2) + ' — a large sacrifice of force. This is a speed-and-range lever and it should not be used to move weight.',
               'MA ' + ma.toFixed(2) + ' —— 牺牲了大量力量。这是速度与范围型的杠杆，不该用来移动重物。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+    wireRange(host, function (i) {
       if (i.closest('[data-v=e]')) ea = Number(i.value); else la = Number(i.value); draw();
-    }); });
+    });
     draw();
   };
 
@@ -4418,9 +4507,9 @@
           : T('Stable, but the contact time is short — which means a high impulse for the same force. Bend more on landing to lengthen it.',
             '稳定，但接触时间偏短——意味着同样的力产生的冲量较大。落地时多屈一点来延长它。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+    wireRange(host, function (i) {
       if (i.closest('[data-v=c]')) contact = Number(i.value); else comH = Number(i.value); draw();
-    }); });
+    });
     draw();
   };
 
@@ -4502,7 +4591,7 @@
           : T('A sensible working range. You keep muscle and ligament capacity in reserve, which is where you want to be for most training.',
             '合理的工作范围。你保留了肌肉与韧带的余量，而在大多数训练中这正是你想要的。'));
     }
-    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { rom = Number(i.value); draw(); }); });
+    wireRange(host, function (i) { rom = Number(i.value); draw(); });
     draw();
   };
 
@@ -4786,6 +4875,18 @@
     var n = parseInt(String(sec.id).replace('ib-ch', ''), 10);
     return isNaN(n) ? 1 : n;
   }
+  function topicTerms(code, lesson) {
+    var out = [], seen = {}, add = function (t) {
+      if (!t || !t.en) return;
+      var k = String(t.en).toLowerCase();
+      if (seen[k]) return;
+      seen[k] = 1; out.push(t);
+    };
+    ownTerms(lesson).forEach(add);
+    (TERM_OVERRIDE[code] || []).forEach(add);
+    return out;
+  }
+
   function learnMount(item) {
     if (!item) return;
     if (item._ibLearn) return;
@@ -4802,7 +4903,9 @@
         Number((it.id || '').replace('ib-topic-', '')) || 0];
     });
     /* the topic's own key terms and quick checks, read from the DOM it rendered */
-    var terms = (TERM_OVERRIDE[code] || ownTerms(lesson)).slice(0, 8);
+    var terms = topicTerms(code, lesson);   /* was (TERM_OVERRIDE[code] || ownTerms(lesson)).slice(0, 8) —
+                                               that dropped the syllabus terms wherever an override existed, and
+                                               the cap made the deck disagree with the cue column. */
     var checks = ownChecks(lesson);
     var slot = el('div', 'ib-learn-wrap ib-learn');   /* the host IS the panel card */
     lesson.insertBefore(slot, lesson.firstChild);
@@ -4888,6 +4991,7 @@
   window.IBSEHSModels = {
     build: build, stop: stop, refresh: refresh, prepare: prepare,
     count: function () { return Object.keys(MODELS).length; },
-    built: function () { return $$('.ib-model').length; }
+    built: function () { return $$('.ib-model').length; },
+    topicTerms: topicTerms
   };
 })();

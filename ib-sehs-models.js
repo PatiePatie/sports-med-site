@@ -122,6 +122,152 @@
       best.parentNode.insertBefore(sig, best.nextSibling);
     });
   }
+  /* ── layout pass: runs on EVERY model after it renders ───────────────
+     Three things that were wrong in hand-placed drawings all over the site,
+     fixed once here instead of model by model:
+       1. a label sitting on a shape, or on another label, is nudged to the
+          nearest clear slot (and a label that could not be placed clearly
+          is left alone rather than shoved off the canvas)
+       2. a label standing far away from the thing it names gets a dashed
+          LEADER to it, so it stops floating in empty space
+       3. the main filled shape in each drawing is given a slow pulse, so a
+          still drawing still reads as alive
+     Every step is deterministic: the same model always resolves the same
+     way, so nothing flickers between redraws. */
+  var NUDGE = [0, -15, 15, -30, 30, -45, 45, -60, 60];
+  var MARK_SEEN = {}, MARK_N = 0;
+  function tidy(root) {
+    $$('.kv-svg', root).forEach(function (sv) {
+      if (sv._ibTidy) return;
+      sv._ibTidy = 1;
+      var vb = sv.viewBox.baseVal;
+      /* Duplicate SVG marker ids are resolved DOCUMENT-wide, so when two
+         models both define #d1a the second one's arrowheads silently take
+         the first one's colour — a green line with a red head. Give every
+         marker a unique id and rewrite the references in this drawing. */
+      /* An arrowhead must be the SAME colour as the line it ends. Markers do
+         not inherit the referencing element's stroke, so a model that draws a
+         green flow line and points it at a default-coloured marker gets a
+         green line with a red head. Copy each line's own stroke onto its
+         marker instead of trusting the marker to be right. */
+      $$('[marker-end]', sv).forEach(function (u) {
+        var v = u.getAttribute('marker-end') || '';
+        var id = (v.match(/#([^)"']+)/) || [])[1];
+        if (!id) return;
+        var mk = sv.querySelector('marker#' + CSS.escape(id)) ||
+                 document.querySelector('marker#' + CSS.escape(id));
+        if (!mk) return;
+        var st = getComputedStyle(u).stroke;
+        if (!st || st === 'none') return;
+        Array.prototype.forEach.call(mk.querySelectorAll('path'), function (mp) {
+          mp.style.fill = st;
+          mp.style.stroke = 'none';
+        });
+      });
+      var mid = 0;
+      $$('marker', sv).forEach(function (mk) {
+        var id = mk.getAttribute('id');
+        if (!id) return;
+        if (!MARK_SEEN[id]) { MARK_SEEN[id] = 1; return; }
+        var nid = id + 'x' + (++MARK_N) + '_' + (++mid);
+        mk.setAttribute('id', nid);
+        $$('[marker-end],[marker-start]', sv).forEach(function (u) {
+          ['marker-end', 'marker-start'].forEach(function (a) {
+            var v = u.getAttribute(a);
+            if (v && v.indexOf('#' + id) > -1) u.setAttribute(a, 'url(#' + nid + ')');
+          });
+        });
+      });
+      var full = { x: vb.x, y: vb.y, width: vb.width, height: vb.height };
+      function box(n) { try { return n.getBBox(); } catch (e) { return null; } }
+      function hit(a, b) {
+        return a && b &&
+          Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 3 &&
+          Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 3;
+      }
+      function inside(b) {
+        return b.x >= vb.x - 1 && b.y >= vb.y - 1 &&
+          b.x + b.width <= vb.x + vb.width + 1 && b.y + b.height <= vb.y + vb.height + 1;
+      }
+      var texts = $$('text', sv);
+      if (!texts.length) return;
+      var shapes = $$('path,rect,circle,ellipse,polygon', sv).filter(function (n) {
+        var cls = n.getAttribute('class') || '';
+        if (/an-conn|an-walk|an-lead|an-grid|an-arc|an-meas|an-tier|an-wedge|an-letter|an-phase/.test(cls)) return false;
+        var cs = getComputedStyle(n);
+        if (!cs.fill || cs.fill === 'none') return false;
+        var b = box(n);
+        if (!b) return false;
+        var a = b.width * b.height;
+        return a > 40 && a < vb.width * vb.height * 0.22;   /* ignore specks and background planes */
+      });
+      var placed = [];
+      /* biggest label keeps its spot; smaller ones move out of the way */
+      var order = texts.map(function (t, i) { return { i: i, a: (box(t) || { width: 0, height: 0 }).width }; })
+        .sort(function (p, q) { return q.a - p.a; });
+      order.forEach(function (o) {
+        var t = texts[o.i];
+        if (!t.textContent.trim()) { placed.push(null); return; }
+        var b0 = box(t);
+        if (!b0) { placed.push(null); return; }
+        var need = placed.some(function (q) { return hit(b0, q); }) ||
+          shapes.some(function (sh) { return hit(b0, box(sh)); });
+        if (!need) { placed.push(b0); return; }
+        for (var k = 0; k < NUDGE.length; k++) {
+          var dy = NUDGE[k];
+          if (!dy) continue;
+          t.setAttribute('transform', 'translate(0 ' + dy + ')');
+          var b1 = box(t);
+          if (b1 && inside(b1) &&
+            !placed.some(function (q) { return hit(b1, q); }) &&
+            !shapes.some(function (sh) { return hit(b1, box(sh)); })) {
+            placed.push(b1);
+            return;
+          }
+        }
+        t.removeAttribute('transform');
+        placed.push(b0);
+      });
+      /* a label with nothing near it gets a leader, so it is not floating */
+      texts.forEach(function (t) {
+        if (!t.textContent.trim() || t.getAttribute('data-lead')) return;
+        var b = box(t);
+        if (!b || !shapes.length) return;
+        var cx = b.x + b.width / 2, cy = b.y + b.height / 2, best = null, bd = 1e9;
+        shapes.forEach(function (sh) {
+          var q = box(sh);
+          if (!q) return;
+          var sx = Math.max(q.x, Math.min(cx, q.x + q.width));
+          var sy = Math.max(q.y, Math.min(cy, q.y + q.height));
+          var d = Math.hypot(sx - cx, sy - cy);
+          if (d < bd) { bd = d; best = { x: sx, y: sy }; }
+        });
+        /* a leader is a rescue, not decoration: only for a label that is
+           stranded a fair way off, and not in a drawing that already has
+           plenty of connectors, or the drawing turns into spaghetti */
+        if (!best || bd < 46 || bd > 120) return;
+        if ($$('.an-conn, .an-walk', sv).length > 4) return;
+        var p = document.createElementNS(LIVE_SVG, 'path');
+        p.setAttribute('class', 'an-lead');
+        p.setAttribute('data-for', texts.indexOf(t));
+        p.setAttribute('d', 'M' + cx + ' ' + cy + ' L' + best.x.toFixed(1) + ' ' + best.y.toFixed(1));
+        sv.appendChild(p);
+      });
+      /* the drawing's main shape breathes, so a still figure still reads alive */
+      if (shapes.length && !sv.querySelector('.an-livepulse')) {
+        var main = null, ma = 0;
+        shapes.forEach(function (sh) {
+          var b = box(sh);
+          if (!b) return;
+          var a = b.width * b.height;
+          if (a > ma) { ma = a; main = sh; }
+        });
+        if (main && ma > 900 && !/an-grid|an-meas/.test(main.getAttribute('class') || '')) {
+          main.classList.add('an-livepulse');
+        }
+      }
+    });
+  }
   function wireRange(host, fn) {
     host.addEventListener('input', function (e) {
       var i = e.target && e.target.closest ? e.target.closest('input[type=range]') : null;
@@ -3393,60 +3539,79 @@ MODELS['Systems working together'] = function (host) {
     draw();
   };
 
-MODELS['Voluntary movement and reflexes'] = function (host) {
+  MODELS['Voluntary movement and reflexes'] = function (host) {
     var mode = 'reflex';
     function draw() {
-      var brainY = 78, cordY = 186, musY = 268;
-      var s = svgWrap(T('A reflex arc beside the voluntary route', '反射弧与随意通路对比'), 560, 336,
-        AN.head('d4a') +
-        AN.brain(300, 74, 0.92) +
-        '<text class="small" x="300" y="126" text-anchor="middle">' + esc(T('brain', '脑')) + '</text>' +
-        AN.cord(300, cordY, 46) + AN.canal(300, cordY, 46) +
-        '<text class="small" x="300" y="' + (cordY + 48) + '" text-anchor="middle">' + esc(T('spinal cord', '脊髓')) + '</text>' +
-        /* the muscle with the spindle inside it */
-        '<rect class="an-muscle" x="120" y="' + (musY - 30) + '" width="180" height="60" rx="24"/>' +
-        AN.spindle(210, musY, 110) +
-        '<text class="small" x="210" y="' + (musY + 48) + '" text-anchor="middle">' + esc(T('quadriceps', '股四头肌')) + '</text>' +
-        '<rect class="an-tendon" x="120" y="' + (musY + 30) + '" width="180" height="8" rx="4"/>' +
-        /* the reflex route: never touches the brain */
-        AN.axon(210, musY - 34, 282, cordY - 12, mode === 'reflex' ? 'on' : '') +
-        AN.axon(318, cordY + 12, 250, musY - 34, mode === 'reflex' ? 'on' : '') +
-        '<text class="small" x="176" y="150" text-anchor="middle">' + esc(T('sensory', '传入')) + '</text>' +
-        '<text class="small" x="392" y="150" text-anchor="middle">' + esc(T('motor', '传出')) + '</text>' +
-        /* the voluntary route: up to the brain first */
-        AN.axon(210, musY - 34, 300, 118, mode === 'voluntary' ? 'on' : '') +
-        AN.axon(300, 96, 300, cordY - 30, mode === 'voluntary' ? 'on' : '') +
-        AN.axon(330, cordY + 12, 250, musY - 34, mode === 'voluntary' ? 'on' : '') +
-        '<text class="small an-lab-neg" x="486" y="196" text-anchor="middle" >' +
-        esc(mode === 'reflex' ? T('the signal stops in the cord', '信号止于脊髓') : T('the signal goes up first', '信号先上行')) + '</text>' +
-        '<path class="an-timer" d="M60 ' + (musY - 6) + ' h-34" marker-end="url(#d4a)"/>' +
-        '<text class="small" x="40" y="' + (musY - 12) + '" text-anchor="end">' + esc(T('tap', '敲击')) + '</text>');
+      /* Three horizontal bands — brain, cord, muscle — and THREE separate
+         channels so the routes can never cross each other:
+           sensory   left channel, up   (muscle → cord)
+           motor     inner right, down  (cord → muscle)
+           voluntary outer right, round (muscle → up to the brain)
+         Every label sits in its own band or beside its own channel, with a
+         short leader line when it has to stand off from the thing it names. */
+      var BX = 250, BY = 74;            /* brain */
+      var CX = 250, CY = 200, CR = 46;   /* cord */
+      var MY = 320;                       /* muscle centre */
+      var liveS = mode === 'reflex', liveM = mode === 'reflex', liveV = mode === 'voluntary';
+      function sig(d, dur) { return AN.runPath(d, liveS || liveV ? 'hot' : '', dur); }
+      var dS = 'M215 296 Q188 266 222 234';
+      var dM = 'M280 232 Q302 262 332 292';
+      var dV = 'M352 288 Q462 220 420 140 Q368 98 288 100';
+      var s = svgWrap(T('A reflex arc beside the voluntary route', '反射弧与随意通路对比'), 560, 392,
+        AN.head('va', 'an-l-red') +
+        /* ── band 1: the brain ── */
+        AN.brain(BX, BY, 0.94) +
+        '<text class="small" x="' + BX + '" y="34" text-anchor="middle">' + esc(T('brain', '脑')) + '</text>' +
+        /* the cord above the brain, so the two are visibly connected */
+        AN.axon(BX, 112, BX, 156, liveV ? 'on' : '') +
+        /* ── band 2: the spinal cord, where the decision is made ── */
+        AN.cord(CX, CY, CR) + AN.canal(CX, CY, CR) +
+        '<text class="small" x="' + CX + '" y="272" text-anchor="middle">' + esc(T('spinal cord', '脊髓')) + '</text>' +
+        /* ── band 3: the muscle, with the spindle that senses the stretch ── */
+        '<rect class="an-muscle" x="150" y="' + (MY - 30) + '" width="200" height="60" rx="24"/>' +
+        AN.spindle(215, MY, 116) +
+        '<rect class="an-tendon" x="150" y="' + (MY + 30) + '" width="200" height="9" rx="4"/>' +
+        '<text class="small" x="250" y="376" text-anchor="middle">' + esc(T('quadriceps', '股四头肌')) + '</text>' +
+        /* the tap, pointing INTO the muscle, not away from it */
+        AN.arrow(96, MY, 146, MY, 'down', 10) +
+        '<text class="small" x="88" y="' + (MY + 4) + '" text-anchor="end">' + esc(T('tap', '敲击')) + '</text>' +
+        /* ── the three routes, each in its own channel ── */
+        AN.connPath(dS, liveS ? 'hot' : 'off') + (liveS ? AN.runPath(dS, 'hot', 1.3) : '') +
+        AN.connPath(dM, liveM ? 'hot' : 'off') + (liveM ? AN.runPath(dM, 'hot', 1.3) : '') +
+        AN.connPath(dV, liveV ? 'hot' : 'off') + (liveV ? AN.runPath(dV, 'hot', 2.1) : '') +
+        /* ── labels beside their own channel, each with a leader ── */
+        '<text class="small" x="120" y="266" text-anchor="end">' + esc(T('sensory', '传入')) + '</text>' +
+        '<path class="an-lead" d="M126 262 L196 250"/>' +
+        '<text class="small" x="392" y="262">' + esc(T('motor', '传出')) + '</text>' +
+        '<path class="an-lead" d="M386 258 L312 250"/>' +
+        '<text class="small" x="470" y="46" text-anchor="end" class="an-lab-neg">' +
+        esc(liveV ? T('it goes up to the brain first', '它先上行至大脑') : T('it stops in the cord', '它止于脊髓')) + '</text>' +
+        '<path class="an-lead" d="M464 52 L426 122"/>' +
+        /* the direction words, in the band above the cord */
+        '<text class="small" x="120" y="200" text-anchor="end">' + esc(T('up', '上行')) + '</text>' +
+        '<text class="small" x="392" y="200">' + esc(T('down', '下行')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which route does the signal take?', '信号走哪条路？')) + '</div>' +
         tools([['reflex', T('Reflex — fast, automatic', '反射 · 快速自动')],
         ['voluntary', T('Voluntary — you decide', '随意 · 由你决定')]], mode) +
-        apanel('main', T('A knee jerk you never thought about', '一次你根本没经过思考的膝反射'), T('The muscle spindle is the sensor; the cord is the decision-maker', '肌梭是传感器，脊髓是决策者'), s,
+        apanel('main', T('A knee jerk you never thought about', '一次你根本没经过思考的膝反射'),
+          T('The spindle is the sensor; the cord is the decision-maker', '肌梭是传感器，脊髓是决策者'), s,
           lg('an-l-grey', T('cord grey matter', '脊髓灰质')) +
-          lg('an-l-ia', T('spindle + sensory fibre', '肌梭与传入纤维')) +
-          lg('an-l-on', T('this route is live', '正在走这条路')) +
-          lg('an-l-off', T('not used', '未使用'))) +
+          lg('an-l-gold', T('spindle + sensory fibre', '肌梭与传入纤维')) +
+          lg('an-l-red', T('this route is live', '当前通路的路线')) +
+          lg('an-l-off', T('not used', '不使用'))) +
         '<div class="kv-callout"></div>' +
-        note('Tapping the tendon stretches the muscle and deforms the intrafusal fibres of the muscle spindle, which fires the large Ia sensory fibre. That fibre enters the cord through the dorsal root and synapses almost directly onto the α motor neuron of the same muscle — one synapse, so the round trip takes about 50 ms. The brain is told afterwards. Voluntary movement takes the slow route up to the cortex and back down, and it costs tens of milliseconds you can spend thinking.',
-          '敲击肌腱会拉伸肌肉，使肌梭内的梭内肌纤维变形，于是粗大的 Ia 感觉纤维放电。它经背根进入脊髓，几乎直接与同一块肌肉的 α 运动神经元突触——只有一个突触，因此往返约需 50 毫秒。脑是在之后才被告知的。随意运动则要上行至皮层再下行，额外花掉几十毫秒——而这几十毫秒正好用来思考。');
-      outs(host, '.kv-callout', mode === 'reflex'
-        ? T('About 50 ms — one synapse, and the brain is never asked. The leg has already pulled back before you feel the tap.',
-          '约 50 毫秒——只有一个突触，而且根本没问脑。腿已经缩回来了，你才刚感觉到敲击。')
-        : T('Tens of milliseconds more, because the signal had to reach the cortex first. That delay is exactly why a reflex exists.',
-          '多花几十毫秒，因为信号必须先到皮层。正是这个延迟，解释了反射为什么存在。'));
-      marks(host, '.kv-tools', mode);
+        note('The tap stretches the muscle, and the spindle notices before you do. The sensory fibre carries that news into the spinal cord, where a synapse is made directly onto the motor neuron — so the muscle contracts on the way down, and the brain was never consulted. That is the whole point of a reflex: it is fast precisely because it skips the brain, and the cost is that it is not adjustable. A voluntary contraction uses the same muscle and the same motor neuron, but the command is built in the brain first and travels down, so you can start or stop it whenever you like. Same hardware, different route, and the route is the whole difference.',
+          '敲击使肌肉拉伸，肌梭在你察觉之前就发现了。传入纤维把这条消息送入脊髓，在那里直接与运动神经元形成突触——于是肌肉在回程的下行途中就收缩了，大脑根本没有被询问。这正是反射的意义：它快，正是因为它跳过了大脑，而代价就是无法调整。随意收缩用的是同一块肌肉、同一个运动神经元，但指令先在大脑中构建再下行传送，因此你想何时开始或停止都可以。硬件相同，路径不同，而路径就是全部的差别。');
+      outs(host, '.kv-callout', liveS
+        ? T('Three neurons, one cord, no brain. The whole arc fits inside the spinal cord, which is why a reflex is under 100 ms and a voluntary command is not.', '三个神经元、一段脊髓、没有大脑。整条弧都在脊髓内完成，因此反射不到 100 毫秒，而随意指令做不到。')
+        : T('The same motor neuron, but the command was built in the brain first — so you can start it and you can stop it.', '同一个运动神经元，但指令先在大脑中构建——因此你可以开始，也可以停止。'));
     }
     wire(host, '.kv-tools', function (v) { mode = v; draw(); });
     draw();
   };
 
-  /* ── D1.5 · A.1.3 Hormonal influences and sport applications ───────────
-     The adrenal gland really does sit on top of the kidney. */
-  MODELS['Hormonal influences and sport applications'] = function (host) {
+MODELS['Hormonal influences and sport applications'] = function (host) {
     var H = [
       { id: 'adren', en: 'Adrenaline', zh: '肾上腺素', from: T('adrenal medulla', '肾上腺髓质'), job: T('Fast readiness: heart rate up, blood to the muscles, glucose released.', '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。'), jobZh: '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。', organ: 'heart' },
       { id: 'cort', en: 'Cortisol', zh: '皮质醇', from: T('adrenal cortex', '肾上腺皮质'), job: T('Longer-term fuel availability and protein turnover; it rises with stress and with hard training.', '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。'), jobZh: '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。', organ: 'liver' },
@@ -3489,64 +3654,95 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
 
   /* ── D1.6 · A.2.1 Functions, intake and loss ────────────────────────────
      Where water actually enters and leaves the body. */
-  MODELS['Functions, intake and loss'] = function (host) {
-    var intake = 60, sweat = 0, min = 40;
+    MODELS['Functions, intake and loss'] = function (host) {
+    var drinks = 60, sweat = 0;
     function draw() {
-      var out = sweat + min, diff = intake - out;
-      var s = svgWrap(T('Water in and water out', '水的摄入与流失'), 560, 260,
-        AN.head('d6a') +
-        /* intake on the left, losses on the right, body in the middle */
-        '<path class="an-glass" d="M64 60 h44 l-6 56 h-32 z"/><text class="small" x="86" y="140" text-anchor="middle">' + esc(T('drink', '饮水')) + '</text>' +
-        '<rect class="an-food" x="50" y="164" width="72" height="26" rx="8"/><text class="small" x="86" y="212" text-anchor="middle">' + esc(T('food', '食物')) + '</text>' +
-        AN.eccrine(400, 120, 96) +
-        AN.lungs(300, 96, 0.52) + '<text class="small" x="300" y="160" text-anchor="middle">' + esc(T('lungs', '肺')) + '</text>' +
-        AN.kidney(462, 200, 0.56) + '<text class="small" x="500" y="244" text-anchor="middle">' + esc(T('urine', '尿液')) + '</text>' +
-        /* the body silhouette in the middle */
-        '<circle class="an-body" cx="200" cy="70" r="20"/>' +
-        '<path class="an-body" d="M180 92 h40 v74 h-40 z"/>' +
-        '<path class="an-body" d="M180 100 l-34 46 M220 100 l34 46 M180 166 l-22 60 M220 166 l22 60"/>' +
-        '<path class="an-flow' + (diff >= 0 ? ' good' : ' bad') + '" d="M136 92 h-14 v-14" marker-end="url(#d6a)"/>' +
-        '<path class="an-flow bad" d="M224 108 h34" marker-end="url(#d6a)"/>' +
-        '<path class="an-flow' + (diff < 0 ? ' bad' : ' good') + '" d="M216 160 h-20" marker-end="url(#d6a)"/>' +
-        '<text class="small" x="200" y="252" text-anchor="middle">' + esc(T('in = out keeps you stable', '摄入 = 流失，身体才稳定')) + '</text>');
+      var PX = 250, PY = 168;                 /* the athlete */
+      /* IN on the left, OUT on the right, so the balance is visible as a
+         left-to-right comparison rather than a scatter of icons */
+      var IN = [
+        { id: 'drink', y: 100, en: 'drink', zh: '饮水' },
+        { id: 'food', y: 236, en: 'food', zh: '进食' }
+      ];
+      var OUT = [
+        { id: 'sweat', y: 96, en: 'sweat', zh: '汗液' },
+        { id: 'breath', y: 168, en: 'breath', zh: '呼吸' },
+        { id: 'urine', y: 240, en: 'urine', zh: '尿液' }
+      ];
+      var sweatL = sweat / 1000, drinkL = drinks / 2000;
+      var inTot = drinks + 700, outTot = sweat + 260 + 1400;
+      var diff = inTot - outTot;
+      function arrowTo(x1, y1, x2, y2, cls) {
+        return AN.arrow(x1, y1, x2, y2, cls, 9) + AN.run(x1, y1, x2, y2, cls, 1.6);
+      }
+      var s = svgWrap(T('Water in on the left, water out on the right', '左侧进水，右侧出水'), 560, 330,
+        /* the athlete, in the middle */
+        AN.person(PX, PY, 1.35) +
+        /* IN: two routes, both arriving at the body's own single inlet */
+        IN.map(function (r) {
+          var d = 'M150 ' + r.y + ' H' + (PX - 46);
+          return '<rect class="an-box" x="' + (96 - 26) + '" y="' + (r.y - 22) + '" width="52" height="44" rx="10"/>' +
+            (r.id === 'drink' ? '<path class="an-glass" d="M' + (96 - 20) + ' ' + (r.y - 16) + ' h40 l-6 34 h-28 z"/>'
+              : '<rect class="an-foodbar" x="' + (96 - 20) + '" y="' + (r.y - 12) + '" width="40" height="24" rx="7"/>') +
+            AN.connPath(d, 'ret-neg') + AN.runPath(d, 'ret-neg', 1.5) +
+            '<text class="small" x="96" y="' + (r.y + 40) + '" text-anchor="middle">' + esc(T(r.en, r.zh)) + '</text>';
+        }).join('') +
+        /* every IN arrow converges on one point on the body */
+        IN.map(function (r) {
+          return AN.arrow(152, r.y, PX - 40, PY - 24 + (r.id === 'drink' ? -14 : 14), 'ret-neg', 8);
+        }).join('') +
+        '<circle class="an-hub" cx="' + (PX - 40) + '" cy="' + PY + '" r="6"/>' +
+        '<text class="small" x="' + (PX - 40) + '" y="' + (PY + 22) + '" text-anchor="middle" class="an-lab-neg">' +
+        esc(T('in', '进')) + '</text>' +
+        /* OUT: three routes, all leaving from the matching point */
+        OUT.map(function (r) {
+          var d = 'M' + (PX + 40) + ' ' + r.y + ' H410';
+          return AN.connPath(d, 'off') + AN.runPath(d, 'off', 1.8) +
+            (r.id === 'sweat' ? AN.eccrine(446, r.y, 76) : r.id === 'breath' ? AN.lungs(446, r.y, 0.62) : AN.kidney(446, r.y, 0.6)) +
+            '<text class="small" x="446" y="' + (r.y + 46) + '" text-anchor="middle">' + esc(T(r.en, r.zh)) + '</text>';
+        }).join('') +
+        OUT.map(function (r) {
+          return AN.arrow(PX + 40, PY, 404, r.y, 'off', 8);
+        }).join('') +
+        '<circle class="an-hub" cx="' + (PX + 40) + '" cy="' + PY + '" r="6"/>' +
+        '<text class="small" x="' + (PX + 40) + '" y="' + (PY + 22) + '" text-anchor="middle" class="an-lab-pos">' +
+        esc(T('out', '出')) + '</text>' +
+        '<text class="small" x="280" y="312" text-anchor="middle">' +
+        esc(T('every route leaves from the same point, so the two sides compare directly', '每条路线都从同一点出发，因此两侧可直接比较')) + '</text>');
       host.innerHTML =
-        '<label class="kv-lab" data-v="i"><span class="ibm-q">' + esc(T('Drinks through the day (mL)', '一天的饮水量（毫升）')) +
-        ' <b class="kv-v"></b></span><input type="range" min="0" max="400" step="10" value="' + intake + '"></label>' +
-        '<label class="kv-lab" data-v="s"><span class="ibm-q">' + esc(T('Sweating (mL)', '出汗量（毫升）')) +
-        ' <b class="kv-v"></b></span><input type="range" min="0" max="200" step="10" value="' + sweat + '"></label>' +
-        apanel('main', T('Every route in and out', '每一条进出路线'), T('Sweat is only ever a loss — it is never the way back', '出汗只出不进，永远不是回补的途径'), s,
-          lg('an-l-good', T('balanced', '平衡')) + lg('an-l-bad', T('deficit', '亏空')) +
-          lg('an-l-gland', T('eccrine sweat gland', '小汗腺'))) +
+        qrange('d', T('Drinks through the day (mL)', '全天饮水（毫升）'), 0, 2000, drinks, 20) +
+        qrange('s', T('Sweating (mL)', '出汗量（毫升）'), 0, 3000, sweat, 20) +
+        apanel('main', T('Every route in and out', '每一条进出路线'),
+          T('Sweat is only ever a loss — it is never the way back.', '汗液永远只是损失，绝不是回补的途径。'), s,
+          lg('an-l-safe', T('taken in', '摄入')) +
+          lg('an-l-bad', T('lost', '流失')) +
+          lg('an-l-gold', T('eccrine sweat gland', '小汗腺'))) +
         '<div class="kv-meters">' +
-        '<div class="kv-frow"><span>' + esc(T('taken in', '摄入')) + '</span><div class="kv-fbar"><i class="an-b-in"></i></div><b class="vin"></b></div>' +
-        '<div class="kv-frow"><span>' + esc(T('lost', '流失')) + '</span><div class="kv-fbar"><i class="an-b-out"></i></div><b class="vout"></b></div>' +
+        frow(T('taken in', '摄入'), 'an-b-in') +
+        frow(T('lost', '流失'), 'an-b-out') +
         '</div><div class="kv-callout"></div>' +
-        note('Water arrives from drink and from food, and leaves through four routes: sweat, the breath, urine and faeces. Sweat is the only route that changes dramatically with exercise, and it is the reason a trained athlete’s sweat is saltier — losing more salt per litre means replacing more of it. Urine is adjustable: the kidney can conserve water and excrete a small, concentrated volume. The lung and gut losses are small but they never stop, including at rest and in cold weather.',
-          '水来自饮水与食物，经四条途径离开：汗液、呼吸、尿液和粪便。出汗是唯一随运动显著变化的途径，这也是训练有素的运动员汗液更咸的原因——每升损失的盐更多，补充量也就更大。尿液是可调节的：肾脏可以保水，只排出少量浓缩尿。肺和肠道的损失虽然小，却从未停止，休息时和寒冷天气里也一样。');
-      setv(host, 'i', '.kv-v', intake + ' mL');
-      setv(host, 's', '.kv-v', sweat + ' mL');
-      bar(host.querySelector('.an-b-in'), intake / 400, 'var(--green)');
-      bar(host.querySelector('.an-b-out'), out / 400, 'var(--c0)');
-      outs(host, '.vin', intake + ' mL');
-      outs(host, '.vout', out + ' mL');
-      outs(host, '.kv-callout', diff < -100
-        ? T('You are ' + Math.abs(diff) + ' mL down. That is a real deficit: plasma volume falls, the heart has to beat faster to move what is left, and concentration drops.',
-          '你亏空了 ' + Math.abs(diff) + ' 毫升。这是实实在在的亏空：血浆容量下降，心脏必须跳得更快才能泵出剩下的部分，注意力也会下降。')
-        : diff < 0
-          ? T('Slightly down — normal on a hot day. The body is drawing on its own reserves.', '略微亏空——炎热天气的正常现象，身体正在动用自身储备。')
-          : T('In balance. Surplus is just a larger urine volume, not storage.', '处于平衡。多出的部分只会变成更多的尿液，并不会被储存起来。'));
+        note('Water arrives from drink and from food, and leaves by four routes: sweat, breath, urine and gut losses. Sweat is the only route that changes dramatically with exercise, and it is the reason a trained athlete’s sweat is saltier than a sedentary person’s — losing more salt per litre means replacing more of it. Urine is adjustable: the kidney can concentrate urine to save water, and that is the route that shrinks first when fluid is short. Breath and gut losses are small but continuous and are the ones most often forgotten when someone only counts the water bottle. The gut and the kidney can both be turned down; the sweat gland cannot, which is why the balance has to be planned rather than reacted to.',
+          '水分来自饮水与食物，经四条路线离开：汗液、呼吸、尿液与肠道丢失。汗液是唯一随运动剧烈变化的路线，也正是训练者的汗比久坐者更咸的原因——每升流失的盐更多，需要补充的也更多。尿液是可调节的：肾脏可以把尿浓缩以保水，这也是缺水时最先被关小的路线。呼吸与肠道丢失量小但持续存在，也是人们只数水瓶时最容易忽略的部分。肠道与肾脏都可以调节，而汗腺不能，因此水分平衡必须提前规划，而不能靠事后补救。');
+      setv(host, 'd', '.kv-val', drinks + ' mL');
+      setv(host, 's', '.kv-val', sweat + ' mL');
+      bar(host.querySelector('.an-b-in'), inTot / 3000, 'var(--green)');
+      bar(host.querySelector('.an-b-out'), outTot / 3000, 'var(--c0)');
+      outs(host, '.van-b-in', inTot + ' mL');
+      outs(host, '.van-b-out', outTot + ' mL');
+      outs(host, '.kv-callout', diff > 200
+        ? T('In by ' + diff + ' mL. A surplus is not storage — it is simply a larger urine volume.', '多出 ' + diff + ' 毫升。盈余并非被储存起来，只是尿量变大而已。')
+        : diff < -200
+          ? T('Out by ' + (-diff) + ' mL. This is a deficit, and it has to come from somewhere.', '少 ' + (-diff) + ' 毫升。这是亏空，必然要从某处补上。')
+          : T('Balanced. What you take in is what you lose, and the kidney is free to adjust the rest.', '平衡。摄入量等于流失量，其余由肾脏自由调节。'));
     }
-    wireRange(host, function (inp) {
-        if (inp.closest('[data-v=i]')) intake = Number(inp.value); else sweat = Number(inp.value);
-        draw();
-
+    wireRange(host, function (i) {
+      if (i.closest('[data-v=d]')) drinks = Number(i.value); else sweat = Number(i.value);
+      draw();
     });
     draw();
   };
 
-  /* ── D1.7 · A.2.1 ADH and cardiovascular drift ──────────────────────────
-     What actually happens when you sweat for an hour. */
-  MODELS['ADH and cardiovascular drift'] = function (host) {
+MODELS['ADH and cardiovascular drift'] = function (host) {
     var hrs = 2, sweat = 2;
     function draw() {
       var lost = hrs * sweat * 0.6;
@@ -5028,6 +5224,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
     try {
       fn(body, slot._ibMode);
       liven(body);
+      tidy(body);
       $$('.kv-callout', body).forEach(function (n) { n.setAttribute('aria-live', 'polite'); });
     } catch (e) {
       slot._ibDone = false;

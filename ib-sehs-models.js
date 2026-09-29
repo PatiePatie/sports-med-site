@@ -73,6 +73,55 @@
      straight to a range input dies with the element it was attached to and the
      slider stops responding after the first step. `host` is never replaced, so
      a listener on it survives every re-render. */
+  /* ── movement sweep ──────────────────────────────────────────────────
+     Applied to EVERY model's drawing after it renders, so no model has to
+     be rewritten to gain it. A connector is any path that is stroked but
+     NOT filled — i.e. a line rather than a shape. Each one gets a marching
+     dash so its direction is readable, and the longest one in each drawing
+     gets a signal travelling along it, so you can see what is going where.
+     Measure lines, grid lines, arrows and anything already animated are
+     left alone: making a measurement line crawl would be a lie. */
+  var LIVE_SVG = 'http://www.w3.org/2000/svg';
+  var SKIP_LIVE = /an-meas|an-arc|an-grid|an-conn|an-walk|an-tier|an-wedge|an-node|an-tend|an-lig|an-ball|an-body|an-seam/;
+  function liven(root) {
+    $$('.kv-svg', root).forEach(function (sv) {
+      if (sv._ibLiven) return;
+      sv._ibLiven = 1;
+      var conns = Array.prototype.filter.call(sv.querySelectorAll('path'), function (p) {
+        var cls = p.getAttribute('class') || '';
+        if (SKIP_LIVE.test(cls)) return false;
+        /* almost every stroke here comes from CSS, not from a presentation
+           attribute, so the decision has to be made on COMPUTED style —
+           asking for getAttribute('stroke') finds almost nothing. */
+        var cs = getComputedStyle(p);
+        var f = p.getAttribute('fill');
+        if ((f && f !== 'none') || (cs.fill && cs.fill !== 'none')) return false;
+        if (!cs.stroke || cs.stroke === 'none') return false;
+        if (parseFloat(cs.strokeWidth || 0) < 0.4) return false;
+        var d = p.getAttribute('d') || '';
+        return d.length > 44 && /[Mm]/.test(d);
+      });
+      if (!conns.length) return;
+      var best = null, bestLen = 0;
+      conns.forEach(function (p) {
+        p.classList.add('an-walk');
+        var L = 0;
+        try { L = p.getTotalLength(); } catch (e) { L = 0; }
+        if (L > bestLen) { bestLen = L; best = p; }
+      });
+      if (!best || bestLen < 70) return;
+      if (best.parentNode.querySelector('.an-sig')) return;
+      var sig = document.createElementNS(LIVE_SVG, 'circle');
+      sig.setAttribute('class', 'an-sig');
+      sig.setAttribute('r', '3.4');
+      var mo = document.createElementNS(LIVE_SVG, 'animateMotion');
+      mo.setAttribute('dur', Math.max(1, bestLen / 95).toFixed(2) + 's');
+      mo.setAttribute('repeatCount', 'indefinite');
+      mo.setAttribute('path', best.getAttribute('d'));
+      sig.appendChild(mo);
+      best.parentNode.insertBefore(sig, best.nextSibling);
+    });
+  }
   function wireRange(host, fn) {
     host.addEventListener('input', function (e) {
       var i = e.target && e.target.closest ? e.target.closest('input[type=range]') : null;
@@ -365,7 +414,7 @@
       [1, 4, 8, 12, 16].map(function (w) {
         return '<text class="small" x="' + (bx(w - 1) + bw() / 2).toFixed(0) + '" y="' + (PY + PHH + 18) + '" text-anchor="middle">' + w + '</text>';
       }).join('') +
-      '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PHH + 34) + '" text-anchor="end">' + esc(T('week', '周')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 74) + '" y="' + (PY + PHH + 56) + '" text-anchor="end">' + esc(T('week', '周')) + '</text>' +
       '</svg>' +
       '<div class="kv-legend">' +
       '<span><i class="kv-dot" style="background:var(--c2)"></i>' + esc(T('this week (acute)', '本周（急性）')) + ' <b class="va"></b></span>' +
@@ -3123,6 +3172,15 @@
     return '<circle class="an-sig ' + (cls || '') + '" r="4">' +
       '<animateMotion dur="' + (dur || 2.4) + 's" repeatCount="indefinite" path="' + d + '"/></circle>';
   };
+  AN.arrow = function (x1, y1, x2, y2, cls, head) {
+    head = head || 9;
+    var a = Math.atan2(y2 - y1, x2 - x1);
+    var hx = x2 - head * Math.cos(a), hy = y2 - head * Math.sin(a);
+    var px = -Math.sin(a) * head * 0.42, py = Math.cos(a) * head * 0.42;
+    return '<path class="an-conn ' + (cls || '') + '" d="M' + x1 + ' ' + y1 + ' L' + hx + ' ' + hy + '"/>' +
+      '<path class="an-head ' + (cls || '') + '" d="M' + x2 + ' ' + y2 + ' L' + (hx + px) + ' ' + (hy + py) +
+      ' L' + (hx - px) + ' ' + (hy - py) + ' Z"/>';
+  };
   AN.beat = function (cx, cy, r, cls) {
     return '<circle class="an-beat ' + (cls || '') + '" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/>';
   };
@@ -3147,25 +3205,31 @@
         /* ── row 1: somatic target, ABOVE the outlet ── */
         AN.spindle(320, 74, 108) +
         '<rect class="an-muscle" x="272" y="112" width="96" height="36" rx="14"/>' +
-        '<text class="small" x="320" y="168" text-anchor="middle" class="an-lab-neg">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
+        '<text class="small an-lab-neg" x="320" y="168" text-anchor="middle" >' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
         /* ── row 2: autonomic targets, BELOW the outlet ── */
         AN.heart(268, 244, 0.5) + AN.lungs(340, 240, 0.5) +
         AN.kidney(410, 248, 0.52) + AN.liver(470, 246, 0.5) +
         '<text class="small" x="368" y="302" text-anchor="middle">' + esc(T('glands · smooth muscle · heart', '腺体 · 平滑肌 · 心肌')) + '</text>' +
         /* every autonomic line leaves from the SAME outlet point */
         (sys === 'somatic'
-          ? AN.connPath('M' + OUT + ' 190 C' + (OUT + 30) + ' 190 ' + 300 + ' 130 300 128', 'hot') +
-          AN.runPath('M' + OUT + ' 190 C' + (OUT + 30) + ' 190 ' + 300 + ' 130 300 128', 'hot', 1.5) +
-          '<text class="small" x="' + (OUT + 46) + '" y="150" text-anchor="middle" class="an-lab-neg">' + esc(T('somatic', '躯体')) + '</text>'
-          : [268, 340, 410, 470].map(function (tx, k) {
-            var d = 'M' + OUT + ' 190 C' + (OUT + 26) + ' 190 ' + (OUT + 26) + ' ' + (250 + k * 12) + ' ' + tx + ' ' + (244 + k * 4);
-            return AN.connPath(d, 'hot') + AN.runPath(d, 'hot', 1.4 + k * 0.12);
+          ? AN.connPath('M' + OUT + ' 190 C' + (OUT + 26) + ' 190 244 130 270 130', 'hot') +
+          AN.runPath('M' + OUT + ' 190 C' + (OUT + 26) + ' 190 244 130 270 130', 'hot', 1.5) +
+          '<text class="small an-lab-neg" x="212" y="118" text-anchor="middle" >' + esc(T('somatic', '躯体')) + '</text>'
+          /* the autonomic route is a distribution BUS: one trunk above the
+             organs, one short drop into each organ's top edge. No line ever
+             crosses an organ, and no two lines ever cross each other. */
+          : AN.connPath('M' + OUT + ' 190 H214 V206 H486', 'hot') +
+          AN.runPath('M' + OUT + ' 190 H214 V206 H486', 'hot', 1.8) +
+          [268, 340, 410, 470].map(function (tx) {
+            var d = 'M' + tx + ' 206 V222';
+            return AN.connPath(d, 'hot') + AN.runPath(d, 'hot', 0.9);
           }).join('') +
-          '<text class="small" x="' + (OUT + 30) + '" y="216" text-anchor="middle" class="an-lab-neg">' + esc(T('autonomic', '自主')) + '</text>') +
+          '<text class="small an-lab-neg" x="470" y="196" text-anchor="end" >' +
+          esc(T('autonomic', '自主')) + '</text>') +
         /* the inactive route stays visible but dead, so you can compare */
         (sys === 'somatic'
           ? '<path class="an-conn off" d="M' + OUT + ' 190 C' + (OUT + 26) + ' 190 ' + (OUT + 26) + ' 230 268 246"/>'
-          : '<path class="an-conn off" d="M' + OUT + ' 190 C' + (OUT + 30) + ' 190 300 130 300 128"/>'));
+          : '<path class="an-conn off" d="M' + OUT + ' 190 C' + (OUT + 26) + ' 190 244 130 270 130"/>'));
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which set of nerves is carrying the signal?', '正在传递信号的是哪一套神经？')) + '</div>' +
         tools([['somatic', T('Voluntary — to skeletal muscle', '躯体 · 到达骨骼肌')],
@@ -3256,58 +3320,70 @@ MODELS['Systems working together'] = function (host) {
     draw();
   };
 
-MODELS['Feedback and integrated examples'] = function (host) {
+  MODELS['Feedback and integrated examples'] = function (host) {
     var VAR = [
-      { id: 'temp', en: 'Temperature', zh: '体温', neg: 'sweating and shivering pull it back to the set point', negZh: '出汗与寒战把它拉回设定点' },
-      { id: 'glu', en: 'Blood glucose', zh: '血糖', neg: 'insulin releases glucose, glucagon restores it', negZh: '胰岛素释放葡萄糖，胰高血糖素将其恢复' },
-      { id: 'bp', en: 'Blood pressure', zh: '血压', neg: 'baroreceptors reset it within seconds', negZh: '压力感受器在数秒内重置' }
+      { id: 'temp', en: 'Temperature', zh: '体温' },
+      { id: 'glu', en: 'Blood glucose', zh: '血糖' },
+      { id: 'bp', en: 'Blood pressure', zh: '血压' }
     ];
     var v = 'temp';
     function draw() {
-      var cur = VAR.filter(function (x) { return x.id === v; })[0];
-      var X0 = 168, Y0 = 74, X1 = 452, Y1 = 214, R = 20;
+      var X0 = 168, Y0 = 140, X1 = 452, Y1 = 248, R = 20;
+      /* the loop itself: the signal runs clockwise around it */
       var d = 'M' + (X0 + R) + ' ' + Y0 + ' H' + (X1 - R) + ' A' + R + ' ' + R + ' 0 0 1 ' + X1 + ' ' + (Y0 + R) +
         ' V' + (Y1 - R) + ' A' + R + ' ' + R + ' 0 0 1 ' + (X1 - R) + ' ' + Y1 + ' H' + (X0 + R) +
         ' A' + R + ' ' + R + ' 0 0 1 ' + X0 + ' ' + (Y1 - R) + ' V' + (Y0 + R) +
         ' A' + R + ' ' + R + ' 0 0 1 ' + (X0 + R) + ' ' + Y0;
-      /* the return leg: leaves box 1, runs clear of the loop, comes home */
-      var dRet = 'M' + 104 + ' 168 V246 H' + 300;
-      var s = svgWrap(T('The loop carries the signal; the return leg carries the response', '环路传递信号，返回支路传递反应'), 560, 300,
-        /* the loop, with the signal running all the way round it */
-        AN.connPath(d, '') + AN.runPath(d, '', 3.4) +
-        AN.connPath(dRet, 'ret-neg') + AN.runPath(dRet, 'ret-neg', 1.6) +
-        /* an arrowhead on the return leg, so its direction is unmistakable */
-        '<path class="an-arrowhead" d="M300 240 l12 6 l-12 6 z"/>' +
-        /* 1 — the thing being measured, on the left edge */
-        '<rect class="an-var" x="58" y="140" width="92" height="42" rx="12"/>' +
-        '<text class="small" x="104" y="132" text-anchor="middle">' + esc(T('1 measured', '1 测量')) + '</text>' +
-        '<text class="small" x="104" y="166" text-anchor="middle">' + esc(T('variable', '变量')) + '</text>' +
-        /* 2 — the effector, on the top edge */
-        '<rect class="an-effector" x="' + (X0 + 46) + '" y="' + (Y0 - 44) + '" width="96" height="40" rx="12"/>' +
-        '<text class="small" x="' + (X0 + 94) + '" y="' + (Y0 - 50) + '" text-anchor="middle">' + esc(T('2 responds', '2 反应')) + '</text>' +
-        '<text class="small" x="' + (X0 + 94) + '" y="' + (Y0 - 18) + '" text-anchor="middle">' + esc(T('effector', '效应器')) + '</text>' +
-        /* 3 — the control centre, on the right edge */
-        '<rect class="an-box" x="' + (X1 + 18) + '" y="140" width="96" height="42" rx="12"/>' +
-        '<text class="small" x="' + (X1 + 66) + '" y="132" text-anchor="middle">' + esc(T('3 decides', '3 决策')) + '</text>' +
-        '<text class="small" x="' + (X1 + 66) + '" y="166" text-anchor="middle">' + esc(T('control', '控制中心')) + '</text>' +
-        /* the two captions, in their own bands */
-        '<text class="small" x="300" y="272" text-anchor="middle">' +
-        esc(T('the signal runs clockwise: 1 → 2 → 3 → back to 1', '信号顺时针运行：1 → 2 → 3 → 回到 1')) + '</text>' +
-        '<text class="small" x="200" y="288" text-anchor="middle" class="an-lab-neg">' +
-        esc(T('return leg: the only thing that decides + or −', '返回支路：决定正负的唯一部分')) + '</text>');
+      /* The circulation runs across the top, and each of the three parts
+         hangs off it on a PAIR of lines — one carrying the signal down to the
+         part, one carrying the response back up to the circulation. Two
+         separate lines rather than one, because they travel opposite ways. */
+      function hang(x, yTop) {
+        var dOut = 'M' + x + ' ' + yTop + ' V58', dBack = 'M' + (x + 11) + ' ' + yTop + ' V58';
+        return AN.connPath(dOut, '') + AN.runPath(dOut, '', 1.1) +
+          AN.connPath(dBack, 'ret-neg') + AN.runPath(dBack, 'ret-neg', 1.3);
+      }
+      /* the return leg: the sign of the response, and the only thing that
+         decides whether this loop is negative or positive */
+      var dRet = 'M300 ' + Y1 + ' V286 H158';
+      var s = svgWrap(T('The circulation carries the signal to all three parts and the response back', '循环系统把信号送到三部分，并把反应送回'), 560, 320,
+        AN.connPath(d, '') + AN.runPath(d, '', 3.6) +
+        AN.connPath(dRet, 'ret-neg') + AN.runPath(dRet, 'ret-neg', 1.5) +
+        '<path class="an-arrowhead" d="M158 280 l-12 6 l12 6 z"/>' +
+        /* the circulation */
+        '<rect class="an-circ" x="58" y="22" width="462" height="36" rx="18"/>' +
+        '<text class="small" x="289" y="45" text-anchor="middle">' + esc(T('circulation — every part is reached through the blood', '循环系统 — 每个部分都经由血液被触及')) + '</text>' +
+        /* 1 — the variable, hanging on the left */
+        hang(104, 176) +
+        '<rect class="an-var" x="58" y="176" width="92" height="42" rx="12"/>' +
+        '<text class="small" x="104" y="202" text-anchor="middle">' + esc(T('1 · variable', '1 · 变量')) + '</text>' +
+        /* 2 — the effector, hanging from the middle, sitting on the loop */
+        hang(262, 92) +
+        '<rect class="an-effector" x="214" y="92" width="96" height="40" rx="12"/>' +
+        '<text class="small" x="262" y="118" text-anchor="middle">' + esc(T('2 · effector', '2 · 效应器')) + '</text>' +
+        /* 3 — the control centre, hanging on the right */
+        hang(513, 176) +
+        '<rect class="an-box" x="470" y="176" width="86" height="42" rx="12"/>' +
+        '<text class="small" x="513" y="202" text-anchor="middle">' + esc(T('3 · control', '3 · 控制')) + '</text>' +
+        /* the one caption, inside the loop where there is nothing else */
+        '<text class="small" x="310" y="208" text-anchor="middle">' +
+        esc(T('1 measures → 2 responds → 3 decides', '1 测量 → 2 反应 → 3 决策')) + '</text>' +
+        /* the return-leg caption, in its own band at the bottom */
+        '<text class="small an-lab-neg" x="300" y="308" text-anchor="middle" >' +
+        esc(T('return leg: the sign here is the only thing that decides + or −', '返回支路：此处的符号是决定正负的唯一因素')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which variable are you following?', '你在跟踪哪个变量？')) + '</div>' +
         tools(VAR.map(function (x) { return [x.id, T(x.en, x.zh)]; }), v) +
         apanel('main', T('One loop, drawn once and used everywhere', '同一个环路，处处通用'),
-          T('The moving dot is the signal. The green leg is the response coming back.', '移动的小点是信号；绿色的支路是返回的响应。'), s,
+          T('The moving dots are the signals. The green leg is the response coming back.', '移动的小点是信号；绿色的支路是返回的响应。'), s,
           lg('an-l-neg', T('counters the change', '抵消变化')) +
           lg('an-l-pos', T('amplifies to an endpoint', '放大至终点'))) +
         '<div class="kv-meters">' +
         frow(T('counters the change', '抵消变化'), 'an-b-neg') +
         frow(T('amplifies the change', '放大变化'), 'an-b-pos') +
         '</div>' +
-        note('Every feedback loop has the same three parts: a receptor that measures the variable, a control centre that compares it with the set point, and an effector that acts. The signal travels the loop in one direction, and that journey is identical in every loop on this page. What makes a loop negative or positive is only the sign of the return leg — the response coming back. If the response opposes the original change the variable returns to its set point, and that is what homeostasis is made of. If the response pushes the same way the loop runs away until it reaches an endpoint and switches itself off, as in blood clotting and childbirth. The three parts never change between loops; only the sign does.',
-          '每个反馈环路都有同样的三个部件：测量变量的受体、把它与设定点比较的控制中心，以及采取行动的效应器。信号沿环路单向运行——在本页的每一个环路中，这段行程完全相同。决定正负的只有返回支路的符号，也就是返回的响应。如果响应与原来的变化相反，变量就回到设定点，稳态正由此构成；如果响应与原变化同向，环路便不断放大，直到达到某个终点并自行关闭，凝血与分娩即是如此。三个部件在环路之间从不改变，改变的只有符号。');
+        note('Every feedback loop has the same three parts, and all three are reached the same way: through the circulation. A receptor measures the variable in the blood, a control centre compares it with the set point, and an effector acts on it. Each part is wired to the circulation by two lines, and the two lines always travel opposite ways: the darker one delivers the signal down to the part, the green one brings the response back up. The variable does not appear out of nowhere — it is being carried, continuously, past all three. The signal then travels the loop in one direction, and that journey is identical in every loop on this page. What makes a loop negative or positive is only the sign of the return leg. If the response opposes the original change the variable returns to its set point, and that is what homeostasis is made of. If the response pushes the same way the loop runs away until it reaches an endpoint and switches itself off, as in blood clotting and childbirth.',
+          '每个反馈环路都有同样的三个部分，而这三个部分都通过同一条路径被触及：循环系统。受体测量血液中的变量，控制中心把它与设定点比较，效应器对它采取行动。每个部分都通过两条线与循环系统相连，而这两条线始终反向运行：较深的一条把信号向下送到该部分，绿色的一条把响应向上带回。变量并非凭空出现——它被持续地携带，经过这三个部分。之后信号沿环路单向运行，而这段行程在本页每一个环路中都完全相同。决定正负的只有返回支路的符号。如果响应与原变化相反，变量回到设定点，稳态正由此构成；如果响应与原变化同向，环路不断放大，直到达到某个终点并自行关闭，凝血与分娩即是如此。');
       bar(host.querySelector('.an-b-neg'), 1, 'var(--green)');
       bar(host.querySelector('.an-b-pos'), 0, 'var(--c0)');
       outs(host, '.van-b-neg', T('always', '始终'));
@@ -3341,7 +3417,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.axon(210, musY - 34, 300, 118, mode === 'voluntary' ? 'on' : '') +
         AN.axon(300, 96, 300, cordY - 30, mode === 'voluntary' ? 'on' : '') +
         AN.axon(330, cordY + 12, 250, musY - 34, mode === 'voluntary' ? 'on' : '') +
-        '<text class="small" x="486" y="196" text-anchor="middle" class="an-lab-neg">' +
+        '<text class="small an-lab-neg" x="486" y="196" text-anchor="middle" >' +
         esc(mode === 'reflex' ? T('the signal stops in the cord', '信号止于脊髓') : T('the signal goes up first', '信号先上行')) + '</text>' +
         '<path class="an-timer" d="M60 ' + (musY - 6) + ' h-34" marker-end="url(#d4a)"/>' +
         '<text class="small" x="40" y="' + (musY - 12) + '" text-anchor="end">' + esc(T('tap', '敲击')) + '</text>');
@@ -3480,7 +3556,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
       var Y = 132;
       var P = [88, Y], K = [232, Y], G = [376, Y], H = [500, Y];
       var dADH = 'M' + (P[0] + 36) + ' ' + P[1] + ' H' + (K[0] - 40);
-      var dSave = 'M' + K[0] + ' ' + (K[1] - 34) + ' V' + (K[1] - 74);
+      var dSave = 'M' + (K[0] - 44) + ' ' + (K[1] - 20) + ' V' + (K[1] - 62);
       var dLose = 'M' + (G[0] + 40) + ' ' + G[1] + ' H' + (H[0] - 28);
       var s = svgWrap(T('The drift chain: gland, hormone, kidney, consequence', '漂移链条：腺体、激素、肾脏、后果'), 560, 262,
         AN.pituitary(P[0], P[1] - 16, 0.8) + AN.kidney(K[0], K[1] - 4, 0.8) +
@@ -3488,15 +3564,15 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         /* route 1 — the hormone, in red, with the molecule travelling */
         AN.connPath(dADH, 'hot') + AN.runPath(dADH, 'hot', 1.3) +
         '<circle class="an-horm" cx="' + ((P[0] + 36 + K[0] - 40) / 2) + '" cy="' + P[1] + '" r="8"/>' +
-        '<text class="small" x="160" y="' + (P[1] - 16) + '" text-anchor="middle" class="an-lab-pos">ADH</text>' +
+        '<text class="small an-lab-pos" x="160" y="' + (P[1] - 16) + '" text-anchor="middle" >ADH</text>' +
         /* water that IS saved, shown as an upward stub with a blocked bar */
-        AN.connPath(dSave, '') + '<path class="an-block" d="M' + (K[0] - 14) + ' ' + (K[1] - 74) +
-        ' h28 M' + (K[0] - 8) + ' ' + (K[1] - 84) + ' l-8 10 l8 10"/>' +
-        '<text class="small" x="' + K[0] + '" y="' + (K[1] - 92) + '" text-anchor="middle">' +
+        AN.connPath(dSave, '') + '<path class="an-block" d="M' + (K[0] - 58) + ' ' + (K[1] - 62) +
+        ' h28 M' + (K[0] - 52) + ' ' + (K[1] - 72) + ' l-8 10 l8 10"/>' +
+        '<text class="small" x="' + (K[0] - 72) + '" y="' + (K[1] - 68) + '" text-anchor="end">' +
         esc(T('water kept', '水被留住')) + '</text>' +
         /* route 2 — the loss that carries on regardless */
         AN.connPath(dLose, 'off') + AN.runPath(dLose, 'off', 1.5) +
-        '<text class="small" x="438" y="' + (G[1] - 16) + '" text-anchor="middle" class="an-lab-pos">' +
+        '<text class="small an-lab-pos" x="438" y="' + (G[1] - 16) + '" text-anchor="middle" >' +
         esc(T('sweat', '汗液')) + '</text>' +
         /* the label band above, one short label per station */
         '<text class="small" x="' + P[0] + '" y="52" text-anchor="middle">' + esc(T('1 · pituitary', '1 · 垂体')) + '</text>' +
@@ -3610,14 +3686,14 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         M.map(function (x, i) {
           var cx = 300 + (i % 2) * 108, cy = 74 + Math.floor(i / 2) * 78;
           return '<circle class="an-mn an-mn-' + x.cls + (x.id === sel ? ' on' : '') + '" cx="' + cx + '" cy="' + cy + '" r="26"/>' +
-            '<text class="small" x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" class="an-mn-t">' + esc(T(x.en, x.zh)) + '</text>';
+            '<text class="small an-mn-t" x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" >' + esc(T(x.en, x.zh)) + '</text>';
         }).join('') +
         /* energy availability as a fuel gauge */
         '<rect class="an-gauge" x="300" y="196" width="216" height="14" rx="7"/>' +
         '<rect class="an-gauge-f" x="300" y="196" width="' + (216 * ea / 100).toFixed(0) + '" height="14" rx="7"/>' +
         '<line class="an-thresh" x1="360" y1="190" x2="360" y2="216"/>' +
         '<text class="small" x="300" y="230">' + esc(T('energy availability', '能量可用性')) + '</text>' +
-        '<text class="small" x="516" y="230" text-anchor="end" class="' + (risk ? 'an-lab-pos' : 'an-lab-neg') + '">' +
+        '<text class="small ' + (risk ? 'an-lab-pos' : 'an-lab-neg') + '" x="516" y="230" text-anchor="end" >' +
         (risk === 2 ? esc(T('RED-S risk', 'RED-S 风险')) : risk === 1 ? esc(T('watch', '需关注')) : esc(T('adequate', '充足'))) + '</text>');
       host.innerHTML =
         '<label class="kv-lab" data-v="e"><span class="ibm-q">' + esc(T('Energy available (%)', '能量可用性（%）')) +
@@ -3664,7 +3740,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.atp(150, 208, 2, 1.05) +
         '<text class="small" x="150" y="272" text-anchor="middle">' + esc(T('ADP — what is left behind', 'ADP — 留下的部分')) + '</text>' +
         '<path class="an-flow" d="M206 76 h30 v132" marker-end="url(#d2c)"/>' +
-        '<text class="small" x="248" y="140" class="an-lab-pos">' + esc(T('hydrolysis', '水解')) + '</text>' +
+        '<text class="small an-lab-pos" x="248" y="140" >' + esc(T('hydrolysis', '水解')) + '</text>' +
         /* the continuum, as a bar that fills */
         '<rect class="an-bar" x="300" y="60" width="220" height="20" rx="10"/>' +
         '<rect class="an-b0" x="300" y="60" width="' + (220 * m[0] / 100).toFixed(0) + '" height="20"/>' +
@@ -3674,8 +3750,8 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<text class="small" x="300" y="170">' + esc(T('glycolytic', '糖酵解')) + '</text>' +
         '<text class="small" x="300" y="194">' + esc(T('oxidative', '有氧氧化')) + '</text>' +
         '<path class="an-cursor2" d="M' + (300 + 220 * work / 100).toFixed(0) + ' 48 v170"/>' +
-        '<text class="small" x="300" y="250" class="an-lab-neg">' + esc(dom + ' ' + T('dominant', '占主导')) + '</text>' +
-        '<text class="small" x="300" y="272">' + esc(T('a 100 m sprint, a 400 m sprint and a 10 km run sit at three different points', '100 米、400 米与 10 公里分别位于三个位置')) + '</text>');
+        '<text class="small an-lab-neg" x="300" y="250" >' + esc(dom + ' ' + T('dominant', '占主导')) + '</text>' +
+        '<text class="small" x="544" y="272" text-anchor="end">' + esc(T('a 100 m sprint, a 400 m sprint and a 10 km run sit at three different points', '100 米、400 米与 10 公里分别位于三个位置')) + '</text>');
       host.innerHTML =
         '<label class="kv-lab" data-v="w"><span class="ibm-q">' + esc(T('How long is the all-out effort?', '全力运动持续多久？')) +
         ' <b class="kv-v"></b></span><input type="range" min="0" max="1000" step="1" value="' + work + '"></label>' +
@@ -3718,7 +3794,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<path class="an-prog" d="M400 150 C440 140 450 110 470 96 C492 82 500 70 520 58"/>' +
         '<circle class="an-dot2" cx="410" cy="146" r="5"/><circle class="an-dot2" cx="455" cy="104" r="5"/>' +
         '<circle class="an-dot2" cx="500" cy="70" r="5"/>' +
-        '<text class="small" x="466" y="176" text-anchor="middle" class="an-lab-neg">' + esc(T('progressive overload', '渐进超负荷')) + '</text>' +
+        '<text class="small an-lab-neg" x="466" y="176" text-anchor="middle" >' + esc(T('progressive overload', '渐进超负荷')) + '</text>' +
         '<text class="small" x="466" y="196" text-anchor="middle">' + esc(T('more, not just harder', '加量，而不只是加难')) + '</text>' +
         '<text class="small" x="30" y="222">' + esc(T('recovery days are part of the plan, not a break from it', '恢复日是计划的一部分，而不是计划的空档')) + '</text>');
       host.innerHTML =
@@ -3750,9 +3826,9 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
       var s = svgWrap(T('The monitoring loop: load, recovery, adaptation', '监测环路：负荷、恢复、适应'), 560, 250,
         AN.head('d2e') +
         '<rect class="an-box2" x="40" y="52" width="130" height="70" rx="14"/><text class="small" x="105" y="82" text-anchor="middle">' + esc(T('training load', '训练负荷')) + '</text>' +
-        '<text class="small" x="105" y="104" text-anchor="middle" class="an-lab-pos">' + load + '</text>' +
+        '<text class="small an-lab-pos" x="105" y="104" text-anchor="middle" >' + load + '</text>' +
         '<rect class="an-box2" x="200" y="52" width="130" height="70" rx="14"/><text class="small" x="265" y="82" text-anchor="middle">' + esc(T('recovery', '恢复')) + '</text>' +
-        '<text class="small" x="265" y="104" text-anchor="middle" class="an-lab-neg">' + rec + '</text>' +
+        '<text class="small an-lab-neg" x="265" y="104" text-anchor="middle" >' + rec + '</text>' +
         '<rect class="an-box2" x="360" y="52" width="150" height="70" rx="14"/><text class="small" x="435" y="82" text-anchor="middle">' + esc(T('adaptation', '适应')) + '</text>' +
         '<text class="small" x="435" y="104" text-anchor="middle">' + Math.round(fit) + '%</text>' +
         '<path class="an-flow' + (fit > 60 ? ' good' : ' bad') + '" d="M170 87 h26" marker-end="url(#d2e)"/>' +
@@ -3760,8 +3836,8 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         /* the review point: the loop closes with data, not opinion */
         '<path class="an-flow' + (fit > 60 ? ' good' : ' bad') + '" d="M435 122 v56 h-330 v-40" marker-end="url(#d2e)"/>' +
         '<text class="small" x="268" y="200" text-anchor="middle">' + esc(T('measure → adjust ONE variable → review again', '测量 → 只调整一个变量 → 再次复测')) + '</text>' +
-        '<text class="small" x="105" y="196" text-anchor="middle" class="an-lab-pos">' + esc(T('load + volume + intensity + RPE', '负荷 + 总量 + 强度 + RPE')) + '</text>' +
-        '<text class="small" x="265" y="196" text-anchor="middle" class="an-lab-neg">' + esc(T('sleep + mood + soreness + HRV', '睡眠 + 情绪 + 酸痛 + HRV')) + '</text>');
+        '<text class="small an-lab-pos" x="105" y="196" text-anchor="middle" >' + esc(T('load + volume + intensity + RPE', '负荷 + 总量 + 强度 + RPE')) + '</text>' +
+        '<text class="small an-lab-neg" x="265" y="196" text-anchor="middle" >' + esc(T('sleep + mood + soreness + HRV', '睡眠 + 情绪 + 酸痛 + HRV')) + '</text>');
       host.innerHTML =
         '<label class="kv-lab" data-v="l"><span class="ibm-q">' + esc(T('Training load this week', '本周训练负荷')) +
         ' <b class="kv-v"></b></span><input type="range" min="10" max="100" step="1" value="' + load + '"></label>' +
@@ -3849,17 +3925,17 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
     function draw() {
       var plaque = clamp(yrs / 90, 0, 1);
       var lum = Math.round(100 - plaque * 82);
-      var s = svgWrap(T('How an artery changes, and what activity does about it', '动脉如何改变，运动又能做些什么'), 560, 260,
+      var s = svgWrap(T('How an artery changes, and what activity does about it', '动脉如何改变，运动又能做些什么'), 560, 270,
         AN.head('d2g') +
         AN.heart(70, 120, 0.7) +
         AN.artery(230, 96, 180, 74, plaque) +
         AN.artery(230, 208, 180, 74, Math.max(0, plaque - 0.55)) +
         '<text class="small" x="230" y="52" text-anchor="middle">' + esc(T('untreated', '不干预')) + '</text>' +
-        '<text class="small" x="230" y="258" text-anchor="middle" class="an-lab-neg">' + esc(T('with regular activity', '规律活动后')) + '</text>' +
+        '<text class="small an-lab-neg" x="230" y="258" text-anchor="middle" >' + esc(T('with regular activity', '规律活动后')) + '</text>' +
         /* the blood going through */
         '<path class="an-flow' + (lum > 40 ? ' good' : ' bad') + '" d="M96 120 h124" marker-end="url(#d2g)"/>' +
-        '<text class="small" x="352" y="100" class="' + (lum > 40 ? 'an-lab-neg' : 'an-lab-pos') + '">' + lum + '% ' + esc(T('lumen left', '管腔剩余')) + '</text>' +
-        '<text class="small" x="352" y="212" class="an-lab-neg">' + Math.round(100 - Math.max(0, plaque - 0.55) * 82) + '%</text>' +
+        '<text class="small ' + (lum > 40 ? 'an-lab-neg' : 'an-lab-pos') + '" x="352" y="100" >' + lum + '% ' + esc(T('lumen left', '管腔剩余')) + '</text>' +
+        '<text class="small an-lab-neg" x="352" y="212" >' + Math.round(100 - Math.max(0, plaque - 0.55) * 82) + '%</text>' +
         '<text class="small" x="420" y="150" text-anchor="middle">' + esc(T('plaque', '斑块')) + '</text>' +
         '<line class="an-lead2" x1="418" y1="146" x2="318" y2="112"/>');
       host.innerHTML =
@@ -3903,7 +3979,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
               '<text class="small" x="220" y="' + (y + 4) + '" text-anchor="middle">' + d[0] + '</text>' +
               '<text class="small" x="252" y="' + (y + 4) + '">' + d[1] + ' ' + esc(T(d[3], d[4])) + '</text>';
           }).join('') +
-        '<text class="small" x="220" y="230" class="an-lab-neg">' + esc(T('Type: ' + p.ty, '类型：' + p.ty)) + '</text>');
+        '<text class="small an-lab-neg" x="220" y="230" >' + esc(T('Type: ' + p.ty, '类型：' + p.ty)) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which population?', '哪一人群？')) + '</div>' +
         tools([['child', T('Child', '儿童')], ['older', T('Older adult', '老年人')], ['preg', T('Pregnancy', '孕期')]], pop) +
@@ -3986,9 +4062,9 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<circle class="an-clock" cx="400" cy="94" r="30"/><path class="an-hand" d="M400 94 V74"/><path class="an-hand" d="M400 94 l14 8"/>' +
         '<text class="small" x="400" y="146" text-anchor="middle">' + esc(T(hrs + ' h', hrs + ' 小时')) + '</text>' +
         (zones > 0
-          ? '<path class="an-flow bad" d="M452 94 h60" marker-end="url(#d2j)"/><text class="small" x="512" y="82" text-anchor="end" class="an-lab-pos">' +
+          ? '<path class="an-flow bad" d="M452 94 h60" marker-end="url(#d2j)"/><text class="small an-lab-pos" x="512" y="82" text-anchor="end" >' +
           esc(zones + ' ' + T('time zones', '个时区')) + '</text>'
-          : '<text class="small" x="470" y="98" class="an-lab-neg">' + esc(T('no jet lag', '无时差')) + '</text>') +
+          : '<text class="small an-lab-neg" x="470" y="98" >' + esc(T('no jet lag', '无时差')) + '</text>') +
         '<text class="small" x="60" y="238">' + esc(T('indicators: resting heart rate back to baseline · HRV up · less soreness · good mood', '指标：静息心率回到基线 · HRV 上升 · 酸痛减轻 · 情绪良好')) + '</text>');
       host.innerHTML =
         '<label class="kv-lab" data-v="h"><span class="ibm-q">' + esc(T('Hours of sleep last night', '昨晚睡眠小时数')) +
@@ -4036,7 +4112,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
     };
     function draw() {
       var d = D[dir];
-      var s = svgWrap(T('Directional and positional terms on a real body', '在真实人体上的方向与位置术语'), 560, 280,
+      var s = svgWrap(T('Directional and positional terms on a real body', '在真实人体上的方向与位置术语'), 560, 290,
         AN.head('d3a') +
         AN.com(150, 168, 1.15) +
         AN.bone(300, 90, 120, 24) +
@@ -4048,9 +4124,9 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<path class="an-arrow2" d="M' + (150 + d[2] * 46) + ' ' + (168 + d[3] * 46) +
         ' l' + (d[2] * 30) + ' ' + (d[3] * 30) + '" marker-end="url(#d3a)"/>' +
         '<circle class="an-comdot" cx="150" cy="168" r="6"/>' +
-        '<text class="small" x="150" y="278" text-anchor="middle" class="an-lab-neg">' +
+        '<text class="small an-lab-neg" x="150" y="278" text-anchor="middle" >' +
         esc(T(d[1] === '近侧／上方' ? d[0] : d[1], d[1])) + '</text>' +
-        '<text class="small" x="420" y="80" class="an-lab-pos">' + esc(T('reference point is the anatomical position', '参照点是解剖学标准位')) + '</text>' +
+        '<text class="small an-lab-pos" x="544" y="62" text-anchor="end">' + esc(T('reference point is the anatomical position', '参照点是解剖学标准位')) + '</text>' +
         '<text class="small" x="420" y="104">' + esc(T('every term is a pair', '每个术语都成对出现')) + '</text>' +
         '<text class="small" x="420" y="128">' + esc(T('superior / inferior', '近侧／远侧')) + '</text>' +
         '<text class="small" x="420" y="152">' + esc(T('anterior / posterior', '前侧／后侧')) + '</text>' +
@@ -4114,11 +4190,11 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<text class="small" x="242" y="172" text-anchor="middle">' + esc(T('cartilage', '软骨')) + '</text>' +
         '<text class="small" x="382" y="172" text-anchor="middle">' + esc(T('tendon', '肌腱')) + '</text>' +
         '<text class="small" x="490" y="208" text-anchor="middle">' + esc(T('ligament', '韧带')) + '</text>' +
-        '<text class="small" x="100" y="216" class="an-lab-neg">' + esc(T('osteon', '骨单位')) + '</text>' +
+        '<text class="small an-lab-neg" x="100" y="216" >' + esc(T('osteon', '骨单位')) + '</text>' +
         '<text class="small" x="100" y="234">' + esc(T('concentric lamellae', '同心骨板')) + '</text>' +
-        '<text class="small" x="242" y="216" class="an-lab-neg">' + esc(T('chondrocytes', '软骨细胞')) + '</text>' +
+        '<text class="small an-lab-neg" x="242" y="216" >' + esc(T('chondrocytes', '软骨细胞')) + '</text>' +
         '<text class="small" x="242" y="234">' + esc(T('in a matrix', '位于基质中')) + '</text>' +
-        '<text class="small" x="382" y="216" class="an-lab-neg">' + esc(T('parallel collagen', '平行胶原')) + '</text>' +
+        '<text class="small an-lab-neg" x="382" y="216" >' + esc(T('parallel collagen', '平行胶原')) + '</text>' +
         '<text class="small" x="382" y="234">' + esc(T('tension only', '只抗拉')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which one?', '哪一种？')) + '</div>' +
@@ -4145,22 +4221,22 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.head('d3c') +
         AN.joint(126, 110, 24) +
         AN.bursa(126, 210) +
-        '<text class="small" x="126" y="26" text-anchor="middle" class="an-lab-neg">' + esc(T('synovial joint, cut open', '滑膜关节剖面')) + '</text>' +
+        '<text class="small an-lab-neg" x="126" y="26" text-anchor="middle" >' + esc(T('synovial joint, cut open', '滑膜关节剖面')) + '</text>' +
         '<text class="small" x="126" y="240" text-anchor="middle">' + esc(T('bursa', '滑囊')) + '</text>' +
-        '<line class="an-lead2" x1="60" y1="70" x2="14" y2="48"/><text class="small" x="14" y="42">' + esc(T('capsule', '关节囊')) + '</text>' +
+        '<line class="an-lead2" x1="60" y1="70" x2="14" y2="48"/><text class="small" x="30" y="214">' + esc(T('capsule', '关节囊')) + '</text>' +
         '<line class="an-lead2" x1="60" y1="112" x2="14" y2="106"/><text class="small" x="14" y="102">' + esc(T('cartilage', '软骨')) + '</text>' +
         '<line class="an-lead2" x1="126" y1="150" x2="126" y2="170"/><text class="small" x="126" y="182" text-anchor="middle">' + esc(T('synovial fluid', '滑液')) + '</text>' +
         '<line class="an-lead2" x1="60" y1="146" x2="14" y2="164"/><text class="small" x="14" y="180">' + esc(T('ligament', '韧带')) + '</text>' +
         /* the joint classes, each drawn as its own little joint */
         '<g transform="translate(300 76)"><path class="an-jc" d="M-40 12 h22 v-30 h16 v60 h-16 v-30 h-22 z"/>' +
-        '<text class="small" x="-14" y="64" text-anchor="middle">' + esc(T('hinge · knee', '铰链 · 膝')) + '</text></g>' +
+        '<text class="small" x="34" y="64" text-anchor="middle">' + esc(T('hinge · knee', '铰链 · 膝')) + '</text></g>' +
         '<g transform="translate(430 76)"><circle class="an-jcball" cx="0" cy="-4" r="18"/><path class="an-jc" d="M-26 16 h52 v22 h-52 z"/>' +
-        '<text class="small" x="0" y="64" text-anchor="middle">' + esc(T('ball · shoulder', '球窝 · 肩')) + '</text></g>' +
+        '<text class="small" x="42" y="64" text-anchor="middle">' + esc(T('ball · shoulder', '球窝 · 肩')) + '</text></g>' +
         '<g transform="translate(300 176)"><rect class="an-jc" x="-34" y="-6" width="68" height="16" rx="8"/>' +
         '<circle class="an-jcball" cx="0" cy="2" r="9"/>' +
-        '<text class="small" x="0" y="46" text-anchor="middle">' + esc(T('pivot · neck', '枢轴 · 颈')) + '</text></g>' +
+        '<text class="small" x="34" y="46" text-anchor="middle">' + esc(T('pivot · neck', '枢轴 · 颈')) + '</text></g>' +
         '<g transform="translate(430 176)"><path class="an-jc" d="M-34 -14 q34 16 68 0 v14 q-34 16 -68 0 z"/>' +
-        '<text class="small" x="0" y="46" text-anchor="middle">' + esc(T('saddle · thumb', '鞍状 · 拇指')) + '</text></g>');
+        '<text class="small" x="42" y="46" text-anchor="middle">' + esc(T('saddle · thumb', '鞍状 · 拇指')) + '</text></g>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which joint class?', '哪一种关节类型？')) + '</div>' +
         tools([['hinge', T('Hinge — one axis', '铰链 · 单轴')], ['ball', T('Ball and socket — all directions', '球窝 · 多轴')],
@@ -4214,12 +4290,12 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
           var y = 76 + i * 62, live = on[f.id];
           return AN.axon(196, 90, 232, y, live ? 'on' : '') +
             AN.fibre(300, y, 128, 40, live ? f.id : 'off') +
-            '<text class="small" x="378" y="' + (y - 12) + '" class="' + (live ? 'an-lab-neg' : '') + '">' + esc(T(f.n, f.n)) + '</text>' +
-            '<text class="small" x="378" y="' + (y + 6) + '">' + esc(T(f.d, f.dz)) + '</text>';
+            '<text class="small ' + (live ? 'an-lab-neg' : '') + '" x="378" y="' + (y - 12) + '" >' + esc(T(f.n, f.n)) + '</text>' +
+            '<text class="small" x="544" y="' + (y + 34) + '" text-anchor="end">' + esc(T(f.d, f.dz)) + '</text>';
         }).join('') +
         '<text class="small" x="70" y="206" text-anchor="middle">' + esc(T('α motor neuron', 'α 运动神经元')) + '</text>' +
-        '<text class="small" x="300" y="248" text-anchor="middle" class="an-lab-neg">' + esc(T('one neuron, many fibres — that is the unit', '一个神经元、多条肌纤维——这就是运动单位')) + '</text>' +
-        '<text class="small" x="300" y="266" text-anchor="middle">' + esc(T('dark = lots of mitochondria, fatigue-resistant', '深色 = 线粒体多，耐疲劳')) + '</text>');
+        '<text class="small an-lab-neg" x="300" y="248" text-anchor="middle" >' + esc(T('one neuron, many fibres — that is the unit', '一个神经元、多条肌纤维——这就是运动单位')) + '</text>' +
+        '<text class="small" x="500" y="266" text-anchor="end">' + esc(T('dark = lots of mitochondria, fatigue-resistant', '深色 = 线粒体多，耐疲劳')) + '</text>');
       host.innerHTML =
         '<label class="kv-lab" data-v="e"><span class="ibm-q">' + esc(T('How much force is being asked for?', '要求产生多大的力？')) +
         ' <b class="kv-v"></b></span><input type="range" min="5" max="100" step="1" value="' + effort + '"></label>' +
@@ -4250,17 +4326,17 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.head('d3e') +
         /* the same sarcomere drawn three ways */
         AN.sarcomere(90, 92, 148, mode === 'concentric' ? 1 : 0) +
-        '<text class="small" x="90" y="150" text-anchor="middle" class="' + (mode === 'concentric' ? 'an-lab-neg' : '') + '">' + esc(T('concentric · shortens', '向心 · 缩短')) + '</text>' +
+        '<text class="small ' + (mode === 'concentric' ? 'an-lab-neg' : '') + '" x="90" y="150" text-anchor="middle" >' + esc(T('concentric · shortens', '向心 · 缩短')) + '</text>' +
         AN.sarcomere(296, 92, 148, 0) +
-        '<text class="small" x="296" y="150" text-anchor="middle" class="' + (mode === 'isometric' ? 'an-lab-neg' : '') + '">' + esc(T('isometric · unchanged', '等长 · 长度不变')) + '</text>' +
+        '<text class="small ' + (mode === 'isometric' ? 'an-lab-neg' : '') + '" x="296" y="150" text-anchor="middle" >' + esc(T('isometric · unchanged', '等长 · 长度不变')) + '</text>' +
         AN.sarcomere(502, 92, 148, -1) +
-        '<text class="small" x="502" y="150" text-anchor="middle" class="' + (mode === 'eccentric' ? 'an-lab-neg' : '') + '">' + esc(T('eccentric · lengthens', '离心 · 被拉长')) + '</text>' +
+        '<text class="small ' + (mode === 'eccentric' ? 'an-lab-neg' : '') + '" x="502" y="150" text-anchor="middle" >' + esc(T('eccentric · lengthens', '离心 · 被拉长')) + '</text>' +
         /* the two-muscle interaction */
         '<rect class="an-muscle" x="30" y="186" width="150" height="38" rx="14" id="ag"/>' +
         '<rect class="an-muscle" x="220" y="186" width="150" height="38" rx="14" id="ant"/>' +
         '<text class="small" x="105" y="240" text-anchor="middle">' + esc(T('agonist', '主动肌')) + '</text>' +
         '<text class="small" x="295" y="240" text-anchor="middle">' + esc(T('antagonist', '拮抗肌')) + '</text>' +
-        '<text class="small" x="200" y="212" text-anchor="middle" class="an-lab-pos">' + esc(T('oppose', '对抗')) + '</text>');
+        '<text class="small an-lab-pos" x="200" y="212" text-anchor="middle" >' + esc(T('oppose', '对抗')) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which contraction?', '哪一种收缩？')) + '</div>' +
         tools([['concentric', T('Concentric — muscle shortens', '向心 · 肌肉缩短')],
@@ -4294,7 +4370,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
       var s = svgWrap(T('Sliding filament, and what training changes', '肌丝滑动，以及训练改变了什么'), 560, 250,
         AN.head('d3f') +
         '<g>' + AN.sarcomere(180, 108, 240, slid) + '</g>' +
-        '<text class="small" x="180" y="166" text-anchor="middle" class="an-lab-neg">' + esc(T('A band never changes · I band shortens', 'A 带不变 · I 带缩短')) + '</text>' +
+        '<text class="small an-lab-neg" x="180" y="166" text-anchor="middle" >' + esc(T('A band never changes · I band shortens', 'A 带不变 · I 带缩短')) + '</text>' +
         /* what actually changes with training */
         '<rect class="an-fib-i" x="330" y="72" width="180" height="52" rx="18"/>' +
         [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) {
@@ -4341,15 +4417,15 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
       var s = svgWrap(T('The three lever classes', '三类杠杆'), 560, 250,
         '<defs><marker id="d3arm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="an-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>' +
         AN.lever(120, 96, 170, 0.5, 0.9, 0.1) +
-        '<text class="small" x="120" y="182" text-anchor="middle" class="' + (cls === '1' ? 'an-lab-neg' : '') + '">' + esc(T('1st class', '第一类')) + '</text>' +
+        '<text class="small ' + (cls === '1' ? 'an-lab-neg' : '') + '" x="120" y="182" text-anchor="middle" >' + esc(T('1st class', '第一类')) + '</text>' +
         AN.lever(300, 96, 170, 0.2, 0.5, 0.9) +
-        '<text class="small" x="300" y="182" text-anchor="middle" class="' + (cls === '2' ? 'an-lab-neg' : '') + '">' + esc(T('2nd class', '第二类')) + '</text>' +
+        '<text class="small ' + (cls === '2' ? 'an-lab-neg' : '') + '" x="300" y="182" text-anchor="middle" >' + esc(T('2nd class', '第二类')) + '</text>' +
         AN.lever(480, 96, 170, 0.2, 0.5, 0.9) +
-        '<text class="small" x="480" y="182" text-anchor="middle" class="' + (cls === '3' ? 'an-lab-neg' : '') + '">' + esc(T('3rd class', '第三类')) + '</text>' +
+        '<text class="small ' + (cls === '3' ? 'an-lab-neg' : '') + '" x="480" y="182" text-anchor="middle" >' + esc(T('3rd class', '第三类')) + '</text>' +
         '<text class="small" x="120" y="44" text-anchor="middle">' + esc(T('fulcrum', '支点')) + '</text>' +
-        '<text class="small" x="300" y="44" text-anchor="middle" class="an-lab-pos">' + esc(T('effort', '动力')) + '</text>' +
+        '<text class="small an-lab-pos" x="300" y="44" text-anchor="middle" >' + esc(T('effort', '动力')) + '</text>' +
         '<text class="small" x="480" y="216" text-anchor="middle">' + esc(T('load', '阻力')) + '</text>' +
-        '<text class="small" x="280" y="240" text-anchor="middle" class="an-lab-neg">' + esc(body[cls]) + '</text>');
+        '<text class="small an-lab-neg" x="280" y="240" text-anchor="middle" >' + esc(body[cls]) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which lever class?', '哪一类杠杆？')) + '</div>' +
         tools([['1', T('First — fulcrum in the middle', '第一类 · 支点在中间')],
@@ -4382,11 +4458,11 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
       var s = svgWrap(T('Mechanical advantage from the arm lengths', '由力臂长度决定的机械优势'), 560, 250,
         '<defs><marker id="d3arm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="an-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>' +
         AN.lever(280, 110, 300, 0.18, 0.18 + ea / 100 * 0.6, 0.18 + la / 100 * 0.6) +
-        '<text class="small" x="280" y="46" text-anchor="middle" class="an-lab-pos">' + esc(T('effort arm ' + ea + ' cm', '动力臂 ' + ea + ' cm')) + '</text>' +
-        '<text class="small" x="280" y="196" text-anchor="middle" class="an-lab-neg">' + esc(T('load arm ' + la + ' cm', '阻力臂 ' + la + ' cm')) + '</text>' +
-        '<text class="small" x="500" y="70" class="an-lab-neg">' + esc(T('MA = effort arm ÷ load arm', 'MA = 动力臂 ÷ 阻力臂')) + '</text>' +
+        '<text class="small an-lab-pos" x="280" y="46" text-anchor="middle" >' + esc(T('effort arm ' + ea + ' cm', '动力臂 ' + ea + ' cm')) + '</text>' +
+        '<text class="small an-lab-neg" x="280" y="196" text-anchor="middle" >' + esc(T('load arm ' + la + ' cm', '阻力臂 ' + la + ' cm')) + '</text>' +
+        '<text class="small an-lab-neg" x="544" y="70" text-anchor="end">' + esc(T('MA = effort arm ÷ load arm', 'MA = 动力臂 ÷ 阻力臂')) + '</text>' +
         '<text class="small" x="500" y="96">' + esc(T('= ' + ma.toFixed(2) + ' now', '= ' + ma.toFixed(2) + ' 当前')) + '</text>' +
-        '<text class="small" x="500" y="128">' + (ma > 1
+        '<text class="small" x="544" y="128" text-anchor="end">' + (ma > 1
           ? esc(T('you win — multiply your force', '占优势 —— 你的力量被放大'))
           : esc(T('you lose — but you gain speed', '不占优 —— 但你换来了速度'))) + '</text>' +
         '<text class="small" x="280" y="238" text-anchor="middle">' +
@@ -4443,7 +4519,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
             : '<rect class="an-block" x="164" y="196" width="52" height="18" rx="4"/>' +
             '<path class="an-arrow2" d="M190 188 v-26" marker-end="url(#d3g)"/>' +
             '<text class="small" x="230" y="150">' + esc(T('you push the ground down', '你对地面施力向下')) + '</text>' +
-            '<text class="small" x="230" y="172" class="an-lab-neg">' + esc(T('the ground pushes you up, equally', '地面对你施力向上，等大反向')) + '</text>') +
+            '<text class="small an-lab-neg" x="230" y="172" >' + esc(T('the ground pushes you up, equally', '地面对你施力向上，等大反向')) + '</text>') +
         '<text class="small" x="60" y="228">' + esc(l.ex) + '</text>');
       host.innerHTML =
         '<div class="kv-q">' + esc(T('Which law?', '哪一条定律？')) + '</div>' +
@@ -4473,17 +4549,17 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.com(150, 150, 0.9 + comH / 500) +
         '<path class="an-lead2" x1="150" y1="' + (150 - 30) + '" x2="150" y2="188"/>' +
         '<circle class="an-comdot" cx="150" cy="' + (188 - comH) + '" r="7"/>' +
-        '<text class="small" x="164" y="' + (188 - comH - 8) + '" class="an-lab-pos">' + esc(T('centre of mass', '重心')) + '</text>' +
+        '<text class="small an-lab-pos" x="164" y="' + (188 - comH - 8) + '" >' + esc(T('centre of mass', '重心')) + '</text>' +
         '<rect class="an-base" x="' + (150 - 10 - contact) + '" y="188" width="' + (20 + contact * 2) + '" height="9" rx="4"/>' +
-        '<text class="small" x="150" y="216" text-anchor="middle" class="' + (stable ? 'an-lab-neg' : 'an-lab-pos') + '">' +
+        '<text class="small ' + (stable ? 'an-lab-neg' : 'an-lab-pos') + '" x="150" y="216" text-anchor="middle" >' +
         (stable ? esc(T('CoM over the base → stable', '重心在支撑面内 → 稳定')) : esc(T('CoM outside → topple', '重心在支撑面外 → 倾倒'))) + '</text>' +
         /* the collision: same force, longer contact */
         '<rect class="an-block" x="330" y="96" width="52" height="52" rx="8"/>' +
         '<rect class="an-block" x="450" y="96" width="52" height="52" rx="8"/>' +
         '<path class="an-arrow2" d="M306 122 h20" marker-end="url(#d3h)"/>' +
-        '<text class="small" x="316" y="80" text-anchor="middle" class="an-lab-pos">' + esc(T('same force', '同样的力')) + '</text>' +
+        '<text class="small an-lab-pos" x="316" y="80" text-anchor="middle" >' + esc(T('same force', '同样的力')) + '</text>' +
         '<path class="an-arrow2" d="M386 122 h60" marker-end="url(#d3h)" opacity=".35"/>' +
-        '<text class="small" x="416" y="172" text-anchor="middle" class="an-lab-neg">' + esc(T('spread over ' + contact + '× longer', '分散到 ' + contact + ' 倍长时间')) + '</text>' +
+        '<text class="small an-lab-neg" x="416" y="172" text-anchor="middle" >' + esc(T('spread over ' + contact + '× longer', '分散到 ' + contact + ' 倍长时间')) + '</text>' +
         '<text class="small" x="416" y="196" text-anchor="middle">' + esc(T('impulse ' + Math.round(impulse), '冲量 ' + Math.round(impulse))) + '</text>' +
         '<text class="small" x="60" y="240">' + esc(T('impulse = force × time, so a softer surface is a longer collision', '冲量＝力×时间，因此更软的表面意味着更长的碰撞')) + '</text>');
       host.innerHTML =
@@ -4528,11 +4604,11 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         AN.head('d3i') +
         AN.com(140, 150, 1.05) +
         '<line class="an-meas" x1="176" y1="' + (seg === 'shoulder' ? 92 : 150) + '" x2="300" y2="' + (seg === 'shoulder' ? 92 : 150) + '"/>' +
-        '<text class="small" x="238" y="' + ((seg === 'shoulder' ? 92 : 150) - 8) + '" text-anchor="middle" class="an-lab-pos">' + s.v + ' cm</text>' +
+        '<text class="small an-lab-pos" x="238" y="' + ((seg === 'shoulder' ? 92 : 150) - 8) + '" text-anchor="middle" >' + s.v + ' cm</text>' +
         '<rect class="an-bench" x="300" y="96" width="200" height="12" rx="5"/>' +
         '<text class="small" x="400" y="132" text-anchor="middle">' + esc(T('bench top', '凳面')) + '</text>' +
         '<path class="an-meas2" x1="140" y1="' + (seg === 'shoulder' ? 92 : 96) + '" x2="140" y2="96" stroke-dasharray="3 3"/>' +
-        '<text class="small" x="400" y="176" text-anchor="middle" class="' + (seg === 'shoulder' ? 'an-lab-neg' : '') + '">' +
+        '<text class="small ' + (seg === 'shoulder' ? 'an-lab-neg' : '') + '" x="400" y="176" text-anchor="middle" >' +
         esc(seg === 'shoulder' ? T('aligns the bench to the shoulder point', '使凳面与肩点对齐') : T('set by other measures', '由其他测量决定')) + '</text>' +
         '<text class="small" x="400" y="204" text-anchor="middle">' + esc(T('the athlete is the standard, not the catalogue', '标准是运动员本人，不是产品目录')) + '</text>' +
         '<text class="small" x="400" y="228" text-anchor="middle">' + esc(T('percentile data beats a single average', '百分位数据胜过单一平均值')) + '</text>');
@@ -4566,7 +4642,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
         '<path class="an-arcused" d="M' + (170 - 80 * Math.cos(Math.min(1.2, used / avail * 1.9)).toFixed(1)).toFixed(1) + ' 170 A80 80 0 0 1 ' +
         (170 + 80 * Math.cos(Math.max(-0.05, 1.9 - used / avail * 1.9)).toFixed(1)).toFixed(1) + ' 170"/>' +
         '<line class="an-meas" x1="90" y1="170" x2="250" y2="170"/>' +
-        '<text class="small" x="170" y="192" text-anchor="middle" class="an-lab-neg">' + esc(T('available range', '可用范围')) + '</text>' +
+        '<text class="small an-lab-neg" x="170" y="192" text-anchor="middle" >' + esc(T('available range', '可用范围')) + '</text>' +
         '<text class="small" x="170" y="212" text-anchor="middle">' + esc(T('the further you go, the less muscle is left to absorb it', '用得越极端，留给肌肉吸收的余地就越少')) + '</text>' +
         AN.joint(400, 150, 26) +
         '<text class="small" x="400" y="228" text-anchor="middle">' + esc(T('stability is a joint property; mobility is a range', '稳定性是关节属性；活动度是一个范围')) + '</text>');
@@ -4951,6 +5027,7 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
     slot._ibMode = mode();
     try {
       fn(body, slot._ibMode);
+      liven(body);
       $$('.kv-callout', body).forEach(function (n) { n.setAttribute('aria-live', 'polite'); });
     } catch (e) {
       slot._ibDone = false;
@@ -4993,5 +5070,716 @@ MODELS['Voluntary movement and reflexes'] = function (host) {
     count: function () { return Object.keys(MODELS).length; },
     built: function () { return $$('.ib-model').length; },
     topicTerms: topicTerms
+  };/* ══ batch D4 — the last eleven sections ═════════════════════════════════
+   Same house rules as everywhere else: labels live in their own band and
+   never on a shape, every connection marches and carries a travelling
+   signal, one fixed connection point per part, and the note says what the
+   model is actually showing. */
+
+  /* ── B.2.4 Buoyancy, lift and drag ────────────────────────────────────
+     Three forces on one body, all three leaving from the body's own
+     centre so you can compare them directly. Drag grows with the square
+     of speed, which is the whole point of the model. */
+  MODELS['Buoyancy, lift and drag'] = function (host) {
+    var med = 'water', v = 12, sub = 45;
+    function draw() {
+      /* state lives here, NOT in the DOM: draw() runs once before the
+         sliders exist, so reading host.querySelector(...).value would be
+         null on the first pass and throw. */
+      var rho = med === 'water' ? 1000 : 1.2;
+      var g = 9.81, m = 70, V = m / 950;                     /* body volume, m³ */
+      var Fb = rho * V * g * (sub / 100);                    /* buoyancy */
+      var W = m * g;                                          /* weight */
+      var drag = 0.5 * rho * 0.6 * 2.0 * v * v * 0.05;        /* ½ρCdAv² */
+      var net = Fb - W;
+      /* one point on the body: every force arrow starts there */
+      var CX = 220, CY = 168;
+      var SURF = 74;
+      var s = svgWrap(T('Three forces on one body, and which one wins', '一个物体上的三种力，以及哪一种占上风'), 560, 300,
+        /* the medium */
+        (med === 'water'
+          ? '<rect class="an-water" x="40" y="' + SURF + '" width="480" height="188" rx="6"/>' +
+          '<path class="an-meas2" d="M40 ' + SURF + ' H520"/>' +
+          '<text class="small" x="52" y="' + (SURF - 8) + '">' + esc(T('water surface', '水面')) + '</text>' +
+          /* the current, so you can see the medium is moving */
+          '<path class="an-conn" d="M60 250 H500"/>' +
+          AN.runPath('M60 250 H500', '', 2.6)
+          : '<rect class="an-air" x="40" y="' + SURF + '" width="480" height="188" rx="6"/>' +
+          '<text class="small" x="52" y="' + (SURF - 8) + '">' + esc(T('air', '空气')) + '</text>' +
+          Array.prototype.slice.call([0, 1, 2]).map(function (k) {
+            var y = 110 + k * 70, d = 'M60 ' + y + ' H500';
+            return AN.connPath(d, '') + AN.runPath(d, '', 3 + k * 0.4);
+          }).join('')) +
+        /* the body — one shape, and every arrow leaves from its centre */
+        '<circle class="an-body" cx="' + CX + '" cy="' + CY + '" r="34"/>' +
+        '<circle class="an-comdot" cx="' + CX + '" cy="' + CY + '" r="6"/>' +
+        /* buoyancy, straight up */
+        (Fb > 0.5 ? AN.arrow(CX, CY, CX, CY - 34 - Math.min(60, Fb / 12), 'up') : '') +
+        /* weight, straight down, from the same point */
+        AN.arrow(CX, CY, CX, CY + 34 + Math.min(60, W / 12), 'down') +
+        /* drag, opposing motion, from the same point */
+        (drag > 0.5 ? AN.arrow(CX, CY, CX + 34 + Math.min(120, drag * 1.6), CY, 'hold') : '') +
+        /* labels in their own band, never on an arrow */
+        '<text class="small" x="' + (CX - 118) + '" y="' + (CY - 82) + '" text-anchor="end">' +
+        esc(T('buoyancy ↑', '浮力 ↑')) + '</text>' +
+        '<text class="small" x="' + (CX - 118) + '" y="' + (CY + 96) + '" text-anchor="end">' +
+        esc(T('weight ↓', '重力 ↓')) + '</text>' +
+        '<text class="small" x="' + (CX + 42) + '" y="' + (CY - 66) + '">' +
+        esc(T('drag ←', '阻力 ←')) + '</text>' +
+        '<text class="small" x="290" y="292" text-anchor="middle">' +
+        esc(T('the red dot is the one point all three forces act through', '红点是三种力共同作用的那一个点')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which medium, and how fast is it moving?', '哪种介质，移动有多快？')) + '</div>' +
+        tools([['water', T('Water', '水')], ['air', T('Air', '空气')]], med) +
+        qrange('v', T('Speed (m/s)', '速度（米／秒）'), 0, 30, v, 1) +
+        qrange('s', T('How much of the body is submerged (%)', '身体没入水中的比例（%）'), 0, 100, sub, 1) +
+        apanel('main', T('Buoyancy, weight and drag on the same body', '同一个物体上的浮力、重力与阻力'),
+          T('All three arrows start at the red dot. Their lengths are the real ratio.', '三个箭头都从红点出发，长度是真实的比例。'), s,
+          lg('an-l-up', T('up: buoyancy', '向上：浮力')) +
+          lg('an-l-down', T('down: weight', '向下：重力')) +
+          lg('an-l-hold', T('sideways: drag', '侧向：阻力'))) +
+        '<div class="kv-meters">' +
+        frow(T('buoyancy', '浮力'), 'an-b-fb') +
+        frow(T('weight', '重力'), 'an-b-w') +
+        frow(T('drag', '阻力'), 'an-b-drag') +
+        '</div><div class="kv-callout"></div>' +
+        note('Archimedes: the upward force equals the weight of water displaced, so a body floats when the volume it pushes aside weighs the same as the body. Submerge more of it and the displaced water increases, so buoyancy rises while weight does not change. Drag is different in kind: it always opposes motion and grows with the square of speed, so doubling the speed quadruples it. That is why the drag arrow barely moves at low speed and then runs away at high speed, and why the same body behaves completely differently in air and in water — the densities differ by about 800 times, so the same body generates hundreds of times more drag in water.',
+          '阿基米德原理：向上的浮力等于被排开的那部分水的重量，所以当物体排开的水的重量与自身重量相等时就会漂浮。没入越多，排开的水越多，浮力上升，而重量不变。阻力在性质上不同：它总是对抗运动，并随速度的平方增长，所以速度翻一倍，阻力就是四倍。这正是低速时阻力箭头几乎不动、高速时却突然暴涨的原因，也是同一个物体在水与空气中行为截然不同的原因——两者密度相差约 800 倍，所以同样的物体在水中产生的阻力要大几百倍。');
+      setv(host, 'v', '.kv-val', v + ' m/s');
+      setv(host, 's', '.kv-val', sub + '%');
+      bar(host.querySelector('.an-b-fb'), Fb / (W * 1.3), 'var(--green)');
+      bar(host.querySelector('.an-b-w'), 1, 'var(--c0)');
+      bar(host.querySelector('.an-b-drag'), Math.min(1, drag / (W * 0.9)), 'var(--gold,#b8860b)');
+      outs(host, '.van-b-fb', Math.round(Fb) + ' N');
+      outs(host, '.van-b-w', Math.round(W) + ' N');
+      outs(host, '.van-b-drag', Math.round(drag) + ' N');
+      outs(host, '.kv-callout', med === 'water'
+        ? (sub > 90
+          ? T('Almost fully submerged: buoyancy has now overtaken weight, so the body rises until they balance.', '几乎完全没入：浮力现已超过重量，物体将上浮直至两者平衡。')
+          : T('Buoyancy is still short of weight at ' + sub + '% submerged, so the body stays down and sinks.', '没入 ' + sub + '% 时浮力仍小于重量，因此物体下沉。'))
+        : (drag > W
+          ? T('In air at ' + v + ' m/s the drag now exceeds the body’s own weight — this is why a sprinter leans forward and why a skydiver reaches terminal velocity.', '在空气中以 ' + v + ' 米／秒运动时，阻力已超过自重——这正是短跑运动员前倾、跳伞者达到终端速度的原因。')
+          : T('In air the same drag is hundreds of times smaller, so the body keeps accelerating instead of levelling off.', '在空气中同样的阻力要小几百倍，因此物体会持续加速而不是趋于稳定。')));
+    }
+    wire(host, '.kv-tools', function (m) { med = m; draw(); });
+    wireRange(host, function (i) {
+      if (i.closest('[data-v=v]')) v = Number(i.value); else sub = Number(i.value);
+      draw();
+    });
+    draw();
   };
+
+  /* ── B.2.5 Angle of attack, Magnus effect and fairness ────────────────
+     The ball actually travels the path it is drawn on, so the curve caused
+     by spin is something you watch rather than something you are told. */
+  MODELS['Angle of attack, Magnus effect and fairness'] = function (host) {
+    var spin = 60, spd = 22, dir = 'back';
+    function draw() {
+      var sgn = dir === 'back' ? 1 : -1;
+      var mag = Math.min(1, spin / 120) * sgn;
+      var drop = mag * 78 * (spd / 25);
+      /* the path the ball really takes: a curve whose depth is set by spin */
+      var d = 'M40 96 C170 96 ' + 300 + ' ' + (96 + drop) + ' 520 ' + (96 + drop * 1.6);
+      var s = svgWrap(T('Spin bends the path; the angle of attack is what the kick makes', '旋转使路径弯曲；攻角由踢球方式决定'), 560, 290,
+        /* the pitch, as a reference line */
+        '<line class="an-meas2" x1="40" y1="96" x2="520" y2="96"/>' +
+        '<text class="small" x="46" y="88">' + esc(T('straight line the ball would take with no spin', '无旋转时球会走的直线')) + '</text>' +
+        /* the real path, with the ball travelling it */
+        '<path class="an-conn" d="' + d + '"/>' +
+        AN.runOrbit(280, 96 + drop * 0.7, 0, 0, '', 0) +
+        '<circle class="an-sig" r="7">' +
+        '<animateMotion dur="' + (3.2).toFixed(2) + 's" repeatCount="indefinite" path="' + d + '"/></circle>' +
+        /* the ball, drawn twice: once on the line, once in the corner as the key */
+        '<circle class="an-ball" cx="520" cy="' + (96 + drop * 1.6) + '" r="11"/>' +
+        '<circle class="an-ball" cx="60" cy="238" r="17"/>' +
+        '<path class="an-seam" d="M43 238 H77"/>' +
+        /* the angle of attack: the wedge between the seam and the flight line */
+        '<path class="an-wedge" d="M77 238 L108 216 A34 34 0 0 0 104 232 Z"/>' +
+        '<text class="small" x="112" y="212">' + esc(T('angle of attack', '攻角')) + '</text>' +
+        '<text class="small" x="112" y="272" text-anchor="middle">' +
+        esc(T('the seam meets the airflow at this angle', '缝线与气流的夹角')) + '</text>' +
+        /* the spin arrows, both leaving the ball's own centre */
+        AN.runOrbit(60, 238, 26, 26, dir === 'back' ? '' : 'calm', 1.6) +
+        AN.arrow(60, 238, 96, 238, 'hold', 8) +
+        '<text class="small an-lab-neg" x="470" y="' + (96 + drop * 1.6 + 34) + '" text-anchor="middle" >' +
+        esc(dir === 'back' ? T('backspin: the ball dips', '上旋：球下沉') : T('topspin: the ball lifts', '下旋：球上飘')) + '</text>' +
+        '<text class="small" x="300" y="284" text-anchor="middle">' +
+        esc(T('deeper curve = more spin at the same speed', '同样的速度下，旋转越大、弯曲越深')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which way is the ball spinning, and how fast?', '球往哪个方向旋转，转多快？')) + '</div>' +
+        tools([['back', T('Backspin', '上旋')], ['top', T('Topspin', '下旋')]], dir) +
+        qrange('spin', T('Spin rate (rev/s)', '旋转速率（转／秒）'), 0, 120, spin, 1) +
+        qrange('spd', T('Speed (m/s)', '速度（米／秒）'), 5, 35, spd, 1) +
+        apanel('main', T('The Magnus effect, drawn as a path you can watch', '马格努斯效应，画成一条可以观看的路径'),
+          T('The moving ball is travelling the curve below. Watch which way it bends.', '移动的球正沿下面的曲线运动，观察它向哪边弯。'), s,
+          lg('an-l-hold', T('spin', '旋转')) + lg('an-l-ball', T('the ball', '球'))) +
+        '<div class="kv-callout"></div>' +
+        note('A spinning ball drags a thin layer of air around with it. On one side that layer moves faster and the pressure drops; on the other side the air is slower and the pressure stays higher. The ball is pushed towards the low-pressure side, and the force is perpendicular to both the spin and the direction of travel. That is the Magnus effect, and it is why a ball with backspin checks up and a ball with topspin runs on. The angle of attack is the angle between the seam and the airflow: kick across the ball and you change that angle, which is why the same foot position produces a completely different flight from a different contact point. For fairness, identical boots and identical technique mean every player meets the same angle — the game becomes about reading it.',
+          '旋转的球会拖动一层薄空气随之转动。一侧空气流速更快、压强下降，另一侧流速较慢、压强保持较高。球被推向低压侧，这个力同时垂直于旋转方向和运动方向。这就是马格努斯效应，也是上旋球回缩、下旋球前窜的原因。攻角是缝线与气流之间的夹角：踢球部位不同，攻角就不同，所以同一个触球位置在不同的接触点上会飞出完全不同的轨迹。就公平性而言，相同的球鞋与相同的技术意味着每个球员面对的攻角相同，比赛于是变成了比拼谁能读懂它。');
+      setv(host, 'spin', '.kv-val', spin + ' rev/s');
+      setv(host, 'spd', '.kv-val', spd + ' m/s');
+      outs(host, '.kv-callout', spin === 0
+        ? T('With no spin there is no sideways force at all — the ball goes straight, whatever the boot.', '没有旋转就没有侧向力——无论球鞋如何，球都会走直线。')
+        : dir === 'back'
+          ? T('Backspin at ' + spin + ' rev/s: the pressure difference pushes the ball down, so it checks up short of where a non-spinning ball would land.', '以 ' + spin + ' 转／秒上旋：压强差把球压向下，因此落点比不旋转的球更短。')
+          : T('Topspin at ' + spin + ' rev/s: the same mechanism points the other way, so the ball carries forward and runs on.', '以 ' + spin + ' 转／秒下旋：同样的机制指向相反方向，因此球向前延伸、继续滚。'));
+    }
+    wire(host, '.kv-tools', function (m) { dir = m; draw(); });
+    wireRange(host, function (i) { draw(); });
+    draw();
+  };
+
+  /* ── B.2.6 Phases and the diagnosis loop ──────────────────────────────
+     The loop is the point: one signal runs all the way round, and each
+     station is a real step with its own shape. */
+  MODELS['Phases and the diagnosis loop'] = function (host) {
+    var P = [
+      { id: 'inj', en: 'Injury happens', zh: '发生损伤' },
+      { id: 'ass', en: 'Assess it', zh: '评估' },
+      { id: 'dia', en: 'Diagnose', zh: '诊断' },
+      { id: 'tre', en: 'Treat it', zh: '治疗' },
+      { id: 'ret', en: 'Return to sport', zh: '重返运动' }
+    ];
+    var step = 0;
+    function draw() {
+      /* the loop, drawn as a circle, with a signal running clockwise */
+      var CX = 250, CY = 150, R = 96;
+      var circ = 'M' + (CX - R) + ' ' + CY + ' a' + R + ' ' + R + ' 0 1 1 ' + (R * 2) + ' 0 a' + R + ' ' + R + ' 0 1 1 ' + (-R * 2) + ' 0';
+      var pos = P.map(function (p, i) {
+        var a = (-Math.PI / 2) + i * (Math.PI * 2 / P.length);
+        return [CX + R * Math.cos(a), CY + R * Math.sin(a)];
+      });
+      var s = svgWrap(T('The loop that has to close before anyone returns', '任何人重返赛场前必须走完的闭环'), 560, 300,
+        AN.connPath(circ, '') + AN.runPath(circ, '', 4.2) +
+        P.map(function (p, i) {
+          var q = pos[i], on = i === step;
+          var d = 'M' + (CX + (R - 30) * Math.cos(-Math.PI / 2 + i * (Math.PI * 2 / P.length))) + ' ' +
+            (CY + (R - 30) * Math.sin(-Math.PI / 2 + i * (Math.PI * 2 / P.length))) +
+            ' L' + (q[0] - 20 * Math.cos(-Math.PI / 2 + i * (Math.PI * 2 / P.length))) + ' ' +
+            (CY + (R - 20) * Math.sin(-Math.PI / 2 + i * (Math.PI * 2 / P.length)));
+          return '<circle class="an-node' + (on ? ' on' : '') + '" cx="' + q[0] + '" cy="' + q[1] + '" r="19"/>' +
+            '<text class="small" x="' + q[0] + '" y="' + (q[1] + 4) + '" text-anchor="middle">' + (i + 1) + '</text>';
+        }).join('') +
+        /* the labels, in a band below, one per station, evenly spaced */
+        P.map(function (p, i) {
+          return '<text class="small ' +
+            (i === step ? 'an-lab-neg' : '') + '" x="' + (46 + i * 118) + '" y="286" text-anchor="middle" >' + esc(T(p.en, p.zh)) + '</text>';
+        }).join('') +
+        '<text class="small" x="250" y="24" text-anchor="middle">' +
+        esc(T('the signal runs the whole loop — you cannot skip a station', '信号跑完整条环路——任何一站都不能跳过')) + '</text>' +
+        /* the centre states where you are */
+        '<text class="small" x="250" y="146" text-anchor="middle">' + esc(T('you are at', '你正在')) + '</text>' +
+        '<text class="small" x="250" y="170" text-anchor="middle">' + esc(T(P[step].en, P[step].zh)) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which step of the loop are you at?', '你处在闭环的哪一步？')) + '</div>' +
+        tools(P.map(function (p) { return [p.id, T(p.en, p.zh)]; }), P[step].id) +
+        apanel('main', T('The diagnosis loop, and why it must close', '诊断环路，以及为什么必须走完'),
+          T('The travelling dot is the athlete moving through the steps.', '移动的小点就是运动员在流程中的位置。'), s,
+          lg('an-l-node', T('a step', '一个步骤')) + lg('an-l-nodeon', T('where you are', '你所在处'))) +
+        '<div class="kv-callout"></div>' +
+        note('The order matters as much as the steps. Assessing before diagnosing is what stops a serious injury being treated as a minor one; diagnosing before treating is what stops the wrong tissue being targeted. Return to sport is the step most often skipped, and it is the only one that happens without the injured tissue being watched — the athlete feels fine, the tissue is not yet strong enough, and the same mechanism re-injures it. That is why the loop has to close: every step feeds the next, and the arrow leaving return to sport points back at injury.',
+          '顺序与步骤本身同样重要。先评估再诊断，才能避免把严重损伤当成轻伤处理；先诊断再治疗，才能避免针对错误的组织。重返运动是最常被跳过的一步，也是唯一在无人观察受损组织的情况下发生的一步——运动员感觉良好，组织却尚未恢复，于是同样的机制再次致伤。这正是这个闭环必须走完的原因：每一步都喂给下一步，而从重返运动离开的箭头又指回损伤。');
+      outs(host, '.kv-callout', step === P.length - 1
+        ? T('You are at the last step. The loop only closes if this step is also symptom-free under load — otherwise the arrow goes straight back to step 1.', '你处在最后一步。只有这一步在负荷下同样无症状，闭环才算完成——否则箭头会直接回到第一步。')
+        : T('Step ' + (step + 1) + ' of 5: ' + T(P[step].en, P[step].zh) + '. The next station is already receiving the signal.', '第 ' + (step + 1) + ' 步，共 5 步：' + T(P[step].en, P[step].zh) + '。下一站已经在接收信号。'));
+    }
+    wire(host, '.kv-tools', function (v) {
+      P.forEach(function (p, i) { if (p.id === v) step = i; });
+      draw();
+    });
+    draw();
+  };
+
+  /* ── B.2.7 Evidence sources and compensation ─────────────────────────
+     A pyramid you can see down into, and a marker that walks down the
+     tiers as you change the source — so the rank is never just a caption. */
+  MODELS['Evidence sources and compensation'] = function (host) {
+    var S = [
+      { id: 'meta', en: 'Meta-analyses and systematic reviews', zh: '荟萃分析与系统综述', n: 5, bias: 8 },
+      { id: 'rct', en: 'Randomised controlled trials', zh: '随机对照试验', n: 4, bias: 12 },
+      { id: 'coh', en: 'Cohort studies', zh: '队列研究', n: 3, bias: 25 },
+      { id: 'case', en: 'Case-control studies', zh: '病例对照研究', n: 2, bias: 40 },
+      { id: 'exp', en: 'Expert opinion and anecdote', zh: '专家意见与个案', n: 1, bias: 70 }
+    ];
+    var sel = 3;
+    function draw() {
+      var tiers = S.map(function (s, i) {
+        var wTop = 40 + i * 46, wBot = 40 + (i + 1) * 46, y = 250 - i * 42, h = 38;
+        return { s: s, i: i, x0: 250 - wTop / 2, x1: 250 + wTop / 2, xb0: 250 - wBot / 2, xb1: 250 + wBot / 2, y: y, h: h };
+      });
+      var s = svgWrap(T('How strong the evidence is, and where the bias creeps in', '证据强度，以及偏倚从哪里渗入'), 560, 328,
+        tiers.map(function (t) {
+          var on = t.i === sel;
+          return '<path class="an-tier' + (on ? ' on' : '') + '" d="M' + t.x0 + ' ' + t.y + ' H' + t.x1 +
+            ' L' + t.xb1 + ' ' + (t.y + t.h) + ' H' + t.xb0 + ' Z"/>' +
+            '<text class="small" x="250" y="' + (t.y + 24) + '" text-anchor="middle">' + (t.i + 1) + '</text>';
+        }).join('') +
+        /* the marker walks down to the tier you picked */
+        (function () {
+          var t = tiers[sel];
+          return '<circle class="an-hub" cx="' + (t.xb1 + 26) + '" cy="' + (t.y + t.h / 2) + '" r="8"/>' +
+            AN.connPath('M' + (t.x1) + ' ' + (t.y + t.h / 2) + ' H' + (t.xb1 + 18), 'hot') +
+            AN.runPath('M' + (t.x1) + ' ' + (t.y + t.h / 2) + ' H' + (t.xb1 + 18), 'hot', 0.9) +
+            '<text class="small" x="' + (t.xb1 + 40) + '" y="' + (t.y + t.h / 2 + 4) + '">' +
+            esc(T('bias risk ' + t.s.bias + '%', '偏倚风险 ' + t.s.bias + '%')) + '</text>';
+        })() +
+        '<text class="small" x="250" y="312" text-anchor="middle">' +
+        esc(T('top = strongest and least biased · bottom = weakest and most biased', '顶部 = 最强、偏倚最小 · 底部 = 最弱、偏倚最大')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which kind of evidence are you being offered?', '你拿到的是哪一类证据？')) + '</div>' +
+        tools(S.map(function (s2) { return [s2.id, T(s2.en, s2.zh)]; }), S[sel].id) +
+        apanel('main', T('The hierarchy, and the bias that comes with it', '证据层级，以及随之而来的偏倚'),
+          T('The dot moves to the tier you chose. The number beside it is the bias risk.', '红点会移到你选择的层级，旁边是偏倚风险数值。'), s,
+          lg('an-l-tier', T('weaker evidence', '较弱证据')) + lg('an-l-tieron', T('what you are looking at', '你正在看的'))) +
+        '<div class="kv-meters">' +
+        frow(T('how strong the evidence is', '证据强度'), 'an-b-str') +
+        frow(T('how much bias it carries', '偏倚程度'), 'an-b-bias') +
+        '</div><div class="kv-callout"></div>' +
+        note('The tiers are ordered by how much they can be wrong by chance or by design. A meta-analysis pools many studies, so one bad result is diluted; an expert opinion is one person’s memory, which can be confidently wrong. The bias risk is not a separate problem from the ranking — it rises as you go down, and it is the reason a well-designed study can still mislead. Compensation is what you do about it: check whether the sample matches the athlete in front of you, look for what was not measured, and treat a weak source as a hypothesis to test rather than a fact to apply.',
+          '这些层级按“出错的可能性”排序。荟萃分析汇总多项研究，因此单次不良结果会被稀释；专家意见只是一个人的记忆，可能自信地错。偏倚风险与层级排序并非两个独立问题——越往下风险越高，这正是设计良好的研究仍可能误导人的原因。补偿就是你对此采取的行动：核对样本是否与眼前这位运动员相符，查看哪些变量没有被测量，并把弱证据当作有待检验的假设，而不是可以直接套用的结论。');
+      var t = tiers[sel];
+      bar(host.querySelector('.an-b-str'), t.s.n / 5, 'var(--green)');
+      bar(host.querySelector('.an-b-bias'), t.s.bias / 100, 'var(--c0)');
+      outs(host, '.van-b-str', t.s.n + ' / 5');
+      outs(host, '.van-b-bias', t.s.bias + '%');
+      outs(host, '.kv-callout', t.s.bias > 50
+        ? T('This is the weakest tier. Treat it as a starting hypothesis, not as a finding — ask what would have to be true for it to be wrong.', '这是最弱的一层。请把它当作起始假设而非结论——并追问：要让它是错的，需要满足什么条件。')
+        : T('This is a reasonably strong tier, but bias risk is still ' + t.s.bias + '%. Check the sample before you apply it to this athlete.', '这是相对较强的一层，但偏倚风险仍有 ' + t.s.bias + '%。在套用到这位运动员之前，先核对样本。'));
+    }
+    wire(host, '.kv-tools', function (v) {
+      S.forEach(function (s2, i) { if (s2.id === v) sel = i; });
+      draw();
+    });
+    draw();
+  };
+
+
+  /* ── B.2.8 Rehabilitation and accessibility ───────────────────────────
+     A ladder you climb one rung at a time, and the barriers that decide
+     how fast — the same ladder for everyone, the same speed for nobody. */
+  MODELS['Rehabilitation and accessibility'] = function (host) {
+    var R = [
+      { id: 'a', en: 'Control the symptoms', zh: '控制症状', w: 1 },
+      { id: 'b', en: 'Restore range and strength', zh: '恢复活动度与力量', w: 2 },
+      { id: 'c', en: 'Return to activity', zh: '恢复运动', w: 3 },
+      { id: 'd', en: 'Compete', zh: '参赛', w: 4 }
+    ];
+    var st = 1;
+    function draw() {
+      var step = R[st], X0 = 90, Y0 = 220, DW = 96, DH = 34;
+      var rung = R.map(function (r, i) {
+        return { x: X0 + i * DW, y: Y0 - i * DH };
+      });
+      var py = rung[st].y - 46;
+      var s = svgWrap(T('The ladder, and what decides how fast you climb it', '康复阶梯，以及决定你爬多快的因素'), 560, 300,
+        /* the rungs, each with its own label band beneath it */
+        rung.map(function (p, i) {
+          var on = i <= st;
+          return '<rect class="an-rung' + (on ? ' on' : '') + '" x="' + p.x + '" y="' + p.y +
+            '" width="' + (DW - 8) + '" height="' + (DH - 6) + '" rx="8"/>' +
+            '<text class="small" x="' + (p.x + 6) + '" y="' + (p.y - 8) + '">' + (i + 1) + '</text>';
+        }).join('') +
+        /* the athlete, standing on the rung you have reached */
+        AN.person(260, py + 44, 0.8) +
+        /* the barriers, always to the right, never on the ladder */
+        ['equipment cost', 'travel time', 'no pool', 'no physio'].map(function (b, i) {
+          var y = 96 + i * 40;
+          return '<rect class="an-barrier" x="452" y="' + (y - 16) + '" width="96" height="26" rx="8"/>' +
+            '<text class="small" x="500" y="' + (y + 2) + '" text-anchor="middle">' +
+            esc(T(b, b)) + '</text>' +
+            AN.connPath('M446 ' + (y - 3) + ' H414', 'off');
+        }).join('') +
+        '<text class="small" x="544" y="272" text-anchor="end">' +
+        esc(T('barriers do not change the ladder', '障碍不改变阶梯本身')) + '</text>' +
+        '<text class="small" x="200" y="288" text-anchor="middle">' +
+        esc(T('you may only step up when the rung below is solid', '只有下一级稳固时才能继续向上')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('How far up the ladder are you?', '你在阶梯上的哪一级？')) + '</div>' +
+        tools(R.map(function (r) { return [r.id, T(r.en, r.zh)]; }), R[st].id) +
+        apanel('main', T('The same four rungs for every athlete', '每位运动员都是同样四级'),
+          T('Dark rungs are done. The figure stands on the rung you have reached.', '深色的级已完成，人物站在你到达的那一级。'), s,
+          lg('an-l-rung', T('not yet', '尚未到达')) + lg('an-l-rungon', T('reached', '已到达'))) +
+        '<div class="kv-meters">' + frow(T('rungs completed', '已完成级数'), 'an-b-prog') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('Rehabilitation is the same four rungs for every injury, but the time on each rung is set by things outside the athlete. Pain and symptoms set the earliest limit; tissue strength sets the next one; then sport-specific load, then competition. Accessibility is what decides whether an athlete can climb at all — a pool, a physiotherapist, equipment that fits, and time away from work. Those are not the same problem as the rehabilitation itself, and treating them as one is why some athletes are "non-compliant" when what is actually missing is a pool. The ladder never changes; the time on each rung does.',
+          '康复对所有损伤都是同样四级，但每一级停留多久，由运动员之外的因素决定。疼痛与症状设定了最早的界限，组织强度设定了下一道，然后是专项负荷，最后才是比赛。可及性决定运动员是否有机会爬——泳池、理疗师、合脚的器材、以及不占用工作的空闲时间。这些与康复本身不是同一个问题，把它们混为一谈，正是有些运动员被贴上“不配合”标签的原因：真正缺的是泳池。阶梯从不改变，改变的是每一级的时间。');
+      bar(host.querySelector('.an-b-prog'), (st + 1) / R.length, 'var(--c0)');
+      outs(host, '.van-b-prog', (st + 1) + ' / ' + R.length);
+      outs(host, '.kv-callout', st === R.length - 1
+        ? T('Top rung. The ladder is only complete if the last rung was also symptom-free under full load.', '到顶。只有在最后一级同样于全负荷下无症状，阶梯才算走完。')
+        : T('Rung ' + (st + 1) + ' of 4: ' + T(R[st].en, R[st].zh) + '. You may not step to the next one until this one is solid.', '第 ' + (st + 1) + ' 级，共 4 级：' + T(R[st].en, R[st].zh) + '。这一级稳固之前不能迈向下一级。'));
+    }
+    wire(host, '.kv-tools', function (v) {
+      R.forEach(function (r, i) { if (r.id === v) st = i; });
+      draw();
+    });
+    draw();
+  };
+
+  /* ── B.3.1 Internal and external risk factors ─────────────────────────
+     Two circles that only mean something where they overlap. The overlap
+     is the risk, so the overlap is what pulses. */
+  MODELS['Internal and external risk factors'] = function (host) {
+    var on = { i: 1, e: 1 };
+    var INT = ['previous injury', 'age', 'fitness', 'fatigue'];
+    var EXT = ['surface', 'weather', 'equipment', 'the opponent'];
+    function draw() {
+      var R = 84, AX = 216, AY = 138, BX = 344;
+      var s = svgWrap(T('Injury risk lives in the overlap, not in either circle alone', '损伤风险存在于重叠处，而非任一单独圆内'), 560, 324,
+        (on.i ? '<circle class="an-risk i" cx="' + AX + '" cy="' + AY + '" r="' + R + '"/>' : '') +
+        (on.e ? '<circle class="an-risk e" cx="' + BX + '" cy="' + AY + '" r="' + R + '"/>' : '') +
+        (on.i && on.e ? '<path class="an-overlap" d="M' + AX + ' ' + (AY - R) +
+          ' A' + R + ' ' + R + ' 0 0 1 ' + AX + ' ' + (AY + R) +
+          ' A' + R + ' ' + R + ' 0 0 1 ' + BX + ' ' + (AY + R) +
+          ' A' + R + ' ' + R + ' 0 0 1 ' + BX + ' ' + (AY - R) +
+          ' A' + R + ' ' + R + ' 0 0 1 ' + AX + ' ' + (AY - R) + ' Z"/>' : '') +
+        /* the athlete sits in the overlap, because that is the point */
+        AN.person(280, 138, 0.85) +
+        /* the factor lists, in their own bands, outside both circles */
+        INT.map(function (t, i) {
+          return '<text class="small" x="30" y="' + (250 + i * 20) + '">' + esc(T(t, t)) + '</text>';
+        }).join('') +
+        EXT.map(function (t, i) {
+          return '<text class="small" x="300" y="' + (250 + i * 20) + '">' + esc(T(t, t)) + '</text>';
+        }).join('') +
+        '<text class="small" x="86" y="66" text-anchor="middle">' + esc(T('internal', '内部因素')) + '</text>' +
+        '<text class="small" x="474" y="66" text-anchor="middle">' + esc(T('external', '外部因素')) + '</text>' +
+        '<text class="small" x="280" y="238" text-anchor="middle" class="an-lab-neg">' +
+        esc(T('both together = risk', '两者同时存在 = 风险')) + '</text>' +
+        '<text class="small" x="280" y="292" text-anchor="middle">' +
+        esc(T('fixing one circle does not remove the overlap', '只改变一个圆并不能消除重叠')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which kind of factor is present?', '存在哪一类因素？')) + '</div>' +
+        '<div class="ib-practices">' +
+        '<button type="button" data-v="i" aria-pressed="true" class="on">' + esc(T('Internal — in the athlete', '内部 — 运动员自身')) + '</button>' +
+        '<button type="button" data-v="e" aria-pressed="true" class="on">' + esc(T('External — in the situation', '外部 — 情境')) + '</button>' +
+        '</div>' +
+        apanel('main', T('Two circles, one overlap', '两个圆，一片重叠'),
+          T('The shaded lens is the risk. It only exists while both circles are on.', '阴影的透镜区域就是风险，只有两个圆都在时它才存在。'), s,
+          lg('an-l-ri', T('internal only', '仅内部')) + lg('an-l-re', T('external only', '仅外部')) +
+          lg('an-l-risky', T('the overlap', '重叠区'))) +
+        '<div class="kv-meters">' + frow(T('risk', '风险'), 'an-b-risk') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('Internal risk factors are in the athlete: a previous injury, age, low fitness, fatigue. External risk factors are in the situation: the surface, the weather, the equipment, the opponent. Neither kind causes an injury on its own often enough to be interesting — what predicts injury is the combination, because an athlete who has never had a knee problem and has just been asked to change boots onto a wet surface carries both at once. That is also why the two are trained differently: you can change an external factor in a minute, and an internal one over months, so screening and equipment checks are not alternatives to conditioning, they are additions to it.',
+          '内部风险因素在运动员身上：既往损伤、年龄、健身水平、疲劳。外部风险因素在情境里：场地、天气、器材、对手。单独任何一类都不足以频繁地导致损伤——真正能预测损伤的是两者的组合，因为一个从未有过膝部问题、却被要求穿着新鞋在湿滑场地上训练的运动员同时具备两者。这也是两者训练方式不同的原因：外部因素一分钟就能改变，内部因素要几个月，所以筛查与器材检查不是体能训练的对立面，而是补充。');
+      bar(host.querySelector('.an-b-risk'), (on.i && on.e) ? 1 : (on.i || on.e ? 0.4 : 0.05), 'var(--c0)');
+      outs(host, '.van-b-risk', (on.i && on.e) ? T('high', '高') : (on.i || on.e ? T('moderate', '中') : T('low', '低')));
+      outs(host, '.kv-callout', (on.i && on.e)
+        ? T('Both circles are on, so the overlap exists — and the athlete is standing in it.', '两个圆都在，重叠区存在——运动员正站在其中。')
+        : on.i ? T('Internal factors alone. Real but not sufficient: an internal factor usually needs a situation to complete the picture.', '只有内部因素。真实但不足够：内部因素通常需要一个情境来补全画面。')
+          : on.e ? T('External factors alone. Change these and you have removed half the risk, cheaply.', '只有外部因素。改变它们就廉价地移除了一半风险。')
+            : T('Neither circle is on, so there is no overlap and almost no risk — which is the only state in which prevention is simply easy.', '两个圆都不在，因此没有重叠、几乎没有风险——这是预防唯一轻松的状态。'));
+    }
+    wire(host, '.ib-practices', function (v) { on[v] = on[v] ? 0 : 1; draw(); });
+    draw();
+  };
+
+  /* ── B.3.2 Acute and cumulative trauma ───────────────────────────────
+     The same capacity line in both panels, so the only difference the eye
+     can see is the shape of the load. */
+  MODELS['Acute and cumulative trauma'] = function (host) {
+    var mode = 'acute', weeks = 8;
+    function draw() {
+      var cap = 100;
+      /* TWO REAL PATTERNS, always both drawn: the point of the model is that
+         they look nothing alike, so the toggle only chooses which one you
+         are reading — it must never be the thing that changes the data. */
+      function spike(n) { var a = []; for (var k = 0; k < n; k++) a.push(k === Math.floor(n / 2) ? 178 : 50); return a; }
+      function ripple(n) { var a = []; for (var k = 0; k < n; k++) a.push(k % 2 ? 86 : 68); return a; }
+      var SETS = { acute: spike(weeks), cum: ripple(weeks) };
+      function total(a) { var t = 0; a.forEach(function (v) { t += Math.max(0, v - cap); }); return t; }
+      var over = total(SETS[mode]);
+      function panel(x0, y0, w0, h0, bars, title, zh) {
+        var g = '', dim = (mode === 'cum' && bars === SETS.acute) || (mode === 'acute' && bars === SETS.cum);
+        g += '<g' + (dim ? ' opacity=".34"' : '') + '>';
+        for (var i = 0; i <= 4; i++) {
+          var yy = y0 + h0 - h0 * (i / 4) * (200 / 200);
+          g += '<line class="an-grid" x1="' + x0 + '" y1="' + yy + '" x2="' + (x0 + w0) + '" y2="' + yy + '"/>';
+        }
+        g += '<path class="an-meas2 capline" d="M' + x0 + ' ' + (y0 + h0 - h0 * 0.5) + ' H' + (x0 + w0) + '"/>' +
+          '<text class="small" x="' + (x0 + 4) + '" y="' + (y0 + h0 - h0 * 0.5 - 7) + '">' +
+          esc(T('capacity', '容量上限')) + '</text>';
+        bars.forEach(function (b, i) {
+          var bw = (w0 / bars.length) - 7, bx = x0 + 4 + i * (w0 / bars.length);
+          var bh = h0 * (b / 200);
+          g += '<rect class="an-loadbar' + (b > cap ? ' over' : '') + '" x="' + bx + '" y="' + (y0 + h0 - bh) +
+            '" width="' + bw + '" height="' + bh + '" rx="3"/>' +
+            (b > cap ? AN.beat(bx + bw / 2, y0 + h0 - bh, 5, 'over') : '');
+        });
+        g += '<text class="small" x="' + (x0 + w0 / 2) + '" y="' + (y0 - 14) + '" text-anchor="middle">' +
+          esc(T(title, zh)) + '</text>';
+        g += '<text class="small" x="' + (x0 + w0 / 2) + '" y="' + (y0 + h0 + 22) + '" text-anchor="middle">' +
+          esc(bars.some(function (v) { return v > cap; })
+            ? T('a week crosses the line', '有某一周越线')
+            : T('no week crosses it', '没有任何一周越线')) + '</text>';
+        return g + '</g>';
+      }
+      var s = svgWrap(T('One big hit, or many small ones that never quite repair', '一次重击，或许多次始终无法修复的小撞击'), 560, 300,
+        panel(46, 92, 208, 148, SETS.acute, 'A · one big hit', 'A · 一次重击') +
+        panel(306, 92, 208, 148, SETS.cum, 'B · many small ones', 'B · 许多次小撞击') +
+        '<text class="small" x="280" y="292" text-anchor="middle" class="an-lab-neg">' +
+        esc(T('the dimmed panel is the other pattern, for comparison', '变暗的一栏是另一种模式，供对比')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which pattern is doing the damage?', '是哪种模式在造成损伤？')) + '</div>' +
+        tools([['acute', T('Acute — one big hit', '急性 — 一次重击')], ['cum', T('Cumulative — many small', '累积 — 多次小撞击')]], mode) +
+        qrange('w', T('Weeks', '周数'), 4, 20, weeks, 1) +
+        apanel('main', T('The same capacity line in both', '两幅图使用同一条容量线'),
+          T('The horizontal line is what the tissue can take. Red bars cross it.', '横线是组织能承受的上限，红色柱越过了它。'), s,
+          lg('an-l-safe', T('under capacity', '低于上限')) + lg('an-l-unsafe', T('over capacity', '超过上限'))) +
+        '<div class="kv-meters">' + frow(T('load above capacity', '超出上限的负荷'), 'an-b-over') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('Acute trauma is a single load that crosses capacity in one event — a fall, a collision, a sudden overload. It is obvious, it is often photographed, and the body responds with a clear inflammatory repair. Cumulative trauma is the same tissue being loaded repeatedly, each time below the capacity line, so nothing looks wrong on any single day. The tissue still has to repair between hits, and if the next one arrives before it has, the repair never completes. That is why cumulative injury produces no single memorable event, no obvious moment, and no swelling worth photographing — and why it is so often mistaken for "just being unlucky".',
+          '急性损伤是单次负荷在一次事件中越过容量上限——跌倒、碰撞、突然超载。它明显、常被拍下，身体以清晰的炎症修复作出反应。累积损伤是同一组织被反复负荷，每次都在容量线以下，所以任何单独一天看起来都没事。组织必须在两次之间完成修复，如果下一次在完成之前到来，修复就永远做不完。这就是累积损伤没有单个可指认的事件、没有明显的瞬间、也没有值得拍摄的肿胀的原因——也是它常被误认为“只是运气不好”的原因。');
+      setv(host, 'w', '.kv-val', weeks + ' weeks');
+      bar(host.querySelector('.an-b-over'), Math.min(1, over / (cap * 2)), 'var(--c0)');
+      outs(host, '.van-b-over', Math.round(over) + ' units');
+      outs(host, '.kv-callout', mode === 'acute'
+        ? T('One week crosses the line and everything downstream changes that week. This is the injury people notice.', '有一周越过了线，此后的一切都在那一周改变。这就是人们会注意到的损伤。')
+        : T('No single week crosses the line at ' + weeks + ' weeks, yet ' + Math.round(over) + ' units of load sit above capacity in total. Nothing on any one day looks wrong.', '在 ' + weeks + ' 周内没有任何一周越线，但累计有 ' + Math.round(over) + ' 单位负荷高于上限。任何单独一天都看不出问题。'));
+    }
+    wire(host, '.kv-tools', function (m) { mode = m; draw(); });
+    wireRange(host, function (i) { weeks = Number(i.value); draw(); });
+    draw();
+  };
+
+  /* ── B.3.3 Tissues and concussion ─────────────────────────────────────
+     The brain is drawn differently on purpose: it deforms and comes back
+     far more slowly than everything else, which is the whole lesson. */
+  MODELS['Tissues and concussion'] = function (host) {
+    var TIS = [
+      { id: 'bone', en: 'Bone', zh: '骨', tol: 0.7, rec: 12, cls: 'an-bone', note: 'stiff, strong, but poor at bending' },
+      { id: 'muscle', en: 'Muscle', zh: '肌肉', tol: 0.45, rec: 96, cls: 'an-muscle', note: 'elastic, repairs fast' },
+      { id: 'tendon', en: 'Tendon', zh: '肌腱', tol: 0.4, rec: 1440, cls: 'an-tend', note: 'strong but slow to heal' },
+      { id: 'lig', en: 'Ligament', zh: '韧带', tol: 0.35, rec: 2160, cls: 'an-lig', note: 'slower still' },
+      { id: 'brain', en: 'Brain', zh: '脑', tol: 0.18, rec: 4320, cls: 'an-brain', note: 'least tolerant and slowest to settle' }
+    ];
+    var sel = 'brain', load = 60;
+    function draw() {
+      var t = TIS.filter(function (x) { return x.id === sel; })[0];
+      var i = TIS.indexOf(t);
+      var squeeze = load / 100;
+      var s = svgWrap(T('Every tissue is loaded, but each deforms and recovers differently', '每种组织都会受载，但形变与恢复各不相同'), 560, 300,
+        /* the tissue, drawn large, deforming under the load */
+        (sel === 'bone' ? AN.bone(200, 150, 190, 0) : '') +
+        (sel === 'muscle' ? '<rect class="an-muscle" x="105" y="104" width="190" height="92" rx="30"/>' : '') +
+        (sel === 'tendon' ? '<path class="an-tend" d="M110 150 Q200 118 290 150 Q200 182 110 150 Z"/>' : '') +
+        (sel === 'lig' ? '<path class="an-lig" d="M112 150 Q150 96 200 150 Q150 204 112 150 Z M200 150 Q238 96 288 150 Q238 204 200 150 Z"/>' : '') +
+        (sel === 'brain' ? AN.brain(200, 150, 2.1, 'an-myelin soft') : '') +
+        /* the load, always applied from the same point above the tissue */
+        AN.arrow(200, 56, 200, 56 + 20 + squeeze * 40, 'down') +
+        '<text class="small" x="216" y="66">' + esc(T('the same load', '同样的负荷')) + '</text>' +
+        /* the recovery: a bar whose length is the real time, on a log scale */
+        '<text class="small" x="430" y="86" text-anchor="middle">' + esc(T('time to settle', '恢复所需时间')) + '</text>' +
+        TIS.map(function (x, k) {
+          var w = 20 + Math.log(x.rec / 12 + 1) * 46;
+          return '<rect class="an-recbar' + (x.id === sel ? ' on' : '') + '" x="336" y="' + (100 + k * 30) +
+            '" width="' + w + '" height="18" rx="6"/>' +
+            '<text class="small" x="330" y="' + (113 + k * 30) + '" text-anchor="end">' + esc(T(x.en, x.zh)) + '</text>';
+        }).join('') +
+        '<text class="small" x="544" y="278" text-anchor="end">' +
+        esc(T('bone and muscle are days · tendon and ligament are months · the brain is longer', '骨与肌是天 · 腱与韧带是月 · 脑更久')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which tissue took the load?', '哪块组织承受了负荷？')) + '</div>' +
+        tools(TIS.map(function (x) { return [x.id, T(x.en, x.zh)]; }), sel) +
+        qrange('f', T('Load as % of failure', '负荷占失效极限的百分比'), 5, 100, load, 1) +
+        apanel('main', T('Tolerance and recovery are not the same thing', '耐受性与恢复能力不是一回事'),
+          T('The bar on the right is real time — note the scale is logarithmic.', '右侧横条是真实时间，注意刻度是对数的。'), s,
+          lg('an-l-safe', T('reached a limit', '到达极限')) +
+          lg('an-l-unsafe', T('tolerance is low', '耐受性低'))) +
+        '<div class="kv-meters">' +
+        frow(T('tolerance to load', '负荷耐受性'), 'an-b-tol') +
+        frow(T('time to settle', '恢复时间'), 'an-b-rec') +
+        '</div><div class="kv-callout"></div>' +
+        note('Tolerance is how much load a tissue takes before it fails. Recovery time is how long it then needs to come back, and the two do not run together: bone tolerates a great deal and repairs in weeks, tendon tolerates less and repairs in months, and the brain tolerates the least of all and settles the slowest. Concussion is the same physics applied to an organ that cannot be seen to be hurt: a small load relative to failure, but with a long tail. That asymmetry is why a brain injury is graded on symptoms and time rather than on an image, and why the advice is always the same — if the symptoms have not gone, the tissue has not finished.',
+          '耐受性是组织在失效前能承受的负荷量。恢复时间是它随后回到原状所需的时间，而两者并不成正比：骨能承受很多，几周即可修复；肌腱承受得少，却要几个月；脑承受得最少，安定下来也最慢。脑震荡是把同样的物理规律用在一个看不见受伤的器官上：相对失效而言负荷很小，但拖着长长的尾巴。这种不对称正是脑损伤要按症状和时间分级、而不是按影像分级的原因，也是建议始终如一的原因——如果症状没有消失，组织就还没有结束。');
+      setv(host, 'f', '.kv-val', load + '%');
+      bar(host.querySelector('.an-b-tol'), t.tol, 'var(--c0)');
+      bar(host.querySelector('.an-b-rec'), Math.log(t.rec / 12 + 1) / Math.log(4320 / 12 + 1), 'var(--c2)');
+      outs(host, '.van-b-tol', Math.round(t.tol * 100) + '%');
+      outs(host, '.van-b-rec', t.rec >= 1440 ? Math.round(t.rec / 1440 * 10) / 10 + ' months' : t.rec + ' h');
+      outs(host, '.kv-callout', sel === 'brain'
+        ? T('At ' + load + '% of failure the brain is far from tearing, and that is not reassuring: the damage a concussion does is not tearing, it is a disturbance that outlives the symptoms by weeks.', '在失效的 ' + load + '% 处，脑远未撕裂，而这并不令人安心：脑震荡造成的损伤不是撕裂，而是一种紊乱，其影响比症状多持续数周。')
+        : T(T(t.en, t.zh) + ': tolerance ' + Math.round(t.tol * 100) + '%, and it needs ' + (t.rec >= 1440 ? Math.round(t.rec / 1440 * 10) / 10 + ' months' : t.rec + ' h') + ' to settle.', T(t.en, t.zh) + '：耐受性 ' + Math.round(t.tol * 100) + '%，恢复需要 ' + (t.rec >= 1440 ? Math.round(t.rec / 1440 * 10) / 10 + ' 个月' : t.rec + ' 小时') + '。'));
+    }
+    wire(host, '.kv-tools', function (x) { sel = x; draw(); });
+    wireRange(host, function (i) { load = Number(i.value); draw(); });
+    draw();
+  };
+
+  /* ── B.3.4 Prevention and protection ──────────────────────────────────
+     Layers are added one at a time and the residual-risk bar shrinks as
+     each lands, so the value of adding the next one is visible. */
+  MODELS['Prevention and protection'] = function (host) {
+    var L = [
+      { id: 'load', en: 'Load managed', zh: '负荷管理' },
+      { id: 'rule', en: 'Rules and limits', zh: '规则与限制' },
+      { id: 'gear', en: 'Equipment', zh: '器材' },
+      { id: 'tech', en: 'Technique', zh: '技术' },
+      { id: 'warm', en: 'Warm-up', zh: '热身' }
+    ];
+    var on = {};
+    function draw() {
+      var n = L.filter(function (l) { return on[l.id]; }).length;
+      var risk = 100 * Math.pow(0.62, n);
+      var W = 300;
+      var s = svgWrap(T('Add a layer, and watch what is left of the risk', '每加一层，看剩下多少风险'), 560, 300,
+        L.map(function (l, i) {
+          var y = 62 + i * 40, on_ = !!on[l.id];
+          var w = W * (0.42 + i * 0.145);
+          return '<path class="an-layer' + (on_ ? ' on' : '') + '" d="M280 ' + y + ' H' + (280 + w) +
+            ' L' + (280 + w - 12) + ' ' + (y + 26) + ' H280 Z"/>' +
+            '<text class="small" x="272" y="' + (y + 18) + '" text-anchor="end">' + esc(T(l.en, l.zh)) + '</text>' +
+            (on_ ? AN.connPath('M' + (280 + w) + ' ' + (y + 13) + ' H320', 'hot') : '');
+        }).join('') +
+        /* the residual risk, as one bar, falling as layers land */
+        '<rect class="an-riskbar" x="340" y="62" width="18" height="200" rx="8"/>' +
+        '<rect class="an-riskfill" x="340" y="' + (62 + 200 * (1 - risk / 100)) + '" width="18" height="' + (200 * risk / 100) + '" rx="8"/>' +
+        '<text class="small" x="349" y="286" text-anchor="middle">' + esc(T('risk left', '剩余风险')) + '</text>' +
+        '<text class="small" x="430" y="80">' + Math.round(risk) + '%</text>' +
+        '<text class="small" x="430" y="98">' + n + ' / 5</text>' +
+        '<text class="small" x="200" y="290" text-anchor="middle">' +
+        esc(T('each layer multiplies what is left — none of them removes it', '每一层都在倍乘剩余风险——没有一层能消除它')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which layers are in place?', '已采取哪些措施？')) + '</div>' +
+        '<div class="ib-practices">' + L.map(function (l) {
+          return '<button type="button" data-v="' + l.id + '" aria-pressed="' + (on[l.id] ? 'true' : 'false') +
+            '" class="' + (on[l.id] ? 'on' : '') + '">' + esc(T(l.en, l.zh)) + '</button>';
+        }).join('') + '</div>' +
+        apanel('main', T('Layers, not a single fix', '分层措施，而非单一手段'),
+          T('The bar on the right is what is left of the risk, and it falls as you add.', '右侧横条是剩余风险，随叠加而下降。'), s,
+          lg('an-l-safe', T('in place', '已到位')) + lg('an-l-unsafe', T('not in place', '未到位'))) +
+        '<div class="kv-meters">' + frow(T('risk remaining', '剩余风险'), 'an-b-left') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('Protection is a stack, and that is the honest reason it feels unsatisfying. Any single layer is weak on its own: warm-ups reduce some injuries, technique reduces others, equipment a few more, load management a different set again. Stacked, they multiply rather than add, which is why the last layer is worth having even though it looks like the smallest. The bar never reaches zero, and no honest model should pretend otherwise. What changes is that the remaining risk is small enough that an athlete is unlikely to meet the one combination that would hurt them.',
+          '防护是一个叠加结构，这也正是它让人感觉不够干脆的诚实原因。单独任何一层都很弱：热身减少一部分损伤，技术减少另一部分，器材再多一些，负荷管理又是不同的一类。叠加时它们是相乘而非相加，因此最后一层即便看起来最小也依然值得。横条永远不会到零，任何诚实的模型都不该假装它会到零。改变的是剩余风险已经小到运动员不太可能刚好遇上那个会伤害他们的组合。');
+      bar(host.querySelector('.an-b-left'), risk / 100, 'var(--c0)');
+      outs(host, '.van-b-left', Math.round(risk) + '%');
+      outs(host, '.kv-callout', n === 0
+        ? T('Nothing in place: the whole of the original risk is still there.', '尚未采取任何措施：原有风险完整保留。')
+        : n === L.length
+          ? T('All five layers in place. The risk is much smaller, but it is not zero — and that remainder is why we still tape ankles.', '五层全部到位。风险显著降低，但并非为零——这个余量正是我们仍要缠护踝的原因。')
+          : T(n + ' of 5 layers in place: ' + Math.round(risk) + '% of the original risk is left.', '五层中已有 ' + n + ' 层：剩余原有风险的 ' + Math.round(risk) + '%。'));
+    }
+    wire(host, '.ib-practices', function (v) { on[v] = on[v] ? 0 : 1; draw(); });
+    draw();
+  };
+
+  /* ── B.3.5 PRICE, healing and rehabilitation ─────────────────────────
+     The five letters are the first 48 hours; the timeline is the weeks
+     after. The same slider moves through both. */
+  MODELS['PRICE, healing and rehabilitation'] = function (host) {
+    var day = 3;
+    function draw() {
+      /* three healing phases, with a real strength curve across them */
+      var PH = [
+        { id: 'inf', en: 'Inflammation', zh: '炎症期', a: 0, b: 3, col: 'var(--c0)' },
+        { id: 'pro', en: 'Proliferation', zh: '增生期', a: 3, b: 14, col: 'var(--green)' },
+        { id: 'rem', en: 'Remodelling', zh: '重塑期', a: 14, b: 60, col: 'var(--c2)' }
+      ];
+      var strength = day < 3 ? 5 + day * 12 : day < 14 ? 40 + (day - 3) * 4.2 : 77 + (day - 14) * 0.38;
+      strength = Math.min(100, strength);
+      var X0 = 60, X1 = 500, Y0 = 210, Y1 = 90;
+      function px(d) { return X0 + (X1 - X0) * (Math.min(d, 60) / 60); }
+      var s = svgWrap(T('The first two days, then the weeks that follow them', '最初的两天，以及其后漫长的数周'), 560, 300,
+        /* the five letters, each with its own word */
+        'PRICE'.split('').map(function (c, i) {
+          var x = 70 + i * 46, on = day <= 2;
+          return '<rect class="an-letter' + (on ? ' on' : '') + '" x="' + x + '" y="52" width="38" height="38" rx="9"/>' +
+            '<text class="small" x="' + (x + 19) + '" y="77" text-anchor="middle">' + c + '</text>' +
+            '<text class="small" x="' + (x + 19) + '" y="' + (Y0 + 20) + '" text-anchor="middle">' +
+            esc(['protect', 'rest', 'ice', 'compress', 'elevate'][i]) + '</text>';
+        }).join('') +
+        /* the three phases as bands along the timeline */
+        PH.map(function (p) {
+          return '<rect class="an-phase" x="' + px(p.a) + '" y="236" width="' + (px(p.b) - px(p.a)) +
+            '" height="18" rx="5" style="fill:' + p.col + '"/>' +
+            '<text class="small" x="' + ((px(p.a) + px(p.b)) / 2) + '" y="272" text-anchor="middle">' +
+            esc(T(p.en, p.zh)) + '</text>';
+        }).join('') +
+        /* the strength curve, and where today sits on it */
+        '<path class="an-curve" d="M' + X0 + ' ' + (Y0 - 8) + ' C200 ' + (Y0 - 12) + ' 300 150 380 130 S' + X1 + ' ' + (Y1 + 30) + ' ' + X1 + ' ' + (Y1 + 22) + '"/>' +
+        '<line class="an-meas2" x1="' + X0 + '" y1="' + Y0 + '" x2="' + X1 + '" y2="' + Y0 + '"/>' +
+        '<line class="an-meas" x1="' + px(day) + '" y1="' + (Y0 - 6) + '" x2="' + px(day) + '" y2="234"/>' +
+        '<circle class="an-hub" cx="' + px(day) + '" cy="' + (Y0 - 14 - strength * 0.9) + '" r="7"/>' +
+        '<text class="small" x="' + px(day) + '" y="' + (Y0 - 30 - strength * 0.9) + '" text-anchor="middle">' +
+        Math.round(strength) + '%</text>' +
+        '<text class="small" x="' + px(day) + '" y="46" text-anchor="middle">' + esc(T('day ' + day, '第 ' + day + ' 天')) + '</text>');
+      host.innerHTML =
+        qrange('d', T('Days since the injury', '受伤后的天数'), 0, 60, day, 1) +
+        apanel('main', T('PRICE buys 48 hours; biology takes the rest', 'PRICE 只换来 48 小时，其余交给生物学'),
+          T('The dot walks the real strength curve. Watch how flat the first fortnight is.', '红点沿真实的强度曲线移动，注意前两周有多平。'), s,
+          lg('an-l-safe', T('the letter applies', '该字母适用')) +
+          lg('an-l-unsafe', T('the phase', '所属阶段'))) +
+        '<div class="kv-meters">' + frow(T('strength returned', '恢复的强度'), 'an-b-str') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('PRICE is the first forty-eight hours, and its job is to limit swelling and bleeding so that the repair that follows is not fighting a mess. It does not speed up healing, which is why the strength curve is nearly flat for a fortnight afterwards: the tissue is rebuilding, not recovering. The three phases run in order and overlap. Inflammation clears debris in the first days. Proliferation lays down new collagen, and that collagen is strong but disorganised — which is why a tissue can be painful-free and still be fragile. Remodelling reorganises it along the lines of stress, and that is why graded loading, not rest, is what finishes the job. Rest is the PRICE letter, not the plan.',
+          'PRICE 适用于最初的 48 小时，其作用是限制肿胀与出血，使随后的修复不必在混乱中进行。它并不加速愈合，这正是其后两周强度曲线几乎平坦的原因：组织是在重建，而不是在恢复。三个阶段依次进行并彼此重叠。炎症期在最初几天清理碎屑；增生期铺设新的胶原，而这种胶原虽强却排列杂乱——因此组织可能已不痛却依然脆弱；重塑期沿受力方向重新排列它，也正是渐进负荷而非休息完成最后一步的原因。休息是 PRICE 里的一个字母，而不是整个方案。');
+      setv(host, 'd', '.kv-val', 'day ' + day);
+      bar(host.querySelector('.an-b-str'), strength / 100, 'var(--c2)');
+      outs(host, '.van-b-str', Math.round(strength) + '%');
+      outs(host, '.kv-callout', day <= 2
+        ? T('You are inside the PRICE window. This is the only part of the plan you control hour by hour.', '你正处在 PRICE 的窗口内。这是整个方案中唯一能按小时控制的部分。')
+        : day < 14
+          ? T('Proliferation. The tissue is building new collagen, and strength is still climbing slowly.', '增生期。组织正在铺设新胶原，强度仍在缓慢上升。')
+          : T('Remodelling. Only graded loading organises the collagen — this is the phase that gets cut short by going back too early.', '重塑期。只有渐进负荷才能让胶原有序排列——而这正是过早复出时被砍掉的阶段。'));
+    }
+    wireRange(host, function (i) { day = Number(i.value); draw(); });
+    draw();
+  };
+
+  /* ── B.3.6 Staged concussion return ─────────────────────────────────
+     Six steps, each with a gate that only opens when the previous one is
+     symptom-free. The athlete can only move up by one gate at a time. */
+  MODELS['Staged concussion return'] = function (host) {
+    var stage = 1;
+    var G = [
+      { id: '0', en: 'Rest until symptoms settle', zh: '休息至症状消失', day: '24–48 h' },
+      { id: '1', en: 'Light aerobic only', zh: '仅低强度有氧', day: '2–3 d' },
+      { id: '2', en: 'Aerobic + resistance', zh: '有氧加抗阻', day: 'day 3+' },
+      { id: '3', en: 'Sport-specific, no contact', zh: '专项无接触', day: 'day 5+' },
+      { id: '4', en: 'Full training, still no contact', zh: '完整训练，仍无接触', day: 'day 7+' },
+      { id: '5', en: 'Full training and contact', zh: '完整训练并接触', day: 'cleared' },
+      { id: '6', en: 'Back to competition', zh: '重返比赛', day: '' }
+    ];
+    function draw() {
+      var DW = 66, DH = 30, X0 = 46, Y0 = 224;
+      var pos = G.map(function (g, i) { return { x: X0 + i * DW, y: Y0 - i * DH }; });
+      var s = svgWrap(T('Six steps, and every gate needs yesterday to be symptom-free', '六个阶段，每一道关都要求前一天无症状'), 560, 300,
+        pos.map(function (p, i) {
+          var reached = i <= stage;
+          return '<rect class="an-step' + (reached ? ' on' : '') + '" x="' + p.x + '" y="' + p.y +
+            '" width="' + (DW - 10) + '" height="' + (DH - 5) + '" rx="8"/>' +
+            '<text class="small" x="' + (p.x + 8) + '" y="' + (p.y + 18) + '">' + i + '</text>' +
+            /* the gate: a bar you have to pass, drawn between steps */
+            (i ? '<path class="an-gate' + (reached ? ' open' : '') + '" d="M' + (p.x - 12) + ' ' + (p.y + 12) +
+              ' v-12"/>' : '');
+        }).join('') +
+        AN.person(pos[stage].x + 28, pos[stage].y - 34, 0.62) +
+        /* the day markers, in their own band below */
+        G.map(function (g, i) {
+          return '<text class="small" x="' + (pos[i].x + 22) + '" y="256" text-anchor="middle">' +
+            esc(T(g.day, g.day)) + '</text>';
+        }).join('') +
+        '<text class="small" x="280" y="284" text-anchor="middle" class="an-lab-neg">' +
+        esc(T('a gate only opens if the previous step caused no symptoms — at all', '只有上一步完全没有引起症状，这道关才会打开')) + '</text>');
+      host.innerHTML =
+        qrange('s', T('Step reached', '已到达的阶段'), 0, 6, stage, 1) +
+        apanel('main', T('The steps, and the gate between each pair', '各个阶段，以及每两级之间的关卡'),
+          T('The figure stands on the step you have reached. Gates ahead are still shut.', '人物站在你到达的阶段，前面的关仍然关闭。'), s,
+          lg('an-l-safe', T('cleared', '已通过')) + lg('an-l-unsafe', T('not cleared', '未通过'))) +
+        '<div class="kv-callout"></div>' +
+        note('The return from concussion is a ladder with a gate between every pair of rungs, and the gate has one condition: no symptoms, and no symptoms the next morning either. That second half is what people skip. A step that feels fine on the day can still be re-symptomatic overnight, which is why the gate is checked again the following day rather than ticked off once. The order also matters, because each step adds something the previous one did not — intensity, then resistance, then sport-specific movement, then contact, then competition. Contact is the one most often skipped and the one with the worst consequence if it is.',
+          '脑震荡后的回归是一架每两级之间都有一道关的梯子，而关卡只有一个条件：没有症状，第二天早上也没有。后半句正是人们会略过的部分。当天感觉没事的一步，可能在夜里又出现症状，因此关卡要在第二天再核验一次，而不是一次勾掉就完事。顺序同样重要，因为每一步都加入了上一步没有的东西：强度、抗阻、专项动作、接触、比赛。接触是最常被跳过的一步，也是跳过后后果最严重的一步。');
+      setv(host, 's', '.kv-val', 'step ' + stage);
+      outs(host, '.kv-callout', stage === 0
+        ? T('Step 0: nothing but rest, until symptoms have settled completely.', '第 0 阶段：完全休息，直到症状彻底消失。')
+        : stage === 6
+          ? T('Back to competition. The whole point is that you arrived here one gate at a time.', '重返比赛。关键在于你是一级一级走到这里的。')
+          : T('Step ' + stage + ': ' + T(G[stage].en, G[stage].zh) + '. The next gate opens only if this step caused no symptoms today or tomorrow morning.', '第 ' + stage + ' 阶段：' + T(G[stage].en, G[stage].zh) + '。只有这一步在今天与明早都不引起症状，下一道关才会打开。'));
+    }
+    wireRange(host, function (i) { stage = Number(i.value); draw(); });
+    draw();
+  };
+
+
 })();

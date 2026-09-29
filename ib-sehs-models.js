@@ -14,7 +14,7 @@
      · every slider lives inside a <label> so it has an accessible name
      · colours come from theme variables, so dark mode is free
      · if a model throws, the layer puts the static figure back
-   Append-only. Add new keys; never rewrite a shipped one. 50 of 83 sections
+   Append-only. Add new keys; never rewrite a shipped one. 60 of 83 sections
    now carry a model. */
 (function () {
   'use strict';
@@ -1639,10 +1639,8 @@
       }
       var mastery = clamp(50 + m * 12.5, 0, 100), ego = clamp(50 - m * 12.5, 0, 100);
       var per = clamp(mastery * .8 + 20, 0, 100), joy = clamp(mastery * .85 + 12, 0, 100), ret = clamp(mastery * .9 + 8, 0, 100);
-      scaleBar(host.querySelector('.cm'), mastery / 100);
-      host.querySelector('.cm').style.background = 'var(--green)';
-      scaleBar(host.querySelector('.ce'), ego / 100);
-      host.querySelector('.ce').style.background = 'var(--c0)';
+      bar(host.querySelector('.cm'), mastery / 100, 'var(--green)');
+      bar(host.querySelector('.ce'), ego / 100, 'var(--c0)');
       outs(host, '.vcm', Math.round(mastery) + ' %');
       outs(host, '.vce', Math.round(ego) + ' %');
       scaleBar(host.querySelector('.per'), per / 100);
@@ -2895,10 +2893,116 @@
   }
   function lg(cls, label) { return '<span><i class="' + cls + '"></i>' + esc(label) + '</span>'; }
 
-/* ══ batch D1 · Theme A, part 1 ══════════════════════════════════════════
-   Seven models drawn from the anatomy library. Same skeleton as A.1.1:
-   a question, one control, a shape-based drawing, a legend with live numbers,
-   a callout that says what it means, and a bilingual note. */
+  /* ── molecules, added for the nutrition and energy models ───────────── */
+  /* glucose as the real six-membered ring with the oxygen in it */
+  AN.glucose = function (x, y, s, cls) {
+    s = s || 1;
+    var pts = [[0, -16], [14, -8], [14, 8], [0, 16], [-14, 8], [-14, -8]];
+    var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0] + ' ' + p[1]; }).join(' ') + 'Z';
+    /* ONE transform for the whole group — building the path in absolute
+       coordinates and then translating it again puts it off the drawing */
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">' +
+      '<path class="an-sugar" d="' + d + '"/>' +
+      '<circle class="an-o" cx="0" cy="-16" r="5.4"/>' +
+      '<circle class="an-o" cx="0" cy="16" r="3" opacity=".5"/></g>';
+  };
+  /* triglyceride: a glycerol head with three fatty-acid tails */
+  AN.triglyceride = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<rect class="an-fat" x="-30" y="-10" width="22" height="20" rx="6"/>';
+    [[-8], [0], [8]].forEach(function (d, i) {
+      g += '<line class="an-chain" x1="-8" y1="' + d[0] + '" x2="20" y2="' + (d[0] + (i - 1) * 5) + '"/>';
+      g += '<line class="an-chain" x1="20" y1="' + (d[0] + (i - 1) * 5) + '" x2="38" y2="' + d[0] + '"/>';
+      g += '<circle class="an-p" cx="42" cy="' + d[0] + '" r="3.4"/>';
+    });
+    return g + '</g>';
+  };
+  /* a chain of amino acids joined by peptide bonds */
+  AN.peptide = function (x, y, n, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    for (var i = 0; i < (n || 4); i++) {
+      g += '<rect class="an-aa" x="' + (i * 30) + '" y="-12" width="24" height="24" rx="7"/>';
+      if (i < (n || 4) - 1) g += '<line class="an-bond" x1="' + (i * 30 + 24) + '" y1="0" x2="' + (i * 30 + 30) + '" y2="0"/>';
+    }
+    return g + '</g>';
+  };
+  /* gut with a microbiome */
+  AN.gut = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-gutwall" d="M-40 -20 C-14 -30 14 -12 38 -24"/>';
+    g += '<path class="an-gutwall" d="M-40 -12 C-14 -22 14 -4 38 -16"/>';
+    g += '<path class="an-gutwall" d="M-40 16 C-14 6 14 24 38 12"/>';
+    g += '<path class="an-gutwall" d="M-40 24 C-14 14 14 32 38 20"/>';
+    for (var i = 0; i < 9; i++) {
+      g += '<circle class="an-bact" cx="' + (-32 + i * 9) + '" cy="' + (i % 2 ? 2 : 12) + '" r="4"/>';
+    }
+    return g + '</g>';
+  };
+  /* ATP: adenine, ribose, three phosphates */
+  AN.atp = function (x, y, phos, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-adenine" d="M-58 -14 L-34 -14 L-26 0 L-34 14 L-58 14 L-66 0 Z"/>';
+    g += '<path class="an-ribose" d="M-20 -11 L-6 -11 L2 0 L-6 11 L-20 11 L-26 0 Z"/>';
+    for (var i = 0; i < (phos || 3); i++) {
+      g += '<circle class="an-phos' + (i >= 2 ? ' hot' : '') + '" cx="' + (22 + i * 24) + '" cy="0" r="10"/>';
+      if (i < (phos || 3) - 1) g += '<line class="an-bond" x1="' + (32 + i * 24) + '" y1="0" x2="' + (36 + i * 24) + '" y2="0"/>';
+    }
+    return g + '</g>';
+  };
+  /* an artery in longitudinal section, with plaque narrowing the lumen */
+  AN.artery = function (x, y, w, h, plaque, cls) {
+    var g = '<g class="' + (cls || '') + '">';
+    g += '<rect class="an-adventitia" x="' + (x - w / 2) + '" y="' + (y - h / 2) + '" width="' + w + '" height="' + h + '" rx="' + (h / 2) + '"/>';
+    g += '<rect class="an-media" x="' + (x - w / 2 + 5) + '" y="' + (y - h / 2 + 5) + '" width="' + (w - 10) + '" height="' + (h - 10) + '" rx="' + ((h - 10) / 2) + '"/>';
+    var lw = w - 26, lh = h - 26;
+    g += '<rect class="an-lumen2" x="' + (x - lw / 2) + '" y="' + (y - lh / 2) + '" width="' + lw + '" height="' + lh + '" rx="' + (lh / 2) + '"/>';
+    if (plaque > 0) {
+      var t = lh * 0.5 * plaque;
+      g += '<path class="an-plaque" d="M' + (x - lw / 2) + ' ' + (y - lh / 2) + ' h' + (lw * 0.62) + ' v' + t.toFixed(1) + ' h' + (-lw * 0.62) + ' z"/>';
+      g += '<path class="an-plaque" d="M' + (x + lw / 2) + ' ' + (y + lh / 2) + ' h' + (-lw * 0.62) + ' v' + (-t).toFixed(1) + ' h' + (lw * 0.62) + ' z"/>';
+    }
+    g += '<circle class="an-rbc2" cx="' + (x - lw / 2 + 14) + '" cy="' + y + '" rx="0" ry="0"/>';
+    return g + '</g>';
+  };
+  /* a person, for the population prescription models */
+  AN.person = function (x, y, s, cls) {
+    s = s || 1;
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">' +
+      '<circle class="an-body" cx="0" cy="-20" r="10"/>' +
+      '<path class="an-body" d="M-10 -8 h20 v30 h-20 z"/>' +
+      '<path class="an-body" d="M-10 -2 l-14 22 M10 -2 l14 22 M-8 22 l-8 26 M8 22 l8 26"/></g>';
+  };
+  /* sleep as a hypnogram: the real four stages in order, with deep sleep low */
+  AN.hypnogram = function (x, y, w, h, hours, deepOK) {
+    var g = '<g>';
+    var LV = [[14, 'wake'], [8, 'REM'], [3, 'light'], [-8, 'deep']];
+    var n = 4, seg = w / n;
+    g += '<line class="an-axis" x1="' + x + '" y1="' + (y + h / 2) + '" x2="' + (x + w) + '" y2="' + (y + h / 2) + '"/>';
+    for (var c = 0; c < n; c++) {
+      var d = '', pts = 5;
+      for (var i = 0; i <= pts; i++) {
+        var lvl = deepOK ? LV[(c * 3 + i * 2) % 4] : LV[(c * 3 + i * 2) % 3];
+        var px = x + c * seg + (i / pts) * seg, py = y - lvl[0] * (h / 46);
+        d += (i ? 'L' : 'M') + px.toFixed(1) + ' ' + py.toFixed(1);
+      }
+      g += '<path class="an-hyp" d="' + d + '"/>';
+    }
+    return g + '</g>';
+  };
+  /* glycogen stores drawn as filled spheres inside a fibre */
+  AN.glycogen = function (x, y, n, frac, cls) {
+    var g = '<g class="' + (cls || '') + '">';
+    g += '<rect class="an-fibrebox" x="' + x + '" y="' + y + '" width="120" height="40" rx="16"/>';
+    for (var i = 0; i < (n || 10); i++) {
+      var on = i / (n || 10) < (frac == null ? 1 : frac);
+      g += '<circle class="an-gly' + (on ? ' on' : '') + '" cx="' + (x + 12 + (i % 5) * 24) + '" cy="' + (y + 12 + Math.floor(i / 5) * 17) + '" r="6"/>';
+    }
+    return g + '</g>';
+  };
 
   /* ── D1.1 · A.1.1 Neural pathways and coordination ─────────────────────
      The control room and the wires, then the split between the two exits:
@@ -3038,10 +3142,8 @@
         '</div>' +
         note('Both loops contain a receptor, a control centre and an effector. The only difference is what happens after the effector acts: a negative feedback loop opposes the original change and brings the variable back to its set point, which is what homeostasis is made of. A positive feedback loop pushes the same direction harder until it reaches an endpoint and switches itself off — useful in blood clotting and in childbirth, dangerous everywhere else.',
           '两种环路都包含受体、控制中心和效应器。唯一的区别在于效应器作用之后会发生什么：负反馈环路抵消原来的变化，把变量拉回设定点——稳态正是由它构成的；正反馈环路朝同一方向不断加强，直到达到某个终点并自行关闭——在凝血和分娩中有用，在其他地方都危险。');
-      scaleBar(host.querySelector('.an-b-neg'), 1);
-      host.querySelector('.an-b-neg').style.background = 'var(--green)';
-      scaleBar(host.querySelector('.an-b-pos'), 0);
-      host.querySelector('.an-b-pos').style.background = 'var(--c0)';
+      bar(host.querySelector('.an-b-neg'), 1, 'var(--green)');
+      bar(host.querySelector('.an-b-pos'), 0, 'var(--c0)');
       outs(host, '.vneg', T('always', '始终'));
       outs(host, '.vpos', T('only to an endpoint', '只在有终点时'));
     }
@@ -3183,10 +3285,8 @@
           '水来自饮水与食物，经四条途径离开：汗液、呼吸、尿液和粪便。出汗是唯一随运动显著变化的途径，这也是训练有素的运动员汗液更咸的原因——每升损失的盐更多，补充量也就更大。尿液是可调节的：肾脏可以保水，只排出少量浓缩尿。肺和肠道的损失虽然小，却从未停止，休息时和寒冷天气里也一样。');
       setv(host, 'i', '.kv-v', intake + ' mL');
       setv(host, 's', '.kv-v', sweat + ' mL');
-      scaleBar(host.querySelector('.an-b-in'), intake / 400);
-      host.querySelector('.an-b-in').style.background = 'var(--green)';
-      scaleBar(host.querySelector('.an-b-out'), out / 400);
-      host.querySelector('.an-b-out').style.background = 'var(--c0)';
+      bar(host.querySelector('.an-b-in'), intake / 400, 'var(--green)');
+      bar(host.querySelector('.an-b-out'), out / 400, 'var(--c0)');
       outs(host, '.vin', intake + ' mL');
       outs(host, '.vout', out + ' mL');
       outs(host, '.kv-callout', diff < -100
@@ -3247,12 +3347,9 @@
           '汗来自血浆，因此血浆容量下降；回到心脏的血减少，每搏输出量随之下降。心输出量＝每搏输出量×心率，所以一项下降，另一项必须上升以维持输出——这正是你感觉到的心率加快。与此同时，垂体释放 ADH，使肾脏重吸收水分，排出更少更浓的尿。ADH 是身体的保水反应，但它无法阻止流失，只能减少另一条途径的流失。');
       setv(host, 'h', '.kv-v', hrs + ' h');
       setv(host, 's', '.kv-v', (sweat / 10).toFixed(1) + ' L/h');
-      scaleBar(host.querySelector('.an-b-vol'), vol / 100);
-      host.querySelector('.an-b-vol').style.background = 'var(--c2)';
-      scaleBar(host.querySelector('.an-b-sv'), sbv / 100);
-      host.querySelector('.an-b-sv').style.background = 'var(--green)';
-      scaleBar(host.querySelector('.an-b-hr'), (hr - 50) / 110);
-      host.querySelector('.an-b-hr').style.background = 'var(--c0)';
+      bar(host.querySelector('.an-b-vol'), vol / 100, 'var(--c2)');
+      bar(host.querySelector('.an-b-sv'), sbv / 100, 'var(--green)');
+      bar(host.querySelector('.an-b-hr'), (hr - 50) / 110, 'var(--c0)');
       outs(host, '.vvol', vol + '%');
       outs(host, '.vsv', sbv + '%');
       outs(host, '.vhr', hr + ' bpm');
@@ -3268,6 +3365,490 @@
         draw();
       });
     });
+    draw();
+  };
+
+/* ══ batch D2 ══ */
+/* ══ batch D2 · Theme A, part 2 ══════════════════════════════════════════
+   The last ten Theme A sections. Same skeleton as every other model:
+   question -> control -> shape drawing -> legend -> callout -> bilingual note. */
+
+  /* ── D2.1 · A.2.2 Macronutrients and individual needs ─────────────────── */
+  MODELS['Macronutrients and individual needs'] = function (host) {
+    var M = [
+      { id: 'carb', en: 'Carbohydrate', zh: '碳水化合物', kc: 4, pct: 55, cls: 'car', bar: 'var(--c2)', job: T('The main fuel for high-intensity work, and it spares protein.', '高强度运动的主要燃料，并可节省蛋白质。'), jobZh: '高强度运动的主要燃料，并可节省蛋白质。' },
+      { id: 'fat', en: 'Fat', zh: '脂肪', kc: 9, pct: 30, cls: 'fat', bar: 'var(--c1)', job: T('A dense, slow fuel, and the substrate for cell membranes and hormones.', '能量密度高、供能慢的燃料，也是细胞膜和激素的原料。'), jobZh: '能量密度高、供能慢的燃料，也是细胞膜和激素的原料。' },
+      { id: 'prot', en: 'Protein', zh: '蛋白质', kc: 4, pct: 15, cls: 'prot', bar: 'var(--c0)', job: T('Builds and repairs tissue; needed most during growth and adaptation.', '构建与修复组织，在生长和适应期间需求最高。'), jobZh: '构建与修复组织，在生长和适应期间需求最高。' }
+    ];
+    var act = 'endurance';
+    function grams(m) { return Math.round(m.pct / 100 * (act === 'rest' ? 2200 : act === 'endurance' ? 3200 : 4500) / m.kc); }
+    function draw() {
+      var s = svgWrap(T('The three macronutrients as molecules', '三大营养素的分子形态'), 560, 250,
+        AN.head('d2a') +
+        AN.glucose(110, 92, 1.1) +
+        AN.triglyceride(300, 92, 1.05) +
+        AN.peptide(462, 92, 4, 1) +
+        '<text class="small" x="300" y="140" text-anchor="middle">' + esc(T('fat · a glycerol head with three tails', '脂肪 · 甘油头加三条尾')) + '</text>' +
+        '<text class="small" x="490" y="140" text-anchor="middle">' + esc(T('amino acids', '氨基酸')) + '</text>' +
+        /* the plate, as a real pie of the three */
+        '<circle class="an-plate" cx="110" cy="212" r="26"/>' +
+        '<path class="an-sl-car" d="M110 212 L110 186 A26 26 0 0 1 132 224 Z"/>' +
+        '<path class="an-sl-fat" d="M110 212 L132 224 A26 26 0 0 1 92 232 Z"/>' +
+        '<text class="small" x="152" y="204">' + esc(T('share of daily energy', '每日能量占比')) + '</text>' +
+        '<text class="small" x="152" y="222">' + esc(M.map(function (m) { return T(m.en, m.zh) + ' ' + m.pct + '%'; }).join(' · ')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('What is this person’s daily energy need?', '这个人每天需要多少能量？')) + '</div>' +
+        tools([['rest', T('Sedentary adult', '久坐成人')], ['endurance', T('Endurance training', '耐力训练')], ['power', T('Power athlete', '力量/爆发项目')]], act) +
+        apanel('main', T('Three molecules, three jobs', '三个分子，三种作用'), T('Same three nutrients in every diet — the shares are what change', '所有膳食都是这三种营养素，变化的只是比例'), s,
+          lg('an-l-car', T('carbohydrate', '碳水化合物')) + lg('an-l-fat', T('fat', '脂肪')) +
+          lg('an-l-prot', T('protein', '蛋白质'))) +
+        '<div class="kv-meters">' + M.map(function (m) {
+          return '<div class="kv-frow"><span>' + esc(T(m.en, m.zh)) + '</span><div class="kv-fbar"><i class="an-b-' + m.cls + '"></i></div><b class="v' + m.cls + '"></b></div>';
+        }).join('') + '</div>' +
+        '<div class="kv-callout"></div>' +
+        note('Needs are individual: they scale with body size, lean mass, age, sex and activity, and they are not fixed. An adolescent needs more energy and more of everything because they are still growing; menstruation raises iron requirements; higher training loads raise energy, carbohydrate and fluid needs. The three never disappear from the diet — what changes is the share, and how much total energy the day carries.',
+          '需求因人而异：随体型、瘦体重、年龄、性别和活动量变化，并非固定。青少年仍在生长，能量和所有营养素的需求都更高；月经期提高铁需求；训练量上升会提高能量、碳水和水分需求。三大营养素在任何膳食中都不会消失，变化的只是比例，以及一天的总能量。');
+      var tot = { rest: 2200, endurance: 3200, power: 4500 }[act];
+      M.forEach(function (m) {
+        bar(host.querySelector('.an-b-' + m.cls), m.pct / 100, m.bar);
+        outs(host, '.v' + m.cls, grams(m) + ' g');
+      });
+      outs(host, '.kv-callout', T('Around ' + tot + ' kcal a day, which is about ' + grams(M[0]) + ' g of carbohydrate. A bigger engine needs more of it.',
+        '每天约 ' + tot + ' 千卡，其中碳水约 ' + grams(M[0]) + ' 克。引擎更大，需要的也更多。'));
+      marks(host, '.kv-tools', act);
+    }
+    wire(host, '.kv-tools', function (v) { act = v; draw(); });
+    draw();
+  };
+
+  /* ── D2.2 · A.2.2 Micronutrients, RED-S and microbiome ────────────────── */
+  MODELS['Micronutrients, RED-S and microbiome'] = function (host) {
+    var M = [
+      { id: 'fe', en: 'Iron', zh: '铁', cls: 'fe', job: T('Haemoglobin and oxygen transport. Low iron means less oxygen reaches the working muscle.', '血红蛋白与氧的运输。缺铁意味着到达工作肌肉的氧更少。'), jobZh: '血红蛋白与氧的运输。缺铁意味着到达工作肌肉的氧更少。' },
+      { id: 'ca', en: 'Calcium', zh: '钙', cls: 'ca', job: T('Bone and teeth, and muscle contraction and nerve signalling.', '骨骼与牙齿，以及肌肉收缩和神经信号。'), jobZh: '骨骼与牙齿，以及肌肉收缩和神经信号。' },
+      { id: 'na', en: 'Sodium', zh: '钠', cls: 'na', job: T('Fluid balance and blood volume, and it carries nerve and muscle impulses.', '体液平衡与血容量，并参与神经和肌肉的冲动传递。'), jobZh: '体液平衡与血容量，并参与神经和肌肉的冲动传递。' },
+      { id: 'k', en: 'Potassium', zh: '钾', cls: 'k', job: T('Works with sodium inside the cell, and matters most when you sweat a lot.', '在细胞内与钠协同工作，大量出汗时尤为重要。'), jobZh: '在细胞内与钠协同工作，大量出汗时尤为重要。' }
+    ];
+    var ea = 100, sel = 'fe';
+    function draw() {
+      var risk = ea < 60 ? 2 : ea < 80 ? 1 : 0;
+      var m = M.filter(function (x) { return x.id === sel; })[0];
+      var s = svgWrap(T('Micronutrients, energy availability and the gut', '微量营养素、能量可用性与肠道'), 560, 260,
+        AN.head('d2b') +
+        AN.gut(130, 108, 1.05) +
+        '<text class="small" x="130" y="182" text-anchor="middle">' + esc(T('gut microbiome', '肠道微生物')) + '</text>' +
+        /* the four nutrients as distinct object shapes */
+        M.map(function (x, i) {
+          var cx = 300 + (i % 2) * 108, cy = 74 + Math.floor(i / 2) * 78;
+          return '<circle class="an-mn an-mn-' + x.cls + (x.id === sel ? ' on' : '') + '" cx="' + cx + '" cy="' + cy + '" r="26"/>' +
+            '<text class="small" x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" class="an-mn-t">' + esc(T(x.en, x.zh)) + '</text>';
+        }).join('') +
+        /* energy availability as a fuel gauge */
+        '<rect class="an-gauge" x="300" y="196" width="216" height="14" rx="7"/>' +
+        '<rect class="an-gauge-f" x="300" y="196" width="' + (216 * ea / 100).toFixed(0) + '" height="14" rx="7"/>' +
+        '<line class="an-thresh" x1="360" y1="190" x2="360" y2="216"/>' +
+        '<text class="small" x="300" y="230">' + esc(T('energy availability', '能量可用性')) + '</text>' +
+        '<text class="small" x="516" y="230" text-anchor="end" class="' + (risk ? 'an-lab-pos' : 'an-lab-neg') + '">' +
+        (risk === 2 ? esc(T('RED-S risk', 'RED-S 风险')) : risk === 1 ? esc(T('watch', '需关注')) : esc(T('adequate', '充足'))) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="e"><span class="ibm-q">' + esc(T('Energy available (%)', '能量可用性（%）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="30" max="110" step="1" value="' + ea + '"></label>' +
+        '<div class="kv-q kv-q2">' + esc(T('Which one?', '看哪一种？')) + '</div>' +
+        tools(M.map(function (x) { return [x.id, T(x.en, x.zh)]; }), sel) +
+        apanel('main', T('Small amounts, large consequences', '量很少，后果很大'), T('Below about 60% the body starts protecting itself by cutting back', '低于约 60% 时身体开始牺牲一些功能来保护自己'), s,
+          lg('an-l-on', T('selected', '当前选中')) + lg('an-l-off', T('other', '其他')) +
+          lg('an-l-bact', T('microbiome', '菌群'))) +
+        '<div class="kv-callout"></div>' +
+        note('Low energy availability is the idea behind RED-S: too little energy left over after training, and the body turns down metabolism, menstrual function, bone density, immunity, growth and mood. It is not a vitamin deficiency — it is an energy shortage, and no supplement corrects it. The microbiome is a separate lever: a varied, mostly plant-forward diet supports a wider range of organisms than a narrow one.',
+          '能量可用性不足就是 RED-S 的核心：训练之后剩下的能量太少，身体就会下调代谢、月经功能、骨密度、免疫、生长和情绪。它不是维生素缺乏，而是能量短缺，任何补剂都无法纠正。肠道菌群是另一个杠杆：多样、以植物为主的膳食比单一的膳食支持更广的菌群。');
+      setv(host, 'e', '.kv-v', ea + '%');
+      bar(host.querySelector('.an-gauge-f'), ea / 110, risk === 2 ? 'var(--c0)' : risk === 1 ? 'var(--c1)' : 'var(--green)');
+      outs(host, '.kv-callout', T(m.en + '. ' + m.job, m.zh + '。' + m.jobZh));
+      marks(host, '.kv-tools', sel);
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { ea = Number(i.value); draw(); }); });
+    wire(host, '.kv-tools', function (v) { sel = v; draw(); });
+    draw();
+  };
+
+  /* ── D2.3 · A.2.3 ATP and the energy continuum ────────────────────────── */
+  MODELS['ATP and the energy continuum'] = function (host) {
+    var work = 50;
+    var MIX = [[0, [100, 0, 0]], [6, [90, 10, 0]], [30, [55, 42, 3]], [120, [20, 60, 20]], [600, [2, 25, 73]], [1800, [0, 10, 90]], [7200, [0, 2, 98]]];
+    function lerpMix(t) {
+      for (var i = 1; i < MIX.length; i++) if (t <= MIX[i][0]) {
+        var a = MIX[i - 1], b = MIX[i], k = (Math.log(t) - Math.log(a[0] || 0.01)) / (Math.log(b[0]) - Math.log(a[0] || 0.01));
+        return a[1].map(function (v, j) { return v + (b[1][j] - v) * k; });
+      }
+      return MIX[MIX.length - 1][1];
+    }
+    function fmt(t) { return t < 1 ? Math.round(t * 1000) + ' ms' : t < 60 ? Math.round(t) + ' s' : t < 3600 ? Math.round(t / 60) + ' min' : (t / 3600).toFixed(1) + ' h'; }
+    function draw() {
+      var t = Math.exp(Math.log(6) + (Math.log(7200) - Math.log(6)) * work / 100);
+      var m = lerpMix(t);
+      var dom = m[0] >= m[1] && m[0] >= m[2] ? T('phosphagen', '磷酸原') : m[1] >= m[2] ? T('glycolytic', '糖酵解') : T('oxidative', '有氧氧化');
+      var s = svgWrap(T('ATP, the molecule, and the continuum of effort', 'ATP 分子与运动强度的连续谱'), 560, 300,
+        AN.head('d2c') +
+        /* the molecule: three phosphates, the last one leaving */
+        AN.atp(150, 76, 3, 1.05) +
+        '<text class="small" x="150" y="146" text-anchor="middle">' + esc(T('ATP — the last phosphate is the energy', 'ATP — 脱去最后一个磷酸基即释放能量')) + '</text>' +
+        AN.atp(150, 208, 2, 1.05) +
+        '<text class="small" x="150" y="272" text-anchor="middle">' + esc(T('ADP — what is left behind', 'ADP — 留下的部分')) + '</text>' +
+        '<path class="an-flow" d="M206 76 h30 v132" marker-end="url(#d2c)"/>' +
+        '<text class="small" x="248" y="140" class="an-lab-pos">' + esc(T('hydrolysis', '水解')) + '</text>' +
+        /* the continuum, as a bar that fills */
+        '<rect class="an-bar" x="300" y="60" width="220" height="20" rx="10"/>' +
+        '<rect class="an-b0" x="300" y="60" width="' + (220 * m[0] / 100).toFixed(0) + '" height="20"/>' +
+        '<rect class="an-b1" x="300" y="84" width="' + (220 * m[1] / 100).toFixed(0) + '" height="20"/>' +
+        '<rect class="an-b2" x="300" y="108" width="' + (220 * m[2] / 100).toFixed(0) + '" height="20"/>' +
+        '<text class="small" x="300" y="146">' + esc(T('phosphagen', '磷酸原')) + '</text>' +
+        '<text class="small" x="300" y="170">' + esc(T('glycolytic', '糖酵解')) + '</text>' +
+        '<text class="small" x="300" y="194">' + esc(T('oxidative', '有氧氧化')) + '</text>' +
+        '<path class="an-cursor2" d="M' + (300 + 220 * work / 100).toFixed(0) + ' 48 v170"/>' +
+        '<text class="small" x="300" y="250" class="an-lab-neg">' + esc(dom + ' ' + T('dominant', '占主导')) + '</text>' +
+        '<text class="small" x="300" y="272">' + esc(T('a 100 m sprint, a 400 m sprint and a 10 km run sit at three different points', '100 米、400 米与 10 公里分别位于三个位置')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="w"><span class="ibm-q">' + esc(T('How long is the all-out effort?', '全力运动持续多久？')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="1000" step="1" value="' + work + '"></label>' +
+        apanel('main', T('One molecule, three ways to refill it', '一个分子，三种补充方式'), T('All three run at once — only the share changes', '三者始终同时工作，只是占比在变'), s,
+          lg('an-l-car', T('phosphagen', '磷酸原')) + lg('an-l-fat', T('glycolytic', '糖酵解')) +
+          lg('an-l-prot', T('oxidative', '有氧氧化'))) +
+        '<div class="kv-callout"></div>' +
+        note('ATP is the only currency muscle spends. It is not stored in useful quantity, so it has to be resynthesised continuously — and the three systems differ in how fast they can do that, what they burn, and how long they last. A 100 m sprint is almost entirely phosphagen, a 400 m sprint gains a large glycolytic share, and a 10 km run is mostly oxidative. Lactate is not the cause of fatigue; it is a consequence of glycolytic work, and it is produced and cleared all the time at rest too.',
+          'ATP 是肌肉唯一能消费的“货币”，而体内储量极小，必须持续再合成。三大系统的差别在于再合成速度、燃料和持续时间：100 米几乎全是磷酸原，400 米糖酵解占比大幅上升，10 公里以有氧为主。乳酸不是疲劳的原因，而是糖酵解工作的结果；即使在休息时，乳酸也一直在产生和清除。');
+      setv(host, 'w', '.kv-v', fmt(t));
+      outs(host, '.kv-callout', T('At ' + fmt(t) + ' the dominant supply is ' + dom + '. All three are working; the mix is the only thing that changes.',
+        '在' + fmt(t) + '时，主导的供应是' + dom + '。三者都在工作，变的只是比例。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { work = Number(i.value); draw(); }); });
+    draw();
+  };
+
+  /* ── D2.4 · A.3.1 Six qualities and FITT ──────────────────────────────── */
+  MODELS['Six qualities and FITT'] = function (host) {
+    var DAYS = [['Mo', 1], ['Tu', 1], ['We', 0], ['Th', 1], ['Fr', 0], ['Sa', 1], ['Su', 0]];
+    var qual = 'freq';
+    function draw() {
+      var Q = [
+        { id: 'freq', en: 'Frequency', zh: '频率', d: T('how often you train', '你训练多频繁'), good: 4, unit: T('sessions / week', '次／周') },
+        { id: 'int', en: 'Intensity', zh: '强度', d: T('how hard each session is', '每次训练多难'), good: 75, unit: '% of max' },
+        { id: 'time', en: 'Time', zh: '时间', d: T('how long each session lasts', '每次训练持续多久'), good: 60, unit: T('min / session', '分钟／次') },
+        { id: 'type', en: 'Type', zh: '类型', d: T('which method you actually use', '你真正采用哪种方法'), good: 3, unit: T('kinds / week', '种／周') }
+      ];
+      var q = Q.filter(function (x) { return x.id === qual; })[0];
+      var s = svgWrap(T('FITT as a training week', 'FITT 训练周'), 560, 240,
+        AN.head('d2d') +
+        /* the week as real bars, Monday to Sunday */
+        DAYS.map(function (d, i) {
+          var h = d[1] ? 74 : 10, x = 40 + i * 44;
+          return '<rect class="an-day' + (d[1] ? ' on' : '') + '" x="' + x + '" y="' + (150 - h) + '" width="28" height="' + h + '" rx="8"/>' +
+            '<text class="small" x="' + (x + 14) + '" y="168" text-anchor="middle">' + d[0] + '</text>';
+        }).join('') +
+        '<line class="an-axis" x1="30" y1="152" x2="380" y2="152"/>' +
+        /* progression as a rising set of dots */
+        '<path class="an-prog" d="M400 150 C440 140 450 110 470 96 C492 82 500 70 520 58"/>' +
+        '<circle class="an-dot2" cx="410" cy="146" r="5"/><circle class="an-dot2" cx="455" cy="104" r="5"/>' +
+        '<circle class="an-dot2" cx="500" cy="70" r="5"/>' +
+        '<text class="small" x="466" y="176" text-anchor="middle" class="an-lab-neg">' + esc(T('progressive overload', '渐进超负荷')) + '</text>' +
+        '<text class="small" x="466" y="196" text-anchor="middle">' + esc(T('more, not just harder', '加量，而不只是加难')) + '</text>' +
+        '<text class="small" x="30" y="222">' + esc(T('recovery days are part of the plan, not a break from it', '恢复日是计划的一部分，而不是计划的空档')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which quality are you changing?', '你在调整哪一项？')) + '</div>' +
+        tools(Q.map(function (x) { return [x.id, T(x.en, x.zh)]; }), qual) +
+        apanel('main', T('FITT, and the one rule on top', 'FITT，以及上面那一条规则'), T('Specificity, overload, reversibility, individualisation, continuity and recovery', '专项性、超负荷、可逆性、个体化、连续性与恢复'), s,
+          lg('an-l-on', T('training day', '训练日')) + lg('an-l-off', T('recovery day', '恢复日')) +
+          lg('an-l-prog', T('progression', '进阶'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T(q.d, q.d)) + '</span><div class="kv-fbar"><i class="an-b-q"></i></div><b class="vq"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('FITT is the prescription: frequency, intensity, time and type. The six qualities sit on top of it — train the sport, the position and the goal (specificity); raise the stress gradually rather than suddenly (overload); back off and you lose it (reversibility); suit the programme to the individual; keep going in small steps (continuity); and build recovery in deliberately, because a plan with no recovery days is a plan that stops working.',
+          'FITT 是处方：频率、强度、时间和类型。之上还有六个原则——练专项、位置和目标（专项性）；逐步加大而非骤然加码（超负荷）；一退就退（可逆性）；因人而异（个体化）；小步持续推进（连续性）；并把恢复主动写进计划，因为没有恢复日的计划，本身就是会失效的计划。');
+      bar(host.querySelector('.an-b-q'), q.good / 100, 'var(--c2)');
+      outs(host, '.vq', q.good + ' ' + q.unit);
+      outs(host, '.kv-callout', T(q.en + ' is ' + q.d + '. Specificity is the one most often missed: the work must resemble the goal.',
+        q.zh + '是' + q.d + '。最常被忽略的是专项性：训练内容必须与目标相似。'));
+      marks(host, '.kv-tools', qual);
+    }
+    wire(host, '.kv-tools', function (v) { qual = v; draw(); });
+    draw();
+  };
+
+  /* ── D2.5 · A.3.1 Individualisation and the monitoring loop ───────────── */
+  MODELS['Individualisation and the monitoring loop'] = function (host) {
+    var load = 55, rec = 55;
+    function draw() {
+      var fit = clamp(100 - Math.abs(load - rec) * 1.6, 0, 100);
+      var s = svgWrap(T('The monitoring loop: load, recovery, adaptation', '监测环路：负荷、恢复、适应'), 560, 250,
+        AN.head('d2e') +
+        '<rect class="an-box2" x="40" y="52" width="130" height="70" rx="14"/><text class="small" x="105" y="82" text-anchor="middle">' + esc(T('training load', '训练负荷')) + '</text>' +
+        '<text class="small" x="105" y="104" text-anchor="middle" class="an-lab-pos">' + load + '</text>' +
+        '<rect class="an-box2" x="200" y="52" width="130" height="70" rx="14"/><text class="small" x="265" y="82" text-anchor="middle">' + esc(T('recovery', '恢复')) + '</text>' +
+        '<text class="small" x="265" y="104" text-anchor="middle" class="an-lab-neg">' + rec + '</text>' +
+        '<rect class="an-box2" x="360" y="52" width="150" height="70" rx="14"/><text class="small" x="435" y="82" text-anchor="middle">' + esc(T('adaptation', '适应')) + '</text>' +
+        '<text class="small" x="435" y="104" text-anchor="middle">' + Math.round(fit) + '%</text>' +
+        '<path class="an-flow' + (fit > 60 ? ' good' : ' bad') + '" d="M170 87 h26" marker-end="url(#d2e)"/>' +
+        '<path class="an-flow' + (fit > 60 ? ' good' : ' bad') + '" d="M330 87 h26" marker-end="url(#d2e)"/>' +
+        /* the review point: the loop closes with data, not opinion */
+        '<path class="an-flow' + (fit > 60 ? ' good' : ' bad') + '" d="M435 122 v56 h-330 v-40" marker-end="url(#d2e)"/>' +
+        '<text class="small" x="268" y="200" text-anchor="middle">' + esc(T('measure → adjust ONE variable → review again', '测量 → 只调整一个变量 → 再次复测')) + '</text>' +
+        '<text class="small" x="105" y="196" text-anchor="middle" class="an-lab-pos">' + esc(T('load + volume + intensity + RPE', '负荷 + 总量 + 强度 + RPE')) + '</text>' +
+        '<text class="small" x="265" y="196" text-anchor="middle" class="an-lab-neg">' + esc(T('sleep + mood + soreness + HRV', '睡眠 + 情绪 + 酸痛 + HRV')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="l"><span class="ibm-q">' + esc(T('Training load this week', '本周训练负荷')) +
+        ' <b class="kv-v"></b></span><input type="range" min="10" max="100" step="1" value="' + load + '"></label>' +
+        '<label class="kv-lab" data-v="r"><span class="ibm-q">' + esc(T('Recovery that week', '当周恢复状况')) +
+        ' <b class="kv-v"></b></span><input type="range" min="10" max="100" step="1" value="' + rec + '"></label>' +
+        apanel('main', T('Why one athlete is not another', '为什么不能把一个人的计划给另一个人'), T('Responder differences are real and they are not small', '个体间的“应答差异”真实存在，而且不小'), s,
+          lg('an-l-pos', T('load', '负荷')) + lg('an-l-neg', T('recovery', '恢复'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('adaptation gained', '获得的适应')) + '</span><div class="kv-fbar"><i class="an-b-fit"></i></div><b class="vfit"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Training response is individual: current fitness, age, sex-related factors, menstrual-cycle changes where relevant, genetics and simple responder differences all matter. So the loop is: record load and volume and intensity and RPE, record wellbeing and sleep and mood, run relevant performance tests, then change one FITT variable and set a new review point. Change everything at once and you will never know which change did it.',
+          '训练反应是个体的：当前体能、年龄、性别相关因素、月经周期变化、遗传以及“应答者差异”都很重要。所以环路是：记录负荷、总量、强度与 RPE，记录睡眠、情绪与状态，做相关的表现测试，然后只改一个 FITT 变量并设下一个复测点。一次全改，你就永远不知道是哪一项起了作用。');
+      setv(host, 'l', '.kv-v', load);
+      setv(host, 'r', '.kv-v', rec);
+      bar(host.querySelector('.an-b-fit'), fit / 100, fit > 60 ? 'var(--green)' : 'var(--c0)');
+      outs(host, '.vfit', Math.round(fit) + '%');
+      outs(host, '.kv-callout', fit > 75
+        ? T('Load and recovery are well matched. This is where adaptation actually happens — hold it a few weeks before adding more.',
+          '负荷与恢复匹配良好。适应正发生在这里——先维持几周再往上加。')
+        : fit > 50
+          ? T('Workable, but the gap is costing you. Close it before you add intensity.',
+            '还能撑，但这个差距在消耗你。先把差距补上，再谈加强度。')
+          : T(load > rec
+            ? T('Load is well above recovery. This is not overload, it is accumulated fatigue — performance will fall and injury risk rises.',
+              '负荷明显高于恢复。这不叫超负荷，而叫疲劳累积——表现会下降，受伤风险会上升。')
+            : T('Recovery is running ahead of load. That is detraining, not rest. Add a little stimulus.',
+              '恢复跑在负荷前面。这不是休息，而是退步训练。加点刺激。')));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+      if (i.closest('[data-v=l]')) load = Number(i.value); else rec = Number(i.value); draw();
+    }); });
+    draw();
+  };
+
+  /* ── D2.6 · A.3.2 Life stage, sex and energy balance ──────────────────── */
+  MODELS['Life stage, sex and energy balance'] = function (host) {
+    var stage = 'adolescent';
+    function draw() {
+      var S = {
+        child: { en: 'Child', zh: '儿童', bmr: 1400, need: 1900, focus: T('Fundamental movement skills and growth. Variety and play beat structure and load.', '基本运动技能与生长。多样和趣味胜过结构与负荷。'), focusZh: '基本运动技能与生长。多样和趣味胜过结构与负荷。' },
+        adolescent: { en: 'Adolescent', zh: '青少年', bmr: 1750, need: 2600, focus: T('Build fitness, body composition and wellbeing — and eat enough to support the growth still happening.', '提升体能、体成分与幸福感——并且要吃得够，以支持仍在发生的生长。'), focusZh: '提升体能、体成分与幸福感——并且要吃得够，以支持仍在发生的生长。' },
+        adult: { en: 'Adult', zh: '成人', bmr: 1500, need: 2400, focus: T('Maintain function, health and energy balance. Most adults are not short of training, they are short of recovery.', '维持功能、健康与能量平衡。多数成年人缺的不是训练，而是恢复。'), focusZh: '维持功能、健康与能量平衡。多数成年人缺的不是训练，而是恢复。' },
+        older: { en: 'Older adult', zh: '老年人', bmr: 1300, need: 2000, focus: T('Keep strength and balance to stay independent. Progress slowly, and modify for health.', '保持力量与平衡以维持独立。缓慢进阶，并针对健康状况做调整。'), focusZh: '保持力量与平衡以维持独立。缓慢进阶，并针对健康状况做调整。' }
+      };
+      var s = S[stage];
+      var s2 = svgWrap(T('Energy balance across the lifespan', '贯穿一生的能量平衡'), 560, 250,
+        AN.head('d2f') +
+        /* the balance beam, with intake on one side and expenditure on the other */
+        '<path class="an-beam" d="M110 96 L330 96"/>' +
+        '<rect class="an-pan" x="60" y="60" width="100" height="34" rx="10"/>' +
+        '<text class="small" x="110" y="82" text-anchor="middle">' + esc(T('intake', '摄入')) + '</text>' +
+        '<rect class="an-pan" x="280" y="60" width="100" height="34" rx="10"/>' +
+        '<text class="small" x="330" y="82" text-anchor="middle">' + esc(T('expenditure', '消耗')) + '</text>' +
+        '<path class="an-fulcrum" d="M220 96 l-16 40 h32 z"/>' +
+        /* what the expenditure is made of */
+        AN.person(200, 170, 0.9) +
+        '<text class="small" x="200" y="220" text-anchor="middle">' + esc(T('basal metabolism', '基础代谢')) + '</text>' +
+        '<text class="small" x="200" y="238" text-anchor="middle">' + esc(T('+ activity + the thermic effect of food', '+ 活动 + 食物热效应')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which life stage?', '哪个生命阶段？')) + '</div>' +
+        tools([['child', T('Child', '儿童')], ['adolescent', T('Adolescent', '青少年')],
+        ['adult', T('Adult', '成人')], ['older', T('Older adult', '老年人')]], stage) +
+        apanel('main', T('Same balance, different numbers', '同一个平衡，不同的数字'), T('Start from where the person is now, not from a template', '从个人当前状态出发，而不是照模板'), s,
+          lg('an-l-pos', T('energy in', '能量进入')) + lg('an-l-neg', T('energy used', '能量消耗'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('basal metabolism', '基础代谢')) + '</span><div class="kv-fbar"><i class="an-b-bmr"></i></div><b class="vbmr"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('rough daily need', '粗略每日需要')) + '</span><div class="kv-fbar"><i class="an-b-need"></i></div><b class="vneed"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Energy balance is intake against expenditure, and expenditure is basal metabolism plus physical activity plus the thermic effect of food. A deficit reduces weight, a surplus adds it — but the direction is not the only variable. Females have a higher risk of iron deficiency and hormonal cycles can move both energy availability and performance. Whatever the stage, the programme starts from the person’s current activity level and progresses with health, age, ability and response.',
+          '能量平衡就是摄入与消耗之比，消耗＝基础代谢＋身体活动＋食物热效应。亏空会减重，盈余会增重——但方向不是唯一的变量。女性缺铁风险更高，月经周期也会影响能量可用性与表现。无论哪个阶段，计划都应从个人当前的活动水平出发，并随健康、年龄、能力与反应逐步调整。');
+      bar(host.querySelector('.an-b-bmr'), s.bmr / 3000, 'var(--c2)');
+      bar(host.querySelector('.an-b-need'), s.need / 3000, 'var(--c0)');
+      outs(host, '.vbmr', s.bmr + ' kcal');
+      outs(host, '.vneed', s.need + ' kcal');
+      outs(host, '.kv-callout', T(s.en + '. ' + s.focus, s.zh + '。' + s.focusZh));
+      marks(host, '.kv-tools', stage);
+    }
+    wire(host, '.kv-tools', function (v) { stage = v; draw(); });
+    draw();
+  };
+
+  /* ── D2.7 · A.3.2 System benefits, chronic disease and progression ─────── */
+  MODELS['System benefits, chronic disease and progression'] = function (host) {
+    var yrs = 40;
+    function draw() {
+      var plaque = clamp(yrs / 90, 0, 1);
+      var lum = Math.round(100 - plaque * 82);
+      var s = svgWrap(T('How an artery changes, and what activity does about it', '动脉如何改变，运动又能做些什么'), 560, 260,
+        AN.head('d2g') +
+        AN.heart(70, 120, 0.7) +
+        AN.artery(230, 96, 180, 74, plaque) +
+        AN.artery(230, 208, 180, 74, Math.max(0, plaque - 0.55)) +
+        '<text class="small" x="230" y="52" text-anchor="middle">' + esc(T('untreated', '不干预')) + '</text>' +
+        '<text class="small" x="230" y="258" text-anchor="middle" class="an-lab-neg">' + esc(T('with regular activity', '规律活动后')) + '</text>' +
+        /* the blood going through */
+        '<path class="an-flow' + (lum > 40 ? ' good' : ' bad') + '" d="M96 120 h124" marker-end="url(#d2g)"/>' +
+        '<text class="small" x="352" y="100" class="' + (lum > 40 ? 'an-lab-neg' : 'an-lab-pos') + '">' + lum + '% ' + esc(T('lumen left', '管腔剩余')) + '</text>' +
+        '<text class="small" x="352" y="212" class="an-lab-neg">' + Math.round(100 - Math.max(0, plaque - 0.55) * 82) + '%</text>' +
+        '<text class="small" x="420" y="150" text-anchor="middle">' + esc(T('plaque', '斑块')) + '</text>' +
+        '<line class="an-lead2" x1="418" y1="146" x2="318" y2="112"/>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="y"><span class="ibm-q">' + esc(T('Years of inactivity', '不活动的年数')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="90" step="1" value="' + yrs + '"></label>' +
+        apanel('main', T('Progressive intensity, drawn in the vessel', '渐进强度，画在血管里'), T('Activity cannot remove plaque, but it changes the rate and the consequences', '运动不能清除斑块，但能改变它的速度和后果'), s,
+          lg('an-l-bad', T('narrowed', '狭窄')) + lg('an-l-neg', T('better flow', '血流改善'))) +
+        '<div class="kv-callout"></div>' +
+        note('Regular activity raises strength and endurance, improves bone density, supports immune function, and reduces stress, anxiety and low mood. It also lowers the risk of osteoporosis, obesity, hypertension, cardiovascular disease and type 2 diabetes. The benefit is a lower rate of progression, not a reversal: for an older adult returning after inactivity, begin appropriately, progress gradually, include strength and balance work, and modify for health.',
+          '规律活动能提高力量与耐力、改善骨密度、支持免疫功能，并减轻压力、焦虑与低落情绪；同时降低骨质疏松、肥胖、高血压、心血管疾病与 2 型糖尿病的风险。作用是减缓进展而非逆转：对长期 inactivity 后重返活动的老年人，应从合适的强度起步、逐步进阶、加入力量与平衡训练，并针对健康状况调整。');
+      setv(host, 'y', '.kv-v', yrs + ' y');
+      outs(host, '.kv-callout', lum < 30
+        ? T('Severe narrowing: flow is now the limiting factor, and the risk is an event rather than a symptom. This is a clinical situation, not a training problem.',
+          '严重狭窄：血流已成为限制因素，风险是“事件”而不是“症状”。这是临床问题，不是训练问题。')
+        : T('Regular activity slows the build-up and improves what you can do with the narrowing you already have.',
+          '规律活动能减缓斑块的堆积，也能改善在已有狭窄情况下你能做到的程度。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { yrs = Number(i.value); draw(); }); });
+    draw();
+  };
+
+  /* ── D2.8 · A.3.2 HL exercise prescription for populations ────────────── */
+  MODELS['HL exercise prescription for populations'] = function (host) {
+    var P = {
+      child: { en: 'Child', zh: '儿童', icon: 'child', f: 5, i: 60, t: 30, ty: T('variety, fun, skill', '多样、趣味、技能'), note: T('Moderate-to-vigorous activity every day, with play and skill development rather than structured training.', '每天中等至高强度活动，以游戏和技能发展为主，而不是结构化训练。'), noteZh: '每天中等至高强度活动，以游戏和技能发展为主，而不是结构化训练。' },
+      older: { en: 'Older adult', zh: '老年人', icon: 'older', f: 3, i: 50, t: 40, ty: T('strength + balance', '力量＋平衡'), note: T('Strength and balance work every day, progressing slowly, with heat, balance and medication considered.', '每天进行力量与平衡训练，缓慢进阶，并考虑散热、平衡能力与用药情况。'), noteZh: '每天进行力量与平衡训练，缓慢进阶，并考虑散热、平衡能力与用药情况。' },
+      preg: { en: 'Pregnancy', zh: '孕期', icon: 'preg', f: 3, i: 40, t: 30, ty: T('gentle, stay cool', '温和、避免过热'), note: T('Progress gently, avoid overheating, maintain hydration, and seek professional advice when the history requires it.', '温和进阶，避免过热，维持水分，必要时寻求专业指导。'), noteZh: '温和进阶，避免过热，维持水分，必要时寻求专业指导。' }
+    };
+    var pop = 'child';
+    function draw() {
+      var p = P[pop];
+      var s = svgWrap(T('A prescription for one population', '为某一人群开的处方'), 560, 240,
+        AN.head('d2h') +
+        '<g transform="translate(80 ' + (pop === 'older' ? 168 : pop === 'preg' ? 176 : 140) + ')">' + AN.person(0, 0, pop === 'older' ? 1.15 : 1.35) + '</g>' +
+        '<text class="small" x="80" y="212" text-anchor="middle">' + esc(T(p.en, p.zh)) + '</text>' +
+        /* the four prescriptions as real dials */
+        [['F', p.f, 5, 'sessions / week', '次／周'], ['I', p.i, 100, '% of max', '% 最大'], ['T', p.t, 60, 'min / session', '分钟／次']]
+          .map(function (d, i) {
+            var y = 62 + i * 52;
+            return '<circle class="an-dial" cx="220" cy="' + y + '" r="18"/>' +
+              '<text class="small" x="220" y="' + (y + 4) + '" text-anchor="middle">' + d[0] + '</text>' +
+              '<text class="small" x="252" y="' + (y + 4) + '">' + d[1] + ' ' + esc(T(d[3], d[4])) + '</text>';
+          }).join('') +
+        '<text class="small" x="220" y="230" class="an-lab-neg">' + esc(T('Type: ' + p.ty, '类型：' + p.ty)) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which population?', '哪一人群？')) + '</div>' +
+        tools([['child', T('Child', '儿童')], ['older', T('Older adult', '老年人')], ['preg', T('Pregnancy', '孕期')]], pop) +
+        apanel('main', T('Same four letters, different numbers', '同样四个字母，不同的数字'), T('A prescription is individualised and adjusted as needs change', '处方必须个体化，并随需求变化调整'), s,
+          lg('an-l-neg', T('prescribed', '处方值'))) +
+        '<div class="kv-callout"></div>' +
+        note('The workbook gives population-focused guidance, and the differences are not cosmetic. Children and adolescents need moderate-to-vigorous activity, variety, fun and skill development. Older adults need strength and balance to stay independent, and need to progress more slowly. In pregnancy the work should progress gently, overheating must be avoided, hydration maintained, and professional advice sought when the individual’s history requires it. A safety modification should be a deliberate choice you can justify, not a habit.',
+          '工作簿给出的是面向人群的指导，差异并非表面文章。儿童与青少年需要中等至高强度活动、多样性、趣味与技能发展；老年人需要力量与平衡以维持独立，进阶必须更慢；孕期训练应温和进阶、避免过热、维持水分，个体病史需要时应寻求专业指导。安全调整应当是一个你能解释的明确选择，而不是习惯。');
+      outs(host, '.kv-callout', T(p.en + '. ' + p.note, p.zh + '。' + p.noteZh));
+      marks(host, '.kv-tools', pop);
+    }
+    wire(host, '.kv-tools', function (v) { pop = v; draw(); });
+    draw();
+  };
+
+  /* ── D2.9 · A.3.3 Recovery nutrition and methods ──────────────────────── */
+  MODELS['Recovery nutrition and methods'] = function (host) {
+    var mins = 0, carb = 1, prot = 1, fluid = 1;
+    function draw() {
+      /* 0–30 refuel, 30–120 repair, 2–4 h restore, daily nutrition */
+      var phase = mins < 30 ? 0 : mins < 120 ? 1 : mins < 240 ? 2 : 3;
+      var gly = clamp(0.18 + (0.82 * carb) * (1 - Math.exp(-mins / 45)), 0, 1);
+      var s = svgWrap(T('The recovery timeline', '恢复时间轴'), 560, 250,
+        AN.head('d2i') +
+        '<line class="an-timeline" x1="40" y1="46" x2="520" y2="46"/>' +
+        [['0', 40], ['30', 130], ['120', 250], ['4 h', 370], ['24 h', 520]].map(function (t) {
+          return '<circle class="an-tick" cx="' + t[1] + '" cy="46" r="4"/><text class="small" x="' + t[1] + '" y="34" text-anchor="middle">' + t[0] + (t[0].indexOf('h') > 0 ? '' : ' min') + '</text>';
+        }).join('') +
+        /* glycogen drawn as spheres inside a fibre, refilling over time */
+        AN.glycogen(90, 90, 10, gly) +
+        '<text class="small" x="150" y="152" text-anchor="middle">' + esc(T('muscle glycogen', '肌糖原')) + '</text>' +
+        AN.peptide(300, 106, 4, 0.95) +
+        '<text class="small" x="360" y="152" text-anchor="middle">' + esc(T('amino acids for repair', '修复用氨基酸')) + '</text>' +
+        '<circle class="an-drop" cx="470" cy="106" r="16"/>' +
+        '<text class="small" x="470" y="152" text-anchor="middle">' + esc(T('fluid', '水分')) + '</text>' +
+        '<path class="an-cursor2" d="M' + (40 + 480 * (Math.log(1 + mins) / Math.log(1 + 240))).toFixed(0).toString() + ' 30 v130"/>' +
+        '<text class="small" x="40" y="222">' +
+        esc(phase === 0 ? T('0–30 min: refuel and rehydrate', '0–30 分钟：补充糖原与水分')
+          : phase === 1 ? T('30–120 min: repair and restock', '30–120 分钟：修复与储备')
+            : phase === 2 ? T('2–4 h: restore and refuel', '2–4 小时：恢复与再补充')
+              : T('daily nutrition does the rest', '剩下的靠每日营养')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="m"><span class="ibm-q">' + esc(T('Minutes since you finished', '结束训练后经过的分钟数')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="300" step="5" value="' + mins + '"></label>' +
+        tools([['carb', T('Carbohydrate', '碳水')], ['prot', T('Protein', '蛋白质')], ['fluid', T('Fluid', '水分')]], 'carb') +
+        apanel('main', T('Four windows, not one', '四个窗口，不是一个'), T('The 0–30 minute window is the one everybody knows and the one that matters least', '0–30 分钟窗口人人皆知，却最不重要'), s,
+          lg('an-l-on', T('refilled', '已补充')) + lg('an-l-off', T('still depleted', '仍亏空'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('glycogen restored', '糖原恢复')) + '</span><div class="kv-fbar"><i class="an-b-gly"></i></div><b class="vgly"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Carbohydrate replenishes muscle glycogen, protein supplies amino acids for repair and adaptation, water rehydrates, and creatine monohydrate restores the phosphagen stores. The timeline is 0–30 minutes to refuel and rehydrate, 30–120 to repair and restock, 2–4 hours to restore and refuel again, and daily nutrition to do the rest. After a long race, prioritise carbohydrate, protein and fluid, then use sleep and practical routines to support the next session — and judge recovery with more than one indicator.',
+          '碳水补充肌糖原，蛋白质提供修复与适应所需的氨基酸，水分用于补液，一水肌酸恢复磷酸原储备。时间轴为：0–30 分钟补充与补液，30–120 分钟修复与储备，2–4 小时恢复并再次补充，其余靠每日营养。长距离比赛后优先碳水、蛋白质与液体，再用睡眠与作息支持下一次训练——并且要用不止一个指标来评估恢复。');
+      setv(host, 'm', '.kv-v', mins < 60 ? mins + ' min' : (mins / 60).toFixed(1) + ' h');
+      bar(host.querySelector('.an-b-gly'), gly, 'var(--green)');
+      outs(host, '.vgly', Math.round(gly * 100) + '%');
+      outs(host, '.kv-callout', mins < 30
+        ? T('Inside the first half hour. The popular advice says this is the only window that matters — it is not; total intake across the day matters far more.',
+          '还在前 30 分钟内。流行说法认为只有这个窗口重要——其实不是，全天的总摄入重要得多。')
+        : T('Beyond the first window now. The work is simply to keep eating and drinking normally across the rest of the day.',
+          '已经超过第一个窗口。现在的任务就是在一整天里正常地继续吃和喝。'));
+      marks(host, '.kv-tools', 'carb');
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { mins = Number(i.value); draw(); }); });
+    wire(host, '.kv-tools', function () { });
+    draw();
+  };
+
+  /* ── D2.10 · A.3.3 Recovery indicators, sleep and travel ───────────────── */
+  MODELS['Recovery indicators, sleep and travel'] = function (host) {
+    var hrs = 7, zones = 0;
+    function draw() {
+      var debt = Math.max(0, 8 - hrs);
+      var hrv = clamp(40 + hrs * 4 - debt * 9, 8, 100);
+      var perf = clamp(40 + hrs * 7 - zones * 11, 5, 100);
+      var s = svgWrap(T('Sleep, HRV and circadian disruption', '睡眠、心率变异性与昼夜节律紊乱'), 560, 250,
+        AN.head('d2j') +
+        AN.hypnogram(60, 96, 240, 110, hrs, hrs >= 7) +
+        '<text class="small" x="180" y="212" text-anchor="middle">' + esc(T('one night of sleep', '一夜的睡眠结构')) + '</text>' +
+        /* the clock and the two readouts */
+        '<circle class="an-clock" cx="400" cy="94" r="30"/><path class="an-hand" d="M400 94 V74"/><path class="an-hand" d="M400 94 l14 8"/>' +
+        '<text class="small" x="400" y="146" text-anchor="middle">' + esc(T(hrs + ' h', hrs + ' 小时')) + '</text>' +
+        (zones > 0
+          ? '<path class="an-flow bad" d="M452 94 h60" marker-end="url(#d2j)"/><text class="small" x="512" y="82" text-anchor="end" class="an-lab-pos">' +
+          esc(zones + ' ' + T('time zones', '个时区')) + '</text>'
+          : '<text class="small" x="470" y="98" class="an-lab-neg">' + esc(T('no jet lag', '无时差')) + '</text>') +
+        '<text class="small" x="60" y="238">' + esc(T('indicators: resting heart rate back to baseline · HRV up · less soreness · good mood', '指标：静息心率回到基线 · HRV 上升 · 酸痛减轻 · 情绪良好')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="h"><span class="ibm-q">' + esc(T('Hours of sleep last night', '昨晚睡眠小时数')) +
+        ' <b class="kv-v"></b></span><input type="range" min="4" max="10" step="1" value="' + hrs + '" ></label>' +
+        '<label class="kv-lab" data-v="z"><span class="ibm-q">' + esc(T('Time zones crossed', '跨越的时区数')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="12" step="1" value="' + zones + '"></label>' +
+        apanel('main', T('The indicators, drawn as they move', '把指标画出来'), T('High load accumulates fatigue, disrupts hormones, impairs sleep and lowers performance', '高负荷会累积疲劳、打乱激素、影响睡眠并降低表现'), s,
+          lg('an-l-neg', T('recovering', '恢复中')) + lg('an-l-bad', T('deficit', '亏空'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('heart-rate variability', '心率变异性')) + '</span><div class="kv-fbar"><i class="an-b-hrv"></i></div><b class="vhrv"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('performance', '表现')) + '</span><div class="kv-fbar"><i class="an-b-perf"></i></div><b class="vperf"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Physiological indicators: resting heart rate returning toward baseline, improved heart-rate variability, less soreness, reduced inflammatory markers, good mood. High training load accumulates fatigue, disrupts hormones, impairs sleep and reduces performance. Travel and time-zone changes cause circadian misalignment. A pre-competition plan should use sleep, light exposure, hydration, nutrition and light mobility to reduce travel disruption — and remember that no single indicator decides recovery on its own.',
+          '生理指标包括：静息心率回到基线、心率变异性改善、酸痛减轻、炎症指标下降、情绪良好。高训练负荷会累积疲劳、打乱激素、影响睡眠并降低表现；旅行与时差会造成昼夜节律错位。赛前计划应利用睡眠、光照、补液、营养与轻度活动来减轻旅行带来的干扰——并记住：没有任何单一指标可以独立判定恢复。');
+      setv(host, 'h', '.kv-v', hrs + ' h');
+      setv(host, 'z', '.kv-v', zones);
+      bar(host.querySelector('.an-b-hrv'), hrv / 100, hrv > 60 ? 'var(--green)' : 'var(--c1)');
+      bar(host.querySelector('.an-b-perf'), perf / 100, perf > 60 ? 'var(--green)' : 'var(--c0)');
+      outs(host, '.vhrv', Math.round(hrv) + '%');
+      outs(host, '.vperf', Math.round(perf) + '%');
+      outs(host, '.kv-callout', perf < 40
+        ? T('You are carrying a deficit. Change light, sleep timing and fluids first — they cost nothing and they act fastest.',
+          '你正带着亏空。优先调整光照、睡眠时间与补液——这些不花钱，而且见效最快。')
+        : T('Indicators are trending back toward baseline. This is a good night to train, not to add load.',
+          '各项指标正回到基线附近。今晚适合训练，不适合加量。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+      if (i.closest('[data-v=h]')) hrs = Number(i.value); else zones = Number(i.value); draw();
+    }); });
     draw();
   };
 

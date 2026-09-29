@@ -195,9 +195,10 @@
     /* a count, not the words "key terms" — those already head each card */
     var nTerms = 0, nCards = 0;
     rec.cues.forEach(function (g) { if (!hasCues(g)) return; nCards++; nTerms += g.terms.length; });
+    /* just the count of things to be tested — with the section count as well
+       the label wrapped mid-phrase and pushed the button onto its own row */
     bar.insertBefore(el('span', 'ib-cue-bar-t',
-      nTerms ? T(nTerms + ' terms · ' + nCards + (nCards === 1 ? ' section' : ' sections'),
-        nTerms + ' 个术语 · ' + nCards + ' 小节')
+      nTerms ? T(nTerms + (nTerms === 1 ? ' term' : ' terms'), nTerms + ' 个术语')
         : T('Cue column', '线索栏')), mem);
     var close = el('button', 'ib-cue-close');
     close.type = 'button';
@@ -207,7 +208,10 @@
     bar.appendChild(close);
     cue.appendChild(bar);
 
+    var hint = el('p', 'ib-cue-hint', T('Definitions are hidden while you memorize. Tap a term to check yourself.',
+      '记忆模式下定义已隐藏。点术语可自查。'));
     var list = el('div', 'ib-cue-list');
+    list.appendChild(hint);
     if (!rec.cues.length || !rec.cues.some(hasCues)) {
       list.appendChild(el('p', 'ib-cue-empty', T('This topic lists no key terms yet — read the section and use Memorization to test yourself.',
         '本主题暂未列出关键术语 — 请阅读正文，并用记忆模式自测。')));
@@ -237,7 +241,14 @@
           var dt = el('dt');
           var b = el('button', 'ib-cue-term-b', T(t.en, t.zh));
           b.type = 'button';
-          b.addEventListener('click', function () { jump(t.node); });
+          b.addEventListener('click', function () {
+            /* Memorization covers the right column; if the left column still
+               printed the definition beside the term the mode tested nothing.
+               While it is on, the column shows names only and a click reveals
+               that one definition. */
+            if (rec.mem) { row.classList.toggle('rev'); return; }
+            jump(t.node);
+          });
           dt.appendChild(b);
           row.appendChild(dt);
           if (t.dEn) row.appendChild(el('dd', '', T(t.dEn, t.dZh)));
@@ -433,6 +444,7 @@
     } else {
       rec.cover.hidden = true;
     }
+    rec.cue.classList.toggle('ib-mem', rec.mem);
     var b = $('.ib-cue-mem', rec.cue);
     if (b) {
       b.setAttribute('aria-pressed', rec.mem ? 'true' : 'false');

@@ -193,7 +193,7 @@
       if (!texts.length) return;
       var shapes = $$('path,rect,circle,ellipse,polygon', sv).filter(function (n) {
         var cls = n.getAttribute('class') || '';
-        if (/an-conn|an-walk|an-lead|an-grid|an-arc|an-meas|an-tier|an-wedge|an-letter|an-phase/.test(cls)) return false;
+        if (/an-conn|an-walk|an-lead|an-grid|an-arc|an-meas|an-tier|an-wedge|an-letter|an-phase|an-quad/.test(cls)) return false;
         var cs = getComputedStyle(n);
         if (!cs.fill || cs.fill === 'none') return false;
         var b = box(n);
@@ -1066,6 +1066,8 @@
       '<text class="small" x="' + (PX + 12) + '" y="' + (PY + PH - 10) + '" id="q-bl">' + esc(T('at risk', '有风险')) + '</text>' +
       '<text class="small" x="' + (PX + PW - 12) + '" y="' + (PY + PH - 10) + '" text-anchor="end" id="q-br">' + esc(T('nurtured', '被培养')) + '</text>' +
       '<circle class="marker" r="9" cx="0" cy="0"/>' +
+      '<path class="an-lead" id="lh-lead" d=""/>' +
+      '<text class="small" id="lh-tag" x="0" y="0" text-anchor="middle"></text>' +
       '<line class="gl" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
       '<line class="gl" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
       '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('environment: coaches, peers, facilities, pressure', '环境：教练、队友、设施、压力')) + '</text>' +
@@ -1300,8 +1302,19 @@
       '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
       '<line class="gl" x1="' + (PX + PW / 2) + '" y1="' + PY + '" x2="' + (PX + PW / 2) + '" y2="' + (PY + PH) + '"/>' +
       '<line class="gl" x1="' + PX + '" y1="' + (PY + PH / 2) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH / 2) + '"/>' +
-      '<text class="small" x="' + (PX - 10) + '" y="' + (PY + PH / 2) + '" text-anchor="end">' + esc(T('internal', '内部')) + '</text>' +
-      '<text class="small" x="' + (PX + PW - 2) + '" y="' + (PY + PH / 2) + '" text-anchor="end">' + esc(T('external', '外部')) + '</text>' +
+      /* shade and name the four quadrants: an unlabelled 2x2 with one dot in
+         it tells the reader nothing */
+      '<rect class="an-quad good" x="' + PX + '" y="' + (PY + PH / 2) + '" width="' + (PW / 2) + '" height="' + (PH / 2) + '"/>' +
+      '<rect class="an-quad warn" x="' + (PX + PW / 2) + '" y="' + (PY + PH / 2) + '" width="' + (PW / 2) + '" height="' + (PH / 2) + '"/>' +
+      '<rect class="an-quad bad" x="' + PX + '" y="' + PY + '" width="' + (PW / 2) + '" height="' + (PH / 2) + '"/>' +
+      '<rect class="an-quad warn" x="' + (PX + PW / 2) + '" y="' + PY + '" width="' + (PW / 2) + '" height="' + (PH / 2) + '"/>' +
+      '<text class="small an-lab-ok" x="' + (PX + 10) + '" y="' + (PY + PH - 12) + '">' + esc(T('changeable → practise', '可改变 → 去练习')) + '</text>' +
+      '<text class="small an-lab-neg" x="' + (PX + PW - 10) + '" y="' + (PY + PH - 12) + '" text-anchor="end">' + esc(T('changeable → a reason', '可改变 → 有理由')) + '</text>' +
+      '<text class="small an-lab-bad" x="' + (PX + 10) + '" y="' + (PY + 16) + '">' + esc(T('permanent → give up', '永久 → 放弃')) + '</text>' +
+      '<text class="small an-lab-bad" x="' + (PX + PW - 10) + '" y="' + (PY + 16) + '" text-anchor="end">' + esc(T('permanent → not me', '永久 → 与我无关')) + '</text>' +
+      /* the axis names go OUTSIDE the plot, not on top of a shaded quadrant */
+      '<text class="small" x="' + (PX + 10) + '" y="' + (PY - 12) + '">' + esc(T('internal', '内部')) + '</text>' +
+      '<text class="small" x="' + (PX + PW - 10) + '" y="' + (PY - 12) + '" text-anchor="end">' + esc(T('external', '外部')) + '</text>' +
       '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY + PH + 20) + '" text-anchor="middle">' + esc(T('unstable — changeable', '不稳定——可改变')) + '</text>' +
       '<text class="small" x="' + (PX + PW / 2) + '" y="' + (PY - 10) + '" text-anchor="middle">' + esc(T('stable — permanent', '稳定——永久')) + '</text>' +
       '<circle class="marker" r="9" cx="0" cy="0"/>' +
@@ -1316,6 +1329,13 @@
       var lx = a.locus === T('internal', '内部') ? 2 : 4, ly = a.stable.indexOf('unstable') === 0 ? 2 : 4;
       var m = host.querySelector('.marker');
       m.setAttribute('cx', X(lx).toFixed(1)); m.setAttribute('cy', Y(ly).toFixed(1));
+      var lt = host.querySelector('#lh-tag'), lld = host.querySelector('#lh-lead');
+      if (lt) {
+        lt.setAttribute('x', X(lx).toFixed(1)); lt.setAttribute('y', (Y(ly) - 16).toFixed(1));
+        lt.textContent = a.en;
+      }
+      if (lld) lld.setAttribute('d', 'M' + X(lx).toFixed(1) + ' ' + (Y(ly) - 9).toFixed(1) +
+        ' L' + X(lx).toFixed(1) + ' ' + (Y(ly) - 13).toFixed(1));
       m.style.fill = a.col; m.style.stroke = a.col;
       scaleBar(host.querySelector('.mot'), a.eff);
       scaleBar(host.querySelector('.sup'), a.eff * .9 + .05);
@@ -2312,9 +2332,16 @@
       '<line class="gl" x1="' + PX + '" y1="' + Y(50) + '" x2="' + (PX + PW) + '" y2="' + Y(50) + '"/>' +
       '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>' +
       '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>' +
-      '<text class="small" x="' + (PX + PW - 6) + '" y="' + (Y(88) + 14) + '" text-anchor="end">' + esc(T('eustress: energising', '良性压力：提供能量')) + '</text>' +
-      '<text class="small" x="' + (PX + PW - 6) + '" y="' + (Y(16) - 6) + '" text-anchor="end">' + esc(T('distress: overwhelming', '恶性压力：难以承受')) + '</text>' +
+      /* the four regions, each named where it actually sits, so a point is
+         never floating in an unnamed box */
+      '<text class="small an-lab-ok" x="' + (PX + 10) + '" y="' + (Y(88) + 14) + '">' + esc(T('eustress · energising', '良性压力 · 提供能量')) + '</text>' +
+      '<text class="small an-lab-bad" x="' + (PX + 10) + '" y="' + (Y(16) - 6) + '">' + esc(T('distress · overwhelming', '恶性压力 · 难以承受')) + '</text>' +
+      '<text class="small an-lab-neg" x="' + (PX + PW - 10) + '" y="' + (Y(88) + 14) + '" text-anchor="end">' + esc(T('under-loaded', '负荷不足')) + '</text>' +
+      '<text class="small an-lab-bad" x="' + (PX + PW - 10) + '" y="' + (Y(16) - 6) + '" text-anchor="end">' + esc(T('strain · the risk zone', '紧张度 · 风险区')) + '</text>' +
       '<circle class="marker" r="8" cx="0" cy="0"/>' +
+      /* the point names itself, with a leader, so it is never a bare dot */
+      '<path class="an-lead" id="st-lead" d=""/>' +
+      '<text class="small" id="st-tag" x="0" y="0" text-anchor="middle"></text>' +
       '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 20) + '" text-anchor="end">' + esc(T('perceived resources', '感知资源')) + '</text>' +
       '<text class="small" x="' + (PX - 8) + '" y="' + (PY - 10) + '" text-anchor="end">' + esc(T('demand', '需求')) + '</text>' +
       '</svg>' +
@@ -2330,6 +2357,16 @@
       var m = host.querySelector('.marker');
       m.setAttribute('cx', X(r).toFixed(1));
       m.setAttribute('cy', Y(s.d).toFixed(1));
+      var tg = host.querySelector('#st-tag'), ld = host.querySelector('#st-lead');
+      if (tg && ld) {
+        var tx = X(r), ty = Y(s.d), side = tx > PX + PW / 2 ? -1 : 1;
+        tg.setAttribute('x', (tx + side * 14).toFixed(1));
+        tg.setAttribute('y', (ty + 4).toFixed(1));
+        tg.setAttribute('text-anchor', side < 0 ? 'end' : 'start');
+        tg.textContent = s.en;
+        ld.setAttribute('d', 'M' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ' L' +
+          (tx + side * 10).toFixed(1) + ' ' + ty.toFixed(1));
+      }
       var strain = clamp(s.d - r + 50, 0, 100);
       m.classList.toggle('ok', strain < 52);
       m.classList.toggle('risk', strain >= 52);
@@ -3855,19 +3892,34 @@ MODELS['ADH and cardiovascular drift'] = function (host) {
     var act = 'endurance';
     function grams(m) { return Math.round(m.pct / 100 * (act === 'rest' ? 2200 : act === 'endurance' ? 3200 : 4500) / m.kc); }
     function draw() {
-      var s = svgWrap(T('The three macronutrients as molecules', '三大营养素的分子形态'), 560, 250,
+      var s = svgWrap(T('The three macronutrients as molecules', '三大营养素的分子形态'), 560, 300,
         AN.head('d2a') +
         AN.glucose(110, 92, 1.1) +
         AN.triglyceride(300, 92, 1.05) +
         AN.peptide(462, 92, 4, 1) +
+        '<text class="small" x="110" y="140" text-anchor="middle">' + esc(T('carbohydrate · a six-ring', '碳水 · 六元环')) + '</text>' +
         '<text class="small" x="300" y="140" text-anchor="middle">' + esc(T('fat · a glycerol head with three tails', '脂肪 · 甘油头加三条尾')) + '</text>' +
         '<text class="small" x="490" y="140" text-anchor="middle">' + esc(T('amino acids', '氨基酸')) + '</text>' +
         /* the plate, as a real pie of the three */
-        '<circle class="an-plate" cx="110" cy="212" r="26"/>' +
-        '<path class="an-sl-car" d="M110 212 L110 186 A26 26 0 0 1 132 224 Z"/>' +
-        '<path class="an-sl-fat" d="M110 212 L132 224 A26 26 0 0 1 92 232 Z"/>' +
-        '<text class="small" x="152" y="204">' + esc(T('share of daily energy', '每日能量占比')) + '</text>' +
-        '<text class="small" x="152" y="222">' + esc(M.map(function (m) { return T(m.en, m.zh) + ' ' + m.pct + '%'; }).join(' · ')) + '</text>');
+        /* a pie big enough to read, with one real slice per nutrient */
+        (function () {
+          var cx = 110, cy = 218, R = 42, a0 = -Math.PI / 2, g = '';
+          M.forEach(function (m, i) {
+            var f = m.pct / 100, a1 = a0 + f * Math.PI * 2;
+            var x0 = cx + R * Math.cos(a0), y0 = cy + R * Math.sin(a0);
+            var x1 = cx + R * Math.cos(a1), y1 = cy + R * Math.sin(a1);
+            g += '<path class="an-sl-' + (i === 0 ? 'car' : i === 1 ? 'fat' : 'prot') + '" d="M' + cx + ' ' + cy +
+              ' L' + x0.toFixed(1) + ' ' + y0.toFixed(1) + ' A' + R + ' ' + R + ' 0 ' + (f > .5 ? 1 : 0) + ' 1 ' +
+              x1.toFixed(1) + ' ' + y1.toFixed(1) + ' Z"/>';
+            a0 = a1;
+          });
+          return '<circle class="an-plate" cx="' + cx + '" cy="' + cy + '" r="' + R + '"/>' + g;
+        })() +
+        '<text class="small" x="176" y="200">' + esc(T('share of daily energy', '每日能量占比')) + '</text>' +
+        M.map(function (m, i) {
+          return '<text class="small" x="176" y="' + (220 + i * 22) + '">' +
+            esc(T(m.en, m.zh) + '  ' + m.pct + '%') + '</text>';
+        }).join(''));
       host.innerHTML =
         '<div class="kv-q">' + esc(T('What is this person’s daily energy need?', '这个人每天需要多少能量？')) + '</div>' +
         tools([['rest', T('Sedentary adult', '久坐成人')], ['endurance', T('Endurance training', '耐力训练')], ['power', T('Power athlete', '力量/爆发项目')]], act) +

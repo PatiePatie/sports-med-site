@@ -1374,6 +1374,142 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 .ib-model .an-b-in{background:var(--green)}
 .ib-model .an-b-out{background:var(--c0)}
 .ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-foodbar{fill:#d7a829;stroke:#a97f14;stroke-width:1.4}
+.ib-model .an-b-in{background:var(--green)}
+.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+.ib-model .an-quad{stroke:none}
+.ib-model .an-quad.good{fill:color-mix(in srgb,var(--green) 12%,transparent)}
+.ib-model .an-quad.warn{fill:color-mix(in srgb,var(--gold,#b8860b) 10%,transparent)}
+.ib-model .an-quad.bad{fill:color-mix(in srgb,var(--c0) 11%,transparent)}
+.ib-model .an-lab-ok{fill:#2e9e5b}
+.ib-model .an-lab-bad{fill:#c0392b}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-foodbar{fill:#d7a829;stroke:#a97f14;stroke-width:1.4}
+.ib-model .an-b-in{background:var(--green)}
+.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+.ib-model .an-quad{stroke:none}
+.ib-model .an-quad.good{fill:color-mix(in srgb,var(--green) 12%,transparent)}
+.ib-model .an-quad.warn{fill:color-mix(in srgb,var(--gold,#b8860b) 10%,transparent)}
+.ib-model .an-quad.bad{fill:color-mix(in srgb,var(--c0) 11%,transparent)}
+.ib-model .an-lab-ok{fill:#2e9e5b}
+.ib-model .an-lab-bad{fill:#c0392b}
+.ib-model .an-sl-prot{fill:var(--c0);stroke:var(--surface);stroke-width:1.4}
+.ib-model .an-sl-car,.ib-model .an-sl-fat{stroke:var(--surface);stroke-width:1.4}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -1471,7 +1607,7 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
 
 <script src="ib-sehs-cornell.js?v=2" defer></script>
-<script src="ib-sehs-models.js?v=13" defer></script>
+<script src="ib-sehs-models.js?v=14" defer></script>
 <script src="ib-sehs-course.js?v=16" defer></script>
 </body>
 </html>

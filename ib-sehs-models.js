@@ -2572,80 +2572,103 @@
     draw();
   };
 
-/* ══ A.1.1 · Learn it your way ═════════════════════════════════════════
-   The Vitalité textbook panel, mounted at the top of one section: the same
+/* ══ Learn it your way ═════════════════════════════════════════════════
+   The Vitalité textbook panel, mounted at the top of every topic: the same
    heading and sub-line, the same Concise / Full switch, the same gradient
-   progress bar reading "N of M sections read", and the same three tab
-   shapes (Flip cards · Quick check · Chapter map). The textbook's
-   Interactive tab is deliberately NOT here — each section carries its own
-   interactive model further down, and two interactive panels per section
-   would compete.
-   The flip cards are built from this section's own key terms, so the chips
-   under the prose and the cards in the deck are one dataset. */
+   progress bar reading "N of M sections read", and the same three tab shapes
+   (Flip cards · Quick check · Chapter map). The textbook's Interactive tab is
+   deliberately NOT here — each section carries its own interactive model, and
+   two interactive panels per topic would compete.
 
-  /* key terms worth memorising: term -> what it means, in both languages */
-  var KT = {
-    'Synapse': ['突触', 'The gap between two nerve cells; the signal has to jump it.', '两个神经细胞之间的空隙，信号必须跨越它。'],
-    'Neurotransmitter': ['神经递质', 'The chemical released into the cleft to carry the signal across.', '释放到突触间隙、用来把信号传过去的化学物质。'],
-    'Receptor': ['受体', 'A protein shaped so one specific signal fits it. Nothing else gets through.', '形状只与某一种信号匹配的蛋白，别的信号进不来。'],
-    'Gland': ['腺体', 'An organ whose job is to make and release hormones.', '专门制造并释放激素的器官。'],
-    'Hormone': ['激素', 'A chemical released into the blood, acting only on cells with the matching receptor.', '释放到血液中、只作用于带相应受体的细胞的化学物质。'],
-    'Target cell': ['靶细胞', 'A cell with the right receptor, so the hormone actually changes it.', '带有正确受体、因而会被激素改变的细胞。']
+   Nothing here is hand-written. The chips and the flip cards are built from the
+   topic's OWN key terms, which every section already declares in
+   ib-sehs-native.js and renders as a .native-terms list; the progress and the
+   map are read from the DOM. So the panel can never drift from the syllabus,
+   and it costs no content authoring. A section may override its terms by
+   adding an entry to TERM_OVERRIDE (A.1.1 does, so its chips match the terms
+   highlighted in its own rewritten prose). */
+
+  var TERM_OVERRIDE = {
+    'A.1.1': [
+      { en: 'Synapse', zh: '突触', dEn: 'The gap between two nerve cells; the signal has to jump it.', dZh: '两个神经细胞之间的空隙，信号必须跨越它。' },
+      { en: 'Neurotransmitter', zh: '神经递质', dEn: 'The chemical released into the cleft to carry the signal across.', dZh: '释放到突触间隙、用来把信号传过去的化学物质。' },
+      { en: 'Receptor', zh: '受体', dEn: 'A protein shaped so one specific signal fits it. Nothing else gets through.', dZh: '形状只与某一种信号匹配的蛋白，别的信号进不来。' },
+      { en: 'Gland', zh: '腺体', dEn: 'An organ whose job is to make and release hormones.', dZh: '专门制造并释放激素的器官。' },
+      { en: 'Hormone', zh: '激素', dEn: 'A chemical released into the blood, acting only on cells with the matching receptor.', dZh: '释放到血液中、只作用于带相应受体的细胞的化学物质。' },
+      { en: 'Target cell', zh: '靶细胞', dEn: 'A cell with the right receptor, so the hormone actually changes it.', dZh: '带有正确受体、因而会被激素改变的细胞。' }
+    ]
   };
-  function ktHTML() {
-    return Object.keys(KT).map(function (k) {
-      return '<button type="button" data-v="' + esc(k) + '" aria-pressed="false">' + esc(T(k, KT[k][0])) + '</button>';
-    }).join('');
+
+  /* read a topic's own key terms out of the DOM it already rendered */
+  function ownTerms(lesson) {
+    var out = [], seen = {};
+    $$('.native-terms .native-term', lesson).forEach(function (row) {
+      var dt = row.querySelector('dt'), dd = row.querySelector('dd');
+      if (!dt) return;
+      var t = { en: (dt.dataset && dt.dataset.en) || dt.textContent, zh: (dt.dataset && dt.dataset.zh) || dt.textContent,
+        dEn: dd ? ((dd.dataset && dd.dataset.en) || dd.textContent) : '', dZh: dd ? ((dd.dataset && dd.dataset.zh) || dd.textContent) : '' };
+      if (!t.en) return;
+      var k = t.en.toLowerCase();
+      if (seen[k]) return;
+      seen[k] = 1; out.push(t);
+    });
+    return out;
   }
-  function ktCard(k) {
-    return { f: T(k, KT[k][0]), b: T(KT[k][1], KT[k][2]) };
+  /* read a topic's own quick-check questions (they live in the syllabus too) */
+  function ownChecks(lesson) {
+    var out = [];
+    $$('.native-quick-check ol li', lesson).forEach(function (li) {
+      var t = (li.dataset && li.dataset.en) || li.textContent;
+      if (t) out.push({ q: t, a: (li.dataset && li.dataset.zh) || '' });
+    });
+    return out;
   }
-  var A11_QC = [
-    { q: 'Which two things earn the mark when you compare the two systems?', a: 'Speed and reach.', zq: '比较这两套系统时，哪两点才是得分点？', za: '速度与范围。' },
-    { q: 'Why can a hormone never start a fast movement?', a: 'It travels in blood, which takes seconds — a nerve signal takes milliseconds.', zq: '为什么激素无法启动快速动作？', za: '激素靠血液运输，需要数秒；神经信号只需毫秒。' },
-    { q: 'What makes a cell a target cell?', a: 'It carries the receptor that matches that hormone. Every other cell ignores it.', zq: '一个细胞凭什么才算靶细胞？', za: '它带有与该激素匹配的受体，其他细胞都会忽略它。' }
-  ];
 
   function learnPanel(host, opts) {
     var ch = opts.chapter || 1, total = opts.total || 0;
+    var terms = opts.terms || [];
+    var checks = opts.checks || [];
     var READ = 'ib_read_sections';
-    function readSet() {
-      var all = load(READ, {});
-      return all[ch] || [];
-    }
+    function readSet() { var all = load(READ, {}); return all[ch] || []; }
     function markRead() {
       var all = load(READ, {}), a = all[ch] || [];
-      if (a.indexOf(opts.id) < 0) { a.push(opts.id); all[ch] = a; save(READ, all); }
+      if (a.indexOf(opts.page) < 0) { a.push(opts.page); all[ch] = a; save(READ, all); }
     }
-    var state = { tab: 'fc', i: 0, known: load('ib_known_kt', {}) };
-    host.innerHTML =
+    var state = { i: 0, known: load('ib_known_terms', {}) };
+    var head =
       '<div class="ib-learn-hd">' +
       '<h4>' + esc(T('Learn it your way', '选择你的学法')) + '</h4>' +
       seg([['concise', T('Concise', '精简')], ['full', T('Full', '完整')]], mode()) +
-      '<p>' + esc(T('Play with it, flip it, test it — then read the key points below.', '动手玩、翻卡、自测——再读下面的要点。')) + '</p>' +
+      '<p>' + esc(T('Flip the key terms, test yourself, then read the section.', '翻关键术语、自测，再读正文。')) + '</p>' +
       '</div>' +
       '<div class="ib-learn-prog"><div class="ib-learn-bar"><i></i></div><span></span></div>' +
       '<div class="ib-learn-tabs" role="tablist">' +
       '<button type="button" data-v="fc">' + esc(T('🃏 Flip cards', '🃏 闪卡')) + '</button>' +
       '<button type="button" data-v="qc">' + esc(T('✓ Quick check', '✓ 快速检查')) + '</button>' +
       '<button type="button" data-v="map">' + esc(T('🗺 Chapter map', '🗺 本章地图')) + '</button>' +
-      '</div>' +
-      '<div class="ib-kt">' + ktHTML() + '</div>' +
+      '</div>';
+    var chips = terms.length
+      ? '<div class="ib-kt">' + terms.map(function (t, i) {
+        return '<button type="button" data-i="' + i + '" aria-pressed="false">' + esc(T(t.en, t.zh || t.en)) + '</button>';
+      }).join('') + '</div>'
+      : '<div class="ib-kt"></div>';
+    host.innerHTML = head + chips +
       '<div class="ib-learn-pane" data-p="fc"></div>' +
       '<div class="ib-learn-pane" data-p="qc" hidden></div>' +
       '<div class="ib-learn-pane" data-p="map" hidden></div>';
 
     function prog() {
-      var done = readSet().length, tot = opts.total || 0;
-      host.querySelector('.ib-learn-bar i').style.width = (tot ? done / tot * 100 : 0).toFixed(1) + '%';
-      host.querySelector('.ib-learn-prog span').textContent = tot
-        ? T(done + ' of ' + tot + ' sections read', '已读 ' + done + ' / ' + tot + ' 节')
+      var done = readSet().length;
+      host.querySelector('.ib-learn-bar i').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
+      host.querySelector('.ib-learn-prog span').textContent = total
+        ? T(done + ' of ' + total + ' sections read', '已读 ' + done + ' / ' + total + ' 节')
         : T(done + ' read', '已读 ' + done + ' 节');
     }
     function cards() {
-      var keys = Object.keys(KT), p = host.querySelector('[data-p=fc]');
-      if (state.i >= keys.length) state.i = 0;
-      var k = keys[state.i], c = ktCard(k), known = !!state.known[k];
+      var p = host.querySelector('[data-p=fc]');
+      if (!terms.length) { p.innerHTML = '<p class="kv-note">' + esc(T('No key terms are listed for this section yet.', '本节暂未列出关键术语。')) + '</p>'; return; }
+      if (state.i >= terms.length) state.i = 0;
+      var t = terms[state.i], known = !!state.known[t.en];
       p.innerHTML = '<div class="kn-fc"><button type="button" class="kn-card" aria-live="polite">' +
         '<span class="kn-face kn-front"></span><span class="kn-face kn-back"></span></button>' +
         '<div class="kn-fc-bar"><button type="button" class="kv-btn kn-prev">' + esc(T('← Previous', '← 上一张')) + '</button>' +
@@ -2653,41 +2676,35 @@
         '<button type="button" class="kv-btn kn-got' + (known ? ' on' : '') + '">' + (known ? esc(T('✓ Known', '✓ 已掌握')) : esc(T('I know this', '我会了'))) + '</button>' +
         '<button type="button" class="kv-btn kn-next">' + esc(T('Next →', '下一张 →')) + '</button></div></div>';
       var card = p.querySelector('.kn-card');
-      card.querySelector('.kn-front').textContent = c.f;
-      card.querySelector('.kn-back').textContent = c.b;
-      p.querySelector('.kn-fc-n').textContent = (state.i + 1) + ' / ' + keys.length + ' · ' +
+      card.querySelector('.kn-front').textContent = T(t.en, t.zh || t.en);
+      card.querySelector('.kn-back').textContent = T(t.dEn || t.en, t.dZh || t.dZh || t.en);
+      p.querySelector('.kn-fc-n').textContent = (state.i + 1) + ' / ' + terms.length + ' · ' +
         T(Object.keys(state.known).length + ' known', '已掌握 ' + Object.keys(state.known).length);
-      card.onclick = function () {
-        card.classList.toggle('flipped');
-        if (card.classList.contains('flipped')) markRead();
-      };
-      p.querySelector('.kn-prev').onclick = function () { state.i = (state.i - 1 + keys.length) % keys.length; cards(); };
-      p.querySelector('.kn-next').onclick = function () { state.i = (state.i + 1) % keys.length; cards(); };
+      card.onclick = function () { card.classList.toggle('flipped'); if (card.classList.contains('flipped')) markRead(); };
+      p.querySelector('.kn-prev').onclick = function () { state.i = (state.i - 1 + terms.length) % terms.length; cards(); };
+      p.querySelector('.kn-next').onclick = function () { state.i = (state.i + 1) % terms.length; cards(); };
       p.querySelector('.kn-got').onclick = function () {
-        if (state.known[k]) delete state.known[k]; else state.known[k] = 1;
-        save('ib_known_kt', state.known); cards(); prog();
+        if (state.known[t.en]) delete state.known[t.en]; else state.known[t.en] = 1;
+        save('ib_known_terms', state.known); cards();
       };
     }
     function quick() {
       var p = host.querySelector('[data-p=qc]');
-      p.innerHTML = '<div class="ib-qc">' + A11_QC.map(function (q) {
-        return '<div class="ib-qc-item"><p><b>' + esc(T(q.q, q.zq)) + '</b></p>' +
-          '<p class="ib-ans">' + esc(T(q.a, q.za)) + '</p></div>';
+      if (!checks.length) { p.innerHTML = '<p class="kv-note">' + esc(T('No quick check for this section.', '本节暂无快速检查。')) + '</p>'; return; }
+      p.innerHTML = '<div class="ib-qc">' + checks.slice(0, 3).map(function (q) {
+        return '<details class="ib-qc-item"><summary>' + esc(q.q) + '</summary>' +
+          '<p class="ib-ans">' + esc(q.a || T('Answer it out loud, then check the key terms above.', '先大声作答，再对照上面的关键术语。')) + '</p></details>';
       }).join('') + '</div>';
     }
     function mapPane() {
       var p = host.querySelector('[data-p=map]'), done = readSet();
       p.innerHTML = '<div class="ib-map">' + (opts.map || []).map(function (m) {
-        var isDone = done.indexOf(m[2]) > -1;
-        return '<button type="button" data-go="' + esc(m[2]) + '" class="' + (isDone ? 'done' : '') +
-          (m[2] === opts.id ? ' on' : '') + '">' + esc(T(m[0], m[1])) + '</button>';
+        return '<button type="button" data-go="' + esc(m[2]) + '" class="' + (done.indexOf(m[2]) > -1 ? 'done ' : '') +
+          (m[2] === opts.page ? 'on' : '') + '">' + esc(m[0]) + '</button>';
       }).join('') + '</div>';
     }
     function show(tab) {
-      state.tab = tab;
-      $$('.ib-learn-tabs button', host).forEach(function (b) {
-        b.classList.toggle('on', b.getAttribute('data-v') === tab);
-      });
+      $$('.ib-learn-tabs button', host).forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-v') === tab); });
       ['fc', 'qc', 'map'].forEach(function (k) {
         var n = host.querySelector('[data-p=' + k + ']');
         if (n) n.hidden = (k !== tab);
@@ -2701,20 +2718,18 @@
       if (tab && host.contains(tab)) { show(tab.getAttribute('data-v')); return; }
       var chip = e.target.closest && e.target.closest('.ib-kt button');
       if (chip && host.contains(chip)) {
-        var k = chip.getAttribute('data-v'), keys = Object.keys(KT);
-        state.i = Math.max(0, keys.indexOf(k));
+        state.i = Number(chip.getAttribute('data-i')) || 0;
         show('fc');
         $$('.ib-kt button', host).forEach(function (b) { b.classList.toggle('on', b === chip); });
+        return;
       }
       var go = e.target.closest && e.target.closest('.ib-map button');
       if (go && host.contains(go)) {
-        var t = go.getAttribute('data-go');
-        var item = document.getElementById('ib-topic-' + t);
-        if (item) {
-          var h = item.querySelector('.acc-header');
-          if (h && !item.classList.contains('open')) toggleAcc(h);
-          if (item.scrollIntoView) item.scrollIntoView({ block: 'start' });
-        }
+        var item = document.getElementById('ib-topic-' + go.getAttribute('data-go'));
+        if (!item) return;
+        var h = item.querySelector('.acc-header');
+        if (h && !item.classList.contains('open')) toggleAcc(h);
+        if (item.scrollIntoView) item.scrollIntoView({ block: 'start' });
       }
     });
     host._ibLang = zh(); host._ibMode = mode();
@@ -2997,9 +3012,6 @@
     if (!h) return '';
     return (h.dataset && h.dataset.en) || h.getAttribute('data-en') || '';
   }
-  /* Which topics carry the Learn panel. Append-only; A.1.1 is the pilot. */
-  var LEARN = { 'A.1.1': { section: 'Communication systems' } };
-
   function learnChapterOf(item) {
     var sec = item && item.closest ? item.closest('section.chapter') : null;
     if (!sec) return 1;
@@ -3010,7 +3022,6 @@
     if (!item) return;
     if (item._ibLearn) return;
     var code = item.getAttribute && item.getAttribute('data-topic');
-    if (!LEARN[code]) return;              /* pilot: A.1.1 only */
     var lesson = item.querySelector('.native-lesson');
     if (!lesson) return;
     var page = Number((item.id || '').replace('ib-topic-', '')) || 0;
@@ -3022,16 +3033,21 @@
       return [(code ? code.textContent : ''), (ti ? (ti.dataset.en || ti.textContent) : ''),
         Number((it.id || '').replace('ib-topic-', '')) || 0];
     });
+    /* the topic's own key terms and quick checks, read from the DOM it rendered */
+    var terms = (TERM_OVERRIDE[code] || ownTerms(lesson)).slice(0, 8);
+    var checks = ownChecks(lesson);
     var slot = el('div', 'ib-learn-wrap ib-learn');   /* the host IS the panel card */
     lesson.insertBefore(slot, lesson.firstChild);
     item._ibLearn = slot;
     slot._ibPage = page; slot._ibCh = ch; slot._ibMap = map; slot._ibTotal = all.length;
-    learnPanel(slot, { page: page, chapter: ch, total: all.length, map: map });
+    slot._ibTerms = terms; slot._ibChecks = checks;
+    learnPanel(slot, { page: page, chapter: ch, total: all.length, map: map, terms: terms, checks: checks });
   }
   function learnRender(slot) {
     if (!slot || !slot.parentNode) return;
     slot.innerHTML = '';
-    learnPanel(slot, { page: slot._ibPage, chapter: slot._ibCh, total: slot._ibTotal, map: slot._ibMap });
+    learnPanel(slot, { page: slot._ibPage, chapter: slot._ibCh, total: slot._ibTotal,
+      map: slot._ibMap, terms: slot._ibTerms, checks: slot._ibChecks });
   }
 
   function prepare(item) {

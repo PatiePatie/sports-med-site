@@ -103,7 +103,7 @@
   /* ------------------------------------------------- read cues from the DOM */
   /* Every field is read with its data-en / data-zh pair where one exists, so the
      cue column is in the same language as the text it sits next to. */
-  function readCues(main) {
+  function readCues(main, item) {
     var out = [];
     $$('.native-section', main).forEach(function (sec, i) {
       var h3 = $('h3', sec);
@@ -156,6 +156,25 @@
       if (g.chips.length > MAX_CHIPS) g.chips.length = MAX_CHIPS;
       out.push(g);
     });
+    /* The flip cards list this topic's full term set — the syllabus terms plus
+       any hand-written TERM_OVERRIDE ones (on A.1.1: synapse, neurotransmitter,
+       receptor, gland, hormone, target cell). Reading only the syllabus terms
+       here made the two columns disagree. The leftovers belong to the topic
+       rather than to one section, so they get their own group, anchored to the
+       last section so it cannot scroll out on its own. */
+    if (item && window.IBSEHSModels && window.IBSEHSModels.topicTerms) {
+      var have = {};
+      out.forEach(function (g) { g.terms.forEach(function (t) { have[String(t.en).toLowerCase()] = 1; }); });
+      var extra = window.IBSEHSModels.topicTerms(item.getAttribute('data-topic'), main)
+        .filter(function (t) { return !have[String(t.en).toLowerCase()]; });
+      if (extra.length && out.length) {
+        out.push({
+          i: out.length, sec: out[out.length - 1].sec, seen: {}, extra: true,
+          titleEn: 'Wider vocabulary', titleZh: '拓展词汇',
+          terms: extra, formulas: [], chips: [], focus: null
+        });
+      }
+    }
     return out;
   }
 
@@ -397,12 +416,20 @@
   }
 
   function setMem(rec, on) {
+    var was = rec.mem;
     rec.mem = !!on;
     rec.main.classList.toggle('ib-mem', rec.mem);
     rec.lesson.classList.toggle('ib-mem', rec.mem);
     if (rec.mem) {
       renderCover(rec);
       rec.cover.hidden = false;
+      /* Turning memorization on from the bottom of a long section used to leave
+         you stranded in the middle of the cover with a long scroll back up. Take
+         the reader to its top, where the prompts read in order like the deck.
+         Only on the real off->on transition: refresh() calls setMem with the
+         same value when the language flips, and jumping then would throw the
+         reader away. */
+      if (!was) jump(rec.cover);
     } else {
       rec.cover.hidden = true;
     }
@@ -533,7 +560,7 @@
     grid.parentNode.insertBefore(mini, grid);
     rec.mini = mini;
 
-    rec.cues = readCues(main);
+    rec.cues = readCues(main, item);
     renderCues(rec);
     renderCover(rec);
     setMem(rec, false);
@@ -557,7 +584,7 @@
     for (var i = 0; i < LIVE.length; i++) {
       var rec = LIVE[i];
       if (!rec.item.classList.contains('open')) continue;
-      rec.cues = readCues(rec.main);
+      rec.cues = readCues(rec.main, rec.item);
       rec.cur = -1;
       renderCues(rec);
       renderCover(rec);

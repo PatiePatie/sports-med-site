@@ -1368,7 +1368,12 @@
   }
   function tray(host) {
     if (host.getAttribute('data-ks')) return;
-    if (host.classList.contains('acc-body-inner') && host.querySelector('section.native-section')) return;   /* IB: one tray per lesson section instead */
+    /* IB lesson sections carry their own interactive model and their own
+       "Learn it your way" panel, so the generic practice tray is redundant
+       there and its styling never matched the page. Detected structurally,
+       not by filename, so it cannot be bypassed by a rename. */
+    if (host.matches && host.matches('section.native-section')) return;
+    if (host.classList.contains('acc-body-inner') && host.querySelector('section.native-section')) return;
     var D = extract(host), text = bodyText(host), av = available(D, text.length);
     if (av.length < 2 && !(av.length === 1 && av[0] !== 'teach')) { if (text.length >= 400) host.setAttribute('data-ks', '0'); return; }   /* still filling in? look again later */
     host.setAttribute('data-ks', '1');

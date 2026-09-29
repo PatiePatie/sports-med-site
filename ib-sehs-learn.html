@@ -104,7 +104,7 @@ body .acc-item,body .acc-body{overflow:clip}
 .native-lesson.ib-mem .ib-learn-pane[data-p="fc"],
 .native-lesson.ib-mem .ib-learn-pane[data-p="qc"]{display:none}
 .ib-cover{position:absolute;inset:0;z-index:6;background:var(--surface);padding-bottom:1.2rem}
-.ib-cover-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+.ib-cover-bar{position:sticky;top:76px;z-index:2;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
   padding:.55rem .7rem;border-bottom:1px solid var(--line);background:var(--surface)}
 .ib-cover-bar strong{font-size:.92rem}
 .ib-cover-count{font-size:.78rem;color:var(--text2);white-space:nowrap}
@@ -148,14 +148,14 @@ body .acc-item,body .acc-body{overflow:clip}
     text-overflow:ellipsis;border:1px solid var(--line);background:var(--surface2);color:var(--text)}
   .ib-mini-mem{border-color:var(--blue2);color:var(--blue2);background:color-mix(in srgb,var(--blue2) 10%,var(--surface))}
   .ib-cornell-cue{position:fixed;left:0;top:0;bottom:0;width:min(88vw,340px);height:100vh;max-height:none;
-    z-index:400;border-radius:0 14px 14px 0;transform:translateX(-101%);
+    z-index:1400;border-radius:0 14px 14px 0;transform:translateX(-101%);
     transition:transform .24s ease;box-shadow:14px 0 42px rgba(0,0,0,.24)}
   .ib-cornell-cue.open{transform:none}
   .ib-cue-close{display:block}
   .ib-cue-chip,.ib-cue-term-b,.ib-cue-mem,.ib-cue-close,.ib-cover-check,.ib-cover-show,.ib-cover-exit{min-height:40px}
   .ib-cue-close{min-width:40px}
 }
-.ib-cue-scrim{position:fixed;inset:0;z-index:390;background:rgba(8,14,24,.5);opacity:0;pointer-events:none;transition:opacity .2s}
+.ib-cue-scrim{position:fixed;inset:0;z-index:1350;background:rgba(8,14,24,.5);opacity:0;pointer-events:none;transition:opacity .2s}
 .ib-cue-scrim.on{opacity:1;pointer-events:auto}
 .native-lesson{min-width:0}.native-lead{padding:.85rem .95rem;border-left:4px solid var(--blue2);border-radius:12px;background:color-mix(in srgb,var(--blue2) 7%,var(--surface))}.native-lead p{margin:0}.native-section{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)}.native-section h3{font-size:1.02rem;margin-bottom:.45rem}.native-section p{margin:.45rem 0}.native-bullets{margin:.45rem 0;padding-left:1.2rem}.native-bullets li{margin:.32rem 0}.native-terms,.native-examples,.native-focus,.native-quick-check,.native-formulas,.native-links,.native-boundary{margin-top:.85rem;padding:.75rem .85rem;border-radius:11px;background:var(--surface2)}.native-terms h4,.native-examples h4,.native-focus h4,.native-quick-check h4,.native-formulas h4,.native-links h4,.native-boundary h4,.native-figures h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}.native-term-list{display:grid;gap:.45rem;margin:0}.native-term{display:grid;grid-template-columns:minmax(110px,.34fr) 1fr;gap:.65rem}.native-term dt{font-weight:800}.native-term dd{margin:0;color:var(--text2)}.native-table-wrap{overflow-x:auto;margin-top:.8rem;border:1px solid var(--line);border-radius:10px}.native-table{width:100%;min-width:520px;border-collapse:collapse;font-size:.8rem}.native-table th,.native-table td{padding:.55rem .65rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.native-table th{background:color-mix(in srgb,var(--blue2) 9%,var(--surface));font-weight:800}.native-table tr:last-child td{border-bottom:0}.native-formulas{display:grid;gap:.5rem}.native-formula{display:grid;gap:.25rem;padding:.55rem .65rem;border-left:3px solid var(--gold);background:var(--surface);border-radius:8px}.native-formula code{font-size:.82rem;color:var(--blue2);overflow-wrap:anywhere}.native-formula span{color:var(--text2);font-size:.8rem}.native-focus{border-left:4px solid var(--gold)}.native-quick-check{border-left:4px solid var(--green)}.native-quick-check ol{margin:.2rem 0;padding-left:1.25rem}.native-quick-check li{margin:.28rem 0}.native-figures{margin-top:1rem}.native-figure{margin:.55rem 0;padding:.5rem;border:1px dashed var(--line);border-radius:10px;background:var(--surface2)}.native-figure-button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}.native-figure img{display:block;width:150px;max-width:100%;height:150px;object-fit:contain;margin:auto;background:var(--surface);border-radius:7px}.native-figure figcaption{margin-top:.4rem;color:var(--text2);font-size:.72rem;text-align:center}.workbook-reference{margin-top:1.2rem;padding:.65rem .8rem;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}.workbook-reference summary{cursor:pointer;font-weight:800;font-size:.82rem}.workbook-reference a{display:inline-block;margin:.65rem .7rem .2rem 0;color:var(--blue2);font-size:.8rem;font-weight:800}.workbook-reference-preview{display:block;width:100%;margin-top:.55rem;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:zoom-in}
 /* ── Phone: comfortable tap targets (≥40px) for controls that are small

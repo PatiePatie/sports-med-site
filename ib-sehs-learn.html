@@ -244,6 +244,131 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
   .ib-model .ib-target-r{display:none}
   .ib-model .kv-cl-row{grid-template-columns:6.5rem 1fr 3rem}
   .ib-model .ib-practices button,.ib-model .ib-cats button,.ib-model .ib-target-b button{min-height:40px}}
+/* ══ A.1.1 model ══ */
+/* ══ A.1.1 Communication systems — shape-based model ═══════════════════ */
+.ib-model .a11-wrap{display:grid;gap:.9rem}
+.ib-model .a11-panel{border:1px solid var(--border2,#C6D1DD);border-radius:14px;padding:.7rem .8rem .8rem;background:color-mix(in srgb,var(--text) 2.5%,var(--surface))}
+.ib-model .a11-hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin-bottom:.45rem}
+.ib-model .a11-hd b{font-size:.95rem;color:var(--accent)}
+.ib-model .a11-hd span{font-size:.78rem;color:var(--text3)}
+.ib-model .a11-leg{margin-top:.5rem;gap:.3rem .85rem;font-size:.8rem}
+.ib-model .a11-leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:.3rem;vertical-align:-1px;border:1px solid rgba(0,0,0,.18)}
+.ib-model .ns-l1{background:var(--c2)}.ib-model .ns-l2{background:var(--c1)}
+.ib-model .ns-l3{background:var(--c0)}.ib-model .ns-l4{background:color-mix(in srgb,var(--c0) 34%,var(--surface))}
+.ib-model .ns-l5{background:var(--green)}.ib-model .ns-l6{background:color-mix(in srgb,var(--red) 40%,var(--surface))}
+.ib-model .ns-l7{background:color-mix(in srgb,var(--red) 78%,var(--surface))}.ib-model .ns-l8{background:var(--gold)}
+.ib-model .ns-l9{background:var(--green)}
+/* ── A · nerve ── */
+.ib-model .ns-term{fill:var(--c2);stroke:var(--c2);stroke-width:2;opacity:.9}
+.ib-model .ns-axon{fill:var(--c2);opacity:.75}
+.ib-model .ns-ves{fill:color-mix(in srgb,var(--c1) 26%,var(--surface));stroke:var(--c1);stroke-width:1.6;
+  transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-pulse 2.6s var(--d,0s) infinite ease-in-out}
+.ib-model .ns-vesdot{fill:var(--c1)}
+.ib-model .ns-cleft{fill:color-mix(in srgb,var(--text) 5%,var(--surface));stroke:var(--border2,#C6D1DD);stroke-width:1;stroke-dasharray:4 3}
+.ib-model .ns-nt{fill:var(--c1);stroke:var(--surface);stroke-width:1;
+  transform-box:fill-box;transform-origin:50% 50%;animation:ns-fall 1.9s var(--d,0s) infinite linear}
+.ib-model .ns-fibre{fill:color-mix(in srgb,var(--c0) 20%,var(--surface));stroke:var(--c0);stroke-width:2.4}
+.ib-model .ns-stria{fill:color-mix(in srgb,var(--c0) 52%,var(--surface))}
+.ib-model .ns-nuc{fill:var(--surface);stroke:var(--c0);stroke-width:1.8}
+.ib-model .ns-brace{fill:none;stroke:var(--text3);stroke-width:1.4}
+.ib-model .ns-sub{fill:var(--c0);opacity:.85;transition:transform .3s,opacity .3s}
+.ib-model .ns-sub.open{transform:translateY(-3px);opacity:1}
+.ib-model .ns-pore{fill:var(--surface);stroke:var(--c0);stroke-width:1.4}
+.ib-model .ns-lead{stroke:var(--text3);stroke-width:1}
+.ib-model .ns-spark{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+/* ── B · hormone ── */
+.ib-model .ns-lumen{fill:color-mix(in srgb,var(--green) 20%,var(--surface));stroke:var(--green);stroke-width:2}
+.ib-model .ns-secrecyte{fill:color-mix(in srgb,var(--green) 34%,var(--surface));stroke:var(--green);stroke-width:1.5}
+.ib-model .ns-adventitia{fill:color-mix(in srgb,var(--red) 20%,var(--surface));stroke:color-mix(in srgb,var(--red) 45%,var(--surface));stroke-width:1}
+.ib-model .ns-media{fill:color-mix(in srgb,var(--red) 38%,var(--surface))}
+.ib-model .ns-endothelium{fill:color-mix(in srgb,var(--red) 78%,var(--surface))}
+.ib-model .ns-lumen2{fill:color-mix(in srgb,var(--red) 12%,var(--surface));stroke:var(--red);stroke-width:1.2}
+.ib-model .ns-rbc{fill:var(--red);transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-flow 4.4s var(--d,0s) infinite linear}
+.ib-model .ns-rbc-in{fill:color-mix(in srgb,var(--surface) 62%,var(--red))}
+.ib-model .ns-hor{fill:var(--gold);transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-flow 4.4s var(--d,0s) infinite linear}
+.ib-model .ns-hor.dock{animation:none;fill:var(--gold);stroke:var(--surface);stroke-width:1.4}
+.ib-model .ns-hor.drift{animation:ns-wander 3.4s var(--d,0s) infinite ease-in-out}
+.ib-model .ns-cleft{fill:color-mix(in srgb,var(--text) 8%,var(--surface))}
+.ib-model .ns-rbc-in{fill:color-mix(in srgb,var(--surface) 78%,var(--red))}
+.ib-model .ns-key{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .ns-key.fit{fill:var(--gold);stroke:var(--gold)}
+.ib-model .ns-cell{fill:color-mix(in srgb,var(--text) 5%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .ns-cell.hit{stroke:var(--green);stroke-width:2.4;fill:color-mix(in srgb,var(--green) 12%,var(--surface))}
+.ib-model .ns-cnuc{fill:color-mix(in srgb,var(--text) 20%,var(--surface))}
+.ib-model .ns-lock{fill:color-mix(in srgb,var(--text) 22%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .ns-lock.fit{fill:var(--gold);stroke:var(--gold)}
+/* ── arrows: the clear one the old model lacked ── */
+.ib-model .ns-arrow{stroke:var(--text);stroke-width:2.6;fill:none;stroke-linecap:round}
+.ib-model .ns-head{fill:var(--text)}
+/* ── C · clock ── */
+.ib-model .ns-ncurve{fill:none;stroke:var(--c0);stroke-width:2.6;stroke-linecap:round}
+.ib-model .ns-hcurve{fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round}
+.ib-model .ns-ndot{fill:var(--c0);stroke:var(--surface);stroke-width:2}
+.ib-model .ns-hdot{fill:var(--gold);stroke:var(--surface);stroke-width:2}
+.ib-model .kv-svg .nsn-h{fill:var(--c0);font-weight:800}
+.ib-model .kv-svg .nsn-n{fill:var(--gold);font-weight:800}
+.ib-model .ns-nl{background:var(--c0)}
+.ib-model .ns-hl{background:var(--gold)}
+.ib-model .a11-bar{margin-top:.6rem}
+.ib-model .a11-n{background:var(--c0)}
+.ib-model .a11-h{background:var(--gold)}
+@keyframes ns-fall{0%{transform:translateY(-14px);opacity:0}22%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+@keyframes ns-flow{0%{transform:translateX(-26px);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(26px);opacity:0}}
+@keyframes ns-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+@keyframes ns-wander{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(20px);opacity:1}}
+@media (prefers-reduced-motion:reduce){.ib-model .ns-ves,.ib-model .ns-nt,.ib-model .ns-rbc,.ib-model .ns-hor{animation:none}}
+@media (max-width:640px){.ib-model .a11-panel{padding:.55rem .5rem .65rem}.ib-model .a11-hd b{font-size:.9rem}}
+
+/* ══ A.1.1 scannable prose + Learn it your way ══ */
+/* ══ A.1.1 · scannable prose: bullets + highlighted key terms ══════════ */
+.ib-model .deep-walk .deep-bullets,.native-section .deep-walk .deep-bullets{margin:.2rem 0;padding-left:1.15rem}
+.native-section .deep-walk .deep-bullets li{margin:.34rem 0;line-height:1.62}
+.native-section .deep-walk b.kt{color:var(--blue2);font-weight:800;background:color-mix(in srgb,var(--gold) 22%,transparent);
+  padding:.05em .3em;border-radius:5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+body.dark .native-section .deep-walk b.kt{color:var(--gold)}
+/* ══ A.1.1 · Learn it your way — the textbook panel, per section ═══════ */
+.ib-learn{margin:.2rem 0 .5rem;padding:.85rem .9rem .95rem;border:1px solid var(--border2,#C6D1DD);border-radius:16px;
+  background:color-mix(in srgb,var(--blue2) 5%,var(--surface))}
+.ib-learn-hd{display:flex;align-items:flex-start;gap:.7rem;flex-wrap:wrap}
+.ib-learn-hd h4{flex:1 1 12rem;min-width:0;margin:0;font-size:1.02rem;font-family:var(--serif)}
+.ib-learn-hd p{flex:1 1 100%;margin:.15rem 0 0;font-size:.8rem;color:var(--text3);line-height:1.5}
+.ib-learn-prog{display:flex;align-items:center;gap:.6rem;margin:.7rem 0 .6rem}
+.ib-learn-bar{flex:1;height:7px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.ib-learn-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue2),var(--green));transition:width .3s}
+.ib-learn-prog span{font-size:.76rem;color:var(--text3);white-space:nowrap}
+.ib-learn-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem;margin-bottom:.6rem}
+.ib-learn-tabs button{font:inherit;font-size:.84rem;font-weight:700;padding:.5rem .4rem;border-radius:10px;cursor:pointer;
+  color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD);transition:background .2s,border-color .2s}
+.ib-learn-tabs button.on{background:color-mix(in srgb,var(--blue2) 12%,var(--surface));border-color:var(--blue2);color:var(--blue2)}
+.ib-learn-pane[hidden]{display:none}
+/* key-term chips */
+.ib-kt{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .55rem}
+.ib-kt button{font:inherit;font-size:.78rem;font-weight:700;padding:.34rem .6rem;border-radius:999px;cursor:pointer;
+  color:var(--text);background:color-mix(in srgb,var(--gold) 20%,var(--surface));border:1px solid color-mix(in srgb,var(--gold) 42%,transparent)}
+.ib-kt button:hover{border-color:var(--gold)}
+.ib-kt button.on{background:var(--gold);color:#10213a}
+/* the flip card, reusing the textbook's own .kn-fc / .kn-card */
+.ib-learn .kn-fc{max-width:none}
+.ib-learn .kn-card{min-height:170px}
+.ib-learn .kn-face{padding:1rem}
+.ib-learn .kn-fc-bar{gap:.35rem;flex-wrap:wrap;justify-content:center}
+.ib-learn .kv-btn{min-height:38px}
+.ib-learn .kn-fc-bar{margin-top:.5rem}
+.ib-qc{counter-reset:q;display:grid;gap:.5rem;margin:.2rem 0}
+.ib-qc-item{padding:.6rem .7rem;border:1px solid var(--border2,#C6D1DD);border-radius:11px;background:var(--surface);font-size:.87rem;line-height:1.55}
+.ib-qc-item p{margin:.25rem 0}
+.ib-qc-item .ib-ans{margin-top:.4rem;padding-top:.4rem;border-top:1px dashed var(--border2,#C6D1DD);color:var(--green);font-weight:700}
+.ib-map{display:flex;flex-wrap:wrap;gap:.35rem}
+.ib-map button{font:inherit;font-size:.76rem;font-weight:700;padding:.34rem .55rem;border-radius:9px;cursor:pointer;
+  color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD)}
+.ib-map button.done{background:color-mix(in srgb,var(--green) 14%,var(--surface));border-color:var(--green);color:var(--green)}
+.ib-map button.on{border-color:var(--blue2);color:var(--blue2)}
+@media (max-width:640px){.ib-learn{padding:.7rem .65rem .8rem}.ib-learn-tabs button{min-height:40px;font-size:.8rem}
+  .ib-kt button{min-height:34px}.native-section .deep-walk .deep-bullets li{margin:.4rem 0}}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -255,7 +380,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <link rel="stylesheet" href="sections.css?v=9">
 <script src="ib-sehs-data.js?v=4"></script>
 <script src="ib-sehs-native.js?v=3"></script>
-<script src="ib-sehs-deep.js?v=10"></script>
+<script src="ib-sehs-deep.js?v=11"></script>
 <script src="ib-sehs-visuals.js?v=5" defer></script>
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=20">
@@ -276,7 +401,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <link rel="stylesheet" href="soft-glass.css?v=4">
 <script src="soft-fx.js?v=4" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=3">
-<script src="knowledge-fx.js?v=2" defer></script>
+<script src="knowledge-fx.js?v=3" defer></script>
 <!-- SHAPES-THEME:END -->
 </head>
 <body class="ib-learn-page">
@@ -340,7 +465,7 @@ body.lang-zh .deep-why::before{content:"为什么重要"}
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
 
-<script src="ib-sehs-models.js?v=4" defer></script>
-<script src="ib-sehs-course.js?v=13" defer></script>
+<script src="ib-sehs-models.js?v=5" defer></script>
+<script src="ib-sehs-course.js?v=14" defer></script>
 </body>
 </html>

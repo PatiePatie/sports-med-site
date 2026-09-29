@@ -14,8 +14,8 @@
      · every slider lives inside a <label> so it has an accessible name
      · colours come from theme variables, so dark mode is free
      · if a model throws, the layer puts the static figure back
-   Append-only. Batch 1 = 10 of 83 sections. Add new keys; never rewrite a
-   shipped one. */
+   Append-only. Add new keys; never rewrite a shipped one. 43 of 83 sections
+   now carry a model. */
 (function () {
   'use strict';
   if (window.__ibModels) return; window.__ibModels = true;
@@ -2572,6 +2572,423 @@
     draw();
   };
 
+/* ══ A.1.1 · Learn it your way ═════════════════════════════════════════
+   The Vitalité textbook panel, mounted at the top of one section: the same
+   heading and sub-line, the same Concise / Full switch, the same gradient
+   progress bar reading "N of M sections read", and the same three tab
+   shapes (Flip cards · Quick check · Chapter map). The textbook's
+   Interactive tab is deliberately NOT here — each section carries its own
+   interactive model further down, and two interactive panels per section
+   would compete.
+   The flip cards are built from this section's own key terms, so the chips
+   under the prose and the cards in the deck are one dataset. */
+
+  /* key terms worth memorising: term -> what it means, in both languages */
+  var KT = {
+    'Synapse': ['突触', 'The gap between two nerve cells; the signal has to jump it.', '两个神经细胞之间的空隙，信号必须跨越它。'],
+    'Neurotransmitter': ['神经递质', 'The chemical released into the cleft to carry the signal across.', '释放到突触间隙、用来把信号传过去的化学物质。'],
+    'Receptor': ['受体', 'A protein shaped so one specific signal fits it. Nothing else gets through.', '形状只与某一种信号匹配的蛋白，别的信号进不来。'],
+    'Gland': ['腺体', 'An organ whose job is to make and release hormones.', '专门制造并释放激素的器官。'],
+    'Hormone': ['激素', 'A chemical released into the blood, acting only on cells with the matching receptor.', '释放到血液中、只作用于带相应受体的细胞的化学物质。'],
+    'Target cell': ['靶细胞', 'A cell with the right receptor, so the hormone actually changes it.', '带有正确受体、因而会被激素改变的细胞。']
+  };
+  function ktHTML() {
+    return Object.keys(KT).map(function (k) {
+      return '<button type="button" data-v="' + esc(k) + '" aria-pressed="false">' + esc(T(k, KT[k][0])) + '</button>';
+    }).join('');
+  }
+  function ktCard(k) {
+    return { f: T(k, KT[k][0]), b: T(KT[k][1], KT[k][2]) };
+  }
+  var A11_QC = [
+    { q: 'Which two things earn the mark when you compare the two systems?', a: 'Speed and reach.', zq: '比较这两套系统时，哪两点才是得分点？', za: '速度与范围。' },
+    { q: 'Why can a hormone never start a fast movement?', a: 'It travels in blood, which takes seconds — a nerve signal takes milliseconds.', zq: '为什么激素无法启动快速动作？', za: '激素靠血液运输，需要数秒；神经信号只需毫秒。' },
+    { q: 'What makes a cell a target cell?', a: 'It carries the receptor that matches that hormone. Every other cell ignores it.', zq: '一个细胞凭什么才算靶细胞？', za: '它带有与该激素匹配的受体，其他细胞都会忽略它。' }
+  ];
+
+  function learnPanel(host, opts) {
+    var ch = opts.chapter || 1, total = opts.total || 0;
+    var READ = 'ib_read_sections';
+    function readSet() {
+      var all = load(READ, {});
+      return all[ch] || [];
+    }
+    function markRead() {
+      var all = load(READ, {}), a = all[ch] || [];
+      if (a.indexOf(opts.id) < 0) { a.push(opts.id); all[ch] = a; save(READ, all); }
+    }
+    var state = { tab: 'fc', i: 0, known: load('ib_known_kt', {}) };
+    host.innerHTML =
+      '<div class="ib-learn-hd">' +
+      '<h4>' + esc(T('Learn it your way', '选择你的学法')) + '</h4>' +
+      seg([['concise', T('Concise', '精简')], ['full', T('Full', '完整')]], mode()) +
+      '<p>' + esc(T('Play with it, flip it, test it — then read the key points below.', '动手玩、翻卡、自测——再读下面的要点。')) + '</p>' +
+      '</div>' +
+      '<div class="ib-learn-prog"><div class="ib-learn-bar"><i></i></div><span></span></div>' +
+      '<div class="ib-learn-tabs" role="tablist">' +
+      '<button type="button" data-v="fc">' + esc(T('🃏 Flip cards', '🃏 闪卡')) + '</button>' +
+      '<button type="button" data-v="qc">' + esc(T('✓ Quick check', '✓ 快速检查')) + '</button>' +
+      '<button type="button" data-v="map">' + esc(T('🗺 Chapter map', '🗺 本章地图')) + '</button>' +
+      '</div>' +
+      '<div class="ib-kt">' + ktHTML() + '</div>' +
+      '<div class="ib-learn-pane" data-p="fc"></div>' +
+      '<div class="ib-learn-pane" data-p="qc" hidden></div>' +
+      '<div class="ib-learn-pane" data-p="map" hidden></div>';
+
+    function prog() {
+      var done = readSet().length, tot = opts.total || 0;
+      host.querySelector('.ib-learn-bar i').style.width = (tot ? done / tot * 100 : 0).toFixed(1) + '%';
+      host.querySelector('.ib-learn-prog span').textContent = tot
+        ? T(done + ' of ' + tot + ' sections read', '已读 ' + done + ' / ' + tot + ' 节')
+        : T(done + ' read', '已读 ' + done + ' 节');
+    }
+    function cards() {
+      var keys = Object.keys(KT), p = host.querySelector('[data-p=fc]');
+      if (state.i >= keys.length) state.i = 0;
+      var k = keys[state.i], c = ktCard(k), known = !!state.known[k];
+      p.innerHTML = '<div class="kn-fc"><button type="button" class="kn-card" aria-live="polite">' +
+        '<span class="kn-face kn-front"></span><span class="kn-face kn-back"></span></button>' +
+        '<div class="kn-fc-bar"><button type="button" class="kv-btn kn-prev">' + esc(T('← Previous', '← 上一张')) + '</button>' +
+        '<span class="kn-fc-n"></span>' +
+        '<button type="button" class="kv-btn kn-got' + (known ? ' on' : '') + '">' + (known ? esc(T('✓ Known', '✓ 已掌握')) : esc(T('I know this', '我会了'))) + '</button>' +
+        '<button type="button" class="kv-btn kn-next">' + esc(T('Next →', '下一张 →')) + '</button></div></div>';
+      var card = p.querySelector('.kn-card');
+      card.querySelector('.kn-front').textContent = c.f;
+      card.querySelector('.kn-back').textContent = c.b;
+      p.querySelector('.kn-fc-n').textContent = (state.i + 1) + ' / ' + keys.length + ' · ' +
+        T(Object.keys(state.known).length + ' known', '已掌握 ' + Object.keys(state.known).length);
+      card.onclick = function () {
+        card.classList.toggle('flipped');
+        if (card.classList.contains('flipped')) markRead();
+      };
+      p.querySelector('.kn-prev').onclick = function () { state.i = (state.i - 1 + keys.length) % keys.length; cards(); };
+      p.querySelector('.kn-next').onclick = function () { state.i = (state.i + 1) % keys.length; cards(); };
+      p.querySelector('.kn-got').onclick = function () {
+        if (state.known[k]) delete state.known[k]; else state.known[k] = 1;
+        save('ib_known_kt', state.known); cards(); prog();
+      };
+    }
+    function quick() {
+      var p = host.querySelector('[data-p=qc]');
+      p.innerHTML = '<div class="ib-qc">' + A11_QC.map(function (q) {
+        return '<div class="ib-qc-item"><p><b>' + esc(T(q.q, q.zq)) + '</b></p>' +
+          '<p class="ib-ans">' + esc(T(q.a, q.za)) + '</p></div>';
+      }).join('') + '</div>';
+    }
+    function mapPane() {
+      var p = host.querySelector('[data-p=map]'), done = readSet();
+      p.innerHTML = '<div class="ib-map">' + (opts.map || []).map(function (m) {
+        var isDone = done.indexOf(m[2]) > -1;
+        return '<button type="button" data-go="' + esc(m[2]) + '" class="' + (isDone ? 'done' : '') +
+          (m[2] === opts.id ? ' on' : '') + '">' + esc(T(m[0], m[1])) + '</button>';
+      }).join('') + '</div>';
+    }
+    function show(tab) {
+      state.tab = tab;
+      $$('.ib-learn-tabs button', host).forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-v') === tab);
+      });
+      ['fc', 'qc', 'map'].forEach(function (k) {
+        var n = host.querySelector('[data-p=' + k + ']');
+        if (n) n.hidden = (k !== tab);
+      });
+      if (tab === 'fc') cards();
+      if (tab === 'qc') quick();
+      if (tab === 'map') mapPane();
+    }
+    host.addEventListener('click', function (e) {
+      var tab = e.target.closest && e.target.closest('.ib-learn-tabs button');
+      if (tab && host.contains(tab)) { show(tab.getAttribute('data-v')); return; }
+      var chip = e.target.closest && e.target.closest('.ib-kt button');
+      if (chip && host.contains(chip)) {
+        var k = chip.getAttribute('data-v'), keys = Object.keys(KT);
+        state.i = Math.max(0, keys.indexOf(k));
+        show('fc');
+        $$('.ib-kt button', host).forEach(function (b) { b.classList.toggle('on', b === chip); });
+      }
+      var go = e.target.closest && e.target.closest('.ib-map button');
+      if (go && host.contains(go)) {
+        var t = go.getAttribute('data-go');
+        var item = document.getElementById('ib-topic-' + t);
+        if (item) {
+          var h = item.querySelector('.acc-header');
+          if (h && !item.classList.contains('open')) toggleAcc(h);
+          if (item.scrollIntoView) item.scrollIntoView({ block: 'start' });
+        }
+      }
+    });
+    host._ibLang = zh(); host._ibMode = mode();
+    wireSeg(host, function (v) { save(MODE_KEY, v); learnRender(host); });
+    prog();
+    show('fc');
+  }
+
+/* ══ A.1.1 · Communication systems — shape-based model ═══════════════════
+   Drawn as objects, not boxes:
+     A · nerve    — a synaptic knob on an axon, vesicles released into a real
+                    cleft, landing on pentameric (5-subunit) receptors set
+                    into the sarcolemma of a striated, multinucleate fibre
+     B · hormone  — a gland follicle, then a vessel drawn as a tube with its
+                    three real layers named, biconcave red cells in a clear
+                    lumen, and a lock-and-key test: only the cell whose
+                    receptor notch matches accepts the hormone
+     C · which clock — clear x and y axes, one slider, and at every moment
+                    the neural / hormonal split plus a sentence naming the
+                    relationship between them.
+   Histology: StatPearls NBK537236 (striated muscle, peripheral nuclei),
+   Smart & Paoletti PMC3282413 (pentameric ligand-gated receptor),
+   StatPearls NBK554407 (tunica intima / media / adventitia, biconcave
+   erythrocytes), StatPearls NBK519566 (follicle). */
+
+  var T0 = Math.log(0.01), T1 = Math.log(48 * 3600);   /* 10 ms → 48 h, in seconds */
+  function neural(t) { return 100 * Math.exp(-t / 0.04); }
+  function hormonal(t) { var s = 1 / (1 + Math.exp(-(Math.log(t) - Math.log(240)) / 0.9)); return 100 * s * Math.exp(-t / 21600); }
+  function fmtT(t) {
+    var z = zh();
+    if (t < 1) return Math.round(t * 1000) + (z ? ' 毫秒' : ' ms');
+    if (t < 60) return (Math.round(t * 10) / 10) + (z ? ' 秒' : ' s');
+    if (t < 3600) return Math.round(t / 60) + (z ? ' 分钟' : ' min');
+    if (t < 86400) return Math.round(t / 360) / 10 + (z ? ' 小时' : ' h');
+    return Math.round(t / 8640) / 10 + (z ? ' 天' : ' d');
+  }
+  function what(t) {
+    var n = neural(t), h = hormonal(t), s = n + h;
+    if (s <= 0.0001) return { nn: 0, nh: 0 };
+    return { nn: n / s * 100, nh: h / s * 100 };
+  }
+
+  MODELS['Communication systems'] = function (host, mode) {
+    var full = mode === 'full';
+    var HEAD = '<defs><marker id="nsHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">' +
+      '<path class="ns-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>';
+
+    /* ─────────── A · nerve — a knob, a cleft, a receptor, a fibre ─────── */
+    function nerveSVG() {
+      var s = '<svg class="kv-svg" viewBox="0 0 560 300" role="img" aria-label="' +
+        esc(T('A nerve signal crossing a synapse onto a muscle fibre', '神经信号跨过突触到达肌纤维')) + '">';
+      s += HEAD;
+      /* the axon arriving, with a clear arrow that points INTO the picture */
+      s += '<rect class="ns-axon" x="26" y="50" width="104" height="20" rx="10"/>';
+      s += '<path class="ns-arrow" d="M4 60 L22 60" marker-end="url(#nsHead)"/>';
+      s += '<text class="small" x="26" y="42" text-anchor="start">' + esc(T('1 · electrical', '1 · 电信号')) + '</text>';
+      /* the synaptic knob */
+      s += '<ellipse class="ns-term" cx="176" cy="60" rx="54" ry="44"/>';
+      var ves = [[152, 44], [186, 36], [214, 48], [166, 68], [200, 72], [226, 66], [148, 78], [182, 86], [214, 88]];
+      ves.forEach(function (v, i) {
+        s += '<circle class="ns-ves" cx="' + v[0] + '" cy="' + v[1] + '" r="7" style="--d:' + (i * 0.13) + 's"/>';
+        s += '<circle class="ns-vesdot" cx="' + v[0] + '" cy="' + v[1] + '" r="2.2"/>';
+      });
+      s += '<text class="small" x="252" y="40" text-anchor="start">' + esc(T('vesicles', '突触小泡')) + '</text>';
+      s += '<line class="ns-lead" x1="240" y1="42" x2="206" y2="44"/>';
+      /* release: transmitter crossing the cleft */
+      s += '<rect class="ns-cleft" x="132" y="122" width="88" height="30" rx="8"/>';
+      s += '<text class="small" x="176" y="149" text-anchor="middle">' + esc(T('synaptic cleft', '突触间隙')) + '</text>';
+      var nt = [[148, 130], [168, 134], [188, 129], [206, 133], [156, 136], [198, 130]];
+      nt.forEach(function (p, i) {
+        s += '<circle class="ns-nt" cx="' + p[0] + '" cy="' + p[1] + '" r="3.6" style="--d:' + (0.1 + i * 0.11) + 's"/>';
+      });
+      s += '<text class="small" x="124" y="141" text-anchor="end">' + esc(T('2 · chemical', '2 · 化学递质')) + '</text>';
+
+      /* the muscle fibre: tapered ends, striations, nuclei at the edge */
+      s += '<path class="ns-fibre" d="M92 186 h300 a54 54 0 0 1 0 92 h-300 a54 54 0 0 1 0 -92 z"/>';
+      var x = 108;
+      while (x < 384) { s += '<rect class="ns-stria" x="' + x + '" y="198" width="7" height="68" rx="3"/>'; x += 18; }
+      [[124, 210], [232, 258], [318, 206], [372, 254]].forEach(function (n) {
+        s += '<ellipse class="ns-nuc" cx="' + n[0] + '" cy="' + n[1] + '" rx="12" ry="7.5"/>';
+      });
+      /* the pentameric receptors, straddling the sarcolemma at y = 186 */
+      [148, 176, 204].forEach(function (cx, k) {
+        for (var i = 0; i < 5; i++) {
+          var a = -Math.PI / 2 + i * 2 * Math.PI / 5;
+          s += '<circle class="ns-sub' + (k === 1 ? ' open' : '') + '" cx="' + (cx + Math.cos(a) * 10).toFixed(1) +
+            '" cy="' + (184 + Math.sin(a) * 9).toFixed(1) + '" r="5.4"/>';
+        }
+        s += '<circle class="ns-pore" cx="' + cx + '" cy="184" r="4.2"/>';
+      });
+      /* 3 · the signal is electrical again, driving the fibre */
+      s += '<path class="ns-arrow" d="M262 160 L262 180" marker-end="url(#nsHead)"/>';
+      s += '<text class="small" x="276" y="166" text-anchor="start">' + esc(T('3 · electrical again', '3 · 再次变为电信号')) + '</text>';
+      /* labels down the right-hand side, each with its own leader */
+      s += '<text class="small" x="470" y="168" text-anchor="start">' + esc(T('receptors', '受体')) + '</text>';
+      s += '<line class="ns-lead" x1="466" y1="166" x2="214" y2="182"/>';
+      s += '<text class="small" x="470" y="232" text-anchor="start">' + esc(T('striations', '横纹')) + '</text>';
+      s += '<line class="ns-lead" x1="466" y1="230" x2="300" y2="232"/>';
+      s += '<text class="small" x="470" y="258" text-anchor="start">' + esc(T('nuclei at the edge', '边缘的细胞核')) + '</text>';
+      s += '<line class="ns-lead" x1="466" y1="256" x2="384" y2="256"/>';
+      s += '</svg>';
+      return s;
+    }
+
+    /* ─────────── B · hormone — gland, vessel, lock-and-key ───────────── */
+    function hormoneSVG() {
+      var s = '<svg class="kv-svg" viewBox="0 0 560 300" role="img" aria-label="' +
+        esc(T('A hormone leaving a gland, travelling in blood, reaching only target cells', '激素离开腺体进入血液，只作用于靶细胞')) + '">';
+      s = s.replace('viewBox="0 0 560 300"', 'viewBox="0 0 560 246"');
+      s += HEAD;
+      /* the follicle: secretory cells in a ring around a lumen */
+      s += '<circle class="ns-lumen" cx="64" cy="150" r="26"/>';
+      for (var i = 0; i < 9; i++) {
+        var a = i * 2 * Math.PI / 9 - Math.PI / 2, cx = 64 + Math.cos(a) * 42, cy = 150 + Math.sin(a) * 42;
+        s += '<rect class="ns-secrecyte" x="' + (cx - 10).toFixed(1) + '" y="' + (cy - 10).toFixed(1) +
+          '" width="20" height="20" rx="7" transform="rotate(' + (i * 40) + ' ' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ')"/>';
+      }
+      s += '<text class="small" x="64" y="222" text-anchor="middle">' + esc(T('gland follicle', '腺泡')) + '</text>';
+      /* the hormone leaving the gland, and entering the vessel */
+      [[100, 132], [112, 150], [104, 168]].forEach(function (p, i) {
+        s += '<circle class="ns-hor" cx="' + p[0] + '" cy="' + p[1] + '" r="4.6" style="--d:' + (i * 0.3) + 's"/>';
+      });
+      s += '<path class="ns-arrow" d="M118 150 L134 150" marker-end="url(#nsHead)"/>';
+
+      /* the vessel as a tube, layers named above with short leaders */
+      s += '<text class="small" x="176" y="46" text-anchor="middle">' + esc(T('adventitia', '外膜')) + '</text>';
+      s += '<text class="small" x="266" y="46" text-anchor="middle">' + esc(T('media', '中膜')) + '</text>';
+      s += '<text class="small" x="356" y="46" text-anchor="middle">' + esc(T('endothelium', '内皮')) + '</text>';
+      s += '<line class="ns-lead" x1="176" y1="52" x2="176" y2="112"/>';
+      s += '<line class="ns-lead" x1="266" y1="52" x2="266" y2="120"/>';
+      s += '<line class="ns-lead" x1="356" y1="52" x2="356" y2="128"/>';
+      s += '<rect class="ns-adventitia" x="140" y="112" width="252" height="76" rx="38"/>';
+      s += '<rect class="ns-media" x="148" y="120" width="236" height="60" rx="30"/>';
+      s += '<rect class="ns-endothelium" x="156" y="128" width="220" height="44" rx="22"/>';
+      s += '<rect class="ns-lumen2" x="166" y="137" width="200" height="26" rx="13"/>';
+      /* biconcave red cells, one clear row inside the lumen */
+      [190, 236, 282, 328].forEach(function (px, i) {
+        s += '<ellipse class="ns-rbc" cx="' + px + '" cy="150" rx="16" ry="9" style="--d:' + (i * 0.3) + 's"/>';
+        s += '<ellipse class="ns-rbc-in" cx="' + px + '" cy="150" rx="7" ry="3.6"/>';
+      });
+      /* the hormone riding in the plasma between them */
+      [213, 259, 305, 351].forEach(function (px, i) {
+        s += '<circle class="ns-hor" cx="' + px + '" cy="150" r="5" style="--d:' + (0.15 + i * 0.3) + 's"/>';
+      });
+      s += '<text class="small" x="266" y="216" text-anchor="middle">' + esc(T('hormone carried in the blood', '血液运送的激素')) + '</text>';
+      s += '<path class="ns-arrow" d="M396 150 L412 150" marker-end="url(#nsHead)"/>';
+
+      /* the lock-and-key test: only the cell whose notch matches accepts it */
+      var cells = [{ y: 70, hit: 0 }, { y: 126, hit: 1 }, { y: 182, hit: 0 }];
+      cells.forEach(function (c) {
+        var top = c.y - 24;
+        s += '<path class="ns-cell' + (c.hit ? ' hit' : '') + '" d="M444 ' + top + ' h84 a24 24 0 0 1 0 48 h-84 a24 24 0 0 1 0 -48 z"/>';
+        s += '<ellipse class="ns-cnuc" cx="458" cy="' + (c.y + 8) + '" rx="8" ry="6.5"/>';
+        /* the notch: round on the target cell, square on the others, so the
+           mismatch is a shape the eye can see, not just a colour */
+        if (c.hit) {
+          s += '<path class="ns-key fit" d="M446 ' + (c.y - 9) + ' a9 9 0 0 0 0 18 z"/>';
+          s += '<circle class="ns-hor dock" cx="450" cy="' + c.y + '" r="5"/>';
+          s += '<text class="small" x="534" y="' + (c.y + 5) + '" text-anchor="end">' + esc(T('target', '靶细胞')) + '</text>';
+        } else {
+          s += '<rect class="ns-key" x="444" y="' + (c.y - 9) + '" width="16" height="18" rx="3"/>';
+          s += '<circle class="ns-hor drift" cx="488" cy="' + c.y + '" r="5" style="--d:' + (c.y / 40) + 's"/>';
+          s += '<text class="small" x="534" y="' + (c.y + 5) + '" text-anchor="end">' + esc(T('no fit', '不匹配')) + '</text>';
+        }
+      });
+      s += '</svg>';
+      return s;
+    }
+
+    /* ─────────── C · which clock — 10 ms to 2 days on one honest axis ─── */
+    var PX = 66, PW = 452, PY = 24, PH = 176;
+    function X(t) { return PX + (Math.log(t) - T0) / (T1 - T0) * PW; }
+    function Y(v) { return PY + PH - clamp(v, 0, 100) / 100 * PH; }
+    function curve(fn) {
+      var d = '', N = 170;
+      for (var i = 0; i <= N; i++) {
+        var t = Math.exp(T0 + (T1 - T0) * i / N);
+        d += (i ? ' L' : 'M') + X(t).toFixed(1) + ' ' + Y(fn(t)).toFixed(1);
+      }
+      return d;
+    }
+    var TICKS = [[0.01, '10 ms'], [0.1, '100 ms'], [1, '1 s'], [60, '1 min'], [3600, '1 h'], [86400, '1 d']];
+    function clockSVG() {
+      var s = '<svg class="kv-svg" viewBox="0 0 560 250" role="img" aria-label="' +
+        esc(T('Neural and hormonal contribution over time', '神经与激素贡献随时间的变化')) + '">';
+      [0, 25, 50, 75, 100].forEach(function (p) {
+        s += '<line class="gl" x1="' + PX + '" y1="' + Y(p) + '" x2="' + (PX + PW) + '" y2="' + Y(p) + '"/>';
+        s += '<text class="small" x="' + (PX - 8) + '" y="' + (Y(p) + 4) + '" text-anchor="end">' + p + '</text>';
+      });
+      s += '<line class="axis" x1="' + PX + '" y1="' + PY + '" x2="' + PX + '" y2="' + (PY + PH) + '"/>';
+      s += '<line class="axis" x1="' + PX + '" y1="' + (PY + PH) + '" x2="' + (PX + PW) + '" y2="' + (PY + PH) + '"/>';
+      s += '<text class="small" x="' + (PX - 50) + '" y="' + (PY - 8) + '">' + esc(T('response %', '反应强度 %')) + '</text>';
+      s += '<path class="ns-hcurve" d="' + curve(hormonal) + '"/>';
+      s += '<path class="ns-ncurve" d="' + curve(neural) + '"/>';
+      s += '<line class="kv-cursor" y1="' + (PY - 8) + '" y2="' + (PY + PH) + '"/>';
+      s += '<circle class="ns-ndot" r="5.5"/>';
+      s += '<circle class="ns-hdot" r="5.5"/>';
+      TICKS.forEach(function (t, k) {
+        s += '<text class="small" x="' + X(t[0]).toFixed(0) + '" y="' + (PY + PH + 18) + '" text-anchor="' +
+          (k === 0 ? 'start' : k === TICKS.length - 1 ? 'end' : 'middle') + '">' + t[1] + '</text>';
+      });
+      s += '<text class="small" x="' + (PX + PW) + '" y="' + (PY + PH + 34) + '" text-anchor="end">' +
+        esc(T('time after the stimulus', '刺激后时间')) + '</text>';
+      s += '<text class="small nsn-h" x="' + (X(0.03) + 10) + '" y="' + (Y(neural(0.03)) + 22) + '">' + esc(T('nerve', '神经')) + '</text>';
+      s += '<text class="small nsn-n" x="' + (X(900) + 8) + '" y="' + (Y(hormonal(900)) - 12) + '">' + esc(T('hormone', '激素')) + '</text>';
+      s += '</svg>';
+      return s;
+    }
+
+    host.innerHTML =
+      '<div class="a11-wrap">' +
+      '<div class="a11-panel" data-p="a">' +
+      '<div class="a11-hd"><b>' + esc(T('A · the nerve route', 'A · 神经通路')) + '</b>' +
+      '<span>' + esc(T('electrical, then a chemical, then electrical again', '电信号 → 化学递质 → 再次电信号')) + '</span></div>' +
+      nerveSVG() +
+      '<div class="kv-legend a11-leg">' +
+      '<span><i class="ns-l1"></i>' + esc(T('synaptic knob', '突触小体')) + '</span>' +
+      '<span><i class="ns-l2"></i>' + esc(T('neurotransmitter', '神经递质')) + '</span>' +
+      '<span><i class="ns-l3"></i>' + esc(T('receptor', '受体')) + '</span>' +
+      '<span><i class="ns-l4"></i>' + esc(T('striated muscle fibre', '骨骼肌纤维')) + '</span>' +
+      '</div></div>' +
+      '<div class="a11-panel" data-p="b">' +
+      '<div class="a11-hd"><b>' + esc(T('B · the hormone route', 'B · 激素通路')) + '</b>' +
+      '<span>' + esc(T('into the blood, then only the cells whose receptor fits', '进入血液，只作用于受体匹配的细胞')) + '</span></div>' +
+      hormoneSVG() +
+      '<div class="kv-legend a11-leg">' +
+      '<span><i class="ns-l5"></i>' + esc(T('gland follicle', '腺泡')) + '</span>' +
+      '<span><i class="ns-l6"></i>' + esc(T('vessel wall', '血管壁')) + '</span>' +
+      '<span><i class="ns-l7"></i>' + esc(T('red blood cell', '红细胞')) + '</span>' +
+      '<span><i class="ns-l8"></i>' + esc(T('hormone', '激素')) + '</span>' +
+      '<span><i class="ns-l9"></i>' + esc(T('target cell', '靶细胞')) + '</span>' +
+      '</div></div>' +
+      '<div class="a11-panel" data-p="c">' +
+      '<div class="a11-hd"><b>' + esc(T('C · which clock', 'C · 哪一种时间尺度')) + '</b>' +
+      '<span>' + esc(T('drag the time and watch the balance change', '拖动时间，观察两种系统的占比变化')) + '</span></div>' +
+      '<label class="kv-lab" data-v="t"><span class="ibm-q">' + esc(T('How long after the stimulus?', '刺激后过了多久？')) +
+      ' <b class="kv-v"></b></span>' +
+      '<input type="range" min="0" max="1000" value="640" step="1" aria-label="' + esc(T('Time after the stimulus', '刺激后时间')) + '"></label>' +
+      clockSVG() +
+      '<div class="kv-stack a11-bar"><i class="a11-n"></i><i class="a11-h"></i></div>' +
+      '<div class="kv-legend">' +
+      '<span><i class="kv-dot ns-nl"></i>' + esc(T('Nervous', '神经')) + ' <b class="a11-pn"></b></span>' +
+      '<span><i class="kv-dot ns-hl"></i>' + esc(T('Hormonal', '激素')) + ' <b class="a11-ph"></b></span></div>' +
+      '<div class="kv-callout"></div>' +
+      note('The split is a share of the response at that moment, not a claim that one system switches off. Nervous control dominates in the first milliseconds; hormonal control takes over once the neural signal has already finished. Most sport responses use both — a reflex to start, hormones to sustain.', '此处的比例表示该时刻两种系统对反应的贡献占比，并不代表其中一套系统停止工作。最初几毫秒以神经控制为主；当神经信号已经结束时，激素控制接管。多数运动反应同时使用两者：用反射启动，用激素维持。') +
+      '</div></div>';
+
+    var inp = host.querySelector('input[type=range]');
+    function draw() {
+      var t = Math.exp(T0 + (T1 - T0) * inp.value / 1000), s = what(t);
+      setv(host, 't', '.kv-v', fmtT(t));
+      var cx = X(t).toFixed(1);
+      var cur = host.querySelector('.kv-cursor');
+      cur.setAttribute('x1', cx); cur.setAttribute('x2', cx);
+      host.querySelector('.ns-ndot').setAttribute('cx', cx);
+      host.querySelector('.ns-ndot').setAttribute('cy', Y(neural(t)).toFixed(1));
+      host.querySelector('.ns-hdot').setAttribute('cx', cx);
+      host.querySelector('.ns-hdot').setAttribute('cy', Y(hormonal(t)).toFixed(1));
+      host.querySelector('.a11-n').style.flexGrow = Math.max(s.nn, 0.0001).toFixed(2);
+      host.querySelector('.a11-h').style.flexGrow = Math.max(s.nh, 0.0001).toFixed(2);
+      outs(host, '.a11-pn', Math.round(s.nn) + '%');
+      outs(host, '.a11-ph', Math.round(s.nh) + '%');
+      outs(host, '.kv-callout', t < 0.2
+        ? T('At ' + fmtT(t) + ' the response is almost entirely neural: the reflex arc has already fired and no hormone has had time to travel anywhere.', '在' + fmtT(t) + '时，反应几乎完全来自神经：反射弧已经触发，而还没有任何激素来得及到达。')
+        : t < 60
+          ? T('At ' + fmtT(t) + ' the neural signal is over and the hormone is only now arriving — that gap is why a hormone can never start a fast movement.', '在' + fmtT(t) + '时，神经信号已经结束，激素才刚刚到达——正是这个空档说明激素无法启动快速动作。')
+          : t < 7200
+            ? T('At ' + fmtT(t) + ' the hormonal share dominates: slower to begin, but it keeps working long after the nerve has stopped.', '在' + fmtT(t) + '时，激素占主导：启动更慢，但在神经停止后仍持续作用。')
+            : T('At ' + fmtT(t) + ' almost everything left is hormonal, and even that is fading — one dose is running out.', '在' + fmtT(t) + '时，几乎剩下的全部都是激素作用，而且它也在消退——一次剂量的效果正在结束。'));
+    }
+    if (inp) inp.addEventListener('input', draw);
+    draw();
+  };
+
   /* ══ layer: mount, lazy build, language + mode refresh ═══════════════ */
   window.IB_MODELS = MODELS;
 
@@ -2580,8 +2997,46 @@
     if (!h) return '';
     return (h.dataset && h.dataset.en) || h.getAttribute('data-en') || '';
   }
+  /* Which topics carry the Learn panel. Append-only; A.1.1 is the pilot. */
+  var LEARN = { 'A.1.1': { section: 'Communication systems' } };
+
+  function learnChapterOf(item) {
+    var sec = item && item.closest ? item.closest('section.chapter') : null;
+    if (!sec) return 1;
+    var n = parseInt(String(sec.id).replace('ib-ch', ''), 10);
+    return isNaN(n) ? 1 : n;
+  }
+  function learnMount(item) {
+    if (!item) return;
+    if (item._ibLearn) return;
+    var code = item.getAttribute && item.getAttribute('data-topic');
+    if (!LEARN[code]) return;              /* pilot: A.1.1 only */
+    var lesson = item.querySelector('.native-lesson');
+    if (!lesson) return;
+    var page = Number((item.id || '').replace('ib-topic-', '')) || 0;
+    var ch = learnChapterOf(item);
+    var host = document.getElementById('ib-accordion-' + ch);
+    var all = $$('.acc-item', host);
+    var map = all.map(function (it) {
+      var code = it.querySelector('.acc-code'), ti = it.querySelector('.acc-title');
+      return [(code ? code.textContent : ''), (ti ? (ti.dataset.en || ti.textContent) : ''),
+        Number((it.id || '').replace('ib-topic-', '')) || 0];
+    });
+    var slot = el('div', 'ib-learn-wrap ib-learn');   /* the host IS the panel card */
+    lesson.insertBefore(slot, lesson.firstChild);
+    item._ibLearn = slot;
+    slot._ibPage = page; slot._ibCh = ch; slot._ibMap = map; slot._ibTotal = all.length;
+    learnPanel(slot, { page: page, chapter: ch, total: all.length, map: map });
+  }
+  function learnRender(slot) {
+    if (!slot || !slot.parentNode) return;
+    slot.innerHTML = '';
+    learnPanel(slot, { page: slot._ibPage, chapter: slot._ibCh, total: slot._ibTotal, map: slot._ibMap });
+  }
+
   function prepare(item) {
     if (!item) return;
+    learnMount(item);
     $$('.native-section', item).forEach(function (block) {
       if (block._ibSlot || block._ibFail) return;
       var title = titleOf(block);
@@ -2639,6 +3094,11 @@
   function refresh() {
     $$('.ib-model').forEach(function (slot) {
       if (slot._ibDone && (slot._ibLang !== zh() || slot._ibMode !== mode())) render(slot);
+    });
+    $$('.ib-learn-wrap').forEach(function (slot) {
+      if (slot._ibLang !== zh() || slot._ibMode !== mode()) {
+        slot._ibLang = zh(); slot._ibMode = mode(); learnRender(slot);
+      }
     });
   }
   window.IBSEHSModels = {

@@ -36,7 +36,21 @@ function lockPage(){previousOverflow=document.body.style.overflow;document.body.
 function unlockPage(){if(!pageLocked())document.body.style.overflow=previousOverflow||''}
 function openModal(id){var modal=document.getElementById(id);if(!modal)return;modal.classList.add('open');modal.setAttribute('aria-hidden','false');lockPage()}
 function closeModal(id){var modal=document.getElementById(id);if(!modal)return;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');unlockPage()}
-function renderTopicBadge(header){var item=header.closest('.acc-item');if(!item)return;var topic=topicByIndex(Number(item.id.split('-').pop())-1);if(!topic)return;var badge=$('.acc-badge',header);if(!badge)return;var score=scoreFor(topic.code);badge.textContent=(topic.hl?text('HL · ','HL · '):'')+levelFor(score)+' · '+score+'%'}
+function renderTopicBadge(header){var item=header.closest('.acc-item');if(!item)return;var topic=topicByIndex(Number(item.id.split('-').pop())-1);if(!topic)return;var badge=$('.acc-badge',header);if(!badge)return;var score=scoreFor(topic.code);/* was quiz score only, so a reader who never answered a question saw 0% */
+  var Pd=window.VitaliteProgress,rd=0,tt=0;
+  if(Pd){ var aa=Pd.all(),i2,p2; rd=0;
+    for(i2 in aa){ if(!Object.prototype.hasOwnProperty.call(aa,i2)) continue;
+      p2=i2.split(':');
+      if(p2[0]!=='ib'||p2[1]!==topic.code) continue;
+      if(Pd.isRead(aa[i2])) rd++; }
+    /* the denominator must be the topic's REAL section count: counting only the
+       stored units would report a partly-read 3-section topic as "1/1 read" */
+    var gs=Pd.groups('ib');
+    for(i2=0;i2<gs.length;i2++) if(gs[i2].id===topic.code) tt=gs[i2].total; }
+  if(tt<1){ tt=1; }
+  badge.textContent=(topic.hl?text('HL · ','HL · '):'')+(rd>0
+    ? rd+'/'+tt+' '+text('read','已读')
+    : text('Not started','未开始'))}
 function nativeText(value,fallback){if(!value)return text(fallback||'',fallback||'');return text(value.en||fallback||'',value.zh||fallback||'')}
 function nativeTerm(value){return value&&value.term?{term:value.term,definition:value.definition}:{term:{en:value&&value.en||'',zh:value&&value.zh||''},definition:{en:'',zh:''}}}
 function nativeList(parent,items,ordered,cls){if(!items||!items.length)return;var list=make(ordered?'ol':'ul',cls);items.forEach(function(item){/* a term object (nb with a definition) can land in a list; read it properly instead of stringifying it to [object Object] */if(item&&item.term){var t=item.term,d=item.definition||{};var li=bi(make('li','',text(t.en||'',t.zh||t.en||'')),t.en||'',t.zh||t.en||'');if(d&&(d.en||d.zh))li.appendChild(bi(make('span','li-def',text(d.en||'',d.zh||d.en||'')),d.en||'',d.zh||d.en||''));list.appendChild(li);return}var pair=item&&item.en!==undefined?item:{en:item,zh:item};var li=bi(make('li','',text(pair.en,pair.zh)),pair.en,pair.zh);list.appendChild(li)});parent.appendChild(list)}

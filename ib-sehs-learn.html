@@ -63,8 +63,8 @@ body .acc-item,body .acc-body{overflow:clip}
 .ib-cornell-cue{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 96px);
   display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;
   background:var(--surface2);overflow:hidden}
-.ib-cue-bar{display:flex;align-items:center;gap:.45rem;padding:.5rem .55rem;border-bottom:1px solid var(--line);background:var(--surface)}
-.ib-cue-bar-t{flex:1;min-width:0;font-size:.68rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
+.ib-cue-bar{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;padding:.5rem .55rem;border-bottom:1px solid var(--line);background:var(--surface)}
+.ib-cue-bar-t{flex:1 1 auto;min-width:0;white-space:nowrap;font-size:.68rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
 .ib-cue-mem{flex:none;min-height:36px;padding:.35rem .65rem;border-radius:999px;font:inherit;font-size:.78rem;
   font-weight:800;cursor:pointer;white-space:nowrap;border:1px solid var(--blue2);
   background:color-mix(in srgb,var(--blue2) 12%,var(--surface));color:var(--blue2)}
@@ -95,6 +95,16 @@ body .acc-item,body .acc-body{overflow:clip}
   border:1px solid var(--line);background:var(--surface2);color:var(--text2);cursor:pointer}
 .ib-cue-chip:hover{border-color:var(--blue2);color:var(--blue2)}
 .ib-cue-empty{margin:0;font-size:.78rem;line-height:1.55;color:var(--text2)}
+.ib-cue-hint{display:none;margin:0 0 .45rem;padding:.4rem .5rem;border-radius:9px;font-size:.72rem;line-height:1.5;
+  color:var(--text2);background:color-mix(in srgb,var(--gold) 14%,var(--surface));border:1px dashed var(--line)}
+/* Memorization has to be a real test. While it is on, the cue column keeps what
+   are prompts — headings, the exam-focus question, the term NAMES, the
+   key-knowledge chips — and drops every definition and formula, because
+   recalling them is the whole point. A tap on one term reveals that one. */
+.ib-cornell-cue.ib-mem .ib-cue-hint{display:block}
+.ib-cornell-cue.ib-mem .ib-cue-term dd{display:none}
+.ib-cornell-cue.ib-mem .ib-cue-term.rev dd{display:block}
+.ib-cornell-cue.ib-mem .ib-cue-formulas{display:none}
 
 /* memorization: the lesson keeps its height, its ink goes away, and the cover
    sits on top. visibility:hidden rather than display:none on purpose — the
@@ -1033,7 +1043,7 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
 
-<script src="ib-sehs-cornell.js?v=2" defer></script>
+<script src="ib-sehs-cornell.js?v=3" defer></script>
 <script src="ib-sehs-models.js?v=10" defer></script>
 <script src="ib-sehs-course.js?v=16" defer></script>
 </body>

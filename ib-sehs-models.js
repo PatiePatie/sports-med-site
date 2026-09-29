@@ -3611,50 +3611,81 @@ MODELS['Systems working together'] = function (host) {
     draw();
   };
 
-MODELS['Hormonal influences and sport applications'] = function (host) {
+  MODELS['Hormonal influences and sport applications'] = function (host) {
     var H = [
-      { id: 'adren', en: 'Adrenaline', zh: '肾上腺素', from: T('adrenal medulla', '肾上腺髓质'), job: T('Fast readiness: heart rate up, blood to the muscles, glucose released.', '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。'), jobZh: '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。', organ: 'heart' },
-      { id: 'cort', en: 'Cortisol', zh: '皮质醇', from: T('adrenal cortex', '肾上腺皮质'), job: T('Longer-term fuel availability and protein turnover; it rises with stress and with hard training.', '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。'), jobZh: '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。', organ: 'liver' },
-      { id: 'ins', en: 'Insulin', zh: '胰岛素', from: T('pancreas', '胰腺'), job: T('Moves glucose out of the blood and into cells; it falls during exercise.', '把葡萄糖从血液移入细胞；运动时其水平下降。'), jobZh: '把葡萄糖从血液移入细胞；运动时其水平下降。', organ: 'liver' },
-      { id: 'test', en: 'Testosterone', zh: '睾酮', from: T('testes', '睾丸'), job: T('Protein synthesis and adaptation after training.', '训练后促进蛋白质合成与适应。'), jobZh: '训练后促进蛋白质合成与适应。', organ: 'muscle' }
+      { id: 'test', g: 'pituitary', t: 'muscle', en: 'Growth hormone', zh: '生长激素', from: 'pituitary', to: 'muscle' },
+      { id: 'ins', g: 'pancreas', t: 'liver', en: 'Insulin', zh: '胰岛素', from: 'pancreas', to: 'liver' },
+      { id: 'adren', g: 'adrenal', t: 'heart', en: 'Adrenaline', zh: '肾上腺素', from: 'adrenal', to: 'heart' },
+      { id: 'cort', g: 'adrenal', t: 'liver', en: 'Cortisol', zh: '皮质醇', from: 'adrenal', to: 'liver' }
     ];
-    var sel = 'adren';
+    var sel = 'test';
     function draw() {
-      var h = H.filter(function (x) { return x.id === sel; })[0];
-      var s = svgWrap(T('Where each hormone comes from and what it does', '各种激素的来源与作用'), 560, 270,
-        AN.head('d5a') +
-        AN.pituitary(96, 84, 0.95) +
-        '<text class="small" x="96" y="132" text-anchor="middle">' + esc(T('hypothalamus + pituitary', '下丘脑与垂体')) + '</text>' +
-        /* the adrenal gland on its kidney, the real arrangement */
-        AN.kidney(300, 190, 0.86, sel === 'adren' || sel === 'cort' ? 'hot' : '') +
-        AN.adrenal(300, 152, 1, sel === 'adren' || sel === 'cort' ? 'hot' : '') +
-        '<text class="small" x="300" y="252" text-anchor="middle">' + esc(T('kidney + adrenal on top', '肾脏及其上方的肾上腺')) + '</text>' +
-        AN.heart(462, 84, 0.6, sel === 'adren' ? 'hot' : '') + AN.liver(462, 190, 0.62, sel === 'cort' || sel === 'ins' ? 'hot' : '') +
-        '<rect class="an-muscle' + (sel === 'test' ? ' hot' : '') + '" x="196" y="188" width="56" height="34" rx="13"/>' +
-        /* the hormone travelling out of the gland */
-        AN.axon(132, 96, 286, 150, 'on') +
-        '<circle class="an-horm" cx="210" cy="126" r="7"/>' +
-        AN.axon(300, 150, 448, 92, sel === 'adren' ? 'on' : '') +
-        AN.axon(300, 176, 450, 192, sel === 'cort' || sel === 'ins' ? 'on' : '') +
-        AN.axon(210, 200, 224, 204, sel === 'test' ? 'on' : '') +
-        '<text class="small" x="500" y="252" text-anchor="middle">' + esc(T('target organ', '靶器官')) + '</text>');
+      /* Two columns — where it is made on the left, what it acts on on the
+         right — and a distribution bus between them: one trunk, one drop per
+         organ. Nothing crosses anything, and the gland that makes the
+         hormone is the only place a line leaves from. */
+      var GX = 150, GY = 150, TX = 420;
+      var G = { pituitary: [GX, 78], pancreas: [GX, 222], adrenal: [GX, 150] };
+      var O = { muscle: [TX, 78], heart: [TX, 150], liver: [TX, 222] };
+      var cur = H.filter(function (h) { return h.id === sel; })[0];
+      var live = function (h) { return h.id === sel; };
+      function trunk(x1, y1, targets) {
+        var g = AN.connPath('M' + (x1 + 40) + ' ' + y1 + ' H' + (x1 + 74), 'hot') +
+          AN.runPath('M' + (x1 + 40) + ' ' + y1 + ' H' + (x1 + 74), 'hot', 1.2);
+        targets.forEach(function (k) {
+          var y = O[k][1];
+          var d = 'M' + (x1 + 74) + ' ' + y1 + ' V' + y + ' H' + (TX - 44);
+          g += AN.connPath(d, live(H.filter(function (h) { return h.to === k; })[0]) ? 'hot' : 'off') +
+            (live(H.filter(function (h) { return h.to === k; })[0])
+              ? AN.runPath(d, 'hot', 1.8) : '') +
+            '<circle class="an-horm" cx="' + (x1 + 74) + '" cy="' + y + '" r="' +
+            (live(H.filter(function (h) { return h.to === k; })[0]) ? 7 : 4) + '"/>';
+        });
+        return g;
+      }
+      var s = svgWrap(T('Where each hormone is made, and what it acts on', '各种激素的来源与作用部位'), 560, 320,
+        AN.head('hr', 'an-l-pos') +
+        /* ── left column: the glands ── */
+        AN.pituitary(G.pituitary[0], G.pituitary[1], 0.78) +
+        AN.gut(G.pancreas[0], G.pancreas[1], 0.62) +
+        AN.kidney(G.adrenal[0], G.adrenal[1] + 22, 0.8) + AN.adrenal(G.adrenal[0], G.adrenal[1] - 8, 0.9) +
+        '<text class="small" x="' + GX + '" y="46" text-anchor="middle">' + esc(T('where it is made', '激素的来源')) + '</text>' +
+        '<text class="small" x="' + GX + '" y="282" text-anchor="middle">' + esc(T('pituitary · pancreas · adrenal', '垂体 · 胰腺 · 肾上腺')) + '</text>' +
+        /* ── the bus ── */
+        trunk(GX, G[cur.from][1], H.filter(function (h) { return h.from === cur.from; })
+          .map(function (h) { return h.to; })) +
+        /* ── right column: the target organs, each labelled ── */
+        '<rect class="an-muscle" x="' + (TX - 42) + '" y="' + (O.muscle[1] - 22) + '" width="84" height="44" rx="17"/>' +
+        AN.heart(TX, O.heart[1], 0.56) + AN.liver(TX, O.liver[1], 0.6) +
+        '<text class="small" x="' + TX + '" y="46" text-anchor="middle">' + esc(T('what it acts on', '作用部位')) + '</text>' +
+        '<text class="small" x="' + TX + '" y="282" text-anchor="middle">' + esc(T('muscle · heart · liver', '肌肉 · 心脏 · 肝脏')) + '</text>' +
+        /* the hormone, named, in the band between the columns */
+        '<text class="small" x="285" y="308" text-anchor="middle" class="an-lab-neg">' +
+        esc(T(cur.en + ' → ' + cur.t, cur.zh + ' → ' + cur.t)) + '</text>');
       host.innerHTML =
-        '<div class="kv-q">' + esc(T('Which hormone?', '哪一种激素？')) + '</div>' +
-        tools(H.map(function (x) { return [x.id, T(x.en, x.zh)]; }), sel) +
-        apanel('main', T('The gland it comes from, and the organ it lands on', '来自哪个腺体，作用于哪个器官'), T('The adrenal gland really does sit on top of the kidney', '肾上腺确实位于肾脏之上'), s,
-          lg('an-l-hot', T('this one is selected', '当前选中')) +
-          lg('an-l-organ', T('other organ', '其他器官'))) +
-        '<div class="kv-callout"></div>';
-      outs(host, '.kv-callout', T('From the ' + h.from + '. ' + h.job, '来自' + h.jobZh.slice(0, 0) + h.from + '。' + h.jobZh));
-      marks(host, '.kv-tools', sel);
+        '<div class="kv-q">' + esc(T('Which hormone are you following?', '你在跟踪哪种激素？')) + '</div>' +
+        tools(H.map(function (h) { return [h.id, T(h.en, h.zh)]; }), sel) +
+        apanel('main', T('A gland on the left, a target organ on the right', '左侧腺体，右侧靶器官'),
+          T('The dot on the bus is the hormone itself, travelling from one to the other.', '总线上的小点就是激素本身，正从一端走向另一端。'), s,
+          lg('an-l-gold', T('the gland', '腺体')) +
+          lg('an-l-red', T('this route is live', '当前通路的路线')) +
+          lg('an-l-off', T('not used', '不使用'))) +
+        '<div class="kv-callout"></div>' +
+        note('Every hormone here is made in one place and acts somewhere else, and the distance is short — that is what makes it a hormone rather than a local signal. Growth hormone is made in the pituitary and acts on muscle, which is why it is discussed in training rather than in digestion. Insulin and glucagon come from the pancreas and act mainly on the liver and muscle, controlling how much glucose is released into the blood. Adrenaline and cortisol come from the adrenal gland, which sits on top of the kidney rather than inside it, and act on the heart and the liver to make fuel available quickly. The gland is the supply, the organ is the demand, and the hormone is the message between them.',
+          '这里的每一种激素都在一处合成、在另一处作用，而两者相距不远——这正是它被称为激素而非局部信号的原因。生长激素由垂体合成、作用于肌肉，因此在训练而非消化的语境中讨论。胰岛素与胰高血糖素来自胰腺，主要作用于肝脏与肌肉，控制多少葡萄糖被释放入血。肾上腺素与皮质醇来自肾上腺——它位于肾脏之上而非其内——作用于心脏与肝脏，使燃料迅速可用。腺体是供应，器官是需求，激素是二者之间的讯息。');
+      outs(host, '.kv-callout', sel === 'adren'
+        ? T('Adrenaline: heart rate and force go up within seconds, which is why the pre-start lift in your chest is the same hormone doing the same job in sport as in flight.', '肾上腺素：心率与心输出力在数秒内上升，因此赛前胸口那阵发热，正是同一种激素在做同样的事。')
+        : sel === 'cort'
+          ? T('Cortisol: the slow half of the stress response. It keeps fuel available, and it stays elevated if the stressor does — which is the part that costs you.', '皮质醇：应激反应中较慢的一半。它维持燃料供应，若应激源不消失就会持续升高——代价正在于此。')
+          : sel === 'ins'
+            ? T('Insulin: the storage hormone. It moves glucose out of the blood and into the liver and muscle, so the level in the blood falls.', '胰岛素：储存型激素。它把葡萄糖移出血液、存入肝脏与肌肉，因此血糖水平下降。')
+            : T('Growth hormone: released in pulses during and after hard training, acting on muscle to repair and grow it.', '生长激素：在剧烈训练中及其后脉冲式释放，作用于肌肉进行修复与增长。'));
     }
     wire(host, '.kv-tools', function (v) { sel = v; draw(); });
     draw();
   };
 
-  /* ── D1.6 · A.2.1 Functions, intake and loss ────────────────────────────
-     Where water actually enters and leaves the body. */
-    MODELS['Functions, intake and loss'] = function (host) {
+MODELS['Functions, intake and loss'] = function (host) {
     var drinks = 60, sweat = 0;
     function draw() {
       var PX = 250, PY = 168;                 /* the athlete */

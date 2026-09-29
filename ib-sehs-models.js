@@ -2867,7 +2867,7 @@
   }
 
   function learnPanel(host, opts) {
-    var ch = opts.chapter || 1, total = opts.total || 0;
+    var ch = opts.chapter || 1, total = opts.total || 0, code = opts.code || '';
     var terms = opts.terms || [];
     var checks = opts.checks || [];
     var READ = 'ib_read_sections';
@@ -2900,7 +2900,21 @@
       '<div class="ib-learn-pane" data-p="map" hidden></div>';
 
     function prog() {
-      var done = readSet().length;
+      /* was readSet(), i.e. ib_read_sections, which only a key-term card flip
+         ever wrote - so this bar sat at 0 for anyone who simply read. Scoped to
+         THIS topic, because opts.total is this topic's own section count. */
+      var P = window.VitaliteProgress, done = -1;
+      if (P) {
+        var a = P.all(), id, p, pre = code + ':';
+        done = 0;
+        for (id in a) {
+          if (!Object.prototype.hasOwnProperty.call(a, id)) continue;
+          p = id.split(':');
+          if (p[0] !== 'ib' || p[1] !== code) continue;
+          if (P.isRead(a[id])) done++;
+        }
+      }
+      if (done < 0) done = readSet().length;
       host.querySelector('.ib-learn-bar i').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
       host.querySelector('.ib-learn-prog span').textContent = total
         ? T(done + ' of ' + total + ' sections read', '已读 ' + done + ' / ' + total + ' 节')
@@ -5265,14 +5279,14 @@ MODELS['ADH and cardiovascular drift'] = function (host) {
     var slot = el('div', 'ib-learn-wrap ib-learn');   /* the host IS the panel card */
     lesson.insertBefore(slot, lesson.firstChild);
     item._ibLearn = slot;
-    slot._ibPage = page; slot._ibCh = ch; slot._ibMap = map; slot._ibTotal = all.length;
+    slot._ibPage = page; slot._ibCh = ch; slot._ibCode = code; slot._ibMap = map; slot._ibTotal = all.length;
     slot._ibTerms = terms; slot._ibChecks = checks;
-    learnPanel(slot, { page: page, chapter: ch, total: all.length, map: map, terms: terms, checks: checks });
+    learnPanel(slot, { page: page, chapter: ch, code: code, total: all.length, map: map, terms: terms, checks: checks });
   }
   function learnRender(slot) {
     if (!slot || !slot.parentNode) return;
     slot.innerHTML = '';
-    learnPanel(slot, { page: slot._ibPage, chapter: slot._ibCh, total: slot._ibTotal,
+    learnPanel(slot, { page: slot._ibPage, chapter: slot._ibCh, code: slot._ibCode, total: slot._ibTotal,
       map: slot._ibMap, terms: slot._ibTerms, checks: slot._ibChecks });
   }
 

@@ -921,8 +921,9 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
 <link rel="stylesheet" href="soft-glass.css?v=4">
 <script src="soft-fx.js?v=4" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=3">
-<script src="knowledge-fx.js?v=1" defer></script>
+<script src="knowledge-fx.js?v=4" defer></script>
 <!-- SHAPES-THEME:END -->
+<script src="progress-tracker.js?v=1"></script>
 </head><body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
 <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
@@ -1102,6 +1103,27 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
 
 /* ═══ course registry ════════════════════════════════════════════════ */
 var VT_SECTIONS=90;
+/* Reading progress now comes from progress-tracker.js, which measures how far
+   down a section you scrolled plus how long it held the screen. The old keys
+   counted accordion header clicks, so a heavy reader could sit at 0%.
+   The tracker knows each course's real unit count and per-chapter breakdown, so
+   these are thin wrappers; RP_TOTAL only guards the case where the tracker
+   failed to load at all. */
+var RP_TOTAL={vt:90,ib:83,g10:15};
+/* IB topic codes are prefixed by theme. Confirmed on the page: 24 sections in
+   A, 26 in B, 33 in C. One array, so a fourth theme is a one-line change. */
+var IB_THEME_LETTERS=['A','B','C'];
+function RP(){ return window.VitaliteProgress||null; }
+function RS(course){
+  var P=RP();
+  if(P) return P.summary(course);
+  return {read:0,total:RP_TOTAL[course]||0,pct:0};
+}
+function RPgroup(course){
+  var m={}, P=RP(), list=P?P.groups(course):[];
+  list.forEach(function(g){ m[g.id]=g; });
+  return m;
+}
 var CH=[['The Body as a Machine','身体如机器'],['Nervous System','神经系统'],
  ['Cardiovascular System','心血管系统'],['Integumentary System','皮肤系统'],
  ['Training Principles','训练原则'],['Injury & Healing','损伤与愈合'],
@@ -1136,14 +1158,15 @@ var COURSES=[
    var fc=J('kn_fc',{}),known=0;Object.keys(fc).forEach(function(k){known+=(fc[k]||[]).length});
    var m=J('sm_mastery',{}),sum=0,n=0;
    Object.keys(m).forEach(function(k){if(m[k]&&typeof m[k].score==='number'){sum+=m[k].score;n++}});
-   return {tot:T,read:Math.min(R,T),pct:T?Math.min(100,Math.round(R/T*100)):0,
+   var rp=RS('vt');
+   return {tot:rp.total,read:Math.min(rp.read,rp.total),pct:rp.pct,
      last:last?last.ch:0,lastName:last?CH[last.ch-1]:null,lastPct:Math.round(p*100),
      cards:known+I('sm_fc'),cardsTot:0,mastery:n?Math.round(sum/n):0,asked:0,
      quizBest:I('sm_exam'),unit:CH,unitHref:function(i){return 'guide.html#ch'+(i+1)}};
  }},
 
 {id:'ib',ico:'🎓',name:['IB SEHS','IB SEHS 教材'],href:'ib-sehs-learn.html',
- readWord:['topics practised','已练主题'],
+ readWord:['sections read','已读小节'],
  prog:function(){
    var m=J('sm_ibsehs_mastery',{}),covered=0;
    Object.keys(m).forEach(function(k){if(Number(m[k])>0)covered++});
@@ -1151,9 +1174,15 @@ var COURSES=[
    Object.keys(q).forEach(function(k){att+=Number(q[k].attempts||0);ok+=Number(q[k].correct||0)});
    var f=J('sm_ibsehs_flashcards',{}),rev=0;
    Object.keys(f).forEach(function(k){rev+=Number(f[k].reviews||0)});
-   return {tot:29,read:Math.min(covered,29),pct:Math.round(Math.min(covered,29)/29*100),
+   var bi=0;
+   Object.keys(q).forEach(function(k){
+     var a2=Number(q[k].attempts||0);
+     if(a2) bi=Math.max(bi,Number(q[k].correct||0)/a2);
+   });
+   var rpi=RS('ib');
+   return {tot:rpi.total,read:Math.min(rpi.read,rpi.total),pct:rpi.pct,
      last:0,lastName:null,lastPct:0,cards:rev,cardsTot:29,
-     mastery:att?Math.round(ok/att*100):0,asked:att,quizBest:0,
+     mastery:att?Math.round(ok/att*100):0,asked:att,quizBest:Math.round(bi*100),
      unit:IB_THEMES,unitHref:function(i){return 'ib-sehs-learn.html#'+IB_THEMES[i][0]}};
  }},
 
@@ -1162,7 +1191,8 @@ var COURSES=[
  prog:function(){
    var r=J('sm_g10_read',[]),last=J('sm_g10_last',null);
    var q=J('sm_g10_quiz',[]),ok=0;q.forEach(function(x){if(x&&x.ok)ok++});
-   return {tot:15,read:Math.min(r.length,15),pct:Math.round(Math.min(r.length,15)/15*100),
+   var rpg=RS('g10');
+   return {tot:rpg.total,read:Math.min(rpg.read,rpg.total),pct:rpg.pct,
      last:last?last.i:-1,lastName:null,lastPct:0,cards:0,cardsTot:44,
      mastery:q.length?Math.round(ok/q.length*100):0,asked:q.length,quizBest:I('sm_g10_best'),
      unit:G10_UNITS,unitHref:function(i){return 'g10-bio.html#s'+i}};
@@ -1230,10 +1260,23 @@ function panelMap(c){
     +'<a class="cr-go" href="'+c.href+'">'+esc(t('Open the course','打开课程'))+'</a>';
 }
 function vtChapterPct(n){
-  var tot=J('kn_tot',{})[n]||0,read=(J('kn_read',{})[n]||[]).length;
-  return tot?Math.min(1,read/tot):0;}
-function ibThemePct(i){ return COURSES[1].prog().pct/100; }
-function g10UnitPct(i){ return 0; }
+  var g=RPgroup('vt')['ch'+n];
+  return g&&g.total?Math.min(1,g.read/g.total):0;}
+/* Read over the total sections the theme actually has, so topics with nothing
+   recorded drag the bar down instead of being skipped. */
+function ibThemePct(i){
+  var L=IB_THEME_LETTERS[i], m=RPgroup('ib'), read=0, tot=0, k;
+  if(!L) return 0;
+  for(k in m){
+    if(!Object.prototype.hasOwnProperty.call(m,k)) continue;
+    if(String(k)[0].toUpperCase()!==L) continue;
+    read += m[k].read; tot += m[k].total;
+  }
+  return tot ? Math.min(1, read/tot) : 0;
+}
+function g10UnitPct(i){
+  var g=RPgroup('g10')['s'+(i+1)];
+  return g&&g.total?Math.min(1,g.read/g.total):0;}
 
 function renderBox(c){
   var p=c.prog(); c.p=p;
@@ -1322,7 +1365,9 @@ function renderHero(){
                           '三门课程，一套进度。继续上次的地方，或换个方式学。');
 }
 function renderStats(){
-  var read=J('kn_read',{}),n=0;Object.keys(read).forEach(function(k){n+=(read[k]||[]).length});
+  /* was kn_read only, so the other two courses were invisible here even though
+     they have their own boxes directly above */
+  var n=RS('vt').read+RS('ib').read+RS('g10').read;
   var m=J('sm_mastery',{}),sum=0,c=0,asked=0;
   Object.keys(m).forEach(function(k){if(m[k]&&typeof m[k].score==='number'){sum+=m[k].score;c++;asked+=m[k].totalQ||0}});
   var fc=J('kn_fc',{}),known=0;Object.keys(fc).forEach(function(k){known+=(fc[k]||[]).length});

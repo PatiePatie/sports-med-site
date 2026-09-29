@@ -142,13 +142,37 @@
   /* ═══ 2 · Progress ═════════════════════════════════════════════════════ */
   function chapterOf(node) { var s = node.closest && node.closest('section.chapter[id^="ch"]'); return s ? parseInt(s.id.slice(2), 10) : 0; }
   function heads(ch) { var s = document.getElementById('ch' + ch); return s ? $$('.acc-item > .acc-header', s) : []; }
-  function readSet(ch) { var r = load('kn_read', {}); return r[ch] || []; }
+  /* Was kn_read, which only recorded that a section's header was CLICKED, so a
+     heavy reader stayed at 0. progress-tracker.js measures scroll depth plus
+     dwell and knows the real section count per chapter. Falls back to the old
+     store when the tracker is not on the page. */
+  function readSet(ch) {
+    var P = window.VitaliteProgress;
+    if (P) {
+      var out = [], a = P.all(), id, p;
+      for (id in a) {
+        if (!Object.prototype.hasOwnProperty.call(a, id)) continue;
+        p = id.split(':');
+        if (p[0] !== 'vt' || p[1] !== 'ch' + ch) continue;
+        if (P.isRead(a[id])) out.push(parseInt(p[2], 10));
+      }
+      return out;
+    }
+    var r = load('kn_read', {}); return r[ch] || [];
+  }
   function markRead(ch, i) {
     var r = load('kn_read', {}), a = r[ch] || [];
     if (a.indexOf(i) < 0) { a.push(i); r[ch] = a; save('kn_read', r); }
     refreshProgress(ch);
   }
   function refreshProgress(ch) {
+    /* trackReading() is never called on this build, so the live-update hook is
+       installed here, which every panel build goes through. */
+    var P = window.VitaliteProgress;
+    if (P && !window.__knProgHook) {
+      window.__knProgHook = 1;
+      P.onChange(function () { refreshProgress(currentChapter()); });
+    }
     var panel = document.querySelector('.kn-learn[data-ch="' + ch + '"]');
     if (!panel) return;
     var tot = heads(ch).length, n = Math.min(readSet(ch).length, tot);
@@ -835,6 +859,11 @@
 
   /* ═══ 7b · Knowledge Hub (the front of guide.html): rings, tracks ═════ */
   function chapterPct(ch) {
+    var P = window.VitaliteProgress;
+    if (P) {
+      var g = P.groups('vt').filter(function (x) { return x.id === 'ch' + ch; })[0];
+      return g && g.total ? Math.min(1, g.read / g.total) : 0;
+    }
     var tot = load('kn_tot', {})[ch] || 0, n = (load('kn_read', {})[ch] || []).length;
     return tot ? Math.min(1, n / tot) : 0;
   }

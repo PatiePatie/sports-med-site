@@ -32,6 +32,131 @@ footer{padding:2rem 0;color:var(--text2);font-size:.82rem}.back-top{position:fix
 @media(max-width:1000px){.grid{grid-template-columns:1fr 1fr}.progress-bars{grid-template-columns:1fr}.course-tools{grid-template-columns:1fr}.search-count{grid-column:auto}}
 @media(max-width:700px){.container{width:min(100% - 1.25rem,1180px)}.page-wrapper{margin-left:0}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.sidebar-toggle{display:flex}.hero{padding:3.2rem 0 2.5rem}.grid,.grid.two{grid-template-columns:1fr}.actions,.practice-actions,.resource-actions{flex-direction:column}.actions .btn,.practice-actions .btn,.resource-actions .btn{width:100%}.chapter-heading{align-items:flex-start;flex-direction:column}.ch-nav .btn{min-width:0;flex:1;padding-left:.65rem;padding-right:.65rem}.mode-grid{grid-template-columns:1fr}.ai-controls{grid-template-columns:1fr}.flash-card,.flash-inner{min-height:360px}.mastery-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.section{padding:2.6rem 0 2rem}.mastery-grid{grid-template-columns:1fr}.modal-box{padding:1rem}.flash-card,.flash-inner{min-height:420px}.acc-header{align-items:flex-start;flex-wrap:wrap}.acc-badge{margin-left:2.4rem}.ch-nav .btn{font-size:.76rem}}
+
+/* ═══ Cornell cue column + memorization mode ═══════════════════════════
+   The lesson used to be one centred column. It is now a two-column grid,
+   and the only reason this needed care is that the cue column is sticky:
+
+   .acc-item and .acc-body were overflow:hidden, and a hidden ancestor IS a
+   scroll container — so position:sticky inside an open accordion never stuck
+   (measured: cue stayed at y=6 after scrolling 700px). overflow:clip clips
+   identically but does not create a scroll container, so sticky resolves
+   against the viewport again (measured: y=80). scrollHeight is unchanged,
+   so toggleAcc's max-height math is untouched. */
+body .acc-item,body .acc-body{overflow:clip}
+
+/* The left rail is clip-path:circle(42px) and expands to 224px on hover, so
+   240px has to stay reserved or the cue column ends up underneath it. The
+   reading column is therefore anchored at 244px and allowed to grow right,
+   instead of being centred in the viewport. */
+@media (min-width:1180px){
+  body.ib-learn-page .chapter>.container{
+    width:auto;max-width:1360px;
+    margin-left:clamp(244px,calc((100% - 1360px)/2),calc(100% - 300px));
+    margin-right:auto;
+  }
+}
+.ib-cornell{display:grid;grid-template-columns:minmax(236px,300px) minmax(0,1fr);gap:26px;align-items:start;margin-top:.5rem}
+.ib-cornell-main{position:relative;min-width:0}
+@media (max-width:1400px){.ib-cornell{grid-template-columns:minmax(0,252px) minmax(0,1fr);gap:20px}}
+
+.ib-cornell-cue{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 96px);
+  display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;
+  background:var(--surface2);overflow:hidden}
+.ib-cue-bar{display:flex;align-items:center;gap:.45rem;padding:.5rem .55rem;border-bottom:1px solid var(--line);background:var(--surface)}
+.ib-cue-bar-t{flex:1;min-width:0;font-size:.68rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
+.ib-cue-mem{flex:none;min-height:36px;padding:.35rem .65rem;border-radius:999px;font:inherit;font-size:.78rem;
+  font-weight:800;cursor:pointer;white-space:nowrap;border:1px solid var(--blue2);
+  background:color-mix(in srgb,var(--blue2) 12%,var(--surface));color:var(--blue2)}
+.ib-cue-mem[aria-pressed="true"]{background:var(--blue2);color:#fff}
+.ib-cue-close{display:none;width:34px;height:34px;flex:none;border-radius:9px;border:1px solid var(--line);
+  background:var(--surface);color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer}
+.ib-cue-list{flex:1;overflow:auto;padding:.5rem;scrollbar-width:thin;overscroll-behavior:contain}
+.ib-cue-card{padding:.5rem .55rem;margin-bottom:.4rem;border-radius:11px;background:var(--surface);
+  border:1px solid var(--line);transition:border-color .18s,box-shadow .18s}
+.ib-cue-card:last-child{margin-bottom:0}
+.ib-cue-card.on{border-color:var(--blue2);box-shadow:0 0 0 2px color-mix(in srgb,var(--blue2) 20%,transparent)}
+.ib-cue-h{display:block;width:100%;text-align:left;font:inherit;font-size:.85rem;font-weight:800;
+  line-height:1.35;color:var(--text);background:none;border:0;padding:0;cursor:pointer}
+.ib-cue-h:hover{color:var(--blue2)}
+.ib-cue-focus{margin:.3rem 0 0;font-size:.75rem;line-height:1.5;color:var(--text2)}
+.ib-cue-lab{margin:.55rem 0 .3rem;font-size:.64rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--text2)}
+.ib-cue-terms{display:grid;gap:.45rem;margin:0}
+.ib-cue-term dt{margin:0}
+.ib-cue-term dd{margin:.1rem 0 0;font-size:.75rem;line-height:1.5;color:var(--text2)}
+.ib-cue-term-b{display:inline-flex;align-items:center;min-height:30px;font:inherit;font-size:.78rem;
+  font-weight:800;color:var(--blue2);background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.ib-cue-term-b:hover{text-decoration:underline}
+.ib-cue-formulas{margin:0;padding-left:1.05rem;display:grid;gap:.35rem}
+.ib-cue-formulas code{display:block;font-size:.75rem;color:var(--blue2);overflow-wrap:anywhere}
+.ib-cue-formulas span{display:block;font-size:.73rem;color:var(--text2);line-height:1.45}
+.ib-cue-chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.ib-cue-chip{min-height:28px;padding:.2rem .45rem;border-radius:999px;font:inherit;font-size:.72rem;
+  border:1px solid var(--line);background:var(--surface2);color:var(--text2);cursor:pointer}
+.ib-cue-chip:hover{border-color:var(--blue2);color:var(--blue2)}
+.ib-cue-empty{margin:0;font-size:.78rem;line-height:1.55;color:var(--text2)}
+
+/* memorization: the lesson keeps its height, its ink goes away, and the cover
+   sits on top. visibility:hidden rather than display:none on purpose — the
+   main column must not shrink, or the accordion's max-height would be wrong. */
+.ib-cornell-main.ib-mem{background:var(--surface)}
+.ib-cornell-main.ib-mem>*:not(.ib-cover){visibility:hidden}
+.native-lesson.ib-mem .ib-learn-pane[data-p="fc"],
+.native-lesson.ib-mem .ib-learn-pane[data-p="qc"]{display:none}
+.ib-cover{position:absolute;inset:0;z-index:6;background:var(--surface);padding-bottom:1.2rem}
+.ib-cover-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+  padding:.55rem .7rem;border-bottom:1px solid var(--line);background:var(--surface)}
+.ib-cover-bar strong{font-size:.92rem}
+.ib-cover-count{font-size:.78rem;color:var(--text2);white-space:nowrap}
+.ib-cover-exit{margin-left:auto;min-height:36px;padding:.35rem .7rem;border-radius:999px;font:inherit;
+  font-size:.78rem;font-weight:800;cursor:pointer;white-space:nowrap;
+  border:1px solid var(--line);background:var(--surface);color:var(--text)}
+.ib-cover-tip{margin:.6rem .7rem 0;font-size:.8rem;line-height:1.55;color:var(--text2)}
+.ib-cover-sec{margin:.8rem .7rem 0;padding:.7rem .75rem;border:1px solid var(--line);border-radius:13px;background:var(--surface2)}
+.ib-cover-sec h5{margin:0 0 .5rem;font-size:.88rem;font-weight:800}
+.ib-cover-item{padding-bottom:.6rem;margin-bottom:.6rem;border-bottom:1px dashed var(--line)}
+.ib-cover-item:last-of-type{padding-bottom:0;margin-bottom:0;border-bottom:0}
+.ib-cover-q b{font-size:.85rem;color:var(--blue2)}
+.ib-cover-a{display:block;width:100%;margin:.4rem 0 .35rem;padding:.5rem .55rem;border-radius:9px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;
+  font-size:.83rem;line-height:1.55;resize:vertical}
+.ib-cover-tools{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.ib-cover-check,.ib-cover-show{min-height:36px;padding:.35rem .7rem;border-radius:999px;font:inherit;
+  font-size:.78rem;font-weight:800;cursor:pointer;white-space:nowrap;
+  border:1px solid var(--line);background:var(--surface);color:var(--text)}
+.ib-cover-check{border-color:var(--blue2);color:var(--blue2);background:color-mix(in srgb,var(--blue2) 10%,var(--surface))}
+.ib-cover-fb{margin-top:.35rem;font-size:.78rem;line-height:1.5;color:var(--text2)}
+.ib-cover-fb.is-ok{color:var(--green);font-weight:700}
+.ib-cover-fb.is-mid{color:var(--gold)}
+.ib-cover-fb.is-no{color:var(--red)}
+.ib-cover-ans{margin-top:.4rem;padding:.5rem .6rem;border-radius:9px;font-size:.81rem;line-height:1.55;
+  background:color-mix(in srgb,var(--gold) 13%,var(--surface))}
+.ib-cover-notes{min-height:96px;margin-top:.6rem;padding:.5rem .6rem;border-radius:9px;outline:none;
+  border:1px dashed var(--line);background:var(--surface);font-size:.83rem;line-height:1.7;
+  background-image:repeating-linear-gradient(to bottom,transparent,transparent 27px,var(--line) 27px,var(--line) 28px)}
+.ib-cover-notes:empty:before{content:attr(data-ph);color:var(--text2);opacity:.75}
+
+/* below 1180px there is no room for two columns, so the cues become a drawer
+   and two buttons ride along at the top of the card. */
+.ib-cornell-mini{display:none}
+@media (max-width:1179px){
+  .ib-cornell{grid-template-columns:minmax(0,1fr);gap:0}
+  .ib-cornell-mini{display:flex;gap:.5rem;position:sticky;top:60px;z-index:40;margin:.45rem 0 .2rem;
+    padding:.35rem;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+  .ib-mini-btn{flex:1;min-width:0;min-height:40px;padding:.45rem .5rem;border-radius:10px;font:inherit;
+    font-size:.78rem;font-weight:800;cursor:pointer;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;border:1px solid var(--line);background:var(--surface2);color:var(--text)}
+  .ib-mini-mem{border-color:var(--blue2);color:var(--blue2);background:color-mix(in srgb,var(--blue2) 10%,var(--surface))}
+  .ib-cornell-cue{position:fixed;left:0;top:0;bottom:0;width:min(88vw,340px);height:100vh;max-height:none;
+    z-index:400;border-radius:0 14px 14px 0;transform:translateX(-101%);
+    transition:transform .24s ease;box-shadow:14px 0 42px rgba(0,0,0,.24)}
+  .ib-cornell-cue.open{transform:none}
+  .ib-cue-close{display:block}
+  .ib-cue-chip,.ib-cue-term-b,.ib-cue-mem,.ib-cue-close,.ib-cover-check,.ib-cover-show,.ib-cover-exit{min-height:40px}
+  .ib-cue-close{min-width:40px}
+}
+.ib-cue-scrim{position:fixed;inset:0;z-index:390;background:rgba(8,14,24,.5);opacity:0;pointer-events:none;transition:opacity .2s}
+.ib-cue-scrim.on{opacity:1;pointer-events:auto}
 .native-lesson{min-width:0}.native-lead{padding:.85rem .95rem;border-left:4px solid var(--blue2);border-radius:12px;background:color-mix(in srgb,var(--blue2) 7%,var(--surface))}.native-lead p{margin:0}.native-section{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)}.native-section h3{font-size:1.02rem;margin-bottom:.45rem}.native-section p{margin:.45rem 0}.native-bullets{margin:.45rem 0;padding-left:1.2rem}.native-bullets li{margin:.32rem 0}.native-terms,.native-examples,.native-focus,.native-quick-check,.native-formulas,.native-links,.native-boundary{margin-top:.85rem;padding:.75rem .85rem;border-radius:11px;background:var(--surface2)}.native-terms h4,.native-examples h4,.native-focus h4,.native-quick-check h4,.native-formulas h4,.native-links h4,.native-boundary h4,.native-figures h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}.native-term-list{display:grid;gap:.45rem;margin:0}.native-term{display:grid;grid-template-columns:minmax(110px,.34fr) 1fr;gap:.65rem}.native-term dt{font-weight:800}.native-term dd{margin:0;color:var(--text2)}.native-table-wrap{overflow-x:auto;margin-top:.8rem;border:1px solid var(--line);border-radius:10px}.native-table{width:100%;min-width:520px;border-collapse:collapse;font-size:.8rem}.native-table th,.native-table td{padding:.55rem .65rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.native-table th{background:color-mix(in srgb,var(--blue2) 9%,var(--surface));font-weight:800}.native-table tr:last-child td{border-bottom:0}.native-formulas{display:grid;gap:.5rem}.native-formula{display:grid;gap:.25rem;padding:.55rem .65rem;border-left:3px solid var(--gold);background:var(--surface);border-radius:8px}.native-formula code{font-size:.82rem;color:var(--blue2);overflow-wrap:anywhere}.native-formula span{color:var(--text2);font-size:.8rem}.native-focus{border-left:4px solid var(--gold)}.native-quick-check{border-left:4px solid var(--green)}.native-quick-check ol{margin:.2rem 0;padding-left:1.25rem}.native-quick-check li{margin:.28rem 0}.native-figures{margin-top:1rem}.native-figure{margin:.55rem 0;padding:.5rem;border:1px dashed var(--line);border-radius:10px;background:var(--surface2)}.native-figure-button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}.native-figure img{display:block;width:150px;max-width:100%;height:150px;object-fit:contain;margin:auto;background:var(--surface);border-radius:7px}.native-figure figcaption{margin-top:.4rem;color:var(--text2);font-size:.72rem;text-align:center}.workbook-reference{margin-top:1.2rem;padding:.65rem .8rem;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}.workbook-reference summary{cursor:pointer;font-weight:800;font-size:.82rem}.workbook-reference a{display:inline-block;margin:.65rem .7rem .2rem 0;color:var(--blue2);font-size:.8rem;font-weight:800}.workbook-reference-preview{display:block;width:100%;margin-top:.55rem;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:zoom-in}
 /* ── Phone: comfortable tap targets (≥40px) for controls that are small
       buttons or card links. Inline prose links are deliberately NOT touched:
@@ -595,6 +720,188 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 .ib-model .an-mn-na{fill:color-mix(in srgb,var(--c1) 50%,var(--surface));stroke:var(--c1)}
 .ib-model .an-mn-k{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green)}
 
+/* ══ anatomy shapes (D3) ══ */
+/* ══ anatomy shapes — one library, reused by every model ═══════════════ */
+.ib-model .an-white{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.5}
+.ib-model .an-grey{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-canal{fill:var(--surface);stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-cordline{stroke:var(--text3);stroke-width:7;stroke-linecap:round}
+.ib-model .an-brain{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fold{fill:none;stroke:var(--c2);stroke-width:1.4;opacity:.7}
+.ib-model .an-stem{fill:none;stroke:var(--c2);stroke-width:5;stroke-linecap:round}
+.ib-model .an-muscle{fill:color-mix(in srgb,var(--c0) 24%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-muscle.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-tendon{fill:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-cap{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-intra{stroke:var(--c0);stroke-width:2;stroke-linecap:round}
+.ib-model .an-ia{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round}
+.ib-model .an-axon{stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-axon.on{stroke:var(--c0);stroke-width:3.4}
+.ib-model .an-axon.dim{opacity:.35}
+.ib-model .an-myelin{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:.8}
+.ib-model .an-axon.on + .an-myelin,.ib-model .an-myelin{opacity:.9}
+.ib-model .an-heart{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-heart.hot{fill:color-mix(in srgb,var(--c0) 55%,var(--surface));stroke-width:2.6}
+.ib-model .an-chamber{fill:color-mix(in srgb,var(--c0) 60%,var(--surface))}
+.ib-model .an-chamber.r{fill:color-mix(in srgb,var(--c2) 60%,var(--surface))}
+.ib-model .an-septum{stroke:var(--c0);stroke-width:2}
+.ib-model .an-aorta{fill:none;stroke:var(--c0);stroke-width:4;stroke-linecap:round}
+.ib-model .an-vena{fill:none;stroke:var(--c2);stroke-width:4;stroke-linecap:round}
+.ib-model .an-kidney{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.8}
+.ib-model .an-kidney.hot{fill:color-mix(in srgb,var(--gold) 60%,var(--surface));stroke-width:2.6}
+.ib-model .an-adrenal{fill:color-mix(in srgb,var(--green) 45%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-adrenal.hot{fill:var(--green);stroke-width:2.6}
+.ib-model .an-hilum,.ib-model .an-ureter,.ib-model .an-vessel{fill:none;stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .an-vessel.r{stroke:var(--c0)}.ib-model .an-vessel.b{stroke:var(--c2)}
+.ib-model .an-ureter{stroke-width:2.6}
+.ib-model .an-hypothal{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-stalk{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-pituit{fill:color-mix(in srgb,var(--green) 46%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-lungs,.ib-model .an-lung{fill:color-mix(in srgb,var(--c2) 26%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-trachea{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-liver{fill:color-mix(in srgb,var(--c0) 22%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-liver.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-horm{fill:var(--gold);stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-epi{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-derm{fill:color-mix(in srgb,var(--c0) 12%,var(--surface));stroke:var(--c0);stroke-width:1.2}
+.ib-model .an-duct{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-coil{fill:none;stroke:var(--gold);stroke-width:5}
+.ib-model .an-lumen2{fill:var(--surface);stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-cuboid{fill:color-mix(in srgb,var(--gold) 55%,var(--surface));stroke:var(--gold);stroke-width:.8}
+.ib-model .an-drop{fill:var(--c2);opacity:.85}
+/* flow arrows and loops */
+.ib-model .an-flow{fill:none;stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-flow.good{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.bad{stroke:var(--c0);stroke-width:3}
+.ib-model .an-flow.neg{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.pos{stroke:var(--c0);stroke-width:3}
+.ib-model .an-link{fill:none;stroke:var(--text3);stroke-width:2;opacity:.3}
+.ib-model .an-link.on{stroke:var(--c0);stroke-width:3;opacity:1}
+.ib-model .an-dim{stroke:var(--text3);stroke-width:2;fill:none}
+.ib-model .an-head{fill:var(--text3)}
+.ib-model .an-head,.ib-model .an-flow.bad + marker path{fill:var(--text3)}
+.ib-model .an-var{fill:color-mix(in srgb,var(--blue2,#2563a8) 20%,var(--surface));stroke:var(--blue2,#2563a8);stroke-width:2}
+.ib-model .an-box{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:1.8;rx:10}
+.ib-model .an-effector{fill:color-mix(in srgb,var(--green) 30%,var(--surface));stroke:var(--green);stroke-width:1.8}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-food{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-body{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-timer{stroke:var(--c0);stroke-width:3;fill:none}
+.ib-model .an-lab-neg{fill:var(--green);font-weight:800}
+.ib-model .an-lab-pos{fill:var(--c0);font-weight:800}
+/* legend swatches */
+.ib-model .an-l-grey{background:var(--c2)}.ib-model .an-l-white{background:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-l-muscle{background:var(--c0)}.ib-model .an-l-organ{background:var(--gold)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 16%,var(--surface))}
+.ib-model .an-l-ia{background:var(--gold)}.ib-model .an-l-neg{background:var(--green)}
+.ib-model .an-l-pos{background:var(--c0)}.ib-model .an-l-hot{background:var(--green)}
+.ib-model .an-l-good{background:var(--green)}.ib-model .an-l-bad{background:var(--c0)}
+.ib-model .an-l-gland{background:var(--gold)}
+.ib-model .an-b-neg{background:var(--green)}.ib-model .an-b-pos{background:var(--c0)}
+.ib-model .an-b-in{background:var(--green)}.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-b-vol{background:var(--c2)}.ib-model .an-b-sv{background:var(--green)}.ib-model .an-b-hr{background:var(--c0)}
+.ib-model .kv-meters{display:grid;gap:.35rem;margin:.6rem 0 .2rem}
+@media (prefers-reduced-motion:reduce){.ib-model .an-ia{animation:none}}
+/* ══ shapes added for batch D2 (nutrition, energy, population) ═════════ */
+.ib-model .an-sugar{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:2}
+.ib-model .an-o{fill:var(--c2);stroke:none}
+.ib-model .an-fat{fill:color-mix(in srgb,var(--c1) 45%,var(--surface));stroke:var(--c1);stroke-width:1.8}
+.ib-model .an-chain{stroke:var(--c1);stroke-width:4;stroke-linecap:round}
+.ib-model .an-p{fill:var(--c1)}
+.ib-model .an-aa{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-bond{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-gutwall{fill:none;stroke:var(--c0);stroke-width:7;stroke-linecap:round;opacity:.5}
+.ib-model .an-bact{fill:var(--green)}
+.ib-model .an-adenine,.ib-model .an-ribose{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-phos{fill:color-mix(in srgb,var(--c0) 32%,var(--surface));stroke:var(--c0);stroke-width:1.7}
+.ib-model .an-phos.hot{fill:color-mix(in srgb,var(--c0) 62%,var(--surface));stroke-width:2.4}
+.ib-model .an-plaque{fill:color-mix(in srgb,var(--c1) 70%,var(--surface));stroke:var(--c1);stroke-width:1.2}
+.ib-model .an-dial{fill:color-mix(in srgb,var(--c2) 22%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-box2{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-beam{stroke:var(--text3);stroke-width:5;stroke-linecap:round}
+.ib-model .an-pan{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fulcrum{fill:color-mix(in srgb,var(--text) 26%,var(--surface))}
+.ib-model .an-day{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-day.on{fill:color-mix(in srgb,var(--c0) 42%,var(--surface));stroke:var(--c0)}
+.ib-model .an-prog{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round}
+.ib-model .an-dot2{fill:var(--green);stroke:var(--surface);stroke-width:1.5}
+.ib-model .an-bar{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-b0{fill:var(--c0)}.ib-model .an-b1{fill:var(--c1)}.ib-model .an-b2{fill:var(--c2)}
+.ib-model .an-cursor2{stroke:var(--text);stroke-width:2;stroke-dasharray:4 3}
+.ib-model .an-gauge{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gauge-f{fill:var(--green)}
+.ib-model .an-thresh{stroke:var(--c0);stroke-width:2.4;stroke-dasharray:4 3}
+.ib-model .an-mn{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-mn.on{fill:color-mix(in srgb,var(--gold) 40%,var(--surface));stroke:var(--gold);stroke-width:2.6}
+.ib-model .an-mn-t{fill:var(--text);font-weight:800}
+.ib-model .an-plate{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-sl-car{fill:var(--c2)}.ib-model .an-sl-fat{fill:var(--c1)}
+.ib-model .an-hyp{fill:none;stroke:var(--c2);stroke-width:2.4;stroke-linejoin:round}
+.ib-model .an-timeline{stroke:var(--text3);stroke-width:2.4}
+.ib-model .an-tick{fill:var(--c2)}
+.ib-model .an-clock{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:2}
+.ib-model .an-hand{stroke:var(--text);stroke-width:2.4;stroke-linecap:round;fill:none}
+.ib-model .an-fibrebox{fill:color-mix(in srgb,var(--c0) 16%,var(--surface));stroke:var(--c0);stroke-width:1.6}
+.ib-model .an-gly{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gly.on{fill:var(--c1);stroke:var(--c1)}
+.ib-model .an-lead2{stroke:var(--text3);stroke-width:1}
+.ib-model .an-rbc2{fill:var(--c0)}
+/* legend + bar swatches for D2 */
+.ib-model .an-l-car{background:var(--c2)}.ib-model .an-l-fat{background:var(--c1)}.ib-model .an-l-prot{background:var(--c0)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 14%,var(--surface))}
+.ib-model .an-l-bact{background:var(--green)}.ib-model .an-l-prog{background:var(--green)}
+.ib-model .an-b-car{background:var(--c2)}.ib-model .an-b-fat{background:var(--c1)}.ib-model .an-b-prot{background:var(--c0)}
+.ib-model .an-b-q{background:var(--c2)}.ib-model .an-b-fit{background:var(--green)}
+.ib-model .an-b-bmr{background:var(--c2)}.ib-model .an-b-need{background:var(--c0)}
+.ib-model .an-b-gly{background:var(--green)}.ib-model .an-b-hrv{background:var(--green)}.ib-model .an-b-perf{background:var(--c2)}
+.ib-model .an-b-fe{background:var(--c0)}.ib-model .an-b-ca{background:var(--c2)}
+.ib-model .an-b-na{background:var(--c1)}.ib-model .an-b-k{background:var(--green)}
+.ib-model .an-mn-fe{fill:color-mix(in srgb,var(--c0) 40%,var(--surface));stroke:var(--c0)}
+.ib-model .an-mn-ca{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2)}
+.ib-model .an-mn-na{fill:color-mix(in srgb,var(--c1) 50%,var(--surface));stroke:var(--c1)}
+.ib-model .an-mn-k{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green)}
+/* ══ shapes added for batch D3 (skeleton, joints, muscle, levers) ═════ */
+.ib-model .an-bone{fill:color-mix(in srgb,var(--gold) 34%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-marrow{fill:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-capsule{fill:none;stroke:var(--c2);stroke-width:3;stroke-dasharray:6 4}
+.ib-model .an-cart{fill:color-mix(in srgb,var(--c2) 46%,var(--surface));stroke:var(--c2);stroke-width:1.4}
+.ib-model .an-cavity{fill:color-mix(in srgb,var(--green) 26%,var(--surface));stroke:var(--green);stroke-width:1.2}
+.ib-model .an-lig{stroke:var(--c0);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-bursa{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green);stroke-width:1.4}
+.ib-model .an-jc{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-jcball{fill:color-mix(in srgb,var(--c2) 46%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-osteo{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:2}
+.ib-model .an-lam{fill:none;stroke:var(--gold);stroke-width:1.6;opacity:.75}
+.ib-model .an-cartbox{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-chondro{fill:color-mix(in srgb,var(--c2) 50%,var(--surface));stroke:var(--c2);stroke-width:1.4}
+.ib-model .an-tendbox{fill:color-mix(in srgb,var(--c0) 18%,var(--surface));stroke:var(--c0);stroke-width:1.6}
+.ib-model .an-colla{stroke:var(--c0);stroke-width:3;stroke-linecap:round}
+.ib-model .an-fib-i{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.7}
+.ib-model .an-fib-ii{fill:color-mix(in srgb,var(--c1) 40%,var(--surface));stroke:var(--c1);stroke-width:1.7}
+.ib-model .an-fib-ix{fill:color-mix(in srgb,var(--c2) 38%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-fib-off{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.4;stroke-dasharray:4 3}
+.ib-model .an-mito{fill:var(--green);opacity:.9}
+.ib-model .an-mito.off{fill:color-mix(in srgb,var(--text) 22%,var(--surface));opacity:.6}
+.ib-model .an-actin{stroke:var(--c2);stroke-width:2;stroke-linecap:round}
+.ib-model .an-myosin{fill:color-mix(in srgb,var(--c0) 50%,var(--surface));stroke:var(--c0);stroke-width:1.4}
+.ib-model .an-zline{stroke:var(--text);stroke-width:2.6;stroke-linecap:round}
+.ib-model .an-arm{stroke:var(--text);stroke-width:5;stroke-linecap:round}
+.ib-model .an-eff{stroke:var(--c2);stroke-width:3;stroke-linecap:round;fill:none}
+.ib-model .an-load{fill:color-mix(in srgb,var(--c0) 40%,var(--surface));stroke:var(--c0);stroke-width:1.4}
+.ib-model .an-effdot{fill:var(--c2)}
+.ib-model .an-fulcrum2{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-comdot{fill:var(--c0);stroke:var(--surface);stroke-width:2}
+.ib-model .an-base{fill:color-mix(in srgb,var(--text) 24%,var(--surface))}
+.ib-model .an-block{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-arrow2{stroke:var(--text);stroke-width:2.6;fill:none;stroke-linecap:round}
+.ib-model .an-arc{fill:none;stroke:var(--text3);stroke-width:8;stroke-linecap:round;opacity:.45}
+.ib-model .an-arcused{fill:none;stroke:var(--c0);stroke-width:8;stroke-linecap:round}
+.ib-model .an-meas{stroke:var(--c2);stroke-width:1.8;stroke-dasharray:4 3}
+.ib-model .an-meas2{stroke:var(--text3);stroke-width:1.4;fill:none}
+.ib-model .an-bench{fill:color-mix(in srgb,var(--text) 22%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 14%,var(--surface))}
+.ib-model .an-b-risk{background:var(--c0)}
+
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -691,7 +998,8 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 <div class="ib-modal" id="ibFlashOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibFlashOverlay" aria-label="Close flashcards">×</button><div class="modal-head"><h2 data-en="IB SEHS Flashcards" data-zh="IB SEHS 闪卡">IB SEHS Flashcards</h2><p data-en="Filter by chapter, flip, use arrow keys and shuffle." data-zh="按章节筛选、翻面、使用方向键并打乱顺序。">Filter by chapter, flip, use arrow keys and shuffle.</p></div><div class="flash-toolbar"><div class="filters" id="ibFlashFilters"></div><button class="filter" type="button" id="ibFlashShuffle" data-en="Shuffle" data-zh="打乱">Shuffle</button></div><div class="fc-progress" id="ibFlashProgress"></div><div class="fc-counter" id="ibFlashCounter"></div><div class="flash-card" id="ibFlashCard" role="button" tabindex="0"><div class="flash-inner" id="ibFlashInner"></div></div><div class="flash-status" id="ibFlashStatus"></div><div class="flash-nav"><button class="btn" type="button" id="ibFlashPrev" data-en="Previous" data-zh="上一张">Previous</button><button class="btn primary" type="button" id="ibFlashNext" data-en="Next" data-zh="下一张">Next</button></div></div></div>
 <div class="ib-modal" id="ibAiOverlay" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal-box"><button class="modal-close" type="button" data-close-modal="ibAiOverlay" aria-label="Close study helper">×</button><div class="modal-head"><h2 data-en="IB SEHS Local Study Helper" data-zh="IB SEHS 本地学习助手">IB SEHS Local Study Helper</h2><p data-en="Deterministic explanations from this page's 29-topic data. No network request and no API key." data-zh="基于本页29个主题数据生成确定性解释，不发起网络请求，也不使用API密钥。">Deterministic explanations from this page's 29-topic data. No network request and no API key.</p></div><div class="ai-controls"><select class="select" id="ibAiTopic" aria-label="Select a topic"></select><input class="ai-input" id="ibAiInput" type="text" placeholder="Ask for Explain, Compare, Apply, Justify or Evaluate"></div><div class="ai-thread" id="ibAiThread"></div><div class="modal-actions"><button class="btn primary" type="button" id="ibAiSend" data-en="Explain" data-zh="解释">Explain</button></div><div class="ai-suggestions" id="ibAiSuggestions"></div></div></div>
 
-<script src="ib-sehs-models.js?v=8" defer></script>
-<script src="ib-sehs-course.js?v=15" defer></script>
+<script src="ib-sehs-cornell.js?v=1" defer></script>
+<script src="ib-sehs-models.js?v=9" defer></script>
+<script src="ib-sehs-course.js?v=16" defer></script>
 </body>
 </html>

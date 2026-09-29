@@ -14,7 +14,7 @@
      · every slider lives inside a <label> so it has an accessible name
      · colours come from theme variables, so dark mode is free
      · if a model throws, the layer puts the static figure back
-   Append-only. Add new keys; never rewrite a shipped one. 60 of 83 sections
+   Append-only. Add new keys; never rewrite a shipped one. 72 of 83 sections
    now carry a model. */
 (function () {
   'use strict';
@@ -3004,6 +3004,86 @@
     return g + '</g>';
   };
 
+  /* ── bones, joints and muscle, added for the biomechanics models ─────── */
+  /* a long bone: shaft with two epiphyses and the marrow cavity */
+  AN.bone = function (x, y, len, thick, cls) {
+    thick = thick || 26;
+    var h = thick / 2, g = '<g class="' + (cls || '') + '">';
+    g += '<rect class="an-bone" x="' + (x - len / 2) + '" y="' + (y - h) + '" width="' + len + '" height="' + thick + '" rx="' + (h * 0.7) + '"/>';
+    g += '<rect class="an-marrow" x="' + (x - len / 2 + 12) + '" y="' + (y - h * 0.42) + '" width="' + (len - 24) + '" height="' + (h * 0.84) + '" rx="' + (h * 0.3) + '"/>';
+    g += '<circle class="an-bone" cx="' + (x - len / 2 + h * 0.7) + '" cy="' + y + '" r="' + (h * 1.5) + '"/>';
+    g += '<circle class="an-bone" cx="' + (x + len / 2 - h * 0.7) + '" cy="' + y + '" r="' + (h * 1.5) + '"/>';
+    return g + '</g>';
+  };
+  /* a synovial joint: two bone ends each capped with articular cartilage, a
+     capsule round them, a cavity with synovial fluid between, ligaments
+     outside (OpenStax 9.4, StatPearls Structure and Function of Joints) */
+  AN.joint = function (x, y, gap, cls) {
+    gap = gap || 22;
+    var g = '<g class="' + (cls || '') + '">';
+    g += '<path class="an-capsule" d="M' + (x - 70) + ' ' + (y - 46) + ' h140 a46 46 0 0 1 0 92 h-140 a46 46 0 0 1 0 -92 z"/>';
+    g += '<rect class="an-bone" x="' + (x - 68) + '" y="' + (y - 44) + '" width="46" height="88" rx="8"/>';
+    g += '<rect class="an-bone" x="' + (x + 22) + '" y="' + (y - 44) + '" width="46" height="88" rx="8"/>';
+    /* the two cartilage caps: separate, not continuous — a Teflon coating */
+    g += '<path class="an-cart" d="M' + (x - 22) + ' ' + (y - 40) + ' q-10 40 0 80 z"/>';
+    g += '<path class="an-cart" d="M' + (x + 22) + ' ' + (y - 40) + ' q10 40 0 80 z"/>';
+    g += '<rect class="an-cavity" x="' + (x - gap / 2) + '" y="' + (y - 34) + '" width="' + gap + '" height="68" rx="' + (gap / 2) + '"/>';
+    g += '<line class="an-lig" x1="' + (x - 66) + '" y1="' + (y - 34) + '" x2="' + (x + 66) + '" y2="' + (y - 34) + '"/>';
+    g += '<line class="an-lig" x1="' + (x - 66) + '" y1="' + (y + 34) + '" x2="' + (x + 66) + '" y2="' + (y + 34) + '"/>';
+    return g + '</g>';
+  };
+  AN.bursa = function (x, y, cls) {
+    return '<g class="' + (cls || '') + '"><ellipse class="an-bursa" cx="' + x + '" cy="' + y + '" rx="13" ry="6"/></g>';
+  };
+  /* a muscle fibre in cross-section-ish with mitochondria */
+  AN.fibre = function (x, y, w, h, kind) {
+    var g = '<rect class="an-fib-' + (kind || 'i') + '" x="' + (x - w / 2) + '" y="' + (y - h / 2) + '" width="' + w + '" height="' + h + '" rx="' + (h / 3) + '"/>';
+    if (kind === 'i') for (var i = 0; i < 9; i++)
+      g += '<circle class="an-mito" cx="' + (x - w / 2 + 8 + (i % 3) * (w - 16) / 2) + '" cy="' + (y - h / 2 + 9 + Math.floor(i / 3) * (h - 18) / 2) + '" r="3.4"/>';
+    if (kind === 'ii') for (var j = 0; j < 4; j++)
+      g += '<circle class="an-mito" cx="' + (x - w / 2 + 12 + j * (w - 24) / 3) + '" cy="' + y + '" r="3"/>';
+    return g + '</g>';
+  };
+  /* one sarcomere: Z-lines, A band (myosin) and I band (actin only). The A
+     band keeps its length while the I band and the H zone shorten. */
+  AN.sarcomere = function (x, y, w, contracted) {
+    contracted = contracted || 0;
+    var inset = w * 0.18 * contracted;
+    var g = '<g>';
+    /* the thin actin filaments from each Z-line, sliding in */
+    for (var i = 0; i < 9; i++) {
+      var ax = x - w / 2 + 6 + i * (w - 12) / 8;
+      g += '<line class="an-actin" x1="' + (x - w / 2 + 2) + '" y1="' + (y - 20 + i * 5) + '" x2="' + (ax + inset) + '" y2="' + (y - 20 + i * 5) + '"/>';
+      g += '<line class="an-actin" x1="' + (x + w / 2 - 2) + '" y1="' + (y - 20 + i * 5) + '" x2="' + (ax - inset) + '" y2="' + (y - 20 + i * 5) + '"/>';
+    }
+    /* the thick myosin filaments in the middle, which never change length */
+    g += '<rect class="an-myosin" x="' + (x - w * 0.26) + '" y="' + (y - 26) + '" width="' + (w * 0.52) + '" height="52" rx="5"/>';
+    g += '<line class="an-zline" x1="' + (x - w / 2) + '" y1="' + (y - 30) + '" x2="' + (x - w / 2) + '" y2="' + (y + 30) + '"/>';
+    g += '<line class="an-zline" x1="' + (x + w / 2) + '" y1="' + (y - 30) + '" x2="' + (x + w / 2) + '" y2="' + (y + 30) + '"/>';
+    return g + '</g>';
+  };
+  /* a lever: effort and load on a rigid bar over a fulcrum */
+  AN.lever = function (x, y, len, fAt, eAt, lAt, up) {
+    var g = '<g>';
+    var F = x - len / 2 + len * fAt, E = x - len / 2 + len * eAt, L = x - len / 2 + len * lAt;
+    var dy = up === false ? 16 : -16;
+    g += '<path class="an-fulcrum2" d="M' + F + ' ' + (y - 4) + ' l-13 30 h26 z"/>';
+    g += '<line class="an-arm" x1="' + (x - len / 2) + '" y1="' + y + '" x2="' + (x + len / 2) + '" y2="' + y + '"/>';
+    g += '<line class="an-eff" x1="' + E + '" y1="' + y + '" x2="' + E + '" y2="' + (y + dy) + '" marker-end="url(#d3arm)"/>';
+    g += '<rect class="an-load" x="' + (L - 11) + '" y="' + (y + (up === false ? 16 : -34)) + '" width="22" height="18" rx="4"/>';
+    g += '<circle class="an-effdot" cx="' + E + '" cy="' + (y + (up === false ? 30 : -32)) + '" r="6"/>';
+    return g + '</g>';
+  };
+  /* a standing figure with its centre of mass and base of support */
+  AN.com = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<circle class="an-body" cx="0" cy="-34" r="11"/>';
+    g += '<path class="an-body" d="M-11 -21 h22 v42 h-22 z"/>';
+    g += '<path class="an-body" d="M-11 -14 l-20 30 M11 -14 l20 30 M-9 21 l-13 40 M9 21 l13 40"/>';
+    return g + '</g>';
+  };
+
   /* ── D1.1 · A.1.1 Neural pathways and coordination ─────────────────────
      The control room and the wires, then the split between the two exits:
      somatic to skeletal muscle, autonomic to everything you cannot choose. */
@@ -3849,6 +3929,580 @@
     $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
       if (i.closest('[data-v=h]')) hrs = Number(i.value); else zones = Number(i.value); draw();
     }); });
+    draw();
+  };
+
+/* ══ batch D3 ══ */
+/* ══ batch D3 · Theme B, part 1 ══════════════════════════════════════════
+   Anatomy and biomechanics: bones, joints, muscle, levers, and the laws. */
+
+  /* ── D3.1 · B.1.1 Skeleton, position and directional terms ─────────────── */
+  MODELS['Skeleton, position and directional terms'] = function (host) {
+    var dir = 'anterior';
+    var D = {
+      superior: ['superior', '近侧／上方', 0, -1], inferior: ['inferior', '远侧／下方', 0, 1],
+      anterior: ['anterior', '前面', 0, -1], posterior: ['posterior', '后面', 0, 1],
+      medial: ['medial', '内侧', -1, 0], lateral: ['lateral', '外侧', 1, 0],
+      proximal: ['proximal', '近端', -1, 0], distal: ['distal', '远端', 1, 0]
+    };
+    function draw() {
+      var d = D[dir];
+      var s = svgWrap(T('Directional and positional terms on a real body', '在真实人体上的方向与位置术语'), 560, 280,
+        AN.head('d3a') +
+        AN.com(150, 168, 1.15) +
+        AN.bone(300, 90, 120, 24) +
+        '<text class="small" x="300" y="128" text-anchor="middle">' + esc(T('femur', '股骨')) + '</text>' +
+        AN.bone(300, 178, 96, 20) +
+        '<text class="small" x="300" y="212" text-anchor="middle">' + esc(T('tibia', '胫骨')) + '</text>' +
+        AN.joint(300, 254, 20) +
+        /* the term being demonstrated, as an arrow on the body */
+        '<path class="an-arrow2" d="M' + (150 + d[2] * 46) + ' ' + (168 + d[3] * 46) +
+        ' l' + (d[2] * 30) + ' ' + (d[3] * 30) + '" marker-end="url(#d3a)"/>' +
+        '<circle class="an-comdot" cx="150" cy="168" r="6"/>' +
+        '<text class="small" x="150" y="278" text-anchor="middle" class="an-lab-neg">' +
+        esc(T(d[1] === '近侧／上方' ? d[0] : d[1], d[1])) + '</text>' +
+        '<text class="small" x="420" y="80" class="an-lab-pos">' + esc(T('reference point is the anatomical position', '参照点是解剖学标准位')) + '</text>' +
+        '<text class="small" x="420" y="104">' + esc(T('every term is a pair', '每个术语都成对出现')) + '</text>' +
+        '<text class="small" x="420" y="128">' + esc(T('superior / inferior', '近侧／远侧')) + '</text>' +
+        '<text class="small" x="420" y="152">' + esc(T('anterior / posterior', '前侧／后侧')) + '</text>' +
+        '<text class="small" x="420" y="176">' + esc(T('medial / lateral', '内侧／外侧')) + '</text>' +
+        '<text class="small" x="420" y="200">' + esc(T('proximal / distal — for limbs', '近端／远端 —— 用于四肢')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which term is being shown?', '正在演示的是哪个术语？')) + '</div>' +
+        tools([['superior', T('Superior', '近侧')], ['inferior', T('Inferior', '远侧')],
+        ['anterior', T('Anterior', '前侧')], ['posterior', T('Posterior', '后侧')],
+        ['medial', T('Medial', '内侧')], ['lateral', T('Lateral', '外侧')],
+        ['proximal', T('Proximal', '近端')], ['distal', T('Distal', '远端')]], dir) +
+        apanel('main', T('Words that need a fixed starting point', '需要固定参照点的词'), T('Relative to the anatomical position, not to you', '相对于解剖学标准位，而不是相对于你'), s,
+          lg('an-l-car', T('bone', '骨')) + lg('an-l-pos', T('the term in use', '当前术语'))) +
+        '<div class="kv-callout"></div>' +
+        note('Directional terms are all relative, and all of them assume the anatomical position: standing, facing forward, arms at the sides, palms forward. Superior and inferior mean toward the head and toward the feet. Anterior and posterior mean front and back. Medial and lateral mean toward the midline and away from it — a term reserved for limbs, because the midline only exists in the trunk. Proximal and distal are also limb terms: toward the trunk and away from it.',
+          '方向术语都是相对的，且都以解剖学标准位为前提：站立、面向前方、双臂自然下垂、掌心向前。近侧与远侧指靠近头侧或靠近足侧；前侧与后侧指前面和后面；内侧与外侧指靠近或远离正中线——这一对只用于四肢，因为正中线只存在于躯干。近端与远端同样只用于四肢：指靠近躯干或远离躯干。');
+      outs(host, '.kv-callout', dir === 'proximal' || dir === 'distal'
+        ? T('Proximal and distal are limb-only words. On the trunk you would say superior and inferior instead.',
+          '近端和远端只用于四肢。在躯干上应改用近侧和远侧。')
+        : T('Correct — and note that it is only meaningful because everyone agreed a starting position first.',
+          '正确——而且请注意，这个词之所以有意义，只是因为大家先约定了一个起始姿势。'));
+      marks(host, '.kv-tools', dir);
+    }
+    wire(host, '.kv-tools', function (v) { dir = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.2 · B.1.2 Connective tissues and articulations ─────────────────── */
+  MODELS['Connective tissues and articulations'] = function (host) {
+    var T4 = [
+      { id: 'bone', en: 'Bone', zh: '骨', cls: 'bone', job: T('Rigid, resists compression, and remodels itself throughout life.', '坚硬、抗压缩，并在终生中不断重塑。'), jobZh: '坚硬、抗压缩，并在终生中不断重塑。' },
+      { id: 'cart', en: 'Hyaline cartilage', zh: '透明软骨', cls: 'cart', job: T('Smooth, low-friction, and it has no blood supply of its own — it is fed by the synovial fluid.', '光滑、低摩擦，本身没有血供，靠滑液营养。'), jobZh: '光滑、低摩擦，本身没有血供，靠滑液营养。' },
+      { id: 'tend', en: 'Tendon', zh: '肌腱', cls: 'tend', job: T('Attaches muscle to bone; very strong in tension, poor in compression.', '连接肌肉与骨；抗拉极强，抗压很差。'), jobZh: '连接肌肉与骨；抗拉极强，抗压很差。' },
+      { id: 'lig', en: 'Ligament', zh: '韧带', cls: 'lig', job: T('Bone to bone. It is what stops a joint going too far.', '骨与骨之间；正是它阻止关节过度活动。'), jobZh: '骨与骨之间；正是它阻止关节过度活动。' }
+    ];
+    var sel = 'tend';
+    function draw() {
+      var s = svgWrap(T('The four connective tissues, drawn', '四种结缔组织'), 560, 250,
+        AN.head('d3b') +
+        /* bone: an osteon with concentric lamellae and a central canal */
+        '<circle class="an-osteo" cx="100" cy="104" r="46"/>' +
+        '<circle class="an-canal" cx="100" cy="104" r="7"/>' +
+        '<circle class="an-lam" cx="100" cy="104" r="18"/><circle class="an-lam" cx="100" cy="104" r="30"/><circle class="an-lam" cx="100" cy="104" r="40"/>' +
+        /* cartilage: chondrocytes in a matrix */
+        '<rect class="an-cartbox" x="196" y="58" width="92" height="92" rx="10"/>' +
+        [[216, 80], [252, 76], [232, 108], [268, 112], [212, 128], [252, 134]].map(function (p) {
+          return '<circle class="an-chondro" cx="' + p[0] + '" cy="' + p[1] + '" r="7"/>';
+        }).join('') +
+        /* tendon: dense parallel collagen */
+        '<rect class="an-tendbox" x="336" y="58" width="92" height="92" rx="10"/>' +
+        [0, 1, 2, 3, 4].map(function (i) {
+          return '<line class="an-colla" x1="342" y1="' + (68 + i * 18) + '" x2="422" y2="' + (68 + i * 18) + '"/>';
+        }).join('') +
+        /* ligament: the same collagen, but a fan between two bone stubs */
+        '<rect class="an-bone" x="462" y="62" width="30" height="36" rx="6"/>' +
+        '<rect class="an-bone" x="462" y="150" width="30" height="36" rx="6"/>' +
+        [0, 1, 2].map(function (i) {
+          return '<line class="an-colla" x1="468" y1="' + (96 + i * 4) + '" x2="506" y2="' + (140 + i * 6) + '"/>';
+        }).join('') +
+        '<text class="small" x="100" y="172" text-anchor="middle">' + esc(T('bone', '骨')) + '</text>' +
+        '<text class="small" x="242" y="172" text-anchor="middle">' + esc(T('cartilage', '软骨')) + '</text>' +
+        '<text class="small" x="382" y="172" text-anchor="middle">' + esc(T('tendon', '肌腱')) + '</text>' +
+        '<text class="small" x="490" y="208" text-anchor="middle">' + esc(T('ligament', '韧带')) + '</text>' +
+        '<text class="small" x="100" y="216" class="an-lab-neg">' + esc(T('osteon', '骨单位')) + '</text>' +
+        '<text class="small" x="100" y="234">' + esc(T('concentric lamellae', '同心骨板')) + '</text>' +
+        '<text class="small" x="242" y="216" class="an-lab-neg">' + esc(T('chondrocytes', '软骨细胞')) + '</text>' +
+        '<text class="small" x="242" y="234">' + esc(T('in a matrix', '位于基质中')) + '</text>' +
+        '<text class="small" x="382" y="216" class="an-lab-neg">' + esc(T('parallel collagen', '平行胶原')) + '</text>' +
+        '<text class="small" x="382" y="234">' + esc(T('tension only', '只抗拉')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which one?', '哪一种？')) + '</div>' +
+        tools(T4.map(function (x) { return [x.id, T(x.en, x.zh)]; }), sel) +
+        apanel('main', T('Same building material, different jobs', '同一种建材，不同的用途'), T('Collagen is the common thread; how it is arranged decides the job', '共同点是胶原蛋白；排列方式决定用途'), s,
+          lg('an-l-car', T('bone', '骨')) + lg('an-l-fat', T('cartilage', '软骨')) +
+          lg('an-l-prot', T('tendon / ligament', '肌腱／韧带'))) +
+        '<div class="kv-callout"></div>' +
+        note('Bone is collagen mineralised with calcium salts: hard, and it resists compression. Tendons and ligaments are dense regular collagen, almost no matrix, and they work only in tension — which is why a tendon graft is used to rebuild a ligament, and why neither does well being squashed. Hyaline cartilage is a smooth matrix with chondrocytes sitting in it, it has no blood vessels of its own, and it is fed by the synovial fluid. That is convenient for a frictionless surface and terrible for healing, because a cartilage repair has no supply line.',
+          '骨是钙盐矿化的胶原蛋白：坚硬，抗压缩。肌腱与韧带是致密规则排列的胶原，几乎没有基质，只在受拉时工作——所以重建韧带常用肌腱移植物，也正因如此两者都不耐受挤压。透明软骨是含软骨细胞的基质，本身没有血供，由滑液供养。这对形成光滑低摩擦面很方便，却极不利于修复，因为软骨没有补给线。');
+      var t = T4.filter(function (x) { return x.id === sel; })[0];
+      outs(host, '.kv-callout', T(t.en + '. ' + t.job, t.zh + '。' + t.jobZh));
+      marks(host, '.kv-tools', sel);
+    }
+    wire(host, '.kv-tools', function (v) { sel = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.3 · B.1.2 Synovial structure and joint classes ───────────────── */
+  MODELS['Synovial structure and joint classes'] = function (host) {
+    var jc = 'hinge';
+    function draw() {
+      var s = svgWrap(T('Inside a synovial joint, and the six joint classes', '滑膜关节的内部与六种关节类型'), 560, 260,
+        AN.head('d3c') +
+        AN.joint(126, 110, 24) +
+        AN.bursa(126, 210) +
+        '<text class="small" x="126" y="26" text-anchor="middle" class="an-lab-neg">' + esc(T('synovial joint, cut open', '滑膜关节剖面')) + '</text>' +
+        '<text class="small" x="126" y="240" text-anchor="middle">' + esc(T('bursa', '滑囊')) + '</text>' +
+        '<line class="an-lead2" x1="60" y1="70" x2="14" y2="48"/><text class="small" x="14" y="42">' + esc(T('capsule', '关节囊')) + '</text>' +
+        '<line class="an-lead2" x1="60" y1="112" x2="14" y2="106"/><text class="small" x="14" y="102">' + esc(T('cartilage', '软骨')) + '</text>' +
+        '<line class="an-lead2" x1="126" y1="150" x2="126" y2="170"/><text class="small" x="126" y="182" text-anchor="middle">' + esc(T('synovial fluid', '滑液')) + '</text>' +
+        '<line class="an-lead2" x1="60" y1="146" x2="14" y2="164"/><text class="small" x="14" y="180">' + esc(T('ligament', '韧带')) + '</text>' +
+        /* the joint classes, each drawn as its own little joint */
+        '<g transform="translate(300 76)"><path class="an-jc" d="M-40 12 h22 v-30 h16 v60 h-16 v-30 h-22 z"/>' +
+        '<text class="small" x="-14" y="64" text-anchor="middle">' + esc(T('hinge · knee', '铰链 · 膝')) + '</text></g>' +
+        '<g transform="translate(430 76)"><circle class="an-jcball" cx="0" cy="-4" r="18"/><path class="an-jc" d="M-26 16 h52 v22 h-52 z"/>' +
+        '<text class="small" x="0" y="64" text-anchor="middle">' + esc(T('ball · shoulder', '球窝 · 肩')) + '</text></g>' +
+        '<g transform="translate(300 176)"><rect class="an-jc" x="-34" y="-6" width="68" height="16" rx="8"/>' +
+        '<circle class="an-jcball" cx="0" cy="2" r="9"/>' +
+        '<text class="small" x="0" y="46" text-anchor="middle">' + esc(T('pivot · neck', '枢轴 · 颈')) + '</text></g>' +
+        '<g transform="translate(430 176)"><path class="an-jc" d="M-34 -14 q34 16 68 0 v14 q-34 16 -68 0 z"/>' +
+        '<text class="small" x="0" y="46" text-anchor="middle">' + esc(T('saddle · thumb', '鞍状 · 拇指')) + '</text></g>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which joint class?', '哪一种关节类型？')) + '</div>' +
+        tools([['hinge', T('Hinge — one axis', '铰链 · 单轴')], ['ball', T('Ball and socket — all directions', '球窝 · 多轴')],
+        ['pivot', T('Pivot — rotation only', '枢轴 · 只旋转')], ['saddle', T('Saddle — two axes', '鞍状 · 双轴')],
+        ['condyloid', T('Condyloid — two axes, elliptical', '椭圆 · 双轴')]], jc) +
+        apanel('main', T('What makes it a synovial joint', '什么使它成为滑膜关节'), T('A cavity, a capsule, cartilage caps and fluid — the bones never touch', '有关节腔、关节囊、软骨面与滑液——骨与骨从不直接接触'), s,
+          lg('an-l-car', T('bone', '骨')) + lg('an-l-fat', T('articular cartilage', '关节软骨')) +
+          lg('an-l-neg', T('joint cavity + fluid', '关节腔与滑液'))) +
+        '<div class="kv-callout"></div>' +
+        note('A synovial joint is defined by a cavity. The bones are covered by a thin layer of hyaline cartilage that is deliberately not continuous between them — it behaves like a Teflon coating, letting the surfaces slide without ever damaging the bone beneath. A fibrous capsule wraps the joint, its inner lining secretes synovial fluid, and ligaments hold the bones together and stop the joint going too far. Outside the capsule, bursae are small fluid-filled sacs that stop skin, tendon or muscle rubbing on bone. The class of joint is decided by how many axes it moves around: hinge one, condyloid and saddle two, ball-and-socket three, pivot one but rotational.',
+          '滑膜关节的定义特征是关节腔。两骨表面覆盖一层薄薄的透明软骨，且两者并不连续——它像一层不粘涂层，让骨面彼此滑动而不损伤下面的骨。纤维关节囊包裹关节，其内膜分泌滑液，韧带把骨固定在一起并阻止关节过度活动。关节囊之外还有滑囊，是充满液体的小囊，使皮肤、肌腱或肌肉不与骨直接摩擦。关节类型由可活动的轴数决定：铰链一轴，椭圆与鞍状两轴，球窝三轴，枢轴虽为一轴但为旋转。');
+      outs(host, '.kv-callout', jc === 'hinge'
+        ? T('One axis, like a door hinge. The knee and the elbow are the clearest examples, and both also rely on the capsule and ligaments to stop them bending the wrong way.',
+          '只有一个轴，像门铰链。膝和肘是最典型的例子，而它们还依赖关节囊与韧带来防止反向弯曲。')
+        : jc === 'ball'
+          ? T('Three axes, so it can do everything: flex, extend, abduct, adduct and rotate. The shoulder is the most mobile joint in the body — and the least stable.',
+            '三个轴，因此什么动作都能做：屈、伸、外展、内收和旋转。肩是人体活动度最大的关节——也是最不稳定的。')
+          : jc === 'pivot'
+            ? T('One axis only, but it is rotation rather than bending. The neck turns on this arrangement.',
+              '只有一个轴，但它是旋转而非屈伸。颈部正是靠这种结构完成转动。')
+            : jc === 'saddle'
+              ? T('Two axes, and each surface is concave one way and convex the other. It gives the thumb its opposition.',
+                '两个轴，且两个面各自在一个方向凹、另一个方向凸。正是它让拇指能对掌。')
+              : T('Two axes with elliptical surfaces, so movement is flexion, extension, abduction and adduction but no rotation. The wrist is the example.',
+                '两个轴、椭圆形关节面，因此可屈伸、外展和内收，但不能旋转。腕关节是典型例子。'));
+      marks(host, '.kv-tools', jc);
+    }
+    wire(host, '.kv-tools', function (v) { jc = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.4 · B.1.3 Motor units and fibre types ─────────────────────────── */
+  MODELS['Motor units and fibre types'] = function (host) {
+    var effort = 30;
+    var F = [
+      { id: 'i', n: 'I', en: 'Type I · slow oxidative', zh: 'I 型 · 慢缩氧化', d: T('slow, very fatigue-resistant, lots of mitochondria', '慢，极耐疲劳，线粒体多'), dz: '慢，极耐疲劳，线粒体多' },
+      { id: 'ii', n: 'IIa', en: 'Type IIa · fast oxidative-glycolytic', zh: 'IIa 型 · 快缩氧化糖酵解', d: T('fast, moderately fatigue-resistant', '快，中等耐疲劳'), dz: '快，中等耐疲劳' },
+      { id: 'ix', n: 'IIx', en: 'Type IIx · fast glycolytic', zh: 'IIx 型 · 快缩糖酵解', d: T('fast, powerful, fatigues quickly', '快，爆发力强，很快疲劳'), dz: '快，爆发力强，很快疲劳' }
+    ];
+    function draw() {
+      /* Henneman's size principle: slow units recruited first */
+      var rec = effort < 34 ? ['i', 'i', 'i', 'ii', 'ix'] : effort < 67 ? ['i', 'i', 'ii', 'ii', 'ix'] : ['i', 'ii', 'ii', 'ix', 'ix'];
+      var on = { i: 0, ii: 0, ix: 0 };
+      rec.forEach(function (k) { on[k] = 1; });
+      var s = svgWrap(T('A motor unit, and the three fibre types', '一个运动单位与三种肌纤维'), 560, 270,
+        AN.head('d3d') +
+        /* the alpha motor neuron in the cord, with its axon out to the fibres */
+        AN.cord(70, 150, 34) + AN.canal(70, 150, 34) +
+        AN.axon(104, 150, 196, 90, 'on') +
+        F.map(function (f, i) {
+          var y = 76 + i * 62, live = on[f.id];
+          return AN.axon(196, 90, 232, y, live ? 'on' : '') +
+            AN.fibre(300, y, 128, 40, live ? f.id : 'off') +
+            '<text class="small" x="378" y="' + (y - 12) + '" class="' + (live ? 'an-lab-neg' : '') + '">' + esc(T(f.n, f.n)) + '</text>' +
+            '<text class="small" x="378" y="' + (y + 6) + '">' + esc(T(f.d, f.dz)) + '</text>';
+        }).join('') +
+        '<text class="small" x="70" y="206" text-anchor="middle">' + esc(T('α motor neuron', 'α 运动神经元')) + '</text>' +
+        '<text class="small" x="300" y="248" text-anchor="middle" class="an-lab-neg">' + esc(T('one neuron, many fibres — that is the unit', '一个神经元、多条肌纤维——这就是运动单位')) + '</text>' +
+        '<text class="small" x="300" y="266" text-anchor="middle">' + esc(T('dark = lots of mitochondria, fatigue-resistant', '深色 = 线粒体多，耐疲劳')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="e"><span class="ibm-q">' + esc(T('How much force is being asked for?', '要求产生多大的力？')) +
+        ' <b class="kv-v"></b></span><input type="range" min="5" max="100" step="1" value="' + effort + '"></label>' +
+        apanel('main', T('Recruitment follows size, not effort', '募集遵循尺寸，而非意愿'), T('Small slow units first, large fast units only when you really need them', '先小而慢的单位，只有真的需要时才动用大而快的单位'), s,
+          lg('an-l-car', T('recruited', '已募集')) + lg('an-l-off', T('still in reserve', '仍在储备中'))) +
+        '<div class="kv-callout"></div>' +
+        note('A motor unit is one α motor neuron plus every muscle fibre it supplies — and all the fibres in a unit are the same type. Type I fibres are slow, rich in mitochondria and extremely fatigue-resistant: they carry your posture and your long steady efforts. Type IIa are fast and moderately fatigue-resistant. Type IIx are fast, powerful and fatigue quickly. Recruitment follows Henneman’s size principle: small, slow motor neurons reach threshold first, so light loads use only type I, and only genuinely heavy or fast work recruits type IIx.',
+          '一个运动单位＝一个 α 运动神经元加上它支配的所有肌纤维，且同一单位内各纤维类型相同。I 型纤维慢、线粒体丰富、极耐疲劳，负责姿势与长时间稳定输出；IIa 型快，中等耐疲劳；IIx 型快、力量大、很快疲劳。募集遵循 Henneman 尺寸原理：小而慢的运动神经元先达阈电位，因此轻负荷只用 I 型，只有真正的大负荷或高速工作才会募集 IIx。');
+      setv(host, 'e', '.kv-v', effort + '%');
+      outs(host, '.kv-callout', effort < 34
+        ? T('Light load: only type I units are recruited. You can hold this for hours because it barely costs you anything.',
+          '轻负荷：只募集 I 型单位。因为几乎不消耗什么，你可以维持数小时。')
+        : effort < 67
+          ? T('Type IIa joins in. More force, more speed, and a real energy cost now.',
+            'IIa 型加入。力量和速度都上来了，能量代价也开始显现。')
+          : T('Type IIx recruited. Roughly ten times the power of a slow fibre — and the reason you cannot hold it.',
+            'IIx 型被募集。功率约为慢肌纤维的十倍——这也正是你无法持续的原因。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { effort = Number(i.value); draw(); }); });
+    draw();
+  };
+
+  /* ── D3.5 · B.1.3 Contractions and muscle interaction ──────────────────── */
+  MODELS['Contractions and muscle interaction'] = function (host) {
+    var mode = 'concentric';
+    function draw() {
+      var s = svgWrap(T('Three ways a muscle can work', '肌肉工作的三种方式'), 560, 250,
+        AN.head('d3e') +
+        /* the same sarcomere drawn three ways */
+        AN.sarcomere(90, 92, 148, mode === 'concentric' ? 1 : 0) +
+        '<text class="small" x="90" y="150" text-anchor="middle" class="' + (mode === 'concentric' ? 'an-lab-neg' : '') + '">' + esc(T('concentric · shortens', '向心 · 缩短')) + '</text>' +
+        AN.sarcomere(296, 92, 148, 0) +
+        '<text class="small" x="296" y="150" text-anchor="middle" class="' + (mode === 'isometric' ? 'an-lab-neg' : '') + '">' + esc(T('isometric · unchanged', '等长 · 长度不变')) + '</text>' +
+        AN.sarcomere(502, 92, 148, -1) +
+        '<text class="small" x="502" y="150" text-anchor="middle" class="' + (mode === 'eccentric' ? 'an-lab-neg' : '') + '">' + esc(T('eccentric · lengthens', '离心 · 被拉长')) + '</text>' +
+        /* the two-muscle interaction */
+        '<rect class="an-muscle" x="30" y="186" width="150" height="38" rx="14" id="ag"/>' +
+        '<rect class="an-muscle" x="220" y="186" width="150" height="38" rx="14" id="ant"/>' +
+        '<text class="small" x="105" y="240" text-anchor="middle">' + esc(T('agonist', '主动肌')) + '</text>' +
+        '<text class="small" x="295" y="240" text-anchor="middle">' + esc(T('antagonist', '拮抗肌')) + '</text>' +
+        '<text class="small" x="200" y="212" text-anchor="middle" class="an-lab-pos">' + esc(T('oppose', '对抗')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which contraction?', '哪一种收缩？')) + '</div>' +
+        tools([['concentric', T('Concentric — muscle shortens', '向心 · 肌肉缩短')],
+        ['isometric', T('Isometric — length unchanged', '等长 · 长度不变')],
+        ['eccentric', T('Eccentric — muscle is lengthened', '离心 · 肌肉被拉长')]], mode) +
+        apanel('main', T('Same filaments, three different jobs', '同样的肌丝，三种不同的工作'), T('The A band never changes length; the I band and H zone do', 'A 带长度始终不变；I 带和 H 区会变'), s,
+          lg('an-l-car', T('actin — thin', '肌动蛋白 · 细')) + lg('an-l-fat', T('myosin — thick', '肌球蛋白 · 粗')) +
+          lg('an-l-pos', T('Z-lines', 'Z 线'))) +
+        '<div class="kv-callout"></div>' +
+        note('Concentric: the muscle shortens as it works, and that is what happens when you lift, push or sprint. Isometric: tension is produced but length does not change — holding a plank, or the stabilising work every joint does while something else moves. Eccentric: the muscle is lengthened while resisting, as when you lower a weight or land from a jump. Eccentric contractions produce the most force and cause the most damage, which is why they matter in rehab. Muscles work in pairs: the agonist moves the joint, the antagonist opposes it, and reciprocal inhibition lets one relax while the other contracts.',
+          '向心：肌肉在工作中缩短，提、推、冲刺时即是此型。等长：产生张力但长度不变，如平板支撑，或其他部位运动时关节稳定肌的工作。离心：肌肉被拉长的同时进行抵抗，如下放重物或落地缓冲。离心收缩产生的力量最大、造成的损伤也最多，因此在康复中格外重要。肌肉成对工作：主动肌使关节运动，拮抗肌与之对抗，而交互抑制让一方收缩时另一方放松。');
+      outs(host, '.kv-callout', mode === 'concentric'
+        ? T('The actin and myosin slide towards each other and the sarcomere gets shorter. This is the shortening you see in a biceps curl.',
+          '肌动蛋白与肌球蛋白相互滑近，肌节变短。这正是二头肌弯举时看到的缩短。')
+        : mode === 'isometric'
+          ? T('Cross-bridges still form and still pull — they just cannot shorten the muscle because something is holding it. Think of the plank, not of the lift.',
+            '横桥仍然形成、仍然拉动，只是有东西在对抗，肌肉无法缩短。想到平板支撑，而不是举重。')
+          : T('The muscle is being pulled longer while it pulls back. It generates the highest force of the three and it is also the most injury-prone.',
+            '肌肉在被拉长的同时反向发力。它产生三者中最大的力量，也最容易受伤。'));
+      marks(host, '.kv-tools', mode);
+    }
+    wire(host, '.kv-tools', function (v) { mode = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.6 · B.1.3 Recruitment, adaptations and sliding filament ────────── */
+  MODELS['Recruitment, adaptations and sliding filament'] = function (host) {
+    var w = 0;
+    function draw() {
+      var slid = clamp(w / 100, 0, 1);
+      var s = svgWrap(T('Sliding filament, and what training changes', '肌丝滑动，以及训练改变了什么'), 560, 250,
+        AN.head('d3f') +
+        '<g>' + AN.sarcomere(180, 108, 240, slid) + '</g>' +
+        '<text class="small" x="180" y="166" text-anchor="middle" class="an-lab-neg">' + esc(T('A band never changes · I band shortens', 'A 带不变 · I 带缩短')) + '</text>' +
+        /* what actually changes with training */
+        '<rect class="an-fib-i" x="330" y="72" width="180" height="52" rx="18"/>' +
+        [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) {
+          return '<circle class="an-mito' + (i < Math.round(8 * (0.4 + slid * 0.6)) ? '' : ' off') + '" cx="' + (346 + i * 21) + '" cy="98" r="6"/>';
+        }).join('') +
+        '<text class="small" x="420" y="146" text-anchor="middle">' + esc(T('more myofibrils → bigger fibre', '肌原纤维增多 → 肌纤维增粗')) + '</text>' +
+        '<rect class="an-cap" x="330" y="166" width="180" height="40" rx="16"/>' +
+        [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) {
+          return '<circle class="an-mito' + (i < Math.round(8 * (0.4 + slid * 0.6)) ? '' : ' off') + '" cx="' + (346 + i * 21) + '" cy="186" r="5"/>';
+        }).join('') +
+        '<text class="small" x="420" y="228" text-anchor="middle">' + esc(T('more mitochondria → more fatigue-resistant', '线粒体增多 → 更耐疲劳')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="w"><span class="ibm-q">' + esc(T('Contraction strength', '收缩强度')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="100" step="1" value="' + w + '"></label>' +
+        apanel('main', T('The filaments slide; they do not shorten', '肌丝是滑动，不是变短'), T('Training changes the amount of contractile material, not the filaments themselves', '训练改变的是收缩物质的数量，而不是肌丝本身'), s,
+          lg('an-l-car', T('actin', '肌动蛋白')) + lg('an-l-fat', T('myosin', '肌球蛋白')) +
+          lg('an-l-neg', T('mitochondria', '线粒体'))) +
+        '<div class="kv-callout"></div>' +
+        note('The sliding filament mechanism: the myosin heads bind actin, pivot to pull it towards the centre of the sarcomere, release, and re-cock. The filaments themselves never shorten — the A band stays exactly the same length while the I band and the H zone close up and the Z-lines are drawn together. The adaptation is separate and happens over weeks: training increases the number of myofibrils, so the fibre gets bigger (hypertrophy), and it raises mitochondrial density and myosin content. The direction of change depends on the training — endurance work pushes the fibre towards oxidative, heavy work towards glycolytic.',
+          '肌丝滑动机制：肌球蛋白头部与肌动蛋白结合，旋转将肌动蛋白拉向肌节中心，然后松开并重新上膛。肌丝本身从不缩短——A 带长度完全不变，而 I 带和 H 区收窄，Z 线被拉近。适应是另一回事，发生在数周尺度上：训练使肌原纤维数量增加，肌纤维因而增粗（肌肥大），并提高线粒体密度与肌球蛋白含量。变化方向取决于训练内容——耐力训练把肌纤维推向氧化型，大负荷训练推向糖酵解型。');
+      setv(host, 'w', '.kv-v', w + '%');
+      outs(host, '.kv-callout', w < 34
+        ? T('Barely contracted. The sarcomere is long, the overlap between thick and thin filaments is small, and the fibre is still mostly oxidative.',
+          '几乎未收缩。肌节较长，粗细肌丝重叠少，肌纤维仍以氧化型为主。')
+        : w < 67
+          ? T('Mid-contraction. Z-lines have been pulled in and the I band is visibly narrower.',
+            '中等收缩。Z 线已被拉近，I 带明显变窄。')
+          : T('Full contraction. Maximum overlap, minimum sarcomere length — and the point where tendon and connective tissue are taking the most strain.',
+            '完全收缩。重叠最大、肌节最短——也正是在这个位置，肌腱与结缔组织承受的牵拉最大。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { w = Number(i.value); draw(); }); });
+    draw();
+  };
+
+  /* ── D3.7 · B.1.4 Components and lever classes ────────────────────────── */
+  MODELS['Components and lever classes'] = function (host) {
+    var cls = '3';
+    function draw() {
+      var body = {
+        '1': T('first class · fulcrum in the middle — the neck', '第一类 · 支点在中间 —— 颈部'),
+        '2': T('second class · load in the middle — rising on the toes', '第二类 · 阻力在中间 —— 踮脚'),
+        '3': T('third class · effort in the middle — the biceps', '第三类 · 动力在中间 —— 肱二头肌')
+      };
+      var s = svgWrap(T('The three lever classes', '三类杠杆'), 560, 250,
+        '<defs><marker id="d3arm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="an-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>' +
+        AN.lever(120, 96, 170, 0.5, 0.9, 0.1) +
+        '<text class="small" x="120" y="182" text-anchor="middle" class="' + (cls === '1' ? 'an-lab-neg' : '') + '">' + esc(T('1st class', '第一类')) + '</text>' +
+        AN.lever(300, 96, 170, 0.2, 0.5, 0.9) +
+        '<text class="small" x="300" y="182" text-anchor="middle" class="' + (cls === '2' ? 'an-lab-neg' : '') + '">' + esc(T('2nd class', '第二类')) + '</text>' +
+        AN.lever(480, 96, 170, 0.2, 0.5, 0.9) +
+        '<text class="small" x="480" y="182" text-anchor="middle" class="' + (cls === '3' ? 'an-lab-neg' : '') + '">' + esc(T('3rd class', '第三类')) + '</text>' +
+        '<text class="small" x="120" y="44" text-anchor="middle">' + esc(T('fulcrum', '支点')) + '</text>' +
+        '<text class="small" x="300" y="44" text-anchor="middle" class="an-lab-pos">' + esc(T('effort', '动力')) + '</text>' +
+        '<text class="small" x="480" y="216" text-anchor="middle">' + esc(T('load', '阻力')) + '</text>' +
+        '<text class="small" x="280" y="240" text-anchor="middle" class="an-lab-neg">' + esc(body[cls]) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which lever class?', '哪一类杠杆？')) + '</div>' +
+        tools([['1', T('First — fulcrum in the middle', '第一类 · 支点在中间')],
+        ['2', T('Second — load in the middle', '第二类 · 阻力在中间')],
+        ['3', T('Third — effort in the middle', '第三类 · 动力在中间')]], cls) +
+        apanel('main', T('Three parts, three arrangements', '三个部件，三种排布'), T('A lever needs a fulcrum, an effort and a load', '杠杆需要支点、动力与阻力'), s,
+          lg('an-l-neg', T('effort', '动力')) + lg('an-l-bad', T('load', '阻力'))) +
+        '<div class="kv-callout"></div>' +
+        note('A lever is a rigid bar turning on a fulcrum. The effort is the force you apply, the load is what you move or resist, and the mechanical advantage is the ratio of the effort arm to the load arm. First class has the fulcrum between effort and load — the neck is the classic example. Second class has the load between fulcrum and effort — rising onto your toes, and the always-second-class wheelbarrow. Third class has the effort in the middle, so the effort arm is always shorter than the load arm, which means third-class levers are always working at a disadvantage and are found where speed and range of movement matter more than force — the biceps lifting a forearm is the standard example.',
+          '杠杆是绕支点转动的硬杆。动力是你施加的力，阻力是你移动或对抗的物体，机械优势是动力臂与阻力臂之比。第一类的支点在动力与阻力之间，颈部是典型例子。第二类的阻力在支点与动力之间，如踮脚和永远属于第二类的独轮车。第三类的动力在中间，因此动力臂总比阻力臂短——也就是说第三类杠杆永远处于劣势，多见于更看重速度与活动范围而非力量的地方，屈肘抬起前臂的肱二头肌就是标准例子。');
+      outs(host, '.kv-callout', cls === '3'
+        ? T('Third class always trades force for speed and range. That is the right trade for a limb that has to move quickly through a large arc.',
+          '第三类总是以力量换取速度与活动范围。对需要快速大幅度摆动的肢体来说，这正是合适的取舍。')
+        : cls === '2'
+          ? T('Second class always has the advantage: the load arm is longer than the effort arm, so the effort needed is less than the load. This is why a wheelbarrow is a second-class lever.',
+            '第二类总是占优势：阻力臂长于动力臂，因此所需动力小于阻力。独轮车属于第二类杠杆，正是这个原因。')
+          : T('First class can give advantage or disadvantage depending on where the load sits. The head balancing on the neck is the body’s most delicate example.',
+            '第一类可能占优也可能吃亏，取决于阻力所在的位置。头部在颈部上的平衡，是人体最精密的例子。'));
+      marks(host, '.kv-tools', cls);
+    }
+    wire(host, '.kv-tools', function (v) { cls = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.8 · B.1.4 Mechanical advantage and equipment ───────────────────── */
+  MODELS['Mechanical advantage and equipment'] = function (host) {
+    var la = 20, ea = 100;
+    function draw() {
+      var ma = ea / la;
+      var s = svgWrap(T('Mechanical advantage from the arm lengths', '由力臂长度决定的机械优势'), 560, 250,
+        '<defs><marker id="d3arm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="an-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>' +
+        AN.lever(280, 110, 300, 0.18, 0.18 + ea / 100 * 0.6, 0.18 + la / 100 * 0.6) +
+        '<text class="small" x="280" y="46" text-anchor="middle" class="an-lab-pos">' + esc(T('effort arm ' + ea + ' cm', '动力臂 ' + ea + ' cm')) + '</text>' +
+        '<text class="small" x="280" y="196" text-anchor="middle" class="an-lab-neg">' + esc(T('load arm ' + la + ' cm', '阻力臂 ' + la + ' cm')) + '</text>' +
+        '<text class="small" x="500" y="70" class="an-lab-neg">' + esc(T('MA = effort arm ÷ load arm', 'MA = 动力臂 ÷ 阻力臂')) + '</text>' +
+        '<text class="small" x="500" y="96">' + esc(T('= ' + ma.toFixed(2) + ' now', '= ' + ma.toFixed(2) + ' 当前')) + '</text>' +
+        '<text class="small" x="500" y="128">' + (ma > 1
+          ? esc(T('you win — multiply your force', '占优势 —— 你的力量被放大'))
+          : esc(T('you lose — but you gain speed', '不占优 —— 但你换来了速度'))) + '</text>' +
+        '<text class="small" x="280" y="238" text-anchor="middle">' +
+        esc(T('a pair of pliers, a crowbar and a bike gear all move this ratio', '钳子、撬棍与自行车变速都改变了这一比值')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="e"><span class="ibm-q">' + esc(T('Effort arm (cm)', '动力臂（厘米）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="10" max="150" step="5" value="' + ea + '"></label>' +
+        '<label class="kv-lab" data-v="l"><span class="ibm-q">' + esc(T('Load arm (cm)', '阻力臂（厘米）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="5" max="150" step="5" value="' + la + '"></label>' +
+        apanel('main', T('The trade: force against speed', '取舍：力量与速度'), T('You can never get both from the same lever', '同一个杠杆上你不可能两者兼得'), s,
+          lg('an-l-pos', T('effort arm', '动力臂')) + lg('an-l-neg', T('load arm', '阻力臂'))) +
+        '<div class="kv-callout"></div>' +
+        note('Mechanical advantage is the effort arm divided by the load arm. Above 1 the lever multiplies your force; below 1 it divides it — but it multiplies movement speed and range in the other direction, so the work in equals the work out and you can only ever buy one with the other. This is why equipment works: a crowbar lengthens the effort arm, a pair of long-handled pliers lengthens yours relative to the load, and a low bike gear shortens the load arm so the same pedal force produces far more turning force at the wheel. Your own limbs are third-class levers, which is why muscle is built for speed and range rather than for raw lifting power.',
+          '机械优势＝动力臂÷阻力臂。大于 1 时杠杆放大你的力量，小于 1 时削弱你的力量——但同时会在相反方向放大速度与活动范围，因此输入的功等于输出的功，你只能用其中一个去换另一个。这就是器械的原理：撬棍加长动力臂，长柄钳相对加长你的动力臂，低档位则缩短阻力臂，使同样的踏力在轮上产生大得多的转力。你的四肢属于第三类杠杆，因此肌肉是为速度和活动范围而建，而不是为纯粹的举起力量。');
+      setv(host, 'e', '.kv-v', ea + ' cm');
+      setv(host, 'l', '.kv-v', la + ' cm');
+      outs(host, '.kv-callout', ma > 2
+        ? T('MA ' + ma.toFixed(1) + ' — you multiply your force ' + ma.toFixed(1) + ' times over, and pay for it in movement speed and range.',
+          'MA ' + ma.toFixed(1) + ' —— 你的力量被放大 ' + ma.toFixed(1) + ' 倍，代价是移动速度与范围。')
+        : ma > 1
+          ? T('MA ' + ma.toFixed(1) + ' — a modest advantage. Enough to make a heavy job manageable, not enough to make it easy.',
+            'MA ' + ma.toFixed(1) + ' ——  modest 的优势。足以让重活变得可控，但远远谈不上轻松。')
+          : ma > 0.6
+            ? T('MA ' + ma.toFixed(2) + ' — a disadvantage, which is fine when speed and a large arc matter more than force.',
+              'MA ' + ma.toFixed(2) + ' —— 处于劣势，当速度和大幅度比力量更重要时，这完全可以接受。')
+            : T('MA ' + ma.toFixed(2) + ' — a large sacrifice of force. This is a speed-and-range lever and it should not be used to move weight.',
+              'MA ' + ma.toFixed(2) + ' —— 牺牲了大量力量。这是速度与范围型的杠杆，不该用来移动重物。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+      if (i.closest('[data-v=e]')) ea = Number(i.value); else la = Number(i.value); draw();
+    }); });
+    draw();
+  };
+
+  /* ── D3.9 · B.2.1 Three laws and motion variables ──────────────────────── */
+  MODELS['Three laws and motion variables'] = function (host) {
+    var law = 1;
+    function draw() {
+      var L = {
+        1: { en: 'First law — inertia', zh: '第一定律 · 惯性', d: T('A body stays at rest, or in uniform motion in a straight line, unless a resultant force acts on it.', '物体保持静止或匀速直线运动，除非受到合外力作用。'), dZh: '物体保持静止或匀速直线运动，除非受到合外力作用。', ex: T('A puck on frictionless ice keeps going.', '冰面上无摩擦的冰球会一直滑行。') },
+        2: { en: 'Second law — F = ma', zh: '第二定律 · F = ma', d: T('The rate of change of momentum is proportional to the resultant force, in the direction of that force.', '动量的变化率与合外力成正比，方向与合外力一致。'), dZh: '动量的变化率与合外力成正比，方向与合外力一致。', ex: T('Twice the mass, twice the force to accelerate it.', '质量加倍，所需的加速度力也要加倍。') },
+        3: { en: 'Third law — action and reaction', zh: '第三定律 · 作用与反作用', d: T('For every action there is an equal and opposite reaction, on a different body.', '每个作用都有一个大小相等、方向相反的反作用，作用在另一个物体上。'), dZh: '每个作用都有一个大小相等、方向相反的反作用，作用在另一个物体上。', ex: T('The ground pushes you up exactly as hard as you push it down.', '地面对你的推力，与你对地面的压力一样大。') }
+      };
+      var l = L[law];
+      var s = svgWrap(T('The three laws of motion', '牛顿运动三定律'), 560, 240,
+        AN.head('d3g') +
+        AN.com(120, 150, 1) +
+        (law === 1
+          ? '<path class="an-arrow2" d="M120 150 h120" marker-end="url(#d3g)"/><text class="small" x="270" y="144">' + esc(T('no force → keeps going', '无外力 → 继续运动')) + '</text>'
+          : law === 2
+            ? '<rect class="an-block" x="180" y="112" width="56" height="76" rx="8"/><path class="an-arrow2" d="M160 150 h14" marker-end="url(#d3g)"/>' +
+            '<text class="small" x="256" y="144">' + esc(T('push harder → accelerates more', '推力越大 → 加速度越大')) + '</text>' +
+            '<text class="small" x="256" y="164">' + esc(T('bigger mass → resists', '质量越大 → 越难加速')) + '</text>'
+            : '<rect class="an-block" x="164" y="196" width="52" height="18" rx="4"/>' +
+            '<path class="an-arrow2" d="M190 188 v-26" marker-end="url(#d3g)"/>' +
+            '<text class="small" x="230" y="150">' + esc(T('you push the ground down', '你对地面施力向下')) + '</text>' +
+            '<text class="small" x="230" y="172" class="an-lab-neg">' + esc(T('the ground pushes you up, equally', '地面对你施力向上，等大反向')) + '</text>') +
+        '<text class="small" x="60" y="228">' + esc(l.ex) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which law?', '哪一条定律？')) + '</div>' +
+        tools([[1, T('First — inertia', '第一 · 惯性')], [2, T('Second — F = ma', '第二 · F = ma')],
+        [3, T('Third — action & reaction', '第三 · 作用与反作用')]], law) +
+        apanel('main', T('Three statements, one skeleton', '三个陈述，同一副骨架'), T('All three are about resultant force and momentum', '三者都围绕合外力与动量'), s,
+          lg('an-l-car', T('the body', '物体'))) +
+        '<div class="kv-callout"></div>' +
+        note('The first law says an unbalanced force is required to change anything: a body keeps its state of rest or uniform motion until one acts. The second gives the size of the change — the resultant force equals mass times acceleration, so doubling the mass halves the acceleration for the same force, and doubling the force doubles it. The third is the one most often misstated: the reaction acts on a different body, which is why the ground can push you up while you push it down. In sport this is why a heavier athlete accelerates less for the same effort, and why impulse is best reduced by increasing contact time rather than by moving the same force more quickly.',
+          '第一定律说明：必须有不合力才能改变任何状态——物体在受到不平衡外力之前保持静止或匀速运动。第二定律给出变化的量值：合外力等于质量乘以加速度，因此质量加倍则同样作用力下的加速度减半，作用力加倍则加速度加倍。第三定律最常被说错：反作用作用在另一个物体上，因此地面可以把人推起，而人同时把地面压下。在运动中，这解释了体重较大的运动员在同样努力下加速更慢，也说明减少冲量应靠延长接触时间，而不是把同样的力用得更快。');
+      outs(host, '.kv-callout', T(l.en + '. ' + l.d, l.zh + '。' + l.dZh));
+      marks(host, '.kv-tools', String(law));
+    }
+    wire(host, '.kv-tools', function (v) { law = Number(v); draw(); });
+    draw();
+  };
+
+  /* ── D3.10 · B.2.1 Stability, impulse and collisions ───────────────────── */
+  MODELS['Stability, impulse and collisions'] = function (host) {
+    var comH = 90, contact = 20;
+    function draw() {
+      var stable = comH <= contact;
+      var impulse = 200 * (contact / 100);
+      var s = svgWrap(T('Stability from the base of support, and impulse from contact time', '支撑面决定稳定性，接触时间决定冲量'), 560, 250,
+        AN.head('d3h') +
+        /* the figure leaning, with its CoM and the base drawn */
+        AN.com(150, 150, 0.9 + comH / 500) +
+        '<path class="an-lead2" x1="150" y1="' + (150 - 30) + '" x2="150" y2="188"/>' +
+        '<circle class="an-comdot" cx="150" cy="' + (188 - comH) + '" r="7"/>' +
+        '<text class="small" x="164" y="' + (188 - comH - 8) + '" class="an-lab-pos">' + esc(T('centre of mass', '重心')) + '</text>' +
+        '<rect class="an-base" x="' + (150 - 10 - contact) + '" y="188" width="' + (20 + contact * 2) + '" height="9" rx="4"/>' +
+        '<text class="small" x="150" y="216" text-anchor="middle" class="' + (stable ? 'an-lab-neg' : 'an-lab-pos') + '">' +
+        (stable ? esc(T('CoM over the base → stable', '重心在支撑面内 → 稳定')) : esc(T('CoM outside → topple', '重心在支撑面外 → 倾倒'))) + '</text>' +
+        /* the collision: same force, longer contact */
+        '<rect class="an-block" x="330" y="96" width="52" height="52" rx="8"/>' +
+        '<rect class="an-block" x="450" y="96" width="52" height="52" rx="8"/>' +
+        '<path class="an-arrow2" d="M306 122 h20" marker-end="url(#d3h)"/>' +
+        '<text class="small" x="316" y="80" text-anchor="middle" class="an-lab-pos">' + esc(T('same force', '同样的力')) + '</text>' +
+        '<path class="an-arrow2" d="M386 122 h60" marker-end="url(#d3h)" opacity=".35"/>' +
+        '<text class="small" x="416" y="172" text-anchor="middle" class="an-lab-neg">' + esc(T('spread over ' + contact + '× longer', '分散到 ' + contact + ' 倍长时间')) + '</text>' +
+        '<text class="small" x="416" y="196" text-anchor="middle">' + esc(T('impulse ' + Math.round(impulse), '冲量 ' + Math.round(impulse))) + '</text>' +
+        '<text class="small" x="60" y="240">' + esc(T('impulse = force × time, so a softer surface is a longer collision', '冲量＝力×时间，因此更软的表面意味着更长的碰撞')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="c"><span class="ibm-q">' + esc(T('Base of support (cm from foot centre)', '支撑面宽度（距足中心厘米）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="40" step="1" value="' + contact + '"></label>' +
+        '<label class="kv-lab" data-v="h"><span class="ibm-q">' + esc(T('How far the CoM is from the feet (cm)', '重心距脚的距离（厘米）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="10" max="150" step="5" value="' + comH + '"></label>' +
+        apanel('main', T('Two questions, two different answers', '两个问题，两种答案'), T('Stability is geometry; impulse is time', '稳定性是几何问题；冲量是时间问题'), s,
+          lg('an-l-pos', T('centre of mass', '重心')) + lg('an-l-bad', T('impulse', '冲量'))) +
+        '<div class="kv-callout"></div>' +
+        note('Stability comes from geometry: a body is stable when its line of gravity through the centre of mass falls inside the base of support. A wider base, a lower centre of mass and a lighter load all raise stability. Impulse is different — it is force multiplied by time, and it governs what happens in a collision. The same impact force spread over a longer contact produces a smaller impulse and therefore a smaller change in velocity, which is exactly why a softer surface is safer. A landing that stiffens the leg on impact lengthens the contact and cuts the impulse, and crouching reduces the change in centre-of-mass height that the impulse has to act on.',
+          '稳定性来自几何学：当穿过重心的重力线落在支撑面之内时，身体是稳定的。更宽的支撑面、更低的重心和更轻的负载都能提高稳定性。冲量则不同——它是力乘以时间，主宰碰撞中发生的一切。同样大小的冲击力分散在更长的接触时间上，会产生更小的冲量，因而速度变化也更小——这正是更软的表面更安全的原因。落地时屈膝缓冲会延长接触时间并减小冲量；而下蹲则减小了冲量需要作用的质心高度变化量。');
+      setv(host, 'c', '.kv-v', contact + ' cm');
+      setv(host, 'h', '.kv-v', comH + ' cm');
+      outs(host, '.kv-callout', !stable
+        ? T('Topples: the line of gravity falls outside the base. Widen the stance or lower the load — those are the two real fixes.',
+          '会倾倒：重力线落在支撑面之外。真正的解决办法只有两个——加宽站姿，或降低负载。')
+        : contact > 25
+          ? T('Very stable, and very long contact time on landing — this is a landing that protects both the joint and the bone.',
+            '非常稳定，而且落地接触时间很长——这是一种既保护关节也保护骨骼的落地方式。')
+          : T('Stable, but the contact time is short — which means a high impulse for the same force. Bend more on landing to lengthen it.',
+            '稳定，但接触时间偏短——意味着同样的力产生的冲量较大。落地时多屈一点来延长它。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () {
+      if (i.closest('[data-v=c]')) contact = Number(i.value); else comH = Number(i.value); draw();
+    }); });
+    draw();
+  };
+
+  /* ── D3.11 · B.1.1 HL anthropometry and ergonomics ────────────────────── */
+  MODELS['HL anthropometry and ergonomics'] = function (host) {
+    var seg = 'shoulder';
+    function draw() {
+      var S = {
+        shoulder: { en: 'Shoulder height', zh: '肩高', v: 148, job: T('Sets desk and bench height. Most bench-press height errors come from here.', '决定工作台与凳子的高度。长凳高度的大部分误差都源于此。'), jobZh: '决定工作台与凳子的高度。长凳高度的大部分误差都源于此。' },
+        forearm: { en: 'Forearm length', zh: '前臂长', v: 27, job: T('The working lever arm — a longer forearm gives a longer effort arm and more control.', '工作的杠杆臂——前臂越长，动力臂越长，控制越好。'), jobZh: '工作的杠杆臂——前臂越长，动力臂越长，控制越好。' },
+        thigh: { en: 'Thigh length', zh: '大腿长', v: 45, job: T('With lower-leg length it fixes how far you can lift your leg and how you sit.', '与小腿长度一起决定你能抬腿多高、以及如何坐。'), jobZh: '与小腿长度一起决定你能抬腿多高、以及如何坐。' },
+        reach: { en: 'Functional reach', zh: '功能伸手范围', v: 72, job: T('The practical limit for equipment placement — beyond it, the load is dropped, not lifted.', '器械摆放的实际极限——超出这个范围，物件是被放下而不是被拿起。'), jobZh: '器械摆放的实际极限——超出这个范围，物件是被放下而不是被拿起。' }
+      };
+      var s = S[seg];
+      var s2 = svgWrap(T('Body measurements that decide how equipment fits', '决定器械是否合身的身体测量'), 560, 250,
+        AN.head('d3i') +
+        AN.com(140, 150, 1.05) +
+        '<line class="an-meas" x1="176" y1="' + (seg === 'shoulder' ? 92 : 150) + '" x2="300" y2="' + (seg === 'shoulder' ? 92 : 150) + '"/>' +
+        '<text class="small" x="238" y="' + ((seg === 'shoulder' ? 92 : 150) - 8) + '" text-anchor="middle" class="an-lab-pos">' + s.v + ' cm</text>' +
+        '<rect class="an-bench" x="300" y="96" width="200" height="12" rx="5"/>' +
+        '<text class="small" x="400" y="132" text-anchor="middle">' + esc(T('bench top', '凳面')) + '</text>' +
+        '<path class="an-meas2" x1="140" y1="' + (seg === 'shoulder' ? 92 : 96) + '" x2="140" y2="96" stroke-dasharray="3 3"/>' +
+        '<text class="small" x="400" y="176" text-anchor="middle" class="' + (seg === 'shoulder' ? 'an-lab-neg' : '') + '">' +
+        esc(seg === 'shoulder' ? T('aligns the bench to the shoulder point', '使凳面与肩点对齐') : T('set by other measures', '由其他测量决定')) + '</text>' +
+        '<text class="small" x="400" y="204" text-anchor="middle">' + esc(T('the athlete is the standard, not the catalogue', '标准是运动员本人，不是产品目录')) + '</text>' +
+        '<text class="small" x="400" y="228" text-anchor="middle">' + esc(T('percentile data beats a single average', '百分位数据胜过单一平均值')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which measurement?', '哪一项测量？')) + '</div>' +
+        tools([['shoulder', T('Shoulder height', '肩高')], ['forearm', T('Forearm length', '前臂长')],
+        ['thigh', T('Thigh length', '大腿长')], ['reach', T('Functional reach', '功能伸手范围')]], seg) +
+        apanel('main', T('Fit the equipment to the person', '让器械适配人'), T('Ergonomics starts with a measurement, not a guess', '人体工学的起点是测量，而不是猜测'), s,
+          lg('an-l-car', T('body segment', '身体节段')) + lg('an-l-neg', T('the equipment', '器械'))) +
+        '<div class="kv-callout"></div>' +
+        note('Anthropometry is the measurement of the body, and anthropometry in ergonomics is what decides whether equipment actually fits the person using it. Bench height has to be set to shoulder height, not to a catalogue average. Forearm length is the working effort arm, so it governs how much control the athlete has over a load. Thigh and lower-leg length together fix sitting height and how far the leg can be lifted. Functional reach is the real limit on placement: past that distance, objects are put down rather than lifted, and the shoulder takes the difference. Percentile data matters more than a mean, because half of any population is smaller and half is larger.',
+          '人体测量学是对身体的测量，而在人体工程学中，它决定了器械是否真的合用。长凳高度必须按肩高设定，而不是按产品目录的平均值。前臂长度就是工作的动力臂，它支配运动员对负荷的控制力。大腿与小腿长度共同决定坐高以及腿能抬多高。功能伸手范围是摆放位置的真实极限：超过这个距离，物件是被放下而不是被拿起，差额由肩关节承担。百分位数据比平均值更重要，因为任何人群中都有一半人偏小、一半人偏大。');
+      outs(host, '.kv-callout', T(s.en + '. ' + s.job, s.zh + '。' + s.jobZh));
+      marks(host, '.kv-tools', seg);
+    }
+    wire(host, '.kv-tools', function (v) { seg = v; draw(); });
+    draw();
+  };
+
+  /* ── D3.12 · B.1.2 Mobility, stability and injury ──────────────────────── */
+  MODELS['Mobility, stability and injury'] = function (host) {
+    var rom = 70;
+    function draw() {
+      /* available range vs the range actually used */
+      var avail = 100, used = clamp(rom / 140 * 100, 10, 100);
+      var risk = used / avail;
+      var s = svgWrap(T('Available range, the range you use, and the risk between them', '可用活动度、实际使用的范围，以及两者之间的风险'), 560, 250,
+        AN.head('d3j') +
+        /* a joint arc: the full range and the part used */
+        '<path class="an-arc" d="M90 170 A80 80 0 0 1 250 170"/>' +
+        '<path class="an-arcused" d="M' + (170 - 80 * Math.cos(Math.min(1.2, used / avail * 1.9)).toFixed(1)).toFixed(1) + ' 170 A80 80 0 0 1 ' +
+        (170 + 80 * Math.cos(Math.max(-0.05, 1.9 - used / avail * 1.9)).toFixed(1)).toFixed(1) + ' 170"/>' +
+        '<line class="an-meas" x1="90" y1="170" x2="250" y2="170"/>' +
+        '<text class="small" x="170" y="192" text-anchor="middle" class="an-lab-neg">' + esc(T('available range', '可用范围')) + '</text>' +
+        '<text class="small" x="170" y="212" text-anchor="middle">' + esc(T('the further you go, the less muscle is left to absorb it', '用得越极端，留给肌肉吸收的余地就越少')) + '</text>' +
+        AN.joint(400, 150, 26) +
+        '<text class="small" x="400" y="228" text-anchor="middle">' + esc(T('stability is a joint property; mobility is a range', '稳定性是关节属性；活动度是一个范围')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="r"><span class="ibm-q">' + esc(T('Range of motion used (% of available)', '使用的活动范围（占可用的百分比）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="10" max="130" step="1" value="' + rom + '"></label>' +
+        apanel('main', T('Why the last few degrees cost the most', '最后几度为何代价最大'), T('Passive range is not the same as usable range', '被动活动度不等于可安全使用的范围'), s,
+          lg('an-l-car', T('available', '可用')) + lg('an-l-neg', T('used', '使用'))) +
+        '<div class="kv-meters"><div class="kv-frow"><span>' + esc(T('end-range risk', '末端风险')) + '</span><div class="kv-fbar"><i class="an-b-risk"></i></div><b class="vrisk"></b></div></div>' +
+        '<div class="kv-callout"></div>' +
+        note('Mobility is the range a joint can move; stability is how well that joint resists unwanted movement. They trade against each other, and so do mobility and strength: the more of one you take, the less of the other you have available. This is why end-range positions are the most injury-prone — at the end of the available range the passive structures are maximally stretched, the muscles that would normally absorb the load are shortened and least able to help, and only ligaments and capsule remain. Balancing programmes handle this deliberately: mobility work, then strength through the new range.',
+          '活动度是关节能移动的范围；稳定性是该关节抵抗非预期运动的能力。二者相互制约，活动度与力量之间也是如此：取走一样，另一样可用的就变少。这正是末端位置最容易受伤的原因——在可用范围的末端，被动结构被拉到最大，本应吸收负荷的肌肉被缩短、最无能为力，剩下的只有韧带和关节囊。平衡训练正是有意识地处理这一点：先做活动度练习，再在新范围内做力量练习。');
+      setv(host, 'r', '.kv-v', Math.round(risk * 100) + '%');
+      bar(host.querySelector('.an-b-risk'), risk, risk > 0.9 ? 'var(--c0)' : risk > 0.75 ? 'var(--c1)' : 'var(--green)');
+      outs(host, '.vrisk', risk > 0.9 ? T('high', '高') : risk > 0.75 ? T('moderate', '中') : T('low', '低'));
+      outs(host, '.kv-callout', risk > 0.9
+        ? T('You are working at the very end of the range. Muscles are shortened and passive structures are carrying almost all of the load — this is where sprains and tears happen.',
+          '你正在使用范围的极限末端。肌肉被缩短，被动结构承担了几乎全部负荷——扭伤与撕裂正发生在这里。')
+        : risk > 0.75
+          ? T('Close to the end. Manageable with control, but strength through the range should be built alongside the extra mobility.',
+            '接近末端。有控制地可以，但应在增加活动度的同时补上该范围内的力量。')
+          : T('A sensible working range. You keep muscle and ligament capacity in reserve, which is where you want to be for most training.',
+            '合理的工作范围。你保留了肌肉与韧带的余量，而在大多数训练中这正是你想要的。'));
+    }
+    $$('input[type=range]', host).forEach(function (i) { i.addEventListener('input', function () { rom = Number(i.value); draw(); }); });
     draw();
   };
 

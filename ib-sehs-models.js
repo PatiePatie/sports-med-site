@@ -14,7 +14,7 @@
      · every slider lives inside a <label> so it has an accessible name
      · colours come from theme variables, so dark mode is free
      · if a model throws, the layer puts the static figure back
-   Append-only. Add new keys; never rewrite a shipped one. 43 of 83 sections
+   Append-only. Add new keys; never rewrite a shipped one. 50 of 83 sections
    now carry a model. */
 (function () {
   'use strict';
@@ -2737,6 +2737,539 @@
     prog();
     show('fc');
   }
+
+/* ══ anatomy shape library ══════════════════════════════════════════
+/* ══ anatomy shape library ══════════════════════════════════════════════
+   Organ outlines drawn once and reused by many models, so a kidney in the
+   ADH model is the same kidney as in the water-balance model. Everything is
+   built from theme variables, so dark mode is free.
+
+   Anatomy followed: spinal cord grey matter is butterfly/H-shaped with two
+   thin DORSAL horns and two thicker VENTRAL horns around a central canal
+   (Guyton & Hall 54, KSU 13); the muscle spindle is 3–12 intrafusal fibres
+   running in parallel with the extrafusal fibres, with the large Ia afferent
+   coiled annulospirally around the middle (NBK10809, Guyton 54-3); the
+   eccrine sweat gland is a tube duct ending in a coiled secretory unit of
+   cuboidal cells around a lumen, opening straight onto the skin (StatPearls
+   NBK513244). */
+
+  var AN = {};
+
+  /* spinal cord in cross-section: white matter outside, grey butterfly inside */
+  AN.cord = function (x, y, r) {
+    var s = '<ellipse class="an-white" cx="' + x + '" cy="' + y + '" rx="' + r + '" ry="' + (r * 0.82) + '"/>';
+    s += '<ellipse class="an-grey" cx="' + x + '" cy="' + y + '" rx="' + (r * 0.3) + '" ry="' + (r * 0.12) + '"/>';  /* grey commissure */
+    /* two thin dorsal horns, two thick ventral horns */
+    [[-1, 0.42, 0.2, 0.5], [1, 0.42, 0.2, 0.5], [-1, 0.3, 0.62, 0.34], [1, 0.3, 0.62, 0.34]].forEach(function (h) {
+      s += '<path class="an-grey" d="M' + x + ' ' + (y + h[2] * r) +
+        ' C' + (x + h[0] * r * 0.5) + ' ' + (y + h[2] * r * 0.8) + ' ' + (x + h[0] * r * h[1]) + ' ' + (y + h[2] * r * 0.5) + ' ' + (x + h[0] * r * h[3]) + ' ' + (y + h[2] * r * 0.2) +
+        ' C' + (x + h[0] * r * h[1]) + ' ' + (y - h[2] * r * 0.2) + ' ' + (x + h[0] * r * 0.5) + ' ' + (y - h[2] * r * 0.1) + ' ' + x + ' ' + y + 'Z"/>';
+    });
+    return s;
+  };
+  AN.canal = function (x, y, r) { return '<circle class="an-canal" cx="' + x + '" cy="' + y + '" r="' + (r * 0.1) + '"/>'; };
+
+  /* muscle spindle: capsule with intrafusal fibres, Ia afferent coiled round the middle */
+  AN.spindle = function (x, y, len, cls) {
+    var s = '<rect class="an-cap ' + (cls || '') + '" x="' + (x - len / 2) + '" y="' + (y - 13) + '" width="' + len + '" height="26" rx="13"/>';
+    for (var i = -1; i <= 1; i++) s += '<line class="an-intra" x1="' + (x + i * 7) + '" y1="' + (y - 9) + '" x2="' + (x + i * 7) + '" y2="' + (y + 9) + '"/>';
+    /* the annulospiral primary ending */
+    s += '<path class="an-ia" d="M' + (x - 13) + ' ' + (y - 15) + ' c -6 10 -6 20 0 30 c 6 -10 6 -20 0 -30" />';
+    s += '<path class="an-ia" d="M' + (x - 5) + ' ' + (y - 15) + ' c -6 10 -6 20 0 30 c 6 -10 6 -20 0 -30" />';
+    s += '<path class="an-ia" d="M' + (x + 3) + ' ' + (y - 15) + ' c -6 10 -6 20 0 30 c 6 -10 6 -20 0 -30" />';
+    return s;
+  };
+
+  /* eccrine sweat gland under a skin surface, with a sweat drop */
+  AN.eccrine = function (x, y, w, cls) {
+    var s = '<rect class="an-epi ' + (cls || '') + '" x="' + (x - w / 2) + '" y="' + (y - 30) + '" width="' + w + '" height="9" rx="4"/>';
+    s += '<rect class="an-derm ' + (cls || '') + '" x="' + (x - w / 2) + '" y="' + (y - 21) + '" width="' + w + '" height="34" rx="4"/>';
+    s += '<path class="an-duct" d="M' + x + ' ' + (y - 27) + ' v16" />';
+    /* the coiled secretory unit: cuboidal cells round a lumen */
+    s += '<circle class="an-coil" cx="' + x + '" cy="' + (y + 22) + '" r="15"/>';
+    s += '<circle class="an-lumen2" cx="' + x + '" cy="' + (y + 22) + '" r="6"/>';
+    for (var i = 0; i < 8; i++) {
+      var a = i * Math.PI / 4;
+      s += '<circle class="an-cuboid" cx="' + (x + Math.cos(a) * 11).toFixed(1) + '" cy="' + (y + 22 + Math.sin(a) * 11).toFixed(1) + '" r="3.6"/>';
+    }
+    s += '<circle class="an-drop" cx="' + x + '" cy="' + (y - 38) + '" r="4.5"/>';
+    return s;
+  };
+
+  /* heart: two chambers, aorta arch, vena cava */
+  AN.heart = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-aorta" d="M-4 -30 C-16 -46 14 -50 8 -32" />';
+    g += '<path class="an-vena" d="M16 -34 v-20" />';
+    g += '<path class="an-heart" d="M0 30 C-30 8 -34 -14 -18 -22 C-8 -27 -2 -20 0 -14 C2 -20 8 -27 18 -22 C34 -14 30 8 0 30 Z"/>';
+    g += '<line class="an-septum" x1="0" y1="-12" x2="0" y2="22"/>';
+    g += '<circle class="an-chamber" cx="-12" cy="2" r="8"/>';
+    g += '<circle class="an-chamber r" cx="12" cy="2" r="8"/>';
+    return g + '</g>';
+  };
+
+  /* kidney: bean with a hilum, renal vessels and a ureter */
+  AN.kidney = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-kidney" d="M0 -34 C26 -34 34 -12 30 4 C26 22 16 34 0 34 C-16 34 -22 24 -22 12 C-22 2 -18 -4 -14 -10 C-10 -16 -12 -30 0 -34 Z"/>';
+    g += '<path class="an-hilum" d="M-22 12 C-30 8 -30 0 -24 -4" />';
+    g += '<path class="an-vessel r" d="M-24 0 h-16" />';
+    g += '<path class="an-vessel b" d="M-22 10 h-16" />';
+    g += '<path class="an-ureter" d="M-24 14 C-34 22 -34 34 -30 42" />';
+    return g + '</g>';
+  };
+
+  /* adrenal gland: the little cap that sits on a kidney */
+  AN.adrenal = function (x, y, s, cls) {
+    s = s || 1;
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">' +
+      '<path class="an-adrenal" d="M-13 0 L0 -13 L13 0 L8 4 L-8 4 Z"/>' +
+      '<path class="an-vessel r" d="M0 -13 v-9" /></g>';
+  };
+
+  /* hypothalamus + pituitary: the command pair at the top of the cascade */
+  AN.pituitary = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-hypothal" d="M-30 -22 C-14 -30 14 -30 30 -22 C20 -12 -20 -12 -30 -22 Z"/>';
+    g += '<path class="an-stalk" d="M0 -14 v10" />';
+    g += '<ellipse class="an-pituit" cx="0" cy="6" rx="11" ry="9"/>';
+    return g + '</g>';
+  };
+
+  /* brain: a folded outline, the control room */
+  AN.brain = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-brain" d="M-4 22 C-26 20 -34 4 -28 -10 C-26 -22 -12 -28 0 -26 C14 -28 28 -20 30 -6 C32 8 20 22 4 22 Z"/>';
+    g += '<path class="an-fold" d="M-14 -14 C-8 -6 -16 2 -10 12"/>';
+    g += '<path class="an-fold" d="M2 -20 C8 -12 0 -4 6 4 C10 10 6 16 2 20"/>';
+    g += '<path class="an-fold" d="M18 -12 C12 -6 20 0 14 8"/>';
+    g += '<path class="an-stem" d="M2 22 v12" />';
+    return g + '</g>';
+  };
+
+  /* lungs with a trachea that branches */
+  AN.lungs = function (x, y, s, cls) {
+    s = s || 1;
+    var g = '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">';
+    g += '<path class="an-trachea" d="M0 -30 v12 M0 -18 l-14 12 M0 -18 l14 12"/>';
+    g += '<path class="an-lung" d="M-4 -6 C-22 -6 -32 8 -30 24 C-28 36 -10 38 -6 30 C-2 20 -2 2 -4 -6 Z"/>';
+    g += '<path class="an-lung" d="M4 -6 C22 -6 32 8 30 24 C28 36 10 38 6 30 C2 20 2 2 4 -6 Z"/>';
+    return g + '</g>';
+  };
+
+  AN.liver = function (x, y, s, cls) {
+    s = s || 1;
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')" class="' + (cls || '') + '">' +
+      '<path class="an-liver" d="M-30 -10 C-20 -20 4 -22 20 -16 C32 -11 34 2 28 10 C18 18 -6 20 -20 14 C-30 9 -34 0 -30 -10 Z"/></g>';
+  };
+
+  /* a nerve fibre: axon with myelin segments and a direction of travel */
+  AN.axon = function (x1, y1, x2, y2, cls) {
+    var s = '<line class="an-axon ' + (cls || '') + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
+    var n = Math.max(2, Math.round(Math.hypot(x2 - x1, y2 - y1) / 18));
+    for (var i = 1; i < n; i++) {
+      var t = i / n;
+      s += '<ellipse class="an-myelin" cx="' + (x1 + (x2 - x1) * t).toFixed(1) + '" cy="' + (y1 + (y2 - y1) * t).toFixed(1) +
+        '" rx="7" ry="3.6" transform="rotate(' + (Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI).toFixed(0) + ' ' +
+        (x1 + (x2 - x1) * t).toFixed(1) + ' ' + (y1 + (y2 - y1) * t).toFixed(1) + ')"/>';
+    }
+    return s;
+  };
+
+  AN.head = function (marker, col) {
+    return '<marker id="' + marker + '" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">' +
+      '<path class="' + (col || 'an-head') + '" d="M0 0 L10 5 L0 10 z"/></marker>';
+  };
+  function svgWrap(label, w, h, inner) {
+    return '<svg class="kv-svg" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(label) + '">' + inner + '</svg>';
+  }
+  /* one model panel: header, drawing, legend */
+  function apanel(id, title, sub, svg, legend) {
+    return '<div class="a11-panel" data-p="' + id + '">' +
+      '<div class="a11-hd"><b>' + esc(title) + '</b><span>' + esc(sub) + '</span></div>' + svg +
+      (legend ? '<div class="kv-legend a11-leg">' + legend + '</div>' : '') + '</div>';
+  }
+  function lg(cls, label) { return '<span><i class="' + cls + '"></i>' + esc(label) + '</span>'; }
+
+/* ══ batch D1 · Theme A, part 1 ══════════════════════════════════════════
+   Seven models drawn from the anatomy library. Same skeleton as A.1.1:
+   a question, one control, a shape-based drawing, a legend with live numbers,
+   a callout that says what it means, and a bilingual note. */
+
+  /* ── D1.1 · A.1.1 Neural pathways and coordination ─────────────────────
+     The control room and the wires, then the split between the two exits:
+     somatic to skeletal muscle, autonomic to everything you cannot choose. */
+  MODELS['Neural pathways and coordination'] = function (host) {
+    var sys = 'somatic';
+    function draw() {
+      var s = svgWrap(T('The central nervous system, the peripheral nerves, and the two exits',
+        '中枢神经系统、周围神经与两条出口'), 560, 262,
+        AN.head('d1a') +
+        /* the control room */
+        AN.brain(96, 96, 1) +
+        '<text class="small" x="96" y="246" text-anchor="middle">' + esc(T('CNS · brain + cord', '中枢 · 脑与脊髓')) + '</text>' +
+        AN.cord(96, 210, 34) + AN.canal(96, 210, 34) +
+        /* the trunk of the cord */
+        '<line class="an-cordline" x1="96" y1="150" x2="96" y2="182"/>' +
+        /* the two exits as real destinations */
+        AN.spindle(300, 96, 110) +
+        '<rect class="an-muscle" x="252" y="132" width="96" height="34" rx="14"/>' +
+        '<text class="small" x="300" y="182" text-anchor="middle">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
+        AN.heart(432, 92, 0.62) + AN.lungs(492, 96, 0.55) + AN.kidney(432, 176, 0.6) + AN.liver(492, 176, 0.6) +
+        '<text class="small" x="462" y="228" text-anchor="middle">' + esc(T('glands · smooth · heart', '腺体 · 平滑肌 · 心肌')) + '</text>' +
+        /* the routes */
+        (sys === 'somatic'
+          ? AN.axon(140, 210, 246, 132, 'on') + '<text class="small" x="188" y="186" text-anchor="middle">' + esc(T('somatic', '躯体')) + '</text>'
+          : AN.axon(140, 210, 400, 96, 'on') + AN.axon(400, 96, 470, 100, 'on') + AN.axon(400, 96, 492, 104, 'on') +
+          AN.axon(400, 96, 432, 180, 'on') + AN.axon(400, 96, 492, 180, 'on') +
+          '<text class="small" x="228" y="150" text-anchor="middle">' + esc(T('autonomic', '自主')) + '</text>') +
+        (sys === 'autonomic' ? '<line class="an-dim" x1="140" y1="210" x2="246" y2="132" stroke-dasharray="5 4"/>' : ''));
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which set of nerves is carrying the signal?', '正在传递信号的是哪一套神经？')) + '</div>' +
+        tools([['somatic', T('Voluntary — skeletal muscle', '躯体 · 随意控制骨骼肌')],
+        ['autonomic', T('Automatic — organs and glands', '自主 · 内脏与腺体')]], sys) +
+        '<div class="a11-panel" data-p="main"><div class="a11-hd"><b>' +
+        esc(T('Two exits from one control room', '同一个控制中心，两条出口')) + '</b></div>' + s +
+        '<div class="kv-legend a11-leg">' +
+        lg('an-l-grey', T('grey matter (decides)', '灰质（决策）')) +
+        lg('an-l-white', T('white matter (carries)', '白质（传导）')) +
+        lg('an-l-muscle', T('skeletal muscle', '骨骼肌')) +
+        lg('an-l-organ', T('internal organ', '内脏器官')) + '</div></div>' +
+        '<div class="kv-callout"></div>' +
+        note('The CNS — brain and spinal cord — processes information and coordinates the response. The PNS is every nerve outside it, and it carries nothing but traffic. Somatic pathways end in skeletal muscle, so you can decide when they fire. Autonomic pathways end in glands, smooth muscle and cardiac muscle, so you cannot decide when they fire — they run while you sleep.',
+          '中枢神经系统（脑与脊髓）处理信息并协调反应；周围神经系统是它以外的所有神经，只负责“跑腿”。躯体通路终止于骨骼肌，你可以决定何时兴奋；自主通路终止于腺体、平滑肌和心肌，你无法决定——它们在你睡觉时仍在工作。');
+      outs(host, '.kv-callout', sys === 'somatic'
+        ? T('Somatic: you choose the moment. That is why you can start a jump on purpose — and why you cannot start your own heartbeat.',
+          '躯体神经：时机由你决定。所以你能主动起跳，却无法主动让自己的心跳开始。')
+        : T('Autonomic: the body decides the moment. These are the nerves that keep you alive while your attention is somewhere else entirely.',
+          '自主神经：时机由身体决定。正是它们在你注意力完全 elsewhere 时维持着你的生命。'));
+      marks(host, '.kv-tools', sys);
+    }
+    wire(host, '.kv-tools', function (v) { sys = v; draw(); });
+    draw();
+  };
+
+  /* ── D1.2 · A.1.2 Systems working together ─────────────────────────────
+     Real organs, and what each one is actually doing to the others. */
+  MODELS['Systems working together'] = function (host) {
+    var D = [
+      { id: 'o2', en: 'Oxygen in, carbon dioxide out', zh: '吸入氧气，排出二氧化碳', why: 'Lungs feed every other organ; muscles only burn fuel if the lungs keep supplying it.', whyZh: '肺供养其他所有器官；没有氧，肌肉就烧不动燃料。' },
+      { id: 'c', en: 'Pump oxygenated blood to the muscle', zh: '把含氧血泵到肌肉', why: 'The heart is the delivery system; a muscle can only use what arrives.', whyZh: '心脏是配送系统；肌肉只能用送到的东西。' },
+      { id: 'm', en: 'Burn fuel for heat and force', zh: '燃烧燃料产生热与力', why: 'Muscle turns glucose and oxygen into ATP, heat and force.', whyZh: '肌肉把葡萄糖与氧气变成 ATP、热量和力量。' },
+      { id: 'k', en: 'Balance water and salts', zh: '平衡水分与盐分', why: 'Every cell needs the right ion concentration, or it cannot work.', whyZh: '每个细胞都需要正确的离子浓度才能工作。' },
+      { id: 'l', en: 'Store fuel, detoxify, make proteins', zh: '储存燃料、解毒、制造蛋白质', why: 'The liver buffers glucose and clears what the muscles left behind.', whyZh: '肝脏缓冲血糖，并清除肌肉留下的东西。' }
+    ];
+    var on = { o2: 1, c: 1, m: 1, k: 0, l: 0 };
+    function draw() {
+      var s = svgWrap(T('Five organs that depend on each other during exercise', '运动时相互依赖的五个器官'), 560, 260,
+        AN.head('d2a') +
+        AN.lungs(90, 92, 0.8) + AN.heart(190, 88, 0.66) +
+        '<rect class="an-muscle" x="266" y="66" width="104" height="46" rx="18"/>' +
+        '<text class="small" x="318" y="128" text-anchor="middle">' + esc(T('skeletal muscle', '骨骼肌')) + '</text>' +
+        AN.kidney(90, 186, 0.72) + AN.liver(200, 186, 0.72) +
+        /* the couplings, dimmed when the organ is not in play */
+        '<path class="an-link' + (on.o2 && on.m ? ' on' : '') + '" d="M112 92 h44" marker-end="url(#d2a)"/>' +
+        '<path class="an-link' + (on.c ? ' on' : '') + '" d="M212 88 h50" marker-end="url(#d2a)"/>' +
+        '<path class="an-link' + (on.l && on.m ? ' on' : '') + '" d="M318 116 v40 h-90" marker-end="url(#d2a)"/>' +
+        '<path class="an-link' + (on.k ? ' on' : '') + '" d="M300 190 h-176" marker-end="url(#d2a)"/>' +
+        '<text class="small" x="90" y="248" text-anchor="middle">' + esc(T('kidney', '肾')) + '</text>' +
+        '<text class="small" x="200" y="248" text-anchor="middle">' + esc(T('liver', '肝')) + '</text>' +
+        '<text class="small" x="90" y="42" text-anchor="middle">' + esc(T('lungs', '肺')) + '</text>' +
+        '<text class="small" x="190" y="42" text-anchor="middle">' + esc(T('heart', '心')) + '</text>');
+      var hits = D.filter(function (d) { return on[d.id]; });
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('What is the body actually doing right now?', '身体此刻在做什么？')) + '</div>' +
+        '<div class="ib-practices">' + D.map(function (d) {
+          return '<button type="button" data-v="' + d.id + '" aria-pressed="' + (on[d.id] ? 'true' : 'false') + '" class="' + (on[d.id] ? 'on' : '') + '">' +
+            esc(T(d.en, d.zh)) + '</button>';
+        }).join('') + '</div>' +
+        apanel('main', T('Five organs, one loop', '五个器官，一个闭环'), T('Tap what is happening — the links light up when both ends are working', '点选正在发生的事——两端都在工作时连线才亮起'), s,
+          lg('an-l-on', T('this pair is coupled', '这一对正在耦合')) + lg('an-l-off', T('not involved right now', '此刻不参与'))) +
+        '<div class="kv-callout"></div>';
+      outs(host, '.kv-callout', hits.length === 0
+        ? T('Nothing switched on yet. Pick one — a body at rest is still doing all five, just at a lower rate.', '还没有选任何一项。身体在休息时五件事仍然都在做，只是速率更低。')
+        : T(hits.length === 1 ? hits[0].why : hits[0].why + ' ' + hits[1].why,
+          hits.length === 1 ? hits[0].whyZh : hits[0].whyZh + hits[1].whyZh));
+      $$('.ib-practices button', host).forEach(function (b) { b.classList.toggle('on', b.getAttribute('aria-pressed') === 'true'); });
+    }
+    wire(host, '.ib-practices', function (v) { on[v] = on[v] ? 0 : 1; draw(); });
+    draw();
+  };
+
+  /* ── D1.3 · A.1.2 Feedback and integrated examples ─────────────────────
+     The same loop drawn twice: one that corrects, one that amplifies. */
+  MODELS['Feedback and integrated examples'] = function (host) {
+    var VAR = [
+      { id: 'temp', en: 'Temperature', zh: '体温', neg: T('Too hot → you sweat → you cool down', '太热 → 出汗 → 降温'), pos: T('Too cold → you shiver → you warm up', '太冷 → 寒战 → 升温') },
+      { id: 'glu', en: 'Blood glucose', zh: '血糖', neg: T('Too high → insulin releases it → back to range', '过高 → 胰岛素释放 → 回到范围'), pos: T('Too low → glucagon releases it → back to range', '过低 → 胰高血糖素释放 → 回升') },
+      { id: 'bp', en: 'Blood pressure', zh: '血压', neg: T('Too high → heart slows and vessels widen → pressure falls', '过高 → 心率下降、血管舒张 → 血压回落'), pos: T('During birth → oxytocin amplifies → stronger contractions', '分娩时 → 催产素放大 → 宫缩更强') }
+    ];
+    var v = 'temp';
+    function draw() {
+      var g = VAR.filter(function (x) { return x.id === v; })[0];
+      var s = svgWrap(T('Negative and positive feedback on ' + g.en, '关于' + g.zh + '的负反馈与正反馈'), 560, 250,
+        AN.head('d3a') +
+        /* a variable, a sensor, a control centre, an effector, drawn as objects */
+        '<circle class="an-var" cx="110" cy="80" r="26"/><text class="small" x="110" y="84" text-anchor="middle">' + esc(T(g.en, g.zh)) + '</text>' +
+        '<rect class="an-effector" x="216" y="58" width="88" height="44" rx="12"/><text class="small" x="260" y="85" text-anchor="middle">' + esc(T('effector', '效应器')) + '</text>' +
+        '<path class="an-box" d="M356 52 h120 v56 h-120 z"/><text class="small" x="416" y="76" text-anchor="middle">' + esc(T('control centre', '控制中心')) + '</text>' +
+        '<text class="small" x="416" y="94" text-anchor="middle">' + esc(T('set point', '设定点')) + '</text>' +
+        /* the correcting loop */
+        '<path class="an-flow neg" d="M136 80 h74" marker-end="url(#d3a)"/>' +
+        '<path class="an-flow neg" d="M304 80 h46" marker-end="url(#d3a)"/>' +
+        '<path class="an-flow neg" d="M416 108 v46 h-306 v-30" marker-end="url(#d3a)"/>' +
+        '<text class="small" x="264" y="176" text-anchor="middle" class="an-lab-neg">' + esc(T('negative feedback · counters the change', '负反馈 · 抵消变化')) + '</text>' +
+        /* the amplifying loop, in the other colour */
+        '<path class="an-flow pos" d="M356 130 h-44 v34" marker-end="url(#d3a)"/>' +
+        '<text class="small" x="200" y="230" text-anchor="middle" class="an-lab-pos">' + esc(T('positive feedback · amplifies to an endpoint', '正反馈 · 放大直至终点')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which variable are you following?', '你在跟踪哪个变量？')) + '</div>' +
+        tools(VAR.map(function (x) { return [x.id, T(x.en, x.zh)]; }), v) +
+        apanel('main', T('One loop, two directions', '同一个环，两个方向'), T('The parts are the same — only the sign of the response differs', '结构完全相同，区别只在于反应的方向'), s,
+          lg('an-l-neg', T('negative · returns to the set point', '负反馈 · 回到设定点')) +
+          lg('an-l-pos', T('positive · runs to an endpoint', '正反馈 · 放大到终点'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('counters the change', '抵消变化')) + '</span><div class="kv-fbar"><i class="an-b-neg"></i></div><b class="vneg"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('amplifies the change', '放大变化')) + '</span><div class="kv-fbar"><i class="an-b-pos"></i></div><b class="vpos"></b></div>' +
+        '</div>' +
+        note('Both loops contain a receptor, a control centre and an effector. The only difference is what happens after the effector acts: a negative feedback loop opposes the original change and brings the variable back to its set point, which is what homeostasis is made of. A positive feedback loop pushes the same direction harder until it reaches an endpoint and switches itself off — useful in blood clotting and in childbirth, dangerous everywhere else.',
+          '两种环路都包含受体、控制中心和效应器。唯一的区别在于效应器作用之后会发生什么：负反馈环路抵消原来的变化，把变量拉回设定点——稳态正是由它构成的；正反馈环路朝同一方向不断加强，直到达到某个终点并自行关闭——在凝血和分娩中有用，在其他地方都危险。');
+      scaleBar(host.querySelector('.an-b-neg'), 1);
+      host.querySelector('.an-b-neg').style.background = 'var(--green)';
+      scaleBar(host.querySelector('.an-b-pos'), 0);
+      host.querySelector('.an-b-pos').style.background = 'var(--c0)';
+      outs(host, '.vneg', T('always', '始终'));
+      outs(host, '.vpos', T('only to an endpoint', '只在有终点时'));
+    }
+    wire(host, '.kv-tools', function (x) { v = x; draw(); });
+    draw();
+  };
+
+  /* ── D1.4 · A.1.3 Voluntary movement and reflexes ───────────────────────
+     The same muscle, two routes in. A reflex never reaches the brain. */
+  MODELS['Voluntary movement and reflexes'] = function (host) {
+    var mode = 'reflex';
+    function draw() {
+      var brainY = 78, cordY = 186, musY = 268;
+      var s = svgWrap(T('A reflex arc beside the voluntary route', '反射弧与随意通路对比'), 560, 336,
+        AN.head('d4a') +
+        AN.brain(300, 74, 0.92) +
+        '<text class="small" x="300" y="126" text-anchor="middle">' + esc(T('brain', '脑')) + '</text>' +
+        AN.cord(300, cordY, 46) + AN.canal(300, cordY, 46) +
+        '<text class="small" x="300" y="' + (cordY + 48) + '" text-anchor="middle">' + esc(T('spinal cord', '脊髓')) + '</text>' +
+        /* the muscle with the spindle inside it */
+        '<rect class="an-muscle" x="120" y="' + (musY - 30) + '" width="180" height="60" rx="24"/>' +
+        AN.spindle(210, musY, 110) +
+        '<text class="small" x="210" y="' + (musY + 48) + '" text-anchor="middle">' + esc(T('quadriceps', '股四头肌')) + '</text>' +
+        '<rect class="an-tendon" x="120" y="' + (musY + 30) + '" width="180" height="8" rx="4"/>' +
+        /* the reflex route: never touches the brain */
+        AN.axon(210, musY - 34, 282, cordY - 12, mode === 'reflex' ? 'on' : '') +
+        AN.axon(318, cordY + 12, 250, musY - 34, mode === 'reflex' ? 'on' : '') +
+        '<text class="small" x="176" y="150" text-anchor="middle">' + esc(T('sensory', '传入')) + '</text>' +
+        '<text class="small" x="392" y="150" text-anchor="middle">' + esc(T('motor', '传出')) + '</text>' +
+        /* the voluntary route: up to the brain first */
+        AN.axon(210, musY - 34, 300, 118, mode === 'voluntary' ? 'on' : '') +
+        AN.axon(300, 96, 300, cordY - 30, mode === 'voluntary' ? 'on' : '') +
+        AN.axon(330, cordY + 12, 250, musY - 34, mode === 'voluntary' ? 'on' : '') +
+        '<text class="small" x="486" y="196" text-anchor="middle" class="an-lab-neg">' +
+        esc(mode === 'reflex' ? T('the signal stops in the cord', '信号止于脊髓') : T('the signal goes up first', '信号先上行')) + '</text>' +
+        '<path class="an-timer" d="M60 ' + (musY - 6) + ' h-34" marker-end="url(#d4a)"/>' +
+        '<text class="small" x="40" y="' + (musY - 12) + '" text-anchor="end">' + esc(T('tap', '敲击')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which route does the signal take?', '信号走哪条路？')) + '</div>' +
+        tools([['reflex', T('Reflex — fast, automatic', '反射 · 快速自动')],
+        ['voluntary', T('Voluntary — you decide', '随意 · 由你决定')]], mode) +
+        apanel('main', T('A knee jerk you never thought about', '一次你根本没经过思考的膝反射'), T('The muscle spindle is the sensor; the cord is the decision-maker', '肌梭是传感器，脊髓是决策者'), s,
+          lg('an-l-grey', T('cord grey matter', '脊髓灰质')) +
+          lg('an-l-ia', T('spindle + sensory fibre', '肌梭与传入纤维')) +
+          lg('an-l-on', T('this route is live', '正在走这条路')) +
+          lg('an-l-off', T('not used', '未使用'))) +
+        '<div class="kv-callout"></div>' +
+        note('Tapping the tendon stretches the muscle and deforms the intrafusal fibres of the muscle spindle, which fires the large Ia sensory fibre. That fibre enters the cord through the dorsal root and synapses almost directly onto the α motor neuron of the same muscle — one synapse, so the round trip takes about 50 ms. The brain is told afterwards. Voluntary movement takes the slow route up to the cortex and back down, and it costs tens of milliseconds you can spend thinking.',
+          '敲击肌腱会拉伸肌肉，使肌梭内的梭内肌纤维变形，于是粗大的 Ia 感觉纤维放电。它经背根进入脊髓，几乎直接与同一块肌肉的 α 运动神经元突触——只有一个突触，因此往返约需 50 毫秒。脑是在之后才被告知的。随意运动则要上行至皮层再下行，额外花掉几十毫秒——而这几十毫秒正好用来思考。');
+      outs(host, '.kv-callout', mode === 'reflex'
+        ? T('About 50 ms — one synapse, and the brain is never asked. The leg has already pulled back before you feel the tap.',
+          '约 50 毫秒——只有一个突触，而且根本没问脑。腿已经缩回来了，你才刚感觉到敲击。')
+        : T('Tens of milliseconds more, because the signal had to reach the cortex first. That delay is exactly why a reflex exists.',
+          '多花几十毫秒，因为信号必须先到皮层。正是这个延迟，解释了反射为什么存在。'));
+      marks(host, '.kv-tools', mode);
+    }
+    wire(host, '.kv-tools', function (v) { mode = v; draw(); });
+    draw();
+  };
+
+  /* ── D1.5 · A.1.3 Hormonal influences and sport applications ───────────
+     The adrenal gland really does sit on top of the kidney. */
+  MODELS['Hormonal influences and sport applications'] = function (host) {
+    var H = [
+      { id: 'adren', en: 'Adrenaline', zh: '肾上腺素', from: T('adrenal medulla', '肾上腺髓质'), job: T('Fast readiness: heart rate up, blood to the muscles, glucose released.', '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。'), jobZh: '快速进入状态：心率上升、血液流向肌肉、葡萄糖被释放。', organ: 'heart' },
+      { id: 'cort', en: 'Cortisol', zh: '皮质醇', from: T('adrenal cortex', '肾上腺皮质'), job: T('Longer-term fuel availability and protein turnover; it rises with stress and with hard training.', '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。'), jobZh: '较长期的燃料供应与蛋白质周转；压力和大量训练会使其升高。', organ: 'liver' },
+      { id: 'ins', en: 'Insulin', zh: '胰岛素', from: T('pancreas', '胰腺'), job: T('Moves glucose out of the blood and into cells; it falls during exercise.', '把葡萄糖从血液移入细胞；运动时其水平下降。'), jobZh: '把葡萄糖从血液移入细胞；运动时其水平下降。', organ: 'liver' },
+      { id: 'test', en: 'Testosterone', zh: '睾酮', from: T('testes', '睾丸'), job: T('Protein synthesis and adaptation after training.', '训练后促进蛋白质合成与适应。'), jobZh: '训练后促进蛋白质合成与适应。', organ: 'muscle' }
+    ];
+    var sel = 'adren';
+    function draw() {
+      var h = H.filter(function (x) { return x.id === sel; })[0];
+      var s = svgWrap(T('Where each hormone comes from and what it does', '各种激素的来源与作用'), 560, 270,
+        AN.head('d5a') +
+        AN.pituitary(96, 84, 0.95) +
+        '<text class="small" x="96" y="132" text-anchor="middle">' + esc(T('hypothalamus + pituitary', '下丘脑与垂体')) + '</text>' +
+        /* the adrenal gland on its kidney, the real arrangement */
+        AN.kidney(300, 190, 0.86, sel === 'adren' || sel === 'cort' ? 'hot' : '') +
+        AN.adrenal(300, 152, 1, sel === 'adren' || sel === 'cort' ? 'hot' : '') +
+        '<text class="small" x="300" y="252" text-anchor="middle">' + esc(T('kidney + adrenal on top', '肾脏及其上方的肾上腺')) + '</text>' +
+        AN.heart(462, 84, 0.6, sel === 'adren' ? 'hot' : '') + AN.liver(462, 190, 0.62, sel === 'cort' || sel === 'ins' ? 'hot' : '') +
+        '<rect class="an-muscle' + (sel === 'test' ? ' hot' : '') + '" x="196" y="188" width="56" height="34" rx="13"/>' +
+        /* the hormone travelling out of the gland */
+        AN.axon(132, 96, 286, 150, 'on') +
+        '<circle class="an-horm" cx="210" cy="126" r="7"/>' +
+        AN.axon(300, 150, 448, 92, sel === 'adren' ? 'on' : '') +
+        AN.axon(300, 176, 450, 192, sel === 'cort' || sel === 'ins' ? 'on' : '') +
+        AN.axon(210, 200, 224, 204, sel === 'test' ? 'on' : '') +
+        '<text class="small" x="500" y="252" text-anchor="middle">' + esc(T('target organ', '靶器官')) + '</text>');
+      host.innerHTML =
+        '<div class="kv-q">' + esc(T('Which hormone?', '哪一种激素？')) + '</div>' +
+        tools(H.map(function (x) { return [x.id, T(x.en, x.zh)]; }), sel) +
+        apanel('main', T('The gland it comes from, and the organ it lands on', '来自哪个腺体，作用于哪个器官'), T('The adrenal gland really does sit on top of the kidney', '肾上腺确实位于肾脏之上'), s,
+          lg('an-l-hot', T('this one is selected', '当前选中')) +
+          lg('an-l-organ', T('other organ', '其他器官'))) +
+        '<div class="kv-callout"></div>';
+      outs(host, '.kv-callout', T('From the ' + h.from + '. ' + h.job, '来自' + h.jobZh.slice(0, 0) + h.from + '。' + h.jobZh));
+      marks(host, '.kv-tools', sel);
+    }
+    wire(host, '.kv-tools', function (v) { sel = v; draw(); });
+    draw();
+  };
+
+  /* ── D1.6 · A.2.1 Functions, intake and loss ────────────────────────────
+     Where water actually enters and leaves the body. */
+  MODELS['Functions, intake and loss'] = function (host) {
+    var intake = 60, sweat = 0, min = 40;
+    function draw() {
+      var out = sweat + min, diff = intake - out;
+      var s = svgWrap(T('Water in and water out', '水的摄入与流失'), 560, 260,
+        AN.head('d6a') +
+        /* intake on the left, losses on the right, body in the middle */
+        '<path class="an-glass" d="M64 60 h44 l-6 56 h-32 z"/><text class="small" x="86" y="140" text-anchor="middle">' + esc(T('drink', '饮水')) + '</text>' +
+        '<rect class="an-food" x="50" y="164" width="72" height="26" rx="8"/><text class="small" x="86" y="212" text-anchor="middle">' + esc(T('food', '食物')) + '</text>' +
+        AN.eccrine(400, 120, 96) +
+        AN.lungs(300, 96, 0.52) + '<text class="small" x="300" y="160" text-anchor="middle">' + esc(T('lungs', '肺')) + '</text>' +
+        AN.kidney(462, 200, 0.56) + '<text class="small" x="500" y="244" text-anchor="middle">' + esc(T('urine', '尿液')) + '</text>' +
+        /* the body silhouette in the middle */
+        '<circle class="an-body" cx="200" cy="70" r="20"/>' +
+        '<path class="an-body" d="M180 92 h40 v74 h-40 z"/>' +
+        '<path class="an-body" d="M180 100 l-34 46 M220 100 l34 46 M180 166 l-22 60 M220 166 l22 60"/>' +
+        '<path class="an-flow' + (diff >= 0 ? ' good' : ' bad') + '" d="M136 92 h-14 v-14" marker-end="url(#d6a)"/>' +
+        '<path class="an-flow bad" d="M224 108 h34" marker-end="url(#d6a)"/>' +
+        '<path class="an-flow' + (diff < 0 ? ' bad' : ' good') + '" d="M216 160 h-20" marker-end="url(#d6a)"/>' +
+        '<text class="small" x="200" y="252" text-anchor="middle">' + esc(T('in = out keeps you stable', '摄入 = 流失，身体才稳定')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="i"><span class="ibm-q">' + esc(T('Drinks through the day (mL)', '一天的饮水量（毫升）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="400" step="10" value="' + intake + '"></label>' +
+        '<label class="kv-lab" data-v="s"><span class="ibm-q">' + esc(T('Sweating (mL)', '出汗量（毫升）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="200" step="10" value="' + sweat + '"></label>' +
+        apanel('main', T('Every route in and out', '每一条进出路线'), T('Sweat is only ever a loss — it is never the way back', '出汗只出不进，永远不是回补的途径'), s,
+          lg('an-l-good', T('balanced', '平衡')) + lg('an-l-bad', T('deficit', '亏空')) +
+          lg('an-l-gland', T('eccrine sweat gland', '小汗腺'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('taken in', '摄入')) + '</span><div class="kv-fbar"><i class="an-b-in"></i></div><b class="vin"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('lost', '流失')) + '</span><div class="kv-fbar"><i class="an-b-out"></i></div><b class="vout"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Water arrives from drink and from food, and leaves through four routes: sweat, the breath, urine and faeces. Sweat is the only route that changes dramatically with exercise, and it is the reason a trained athlete’s sweat is saltier — losing more salt per litre means replacing more of it. Urine is adjustable: the kidney can conserve water and excrete a small, concentrated volume. The lung and gut losses are small but they never stop, including at rest and in cold weather.',
+          '水来自饮水与食物，经四条途径离开：汗液、呼吸、尿液和粪便。出汗是唯一随运动显著变化的途径，这也是训练有素的运动员汗液更咸的原因——每升损失的盐更多，补充量也就更大。尿液是可调节的：肾脏可以保水，只排出少量浓缩尿。肺和肠道的损失虽然小，却从未停止，休息时和寒冷天气里也一样。');
+      setv(host, 'i', '.kv-v', intake + ' mL');
+      setv(host, 's', '.kv-v', sweat + ' mL');
+      scaleBar(host.querySelector('.an-b-in'), intake / 400);
+      host.querySelector('.an-b-in').style.background = 'var(--green)';
+      scaleBar(host.querySelector('.an-b-out'), out / 400);
+      host.querySelector('.an-b-out').style.background = 'var(--c0)';
+      outs(host, '.vin', intake + ' mL');
+      outs(host, '.vout', out + ' mL');
+      outs(host, '.kv-callout', diff < -100
+        ? T('You are ' + Math.abs(diff) + ' mL down. That is a real deficit: plasma volume falls, the heart has to beat faster to move what is left, and concentration drops.',
+          '你亏空了 ' + Math.abs(diff) + ' 毫升。这是实实在在的亏空：血浆容量下降，心脏必须跳得更快才能泵出剩下的部分，注意力也会下降。')
+        : diff < 0
+          ? T('Slightly down — normal on a hot day. The body is drawing on its own reserves.', '略微亏空——炎热天气的正常现象，身体正在动用自身储备。')
+          : T('In balance. Surplus is just a larger urine volume, not storage.', '处于平衡。多出的部分只会变成更多的尿液，并不会被储存起来。'));
+    }
+    $$('input[type=range]', host).forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        if (inp.closest('[data-v=i]')) intake = Number(inp.value); else sweat = Number(inp.value);
+        draw();
+      });
+    });
+    draw();
+  };
+
+  /* ── D1.7 · A.2.1 ADH and cardiovascular drift ──────────────────────────
+     What actually happens when you sweat for an hour. */
+  MODELS['ADH and cardiovascular drift'] = function (host) {
+    var hrs = 2, sweat = 2;
+    function draw() {
+      /* plasma volume falls → venous return falls → stroke volume falls → HR rises */
+      var lost = hrs * sweat * 0.6;             /* rough litres */
+      var vol = clamp(100 - lost * 4.2, 46, 100);
+      var hr = Math.round(62 + (100 - vol) * 0.78);
+      var sbv = Math.round(78 - (100 - vol) * 0.32);
+      var s = svgWrap(T('How sweating pulls water out of the blood', '出汗如何把水从血液中拉走'), 560, 270,
+        AN.head('d7a') +
+        AN.pituitary(84, 76, 0.8) +
+        AN.kidney(212, 168, 0.82) +
+        AN.eccrine(452, 118, 92) +
+        /* the loop */
+        AN.axon(112, 90, 196, 150, 'on') +
+        '<circle class="an-horm" cx="156" cy="122" r="7"/>' +
+        '<text class="small" x="156" y="106" text-anchor="middle">' + esc(T('ADH', 'ADH')) + '</text>' +
+        AN.axon(238, 176, 430, 122, 'on') +
+        '<path class="an-flow bad" d="M470 150 v40 h-250" marker-end="url(#d7a)"/>' +
+        '<text class="small" x="330" y="212" text-anchor="middle">' + esc(T('water leaves the blood', '水离开血液')) + '</text>' +
+        AN.heart(112, 200, 0.66) +
+        AN.axon(212, 206, 132, 206, 'on') +
+        '<text class="small" x="172" y="196" text-anchor="middle">' + esc(T('faster beat', '心跳加快')) + '</text>');
+      host.innerHTML =
+        '<label class="kv-lab" data-v="h"><span class="ibm-q">' + esc(T('Hours in the heat', '在高温环境中的小时数')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="60" step="1" value="' + hrs + '"></label>' +
+        '<label class="kv-lab" data-v="s"><span class="ibm-q">' + esc(T('Sweat rate (L per hour)', '出汗速率（升／小时）')) +
+        ' <b class="kv-v"></b></span><input type="range" min="0" max="30" step="1" value="' + sweat + '"></label>' +
+        apanel('main', T('The drift loop, drawn as a loop', '漂移环路，画成一个环'), T('Pituitary → ADH → kidney holds on; blood volume still falls', '垂体 → ADH → 肾脏保水；但血容量仍在下降'), s,
+          lg('an-l-gland', T('water reabsorbed back', '水被回收')) +
+          lg('an-l-bad', T('volume lost from the blood', '血容量流失'))) +
+        '<div class="kv-meters">' +
+        '<div class="kv-frow"><span>' + esc(T('plasma volume', '血浆容量')) + '</span><div class="kv-fbar"><i class="an-b-vol"></i></div><b class="vvol"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('stroke volume', '每搏输出量')) + '</span><div class="kv-fbar"><i class="an-b-sv"></i></div><b class="vsv"></b></div>' +
+        '<div class="kv-frow"><span>' + esc(T('heart rate', '心率')) + '</span><div class="kv-fbar"><i class="an-b-hr"></i></div><b class="vhr"></b></div>' +
+        '</div><div class="kv-callout"></div>' +
+        note('Sweat comes from plasma, so plasma volume falls. Less blood returns to the heart, so stroke volume falls. Cardiac output is stroke volume × heart rate, so if one factor drops the other must rise to keep output steady — that is the rise in heart rate you feel. At the same time the pituitary releases ADH, which makes the kidney reabsorb water and produce a smaller, more concentrated urine. ADH is the body’s water-saving response, but it cannot stop the loss; it only reduces a different one.',
+          '汗来自血浆，因此血浆容量下降；回到心脏的血减少，每搏输出量随之下降。心输出量＝每搏输出量×心率，所以一项下降，另一项必须上升以维持输出——这正是你感觉到的心率加快。与此同时，垂体释放 ADH，使肾脏重吸收水分，排出更少更浓的尿。ADH 是身体的保水反应，但它无法阻止流失，只能减少另一条途径的流失。');
+      setv(host, 'h', '.kv-v', hrs + ' h');
+      setv(host, 's', '.kv-v', (sweat / 10).toFixed(1) + ' L/h');
+      scaleBar(host.querySelector('.an-b-vol'), vol / 100);
+      host.querySelector('.an-b-vol').style.background = 'var(--c2)';
+      scaleBar(host.querySelector('.an-b-sv'), sbv / 100);
+      host.querySelector('.an-b-sv').style.background = 'var(--green)';
+      scaleBar(host.querySelector('.an-b-hr'), (hr - 50) / 110);
+      host.querySelector('.an-b-hr').style.background = 'var(--c0)';
+      outs(host, '.vvol', vol + '%');
+      outs(host, '.vsv', sbv + '%');
+      outs(host, '.vhr', hr + ' bpm');
+      outs(host, '.kv-callout', lost < 0.4
+        ? T('Nothing much lost yet. Plasma volume is still essentially normal.',
+          '目前几乎没有流失，血浆容量基本正常。')
+        : T('About ' + lost.toFixed(1) + ' L gone. The heart is compensating by beating ' + (hr - 62) + ' times a minute faster, and the kidney is saving what it can.',
+          '已流失约 ' + lost.toFixed(1) + ' 升。心脏以每分钟多跳 ' + (hr - 62) + ' 次来补偿，肾脏则尽力保水。'));
+    }
+    $$('input[type=range]', host).forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        if (inp.closest('[data-v=h]')) hrs = Number(inp.value); else sweat = Number(inp.value);
+        draw();
+      });
+    });
+    draw();
+  };
 
 /* ══ A.1.1 · Communication systems — shape-based model ═══════════════════
    Drawn as objects, not boxes:

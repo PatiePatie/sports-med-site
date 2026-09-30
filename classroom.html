@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <!-- SHAPES-HEAD --><script>(function(){try{var d=localStorage.getItem('dark')!=='false',h=document.documentElement;h.classList.toggle('os-dk',d);h.style.backgroundColor=d?'#0B1628':'#E4E9F0';h.style.colorScheme=d?'dark':'light';document.write('<meta name="color-scheme" content="'+(d?'dark':'light')+'">');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var c=null;try{c=JSON.parse(sessionStorage.getItem('sg-catgo')||'null')}catch(e){}if(c&&Date.now()-c.t<8000){h.classList.add('sg-catgo');h.setAttribute('data-sg-cat',c.k)}else if(!/(^|\/)(index(\.html)?)?$/.test(location.pathname))h.classList.add('sg-lf')}catch(e){}})()</script>
+<script>if(location.hash==='#checkup')location.replace('checkup.html');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
 <link rel="apple-touch-icon" href="icons/vitalite-180.png">
-<title>Vitalité — Build Your Health Plan</title>
+<title>Classroom — Vitalité</title>
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.googleapis.com">--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--><!-- DRAFT-FONTS-OFF:END -->
 <!-- DRAFT-FONTS-OFF:BEGIN --><!--<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">--><!-- DRAFT-FONTS-OFF:END -->
@@ -805,18 +806,6 @@ body.dark h1,body.dark h2,body.dark h3{
 .plan-loading{display:flex;align-items:center;gap:.6rem;color:var(--accent);font-weight:700}
 .plan-loading .spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:planSpin .8s linear infinite}
 @keyframes planSpin{to{transform:rotate(360deg)}}
-/* ── Plan builder groups (goals · existing · weekly routine) ── */
-.pb-group{margin-bottom:1.6rem;padding-bottom:1.4rem;border-bottom:1px dashed var(--border)}
-.pb-group:last-of-type{border-bottom:none;margin-bottom:.4rem;padding-bottom:0}
-.pb-group-head{font-weight:800;font-size:1.02rem;display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem}
-.pb-group-sub{font-size:.82rem;color:var(--text3);margin-bottom:.9rem;line-height:1.55}
-.pb-group .habit-input-row{margin-top:0}
-.pb-group .habit-list{margin-top:.7rem}
-.routine-grid{display:flex;flex-direction:column;gap:.5rem}
-.routine-row{display:flex;align-items:center;gap:.7rem}
-.routine-day{flex:0 0 52px;font-size:.82rem;font-weight:700;color:var(--text3)}
-.routine-input{flex:1;min-width:0}
-@media(max-width:640px){.routine-day{flex-basis:44px}.pb-group-head{font-size:.95rem}}
 body.dark .plan-card,body.dark .plan-detail{background:var(--surface)}
 body.dark .plan-item{background:rgba(255,255,255,.05)}
 </style>
@@ -900,6 +889,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 <link rel="stylesheet" href="knowledge.css?v=3">
 <script src="knowledge-fx.js?v=4" defer></script>
 <!-- SHAPES-THEME:END -->
+<link rel="stylesheet" href="classroom.css?v=1">
 </head>
 <body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
@@ -940,9 +930,9 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="infirmary.html" data-en="🤖 Vitaxamine" data-zh="🤖 Vitaxamine">🤖 Vitaxamine</a>
+      <a class="sidebar-link active" href="infirmary.html" data-en="🤖 Vitaxamine" data-zh="🤖 Vitaxamine">🤖 Vitaxamine</a>
       <a class="sidebar-link" href="checkup.html" data-en="🩺 Checkup" data-zh="🩺 自查">🩺 Checkup</a>
-      <a class="sidebar-link active" href="plan.html" data-en="📋 Plan Builder" data-zh="📋 计划生成器">📋 Plan Builder</a>
+      <a class="sidebar-link" href="plan.html" data-en="📋 Plan Builder" data-zh="📋 计划生成器">📋 Plan Builder</a>
       
     </div>
   </div>
@@ -963,7 +953,7 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
       <span class="part-caret">▾</span>
     </button>
     <div class="part-body">
-      <a class="sidebar-link" href="classroom.html" data-en="🏠 Classroom" data-zh="🏠 Classroom 教室">🏠 Classroom</a>
+      <a class="sidebar-link active" href="classroom.html" data-en="🏠 Classroom" data-zh="🏠 Classroom 教室">🏠 Classroom</a>
     </div>
   </div>
   <div class="sidebar-group part" data-part="vitalite-dev" style="display:none">
@@ -993,106 +983,180 @@ body.dark .plan-item{background:rgba(255,255,255,.05)}
 </div>
 </header>
 
-<!-- ═══ Infirmary hero ═══ -->
-<section id="plan-hero">
-<div class="container">
-  <div class="hero-badge"><span class="dot"></span><span data-en="Vitalite Infirmary · Plan · 诊所 · 计划" data-zh="Vitalite 诊所 · 计划 · Infirmary · Plan">Vitalite Infirmary · Plan · 诊所 · 计划</span></div>
-  <h1 data-en="🏃 Build Your Health Plan" data-zh="🏃 制定你的健康计划">🏃 Build Your Health Plan</h1>
-  <p data-en="Tell us three things: what you want to achieve, what you already do, and what a normal week looks like. We build a step-by-step plan that fits your real life. Progress saves to your account automatically. Education only — not medical advice." data-zh="告诉我们三件事：你想达到的目标、你已有的习惯、以及你一周的日常安排。我们会根据你的真实生活制定循序渐进的计划。进度会自动保存到你的账户。仅供学习参考，不构成医疗建议。">Tell us three things: what you want to achieve, what you already do, and what a normal week looks like. We build a step-by-step plan that fits your real life. Progress saves to your account automatically. Education only — not medical advice.</p>
-  <div class="dash-strip" id="dashStrip" role="region" aria-label="Recovery status">
-    <div class="dash-card">
-      <div class="dash-label" data-en="Recovery plan" data-zh="康复计划">Recovery plan</div>
-      <div class="dash-value" id="dashPlan">—</div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-label" data-en="Progress" data-zh="进度">Progress</div>
-      <div class="dash-value" id="dashProg">—</div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-label" data-en="Status" data-zh="状态">Status</div>
-      <div class="dash-value" id="dashStatus">—</div>
+
+<!-- ═══ Classroom ═══ -->
+<section id="classroom">
+<div class="container cl-wrap">
+
+  <div class="hero-badge"><span class="dot"></span><span data-en="Classroom · 教室" data-zh="Classroom · 教室">Classroom · 教室</span></div>
+  <h1 data-en="Teach a class, track a class" data-zh="带一个班，跟踪一个班">Teach a class, track a class</h1>
+  <p class="cl-lede" data-en="Create a class, share the code, and see what every student actually reads — measured by scroll depth and time on the page, not by which button they pressed." data-zh="创建班级、分享班级码，查看每位学生真正读了多少内容 —— 按滚动深度和停留时间统计，而不是按点过哪个按钮。">Create a class, share the code, and see what every student actually reads — measured by scroll depth and time on the page, not by which button they pressed.</p>
+
+  <!-- state 1: signed out -->
+  <div class="cl-card" id="clSignedOut" hidden>
+    <h2 data-en="Sign in to use classrooms" data-zh="登录后使用教室功能">Sign in to use classrooms</h2>
+    <p data-en="Classrooms are tied to a real account so a teacher can see their own students and nobody else's." data-zh="教室与真实账号绑定，教师只能看到自己班级的学生数据。">Classrooms are tied to a real account so a teacher can see their own students and nobody else's.</p>
+    <div class="cl-row">
+      <a class="qo-btn" href="login.html" data-en="Sign in" data-zh="登录">Sign in</a>
+      <a class="qo-btn next" href="login.html#signup" data-en="Create an account" data-zh="注册账号">Create an account</a>
     </div>
   </div>
+
+  <!-- state 2: schema not applied yet -->
+  <div class="cl-card cl-warn-card" id="clNoSchema" hidden>
+    <h2 data-en="One setup step left" data-zh="还差一步设置">One setup step left</h2>
+    <p data-en="The classroom tables do not exist in Supabase yet. Run classroom-schema.sql once in the Supabase SQL Editor and this page starts working — nothing else needs changing." data-zh="Supabase 里还没有教室相关的表。在 Supabase SQL Editor 里运行一次 classroom-schema.sql，本页就会开始工作，无需其他改动。">The classroom tables do not exist in Supabase yet. Run classroom-schema.sql once in the Supabase SQL Editor and this page starts working — nothing else needs changing.</p>
+    <ol class="cl-steps">
+      <li><a href="classroom-schema.sql" target="_blank" rel="noopener" data-en="Open classroom-schema.sql" data-zh="打开 classroom-schema.sql">Open classroom-schema.sql</a></li>
+      <li data-en="Supabase dashboard → SQL Editor → paste → Run" data-zh="Supabase 控制台 → SQL Editor → 粘贴 → Run">Supabase dashboard → SQL Editor → paste → Run</li>
+      <li data-en="Come back and reload this page" data-zh="回到本页刷新">Come back and reload this page</li>
+    </ol>
+    <p class="cl-dim" data-en="It is safe to run more than once: the file drops and rebuilds its own objects." data-zh="可以重复运行：该文件会先删除再建自己的对象。">It is safe to run more than once: the file drops and rebuilds its own objects.</p>
+  </div>
+
+  <!-- state 3: no classroom yet -->
+  <div class="cl-card" id="clNoClass" hidden>
+    <h2 data-en="Join a class, or start one" data-zh="加入班级，或创建一个">Join a class, or start one</h2>
+    <div class="cl-two">
+      <div class="cl-half">
+        <h3 data-en="Join with a code" data-zh="用班级码加入">Join with a code</h3>
+        <form id="clJoinForm" class="cl-form">
+          <label for="clCode" data-en="Class code" data-zh="班级码">Class code</label>
+          <input id="clCode" class="cl-input" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. VIT-7QK2" maxlength="12">
+          <button class="qo-btn" type="submit" data-en="Join" data-zh="加入">Join</button>
+          <p class="cl-msg" id="clJoinMsg" role="status"></p>
+        </form>
+      </div>
+      <div class="cl-half">
+        <h3 data-en="Create a class" data-zh="创建班级">Create a class</h3>
+        <form id="clCreateForm" class="cl-form">
+          <label for="clName" data-en="Class name" data-zh="班级名称">Class name</label>
+          <input id="clName" class="cl-input" placeholder="e.g. IB SEHS Period 3" maxlength="60">
+          <label for="clCourse" data-en="Course" data-zh="课程">Course</label>
+          <select id="clCourse" class="cl-input">
+            <option value="vt" data-en="Vitalité Textbook (90 sections)" data-zh="Vitalité 教材（90 节）">Vitalité Textbook (90 sections)</option>
+            <option value="ib" data-en="IB SEHS (83 sections)" data-zh="IB SEHS（83 节）">IB SEHS (83 sections)</option>
+            <option value="g10" data-en="G10 Bio (15 sections)" data-zh="G10 生物（15 节）">G10 Bio (15 sections)</option>
+          </select>
+          <button class="qo-btn next" type="submit" data-en="Create" data-zh="创建">Create</button>
+          <p class="cl-msg" id="clCreateMsg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- state 4: inside a classroom -->
+  <div id="clInClass" hidden>
+    <div class="cl-bar">
+      <div>
+        <h2 id="clTitle">—</h2>
+        <p class="cl-dim"><span id="clCourseLabel">—</span> · <span id="clCodeLabel">—</span></p>
+      </div>
+      <div class="cl-bar-actions">
+        <button class="cl-chip" id="clCopyBtn" type="button" data-en="Copy code" data-zh="复制班级码">Copy code</button>
+        <button class="cl-chip" id="clLeaveBtn" type="button" data-en="Leave class" data-zh="退出班级">Leave class</button>
+      </div>
+    </div>
+
+    <div class="cl-tabs" role="tablist" id="clTabs">
+      <button class="cl-tab" role="tab" data-view="overview" data-en="Overview" data-zh="概览">Overview</button>
+      <button class="cl-tab" role="tab" data-view="roster" data-en="Roster" data-zh="名单">Roster</button>
+      <button class="cl-tab" role="tab" data-view="detail" data-en="Student detail" data-zh="学生详情">Student detail</button>
+      <button class="cl-tab" role="tab" data-view="assign" data-en="Release schedule" data-zh="发布安排">Release schedule</button>
+      <button class="cl-tab" role="tab" data-view="questions" data-en="Questions" data-zh="题目">Questions</button>
+      <button class="cl-tab" role="tab" data-view="live" data-en="Live quiz" data-zh="实时答题">Live quiz</button>
+    </div>
+
+    <!-- overview -->
+    <div class="cl-view" data-view="overview">
+      <div class="cl-stats" id="clStats"></div>
+      <div class="cl-card">
+        <h3 data-en="Reading progress" data-zh="阅读进度">Reading progress</h3>
+        <p class="cl-dim" data-en="A section counts as read at 85% scrolled and 20s on screen — the same rule your own progress bars use." data-zh="一节内容需滚动 85% 且停留 20 秒才算已读 —— 与你页面上的进度条规则一致。">A section counts as read at 85% scrolled and 20s on screen — the same rule your own progress bars use.</p>
+        <div class="cl-heat" id="clHeat"></div>
+        <div class="cl-legend" id="clHeatLegend"></div>
+      </div>
+      <div class="cl-card" id="clMsgCard" hidden>
+        <h3 data-en="Messages to the class" data-zh="给班级留言">Messages to the class</h3>
+        <ul class="cl-msgs" id="clMsgs"></ul>
+        <form id="clMsgForm" class="cl-form cl-inline">
+          <input id="clMsgText" class="cl-input" placeholder="Note for the class…" maxlength="280">
+          <button class="qo-btn" type="submit" data-en="Post" data-zh="发送">Post</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- roster -->
+    <div class="cl-view" data-view="roster" hidden>
+      <div class="cl-card">
+        <div class="cl-toolbar">
+          <input id="clSearch" class="cl-input cl-search" placeholder="Filter by name…" data-en-placeholder="Filter by name…" data-zh-placeholder="按姓名筛选…">
+          <span class="cl-dim" id="clRosterCount"></span>
+        </div>
+        <div class="cl-table-wrap">
+          <table class="cl-table">
+            <thead><tr>
+              <th data-en="Student" data-zh="学生">Student</th>
+              <th data-en="Role" data-zh="角色">Role</th>
+              <th data-en="Read" data-zh="已读">Read</th>
+              <th data-en="Progress" data-zh="进度">Progress</th>
+              <th data-en="Last seen" data-zh="最近活跃">Last seen</th>
+              <th></th>
+            </tr></thead>
+            <tbody id="clRoster"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- student detail -->
+    <div class="cl-view" data-view="detail" hidden>
+      <div class="cl-card">
+        <label for="clDetailPick" data-en="Choose a student" data-zh="选择学生">Choose a student</label>
+        <select id="clDetailPick" class="cl-input"></select>
+        <div class="cl-detail" id="clDetail"></div>
+      </div>
+    </div>
+
+    <!-- release schedule -->
+    <div class="cl-view" data-view="assign" hidden>
+      <div class="cl-card">
+        <h3 data-en="Release sections in order" data-zh="按顺序发布章节">Release sections in order</h3>
+        <p class="cl-dim" data-en="Students only see what has been released. A due date sets the target they are working towards." data-zh="学生只能看到已发布的内容。设置截止日期即可设定目标。">Students only see what has been released. A due date sets the target they are working towards.</p>
+        <form id="clAssignForm" class="cl-form cl-inline">
+          <input id="clAssignUnit" class="cl-input" placeholder="Unit id, e.g. ib:A.2.1:1  (or * for all)" maxlength="24">
+          <input id="clAssignTitle" class="cl-input" placeholder="Title (optional)" maxlength="80">
+          <input id="clAssignDue" class="cl-input" type="date">
+          <input id="clAssignTarget" class="cl-input" type="number" min="0" max="100" step="5" placeholder="Target %" style="max-width:7rem">
+          <button class="qo-btn" type="submit" data-en="Add" data-zh="添加">Add</button>
+        </form>
+        <p class="cl-msg" id="clAssignMsg" role="status"></p>
+        <ul class="cl-list" id="clAssignList"></ul>
+      </div>
+    </div>
+
+    <!-- questions -->
+    <div class="cl-view" data-view="questions" hidden>
+      <div class="cl-card">
+        <h3 data-en="Question bank" data-zh="题库">Question bank</h3>
+        <p class="cl-dim" data-en="Questions can come from the existing site banks, be written by hand, or be generated by AI. Generated questions stay as drafts until a teacher approves them." data-zh="题目可以来自站内已有题库、手写，或由 AI 生成。生成的题目在教师批准前一直保持草稿状态。">Questions can come from the existing site banks, be written by hand, or be generated by AI. Generated questions stay as drafts until a teacher approves them.</p>
+        <div class="cl-q-filters" id="clQFilters"></div>
+        <ul class="cl-list" id="clQList"></ul>
+      </div>
+    </div>
+
+    <!-- live quiz -->
+    <div class="cl-view" data-view="live" hidden>
+      <div class="cl-card" id="clLiveCard">
+        <h3 data-en="Live quiz" data-zh="实时答题">Live quiz</h3>
+        <p class="cl-dim" data-en="A Kahoot-style session where everyone answers the same question at once. Session state lives in the database, so closing this tab does not end the game for the class." data-zh="类似 Kahoot 的全班同步答题。场次状态存在数据库里，关闭这个标签页也不会中断全班的游戏。">A Kahoot-style session where everyone answers the same question at once. Session state lives in the database, so closing this tab does not end the game for the class.</p>
+        <div id="clLive"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="cl-foot" data-en="Classroom data is stored in Supabase and visible only to the teacher who owns the class and the students in it." data-zh="教室数据存放在 Supabase，只有创建该班的教师和班内学生可见。">Classroom data is stored in Supabase and visible only to the teacher who owns the class and the students in it.</p>
 </div>
-</section>
-
-<section id="plan">
-<div class="container">
-    <div class="plan-badge" data-en="MAKE HEALTHY &amp; ACTIVE · 健康活跃计划" data-zh="健康活跃计划 · MAKE HEALTHY &amp; ACTIVE">MAKE HEALTHY &amp; ACTIVE · 健康活跃计划</div>
-
-    <div class="plan-holder" id="planHolder">
-      <!-- 1 · Goals — habits you WANT to achieve -->
-      <div class="pb-group">
-        <div class="pb-group-head" data-en="🎯 1 · Habits you want to achieve" data-zh="🎯 1 · 你想达成的习惯">🎯 1 · Habits you want to achieve</div>
-        <p class="pb-group-sub" data-en="What would you like to build toward? E.g. run 5 km, strength train, sleep 8 hours." data-zh="你希望培养什么习惯？例如：跑 5 公里、力量训练、睡满 8 小时。">What would you like to build toward? E.g. run 5 km, strength train, sleep 8 hours.</p>
-        <div class="habit-input-row">
-          <input class="habit-input" id="goalInput" type="text" maxlength="80"
-                 data-en-placeholder="e.g. run 5 km, strength train 3×/week…"
-                 data-zh-placeholder="例如：跑 5 公里、每周力量训练 3 次…"
-                 placeholder="e.g. run 5 km, strength train 3×/week…">
-          <button class="qo-btn" id="goalAdd" data-en="＋ Add goal" data-zh="＋ 添加目标">＋ Add goal</button>
-        </div>
-        <div class="habit-suggest" id="goalSuggest">
-          <span class="habit-sug-label" data-en="Try:" data-zh="试试：">Try:</span>
-          <button class="habit-chip" data-en="🏃 run 5 km" data-zh="🏃 跑 5 公里">🏃 run 5 km</button>
-          <button class="habit-chip" data-en="💪 strength train 3×/week" data-zh="💪 每周力量训练 3 次">💪 strength train 3×/week</button>
-          <button class="habit-chip" data-en="😴 sleep 8 hours" data-zh="😴 睡满 8 小时">😴 sleep 8 hours</button>
-          <button class="habit-chip" data-en="🧘 stretch daily" data-zh="🧘 每天拉伸">🧘 stretch daily</button>
-          <button class="habit-chip" data-en="🥗 eat more vegetables" data-zh="🥗 多吃蔬菜">🥗 eat more vegetables</button>
-        </div>
-        <div class="habit-list" id="goalList"></div>
-      </div>
-
-      <!-- 2 · Existing habits -->
-      <div class="pb-group">
-        <div class="pb-group-head" data-en="✅ 2 · Habits you already have" data-zh="✅ 2 · 你已有的习惯">✅ 2 · Habits you already have</div>
-        <p class="pb-group-sub" data-en="Things you reliably do today — a starting point the plan builds on. E.g. drink coffee, walk to school, cook dinner." data-zh="你目前稳定会做的事情 — 计划会在此基础上展开。例如：喝咖啡、步行上学、自己做晚饭。">Things you reliably do today — a starting point the plan builds on. E.g. drink coffee, walk to school, cook dinner.</p>
-        <div class="habit-input-row">
-          <input class="habit-input" id="haveInput" type="text" maxlength="80"
-                 data-en-placeholder="e.g. walk to school, evening shower…"
-                 data-zh-placeholder="例如：步行上学、晚上洗澡…"
-                 placeholder="e.g. walk to school, evening shower…">
-          <button class="qo-btn" id="haveAdd" data-en="＋ Add habit" data-zh="＋ 添加习惯">＋ Add habit</button>
-        </div>
-        <div class="habit-suggest" id="haveSuggest">
-          <span class="habit-sug-label" data-en="Try:" data-zh="试试：">Try:</span>
-          <button class="habit-chip" data-en="☕ morning coffee" data-zh="☕ 早上喝咖啡">☕ morning coffee</button>
-          <button class="habit-chip" data-en="🚶 walk to school" data-zh="🚶 步行上学">🚶 walk to school</button>
-          <button class="habit-chip" data-en="📱 evening screen time" data-zh="📱 晚上看手机">📱 evening screen time</button>
-          <button class="habit-chip" data-en="🍚 rice meals" data-zh="🍚 吃米饭">🍚 rice meals</button>
-          <button class="habit-chip" data-en="🛌 late bedtime" data-zh="🛌 晚睡">🛌 late bedtime</button>
-        </div>
-        <div class="habit-list" id="haveList"></div>
-      </div>
-
-      <!-- 3 · Weekly routine Mon-Sun -->
-      <div class="pb-group">
-        <div class="pb-group-head" data-en="📅 3 · A typical week (Mon–Sun)" data-zh="📅 3 · 一周典型安排（周一至周日）">📅 3 · A typical week (Mon–Sun)</div>
-        <p class="pb-group-sub" data-en="One line per day — what does a normal day look like? E.g. school 8–3, homework 4–6, bed 11 pm." data-zh="每天一行 — 你的一天通常是什么样的？例如：8–15 上学、16–18 作业、23 点睡。">One line per day — what does a normal day look like? E.g. school 8–3, homework 4–6, bed 11 pm.</p>
-        <div class="routine-grid" id="routineGrid">
-          <div class="routine-row"><label class="routine-day" data-en="Mon" data-zh="周一">Mon</label><input class="habit-input routine-input" id="routine-0" type="text" maxlength="120" data-en-placeholder="school 8–3, homework 4–6…" data-zh-placeholder="8–15 上学、16–18 作业…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Tue" data-zh="周二">Tue</label><input class="habit-input routine-input" id="routine-1" type="text" maxlength="120" data-en-placeholder="school 8–3, homework 4–6…" data-zh-placeholder="8–15 上学、16–18 作业…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Wed" data-zh="周三">Wed</label><input class="habit-input routine-input" id="routine-2" type="text" maxlength="120" data-en-placeholder="school 8–3, homework 4–6…" data-zh-placeholder="8–15 上学、16–18 作业…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Thu" data-zh="周四">Thu</label><input class="habit-input routine-input" id="routine-3" type="text" maxlength="120" data-en-placeholder="school 8–3, homework 4–6…" data-zh-placeholder="8–15 上学、16–18 作业…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Fri" data-zh="周五">Fri</label><input class="habit-input routine-input" id="routine-4" type="text" maxlength="120" data-en-placeholder="school 8–3, homework 4–6…" data-zh-placeholder="8–15 上学、16–18 作业…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Sat" data-zh="周六">Sat</label><input class="habit-input routine-input" id="routine-5" type="text" maxlength="120" data-en-placeholder="sleep in, hang out, sports…" data-zh-placeholder="睡懒觉、出去玩、运动…"></div>
-          <div class="routine-row"><label class="routine-day" data-en="Sun" data-zh="周日">Sun</label><input class="habit-input routine-input" id="routine-6" type="text" maxlength="120" data-en-placeholder="family time, homework, rest…" data-zh-placeholder="家庭时间、作业、休息…"></div>
-        </div>
-      </div>
-
-      <div class="plan-actions">
-        <button class="qo-btn next" id="planGenerate" disabled
-                data-en="🤖 Generate My Plan" data-zh="🤖 生成我的计划">🤖 Generate My Plan</button>
-        <span class="plan-hint" id="planHint" data-en="Add at least one goal or habit first" data-zh="请先添加至少一个目标或习惯">Add at least one goal or habit first</span>
-      </div>
-      <div id="planStatus"></div>
-    </div>
-
-    <div id="planDetail"></div>
-    <div style="margin-top:1.5rem;text-align:center">
-      <a class="qo-btn" href="infirmary.html" data-en="🤖 Ask Vitaxamine instead" data-zh="🤖 改问 Vitaxamine">🤖 Ask Vitaxamine instead</a>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -1161,7 +1225,7 @@ function medaiAppend(boxId, raw){
   var div=document.createElement('div');
   div.className='chat-msg bot';
   var lbl=document.createElement('span');
-  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  lbl.className='msg-label'; lbl.textContent='VITAXAMINE';
   var sp=document.createElement('span');
   sp.className='chat-msg-text';
   sp.innerHTML=medaiRender(raw);
@@ -1173,7 +1237,7 @@ function medaiThinking(boxId){
   var div=document.createElement('div');
   div.className='chat-msg bot';
   var lbl=document.createElement('span');
-  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  lbl.className='msg-label'; lbl.textContent='VITAXAMINE';
   var sp=document.createElement('span');
   sp.className='chat-msg-text';
   sp.textContent='Thinking… 思考中…';
@@ -1181,13 +1245,13 @@ function medaiThinking(boxId){
   box.appendChild(div);
   return div;
 }
-function medaiAsk(question){
+function medaiAsk(question, mode){
   return new Promise(function(resolve){
     if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
     fetch(MEDAI_URL, {
       method:'POST',
       headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ question:question, lang:medaiLang() })
+      body: JSON.stringify({ question:question, lang:medaiLang(), mode:mode||'clinical' })
     }).then(function(r){ return r.json(); }).then(function(d){
       if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
       else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
@@ -1206,7 +1270,7 @@ function addChatMessage(text, isUser, textZh){
   if(!box) return;
   const div=document.createElement('div');
   div.className='chat-msg '+(isUser?'user':'bot');
-  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'ASSISTANT'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
+  div.innerHTML=`<span class="msg-label">${isUser?'YOU':'VITAXAMINE'}</span><span class="chat-msg-text" data-en="${text}" data-zh="${textZh||text}">${text}</span>`;
   box.appendChild(div);
   box.scrollTop=box.scrollHeight;
   document.querySelectorAll('[data-en][data-zh]').forEach(el=>{ var l=medaiLang(); el.textContent=el.getAttribute('data-'+l); });
@@ -1218,7 +1282,7 @@ function sendChat(){
   addChatMessage(q, true, q);
   input.value='';
   const thinkEl=medaiThinking('chatMessages');
-  medaiAsk(q).then(function(res){
+  medaiAsk(q,'clinical').then(function(res){
     if(thinkEl && thinkEl.parentNode) thinkEl.parentNode.removeChild(thinkEl);
     if(res.ok){ medaiAppend('chatMessages', res.reply); }
     else { medaiAppend('chatMessages', medaiConfError(res)); }
@@ -1251,340 +1315,7 @@ document.addEventListener('click', function(e){
   });
 })();
 </script>
-<script>
-/* ── Health Plan builder — habit-driven, AI-generated, localStorage per user ──
- *
- * Architecture:
- *   PlanEngine.generate(habits, lang) → Promise<plan>
- *   - AIEngine (current): Cloudflare Worker via api.vitaliteplan.com.
- *       Sends a structured prompt, expects a structured JSON plan back.
- *   - AlgorithmEngine (future, free tier): same interface, local rules engine.
- *       Seam is here — swap via PlanEngine.factory() when ready.
- *
- * Plan shape (shared with renderer):
- *   { id, icon, title_en, title_zh, summary_en, summary_zh,
- *     phases: [ { title_en, title_zh, desc_en, desc_zh,
- *                 items: [ {en, zh}, ... ] } ] }
- */
-(function(){
-  var KEY='vitalite_plan_v1';
-  var MEDAI_URL='https://api.vitaliteplan.com';
-  var _goals=[];           // habits the user WANTS to achieve
-  var _have=[];            // habits the user ALREADY has
-  var _routine=['','','','','','',''];  // Mon..Sun routine lines
-  var selected=null;       // active plan id
-  var generating=false;
 
-  function userKey(){
-    try{ var u=JSON.parse(localStorage.getItem('sm_user')||'null'); if(u&&u.email) return u.email; }catch(e){}
-    return 'guest';
-  }
-  function lang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
-  function T(en,zh){ return lang()==='zh'?zh:en; }
-  function loadStore(){
-    try{ var a=JSON.parse(localStorage.getItem(KEY+'|'+userKey())||'null'); if(a&&a.data) return a; }catch(e){}
-    return {data:{},last:null,goals:[],have:[],routine:['','','','','','','']};
-  }
-  function saveStore(a){ try{ localStorage.setItem(KEY+'|'+userKey(), JSON.stringify(a)); }catch(e){} }
-
-  /* ── PlanEngine: pluggable seam ── */
-  var PlanEngine={
-    providers:{},
-    register:function(name,impl){ this.providers[name]=impl; },
-    generate:function(habits){
-      var p=this.providers[this.active||'ai'];
-      if(!p) return Promise.resolve({ok:false,error:'no_engine'});
-      return p.generate(habits, lang());
-    },
-    /* Which engine runs now. ai = paid-capable; algorithm = future free tier. */
-    active:'ai'
-  };
-
-  /* ── AI engine: Cloudflare Worker, structured JSON response ── */
-  PlanEngine.register('ai',{
-    generate:function(input, lng){
-      return new Promise(function(resolve){
-        if(!MEDAI_URL){ resolve({ok:false,error:'not_configured'}); return; }
-        var l=lng||'en';
-        var goals=input.goals||[], have=input.have||[], routine=input.routine||[];
-        var lines=[];
-        if(goals.length) lines.push((l==='zh'?'目标：':'GOALS: ')+goals.join('; '));
-        if(have.length) lines.push((l==='zh'?'已有习惯：':'EXISTING HABITS: ')+have.join('; '));
-        var rDays=l==='zh'?['周一','周二','周三','周四','周五','周六','周日']:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-        var rStr=routine.map(function(v,i){ return (v&&v.trim())?(rDays[i]+': '+v.trim()):null; }).filter(Boolean).join(' | ');
-        if(rStr) lines.push((l==='zh'?'一周安排：':'WEEKLY ROUTINE: ')+rStr);
-        var context=lines.join('\n')||'(no inputs)';
-        var prompt=(l==='zh'
-          ? '你是健康与运动康复教练。根据用户列出的日常习惯，生成一份个性化的“更健康、更活跃”计划。'
-            + '必须严格返回 JSON，不要输出任何其他文字。JSON 结构：'
-            + '{"title_zh":"计划标题","summary_zh":"一句话概述","phases":[{"title_zh":"阶段标题","desc_zh":"阶段说明","items":["步骤1","步骤2","步骤3"]}]}'
-            + '要求：3-4 个阶段；每阶段 3-5 个具体可执行步骤；步骤要结合用户现有习惯，循序渐进、安全、无需器械或仅需简单器械；'
-            + '风格像康复/健身教练的建议；不要诊断疾病；计划要结合用户的一周日程，把步骤安排进他们实际可用的时间；总步骤数适中。\n用户信息：\n'+context
-          : 'You are a health & sports-rehab coach. Based on the daily habits the user listed, build a personalized "healthier & more active" plan. '
-            + 'You MUST respond with JSON only — no prose, no markdown fences. JSON shape: '
-            + '{"title_en":"plan title","summary_en":"one-line summary","phases":[{"title_en":"phase title","desc_en":"phase note","items":["step 1","step 2","step 3"]}]}'
-            + 'Rules: 3-4 phases; 3-5 concrete actionable steps per phase; tie steps to the user\'s actual habits; progressive, safe, bodyweight or minimal equipment; '
-            + 'tone like a rehab/fitness coach; do not diagnose illness. The plan must fit the user\'s weekly routine — slot steps into the times they actually have. Examples: goal \"sleep 8h\" with a late bedtime -> phase on winding down, then consistent sleep, then morning light.\nUser context:\n'+context);
-        fetch(MEDAI_URL,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({question:prompt, lang:l})
-        }).then(function(r){ return r.json(); }).then(function(d){
-          if(d && d.reply){ resolve({ok:true, reply:d.reply}); }
-          else { resolve({ok:false, error:(d&&d.error)||'unknown'}); }
-        }).catch(function(){ resolve({ok:false,error:'network'}); });
-      });
-    }
-  });
-
-  /* ── Future AlgorithmEngine (free tier) — implement generate(habits, lang) here.
-   *    It returns the same plan shape as parsePlan. No network, deterministic. */
-  // PlanEngine.register('algorithm', { generate: function(habits, lng){ /* TODO */ } });
-
-  /* ── Parse AI reply → plan object (tolerant of fences / prose wrapping) ── */
-  function extractJSON(raw){
-    if(!raw) return null;
-    var s=String(raw).trim();
-    // strip ```json ... ``` fences
-    var fm=s.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if(fm) s=fm[1].trim();
-    else {
-      var ob=s.indexOf('{');
-      if(ob>0) s=s.slice(ob);
-      var cb=s.lastIndexOf('}');
-      if(cb>0 && cb<s.length-1) s=s.slice(0,cb+1);
-    }
-    try{ return JSON.parse(s); }catch(e){ return null; }
-  }
-  function normItems(arr){
-    if(!Array.isArray(arr)) return [];
-    return arr.map(function(x){
-      if(typeof x==='string') return {en:x,zh:x};
-      if(x&&typeof x==='object') return {en:String(x.en||x.text||''),zh:String(x.zh||x.en||x.text||'')};
-      return {en:String(x),zh:String(x)};
-    }).filter(function(x){ return x.en&&x.en.trim(); });
-  }
-  function parsePlan(raw, habits){
-    var j=extractJSON(raw); if(!j||!j.phases) return null;
-    var isZh=lang()==='zh';
-    var phases=(Array.isArray(j.phases)?j.phases:[]).filter(function(p){ return p&&(p.items||p.steps); }).map(function(p,i){
-      var items=normItems(p.items||p.steps||[]);
-      return {
-        en:p.title_en||p.title||('Phase '+(i+1)),
-        zh:p.title_zh||p.title||p.title_en||('阶段 '+(i+1)),
-        en_d:p.desc_en||p.desc||'',
-        zh_d:p.desc_zh||p.desc||p.desc_en||'',
-        items:items
-      };
-    });
-    if(!phases.length||!phases[0].items.length) return null;
-    return {
-      id:'habits-'+new Date().getTime().toString(36),
-      icon:isZh?(j.icon_zh||'🏃'):(j.icon||'🏃'),
-      title_en:j.title_en||'My Health Plan',
-      title_zh:j.title_zh||j.title_en||'我的健康计划',
-      summary_en:j.summary_en||'Personalized plan built from your habits.',
-      summary_zh:j.summary_zh||j.summary_en||'根据你的习惯生成的个性化计划。',
-      phases:phases
-    };
-  }
-
-  /* ── Habit list UI ── */
-  function pillListHtml(arr){
-    return arr.map(function(h,i){
-      return '<span class="habit-pill">'+h
-        +'<button type="button" class="hp-rm" data-idx="'+i+'" aria-label="remove">✕</button></span>';
-    }).join('');
-  }
-  function renderLists(){
-    var gb=document.getElementById('goalList'); if(gb) gb.innerHTML=pillListHtml(_goals);
-    var hb=document.getElementById('haveList'); if(hb) hb.innerHTML=pillListHtml(_have);
-    var gen=document.getElementById('planGenerate');
-    var hint=document.getElementById('planHint');
-    var hasAny=_goals.length||_have.length;
-    if(gen) gen.disabled=!hasAny;
-    if(hint){
-      var enReady='Ready — generate your plan', zhReady='准备就绪 — 生成你的计划';
-      var enWait='Add at least one goal or habit first', zhWait='请先添加至少一个目标或习惯';
-      var en=hasAny?enReady:enWait, zh=hasAny?zhReady:zhWait;
-      hint.setAttribute('data-en', en);
-      hint.setAttribute('data-zh', zh);
-      hint.textContent=T(en,zh);
-    }
-  }
-  function addToList(arr,text){
-    var v=(text||'').trim().replace(/\s+/g,' ');
-    if(!v) return;
-    var low=v.toLowerCase();
-    if(arr.some(function(h){ return h.toLowerCase()===low; })) return;
-    arr.push(v);
-    var a=loadStore(); a.goals=_goals; a.have=_have; saveStore(a);
-    renderLists();
-  }
-  function removeFromList(arr,i){
-    if(i<0||i>=arr.length) return;
-    arr.splice(i,1);
-    var a=loadStore(); a.goals=_goals; a.have=_have; saveStore(a);
-    renderLists();
-  }
-
-  /* ── Generation flow ── */
-  function showStatus(html, cls){
-    var el=document.getElementById('planStatus'); if(!el) return;
-    el.className=cls||'';
-    el.innerHTML=html;
-  }
-  function setGenerating(on){
-    generating=on;
-    var btn=document.getElementById('planGenerate');
-    if(btn) btn.disabled=on||(!_goals.length&&!_have.length);
-  }
-  function generatePlan(){
-    if(generating||(!_goals.length&&!_have.length)) return;
-    setGenerating(true);
-    showStatus('<span class="plan-loading"><span class="spinner"></span> '+T('Building your plan…','正在生成你的计划…')+'</span>');
-    PlanEngine.generate({goals:_goals, have:_have, routine:_routine}).then(function(res){
-      setGenerating(false);
-      if(!res.ok){
-        showStatus('⚠️ '+T('Could not generate right now — '+(res.error==='network'?'check your connection.':'the engine is unavailable.')+' Try again in a moment.','暂时无法生成 — '+(res.error==='network'?'请检查网络连接。':'引擎暂不可用。')+' 请稍后再试。'),'plan-err');
-        return;
-      }
-      var plan=parsePlan(res.reply);
-      if(!plan){
-        // Fallback: none generated — surface what the AI said so it's not a dead end.
-        var s=String(res.reply||'').slice(0,400);
-        showStatus(T('The engine returned something unexpected. Here is the raw response:','引擎返回了意外内容。以下是原始回复：')+'<br><pre style="white-space:pre-wrap;font-size:.78rem">'+s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'</pre>','plan-err');
-        return;
-      }
-      // persist plan
-      var a=loadStore();
-      a.data[plan.id]=plan;
-      a.last=plan.id;
-      a.goals=_goals; a.have=_have; a.routine=_routine;
-      saveStore(a);
-      selected=plan.id;
-      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
-      showStatus('✓ '+T('Plan ready! Check off steps as you complete them.','计划已生成！完成步骤时请打勾。'));
-      renderDetail();
-      document.getElementById('planDetail').scrollIntoView({behavior:'smooth'});
-    });
-  }
-
-  /* ── Detail renderer (same contract as before: checkboxes persist per plan) ── */
-  function currentPlan(){ return selected?((loadStore().data||{})[selected]||null):null; }
-  function renderDetail(){
-    var box=document.getElementById('planDetail'); if(!box) return;
-    var s=currentPlan();
-    if(!s){ box.innerHTML=''; return; }
-    var a=loadStore();
-    var d=a.data[selected]||{};
-    var ph=s.phases.map(function(p,pi){
-      var items=p.items.map(function(it,i){
-        var k=selected+':'+pi+':'+i;
-        var on=!!d[k];
-        return '<label class="plan-item'+(on?' done':'')+'" data-key="'+k+'">'
-          +'<input type="checkbox" '+(on?'checked':'')+'>'
-          +'<span class="pi-t">'+T(it.en,it.zh)+'</span></label>';
-      }).join('');
-      return '<div class="pd-phase"><h4>'+T(p.en,p.zh)+'</h4>'
-        +'<p class="pd-days">'+T(p.en_d,p.zh_d)+'</p>'+items+'</div>';
-    }).join('');
-    box.innerHTML='<div class="plan-detail"><h3>'+s.icon+' '+T(s.title_en,s.title_zh)+'</h3>'
-      +'<p class="pd-sub">'+T(s.summary_en,s.summary_zh)+'</p>'
-      +ph
-      +'<button class="qo-btn next pd-back" data-en="🗑 Delete this plan" data-zh="🗑 删除此计划" onclick="document.getElementById(\'plan\').scrollIntoView({behavior:\'smooth\'})" >🗑 Delete this plan</button>'
-      +'<p class="pd-footnote">⚠️ '+T('Educational guidance only, not medical advice. If pain is severe or lasts more than a week, see a professional.','仅供学习参考，不构成医疗建议。若疼痛剧烈或持续超过一周，请及时就医。')+'</p>'
-      +'</div>';
-  }
-  function deletePlan(){
-    if(!selected) return;
-    var a=loadStore(); delete a.data[selected]; a.last=null; saveStore(a);
-    selected=null;
-    document.getElementById('planDetail').innerHTML='';
-    try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
-    showStatus('🗑 '+T('Plan deleted.','计划已删除。'));
-  }
-
-  /* ── Wire up ── */
-  document.getElementById('goalAdd').addEventListener('click',function(){
-    var inp=document.getElementById('goalInput');
-    addToList(_goals, inp.value); inp.value='';
-  });
-  document.getElementById('goalInput').addEventListener('keydown',function(e){
-    if(e.key==='Enter'){ e.preventDefault(); addToList(_goals, this.value); this.value=''; }
-  });
-  document.getElementById('goalSuggest').addEventListener('click',function(e){
-    var chip=e.target&&e.target.closest?e.target.closest('.habit-chip'):null;
-    if(chip) addToList(_goals, chip.getAttribute('data-en')||chip.textContent);
-  });
-  document.getElementById('haveAdd').addEventListener('click',function(){
-    var inp=document.getElementById('haveInput');
-    addToList(_have, inp.value); inp.value='';
-  });
-  document.getElementById('haveInput').addEventListener('keydown',function(e){
-    if(e.key==='Enter'){ e.preventDefault(); addToList(_have, this.value); this.value=''; }
-  });
-  document.getElementById('haveSuggest').addEventListener('click',function(e){
-    var chip=e.target&&e.target.closest?e.target.closest('.habit-chip'):null;
-    if(chip) addToList(_have, chip.getAttribute('data-en')||chip.textContent);
-  });
-  document.body.addEventListener('click',function(e){
-    var rm=e.target&&e.target.closest?e.target.closest('.hp-rm'):null;
-    if(!rm) return;
-    var arr=rm.getAttribute('data-list')==='goals'?_goals:_have;
-    removeFromList(arr, parseInt(rm.getAttribute('data-idx'),10));
-  });
-  document.getElementById('planGenerate').addEventListener('click',generatePlan);
-  document.getElementById('planDetail').addEventListener('click',function(e){
-    var item=e.target&&e.target.closest?e.target.closest('.plan-item'):null;
-    if(item){
-      var a=loadStore(); var d=a.data[selected]||{}; a.data[selected]=d;
-      var key=item.getAttribute('data-key');
-      var cb=item.querySelector('input');
-      // Key off the STORED state, not the pre-click checkbox state (the browser
-      // toggles checked before handlers run when the input itself is clicked,
-      // but NOT when the label text is clicked — store-first is deterministic).
-      if(d[key]){ delete d[key]; if(cb) cb.checked=false; item.classList.remove('done'); }
-      else{ d[key]=true; if(cb) cb.checked=true; item.classList.add('done'); }
-      a.last=selected; saveStore(a); renderDetail();
-      try{ window.dispatchEvent(new Event('vitalite:plan')); }catch(e){}
-      return;
-    }
-    // Delete CTA (plain button, not plan-item)
-    var del=e.target.closest&&e.target.closest('button.pd-back');
-    if(del && del.textContent.indexOf('🗑')!==-1){ deletePlan(); }
-  });
-  var langBtn=document.getElementById('langToggle');
-  if(langBtn) langBtn.addEventListener('click',function(){ renderLists(); renderDetail(); });
-
-  /* ── Routine inputs: persist on change ── */
-  function saveRoutine(){
-    for(var i=0;i<7;i++){
-      var el=document.getElementById('routine-'+i);
-      if(el) _routine[i]=el.value;
-    }
-    var a=loadStore(); a.routine=_routine; saveStore(a);
-  }
-  for(var ri=0;ri<7;ri++){
-    var rEl=document.getElementById('routine-'+ri);
-    if(rEl) rEl.addEventListener('input',saveRoutine);
-  }
-
-  /* ── Restore state ── */
-  var a=loadStore();
-  if(a.goals&&a.goals.length){ _goals=a.goals.slice(); }
-  if(a.have&&a.have.length){ _have=a.have.slice(); }
-  if(Array.isArray(a.routine)&&a.routine.length===7){ _routine=a.routine.slice(); for(var rj=0;rj<7;rj++){ var re=document.getElementById('routine-'+rj); if(re&&_routine[rj]) re.value=_routine[rj]; } }
-  renderLists();
-  if(a.last && a.data[a.last]){
-    // always restore the last plan so returning users see their progress
-    selected=a.last; renderDetail();
-  }
-
-  /* Expose store + engine so the dashboard strip can read live progress. */
-  window.VitalPlan={ load:loadStore, engine:PlanEngine, goals:function(){ return _goals.slice(); }, have:function(){ return _have.slice(); }, routine:function(){ return _routine.slice(); } };
-})();
-</script>
 <script>
 /* Dashboard strip — self-contained read of the recovery plan store.
    Reads localStorage directly so it works on any page, no VitalPlan dependency. */
@@ -1634,6 +1365,8 @@ document.addEventListener('click', function(e){
 })();
 </script>
 <script src="site-content.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="classroom.js?v=1"></script>
 </body>
 
 </html>

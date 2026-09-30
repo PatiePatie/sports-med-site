@@ -82,6 +82,7 @@
     { file: 'toc.html',     en: 'All Resources',  zh: '全部资源',          icon: 'grid' },
     { file: 'exam.html',    en: 'NPTE Exam',      zh: '美国 NPTE',         icon: 'clipboard' },
     { file: 'cn-cert.html', en: 'CN Certificate', zh: '运动康复师资格证',     icon: 'award' },
+    { file: 'classroom.html', en: 'Classroom', zh: '教室', icon: 'users' },
     { file: 'ib-sehs.html', en: 'IB SEHS',        zh: 'IB SEHS',             icon: 'activity' },
     { file: 'ib-sehs-learn.html', en: 'IB SEHS Learn', zh: 'IB SEHS学习',       icon: 'activity' },
     { file: 'usabo.html',   en: 'USABO Biology',  zh: 'USABO 生物奥赛',       icon: 'dna' },

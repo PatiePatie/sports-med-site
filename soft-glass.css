@@ -1008,3 +1008,33 @@ html #v-splash > div.sg-skyfx{position:absolute;inset:0;pointer-events:none;over
   .sg-icons{display:none}
 }
 @media (prefers-reduced-motion:reduce){.sg-skyfx i{animation:none!important}}
+
+/* ── Reading bar, in detail (soft-fx.js readBar) ────────────────────────────
+   Ticks for every section (current one pulses, read ones turn green; hover
+   for the name, click to jump), and a chip over the bead with the section,
+   the percentage and the time left. Only the ticks take the pointer. */
+.sg-read-ticks{position:absolute;inset:0;pointer-events:none}
+.sg-read-ticks i{position:absolute;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;pointer-events:auto;cursor:pointer;
+  background:var(--surface);box-shadow:var(--sg-raise-xs),inset 0 0 0 1.5px color-mix(in srgb,var(--text3,#8593A5) 55%,transparent);
+  transition:transform .3s var(--sg-ease),background .3s,box-shadow .3s}
+.sg-read-ticks i::before{content:"";position:absolute;inset:-7px}                /* a bigger hit area than the dot */
+.sg-read-ticks i.past{box-shadow:var(--sg-raise-xs),inset 0 0 0 1.5px var(--accent)}
+.sg-read-ticks i.read{background:var(--green,#1F8A5B);box-shadow:0 0 8px color-mix(in srgb,var(--green,#1F8A5B) 60%,transparent)}
+.sg-read-ticks i.cur{transform:scale(1.45);box-shadow:var(--sg-raise-xs),inset 0 0 0 2px var(--sg-warm,#E0626A);animation:sg-tick 1.8s ease-in-out infinite}
+.sg-read-ticks i:hover{transform:scale(1.7)}
+@keyframes sg-tick{50%{box-shadow:var(--sg-raise-xs),inset 0 0 0 2px var(--sg-warm,#E0626A),0 0 0 5px color-mix(in srgb,var(--sg-warm,#E0626A) 18%,transparent)}}
+.sg-read-chip{position:absolute;top:14px;left:var(--cx,0%);transform:translate(-50%,-4px);display:flex;align-items:center;gap:.45rem;max-width:min(520px,80vw);
+  padding:.32rem .7rem;border-radius:99px;font-size:.72rem;line-height:1.2;white-space:nowrap;color:var(--text2,var(--text));
+  background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--sg-raise-xs),var(--sg-rim);
+  opacity:0;pointer-events:none;transition:opacity .35s var(--sg-ease),transform .35s var(--sg-ease),left .12s linear}
+.sg-read.talk .sg-read-chip{opacity:1;transform:translate(-50%,0)}
+.sg-rc-sec{font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent)}
+.sg-rc-t{overflow:hidden;text-overflow:ellipsis;min-width:0;font-weight:600;color:var(--text)}
+.sg-rc-meta{font-variant-numeric:tabular-nums;color:var(--text3,var(--text2))}
+.sg-read.end .sg-rc-meta{color:var(--green,#1F8A5B);font-weight:700}
+.sg-read-tip{position:absolute;top:-30px;transform:translateX(-50%);padding:.25rem .6rem;border-radius:9px;font-size:.7rem;white-space:nowrap;color:#fff;background:rgba(14,30,51,.9);
+  opacity:0;pointer-events:none;transition:opacity .2s}
+.sg-read.tipping .sg-read-tip{opacity:1}
+.sg-read.tipping .sg-read-chip{opacity:0}
+@media (max-width:640px){.sg-read-ticks i{width:6px;height:6px;margin:-3px 0 0 -3px}.sg-read-chip{font-size:.66rem;max-width:88vw}.sg-rc-t{max-width:40vw}}
+@media (prefers-reduced-motion:reduce){.sg-read-ticks i.cur{animation:none}}

@@ -25,6 +25,10 @@
     bang:      '<path d="M8 2.8v6.4"/><circle cx="8" cy="12.1" r=".5" fill="currentColor" stroke="none"/>',
     bulb:      '<path d="M8 2.6c-1.5 0-2.4 1.1-2.4 2.3 0 1.1.5 1.8 1 2.4.4.5.6.9.6 1.4v.8h1.6v-.8c0-.5.2-.9.6-1.4.5-.6 1-1.3 1-2.4C10.4 3.7 9.5 2.6 8 2.6Z"/><path d="M6.3 12h3.4M6.6 13.6h2.8"/>',
     chart:     '<path d="M3 13V9.6M6.3 13v-5M9.7 13V6.4M13 13V3.4"/>',
+    /* Classroom: a board on a stand. Same 16-unit stroke space as the
+       stethoscope / books / speech-bubble the other three pills use, and
+       deliberately not a graduation cap - that already means NPTE here. */
+    classroom: '<rect x="2.2" y="2.3" width="11.6" height="7.3" rx=".8"/><path d="M4.7 5.2h5.1M4.7 7.2h3.1"/><path d="M8 9.7v3.2M5.4 13.1h5.2"/>',
     books:     '<path d="M2.6 12.3 4.1 3.7h6.7l.4 8.6H2.6ZM2.6 12.3h8v1.1H4.1ZM11.2 3.7h2.6v8.6h-2.6Z"/>',
     scope:     '<circle cx="8" cy="11.4" r="2.2"/><path d="M6.4 14.4 3.6 13M5.6 11.6 9.3 2.6"/><path d="m9.3 2.6-1.6-.6M9.3 2.6V4M3.2 14.8h8"/>',
     balance:   '<path d="M4.2 14h7.6M8 2.6v11.4M8 2.6 3.4 7.1l1.1 2.3 1.1-2.2 2.4-2.4M8 2.6l2.4 2.1 1.1 2.2 1.1-2.3Z"/>',
@@ -108,7 +112,7 @@
 
   /* ── emoji → icon name (keys WITHOUT typical variation selectors) ────── */
   var ICON_FOR = {
-    '🧭':'compass','🩺':'stetho','👥':'users','🛠':'wrench','🎯':'target',
+    '🏫':'classroom','🧭':'compass','🩺':'stetho','👥':'users','🛠':'wrench','🎯':'target',
     '⚠':'alert','⛔':'noentry','✅':'checkcir','❗':'bang','💡':'bulb',
     '📊':'chart','📚':'books','🔬':'scope','⚖':'balance','🃏':'cards',
     '🌐':'globe','🎓':'grad','💬':'message','📐':'ruler','📝':'note',

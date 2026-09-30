@@ -747,6 +747,9 @@
         else if (/social|forum/.test(h)) k = 'social';
         else if (/guide|toc|knowledge|ib-sehs|g10|exam|home/.test(h)) k = 'know';
         else if (/admin/.test(h)) k = 'dev';
+        /* classroom.html matched nothing, so the pill kept the monochrome
+           vi-icons line art while the other three got their colour emblems */
+        else if (/classroom/.test(h)) k = 'classroom';
         var ico = a.querySelector('.sec-ico');
         if (!k || !ico || ico.getAttribute('data-emb') === k || !S[k]) return;
         ico.setAttribute('data-emb', k);

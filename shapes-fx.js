@@ -249,6 +249,31 @@
     return wrap(s, o);
   }
 
+  /* Classroom: a board on a stand, chalked. Same print-poster treatment as the
+     clinic / know / social emblems - flat faces, a hard extruded shadow, the
+     stipple grain from wrap(). Cobalt frame, white board, one red chalk line
+     so it carries the same accent the other three use. */
+  function catClassroom(o) {
+    var s = '';
+    /* stand, drawn first so the board overlaps its top */
+    s += '<rect x="46" y="62" width="8" height="22" rx="3" fill="' + INK.navy[2] + '" transform="translate(1.4 2)"/>';
+    s += '<rect x="46" y="62" width="8" height="22" rx="3" fill="' + INK.cobalt[2] + '"/>';
+    s += '<rect x="28" y="80" width="44" height="9" rx="4.5" fill="' + INK.navy[2] + '" transform="translate(1.4 2)"/>';
+    s += '<rect x="28" y="80" width="44" height="9" rx="4.5" fill="url(#os-g-navy)"/>';
+    /* chalk tray */
+    s += '<rect x="6" y="55" width="88" height="8" rx="4" fill="' + INK.cobalt[2] + '" transform="translate(1.4 2)"/>';
+    s += '<rect x="6" y="55" width="88" height="8" rx="4" fill="url(#os-g-cobalt)"/>';
+    /* frame + face */
+    s += '<rect x="6" y="8" width="88" height="52" rx="7" fill="' + INK.cobalt[2] + '" transform="translate(2 3)"/>';
+    s += '<rect x="6" y="8" width="88" height="52" rx="7" fill="url(#os-g-cobalt)"/>';
+    s += '<rect x="14" y="16" width="72" height="36" rx="3" fill="url(#os-g-white)"/>';
+    /* chalk: two writing lines and one red accent, drawn like the ECG on catKnow */
+    s += '<rect x="21" y="24" width="40" height="4.5" rx="2.25" fill="' + INK.sky[2] + '" fill-opacity=".5"/>';
+    s += '<rect x="21" y="34" width="52" height="4.5" rx="2.25" fill="' + INK.sky[2] + '" fill-opacity=".5"/>';
+    s += '<rect x="21" y="44" width="28" height="4.5" rx="2.25" fill="' + INK.red[2] + '" fill-opacity=".62"/>';
+    return wrap(s, o);
+  }
+
   /* Developer tools: a gear with a wrench across it. */
   function catDev(o) {
     var cx = 44, cy = 56, d = '';
@@ -270,7 +295,8 @@
   }
 
   var SHAPES = { mobius: mobius, column: column, v: impossibleV, infinity: infinity, pentagram: pentagram,
-                 know: catKnow, clinic: catClinic, social: catSocial, dev: catDev };
+                 know: catKnow, clinic: catClinic, social: catSocial,
+                 classroom: catClassroom, dev: catDev };
 
   /* ── 2b · Landing: the Vitalité icon set ── */
 

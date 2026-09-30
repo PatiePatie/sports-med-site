@@ -4,7 +4,7 @@
    Splits the site into three section-INTERFACES on one skin — the same
    role-split idea as the investor/entrepreneur surfaces:
 
-       🩺 Infirmary  ·  📚 Knowledge  ·  💬 Social
+       🩺 Infirmary  ·  📚 Knowledge  ·  💬 Social  ·  🏫 Classroom
 
    Two jobs, both fail-soft, both decoration on top of each page's own
    markup (same contract as linear-layout.js):
@@ -12,7 +12,7 @@
      1. SCOPE — the sidebar shows ONLY the current section's links. The
         rail on a knowledge page is knowledge links; the rail on the
         infirmary is infirmary links. No more one-mega-rail-for-everyone.
-     2. SWITCH — inject the Infirmary/Knowledge/Social pill group into the
+     2. SWITCH — inject the Infirmary/Knowledge/Social/Classroom pill group into the
         header so moving between sections is one click, from anywhere.
 
    Pages opt in by linking sections.css + this script. Without it, the
@@ -28,7 +28,8 @@
   var SECTIONS = [
     { key: 'infirmary', file: 'infirmary.html', icon: '🩺', en: 'Infirmary', zh: '诊所' },
     { key: 'knowledge', file: 'guide.html',     icon: '📚', en: 'Knowledge', zh: '知识库' },
-    { key: 'social',    file: 'social.html',    icon: '💬', en: 'Social',    zh: '社区' }
+    { key: 'social',    file: 'social.html',    icon: '💬', en: 'Social',    zh: '社区' },
+    { key: 'classroom', file: 'classroom.html', icon: '🏫', en: 'Classroom', zh: '教室' }
   ];
   var KNOWLEDGE = [
     'guide.html', 'toc.html', 'exam.html',
@@ -41,6 +42,7 @@
   function sectionFor(f) {
     if (f === 'infirmary.html' || f === 'checkup.html' || f === 'plan.html') return 'infirmary';
     if (f === 'social.html')    return 'social';
+    if (f === 'classroom.html') return 'classroom';
     if (f === 'admin.html')     return 'admin';
     if (KNOWLEDGE.indexOf(f) > -1) return 'knowledge';
     return 'hub';   /* index + anything else is the hub */

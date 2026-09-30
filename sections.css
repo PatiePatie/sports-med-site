@@ -81,13 +81,27 @@ body.lin-v2 .header-actions .sec-switcher{
   .sec-ico{font-size:.95rem}
 }
 
-/* Below 900px the bar has only ~350–500px to serve the centred search field,
-   the toggles, the bell and the account pill — the pill capsule (even
-   icon-only it is ~106px) does not fit beside a centred field. It is hidden
-   under 900px; the sidebar still carries the section links at those widths
-   (and is its big 224px label state there), so switching sections stays one
-   click away. Non-shell pages are untouched. */
-@media (max-width:900px){
+/* Tap targets. Icon-only, a pill paints at ~32x26px, which is under the 40px
+   minimum the rest of the site holds. Sizing the pill itself is simpler and
+   more robust here than a ::before halo: shapes-fx already paints a ::before
+   on the icon span inside, and a max()-based halo resolved to 7px. The bar is
+   48px tall and the switcher adds 2px of padding, so a 40px pill still fits
+   with room to spare, and four icon-only pills measure ~170px - still no
+   collision with the centred search field down to the 900px cut-off. */
+.sec-pill{min-width:40px;min-height:40px;justify-content:center}
+
+/* Below 950px the bar has only ~350–500px to serve the centred search field,
+   the toggles, the bell and the account pill — the pill capsule (icon-only it
+   is ~172px with four sections) does not fit beside a centred field. It is
+   hidden under 950px; the sidebar still carries the section links at those
+   widths (and is its big 224px label state there), so switching sections
+   stays one click away. Non-shell pages are untouched. */
+/* The cut-off was 900px with three pills; a fourth icon-only pill measures
+   172px and no longer fits between 900 and 939, which pushed the bar 16px
+   wide and gave the page a horizontal scrollbar. Measured: 172px is clear
+   from 940 up. Raising the cut-off to 950 removes the whole broken band and
+   costs a 10px sliver that had no room for the capsule anyway. */
+@media (max-width:950px){
   body.lin-v2 .header-actions .sec-switcher{display:none}
 }
 

@@ -23,7 +23,7 @@
   if (!body) return;
 
   /* read before anything clears them: is the whole page arriving through a fog? */
-  var ARRIVE = root.classList.contains('sg-lf') || root.classList.contains('sg-catgo');
+  var ARRIVE = root.classList.contains('sg-lf') || root.classList.contains('sg-catgo') || root.classList.contains('vl-on') || !!document.getElementById('v-loader');
   var REDUCE = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var FINE = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
   function safe(fn) { try { fn(); } catch (e) { if (window.console) console.warn('[soft-fx]', e); } }
@@ -164,12 +164,17 @@
       '  for(int k=1;k<11;k++){float t=float(k)*3.5;occ=max(occ,(HS(p+ld*t)-hs0)/t-tn);}',
       '  float csh=1.-exp(-occ*4.);',
       '  float dn=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)*.012;',
-      '  vec3 sc=mix(vec3(.078,.157,.282),vec3(0.),uDark);',
+      /* light mode: a white highlight barely shows on a pale page, so a strong
+         shadow alone read as a dark half-moon. There the shadow is softer and
+         bluer, the whole bowl darkens a little with depth (so it reads as a
+         hollow, not a crescent) and the lit wall and rim are pushed harder. */
+      '  vec3 sc=mix(vec3(.16,.24,.38),vec3(0.),uDark);',
       '  vec3 hc=mix(vec3(1.),vec3(.62,.76,.96),uDark);',
       /* shade and light roll off softly instead of clipping, so a deep press keeps its gradient */
-      '  float mS=mix(.42,.62,uDark),mH=.5;',
-      '  float ash=mS*(1.-exp(-max(-diff*mix(1.5,2.2,uDark)+csh*mix(.2,.3,uDark)+dn,0.)/mS));',
-      '  float ahi=mH*(1.-exp(-max((diff*2.+max(sp,0.)*.6)*mix(1.,.5,uDark)+dn,0.)/mH));',
+      '  float mS=mix(.26,.62,uDark),mH=mix(.75,.5,uDark);',
+      '  float cav=pow(clamp(-h0/max(uDepth,1.),0.,1.),1.3)*mix(.13,0.,uDark);',
+      '  float ash=mS*(1.-exp(-max(-diff*mix(.85,2.2,uDark)+csh*mix(.12,.3,uDark)+cav+dn,0.)/mS));',
+      '  float ahi=mH*(1.-exp(-max((diff*mix(3.2,2.,uDark)+max(sp,0.)*mix(1.1,.6,uDark))*mix(1.,.5,uDark)+dn,0.)/mH));',
       '  o=vec4(hc*ahi+sc*ash,ahi+ash)*uOn;',
       '}'].join('\n');
     function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
@@ -360,11 +365,22 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) { up(); present = false; } });
     window.addEventListener('resize', function () { size(); kick(); });
     var lost = false;
-    cv.addEventListener('webglcontextlost', function (e) {
-      e.preventDefault(); lost = true; cancelAnimationFrame(raf); raf = 0;
+    window.__sgCloth = function () { return { raf: !!raf, lost: lost, present: present, dent: +dent.toFixed(2), on: +on.toFixed(2), down: down, inDom: !!cv.parentNode, ctxLost: gl.isContextLost() }; };
+    /* Firefox/Zen can drop the WebGL context while it snapshots the page for
+       the theme swap; the old handler removed the canvas for good, so the dent
+       "sometimes disappeared" after switching light/dark. Now the cloth is
+       rebuilt on a fresh canvas and context (a few times at most), and a tab
+       coming back into view re-checks the context. */
+    function rebuild() {
+      if (lost) return;
+      lost = true; cancelAnimationFrame(raf); raf = 0;
       if (cv.parentNode) cv.parentNode.removeChild(cv);
       root.classList.remove('sg-clothed');
-    });
+      if ((window.__sgClothTries = (window.__sgClothTries || 0) + 1) > 3) return;
+      setTimeout(function () { try { cloth(); } catch (x) {} }, 400);
+    }
+    cv.addEventListener('webglcontextlost', function (e) { e.preventDefault(); rebuild(); });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden && !lost && gl.isContextLost()) rebuild(); });
     return true;
   }
 
@@ -706,34 +722,107 @@
     var old = document.getElementById('readingBar');
     if (!old) return;
     root.classList.add('sg-read-on');
+    /* The reading bar, in detail: a tick for every section of what you're
+       reading (the current one pulses; sections the progress tracker counts
+       as read turn green), hover a tick for its name, click it to jump there;
+       a label rides over the bead with the section, the percentage and the
+       reading time left; the end of the page lights it up. */
     var bar = document.createElement('div');
     bar.className = 'sg-read';
-    bar.setAttribute('aria-hidden', 'true');
-    bar.innerHTML = '<i class="sg-read-fill"></i><b class="sg-read-bead"></b>';
+    bar.innerHTML = '<i class="sg-read-fill"></i><div class="sg-read-ticks"></div><b class="sg-read-bead"></b>' +
+      '<div class="sg-read-chip" aria-live="off"><span class="sg-rc-sec"></span><span class="sg-rc-t"></span><span class="sg-rc-meta"></span></div><div class="sg-read-tip"></div>';
     body.appendChild(bar);
-    var raf = 0, p = -1;
+    var ticksEl = bar.querySelector('.sg-read-ticks'), chip = bar.querySelector('.sg-read-chip'), tip = bar.querySelector('.sg-read-tip');
+    var raf = 0, p = -1, secs = [], words = 0, idleT = 0, lastBuild = 0;
+    var zhOn = function () { return body.classList.contains('lang-zh'); };
     function place() {
       var tb = document.querySelector('.lin-topbar') || document.querySelector('body > header, .page-wrapper > header');
       var y = 6;
       if (tb) { var r = tb.getBoundingClientRect(); if (r.bottom > 0 && r.bottom < 140 && getComputedStyle(tb).position !== 'static') y = r.bottom - 3; }
       bar.style.top = y + 'px';
     }
+    function unitId(i) {                       /* the progress tracker's id for this section, if it tracks the page */
+      var file = (location.pathname.split('/').pop() || '').toLowerCase();
+      var ch = document.querySelector('section.chapter.shown');
+      if (file === 'guide.html' && ch) return 'vt:' + ch.id + ':' + i;
+      return null;
+    }
+    function heads() {
+      var ch = document.querySelector('section.chapter.shown');
+      var list = ch ? $$('.acc-item > .acc-header', ch) : [];
+      if (!list.length) list = $$('section.native-section:not([hidden]) > h2, section.native-section:not([hidden]) > h3');
+      if (!list.length) list = $$('.page-wrapper main h2, .page-wrapper .container > h2, .page-wrapper section > h2, .page-wrapper h2.section-title');
+      return list.filter(function (h) { return h.offsetParent && !h.closest('.sidebar,header,.lin-topbar,.vt-refs,.ks,.tut-card,.qna-panel,.vx-side'); }).slice(0, 40);
+    }
+    function build(full) {
+      lastBuild = Date.now();
+      var se = document.scrollingElement || document.documentElement;
+      var max = Math.max(1, se.scrollHeight - window.innerHeight);
+      secs = heads().map(function (h, i) {
+        var y = h.getBoundingClientRect().top + (window.scrollY || se.scrollTop) - 90;
+        var t = (h.textContent || '').replace(/\s+/g, ' ').replace(/^[\s▸▾+－\-–]+|[\s▸▾+－\-–]+$/g, '').trim();
+        return { el: h, f: Math.min(1, Math.max(0, y / max)), t: t.length > 60 ? t.slice(0, 58) + '…' : t, id: unitId(i) };
+      });
+      if (!full) { $$('i', ticksEl).forEach(function (t, i) { if (secs[i]) t.style.left = (secs[i].f * 100).toFixed(2) + '%'; }); if ($$('i', ticksEl).length === secs.length) return; }
+      var main = document.querySelector('section.chapter.shown') || document.querySelector('.page-wrapper main') || document.querySelector('.page-wrapper') || body;
+      var txt = (main.textContent || '').slice(0, 400000);
+      var cjk = (txt.match(/[　-鿿]/g) || []).length;
+      words = Math.round((txt.length - cjk) / 5.5 + cjk / 2);   /* CJK: ~2 chars a word-equivalent */
+      ticksEl.innerHTML = secs.map(function (x, i) { return '<i data-i="' + i + '" style="left:' + (x.f * 100).toFixed(2) + '%"></i>'; }).join('');
+      paintRead();
+    }
+    function paintRead() {
+      var P = window.VitaliteProgress;
+      $$('i', ticksEl).forEach(function (t, i) {
+        var s = secs[i], u = P && s && s.id && P.unit ? P.unit(s.id) : null;
+        t.classList.toggle('read', !!(u && u.read));
+      });
+    }
     function draw() {
       raf = 0;
+      if (Date.now() - lastBuild > 2500) build(false);
       var se = document.scrollingElement || document.documentElement;
       var max = se.scrollHeight - window.innerHeight;
       var q = max > 40 ? Math.min(1, Math.max(0, (window.scrollY || se.scrollTop) / max)) : 0;
-      if (Math.abs(q - p) < 0.001) return;
+      if (Math.abs(q - p) < 0.0005) return;
       p = q;
       bar.style.setProperty('--p', q.toFixed(4));
       bar.classList.toggle('on', q > 0.004);
       bar.classList.toggle('end', q > 0.995);
+      var cur = -1;
+      secs.forEach(function (x, i) { if (x.f <= q + 0.004) cur = i; });
+      $$('i', ticksEl).forEach(function (t, i) { t.classList.toggle('cur', i === cur); t.classList.toggle('past', i < cur); });
+      var z = zhOn(), left = Math.max(0, Math.round(words * (1 - q) / 220));
+      chip.querySelector('.sg-rc-sec').textContent = secs.length ? (cur + 1 > 0 ? cur + 1 : 1) + '/' + secs.length : '';
+      chip.querySelector('.sg-rc-t').textContent = cur >= 0 && secs[cur] ? secs[cur].t : (secs[0] ? secs[0].t : '');
+      chip.querySelector('.sg-rc-meta').textContent = q > 0.995 ? (z ? '读完了 ✓' : 'Finished ✓') : Math.round(q * 100) + '% · ' + (left < 1 ? (z ? '不到 1 分钟' : '<1 min left') : (z ? '还剩约 ' + left + ' 分钟' : '~' + left + ' min left'));
+      chip.style.setProperty('--cx', Math.min(92, Math.max(8, q * 100)).toFixed(2) + '%');
+      bar.classList.add('talk');
+      clearTimeout(idleT);
+      idleT = setTimeout(function () { bar.classList.remove('talk'); }, 1600);
     }
     function kick() { if (!raf) raf = requestAnimationFrame(draw); }
+    ticksEl.addEventListener('mouseover', function (e) {
+      var t = e.target.closest('i[data-i]'); if (!t) return;
+      var s = secs[+t.getAttribute('data-i')]; if (!s) return;
+      tip.textContent = s.t;
+      tip.style.left = t.style.left;
+      bar.classList.add('tipping');
+    });
+    ticksEl.addEventListener('mouseout', function () { bar.classList.remove('tipping'); });
+    ticksEl.addEventListener('click', function (e) {
+      var t = e.target.closest('i[data-i]'); if (!t) return;
+      var s = secs[+t.getAttribute('data-i')]; if (!s || !s.el) return;
+      window.scrollTo({ top: s.el.getBoundingClientRect().top + window.scrollY - 96, behavior: REDUCE ? 'auto' : 'smooth' });
+    });
     window.addEventListener('scroll', kick, { passive: true });
-    window.addEventListener('resize', function () { place(); kick(); });
-    place(); draw();
+    window.addEventListener('resize', function () { place(); build(true); p = -1; kick(); });
+    window.addEventListener('hashchange', function () { setTimeout(function () { build(true); p = -1; kick(); }, 400); });
+    document.addEventListener('click', function () { setTimeout(function () { build(true); p = -1; kick(); }, 500); }, true);
+    if (window.VitaliteProgress && window.VitaliteProgress.onChange) window.VitaliteProgress.onChange(paintRead);
+    place(); build(true); draw();
     setTimeout(place, 800);
+    setTimeout(function () { build(true); p = -1; kick(); }, 1500);
   }
 
   /* the category pills in the top bar get the same emblems, small */

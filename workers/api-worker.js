@@ -22,6 +22,9 @@
  *
  *   type: "checkup_vision" → Body Checkup camera scanning (unchanged contract).
  *
+ *   type: "news"      → Social → Forum → News: GLM web search (search_pro) +
+ *                       glm-4.5-air writes ≤6 cited posts; cached 6 h per language.
+ *
  * Env:
  *   ZHIPU_API_KEY  (secret required) — open.bigmodel.cn key for text + vision
  *   AI binding     (optional) — Workers AI binding named "AI" for mode:"site"
@@ -191,7 +194,7 @@ function corsOptions() {
 }
 
 async function zhipuChat(env, model, system, userMsg, opts = {}) {
-  const { temperature = 0.4, maxTokens = 800 } = opts;
+  const { temperature = 0.4, maxTokens = 800, noThink = false } = opts;
   const r = await fetch("https://open.bigmodel.cn/api/paas/v4/chat/completions", {
     method: "POST",
     headers: {
@@ -206,6 +209,9 @@ async function zhipuChat(env, model, system, userMsg, opts = {}) {
       ],
       temperature,
       max_tokens: maxTokens,
+      // glm-4.5 thinks by default and can spend the whole budget on it,
+      // returning empty content; turned off where a quick direct answer is wanted
+      ...(noThink ? { thinking: { type: "disabled" } } : {}),
     }),
   });
   if (!r.ok) {
@@ -392,6 +398,7 @@ async function handleText(body, env) {
       reply = await zhipuChat(env, MODEL.site, SITE_SYSTEM, question, {
         temperature: 0.5,
         maxTokens: 700,
+        noThink: true,
       });
     } catch (e2) {
       return json({ lang, error: String(e2.message || e2), mode }, 502);
@@ -400,9 +407,80 @@ async function handleText(body, env) {
   return json({ lang, reply, mode, model: used });
 }
 
+// ── News (Vitalite Social → Forum → News) ─────────────────────────────────────
+// { type:"news", lang } → { ok, generated_at, posts:[{title, summary, tag, source, link, date}] }
+// GLM searches the web (Zhipu web_search, search_pro engine) for recent sports-
+// science news, then glm-4.5-air writes short posts from those results only,
+// each keeping its real source link. Cached for 6 hours per language at the edge
+// (caches.default), so only the first visitor after a refresh waits. If a Cron
+// Trigger is added to this worker, scheduled() refreshes both languages ahead.
+const NEWS_TTL = 6 * 3600;
+const NEWS_QUERIES = {
+  en: ["sports science new study athletes", "sports medicine research news", "exercise physiology study published", "sports nutrition research news", "sports injury prevention study"],
+  zh: ["运动科学 最新研究", "运动医学 研究 新闻", "运动营养 最新研究", "运动损伤 预防 研究", "运动生理学 新研究"],
+};
+const NEWS_BLOCK = /casino|bet|gambl|lottery|aiyouxi|彩票|博彩|赌|娱乐城|体育登录/i;
+
+async function webSearch(env, q) {
+  const r = await fetch("https://open.bigmodel.cn/api/paas/v4/web_search", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.ZHIPU_API_KEY },
+    body: JSON.stringify({ search_engine: "search_pro", search_query: q, count: 10, search_recency_filter: "oneMonth" }),
+  });
+  if (!r.ok) return [];
+  const d = await r.json();
+  return (d.search_result || []).filter((x) => x && x.link && x.title && !NEWS_BLOCK.test(x.title + " " + (x.media || "")));
+}
+
+async function buildNews(env, lang) {
+  const lists = await Promise.all(NEWS_QUERIES[lang].map((q) => webSearch(env, q).catch(() => [])));
+  const seen = new Set(), pool = [];
+  lists.flat().forEach((x) => {
+    const k = x.link.replace(/[#?].*$/, "");
+    if (seen.has(k)) return;
+    seen.add(k);
+    pool.push({ title: x.title.slice(0, 160), content: String(x.content || "").slice(0, 500), link: x.link, source: x.media || "", date: String(x.publish_date || "").replace(/\//g, "-") });
+  });
+  pool.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const items = pool.slice(0, 24);
+  if (!items.length) return [];
+  const sys = lang === "zh"
+    ? "你是 Vitalité 社区的新闻编辑。只根据给出的搜索结果，挑选最多 6 条与运动科学、运动医学、运动营养或运动损伤相关的、最新且可信的新闻或研究。跳过广告、赌博、无关或重复的条目。每条用中文写：title（不超过 30 字）、summary（2-3 句，说清楚发现了什么、对运动员意味着什么）、tag（研究/损伤/营养/训练/恢复/行业 之一）。source 和 link、date 必须原样取自对应结果，绝不编造。只输出 JSON 数组。"
+    : "You are the news editor for the Vitalité community. Using ONLY the search results given, pick up to 6 recent, credible news items or studies about sports science, sports medicine, sports nutrition or sports injury. Skip ads, gambling, off-topic or duplicate items. For each write in English: title (max 14 words), summary (2-3 sentences: what was found and what it means for athletes), tag (one of Research, Injury, Nutrition, Training, Recovery, Industry). source, link and date must be copied exactly from the matching result; never invent any. Output a JSON array only.";
+  const user = JSON.stringify(items.map((x, i) => ({ n: i + 1, title: x.title, content: x.content, source: x.source, link: x.link, date: x.date })));
+  const raw = await zhipuChat(env, MODEL.site, sys, user, { temperature: 0.3, maxTokens: 1800, noThink: true });
+  const m = String(raw).match(/\[[\s\S]*\]/);
+  let posts = [];
+  try { posts = JSON.parse(m ? m[0] : "[]"); } catch (e) { posts = []; }
+  const links = new Set(items.map((x) => x.link));
+  return posts
+    .filter((p) => p && p.title && p.summary && links.has(p.link))        // only links that really came back from the search
+    .slice(0, 6)
+    .map((p) => ({ title: String(p.title).slice(0, 140), summary: String(p.summary).slice(0, 600), tag: String(p.tag || "").slice(0, 20), source: String(p.source || "").slice(0, 60), link: p.link, date: String(p.date || "").slice(0, 10) }));
+}
+
+async function newsFeed(body, env, ctx) {
+  const lang = body && body.lang === "zh" ? "zh" : "en";
+  const key = new Request("https://api.vitaliteplan.com/__news/v1/" + lang);
+  const cache = typeof caches !== "undefined" ? caches.default : null;
+  if (cache) {
+    const hit = await cache.match(key);
+    if (hit) { const d = await hit.json(); return json({ ...d, cached: true }); }
+  }
+  let posts = [];
+  try { posts = await buildNews(env, lang); } catch (e) { return json({ ok: false, error: String(e.message || e) }, 502); }
+  const out = { ok: true, lang, generated_at: new Date().toISOString(), posts };
+  if (cache && posts.length) {
+    const res = new Response(JSON.stringify(out), { headers: { "content-type": "application/json", "Cache-Control": "max-age=" + NEWS_TTL } });
+    const put = cache.put(key, res);
+    if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
+  }
+  return json(out);
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return corsOptions();
     if (request.method !== "POST") {
       return json({ error: "method_not_allowed" }, 405);
@@ -420,7 +498,25 @@ export default {
       return checkupVision(body, env);
     }
 
+    // Social → News feed (web search + GLM, cached 6 h)
+    if (body && body.type === "news") {
+      return newsFeed(body, env, ctx);
+    }
+
     // Text path
     return handleText(body, env);
+  },
+
+  // Optional: add a Cron Trigger (e.g. every 6 hours) to refresh the news ahead
+  // of visitors. Without one, the first visitor after the cache expires refreshes it.
+  async scheduled(event, env, ctx) {
+    const cache = caches.default;
+    for (const lang of ["en", "zh"]) {
+      const posts = await buildNews(env, lang).catch(() => []);
+      if (!posts.length) continue;
+      const out = { ok: true, lang, generated_at: new Date().toISOString(), posts };
+      ctx.waitUntil(cache.put(new Request("https://api.vitaliteplan.com/__news/v1/" + lang),
+        new Response(JSON.stringify(out), { headers: { "content-type": "application/json", "Cache-Control": "max-age=" + NEWS_TTL } })));
+    }
   },
 };

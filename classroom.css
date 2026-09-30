@@ -1,0 +1,146 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Classroom  ·  Vitalité
+   Only tokens the site already defines (--surface, --border, --text2, --accent
+   …) so light and dark are free, and the 40px touch convention for controls.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cl-wrap{max-width:1080px;margin:0 auto;padding:2.2rem 1.25rem 3rem}
+.cl-wrap h1{font-size:2.1rem;line-height:1.15;margin:1rem 0 .6rem;letter-spacing:-.01em}
+.cl-lede{color:var(--text2);max-width:62ch;line-height:1.65;font-size:1rem}
+
+/* cards ------------------------------------------------------------------ */
+.cl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius,14px);
+  padding:1.4rem 1.5rem;margin-top:1.4rem;box-shadow:var(--shadow-sm)}
+.cl-card h2{font-size:1.25rem;margin-bottom:.5rem}
+.cl-card h3{font-size:1.02rem;margin-bottom:.45rem;letter-spacing:.01em}
+.cl-card p{color:var(--text2);line-height:1.6;max-width:70ch}
+.cl-warn-card{border-color:var(--amber,#B8860B);background:var(--accent-bg,#FBF3E0)}
+.cl-dim{color:var(--text3);font-size:.86rem;line-height:1.6}
+.cl-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:1rem}
+.cl-half .cl-form{margin-top:.6rem}
+
+/* forms ------------------------------------------------------------------ */
+.cl-form{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+.cl-form label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3)}
+.cl-form.cl-inline{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.5rem}
+.cl-input{width:100%;min-height:42px;padding:.55rem .75rem;border:1px solid var(--border2,#CBD9E2);
+  border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:.92rem}
+.cl-input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.cl-search{max-width:14rem}
+.cl-form.cl-inline .cl-input{width:auto;flex:1 1 9rem;min-width:8rem}
+.cl-msg{font-size:.85rem;min-height:1.2em;color:var(--text2)}
+.cl-msg.err{color:var(--red,#C05A74)}
+.cl-msg.ok{color:var(--green,#2E7D5B)}
+.cl-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+/* the site's own .qo-btn is 39px tall; the classroom touch convention is 40 */
+.cl-wrap .qo-btn{min-height:40px;display:inline-flex;align-items:center}
+
+/* top bar ---------------------------------------------------------------- */
+.cl-bar{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.6rem}
+.cl-bar h2{font-size:1.5rem;line-height:1.2}
+.cl-bar-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.cl-chip{min-height:40px;padding:.45rem .9rem;border:1px solid var(--border2,#CBD9E2);border-radius:999px;
+  background:var(--surface2,#F1F6F9);color:var(--text2);font:inherit;font-size:.85rem;cursor:pointer}
+.cl-chip:hover{border-color:var(--accent);color:var(--accent)}
+.cl-steps{margin:.8rem 0 .4rem 1.1rem;color:var(--text2);line-height:1.9}
+.cl-steps a{color:var(--accent)}
+
+/* tabs ------------------------------------------------------------------- */
+.cl-tabs{display:flex;gap:.25rem;flex-wrap:wrap;margin:1.4rem 0 .2rem;border-bottom:1px solid var(--border)}
+.cl-tab{min-height:42px;padding:.5rem .95rem;border:0;border-bottom:2px solid transparent;background:none;
+  color:var(--text3);font:inherit;font-size:.9rem;font-weight:600;cursor:pointer}
+.cl-tab:hover{color:var(--text2)}
+.cl-tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.cl-view{padding-top:.2rem}
+
+/* stat tiles ------------------------------------------------------------- */
+.cl-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-top:1.2rem}
+.cl-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+.cl-stat b{display:block;font-size:1.7rem;line-height:1.1;font-weight:700}
+.cl-stat span{font-size:.76rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3)}
+
+/* progress bar ----------------------------------------------------------- */
+.cl-bar-wrap{height:8px;border-radius:999px;background:var(--surface3,#E3ECF2);overflow:hidden;min-width:70px}
+.cl-bar-fill{height:100%;background:var(--accent);border-radius:999px}
+
+/* heatmap ---------------------------------------------------------------- */
+/* one cell per unit, chapters or topics grouped. Ink only, no text, so it
+   stays readable at 188 cells and works in both themes. */
+.cl-heat{display:flex;flex-direction:column;gap:.7rem;margin-top:1rem}
+.cl-heat-group{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.cl-heat-name{font-size:.76rem;font-weight:700;color:var(--text3);min-width:5.5rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl-heat-cells{display:flex;gap:3px;flex-wrap:wrap}
+.cl-cell{width:15px;height:15px;border-radius:4px;background:var(--surface3,#E3ECF2);
+  border:1px solid var(--border);cursor:default}
+.cl-cell.d1{background:var(--accent);border-color:var(--accent);opacity:.32}
+.cl-cell.d2{background:var(--accent);border-color:var(--accent);opacity:.62}
+.cl-cell.d3{background:var(--accent);border-color:transparent}
+.cl-legend{display:flex;align-items:center;gap:.5rem;margin-top:.9rem;font-size:.78rem;color:var(--text3)}
+.cl-legend .cl-cell{cursor:default}
+
+/* table ------------------------------------------------------------------ */
+.cl-toolbar{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.9rem}
+.cl-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cl-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:560px}
+.cl-table th{text-align:left;font-size:.74rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--text3);padding:.5rem .6rem;border-bottom:1px solid var(--border2,#CBD9E2);white-space:nowrap}
+.cl-table td{padding:.55rem .6rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.cl-table tr:hover td{background:var(--surface2,#F1F6F9)}
+.cl-role{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3)}
+.cl-role.teacher{color:var(--accent)}
+.cl-linkbtn{background:none;border:0;color:var(--accent);font:inherit;font-size:.85rem;cursor:pointer;padding:.3rem}
+.cl-linkbtn.danger{color:var(--red,#C05A74)}
+
+/* lists ------------------------------------------------------------------ */
+.cl-list{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.6rem}
+.cl-list li{background:var(--surface2,#F1F6F9);border:1px solid var(--border);border-radius:10px;
+  padding:.7rem .85rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;font-size:.88rem}
+.cl-list li .cl-grow{flex:1 1 12rem;min-width:0}
+.cl-list .cl-unit{font-family:ui-monospace,Menlo,monospace;font-size:.8rem;color:var(--text3)}
+.cl-list .cl-tag{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:.15rem .5rem;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--text3)}
+.cl-list .cl-tag.ai{color:var(--amber,#B8860B);border-color:var(--amber,#B8860B)}
+.cl-list .cl-tag.draft{color:var(--red,#C05A74);border-color:var(--red,#C05A74)}
+.cl-list .cl-tag.live{color:var(--green,#2E7D5B);border-color:var(--green,#2E7D5B)}
+
+/* messages --------------------------------------------------------------- */
+.cl-msgs{list-style:none;margin-top:.8rem;display:flex;flex-direction:column;gap:.5rem}
+.cl-msgs li{background:var(--surface2,#F1F6F9);border:1px solid var(--border);border-radius:10px;padding:.6rem .8rem;font-size:.9rem}
+.cl-msgs time{display:block;font-size:.72rem;color:var(--text3);margin-top:.2rem}
+
+/* detail ----------------------------------------------------------------- */
+.cl-detail{margin-top:1.2rem;display:flex;flex-direction:column;gap:.9rem}
+.cl-detail-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;font-size:.88rem}
+.cl-detail-row .cl-grow{flex:1 1 10rem}
+.cl-empty{color:var(--text3);font-size:.88rem;padding:1rem 0}
+
+/* live quiz -------------------------------------------------------------- */
+.cl-live-stage{background:var(--surface2,#F1F6F9);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem;margin-top:1rem;text-align:center}
+.cl-live-q{font-size:1.15rem;font-weight:600;line-height:1.45;margin-bottom:1rem}
+.cl-live-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;text-align:left}
+.cl-live-opt{min-height:52px;padding:.7rem .9rem;border:1px solid var(--border2,#CBD9E2);border-radius:10px;
+  background:var(--surface);color:var(--text);font:inherit;font-size:.92rem;cursor:pointer;text-align:left}
+.cl-live-opt:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cl-live-opt:disabled{cursor:default;opacity:.75}
+.cl-live-opt.right{border-color:var(--green,#2E7D5B);background:rgba(46,125,91,.12);opacity:1}
+.cl-live-opt.wrong{border-color:var(--red,#C05A74);background:rgba(192,90,116,.12);opacity:1}
+.cl-live-state{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.cl-live-board{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.4rem}
+.cl-live-board li{display:flex;align-items:center;gap:.7rem;font-size:.9rem}
+.cl-live-board .cl-grow{flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-live-board .cl-n{font-variant-numeric:tabular-nums;font-weight:700;min-width:2.2rem;text-align:right}
+.cl-foot{color:var(--text3);font-size:.8rem;margin-top:2.2rem;line-height:1.6;max-width:70ch}
+
+/* phones ----------------------------------------------------------------- */
+@media(max-width:640px){
+  .cl-wrap{padding:1.5rem 1rem 2.5rem}
+  .cl-wrap h1{font-size:1.6rem}
+  .cl-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .cl-tabs::-webkit-scrollbar{display:none}
+  .cl-tab{white-space:nowrap;flex:0 0 auto}
+  .cl-stats{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+  .cl-bar{align-items:flex-start;flex-direction:column}
+  .cl-search{max-width:none}
+  .cl-heat-name{min-width:100%;margin-bottom:.15rem}
+}

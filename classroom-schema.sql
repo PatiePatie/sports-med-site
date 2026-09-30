@@ -14,7 +14,22 @@
 --  only ever read rows for classrooms they actually own.
 -- ═══════════════════════════════════════════════════════════════════════════
 
+-- ═══════════════════════════════════════════════════════════════════════════
+--  ONE TRANSACTION. If anything below fails, Postgres rolls the whole thing
+--  back and you are left with an empty schema rather than half of one - so a
+--  retry is always a clean retry. The first version of this file was not
+--  wrapped and had the helper functions before the tables they query, which
+--  aborted partway through and left nothing usable.
+-- ═══════════════════════════════════════════════════════════════════════════
+begin;
+
 -- ───────────────────────────────────────────────────────────── 0 · cleanup
+-- Re-runnable: everything this file creates is dropped first, so running it
+-- twice rebuilds rather than failing. The functions go first because the
+-- policies depend on them.
+drop function if exists public.is_teacher(uuid);
+drop function if exists public.in_classroom(uuid);
+drop view if exists public.classroom_roster;
 drop table if exists live_answers    cascade;
 drop table if exists live_sessions  cascade;
 drop table if exists progress_events cascade;
@@ -26,43 +41,7 @@ drop table if exists classrooms      cascade;
 drop table if exists class_messages  cascade;
 
 
--- ═══════════════════════════════════════════ 1 · a tiny role helper
--- A member is a teacher if they created the classroom, or were promoted.
--- A SECURITY DEFINER function avoids a recursive policy on classroom_members
--- (a policy that reads the table it governs is the classic infinite loop).
-create or replace function public.is_teacher(cid uuid)
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.classroom_members m
-    where m.classroom_id = cid
-      and m.user_id = auth.uid()
-      and m.role in ('teacher', 'assistant')
-  );
-$$;
-
-create or replace function public.in_classroom(cid uuid)
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.classroom_members m
-    where m.classroom_id = cid and m.user_id = auth.uid()
-  );
-$$;
-
-grant execute on function public.is_teacher(uuid) to authenticated;
-grant execute on function public.in_classroom(uuid) to authenticated;
-
-
--- ═══════════════════════════════════════════ 2 · classrooms
+-- ═══════════════════════════════════════════ 1 · classrooms
 create table public.classrooms (
   id            uuid primary key default gen_random_uuid(),
   name          text        not null,
@@ -96,7 +75,7 @@ create table public.class_messages (
 );
 
 
--- ═══════════════════════════════════════════ 3 · release schedule
+-- ═══════════════════════════════════════════ 2 · release schedule
 -- One row per released unit, in the order the teacher opened it up.
 -- A unit id is the same id progress-tracker.js uses: vt:ch3:0, ib:A.2.1:1, g10:s2:0
 create table public.assignments (
@@ -116,7 +95,7 @@ comment on column public.assignments.unit_id is
   'Matches the unit ids in progress-tracker.js. Use * for the entire course.';
 
 
--- ═══════════════════════════════════════════ 4 · questions
+-- ═══════════════════════════════════════════ 3 · questions
 -- source: existing = already in the site banks, teacher = hand written,
 --         ai = generated, which must be approved before it can be published.
 create table public.questions (
@@ -146,7 +125,7 @@ create table public.attempts (
 );
 
 
--- ═══════════════════════════════════════════ 5 · progress
+-- ═══════════════════════════════════════════ 4 · progress
 -- The mirror of sm_progress_v1, per student. One row per unit they have opened.
 create table public.progress_events (
   id            bigint generated always as identity primary key,
@@ -166,7 +145,7 @@ create index progress_events_lookup
   on public.progress_events (classroom_id, read, course);
 
 
--- ═══════════════════════════════════════════ 6 · live sessions (Kahoot)
+-- ═══════════════════════════════════════════ 5 · live sessions (Kahoot)
 -- State lives in the database, not in the teacher's tab, so closing the tab or
 -- losing connection does not end the session for everyone else.
 create table public.live_sessions (
@@ -196,6 +175,51 @@ create table public.live_answers (
 );
 
 create index live_answers_session on public.live_answers (session_id);
+
+
+-- ═══════════════════════════════════════════ 6 · role helpers
+-- These MUST come after the tables. Postgres validates a SQL-language
+-- function body when it is created, so a function that selects from
+-- public.classroom_members fails with
+--   42P01: relation "public.classroom_members" does not exist
+-- if the table has not been created yet. They are also SECURITY DEFINER
+-- on purpose: a policy that reads classroom_members to decide access to
+-- classroom_members is the classic infinite recursion, and DEFINER is the
+-- standard way out.
+
+-- A member is a teacher if they created the classroom, or were promoted.
+-- A SECURITY DEFINER function avoids a recursive policy on classroom_members
+-- (a policy that reads the table it governs is the classic infinite loop).
+create or replace function public.is_teacher(cid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.classroom_members m
+    where m.classroom_id = cid
+      and m.user_id = auth.uid()
+      and m.role in ('teacher', 'assistant')
+  );
+$$;
+
+create or replace function public.in_classroom(cid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.classroom_members m
+    where m.classroom_id = cid and m.user_id = auth.uid()
+  );
+$$;
+
+grant execute on function public.is_teacher(uuid) to authenticated;
+grant execute on function public.in_classroom(uuid) to authenticated;
 
 
 -- ═══════════════════════════════════════════ 7 · RLS, on everywhere
@@ -357,7 +381,7 @@ create policy live_answers_write on public.live_answers for insert
   with check (user_id = auth.uid());
 
 
--- ═══════════════════════════════════════════ 8 · realtime
+-- ═══════════════════════════════════════════ 7 · realtime
 -- Supabase only broadcasts changes on tables that are in the publication, so
 -- without this the live quiz would poll instead of updating instantly.
 -- The two drop/add lines make re-running the file safe.
@@ -378,7 +402,7 @@ begin
 end $$;
 
 
--- ═══════════════════════════════════════════ 9 · a convenience view
+-- ═══════════════════════════════════════════ 8 · a convenience view
 -- The teacher's class table: one row per student with their read count.
 -- Defined with security_invoker so RLS still applies to whoever queries it,
 -- rather than a definer view quietly bypassing the policies above.
@@ -400,3 +424,5 @@ left join public.progress_events p
   on p.classroom_id = m.classroom_id and p.user_id = m.user_id
 group by m.classroom_id, m.user_id, m.role, m.display_name, m.joined_at,
          m.last_seen_at, c.course;
+
+commit;

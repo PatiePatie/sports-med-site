@@ -1,0 +1,191 @@
+/* ═══ CROSS-COURSE ANALYTICS · dashboard block ═════════════════════════
+   Namespaced .an-* and using the site's own custom properties, so it inherits
+   light and dark for free. ══════════════════════════════════════════════ */
+
+.hm-an { margin: 1.5rem 0; }
+
+.an-head h2 {
+  margin: 0 0 .35rem;
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+}
+.an-head p {
+  margin: 0 0 1rem;
+  color: var(--text2);
+  font-size: .85rem;
+  line-height: 1.6;
+  max-width: 72ch;
+}
+
+.an-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: .9rem;
+}
+
+.an-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: .95rem 1.05rem 1.05rem;
+}
+
+.an-h {
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-bottom: .7rem;
+}
+.an-h b {
+  font-size: .93rem;
+  margin-right: auto;
+}
+.an-h span {
+  font-size: .78rem;
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+}
+
+.an-rows {
+  display: grid;
+  gap: .3rem;
+}
+.an-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: .55rem;
+  padding: .4rem .45rem;
+  border-radius: 8px;
+  font-size: .85rem;
+  text-decoration: none;
+  color: var(--text);
+}
+a.an-row:hover { background: var(--surface2); }
+.an-ico { font-size: 1rem; }
+.an-lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.an-num, .an-pct {
+  font-size: .78rem;
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+}
+.an-pct { min-width: 3.4rem; text-align: right; }
+.an-sub {
+  grid-column: 2 / -1;
+  font-size: .72rem;
+  color: var(--text3);
+}
+
+/* the bar sits in its own column so it can never sit under the label */
+.an-bar {
+  width: 74px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface2);
+  overflow: hidden;
+}
+.an-bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.an-bar.low i { background: #b3261e; }
+.an-bar.mid i { background: #8a5a00; }
+.an-bar.high i { background: #157f4a; }
+
+.an-spark-cap {
+  font-size: .74rem;
+  color: var(--text2);
+  margin: .5rem 0 .25rem;
+}
+.an-spark-cap em {
+  font-style: normal;
+  color: var(--text3);
+  font-size: .72rem;
+}
+.an-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40px;
+  margin: 0 0 .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.an-spark i {
+  flex: 1 1 0;
+  min-width: 4px;
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+}
+.an-spark i.fail { background: #b3261e; }
+
+.an-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: .6rem;
+}
+.an-grid > div {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .55rem .6rem;
+  text-align: center;
+  background: var(--surface2);
+}
+.an-grid b {
+  display: block;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.an-grid span {
+  font-size: .7rem;
+  color: var(--text2);
+  line-height: 1.3;
+}
+
+.an-links { display: flex; flex-wrap: wrap; gap: .4rem; }
+.an-link {
+  font-size: .8rem;
+  padding: .35rem .7rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+}
+.an-link:hover { border-color: var(--accent); }
+
+.an-live {
+  display: block;
+  margin-bottom: .7rem;
+  padding: .55rem .7rem;
+  border-radius: 10px;
+  border: 1px solid #b3261e;
+  background: rgba(179, 38, 30, .08);
+  text-decoration: none;
+  color: var(--text);
+}
+.an-live b { display: block; font-size: .85rem; }
+.an-live span { font-size: .76rem; color: var(--text2); }
+
+.an-sub-txt {
+  font-size: .76rem;
+  color: var(--text3);
+  line-height: 1.55;
+  margin-top: .55rem;
+}
+
+.an-empty {
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  color: var(--text2);
+  font-size: .86rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .an-grid-2 { grid-template-columns: 1fr; }
+  .an-row { grid-template-columns: auto 1fr auto; }
+  .an-pct { min-width: 3rem; }
+  .an-bar { width: 52px; }
+}

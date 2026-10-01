@@ -183,9 +183,33 @@ a.an-row:hover { background: var(--surface2); }
   line-height: 1.65;
 }
 
+/* At 390 the label, the count and the bar cannot share one row: the label was
+   pushing the bar onto a second line, so each row reported 17% with an orphan
+   bar underneath it. Percentage moves to its own line and gets a full-width
+   bar, which reads as one number plus one bar instead of three fragments. */
 @media (max-width: 640px) {
   .an-grid-2 { grid-template-columns: 1fr; }
-  .an-row { grid-template-columns: auto 1fr auto; }
-  .an-pct { min-width: 3rem; }
-  .an-bar { width: 52px; }
+  .an-row {
+    grid-template-columns: auto 1fr auto;
+    row-gap: .2rem;
+    padding: .45rem .45rem .55rem;
+  }
+  .an-lbl {
+    grid-column: 2 / 3;
+    font-size: .84rem;
+  }
+  .an-num { grid-column: 3 / 4; text-align: right; }
+  .an-pct {
+    grid-column: 2 / 4;
+    text-align: left;
+    min-width: 0;
+    font-size: .76rem;
+  }
+  .an-bar {
+    grid-column: 2 / 4;
+    width: 100%;
+    height: 5px;
+  }
+  .an-sub { grid-column: 2 / 4; }
+  .an-head p { font-size: .82rem; }
 }

@@ -278,6 +278,14 @@ body.dark .chat-send,body.dark .capture-btn,body.dark .for-btn.primary,body.dark
 .kv-opts button.wrong{background:color-mix(in srgb,var(--red) 13%,var(--surface2))!important;box-shadow:var(--sg-press-sm),inset 0 0 0 2px color-mix(in srgb,var(--red) 50%,transparent)!important}
 .kv-opts button:disabled{transform:none!important}
 .kv-btn.primary,.ks-btn.primary{background:var(--accent)!important;color:#fff!important}
+/* ═══ Practice tray: mode buttons ═════════════════════════════════════════
+   .ks-tabs was display:block with no gap, so the mode buttons rendered as
+   inline-blocks butted against each other on wrapped lines - which is what
+   read as "squeezed" on the IB pages, where a section yields 8 modes
+   instead of the textbook's 7 and wraps sooner. Same fix as every other
+   chip row on the site: flex, wrap, an explicit gap, 40px tap minimum. */
+.ks-tabs{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
+.ks-tabs .ks-tab{flex:0 0 auto;white-space:nowrap;min-height:40px}
 .kn-learn,.ks{border:0!important;box-shadow:var(--sg-raise),var(--sg-rim)!important;background:var(--surface)!important;border-radius:24px!important}
 
 /* ── Fields: sunk into the surface ─────────────────────────────────────────── */

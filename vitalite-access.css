@@ -205,3 +205,40 @@ body:not(.dark) .container > h2 { color: var(--text); }
   .vt-plan-blurb { min-height: 0; }
   .vt-gate-row .qo-btn { flex: 1 1 auto; justify-content: center; }
 }
+/* == Buttons on this page ==
+   pricing.html has no inline stylesheet, so `.qo-btn` -- which every other
+   page defines in its own <style> -- was never defined here. That left the
+   plan CTAs and the study-pack download as bare text: measured 271x18px,
+   far below the 40px tap floor.
+
+   soft-glass.css already skins `.qo-btn` globally, with !important on
+   background/colour/border, so this block must NOT try to restyle it -- an
+   earlier attempt at accent-gold buttons was silently overridden and came
+   out as a grey pill. This supplies LAYOUT only and lets the design system
+   own the appearance. Scoped to IDs that exist only on this page, so
+   nothing leaks onto exam / cn-cert / ib-sehs-learn / home. */
+#vtPlans .qo-btn,
+#vtDownload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 44px;
+  padding: .6rem 1.4rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: .92rem;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+/* the plan you are already on must not read as a live buy button */
+#vtPlans .qo-btn[aria-disabled="true"] {
+  opacity: .55;
+  cursor: default;
+}
+@media (max-width: 640px) {
+  #vtPlans .qo-btn, #vtDownload { width: 100%; }
+}

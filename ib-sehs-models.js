@@ -5292,7 +5292,11 @@ MODELS['ADH and cardiovascular drift'] = function (host) {
 
   function prepare(item) {
     if (!item) return;
-    learnMount(item);
+    /* The "Learn it your way" panel is gone. IB now uses the same practice
+       tray as the textbook and G10, mounted by knowledge-fx.js. The builders
+       below are kept because learnRender/refresh still reference them and will
+       simply find nothing. */
+
     $$('.native-section', item).forEach(function (block) {
       if (block._ibSlot || block._ibFail) return;
       var title = titleOf(block);

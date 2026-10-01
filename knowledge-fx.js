@@ -1389,7 +1389,7 @@
   };
 
   function trayLabels(tray) {
-    var lab = tray.querySelector('.ks-lab-t'); if (lab) lab.textContent = T('Practise this part', '练一练这一节');
+    var lab = tray.querySelector('.ks-lab-t'); if (lab) lab.textContent = T('Test Your Knowledge!', '测试你的知识！');
     $$('.ks-tab', tray).forEach(function (b) {
       var m = MODES.filter(function (x) { return x[0] === b.getAttribute('data-m'); })[0];
       b.querySelector('.ks-tab-t').textContent = T(m[2], m[3]);
@@ -1397,11 +1397,11 @@
   }
   function tray(host) {
     if (host.getAttribute('data-ks')) return;
-    /* IB lesson sections carry their own interactive model and their own
-       "Learn it your way" panel, so the generic practice tray is redundant
-       there and its styling never matched the page. Detected structurally,
-       not by filename, so it cannot be bypassed by a rename. */
-    if (host.matches && host.matches('section.native-section')) return;
+    /* The tray now serves all three courses, so IB sections get one too.
+       The second line must stay: on IB an .acc-body-inner wraps the
+       section.native-section elements, so mounting on the body as well would
+       nest one tray inside another. Textbook bodies contain no native-section,
+       so this only ever fires on IB. Detected structurally, not by filename. */
     if (host.classList.contains('acc-body-inner') && host.querySelector('section.native-section')) return;
     var D = extract(host), text = bodyText(host), av = available(D, text.length);
     if (av.length < 2 && !(av.length === 1 && av[0] !== 'teach')) { if (text.length >= 400) host.setAttribute('data-ks', '0'); return; }   /* still filling in? look again later */

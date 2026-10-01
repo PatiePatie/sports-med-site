@@ -5,11 +5,18 @@
    free and the skin-coherence check still passes.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Also declared for html.mk-focus: the focus veil is appended to <body>, not
-   to the section, so without this every var(--mk-*) inside the exam resolves
-   to nothing and the option letters lose their circle entirely. */
+/* Also declared on the focus veil, which is appended to <body> rather than to
+   the section — without it every var(--mk-*) inside the exam resolves to
+   nothing and the option letters lose their circle entirely.
+
+   It MUST be .mk-focus-veil and not html.mk-focus. A var() reference is
+   resolved at the element where the declaration sits and the *resolved* value
+   then inherits, so declaring this on <html> froze it to the light :root
+   value of --surface2 and shadowed the body.dark override underneath: the
+   option letter came out light-on-light at 1.14:1 contrast. Both .mk-root and
+   .mk-focus-veil are descendants of <body>, so they see the theme's values. */
 .mk-root,
-html.mk-focus {
+.mk-focus-veil {
   --mk-line: var(--border, #d8dde6);
   --mk-soft: var(--surface2, #f2f4f8);
   --mk-dim: var(--text2, #4a5568);

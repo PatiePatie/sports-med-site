@@ -212,14 +212,24 @@ function renderPlansWhenReady() {
 renderPlansWhenReady();
 
 /* the header owns the language toggle; re-read sm_lang after it writes */
+/* Other pages apply data-en/data-zh from their own inline applyLang(). This
+   page has no such function, so the static headings and the download button
+   stayed English for a reader whose language was already zh -- while the
+   plan names, which this file renders itself, correctly switched. One
+   applier, used both on load and after the header toggle writes sm_lang. */
+function applyI18n() {
+  document.querySelectorAll('[data-en][data-zh]').forEach(function (n) {
+    n.textContent = t(n.getAttribute('data-en'), n.getAttribute('data-zh'));
+  });
+}
+applyI18n();
+
 document.addEventListener('click', function (e) {
   if (e.target && e.target.id === 'langToggle') {
     setTimeout(function () {
       showCN = localStorage.getItem('sm_lang') === 'zh';
-      document.querySelectorAll('[data-en][data-zh]').forEach(function (n) {
-        n.textContent = t(n.getAttribute('data-en'), n.getAttribute('data-zh'));
-      });
-      renderPlans();
+      applyI18n();
+      renderPlansWhenReady();
     }, 240);
   }
 });

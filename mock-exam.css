@@ -1,0 +1,594 @@
+/* ═══ TIMED MOCK EXAMS ═══════════════════════════════════════════════════
+   One engine, three exams (NPTE / 运动康复师 / IB SEHS). Everything here is
+   namespaced under .mk- so it cannot collide with the site skin.
+   Colours come from the site's own custom properties, so light and dark are
+   free and the skin-coherence check still passes.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Also declared for html.mk-focus: the focus veil is appended to <body>, not
+   to the section, so without this every var(--mk-*) inside the exam resolves
+   to nothing and the option letters lose their circle entirely. */
+.mk-root,
+html.mk-focus {
+  --mk-line: var(--border, #d8dde6);
+  --mk-soft: var(--surface2, #f2f4f8);
+  --mk-dim: var(--text2, #4a5568);
+  --mk-ok: #157f4a;
+  --mk-no: #b3261e;
+  --mk-warn: #8a5a00;
+  --mk-key: var(--accent, #b8860b);
+}
+
+/* ── launcher card ───────────────────────────────────────────────────── */
+.mk-launch {
+  border: 1px solid var(--mk-line);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  padding: 1.15rem 1.25rem 1.25rem;
+  margin: 1.4rem 0;
+}
+.mk-launch h2 {
+  margin: 0 0 .3rem;
+  font-size: 1.22rem;
+  letter-spacing: -.01em;
+}
+.mk-lede {
+  color: var(--mk-dim);
+  font-size: .93rem;
+  line-height: 1.6;
+  margin: 0 0 .95rem;
+  max-width: 72ch;
+}
+.mk-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+.mk-fact {
+  font-size: .78rem;
+  line-height: 1.35;
+  padding: .3rem .6rem;
+  border-radius: 999px;
+  background: var(--mk-soft);
+  border: 1px solid var(--mk-line);
+  color: var(--mk-dim);
+}
+.mk-fact b {
+  color: var(--text, #16233a);
+  font-weight: 700;
+}
+.mk-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.mk-btn {
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 600;
+  min-height: 40px;
+  padding: .5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--mk-line);
+  background: var(--mk-soft);
+  color: var(--text, #16233a);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.mk-btn:hover { border-color: var(--mk-key); }
+.mk-btn.primary {
+  background: var(--accent, #b8860b);
+  border-color: var(--accent, #b8860b);
+  color: #fff;
+}
+.mk-btn.ghost { background: transparent; }
+.mk-btn[disabled] { opacity: .5; cursor: default; }
+
+/* ── notices ─────────────────────────────────────────────────────────── */
+.mk-note {
+  border-radius: 10px;
+  padding: .65rem .85rem;
+  font-size: .85rem;
+  line-height: 1.55;
+  margin: .8rem 0;
+  border: 1px solid;
+}
+.mk-note.warn {
+  border-color: color-mix(in srgb, var(--mk-warn) 40%, transparent);
+  background: color-mix(in srgb, var(--mk-warn) 8%, transparent);
+  color: var(--mk-warn);
+}
+.mk-note.info {
+  border-color: color-mix(in srgb, var(--mk-dim) 32%, transparent);
+  background: var(--mk-soft);
+  color: var(--mk-dim);
+}
+.mk-note b { color: inherit; }
+
+/* ── exam shell ──────────────────────────────────────────────────────── */
+.mk-stage {
+  border: 1px solid var(--mk-line);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  overflow: hidden;
+}
+.mk-stage[hidden] { display: none; }
+
+.mk-top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  padding: .6rem .9rem;
+  background: var(--surface, #fff);
+  border-bottom: 1px solid var(--mk-line);
+}
+.mk-name {
+  font-weight: 700;
+  font-size: .92rem;
+  margin-right: auto;
+}
+.mk-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.02rem;
+  font-weight: 700;
+  padding: .22rem .6rem;
+  border-radius: 8px;
+  background: var(--mk-soft);
+  border: 1px solid var(--mk-line);
+  min-width: 5.4rem;
+  text-align: center;
+}
+.mk-clock.warn {
+  color: var(--mk-warn);
+  border-color: color-mix(in srgb, var(--mk-warn) 45%, transparent);
+}
+.mk-clock.crit {
+  color: #fff;
+  background: var(--mk-no);
+  border-color: var(--mk-no);
+}
+.mk-sect {
+  font-size: .8rem;
+  color: var(--mk-dim);
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  border: 1px solid var(--mk-line);
+}
+
+/* ── the question ────────────────────────────────────────────────────── */
+.mk-body { padding: 1.1rem 1.2rem 1.4rem; }
+
+.mk-scen {
+  border: 1px solid var(--mk-line);
+  border-left: 3px solid var(--mk-key);
+  border-radius: 8px;
+  background: var(--mk-soft);
+  padding: .7rem .9rem;
+  margin-bottom: 1rem;
+  font-size: .88rem;
+  line-height: 1.6;
+}
+.mk-scen dl {
+  margin: .45rem 0 0;
+  display: grid;
+  grid-template-columns: minmax(7.5rem, auto) 1fr;
+  gap: .16rem .8rem;
+}
+.mk-scen dt {
+  color: var(--mk-dim);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  padding-top: .12rem;
+}
+.mk-scen dd { margin: 0; }
+
+.mk-qmeta {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  flex-wrap: wrap;
+  margin-bottom: .45rem;
+  font-size: .8rem;
+  color: var(--mk-dim);
+}
+.mk-qno {
+  font-weight: 700;
+  color: var(--text, #16233a);
+  font-size: .92rem;
+}
+.mk-tag {
+  font-size: .72rem;
+  padding: .12rem .45rem;
+  border-radius: 999px;
+  border: 1px solid var(--mk-line);
+  background: var(--mk-soft);
+}
+.mk-cmd {
+  font-size: .72rem;
+  padding: .12rem .45rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mk-key) 45%, transparent);
+  color: var(--mk-key);
+}
+.mk-stem {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+  max-width: 78ch;
+}
+
+.mk-opts { display: grid; gap: .5rem; }
+.mk-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  text-align: left;
+  font: inherit;
+  font-size: .95rem;
+  line-height: 1.55;
+  padding: .7rem .85rem;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--mk-line);
+  background: var(--surface, #fff);
+  color: var(--text, #16233a);
+  cursor: pointer;
+}
+.mk-opt:hover { border-color: var(--mk-key); }
+.mk-opt .k {
+  flex: 0 0 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--mk-line);
+  background: var(--mk-soft);
+  font-size: .78rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.mk-opt[aria-pressed="true"] {
+  border-color: var(--mk-key);
+  background: color-mix(in srgb, var(--mk-key) 10%, var(--surface, #fff));
+}
+.mk-opt[aria-pressed="true"] .k {
+  background: var(--mk-key);
+  border-color: var(--mk-key);
+  color: #fff;
+}
+.mk-opt.correct {
+  border-color: var(--mk-ok);
+  background: color-mix(in srgb, var(--mk-ok) 10%, var(--surface, #fff));
+}
+.mk-opt.correct .k { background: var(--mk-ok); border-color: var(--mk-ok); color: #fff; }
+.mk-opt.wrong {
+  border-color: var(--mk-no);
+  background: color-mix(in srgb, var(--mk-no) 9%, var(--surface, #fff));
+}
+.mk-opt.wrong .k { background: var(--mk-no); border-color: var(--mk-no); color: #fff; }
+
+/* multi-answer (运动康复师 多项选择) */
+.mk-multi-note {
+  font-size: .8rem;
+  color: var(--mk-warn);
+  margin: -.4rem 0 .8rem;
+}
+
+/* ── navigator ───────────────────────────────────────────────────────── */
+.mk-nav {
+  display: grid;
+  gap: .5rem;
+  margin-top: 1.3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--mk-line);
+}
+.mk-navrow {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+.mk-navrow .mk-btn:first-child { margin-right: auto; }
+.mk-dothead {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .78rem;
+  color: var(--mk-dim);
+  margin-top: .3rem;
+}
+.mk-mini {
+  font: inherit;
+  font-size: .76rem;
+  min-height: 40px;
+  margin-left: auto;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  border: 1px solid var(--mk-line);
+  background: transparent;
+  color: var(--mk-dim);
+  cursor: pointer;
+}
+.mk-mini:hover { color: var(--mk-key); border-color: var(--mk-key); }
+
+/* Bounded box, not eight free rows: on a 225-item paper an unbounded grid
+   pushes the question itself off the screen. */
+.mk-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  max-height: 116px;
+  overflow-y: auto;
+  padding: .45rem;
+  border: 1px solid var(--mk-line);
+  border-radius: 10px;
+  background: var(--mk-soft);
+  scrollbar-width: thin;
+}
+.mk-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--mk-line);
+  background: var(--surface, #fff);
+  font: inherit;
+  font-size: .72rem;
+  color: var(--mk-dim);
+  cursor: pointer;
+  position: relative;
+  flex: 0 0 auto;
+}
+.mk-dot.done {
+  background: var(--mk-key);
+  border-color: var(--mk-key);
+  color: #fff;
+  font-weight: 700;
+}
+.mk-dot.cur { outline: 2px solid var(--mk-key); outline-offset: 1px; }
+/* Painted chip stays compact; the hit area is 40px tall, matching the tap
+   target rule the rest of the site already follows. */
+.mk-dot::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 40px;
+  transform: translateY(-50%);
+}
+.mk-dot.flag::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mk-warn);
+  border: 1px solid var(--surface, #fff);
+}
+
+/* ── results ─────────────────────────────────────────────────────────── */
+.mk-score {
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+  flex-wrap: wrap;
+  margin: .2rem 0 .9rem;
+}
+.mk-big {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.mk-sub { color: var(--mk-dim); font-size: .9rem; }
+.mk-pass {
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .22rem .6rem;
+  border-radius: 999px;
+  border: 1px solid;
+}
+.mk-pass.yes {
+  color: var(--mk-ok);
+  border-color: var(--mk-ok);
+  background: color-mix(in srgb, var(--mk-ok) 10%, transparent);
+}
+.mk-pass.no {
+  color: var(--mk-no);
+  border-color: var(--mk-no);
+  background: color-mix(in srgb, var(--mk-no) 10%, transparent);
+}
+
+.mk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .86rem;
+  margin: .9rem 0;
+}
+.mk-table th,
+.mk-table td {
+  text-align: left;
+  padding: .45rem .6rem;
+  border-bottom: 1px solid var(--mk-line);
+}
+.mk-table th {
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--mk-dim);
+  font-weight: 700;
+}
+.mk-table td.num,
+.mk-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.mk-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--mk-soft);
+  overflow: hidden;
+  min-width: 70px;
+}
+.mk-bar i {
+  display: block;
+  height: 100%;
+  background: var(--mk-key);
+  border-radius: 999px;
+}
+.mk-bar.low i { background: var(--mk-no); }
+.mk-bar.mid i { background: var(--mk-warn); }
+.mk-bar.high i { background: var(--mk-ok); }
+
+/* ── history / analysis ──────────────────────────────────────────────── */
+.mk-hist {
+  display: grid;
+  gap: .4rem;
+  margin: .8rem 0;
+}
+.mk-run {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  flex-wrap: wrap;
+  padding: .55rem .75rem;
+  border: 1px solid var(--mk-line);
+  border-radius: 9px;
+  background: var(--surface, #fff);
+  font-size: .86rem;
+}
+.mk-run .when { color: var(--mk-dim); font-size: .8rem; min-width: 8.5rem; }
+.mk-run .sc { font-weight: 700; font-variant-numeric: tabular-nums; }
+.mk-run .pace { margin-left: auto; color: var(--mk-dim); font-size: .8rem; }
+
+.mk-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 56px;
+  margin: .5rem 0 .2rem;
+}
+.mk-spark i {
+  flex: 1 1 0;
+  min-width: 4px;
+  background: var(--mk-key);
+  border-radius: 3px 3px 0 0;
+  position: relative;
+}
+.mk-spark i.fail { background: var(--mk-no); }
+.mk-axislbl {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  color: var(--mk-dim);
+}
+
+.mk-review {
+  border: 1px solid var(--mk-line);
+  border-radius: 10px;
+  padding: .8rem .95rem;
+  margin: .55rem 0;
+  background: var(--surface, #fff);
+}
+.mk-review.ok { border-left: 3px solid var(--mk-ok); }
+.mk-review.no { border-left: 3px solid var(--mk-no); }
+.mk-review .q {
+  font-size: .92rem;
+  line-height: 1.55;
+  margin: 0 0 .5rem;
+}
+.mk-review .ex {
+  font-size: .85rem;
+  line-height: 1.6;
+  color: var(--mk-dim);
+  margin: .55rem 0 0;
+  padding-top: .55rem;
+  border-top: 1px dashed var(--mk-line);
+}
+.mk-review .ex b { color: var(--text, #16233a); }
+
+.mk-verdict {
+  border: 1px solid var(--mk-line);
+  border-left: 3px solid var(--mk-key);
+  border-radius: 10px;
+  background: var(--mk-soft);
+  padding: .85rem 1rem;
+  margin: 1rem 0;
+  font-size: .9rem;
+  line-height: 1.65;
+}
+.mk-verdict ul { margin: .5rem 0 0; padding-left: 1.15rem; }
+.mk-verdict li { margin: .2rem 0; }
+
+.mk-hidden { display: none !important; }
+
+/* ── narrow screens ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .mk-body { padding: .9rem .85rem 1.1rem; }
+  .mk-top { gap: .45rem; padding: .55rem .7rem; }
+  .mk-name { font-size: .84rem; width: 100%; margin-right: 0; order: 9; }
+  .mk-big { font-size: 2rem; }
+  .mk-dots { max-height: 108px; }
+  .mk-dot { width: 32px; height: 32px; }
+  .mk-scen dl { grid-template-columns: 1fr; gap: 0 .1rem; }
+  .mk-scen dd { margin-bottom: .3rem; }
+  .mk-table { font-size: .8rem; }
+  .mk-table th, .mk-table td { padding: .38rem .4rem; }
+  .mk-navrow .mk-btn { flex: 1 1 auto; justify-content: center; }
+}
+/* ── FOCUS VEIL ───────────────────────────────────────────────────────
+   Fullscreen can be refused (it needs a trusted gesture, and iOS Safari has
+   no fullscreen on non-video elements). So the exam also gets a fixed
+   full-viewport veil that hides the page behind it. Relying on fullscreen
+   alone would leave the site visible on exactly the devices where a phone
+   student is most likely to abandon a paper. */
+.mk-focus-veil {
+  position: fixed;
+  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 2147483000;
+  background: var(--surface, #fff);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+}
+.mk-focus-veil .mk-stage {
+  border: 0;
+  border-radius: 0;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: none;
+}
+.mk-focus-veil .mk-top { padding: .8rem 1rem; }
+
+/* belt and braces: even without the veil, take the chrome out of the way */
+html.mk-focus body > header,
+html.mk-focus body > footer,
+html.mk-focus body > .sidebar,
+html.mk-focus body > .lin-topbar,
+html.mk-focus body > #aiFab,
+html.mk-focus body > #qnaFab,
+html.mk-focus body > .back-top,
+html.mk-focus body > #tutReplay { display: none !important; }
+
+/* a phone has no Escape key, so focus mode needs a visible way out */
+.mk-quit {
+  font: inherit;
+  font-size: .82rem;
+  min-height: 40px;
+  padding: .4rem .8rem;
+  border-radius: 8px;
+  border: 1px solid var(--mk-line);
+  background: transparent;
+  color: var(--mk-dim);
+  cursor: pointer;
+}
+.mk-quit:hover { color: var(--mk-no); border-color: var(--mk-no); }

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plans &amp; Pricing · 会员方案 — Vitalité</title>
+<meta name="description" content="What is free, what needs an account, and what Plus adds. Everything that teaches stays free.">
+
+<!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
+<link rel="stylesheet" href="vitalite-skin.css?v=20">
+<script src="sections.js?v=10" defer></script>
+<script src="draft.js?v=1" defer></script>
+<script src="linear-layout.js?v=16" defer></script>
+<script src="button-glow.js?v=1" defer></script>
+<link rel="stylesheet" href="vi-icons.css">
+<script src="vi-icons.js?v=3" defer></script>
+<link rel="stylesheet" href="qna-widget.css?v=6">
+<script src="qna-widget.js?v=2" defer></script>
+<link rel="stylesheet" href="notif-bell.css?v=2">
+<script src="notif-bell.js?v=1" defer></script>
+<!-- DRAFT-THEME:END -->
+
+<!-- SHAPES-THEME:BEGIN — remove with: python3 tools/shapes_switch.py off -->
+<link rel="stylesheet" href="shapes-skin.css?v=3">
+<script src="shapes-fx.js?v=6" defer></script>
+<link rel="stylesheet" href="soft-glass.css?v=11">
+<script src="soft-fx.js?v=11" defer></script>
+<!-- SHAPES-THEME:END -->
+
+<!-- PLANS:BEGIN -->
+<link rel="stylesheet" href="vitalite-access.css?v=1">
+<script src="vitalite-access.js?v=1"></script>
+<!-- PLANS:END -->
+
+<link rel="icon" href="icons/vitalite-32.png">
+<link rel="apple-touch-icon" href="icons/vitalite-180.png">
+<link rel="stylesheet" href="auth-widget.css?v=4">
+<script src="auth-widget.js?v=13"></script>
+</head>
+<body>
+
+<header class="lin-topbar">
+  <div class="lin-topbar-inner">
+    <div class="lin-topleft">
+      <a class="sb-mark" href="index.html"><img src="icons/vitalite-32.png" alt="Vitalité" width="20" height="20"></a>
+      <button class="btn-icon" id="langToggle" type="button" data-en="中" data-zh="EN">中</button>
+      <button class="btn-icon" id="darkToggle" type="button">🌙</button>
+    </div>
+    <div class="lin-search-cluster">
+      <div class="lin-search">
+        <input class="lin-search-input" id="searchInput" type="search" placeholder="Search…" aria-label="Search">
+        <kbd class="lin-search-kbd">⌘K</kbd>
+      </div>
+    </div>
+    <div class="header-actions" id="headerActions"></div>
+  </div>
+</header>
+
+<main class="container" style="padding:2.2rem 1.25rem 3rem">
+
+  <span class="section-label" data-en="Plans &amp; pricing" data-zh="会员方案">Plans &amp; pricing</span>
+  <h1 data-en="What is free, and what Plus adds" data-zh="哪些免费，Plus 增加什么">What is free, and what Plus adds</h1>
+  <p style="color:var(--text2);max-width:70ch;line-height:1.65" data-en="Everything that teaches is free and always will be — every course, every section, every flashcard and every quiz. An account is only ever asked for so your progress belongs to you rather than to one browser. Paid exists for the things that cost money to run." data-zh="所有教学内容免费，并且始终免费 —— 全部课程、全部小节、全部闪卡与测验。只有需要记录进度时才会请你登录，让进度归属于你而不是某个浏览器。付费项是那些真正会产生成本的功能。">Everything that teaches is free and always will be — every course, every section, every flashcard and every quiz. An account is only ever asked for so your progress belongs to you rather than to one browser. Paid exists for the things that cost money to run.</p>
+
+  <div class="vt-plans" id="vtPlans"></div>
+
+  <div class="vt-note" id="vtNow"></div>
+
+  <h2 style="margin-top:2rem" data-en="What stays free, always" data-zh="永久免费的内容">What stays free, always</h2>
+  <ul style="color:var(--text2);line-height:1.75;max-width:72ch" id="vtFreeList"></ul>
+
+  <h2 style="margin-top:2rem" data-en="Download the IB SEHS study pack" data-zh="下载 IB SEHS 学习包">Download the IB SEHS study pack</h2>
+  <p style="color:var(--text2);max-width:70ch;line-height:1.65" data-en="The whole IB SEHS syllabus in one printable file — 207 pages, bilingual English and 中文, every topic, every section, every in-detail walkthrough and all 131 key terms defined." data-zh="IB SEHS 全部大纲整合为一个可打印文件 — 207 页，中英双语，包含每一个主题、每一个小节、每一步详解，以及全部 131 个关键术语定义。">The whole IB SEHS syllabus in one printable file — 207 pages, bilingual English and 中文, every topic, every section, every in-detail walkthrough and all 131 key terms defined.</p>
+  <p style="margin:1.1rem 0"><a class="qo-btn" id="vtDownload" href="ib-sehs-study-pack.pdf" download data-en="Download the 207-page study pack (PDF)" data-zh="下载 207 页学习包（PDF）">Download the 207-page study pack (PDF)</a></p>
+  <div class="vt-note">
+    <b data-en="Free while payments are being switched on." data-zh="支付开通前免费。">Free while payments are being switched on.</b>
+    <span data-en=" Checkout is not live yet, so the pack is a plain public download rather than something behind a purchase you cannot complete. It becomes a Plus download the moment billing goes live." data-zh=" 支付流程尚未开通，因此学习包目前为公开直接下载，而不是被一个无法完成的购买流程阻住。支付开通后它将自动变为 Plus 专属下载。"> Checkout is not live yet, so the pack is a plain public download rather than something behind a purchase you cannot complete. It becomes a Plus download the moment billing goes live.</span>
+  </div>
+
+  <div class="vt-note">
+    <b data-en="Payments are not switched on yet." data-zh="支付功能尚未开启。">Payments are not switched on yet.</b>
+    <span data-en=" The plans above are what the site is built to support. Buying is not live — the buttons explain the plan and ask you to sign in. Nothing on this page takes payment today, and no feature behind it is hidden behind a broken checkout." data-zh=" 上述方案是网站已支持的形态。目前尚未开放购买 —— 按钮会说明方案并请你登录。本页现在不收取任何费用，也没有任何功能会被一个无法完成的支付流程挡住。"> The plans above are what the site is built to support. Buying is not live — the buttons explain the plan and ask you to sign in. Nothing on this page takes payment today, and no feature behind it is hidden behind a broken checkout.</span>
+  </div>
+
+  <div class="vt-note">
+    <b data-en="If you are in mainland China." data-zh="如果你在中国大陆。">If you are in mainland China.</b>
+    <span data-en=" Signing in uses Supabase, which can be slow or unreachable from some networks here. Everything that teaches works without signing in — that is deliberate, so a network problem never costs you access to the material. If sync is unreachable for you, the progress on this device still works." data-zh=" 登录使用 Supabase，在部分中国大陆网络下可能缓慢或无法访问。所有教学内容在未登录状态下都可正常使用 —— 这是刻意的设计，网络问题不会让你失去学习材料的访问。如果同步不可用，本机记录的进度仍然有效。"> Signing in uses Supabase, which can be slow or unreachable from some networks here. Everything that teaches works without signing in — that is deliberate, so a network problem never costs you access to the material. If sync is unreachable for you, the progress on this device still works.</span>
+  </div>
+
+</main>
+
+<footer>
+<div class="container">
+  <p><strong data-en="Disclaimer:" data-zh="免责声明：">Disclaimer:</strong> <span data-en="Educational material only, not medical advice." data-zh="本指南仅作教育用途，不构成医疗建议。">Educational material only, not medical advice.</span></p>
+</div>
+</footer>
+
+<script>
+var showCN = (localStorage.getItem('sm_lang') === 'zh');
+(function () {
+  try {
+    if (localStorage.getItem('dark') !== 'false') document.body.classList.add('dark');
+  } catch (e) {}
+})();
+
+function t(en, zh) { return showCN ? zh : en; }
+
+function renderPlans() {
+  var A = window.VitaliteAccess;
+  var host = document.getElementById('vtPlans');
+  if (!A) { host.textContent = 'Entitlement layer unavailable.'; return; }
+  var s = A.state();
+  host.innerHTML = '';
+
+  ['free', 'plus', 'teacher'].forEach(function (id) {
+    var p = A.PLANS[id];
+    var card = document.createElement('div');
+    card.className = 'vt-plan' + (id === 'plus' ? ' featured' : '');
+
+    var cur = document.createElement('p');
+    cur.className = 'vt-current';
+    if (s.plan === id) cur.textContent = t('Your current plan', '你当前的方案');
+    card.appendChild(cur);
+
+    var name = document.createElement('p');
+    name.className = 'vt-plan-name';
+    name.textContent = t(p.name[0], p.name[1]);
+    card.appendChild(name);
+
+    var price = document.createElement('p');
+    price.className = 'vt-plan-price';
+    price.textContent = t(p.price[0], p.price[1]);
+    card.appendChild(price);
+
+    var blurb = document.createElement('p');
+    blurb.className = 'vt-plan-blurb';
+    blurb.textContent = t(p.blurb[0], p.blurb[1]);
+    card.appendChild(blurb);
+
+    var ul = document.createElement('ul');
+    p.includes.forEach(function (row) {
+      var li = document.createElement('li');
+      li.textContent = t(row[0], row[1]);
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+
+    var a = document.createElement('a');
+    a.className = 'qo-btn';
+    a.href = id === 'free' ? 'guide.html' : 'login.html#signup';
+    a.textContent = id === 'free'
+      ? t('Start reading', '开始学习')
+      : (s.plan === id ? t('Current plan', '当前方案')
+                       : t('Get ' + p.name[0], '开通 ' + p.name[1]));
+    if (s.plan === id && id !== 'free') a.setAttribute('aria-disabled', 'true');
+    card.appendChild(a);
+
+    host.appendChild(card);
+  });
+
+  var now = document.getElementById('vtNow');
+  if (s.signedIn) {
+    now.innerHTML = '<b>' + esc(t('Signed in as ', '已登录：')) + esc(s.email) + '</b> ' +
+      esc(t('You are on the ' + A.PLANS[s.plan].name[0] + ' plan.',
+            '你当前使用「' + A.PLANS[s.plan].name[1] + '」方案。'));
+  } else {
+    now.innerHTML = '<b>' + esc(t('Not signed in.', '未登录。')) + '</b> ' +
+      esc(t('Everything that teaches works without an account. Sign in only to keep your progress.',
+            '所有教学内容无需账号即可使用。只有保存进度时才需要登录。'));
+  }
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+(function renderFree() {
+  var rows = [
+    ['Vitalité Textbook — every chapter and section', 'Vitalité 教材 —— 全部章节与小节'],
+    ['IB SEHS — all 83 topics with the interactive models', 'IB SEHS —— 全部 83 个主题，含互动模型'],
+    ['G10 Biology and USABO material', 'G10 生物与 USABO 材料'],
+    ['Flashcards and spaced review', '闪卡与间隔复习'],
+    ['Quizzes and key-term definitions, in both languages', '测验与核心术语释义，中英双语'],
+    ['Timed mock exams with full results analysis', '限时模拟考试与完整结果分析'],
+    ['The Knowledge Hub and every public page', '知识中心与所有公开页面']
+  ];
+  var ul = document.getElementById('vtFreeList');
+  ul.innerHTML = '';
+  rows.forEach(function (r) {
+    var li = document.createElement('li');
+    li.textContent = t(r[0], r[1]);
+    ul.appendChild(li);
+  });
+})();
+
+/* vitalite-access.js is deferred, so it is NOT available while this inline
+   script is still parsing. Wait for it instead of rendering a broken page. */
+function renderPlansWhenReady() {
+  var tries = 0;
+  (function go() {
+    if (window.VitaliteAccess) { renderPlans(); return; }
+    if (++tries > 60) {
+      var host = document.getElementById('vtPlans');
+      if (host && !host.children.length) host.textContent = 'Entitlement layer unavailable.';
+      return;
+    }
+    setTimeout(go, 50);
+  })();
+}
+renderPlansWhenReady();
+
+/* the header owns the language toggle; re-read sm_lang after it writes */
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.id === 'langToggle') {
+    setTimeout(function () {
+      showCN = localStorage.getItem('sm_lang') === 'zh';
+      document.querySelectorAll('[data-en][data-zh]').forEach(function (n) {
+        n.textContent = t(n.getAttribute('data-en'), n.getAttribute('data-zh'));
+      });
+      renderPlans();
+    }, 240);
+  }
+});
+</script>
+</body>
+</html>

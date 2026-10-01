@@ -1,0 +1,207 @@
+/* ═══ PAYWALL / ENTITLEMENT ══════════════════════════════════════════════
+   The gate veil and the pricing card. Namespaced .vt-* and driven by the
+   site's own custom properties, so light and dark are inherited.
+
+   Two rules this stylesheet exists to enforce:
+     · nothing that TEACHES is ever behind the veil — only metered extras
+     · the veil is dismissible. A gate that cannot be closed is a trap, and a
+       trap on the reading pages would cost the search traffic outright.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.vt-veil {
+  position: fixed;
+  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 2147482000;
+  background: rgba(8, 14, 26, .72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  overflow: auto;
+}
+
+html.vt-locked { overflow: hidden; }
+
+.vt-gate {
+  width: min(440px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 1.3rem 1.4rem 1.4rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+  text-align: center;
+}
+.vt-gate h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.14rem;
+  letter-spacing: -.01em;
+}
+.vt-gate-p {
+  margin: 0 0 1.1rem;
+  color: var(--text2);
+  font-size: .89rem;
+  line-height: 1.62;
+}
+.vt-gate-row {
+  display: flex;
+  gap: .55rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.vt-gate-row .qo-btn {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: .55rem 1.1rem;
+  border-radius: 10px;
+  font-size: .88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+}
+.vt-gate-row .qo-btn.next {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── the price cards on the pricing page ─────────────────────────── */
+.vt-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.6rem 0;
+}
+.vt-plan {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 1.15rem 1.2rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.vt-plan.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.vt-plan-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 .2rem;
+}
+.vt-plan-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0 0 .35rem;
+}
+.vt-plan-blurb {
+  color: var(--text2);
+  font-size: .85rem;
+  line-height: 1.55;
+  margin: 0 0 .9rem;
+  min-height: 2.6em;
+}
+.vt-plan ul {
+  list-style: none;
+  margin: 0 0 1.1rem;
+  padding: 0;
+  flex: 1 1 auto;
+}
+.vt-plan li {
+  font-size: .84rem;
+  line-height: 1.5;
+  padding: .3rem 0 .3rem 1.15rem;
+  border-top: 1px solid var(--border);
+  position: relative;
+  color: var(--text);
+}
+.vt-plan li::before {
+  content: "";
+  position: absolute;
+  left: .15rem;
+  top: .72rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.vt-plan .qo-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: .88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  padding: .55rem 1rem;
+}
+.vt-plan.featured .qo-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.vt-current {
+  font-size: .76rem;
+  color: var(--accent);
+  margin: 0 0 .5rem;
+}
+
+.vt-note {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface2);
+  padding: .85rem 1rem;
+  font-size: .84rem;
+  line-height: 1.65;
+  color: var(--text2);
+  margin: 1.2rem 0;
+}
+.vt-note b { color: var(--text); }
+
+
+/* ── headings inside the plans page ──────────────────────────────────
+   shapes-skin.css paints a white→pale-blue gradient onto EVERY h1/h2/h3 in dark
+   mode: `body.dark h1 { background-image: ... !important }`. It sets only the
+   image, so whether the words are visible depends entirely on whether some
+   LATER rule also sets -webkit-background-clip:text. The home page gets that
+   from a hero-specific rule, so a bare h1 there keeps an opaque fill and the
+   gradient renders as a pale slab with invisible text — which is what the
+   pricing page looked like.
+
+   So both halves are set explicitly here. The clip is what makes the gradient
+   visible as text; the fill colour is the fallback for a theme that removes the
+   clip again. */
+.container > h1,
+.container > h2 {
+  color: var(--text);
+  letter-spacing: -.015em;
+}
+body.dark .container > h1,
+body.dark .container > h2 {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: #F2F7FC;
+}
+/* and a plain, high-contrast ink if the gradient ever stops being applied */
+body:not(.dark) .container > h1,
+body:not(.dark) .container > h2 { color: var(--text); }
+
+.container ul#vtFreeList li { color: var(--text2); }
+
+@media (max-width: 640px) {
+  .vt-gate { width: 100%; }
+  .vt-plans { grid-template-columns: 1fr; }
+  .vt-plan-blurb { min-height: 0; }
+  .vt-gate-row .qo-btn { flex: 1 1 auto; justify-content: center; }
+}

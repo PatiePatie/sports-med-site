@@ -364,7 +364,7 @@ async function clinicalReply(env, question) {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Daily AI quota — the free tier's 20/day is enforced HERE, in the worker.
+// Daily AI quota — the free tier's 5/day is enforced HERE, in the worker.
 //
 // Before this, nothing counted anything: the page showed a remaining-quota
 // number that nothing decremented, and any client could call this endpoint as
@@ -376,12 +376,12 @@ async function clinicalReply(env, question) {
 // everyone — deliberately, so a forgotten migration cannot take the AI down.
 //
 // PLAN MODEL (matches the tier plan)
-//   free     20 calls/day, metered
+//   free     5 calls/day, metered
 //   plus     unmetered
 //   teacher  unmetered (a school paying ¥68/mo should not be throttled)
 //   admin    unmetered
 // ═══════════════════════════════════════════════════════════════════════════
-const AI_FREE_LIMIT = 20;
+const AI_FREE_LIMIT = 5;
 const SB = "https://eytmbftrjvsntyzwbtzl.supabase.co";
 const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc";
 

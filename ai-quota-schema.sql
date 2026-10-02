@@ -21,7 +21,7 @@
 --                 still works: everyone is simply treated as free, which is
 --                 the safe default until billing exists.
 --
--- FREE TIER = 20 calls/day. Change FREE_LIMIT below when you like.
+-- FREE TIER = 5 calls/day. Change FREE_LIMIT below when you like.
 
 create table if not exists public.ai_daily (
   uid         text        not null,
@@ -35,7 +35,7 @@ alter table public.ai_daily enable row level security;
 -- no policies on purpose: the anon key cannot touch this table at all.
 -- The worker reaches it only through ai_touch(), which is SECURITY DEFINER.
 
-create or replace function public.ai_touch(p_uid text, p_limit integer default 20)
+create or replace function public.ai_touch(p_uid text, p_limit integer default 5)
 returns jsonb
 language plpgsql
 security definer

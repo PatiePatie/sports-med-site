@@ -144,3 +144,14 @@
   .cl-search{max-width:none}
   .cl-heat-name{min-width:100%;margin-bottom:.15rem}
 }
+
+/* Questions tab ---------------------------------------------------------- */
+.cl-q-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1rem;margin-top:1rem}
+.cl-q-box{background:var(--surface2,#F1F6F9);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+.cl-q-box h4{font-size:.92rem;margin-bottom:.35rem}
+.cl-q-box p{margin-bottom:.6rem}
+.cl-q-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin:.5rem 0}
+.cl-q-grid .cl-input:first-child{grid-column:1 / -1}
+.cl-q-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:1.2rem}
+.cl-list li .cl-grow b{display:block;color:var(--text);font-weight:600;margin-bottom:.15rem}
+@media(max-width:640px){ .cl-q-grid{grid-template-columns:1fr} }

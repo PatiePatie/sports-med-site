@@ -28,7 +28,24 @@
     var zh = false, dark = true;
     try { zh = (localStorage.getItem('sm_lang') || '').toLowerCase() === 'zh'; dark = localStorage.getItem('dark') !== 'false'; } catch (e) {}
     var MIN = reduce ? 0 : 2200, FAILSAFE = 9000, SKIP_AFTER = 600;
-    /* the loader owns the arrival: no head-script fog underneath it (that was
+
+/* ── First visit only ───────────────────────────────────────────────
+       This loader used to run on EVERY visit of EVERY page. It is
+       full-screen and it hides the whole page behind it
+       (html.vl-on body > :not(#v-loader){visibility:hidden}), so for the
+       first two seconds or so of every single page load the header was
+       unclickable. That is why the 中/EN button "appears covered by another
+       element" on desktop: the blocker is this overlay, not a z-index bug.
+
+       It now runs once per browser, ever. Returning visitors get the page
+       straight away. A ?loader=N query still forces a specific version, so
+       it stays previewable during design work. */
+    var SEEN = 'vt_loader_seen';
+    var forced = false;
+    try { forced = /[?&]loader=\d+/.test(location.search); } catch (e) {}
+    var alreadySeen = false;
+    try { alreadySeen = !!localStorage.getItem(SEEN); } catch (e) {}
+    if (!forced && alreadySeen) { window.vLoader = noop; root.classList.remove('vl-on'); return; }    /* the loader owns the arrival: no head-script fog underneath it (that was
        a second blur: page fogged → loader → fogged again), and the page stays
        hidden until the loader is on screen. soft-fx.js fogs the page in once,
        from the middle, as the loader leaves. */
@@ -50,6 +67,7 @@
     try { var force = /[?&]loader=(\d+)/.exec(location.search); if (force) last = -2, v = (parseInt(force[1], 10) - 1) % N; } catch (e) {}
     if (v == null || isNaN(v)) { do { v = Math.floor(Math.random() * N); } while (v === last && N > 1); }
     try { localStorage.setItem('vt_ld_last', String(v)); } catch (e) {}
+    try { localStorage.setItem(SEEN, '1'); } catch (e) {}
     var centre = CENTRES[v % CENTRES.length], back = BACKS[Math.floor(v / CENTRES.length)];
     var pal = PALETTES[Math.floor(Math.random() * PALETTES.length)];
 
@@ -57,7 +75,7 @@
     var E = 'cubic-bezier(.16,1,.3,1)';
     var css =
       'html.vl-on body > :not(#v-loader){visibility:hidden;animation:vl-unhide 0s 10s forwards}@keyframes vl-unhide{to{visibility:visible}}' +
-      '#v-loader{--lb:#E4E9F0;--lb2:#D3DCE8;--lt:#0E1E33;--lt2:rgba(14,30,51,.58);--lhi:rgba(255,255,255,.9);--llo:rgba(90,110,140,.34);--ltrack:rgba(30,79,143,.12);--lline:rgba(30,60,110,.09);' +
+      '#v-loader{cursor:pointer;--lb:#E4E9F0;--lb2:#D3DCE8;--lt:#0E1E33;--lt2:rgba(14,30,51,.58);--lhi:rgba(255,255,255,.9);--llo:rgba(90,110,140,.34);--ltrack:rgba(30,79,143,.12);--lline:rgba(30,60,110,.09);' +
         'position:fixed;inset:0;z-index:2147483100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;overflow:hidden;' +
         'padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom);box-sizing:border-box;' +
         'background:radial-gradient(120% 90% at 50% 40%,var(--lb) 0%,var(--lb2) 100%);color:var(--lt);font-family:var(--font-heading,Georgia),serif;' +

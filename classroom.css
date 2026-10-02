@@ -155,3 +155,51 @@
 .cl-q-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:1.2rem}
 .cl-list li .cl-grow b{display:block;color:var(--text);font-weight:600;margin-bottom:.15rem}
 @media(max-width:640px){ .cl-q-grid{grid-template-columns:1fr} }
+
+/* ═══ Demo class (classroom-demo.js) ═══
+   Labelled as sample data in both languages and dismissible with Escape. No
+   control in here writes anywhere, so nothing here can pretend to be real. */
+.cl-dm-banner{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+  padding:.85rem 1rem;margin:0 0 1.1rem;
+  background:#FFF6E5;border:1px solid #F0D9A8;border-left:4px solid #C9771E;
+  border-radius:var(--radius,14px)}
+body.dark .cl-dm-banner{background:#2A2314;border-color:#5A4A22}
+.cl-dm-tag{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:#8A5A00;background:rgba(201,119,30,.16);border-radius:999px;padding:.24rem .7rem;white-space:nowrap}
+body.dark .cl-dm-tag{color:#F0C36A}
+.cl-dm-txt{flex:1 1 320px;font-size:.84rem;line-height:1.5;color:var(--text2)}
+.cl-dm-x{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  min-width:6.2rem;min-height:40px;padding:.45rem 1rem;font:inherit;font-size:.78rem;
+  font-weight:600;line-height:1;color:var(--text2);background:var(--surface);
+  border:1px solid var(--border);border-radius:999px;cursor:pointer;white-space:nowrap}
+.cl-dm-x:hover{color:var(--accent);border-color:var(--accent)}
+.cl-dm-key{margin-left:auto;font-size:.7rem;font-weight:700;letter-spacing:.04em;
+  color:#8A5A00;background:rgba(201,119,30,.14);border-radius:999px;padding:.16rem .6rem;white-space:nowrap}
+body.dark .cl-dm-key{color:#F0C36A}
+.cl-dm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin:.2rem 0 .9rem}
+.cl-dm-stat{padding:.75rem .9rem;background:var(--surface2);border:1px solid var(--border);border-radius:12px}
+.cl-dm-stat b{display:block;font-size:1.25rem;line-height:1.15}
+.cl-dm-stat span{font-size:.74rem;color:var(--text2)}
+.cl-dm-heat{display:flex;flex-direction:column;gap:.4rem;margin:.5rem 0}
+.cl-dm-hrow{display:flex;align-items:center;gap:.6rem}
+.cl-dm-hu{flex:0 0 15rem;font-size:.8rem;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-dm-ht{flex:1;height:13px;border-radius:999px;background:var(--surface2);overflow:hidden}
+.cl-dm-hf{display:block;height:100%;border-radius:999px;background:#94A3B8}
+.cl-dm-hf.hi{background:#2E7D5B}.cl-dm-hf.mid{background:#C9771E}
+.cl-dm-hf.lo{background:#B8860B}.cl-dm-hf.none{background:#CBD5E1}
+.cl-dm-hp{flex:0 0 2.6rem;text-align:right;font-size:.78rem;font-variant-numeric:tabular-nums;color:var(--text2)}
+.cl-dm-lg{display:inline-flex;align-items:center;gap:.3rem;margin-right:.9rem;font-size:.74rem;color:var(--text2)}
+.cl-dm-lg i{width:11px;height:11px;border-radius:3px;display:inline-block;background:#CBD5E1}
+.cl-dm-lg i.hi{background:#2E7D5B}.cl-dm-lg i.mid{background:#C9771E}.cl-dm-lg i.lo{background:#B8860B}
+.cl-dm-rel{display:grid;grid-template-columns:1fr auto auto auto;gap:.6rem;align-items:center;
+  padding:.42rem 0;border-bottom:1px dashed var(--border);font-size:.85rem}
+.cl-dm-rel-s{font-size:.72rem;font-weight:700;border-radius:999px;padding:.14rem .55rem;white-space:nowrap}
+.cl-dm-rel-s.on{background:rgba(46,125,91,.16);color:#2E7D5B}
+.cl-dm-rel-s.soon{background:rgba(201,119,30,.16);color:#8A5A00}
+.cl-dm-rel-s.off{background:var(--surface2);color:var(--text3)}
+.cl-dm-rel-d,.cl-dm-rel-p{font-size:.78rem;color:var(--text3);white-space:nowrap}
+@media(max-width:640px){
+  .cl-dm-hu{flex:0 0 6.5rem;font-size:.74rem}
+  .cl-dm-rel{grid-template-columns:1fr auto}
+  .cl-dm-rel-d,.cl-dm-rel-p{display:none}
+}

@@ -330,6 +330,60 @@ restarts automatically. The authored layer (`ib-sehs-lesson-data.js`) is built b
 real `ns()` headings** — a typo there fails silently, because the lesson still
 builds and just quietly loses its analogy.
 
-Not built: Chapters 2 and 3 (the engine is chapter-agnostic — only the
-`CHAPTERS` range and a new authored data file are needed), and the hub's
-Question Bank / Study Guide / Cheatsheet tiles, which are placeholders.
+### The routes
+
+`ib-sehs-lesson.html` is the **subject page** and the whole hierarchy. It is no
+longer chapter-1-only.
+
+| route | view |
+|---|---|
+| `#` | subject page — two tabs, tiles that exist |
+| `#progress` | topic tree — legend, 3 chapters, 11 groups, 29 topics |
+| `#topic/<code>` | breadcrumb, status strip, Learn + Reference |
+| `#lessons/<code>` | lesson list, one row per section |
+| `#guide/<code>` | **the full course text, figures and interactive models** |
+| `#defs/<code>` | every key term with its definition |
+| `#lesson/<code>` | the reader |
+
+Question Bank is deliberately absent, and so is every tile the site does not
+have (Study Notes, Cheatsheets, Blurtiing, Predicted Papers, Mistakes Log).
+The tiles that remain are real: *Practice all topics* and *Flashcards* navigate
+to `ib-sehs-learn.html`, which is the only page carrying those modals.
+
+**The content is not duplicated — it is rendered by the course page's own
+renderer.** The study guide calls `IBSEHSCourse.renderNativeLesson(topic, page)`,
+which already emits exactly the DOM the model layer looks for, then calls
+`IBSEHSModels.build()`. To make that possible `ib-sehs-course.js` was hardened
+(PR #284): every `addEventListener` goes through `on(id, ev, fn)`, `appendChild`
+through `addTo()`, overlay probes through `isOpen()`, and `initialChapter()`
+returns early when the page has no chapter tabs. All four helpers are
+**same-arity** so no call site changed shape. It is loaded `defer` — it touches
+`document.body` at load.
+
+### Four traps this hierarchy added
+
+- **Never remove an HTML element with a lazy regex that ends in a closing tag.**
+  `<div class="ch-nav">.*?</div>\s*</div>` matched 1917 bytes past the block and
+  silently deleted the quiz, flashcard and AI overlays with it. `.*?` is lazy
+  but the trailing `</div></div>` is what makes it run. The balanced removal of
+  the same block is 259 bytes. **Count the tags**, and assert that
+  `ibQuizOverlay` / `ibFlashOverlay` / `ibAiOverlay` / `ibLightbox` still exist
+  before writing the file. This shipped once and the dead button threw nothing
+  and logged nothing.
+- **The interactive-models stylesheet lives in `ib-sehs-learn.html`'s inline
+  `<style>`** — every `.ns-*` neuron and `.an-*` anatomy rule, the legend
+  swatches and the animation keyframes, about 95 KB. It is now copied verbatim
+  into `ib-sehs-lesson.css`. Without it every shape in the study guide falls
+  back to `fill:black`.
+- **The models also need palette variables the real theme does not define.**
+  They paint with `fill:var(--gold)` and `font-family:var(--serif)`, which came
+  from the hand-inlined palette this page used to carry. Since it loads the
+  site's real theme those resolved to *nothing*, and a `var()` with no value
+  falls back to the SVG initial value — also black. `--gold`, `--blue2`,
+  `--serif` and `--d` are now defined with the course page's exact values.
+- **Group keys come from `code.split('.').slice(0, 2)`, never
+  `split('.')[0]`** — the latter collapses A.1 / B.2 / C.5 to a single letter.
+
+Also: `body.ib-lesson button{font:inherit}` is `(0,1,2)` and beats a bare class
+selector, so the narrow-screen top-bar rules are qualified with `body.ib-lesson`
+or they silently do nothing.

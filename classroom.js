@@ -20,6 +20,9 @@
   var SB_URL = 'https://eytmbftrjvsntyzwbtzl.supabase.co';
   var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc';
 
+  /* The same Cloudflare Worker the site chat uses. Optional: if it is down the
+     AI drafts button reports it and the other two ways in still work. */
+  var AI_URL = 'https://api.vitaliteplan.com/';
   var COURSES = {
     vt:  { en: 'Vitalité Textbook', zh: 'Vitalité 教材', total: 90 },
     ib:  { en: 'IB SEHS',           zh: 'IB SEHS',         total: 83 },
@@ -388,7 +391,7 @@
       .then(function (r) {
         if (r.error) throw r.error;
         loadRoster();
-      }).catch(function (e) { alert(e.message || String(e)); });
+      }).catch(function (e) { msg($('#clRosterMsg'), e.message || String(e), 'err'); });
   }
 
   /* ── student detail ─────────────────────────────────────────────────── */
@@ -513,11 +516,34 @@
     };
     db.from('assignments').upsert(payload, { onConflict: 'classroom_id,unit_id' })
       .then(function (r) { if (r.error) throw r.error; loadAssignments(); })
-      .catch(function (e) { alert(e.message || String(e)); });
+      .catch(function (e) { msg($('#clAssignMsg'), e.message || String(e), 'err'); });
   }
 
-  /* ── questions ──────────────────────────────────────────────────────── */
+  /* ── questions ──────────────────────────────────────────────────────────
+   Three ways in, and one rule: AI questions are never published on their own.
+   Imported and hand-written questions are approved at creation; generated ones
+   land as drafts and only a teacher can promote them. */
   var qFilter = 'all';
+
+  function qRow(r) {
+    var prompt = cn() && r.prompt_zh ? r.prompt_zh : r.prompt;
+    var choices = (cn() && r.choices_zh && r.choices_zh.length === 4) ? r.choices_zh : r.choices;
+    return { prompt: prompt, choices: choices, a: r.answer_index };
+  }
+
+  function seedPool() {
+    var S = window.CLASSROOM_SEED || {};
+    /* the pool is filed by source bank, not by course: a teacher may run an IB
+       class and pull NPTE questions, so nothing is hidden from them */
+    var out = [];
+    ['g10', 'cn', 'npte'].forEach(function (bank) {
+      (S[bank] || []).forEach(function (q) {
+        out.push({ q: q.q, qz: q.qz, o: q.o, oz: q.oz, a: q.a, e: q.e, ez: q.ez, bank: bank });
+      });
+    });
+    return out;
+  }
+
   function loadQuestions() {
     var ul = $('#clQList');
     ul.innerHTML = '';
@@ -531,21 +557,34 @@
       f.appendChild(b);
     });
 
-    var q = db.from('questions').select('*').eq('classroom_id', room.id).order('created_at', { ascending: false });
+    var q = db.from('questions').select('*').eq('classroom_id', room.id)
+      .order('created_at', { ascending: false });
     if (qFilter === 'approved') q = q.eq('approved', true);
     if (qFilter === 'draft') q = q.eq('approved', false);
     if (qFilter === 'ai') q = q.eq('source', 'ai');
     q.then(function (r) {
+      if (r.error) throw r.error;
       var rows = (r && r.data) || [];
+      var nPub = rows.filter(function (x) { return x.approved; }).length;
+      var nDraft = rows.length - nPub;
+      var tally = $('#clQTally');
+      if (tally) tally.textContent = rows.length
+        ? T(nPub + ' published, ' + nDraft + ' drafts', nPub + ' 已发布 · ' + nDraft + ' 草稿')
+        : T('empty', '暂无题目');
+
       if (!rows.length) {
         ul.appendChild(el('li', 'cl-empty',
-          T('No questions yet. The existing site banks can be imported, and AI drafts can be generated from this page.',
-            '还没有题目。可从站内已有题库导入，也可在本页生成 AI 草稿。')));
+          T('No questions yet. Import from the site banks, write one, or generate a draft.',
+            '还没有题目。可从站内题库导入、手写，或生成 AI 草稿。')));
         return;
       }
       rows.forEach(function (q2) {
+        var v = qRow(q2);
         var li = el('li');
-        var g = el('span', 'cl-grow', q2.prompt);
+        var g = el('span', 'cl-grow');
+        g.appendChild(el('b', null, v.prompt));
+        g.appendChild(el('span', 'cl-dim',
+          '  ' + v.choices.map(function (c, i) { return (i === v.a ? '✓ ' : '') + c; }).join('  ·  ')));
         li.appendChild(g);
         li.appendChild(el('span', 'cl-tag', q2.source));
         if (!q2.approved) li.appendChild(el('span', 'cl-tag draft', T('draft', '草稿')));
@@ -553,12 +592,17 @@
         if (role === 'teacher' && !q2.approved) {
           var ok = el('button', 'cl-linkbtn', T('Approve', '批准'));
           ok.onclick = function () {
-            db.from('questions').update({ approved: true }).eq('id', q2.id).then(loadQuestions);
+            db.from('questions').update({ approved: true }).eq('id', q2.id)
+              .then(function (e) { if (e.error) throw e.error; loadQuestions(); })
+              .catch(function (e) { msg($('#clQMsg'), e.message || String(e), 'err'); });
           };
           li.appendChild(ok);
         }
         var del = el('button', 'cl-linkbtn danger', '×');
-        del.onclick = function () { db.from('questions').delete().eq('id', q2.id).then(loadQuestions); };
+        del.onclick = function () {
+          if (!confirm(T('Delete this question?', '删除这道题？'))) return;
+          db.from('questions').delete().eq('id', q2.id).then(loadQuestions);
+        };
         li.appendChild(del);
         ul.appendChild(li);
       });
@@ -567,7 +611,215 @@
     });
   }
 
-  /* ── live quiz ──────────────────────────────────────────────────────── */
+  function rowsFrom(seed, howMany) {
+    var pool = seedPool();
+    /* shuffle, then take a spread rather than the first N, so a teacher never
+       ends up with only anatomy because the file happens to start there */
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    var take = pool.slice(0, Math.min(howMany, pool.length));
+    return take.map(function (s) {
+      return {
+        classroom_id: room.id, author_id: me.id, course: room.course,
+        prompt: s.q, prompt_zh: s.qz, choices: s.o, choices_zh: s.oz,
+        answer_index: s.a, explanation: s.e, explanation_zh: s.ez,
+        source: 'existing', approved: true
+      };
+    });
+  }
+
+  function importBank() {
+    var n = Number(($('#clImportN').value || 20) || 20);
+    var rows = rowsFrom(null, n);
+    if (!rows.length) return;
+    var btn = $('#clImportBtn');
+    btn.disabled = true;
+    /* upsert on (classroom_id, author_id, prompt)? there is no such unique key,
+       so this is an insert and a double-click would duplicate. Guard with a
+       length check first and disable the button until it resolves. */
+    db.from('questions').select('prompt').eq('classroom_id', room.id).then(function (have) {
+      var seen = {};
+      ((have && have.data) || []).forEach(function (x) { seen[x.prompt] = 1; });
+      var fresh = rows.filter(function (x) { return !seen[x.prompt]; });
+      if (!fresh.length) {
+        btn.disabled = false;
+        msg($('#clQMsg'), T('Those questions are already in this class.',
+          '这些题目已经在这个班级里了。'), 'err');
+        return;
+      }
+      return db.from('questions').insert(fresh).then(function (r) {
+        if (r.error) throw r.error;
+        loadQuestions();
+        msg($('#clQMsg'), T('Imported ' + fresh.length
+          + (fresh.length === 1 ? ' question.' : ' questions.'),
+          '已导入 ' + fresh.length + ' 道题目。'), 'ok');
+      });
+    }).catch(function (e) {
+      msg($('#clQMsg'), e.message || String(e), 'err');
+    }).then(function () { btn.disabled = false; });
+  }
+
+  function writeQuestion() {
+    var p = ($('#clQPrompt').value || '').trim();
+    var pz = ($('#clQPromptZh').value || '').trim();
+    var cs = [0, 1, 2, 3].map(function (i) { return ($('#clQOpt' + i).value || '').trim(); });
+    var czs = [0, 1, 2, 3].map(function (i) { return ($('#clQOptZh' + i).value || '').trim(); });
+    var a = Number($('#clQAnswer').value);
+    var ex = ($('#clQExplain').value || '').trim();
+    var m = $('#clQWriteMsg');
+    msg(m, '');
+    if (p.length < 8) { msg(m, T('Write the question.', '请填写题干。'), 'err'); return; }
+    if (cs.some(function (x) { return !x; })) {
+      msg(m, T('All four choices are needed.', '四个选项都要填。'), 'err'); return;
+    }
+    if (new Set(cs.map(function (x) { return x.toLowerCase(); })).size !== 4) {
+      msg(m, T('The four choices must be different.', '四个选项不能重复。'), 'err'); return;
+    }
+    if (!(a >= 0 && a <= 3)) { msg(m, T('Pick the correct answer.', '请选择正确答案。'), 'err'); return; }
+
+    db.from('questions').insert({
+      classroom_id: room.id, author_id: me.id, course: room.course,
+      prompt: p, prompt_zh: pz || null, choices: cs,
+      choices_zh: czs.every(function (x) { return x; }) ? czs : cs,
+      answer_index: a, explanation: ex, explanation_zh: null,
+      source: 'teacher', approved: true
+    }).then(function (r) {
+      if (r.error) throw r.error;
+      ['clQPrompt', 'clQPromptZh', 'clQOpt0', 'clQOpt1', 'clQOpt2', 'clQOpt3',
+       'clQOptZh0', 'clQOptZh1', 'clQOptZh2', 'clQOptZh3', 'clQExplain']
+        .forEach(function (id) { var n = document.getElementById(id); if (n) n.value = ''; });
+      msg(m, T('Added.', '已添加。'), 'ok');
+      loadQuestions();
+    }).catch(function (e) { msg(m, e.message || String(e), 'err'); });
+  }
+
+  /* AI generation. The worker is optional: if it is unreachable the teacher
+     gets a clear message rather than a silent failure, and the question bank
+     still works from the import and the hand-written form. */
+  /* AI generation.
+
+     Two findings shaped this, both from talking to the real worker:
+
+     1. The worker is a sports-medicine TUTOR, so asking it for JSON gets a
+        conversational reply ("please provide your question"), not data.
+     2. When it does oblige with JSON, the reply comes back TRUNCATED mid-array,
+        so JSON.parse throws on anything longer than a couple of questions.
+
+     So: ask for the plain Question/A/B/C/D/Answer/Why layout the tutor
+     produces naturally, and parse that. It is not as strict as JSON but it
+     survives truncation, because a half-written trailing question is simply
+     dropped rather than killing the whole batch. */
+  function aiQuestions(promptText, howMany) {
+    var ask = (cn()
+      ? '请写 ' + howMany + ' 道关于以下内容的四选一单选题。每一道严格用下面的格式，不要写其他内容：\n'
+        + 'Question: <题干>\nA) <选项>\nB) <选项>\nC) <选项>\nD) <选项>\nAnswer: <A/B/C/D>\nWhy: <一句话解析>\n\n内容：'
+      : 'Write ' + howMany + ' multiple-choice quiz questions about the following. '
+        + 'Use exactly this layout for each one and write nothing else:\n'
+        + 'Question: <the question>\nA) <option>\nB) <option>\nC) <option>\nD) <option>\n'
+        + 'Answer: <A|B|C|D>\nWhy: <one sentence>\n\nTopic: ')
+      + promptText + '\n\n'
+      + (cn()
+        ? '要求：四个选项必须不同，每题只考一个知识点，不要重复，不要重复上面的格式说明。'
+        : 'Rules: exactly 4 distinct options per question, one factual point each, '
+          + 'do not repeat a fact, and do not repeat these instructions as a question.');
+
+    return fetch(AI_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: ask, lang: cn() ? 'zh' : 'en', mode: 'clinical' })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      var raw = (d && d.reply) || '';
+      if (!raw) throw new Error(T('The AI returned nothing.', 'AI 没有返回内容。'));
+
+      /* Split on "Question:" by plain indexOf, not a regex.
+         String.split(/^\s*(?=Question\s*:)/m) matched (RegExp.test said true)
+         but returned a single element on this text, and pinning that down is a
+         rabbit hole. indexOf is deterministic and this file already parses by
+         scanning elsewhere. */
+      var blocks = [], from = 0;
+      while (from < raw.length) {
+        var at = raw.indexOf('Question:', from);
+        if (at < 0) break;
+        blocks.push(raw.slice(at));
+        from = at + 9;
+      }
+
+      function field(block, label) {
+        var p = block.indexOf(label);
+        if (p < 0) return null;
+        var v = block.slice(p + label.length);
+        var e = v.search(/\r?\n/);
+        if (e >= 0) v = v.slice(0, e);
+        return v.replace(/^[\s:\u2013-]+/, '').trim();
+      }
+
+      var out = [], seen = {};
+      blocks.forEach(function (block) {
+        var prompt = field(block, 'Question:');
+        var opts = ['A)', 'B)', 'C)', 'D)'].map(function (L) {
+          var p = block.indexOf('\n' + L);
+          var from = p + 1 + L.length;      /* +1 skips the newline: with just
+                                              p + L.length the option kept its
+                                              trailing ")" */
+          if (p < 0) { p = block.indexOf(L); from = p + L.length; }
+          if (p < 0) return null;
+          var v = block.slice(from);
+          var e = v.search(/\r?\n/);
+          if (e >= 0) v = v.slice(0, e);
+          return v.replace(/^[\s\u2013-]+/, '').trim() || null;
+        });
+        var ansTxt = field(block, 'Answer:');
+        var why = field(block, 'Why:');
+        var a = ansTxt ? 'ABCD'.indexOf(ansTxt.charAt(0).toUpperCase()) : -1;
+        if (!prompt || prompt.length < 8) return;
+        if (opts.some(function (x) { return !x; })) return;
+        if (a < 0) return;
+        if (new Set(opts.map(function (x) { return x.toLowerCase(); })).size !== 4) return;
+        var key = prompt.toLowerCase().slice(0, 60);
+        if (seen[key]) return;
+        seen[key] = 1;
+        out.push({
+          classroom_id: room.id, author_id: me.id, course: room.course,
+          prompt: prompt, prompt_zh: null,
+          choices: opts, choices_zh: opts, answer_index: a,
+          explanation: why || '', explanation_zh: null,
+          /* ALWAYS a draft. The whole point of the approval queue. */
+          source: 'ai', approved: false
+        });
+      });
+      if (!out.length) {
+        throw new Error(T('The AI reply had no complete question in it. Try asking again, or write one by hand.',
+          'AI 的回复里没有完整的题目，可以再试一次，或手写一道。'));
+      }
+      return out;
+    });
+  }
+
+  function generateAi() {
+    var topic = ($('#clAiTopic').value || '').trim();
+    var n = Math.min(10, Math.max(1, Number(($('#clAiN').value || 5) || 5)));
+    var m = $('#clAiMsg');
+    if (!topic) { msg(m, T('Say what the questions should cover.', '请说明要考什么内容。'), 'err'); return; }
+    msg(m, T('Asking the AI… this takes a few seconds.', '正在请求 AI…需要几秒。'));
+    var btn = $('#clAiBtn');
+    btn.disabled = true;
+    aiQuestions(topic, n).then(function (rows) {
+      if (!rows.length) throw new Error(T('No usable questions came back.', '没有可用的题目。'));
+      return db.from('questions').insert(rows).then(function (r) {
+        if (r.error) throw r.error;
+        msg(m, T('Added ' + rows.length
+          + (rows.length === 1 ? ' draft' : ' drafts')
+          + '. Review and approve them below.',
+          '已生成 ' + rows.length + ' 道草稿。请在下方审核并批准。'), 'ok');
+        loadQuestions();
+      });
+    }).catch(function (e) {
+      msg(m, (e && e.message) || String(e), 'err');
+    }).then(function () { btn.disabled = false; });
+  }
+
+/* ── live quiz ──────────────────────────────────────────────────────── */
   var Live = (function () {
     var chan = null, session = null, board = [];
 
@@ -605,7 +857,11 @@
     }
 
     function create(ids) {
-      if (!ids.length) { alert(T('No published questions to use yet.', '还没有已发布的题目。')); return; }
+      if (!ids.length) {
+        msg($('#clLiveMsg'), T('No published questions to use yet. Approve a few in Questions first.',
+          '还没有已发布的题目。请先在「题目」里批准几道。'), 'err');
+        return;
+      }
       db.from('live_sessions').insert({
         classroom_id: room.id, teacher_id: me.id, course: courseOf(),
         title: T('Live quiz', '实时答题'), state: 'lobby', question_ids: ids
@@ -615,7 +871,7 @@
         localStorage.setItem(LAST, room.join_code);
         render();
         subscribe();
-      }).catch(function (e) { alert(e.message || String(e)); });
+      }).catch(function (e) { msg($('#clLiveMsg'), e.message || String(e), 'err'); });
     }
 
     function subscribe() {
@@ -799,8 +1055,18 @@
     $('#clCopyBtn').addEventListener('click', function () {
       if (!room) return;
       var code = room.join_code;
-      if (navigator.clipboard) navigator.clipboard.writeText(code);
-      else alert(code);
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code);
+      } else {
+        /* no clipboard API: select the code so it can be copied by hand. An
+           alert blocked the page for no gain, the code is already on screen. */
+        var lab = $('#clCodeLabel');
+        var r = document.createRange();
+        r.selectNodeContents(lab);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(r);
+      }
     });
 
     $('#clLeaveBtn').addEventListener('click', function () {
@@ -843,6 +1109,9 @@
         })
         .catch(function (e) { msg($('#clAssignMsg'), e.message || String(e), 'err'); });
     });
+
+    $('#clImportBtn').addEventListener('click', importBank);
+    $('#clAiBtn').addEventListener('click', generateAi);
 
     $$('.cl-tab').forEach(function (t) {
       t.addEventListener('click', function () { show(t.getAttribute('data-view')); });
@@ -954,6 +1223,7 @@
 
   window.VitaliteClassroom = {
     room: function () { return room; },
-    role: function () { return role; }
+    role: function () { return role; },
+    writeQuestion: writeQuestion
   };
 })();

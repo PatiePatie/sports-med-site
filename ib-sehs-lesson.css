@@ -955,3 +955,1499 @@ button.ib-tile--toggle {
   margin: 0 0 1.2rem; width: auto; padding: .45rem .9rem;
   min-height: 38px; font-size: .84rem; font-weight: 800; color: var(--blue2);
 }
+
+/* ═══ subject page, topic tree, topic page, lessons, study guide ═════════ */
+
+/* overall progress next to the subject title */
+.ib-hero__stat {
+  display: inline-flex; align-items: baseline; gap: .45rem;
+  margin-top: .7rem; padding: .3rem .7rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface);
+}
+.ib-hero__stat b { font-size: 1.05rem; font-weight: 800; color: var(--blue); }
+.ib-hero__stat span { font-size: .76rem; color: var(--text3); }
+
+/* section headings inside the subject and topic pages */
+.ib-rsec {
+  margin: 1.7rem 0 .7rem;
+  font-size: 1.24rem; font-weight: 700; letter-spacing: -.01em;
+}
+.ib-rgrid {
+  display: grid; gap: .7rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+.ib-rtile {
+  display: flex; align-items: flex-start; gap: .8rem;
+  width: 100%; min-height: 72px; padding: .95rem 1rem;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--surface); color: inherit; text-align: left;
+  font: inherit; cursor: pointer;
+  transition: border-color .15s ease, transform .15s ease, background .15s ease;
+}
+.ib-rtile:hover {
+  border-color: color-mix(in srgb, var(--blue) 55%, var(--line));
+  background: color-mix(in srgb, var(--blue) 5%, var(--surface));
+  transform: translateY(-1px);
+}
+.ib-rtile__ico { flex: 0 0 auto; color: var(--blue2); }
+.ib-rtile__ico svg { width: 26px; height: 26px; display: block; }
+.ib-rtile__txt { display: flex; flex-direction: column; gap: .16rem; min-width: 0; }
+.ib-rtile__txt strong { font-size: .98rem; font-weight: 700; }
+.ib-rtile__txt span { font-size: .83rem; color: var(--text2); }
+.ib-rtile__txt em {
+  font-size: .74rem; font-style: normal; font-weight: 700;
+  color: var(--text3); letter-spacing: .02em; margin-top: .1rem;
+}
+
+/* the progress legend sits in its own card, as on the reference */
+.ib-legendbox {
+  padding: .9rem 1.05rem; margin-bottom: 1.2rem;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--surface);
+}
+.ib-legendbox__t { font-size: .95rem; font-weight: 700; margin-bottom: .55rem; }
+
+/* chapter heading, then each group as a collapsible */
+.ib-chhead {
+  display: flex; align-items: baseline; gap: .55rem; flex-wrap: wrap;
+  margin: 1.6rem 0 .5rem; padding-bottom: .4rem;
+  border-bottom: 1px solid var(--line);
+}
+.ib-chhead__n {
+  font-size: .68rem; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text3);
+}
+.ib-chhead__t { font-size: 1.16rem; font-weight: 700; }
+
+.ib-ghead {
+  display: flex; align-items: center; gap: .5rem; width: 100%;
+  min-height: 46px; padding: .55rem .3rem;
+  border: 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  background: transparent; color: inherit; text-align: left;
+  font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer;
+}
+.ib-ghead:hover { color: var(--blue); }
+.ib-ghead__t { flex: 1 1 auto; min-width: 0; }
+.ib-ghead__caret { color: var(--text3); transition: transform .18s ease; }
+.ib-ghead__caret svg { width: 14px; height: 14px; display: block; }
+.ib-ghead.is-open .ib-ghead__caret { transform: rotate(180deg); }
+.ib-grouplist { list-style: none; margin: 0 0 .5rem; padding: 0 0 0 .35rem; }
+.ib-grouplist[hidden] { display: none; }
+
+.ib-crumb__link {
+  border: 0; background: none; padding: 0; cursor: pointer;
+  color: var(--text3); font: inherit; text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ib-crumb__link:hover { color: var(--blue); }
+
+/* section header that jumps to the study guide */
+.ib-secgo {
+  display: flex; align-items: center; gap: .6rem; width: 100%;
+  min-height: 46px; margin-top: .9rem; padding: .5rem .6rem;
+  border: 0; border-top: 1px solid var(--line);
+  background: transparent; color: inherit; text-align: left;
+  font: inherit; font-weight: 700; cursor: pointer;
+}
+.ib-secgo:hover { color: var(--blue); }
+.ib-secgo svg { width: 14px; height: 14px; color: var(--text3); margin-left: auto; }
+.ib-secgo > span:nth-child(2) { flex: 1 1 auto; min-width: 0; }
+
+.ib-backpill {
+  display: inline-flex; align-items: center; gap: .4rem;
+  min-height: 40px; margin-bottom: .8rem; padding: .4rem .85rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--text2);
+  font: inherit; font-size: .84rem; font-weight: 700; cursor: pointer;
+}
+.ib-backpill:hover { border-color: var(--blue); color: var(--blue); }
+.ib-backpill svg { width: 14px; height: 14px; }
+
+/* the lesson list */
+.ib-leshead {
+  display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  margin: 1.2rem 0 .7rem; padding: .7rem .95rem;
+  border: 1px solid var(--line); border-left: 3px solid var(--blue);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--blue) 7%, var(--surface));
+  font-size: .88rem;
+}
+.ib-leshead span { color: var(--text3); }
+.ib-lesslist { list-style: none; margin: 0; padding: 0; }
+.ib-lessrow {
+  display: flex; align-items: center; gap: .75rem; width: 100%;
+  min-height: 54px; padding: .7rem .8rem;
+  border: 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  border-radius: var(--r-sm);
+  background: transparent; color: inherit; text-align: left;
+  font: inherit; font-size: .95rem; cursor: pointer;
+}
+.ib-lessrow:hover { background: color-mix(in srgb, var(--text) 5%, transparent); }
+.ib-lessrow__circ {
+  flex: 0 0 auto; width: 20px; height: 20px;
+  border: 1.5px dashed var(--line); border-radius: 50%;
+}
+.ib-lessrow__t { min-width: 0; }
+.ib-lesstart { margin-top: 1.2rem; }
+
+/* the study guide reuses the course page's own content classes */
+.ib-guide { margin-top: 1.2rem; }
+.ib-empty {
+  padding: 1.4rem; border: 1px dashed var(--line); border-radius: var(--r-md);
+  color: var(--text3); font-size: .9rem;
+}
+.ib-defcard__g {
+  margin: 1.4rem 0 .5rem; font-size: .8rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text3);
+}
+
+/* the whole content block reads a little narrower than the chrome above it */
+.ib-guide .native-lesson { max-width: 74ch; }
+
+/* ── narrow-screen top bar ──────────────────────────────────────────────── */
+/* At a 500px viewport the reader bar measured 655px wide and pushed the page
+   155px sideways: Exit + rail + home + progress bar + counter + Test me + EN +
+   dark simply do not fit. The counter already carries the progress, so the bar
+   is the first thing to go, then the gaps and padding. Below 430px Exit
+   collapses to a single ✕, which is also what the reference reader uses. */
+@media (max-width: 620px) {
+  .ib-top { gap: .3rem; padding: .4rem .55rem; }
+  .ib-top__bar { display: none; }
+  .ib-top__btn, .ib-top__exit { padding: .42rem .6rem; font-size: .8rem; min-height: 40px; }
+  .ib-top__count { font-size: .78rem; }
+}
+@media (max-width: 430px) {
+  body.ib-lesson .ib-top__exit { font-size: 0; padding: .5rem .62rem; }
+  body.ib-lesson .ib-top__exit::before { content: '✕'; font-size: 1rem; line-height: 1; }
+}
+/* The rail and home buttons carry their label as text, and applyLanguage
+   rewrites textContent from data-en/data-zh, so below 1040px — where the rail
+   button is shown — it measured 162px ("Sections & terms") and pushed the bar
+   past the viewport. They are icon-only below 1040px: font-size 0 hides the
+   rewritten label and ::before supplies the glyph. aria-label is unaffected. */
+/* NB: body.ib-lesson button{font:inherit} is (0,1,2) and beats a bare class
+   selector, so these are qualified with the body class or they do nothing. */
+@media (max-width: 1039px) {
+  body.ib-lesson .ib-top__btn--rail, body.ib-lesson .ib-top__btn--home {
+    font-size: 0; gap: 0;
+  }
+  body.ib-lesson .ib-top__btn--rail::before { content: '\2630'; font-size: 1.05rem; }
+  body.ib-lesson .ib-top__btn--home::before  { content: '\25F1'; font-size: 1.05rem; }
+}
+
+/* the breadcrumb is navigation, so it needs a real tap target */
+.ib-crumb__link {
+  min-height: 40px; padding: .3rem .1rem;
+  display: inline-flex; align-items: center;
+}
+
+/* ── tap targets inside the study guide ──────────────────────────────────── */
+/* The guide reuses the course page's own content, including the shared
+   knowledge.css kit (.kv-seg, .kv-tools) and the workbook-reference controls.
+   Those were sized for a mouse: the model's Concise/Full segments measured
+   35px, its tool buttons 38px, the reference link 20px and its preview 32px
+   on a phone. Scoped to this page so knowledge.css and the textbook are
+   untouched. */
+@media (max-width: 620px) {
+  .ib-guide .kv-seg button,
+  .ib-guide .kv-tools button { min-height: 40px; padding-block: .4rem; }
+  .ib-guide .workbook-reference a,
+  .ib-guide .workbook-reference-preview {
+    display: inline-flex; align-items: center; min-height: 40px;
+  }
+}
+
+/* ═══ IB SEHS interactive models ═════════════════════════════════════
+   Copied VERBATIM from ib-sehs-learn.html's inline <style>. Every rule
+   styles a shape inside .ib-model (ns-* neuron and anatomy, an-*
+   anatomy, the legend swatches and the animation keyframes). Without
+   them the study guide renders every model as solid black blocks —
+   an SVG with no fill rule falls back to fill:black. Same failure mode
+   as the .plate rules that were once missing from these pages. */
+/* ═══ palette the model drawings expect ═══════════════════════════════════
+   The models paint with fill:var(--gold), var(--blue2) and font-family
+   var(--serif). Those came from the hand-inlined palette this page used to
+   carry; since it now loads the site's real theme they resolve to NOTHING,
+   and a var() with no value falls back to the SVG initial value — which is
+   black. That is why hormone circles and organ outlines rendered as solid
+   black shapes here while the same model is correct on the course page.
+   Values are copied verbatim from ib-sehs-learn.html so the models look
+   identical in both places. */
+:root {
+  --gold: #d7a829;
+  --blue2: #2563a8;
+  --accent: var(--gold);
+  --border: var(--line, #d5e0e9);
+  --serif: var(--font, Georgia, "Songti SC", serif);
+  --d: 0s;                       /* the flow animations stagger with this */
+}
+body.dark {
+  --gold: #efd17c;
+  --blue2: #8fb7e8;
+}
+
+/* ═══ IB SEHS interactive models (ib-sehs-models.js) ══════════════════ */
+.ib-model{max-width:620px;margin:.15rem auto .35rem;padding-top:.1rem}
+.ib-model .ib-head{display:flex;justify-content:flex-end;margin:-.1rem 0 .5rem}
+.ib-model .kv-lab{display:block;margin-top:.55rem}
+.ib-model .ibm-q{display:block;font-weight:700;color:var(--text)}
+.ib-model .kv-lab b{color:var(--accent);font-weight:800;margin-left:.25rem;font-variant-numeric:tabular-nums}
+.ib-model .kv-lab input[type=range]{display:block;width:100%}
+.ib-model .kv-svg text{font-size:13px}
+.ib-model .kv-svg text.small{font-size:11px}
+.ib-model .kv-svg .axis{stroke:var(--border2,#C6D1DD);stroke-width:1}
+.ib-model .kv-svg .gl{stroke:var(--text3);stroke-width:1;stroke-dasharray:4 4;opacity:.5}
+.ib-model .kv-svg .window{fill:var(--c1);opacity:.15}
+.ib-model .kv-svg .window.red{fill:var(--c0);opacity:.13}
+.ib-model .kv-svg .bar{fill:var(--c2);opacity:.35}
+.ib-model .kv-svg .bar.on{fill:var(--c2);opacity:.95}
+.ib-model .kv-svg .chron{fill:none;stroke:var(--text3);stroke-width:2.5;stroke-dasharray:5 4}
+.ib-model .kv-svg .curve{fill:none;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.ib-model .kv-svg .curve.a{stroke:var(--c2)}
+.ib-model .kv-svg .curve.b{stroke:var(--c0)}
+.ib-model .kv-svg .curve.thin{stroke-width:2;opacity:.45}
+.ib-model .kv-svg .traj{fill:none;stroke:var(--c2);stroke-width:3;stroke-linejoin:round}
+.ib-model .kv-svg .apex{fill:var(--c2);stroke:var(--surface);stroke-width:2}
+.ib-model .kv-svg .work{fill:var(--c1);opacity:.22}
+.ib-model .kv-svg .vx{stroke:var(--c0);stroke-width:2;stroke-dasharray:5 4}
+.ib-model .kv-svg .vy{stroke:var(--c1);stroke-width:2;stroke-dasharray:5 4}
+.ib-model .kv-svg .plane{fill:color-mix(in srgb,var(--text) 5%,transparent);stroke:var(--border2,#C6D1DD);stroke-width:1;stroke-dasharray:5 4}
+.ib-model .kv-svg .ax{stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4}
+.ib-model .kv-svg .sk{fill:color-mix(in srgb,var(--text) 20%,transparent);stroke:var(--text3);stroke-width:2}
+.ib-model .kv-svg .body{stroke:var(--text3);stroke-width:3.5;stroke-linecap:round;fill:none}
+.ib-model .kv-svg .body.on{stroke:var(--accent);stroke-width:5}
+.ib-model .kv-svg .body.thin{stroke-width:2.5}
+.ib-model .kv-svg .joint{fill:var(--surface2,#EEF2F7);stroke:var(--text3);stroke-width:1.5}
+.ib-model .portrait{display:block;margin:0 auto;height:262px}
+.ib-model .kv-gon{width:190px;max-width:100%}
+.ib-model .kv-bar i.red{background:var(--red)}
+.ib-model .kv-bar i.gold{background:var(--c1)}
+.ib-model .kv-bar i.blue{background:var(--c2)}
+.ib-model .kv-dot.red{background:var(--c0)}
+.ib-model .kv-dot.gold{background:var(--c1)}
+.ib-model .kv-dot.blue{background:var(--c2)}
+.ibm-band{position:relative;height:16px;border-radius:99px;margin:.55rem 0 .25rem;background:color-mix(in srgb,var(--text) 10%,transparent)}
+.ibm-band i{position:absolute;top:0;bottom:0;opacity:.3}
+.ibm-band .z1{left:0;width:25%;background:var(--green)}
+.ibm-band .z2{left:25%;width:37.5%;background:var(--amber)}
+.ibm-band .z3{left:62.5%;width:37.5%;background:var(--red)}
+.ibm-band u{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--text);text-decoration:none}
+.ibm-scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text3)}
+.ibm-key{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.82rem;color:var(--text2);margin-top:.4rem}
+.ibm-key span{display:inline-flex;align-items:center;gap:.35rem}
+.ibm-key i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media (max-width:640px){.ib-model .kv-seg button{min-height:40px}.ib-model .kv-lab input[type=range]{height:40px}.ib-model .kv-tools button{min-height:40px}.ib-model .kv-path button{min-height:44px}}
+
+.ib-model .kv-zone.on{outline:2px solid var(--accent);outline-offset:-2px}
+.ib-model .kv-ends{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.4rem}
+.ib-model .kv-ends p{margin:.25rem 0 0;color:var(--text2);font-size:.88rem}
+.ib-model .kv-svg .q1{fill:color-mix(in srgb,var(--green) 11%,transparent)}
+.ib-model .kv-svg .q2{fill:color-mix(in srgb,var(--c1) 12%,transparent)}
+.ib-model .kv-svg .marker{fill:var(--c2);stroke:var(--surface);stroke-width:3;transition:cx .2s,cy .2s}
+.ib-model .kv-svg .marker.ok{fill:var(--green)}
+.ib-model .kv-svg .marker.risk{fill:var(--c0)}
+.ib-model .kv-svg .perf{fill:none;stroke:var(--c0);stroke-width:2.5;stroke-dasharray:5 4}
+.ib-model .kv-svg .cone{fill:var(--c2);opacity:.16;stroke:var(--c2);stroke-width:1.5;transition:opacity .25s}
+.ib-model .kv-svg .cone.narrow{fill:var(--c1);stroke:var(--c1);opacity:.26}
+.ib-model .kv-svg .wide{fill:var(--c2);opacity:.10;transition:opacity .25s}
+.ib-model .kv-svg .goal{fill:none;stroke:var(--text3);stroke-width:2}
+.ib-model .kv-svg .post{stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .kv-svg .spot{fill:var(--text3)}
+.ib-model .kv-svg .joint{fill:var(--c0);transition:opacity .25s}
+.ib-model .kv-svg .target{fill:none;stroke:var(--c0);stroke-width:2.5;transition:opacity .25s}
+.ib-model .kv-svg .zone{fill:color-mix(in srgb,var(--text) 4%,transparent)}
+.ib-model .kv-svg .target-zone{fill:var(--green);opacity:.15}
+.ib-model .kv-svg .dot{fill:var(--text3);transition:fill .2s}
+.ib-model .kv-svg .dot.on{fill:var(--c0)}
+.ib-model .kv-svg .chosen{fill:none;stroke:var(--c0);stroke-width:2.5}
+@media (max-width:640px){.ib-model .kv-ends{grid-template-columns:1fr}}
+
+.ib-model .ib-practices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;margin-top:.4rem}
+.ib-model .ib-practices button{font:inherit;font-size:.85rem;line-height:1.3;text-align:left;padding:.55rem .7rem;border-radius:11px;cursor:pointer;
+  color:var(--text);background:var(--surface);border:1px solid var(--border2,#C6D1DD);transition:background .2s,border-color .2s}
+.ib-model .ib-practices button:hover{border-color:var(--accent)}
+.ib-model .ib-practices button.on{background:color-mix(in srgb,var(--accent) 13%,var(--surface));border-color:var(--accent);font-weight:700}
+.ib-model .kv-climate{display:grid;gap:.4rem;margin:.6rem 0 .2rem}
+.ib-model .kv-cl-row{display:grid;grid-template-columns:8.5rem 1fr 3.4rem;align-items:center;gap:.7rem;font-size:.88rem}
+.ib-model .kv-cl-row b{font-variant-numeric:tabular-nums;text-align:right}
+.ib-model .kv-svg .eu{fill:var(--green);opacity:.16}
+.ib-model .kv-svg .di{fill:var(--c0);opacity:.14}
+.ib-model .kv-chain{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.4rem}
+.ib-model .kv-chain-i{font-size:.78rem;font-weight:700;padding:.3rem .55rem;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--text)}
+.ib-model .kv-chain b{color:var(--text3)}
+.ib-model .ib-target{display:grid;gap:.3rem;margin-top:.4rem}
+.ib-model .ib-target-row{display:grid;grid-template-columns:1.4rem 9.5rem 1fr;align-items:center;gap:.6rem}
+.ib-model .ib-target-l{font-weight:900;color:var(--accent);font-size:.9rem}
+.ib-model .ib-target-b{display:flex;gap:.25rem}
+.ib-model .ib-target-b button{font:inherit;font-size:.76rem;font-weight:700;padding:.32rem .6rem;border-radius:8px;cursor:pointer;
+  color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD)}
+.ib-model .ib-target-b button.on{background:var(--green);border-color:transparent;color:#fff}
+.ib-model .ib-target-r{font-size:.78rem;color:var(--text3)}
+.ib-model .ib-ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;margin-top:.4rem}
+.ib-model .ib-ch button{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;width:100%;text-align:left;
+  font:inherit;padding:.55rem .7rem;border-radius:11px;cursor:pointer;color:var(--text);
+  background:var(--surface);border:1px solid var(--border2,#C6D1DD);transition:background .2s,border-color .2s}
+.ib-model .ib-ch button b{font-size:.86rem}
+.ib-model .ib-ch button span{font-size:.78rem;color:var(--text3);line-height:1.35}
+.ib-model .ib-ch button.on{background:color-mix(in srgb,var(--accent) 13%,var(--surface));border-color:var(--accent)}
+.ib-model .ib-ch button.on span{color:var(--text2)}
+.ib-model .ib-cats{display:grid;gap:.4rem;margin-top:.4rem}
+.ib-model .ib-cats button{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;width:100%;text-align:left;
+  font:inherit;padding:.6rem .75rem;border-radius:12px;cursor:pointer;color:var(--text);
+  background:var(--surface);border:1px solid var(--border2,#C6D1DD)}
+.ib-model .ib-cats button b{font-size:.88rem}
+.ib-model .ib-cats button span{font-size:.8rem;color:var(--text3)}
+.ib-model .ib-cats button.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+@media (max-width:640px){.ib-model .ib-practices,.ib-model .ib-ch{grid-template-columns:1fr}
+  .ib-model .ib-ch button{min-height:40px}
+  .ib-model .ib-target-row{grid-template-columns:1.2rem 1fr}
+  .ib-model .ib-target-r{display:none}
+  .ib-model .kv-cl-row{grid-template-columns:6.5rem 1fr 3rem}
+  .ib-model .ib-practices button,.ib-model .ib-cats button,.ib-model .ib-target-b button{min-height:40px}}
+/* ══ A.1.1 model ══ */
+/* ══ A.1.1 Communication systems — shape-based model ═══════════════════ */
+.ib-model .a11-wrap{display:grid;gap:.9rem}
+.ib-model .a11-panel{border:1px solid var(--border2,#C6D1DD);border-radius:14px;padding:.7rem .8rem .8rem;background:color-mix(in srgb,var(--text) 2.5%,var(--surface))}
+.ib-model .a11-hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin-bottom:.45rem}
+.ib-model .a11-hd b{font-size:.95rem;color:var(--accent)}
+.ib-model .a11-hd span{font-size:.78rem;color:var(--text3)}
+.ib-model .a11-leg{margin-top:.5rem;gap:.3rem .85rem;font-size:.8rem}
+.ib-model .a11-leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:.3rem;vertical-align:-1px;border:1px solid rgba(0,0,0,.18)}
+.ib-model .ns-l1{background:var(--c2)}.ib-model .ns-l2{background:var(--c1)}
+.ib-model .ns-l3{background:var(--c0)}.ib-model .ns-l4{background:color-mix(in srgb,var(--c0) 34%,var(--surface))}
+.ib-model .ns-l5{background:var(--green)}.ib-model .ns-l6{background:color-mix(in srgb,var(--red) 40%,var(--surface))}
+.ib-model .ns-l7{background:color-mix(in srgb,var(--red) 78%,var(--surface))}.ib-model .ns-l8{background:var(--gold)}
+.ib-model .ns-l9{background:var(--green)}
+/* ── A · nerve ── */
+.ib-model .ns-term{fill:var(--c2);stroke:var(--c2);stroke-width:2;opacity:.9}
+.ib-model .ns-axon{fill:var(--c2);opacity:.75}
+.ib-model .ns-ves{fill:color-mix(in srgb,var(--c1) 26%,var(--surface));stroke:var(--c1);stroke-width:1.6;
+  transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-pulse 2.6s var(--d,0s) infinite ease-in-out}
+.ib-model .ns-vesdot{fill:var(--c1)}
+.ib-model .ns-cleft{fill:color-mix(in srgb,var(--text) 5%,var(--surface));stroke:var(--border2,#C6D1DD);stroke-width:1;stroke-dasharray:4 3}
+.ib-model .ns-nt{fill:var(--c1);stroke:var(--surface);stroke-width:1;
+  transform-box:fill-box;transform-origin:50% 50%;animation:ns-fall 1.9s var(--d,0s) infinite linear}
+.ib-model .ns-fibre{fill:color-mix(in srgb,var(--c0) 20%,var(--surface));stroke:var(--c0);stroke-width:2.4}
+.ib-model .ns-stria{fill:color-mix(in srgb,var(--c0) 52%,var(--surface))}
+.ib-model .ns-nuc{fill:var(--surface);stroke:var(--c0);stroke-width:1.8}
+.ib-model .ns-brace{fill:none;stroke:var(--text3);stroke-width:1.4}
+.ib-model .ns-sub{fill:var(--c0);opacity:.85;transition:transform .3s,opacity .3s}
+.ib-model .ns-sub.open{transform:translateY(-3px);opacity:1}
+.ib-model .ns-pore{fill:var(--surface);stroke:var(--c0);stroke-width:1.4}
+.ib-model .ns-lead{stroke:var(--text3);stroke-width:1}
+.ib-model .ns-spark{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+/* ── B · hormone ── */
+.ib-model .ns-lumen{fill:color-mix(in srgb,var(--green) 20%,var(--surface));stroke:var(--green);stroke-width:2}
+.ib-model .ns-secrecyte{fill:color-mix(in srgb,var(--green) 34%,var(--surface));stroke:var(--green);stroke-width:1.5}
+.ib-model .ns-adventitia{fill:color-mix(in srgb,var(--red) 20%,var(--surface));stroke:color-mix(in srgb,var(--red) 45%,var(--surface));stroke-width:1}
+.ib-model .ns-media{fill:color-mix(in srgb,var(--red) 38%,var(--surface))}
+.ib-model .ns-endothelium{fill:color-mix(in srgb,var(--red) 78%,var(--surface))}
+.ib-model .ns-lumen2{fill:color-mix(in srgb,var(--red) 12%,var(--surface));stroke:var(--red);stroke-width:1.2}
+.ib-model .ns-rbc{fill:var(--red);transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-flow 4.4s var(--d,0s) infinite linear}
+.ib-model .ns-rbc-in{fill:color-mix(in srgb,var(--surface) 62%,var(--red))}
+.ib-model .ns-hor{fill:var(--gold);transform-box:fill-box;transform-origin:50% 50%;
+  animation:ns-flow 4.4s var(--d,0s) infinite linear}
+.ib-model .ns-hor.dock{animation:none;fill:var(--gold);stroke:var(--surface);stroke-width:1.4}
+.ib-model .ns-hor.drift{animation:ns-wander 3.4s var(--d,0s) infinite ease-in-out}
+.ib-model .ns-cleft{fill:color-mix(in srgb,var(--text) 8%,var(--surface))}
+.ib-model .ns-rbc-in{fill:color-mix(in srgb,var(--surface) 78%,var(--red))}
+.ib-model .ns-key{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .ns-key.fit{fill:var(--gold);stroke:var(--gold)}
+.ib-model .ns-cell{fill:color-mix(in srgb,var(--text) 5%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .ns-cell.hit{stroke:var(--green);stroke-width:2.4;fill:color-mix(in srgb,var(--green) 12%,var(--surface))}
+.ib-model .ns-cnuc{fill:color-mix(in srgb,var(--text) 20%,var(--surface))}
+.ib-model .ns-lock{fill:color-mix(in srgb,var(--text) 22%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .ns-lock.fit{fill:var(--gold);stroke:var(--gold)}
+/* ── arrows: the clear one the old model lacked ── */
+.ib-model .ns-arrow{stroke:var(--text);stroke-width:2.6;fill:none;stroke-linecap:round}
+.ib-model .ns-head{fill:var(--text)}
+/* ── C · clock ── */
+.ib-model .ns-ncurve{fill:none;stroke:var(--c0);stroke-width:2.6;stroke-linecap:round}
+.ib-model .ns-hcurve{fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round}
+.ib-model .ns-ndot{fill:var(--c0);stroke:var(--surface);stroke-width:2}
+.ib-model .ns-hdot{fill:var(--gold);stroke:var(--surface);stroke-width:2}
+.ib-model .kv-svg .nsn-h{fill:var(--c0);font-weight:800}
+.ib-model .kv-svg .nsn-n{fill:var(--gold);font-weight:800}
+.ib-model .ns-nl{background:var(--c0)}
+.ib-model .ns-hl{background:var(--gold)}
+.ib-model .a11-bar{margin-top:.6rem}
+.ib-model .a11-n{background:var(--c0)}
+.ib-model .a11-h{background:var(--gold)}
+@keyframes ns-fall{0%{transform:translateY(-14px);opacity:0}22%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+@keyframes ns-flow{0%{transform:translateX(-26px);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(26px);opacity:0}}
+@keyframes ns-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+@keyframes ns-wander{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(20px);opacity:1}}
+@media (prefers-reduced-motion:reduce){.ib-model .ns-ves,.ib-model .ns-nt,.ib-model .ns-rbc,.ib-model .ns-hor{animation:none}}
+@media (max-width:640px){.ib-model .a11-panel{padding:.55rem .5rem .65rem}.ib-model .a11-hd b{font-size:.9rem}}
+
+/* ══ A.1.1 scannable prose + Learn it your way ══ */
+/* ══ A.1.1 · scannable prose: bullets + highlighted key terms ══════════ */
+.ib-model .deep-walk .deep-bullets,.native-section .deep-walk .deep-bullets{margin:.2rem 0;padding-left:1.15rem}
+.native-section .deep-walk .deep-bullets li{margin:.34rem 0;line-height:1.62}
+.native-section .deep-walk b.kt{color:var(--blue2);font-weight:800;background:color-mix(in srgb,var(--gold) 22%,transparent);
+  padding:.05em .3em;border-radius:5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+body.dark .native-section .deep-walk b.kt{color:var(--gold)}
+/* ══ A.1.1 · Learn it your way — the textbook panel, per section ═══════ */
+.ib-learn{margin:.2rem 0 .5rem;padding:.85rem .9rem .95rem;border:1px solid var(--border2,#C6D1DD);border-radius:16px;
+  background:color-mix(in srgb,var(--blue2) 5%,var(--surface))}
+.ib-learn-hd{display:flex;align-items:flex-start;gap:.7rem;flex-wrap:wrap}
+.ib-learn-hd h4{flex:1 1 12rem;min-width:0;margin:0;font-size:1.02rem;font-family:var(--serif)}
+.ib-learn-hd p{flex:1 1 100%;margin:.15rem 0 0;font-size:.8rem;color:var(--text3);line-height:1.5}
+.ib-learn-prog{display:flex;align-items:center;gap:.6rem;margin:.7rem 0 .6rem}
+.ib-learn-bar{flex:1;height:7px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.ib-learn-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue2),var(--green));transition:width .3s}
+.ib-learn-prog span{font-size:.76rem;color:var(--text3);white-space:nowrap}
+.ib-learn-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem;margin-bottom:.6rem}
+.ib-learn-tabs button{font:inherit;font-size:.84rem;font-weight:700;padding:.5rem .4rem;border-radius:10px;cursor:pointer;
+  color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD);transition:background .2s,border-color .2s}
+.ib-learn-tabs button.on{background:color-mix(in srgb,var(--blue2) 12%,var(--surface));border-color:var(--blue2);color:var(--blue2)}
+.ib-learn-pane[hidden]{display:none}
+/* key-term chips */
+.ib-kt{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .55rem}
+.ib-kt button{font:inherit;font-size:.78rem;font-weight:700;padding:.34rem .6rem;border-radius:999px;cursor:pointer;
+  color:var(--text);background:color-mix(in srgb,var(--gold) 20%,var(--surface));border:1px solid color-mix(in srgb,var(--gold) 42%,transparent)}
+.ib-kt button:hover{border-color:var(--gold)}
+.ib-kt button.on{background:var(--gold);color:#10213a}
+/* the flip card, reusing the textbook's own .kn-fc / .kn-card */
+.ib-learn .kn-fc{max-width:none}
+.ib-learn .kn-card{min-height:170px}
+.ib-learn .kn-face{padding:1rem}
+.ib-learn .kn-fc-bar{gap:.35rem;flex-wrap:wrap;justify-content:center}
+.ib-learn .kv-btn{min-height:38px}
+.ib-learn .kn-fc-bar{margin-top:.5rem}
+.ib-qc{counter-reset:q;display:grid;gap:.5rem;margin:.2rem 0}
+.ib-qc-item{padding:.6rem .7rem;border:1px solid var(--border2,#C6D1DD);border-radius:11px;background:var(--surface);font-size:.87rem;line-height:1.55}
+.ib-qc-item summary{cursor:pointer;font-weight:700;color:var(--text)}
+.ib-qc-item summary::marker{color:var(--accent)}
+.ib-qc-item p{margin:.25rem 0}
+.ib-qc-item .ib-ans{margin-top:.4rem;padding-top:.4rem;border-top:1px dashed var(--border2,#C6D1DD);color:var(--green);font-weight:700}
+.ib-map{display:flex;flex-wrap:wrap;gap:.35rem}
+.ib-map button{font:inherit;font-size:.76rem;font-weight:700;padding:.34rem .55rem;border-radius:9px;cursor:pointer;
+  color:var(--text2);background:var(--surface);border:1px solid var(--border2,#C6D1DD)}
+.ib-map button.done{background:color-mix(in srgb,var(--green) 14%,var(--surface));border-color:var(--green);color:var(--green)}
+.ib-map button.on{border-color:var(--blue2);color:var(--blue2)}
+@media (max-width:640px){.ib-learn{padding:.7rem .65rem .8rem}.ib-learn-tabs button{min-height:40px;font-size:.8rem}
+  .ib-kt button{min-height:34px}.native-section .deep-walk .deep-bullets li{margin:.4rem 0}}
+
+/* ══ anatomy shapes ══ */
+/* ══ anatomy shapes — one library, reused by every model ═══════════════ */
+.ib-model .an-white{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.5}
+.ib-model .an-grey{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-canal{fill:var(--surface);stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-cordline{stroke:var(--text3);stroke-width:7;stroke-linecap:round}
+.ib-model .an-brain{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fold{fill:none;stroke:var(--c2);stroke-width:1.4;opacity:.7}
+.ib-model .an-stem{fill:none;stroke:var(--c2);stroke-width:5;stroke-linecap:round}
+.ib-model .an-muscle{fill:color-mix(in srgb,var(--c0) 24%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-muscle.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-tendon{fill:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-cap{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-intra{stroke:var(--c0);stroke-width:2;stroke-linecap:round}
+.ib-model .an-ia{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round}
+.ib-model .an-axon{stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-axon.on{stroke:var(--c0);stroke-width:3.4}
+.ib-model .an-axon.dim{opacity:.35}
+.ib-model .an-myelin{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:.8}
+.ib-model .an-axon.on + .an-myelin,.ib-model .an-myelin{opacity:.9}
+.ib-model .an-heart{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-heart.hot{fill:color-mix(in srgb,var(--c0) 55%,var(--surface));stroke-width:2.6}
+.ib-model .an-chamber{fill:color-mix(in srgb,var(--c0) 60%,var(--surface))}
+.ib-model .an-chamber.r{fill:color-mix(in srgb,var(--c2) 60%,var(--surface))}
+.ib-model .an-septum{stroke:var(--c0);stroke-width:2}
+.ib-model .an-aorta{fill:none;stroke:var(--c0);stroke-width:4;stroke-linecap:round}
+.ib-model .an-vena{fill:none;stroke:var(--c2);stroke-width:4;stroke-linecap:round}
+.ib-model .an-kidney{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.8}
+.ib-model .an-kidney.hot{fill:color-mix(in srgb,var(--gold) 60%,var(--surface));stroke-width:2.6}
+.ib-model .an-adrenal{fill:color-mix(in srgb,var(--green) 45%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-adrenal.hot{fill:var(--green);stroke-width:2.6}
+.ib-model .an-hilum,.ib-model .an-ureter,.ib-model .an-vessel{fill:none;stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .an-vessel.r{stroke:var(--c0)}.ib-model .an-vessel.b{stroke:var(--c2)}
+.ib-model .an-ureter{stroke-width:2.6}
+.ib-model .an-hypothal{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-stalk{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-pituit{fill:color-mix(in srgb,var(--green) 46%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-lungs,.ib-model .an-lung{fill:color-mix(in srgb,var(--c2) 26%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-trachea{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-liver{fill:color-mix(in srgb,var(--c0) 22%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-liver.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-horm{fill:var(--gold);stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-epi{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-derm{fill:color-mix(in srgb,var(--c0) 12%,var(--surface));stroke:var(--c0);stroke-width:1.2}
+.ib-model .an-duct{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-coil{fill:none;stroke:var(--gold);stroke-width:5}
+.ib-model .an-lumen2{fill:var(--surface);stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-cuboid{fill:color-mix(in srgb,var(--gold) 55%,var(--surface));stroke:var(--gold);stroke-width:.8}
+.ib-model .an-drop{fill:var(--c2);opacity:.85}
+/* flow arrows and loops */
+.ib-model .an-flow{fill:none;stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-flow.good{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.bad{stroke:var(--c0);stroke-width:3}
+.ib-model .an-flow.neg{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.pos{stroke:var(--c0);stroke-width:3}
+.ib-model .an-link{fill:none;stroke:var(--text3);stroke-width:2;opacity:.3}
+.ib-model .an-link.on{stroke:var(--c0);stroke-width:3;opacity:1}
+.ib-model .an-dim{stroke:var(--text3);stroke-width:2;fill:none}
+.ib-model .an-head{fill:var(--text3)}
+.ib-model .an-head,.ib-model .an-flow.bad + marker path{fill:var(--text3)}
+.ib-model .an-var{fill:color-mix(in srgb,var(--blue2,#2563a8) 20%,var(--surface));stroke:var(--blue2,#2563a8);stroke-width:2}
+.ib-model .an-box{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:1.8;rx:10}
+.ib-model .an-effector{fill:color-mix(in srgb,var(--green) 30%,var(--surface));stroke:var(--green);stroke-width:1.8}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-food{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-body{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-timer{stroke:var(--c0);stroke-width:3;fill:none}
+.ib-model .an-lab-neg{fill:var(--green);font-weight:800}
+.ib-model .an-lab-pos{fill:var(--c0);font-weight:800}
+/* legend swatches */
+.ib-model .an-l-grey{background:var(--c2)}.ib-model .an-l-white{background:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-l-muscle{background:var(--c0)}.ib-model .an-l-organ{background:var(--gold)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 16%,var(--surface))}
+.ib-model .an-l-ia{background:var(--gold)}.ib-model .an-l-neg{background:var(--green)}
+.ib-model .an-l-pos{background:var(--c0)}.ib-model .an-l-hot{background:var(--green)}
+.ib-model .an-l-good{background:var(--green)}.ib-model .an-l-bad{background:var(--c0)}
+.ib-model .an-l-gland{background:var(--gold)}
+.ib-model .an-b-neg{background:var(--green)}.ib-model .an-b-pos{background:var(--c0)}
+.ib-model .an-b-in{background:var(--green)}.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-b-vol{background:var(--c2)}.ib-model .an-b-sv{background:var(--green)}.ib-model .an-b-hr{background:var(--c0)}
+.ib-model .kv-meters{display:grid;gap:.35rem;margin:.6rem 0 .2rem}
+@media (prefers-reduced-motion:reduce){.ib-model .an-ia{animation:none}}
+
+/* ══ anatomy shapes (D2) ══ */
+/* ══ anatomy shapes — one library, reused by every model ═══════════════ */
+.ib-model .an-white{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.5}
+.ib-model .an-grey{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-canal{fill:var(--surface);stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-cordline{stroke:var(--text3);stroke-width:7;stroke-linecap:round}
+.ib-model .an-brain{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fold{fill:none;stroke:var(--c2);stroke-width:1.4;opacity:.7}
+.ib-model .an-stem{fill:none;stroke:var(--c2);stroke-width:5;stroke-linecap:round}
+.ib-model .an-muscle{fill:color-mix(in srgb,var(--c0) 24%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-muscle.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-tendon{fill:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-cap{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-intra{stroke:var(--c0);stroke-width:2;stroke-linecap:round}
+.ib-model .an-ia{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round}
+.ib-model .an-axon{stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-axon.on{stroke:var(--c0);stroke-width:3.4}
+.ib-model .an-axon.dim{opacity:.35}
+.ib-model .an-myelin{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:.8}
+.ib-model .an-axon.on + .an-myelin,.ib-model .an-myelin{opacity:.9}
+.ib-model .an-heart{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-heart.hot{fill:color-mix(in srgb,var(--c0) 55%,var(--surface));stroke-width:2.6}
+.ib-model .an-chamber{fill:color-mix(in srgb,var(--c0) 60%,var(--surface))}
+.ib-model .an-chamber.r{fill:color-mix(in srgb,var(--c2) 60%,var(--surface))}
+.ib-model .an-septum{stroke:var(--c0);stroke-width:2}
+.ib-model .an-aorta{fill:none;stroke:var(--c0);stroke-width:4;stroke-linecap:round}
+.ib-model .an-vena{fill:none;stroke:var(--c2);stroke-width:4;stroke-linecap:round}
+.ib-model .an-kidney{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.8}
+.ib-model .an-kidney.hot{fill:color-mix(in srgb,var(--gold) 60%,var(--surface));stroke-width:2.6}
+.ib-model .an-adrenal{fill:color-mix(in srgb,var(--green) 45%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-adrenal.hot{fill:var(--green);stroke-width:2.6}
+.ib-model .an-hilum,.ib-model .an-ureter,.ib-model .an-vessel{fill:none;stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .an-vessel.r{stroke:var(--c0)}.ib-model .an-vessel.b{stroke:var(--c2)}
+.ib-model .an-ureter{stroke-width:2.6}
+.ib-model .an-hypothal{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-stalk{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-pituit{fill:color-mix(in srgb,var(--green) 46%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-lungs,.ib-model .an-lung{fill:color-mix(in srgb,var(--c2) 26%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-trachea{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-liver{fill:color-mix(in srgb,var(--c0) 22%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-liver.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-horm{fill:var(--gold);stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-epi{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-derm{fill:color-mix(in srgb,var(--c0) 12%,var(--surface));stroke:var(--c0);stroke-width:1.2}
+.ib-model .an-duct{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-coil{fill:none;stroke:var(--gold);stroke-width:5}
+.ib-model .an-lumen2{fill:var(--surface);stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-cuboid{fill:color-mix(in srgb,var(--gold) 55%,var(--surface));stroke:var(--gold);stroke-width:.8}
+.ib-model .an-drop{fill:var(--c2);opacity:.85}
+/* flow arrows and loops */
+.ib-model .an-flow{fill:none;stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-flow.good{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.bad{stroke:var(--c0);stroke-width:3}
+.ib-model .an-flow.neg{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.pos{stroke:var(--c0);stroke-width:3}
+.ib-model .an-link{fill:none;stroke:var(--text3);stroke-width:2;opacity:.3}
+.ib-model .an-link.on{stroke:var(--c0);stroke-width:3;opacity:1}
+.ib-model .an-dim{stroke:var(--text3);stroke-width:2;fill:none}
+.ib-model .an-head{fill:var(--text3)}
+.ib-model .an-head,.ib-model .an-flow.bad + marker path{fill:var(--text3)}
+.ib-model .an-var{fill:color-mix(in srgb,var(--blue2,#2563a8) 20%,var(--surface));stroke:var(--blue2,#2563a8);stroke-width:2}
+.ib-model .an-box{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:1.8;rx:10}
+.ib-model .an-effector{fill:color-mix(in srgb,var(--green) 30%,var(--surface));stroke:var(--green);stroke-width:1.8}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-food{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-body{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-timer{stroke:var(--c0);stroke-width:3;fill:none}
+.ib-model .an-lab-neg{fill:var(--green);font-weight:800}
+.ib-model .an-lab-pos{fill:var(--c0);font-weight:800}
+/* legend swatches */
+.ib-model .an-l-grey{background:var(--c2)}.ib-model .an-l-white{background:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-l-muscle{background:var(--c0)}.ib-model .an-l-organ{background:var(--gold)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 16%,var(--surface))}
+.ib-model .an-l-ia{background:var(--gold)}.ib-model .an-l-neg{background:var(--green)}
+.ib-model .an-l-pos{background:var(--c0)}.ib-model .an-l-hot{background:var(--green)}
+.ib-model .an-l-good{background:var(--green)}.ib-model .an-l-bad{background:var(--c0)}
+.ib-model .an-l-gland{background:var(--gold)}
+.ib-model .an-b-neg{background:var(--green)}.ib-model .an-b-pos{background:var(--c0)}
+.ib-model .an-b-in{background:var(--green)}.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-b-vol{background:var(--c2)}.ib-model .an-b-sv{background:var(--green)}.ib-model .an-b-hr{background:var(--c0)}
+.ib-model .kv-meters{display:grid;gap:.35rem;margin:.6rem 0 .2rem}
+@media (prefers-reduced-motion:reduce){.ib-model .an-ia{animation:none}}
+/* ══ shapes added for batch D2 (nutrition, energy, population) ═════════ */
+.ib-model .an-sugar{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:2}
+.ib-model .an-o{fill:var(--c2);stroke:none}
+.ib-model .an-fat{fill:color-mix(in srgb,var(--c1) 45%,var(--surface));stroke:var(--c1);stroke-width:1.8}
+.ib-model .an-chain{stroke:var(--c1);stroke-width:4;stroke-linecap:round}
+.ib-model .an-p{fill:var(--c1)}
+.ib-model .an-aa{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-bond{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-gutwall{fill:none;stroke:var(--c0);stroke-width:7;stroke-linecap:round;opacity:.5}
+.ib-model .an-bact{fill:var(--green)}
+.ib-model .an-adenine,.ib-model .an-ribose{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-phos{fill:color-mix(in srgb,var(--c0) 32%,var(--surface));stroke:var(--c0);stroke-width:1.7}
+.ib-model .an-phos.hot{fill:color-mix(in srgb,var(--c0) 62%,var(--surface));stroke-width:2.4}
+.ib-model .an-plaque{fill:color-mix(in srgb,var(--c1) 70%,var(--surface));stroke:var(--c1);stroke-width:1.2}
+.ib-model .an-dial{fill:color-mix(in srgb,var(--c2) 22%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-box2{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-beam{stroke:var(--text3);stroke-width:5;stroke-linecap:round}
+.ib-model .an-pan{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fulcrum{fill:color-mix(in srgb,var(--text) 26%,var(--surface))}
+.ib-model .an-day{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-day.on{fill:color-mix(in srgb,var(--c0) 42%,var(--surface));stroke:var(--c0)}
+.ib-model .an-prog{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round}
+.ib-model .an-dot2{fill:var(--green);stroke:var(--surface);stroke-width:1.5}
+.ib-model .an-bar{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-b0{fill:var(--c0)}.ib-model .an-b1{fill:var(--c1)}.ib-model .an-b2{fill:var(--c2)}
+.ib-model .an-cursor2{stroke:var(--text);stroke-width:2;stroke-dasharray:4 3}
+.ib-model .an-gauge{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gauge-f{fill:var(--green)}
+.ib-model .an-thresh{stroke:var(--c0);stroke-width:2.4;stroke-dasharray:4 3}
+.ib-model .an-mn{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-mn.on{fill:color-mix(in srgb,var(--gold) 40%,var(--surface));stroke:var(--gold);stroke-width:2.6}
+.ib-model .an-mn-t{fill:var(--text);font-weight:800}
+.ib-model .an-plate{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-sl-car{fill:var(--c2)}.ib-model .an-sl-fat{fill:var(--c1)}
+.ib-model .an-hyp{fill:none;stroke:var(--c2);stroke-width:2.4;stroke-linejoin:round}
+.ib-model .an-timeline{stroke:var(--text3);stroke-width:2.4}
+.ib-model .an-tick{fill:var(--c2)}
+.ib-model .an-clock{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:2}
+.ib-model .an-hand{stroke:var(--text);stroke-width:2.4;stroke-linecap:round;fill:none}
+.ib-model .an-fibrebox{fill:color-mix(in srgb,var(--c0) 16%,var(--surface));stroke:var(--c0);stroke-width:1.6}
+.ib-model .an-gly{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gly.on{fill:var(--c1);stroke:var(--c1)}
+.ib-model .an-lead2{stroke:var(--text3);stroke-width:1}
+.ib-model .an-rbc2{fill:var(--c0)}
+/* legend + bar swatches for D2 */
+.ib-model .an-l-car{background:var(--c2)}.ib-model .an-l-fat{background:var(--c1)}.ib-model .an-l-prot{background:var(--c0)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 14%,var(--surface))}
+.ib-model .an-l-bact{background:var(--green)}.ib-model .an-l-prog{background:var(--green)}
+.ib-model .an-b-car{background:var(--c2)}.ib-model .an-b-fat{background:var(--c1)}.ib-model .an-b-prot{background:var(--c0)}
+.ib-model .an-b-q{background:var(--c2)}.ib-model .an-b-fit{background:var(--green)}
+.ib-model .an-b-bmr{background:var(--c2)}.ib-model .an-b-need{background:var(--c0)}
+.ib-model .an-b-gly{background:var(--green)}.ib-model .an-b-hrv{background:var(--green)}.ib-model .an-b-perf{background:var(--c2)}
+.ib-model .an-b-fe{background:var(--c0)}.ib-model .an-b-ca{background:var(--c2)}
+.ib-model .an-b-na{background:var(--c1)}.ib-model .an-b-k{background:var(--green)}
+.ib-model .an-mn-fe{fill:color-mix(in srgb,var(--c0) 40%,var(--surface));stroke:var(--c0)}
+.ib-model .an-mn-ca{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2)}
+.ib-model .an-mn-na{fill:color-mix(in srgb,var(--c1) 50%,var(--surface));stroke:var(--c1)}
+.ib-model .an-mn-k{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green)}
+
+/* ══ anatomy shapes (D3) ══ */
+/* ══ anatomy shapes — one library, reused by every model ═══════════════ */
+.ib-model .an-white{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.5}
+.ib-model .an-grey{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-canal{fill:var(--surface);stroke:var(--c2);stroke-width:1.2}
+.ib-model .an-cordline{stroke:var(--text3);stroke-width:7;stroke-linecap:round}
+.ib-model .an-brain{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fold{fill:none;stroke:var(--c2);stroke-width:1.4;opacity:.7}
+.ib-model .an-stem{fill:none;stroke:var(--c2);stroke-width:5;stroke-linecap:round}
+.ib-model .an-muscle{fill:color-mix(in srgb,var(--c0) 24%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-muscle.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-tendon{fill:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-cap{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-intra{stroke:var(--c0);stroke-width:2;stroke-linecap:round}
+.ib-model .an-ia{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round}
+.ib-model .an-axon{stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-axon.on{stroke:var(--c0);stroke-width:3.4}
+.ib-model .an-axon.dim{opacity:.35}
+.ib-model .an-myelin{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:.8}
+.ib-model .an-axon.on + .an-myelin,.ib-model .an-myelin{opacity:.9}
+.ib-model .an-heart{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-heart.hot{fill:color-mix(in srgb,var(--c0) 55%,var(--surface));stroke-width:2.6}
+.ib-model .an-chamber{fill:color-mix(in srgb,var(--c0) 60%,var(--surface))}
+.ib-model .an-chamber.r{fill:color-mix(in srgb,var(--c2) 60%,var(--surface))}
+.ib-model .an-septum{stroke:var(--c0);stroke-width:2}
+.ib-model .an-aorta{fill:none;stroke:var(--c0);stroke-width:4;stroke-linecap:round}
+.ib-model .an-vena{fill:none;stroke:var(--c2);stroke-width:4;stroke-linecap:round}
+.ib-model .an-kidney{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.8}
+.ib-model .an-kidney.hot{fill:color-mix(in srgb,var(--gold) 60%,var(--surface));stroke-width:2.6}
+.ib-model .an-adrenal{fill:color-mix(in srgb,var(--green) 45%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-adrenal.hot{fill:var(--green);stroke-width:2.6}
+.ib-model .an-hilum,.ib-model .an-ureter,.ib-model .an-vessel{fill:none;stroke:var(--text3);stroke-width:3;stroke-linecap:round}
+.ib-model .an-vessel.r{stroke:var(--c0)}.ib-model .an-vessel.b{stroke:var(--c2)}
+.ib-model .an-ureter{stroke-width:2.6}
+.ib-model .an-hypothal{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-stalk{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-pituit{fill:color-mix(in srgb,var(--green) 46%,var(--surface));stroke:var(--green);stroke-width:1.6}
+.ib-model .an-lungs,.ib-model .an-lung{fill:color-mix(in srgb,var(--c2) 26%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-trachea{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-liver{fill:color-mix(in srgb,var(--c0) 22%,var(--surface));stroke:var(--c0);stroke-width:1.8}
+.ib-model .an-liver.hot{fill:color-mix(in srgb,var(--c0) 52%,var(--surface));stroke-width:2.6}
+.ib-model .an-horm{fill:var(--gold);stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-epi{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-derm{fill:color-mix(in srgb,var(--c0) 12%,var(--surface));stroke:var(--c0);stroke-width:1.2}
+.ib-model .an-duct{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-coil{fill:none;stroke:var(--gold);stroke-width:5}
+.ib-model .an-lumen2{fill:var(--surface);stroke:var(--gold);stroke-width:1.2}
+.ib-model .an-cuboid{fill:color-mix(in srgb,var(--gold) 55%,var(--surface));stroke:var(--gold);stroke-width:.8}
+.ib-model .an-drop{fill:var(--c2);opacity:.85}
+/* flow arrows and loops */
+.ib-model .an-flow{fill:none;stroke:var(--text3);stroke-width:2.4;stroke-linecap:round}
+.ib-model .an-flow.good{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.bad{stroke:var(--c0);stroke-width:3}
+.ib-model .an-flow.neg{stroke:var(--green);stroke-width:3}
+.ib-model .an-flow.pos{stroke:var(--c0);stroke-width:3}
+.ib-model .an-link{fill:none;stroke:var(--text3);stroke-width:2;opacity:.3}
+.ib-model .an-link.on{stroke:var(--c0);stroke-width:3;opacity:1}
+.ib-model .an-dim{stroke:var(--text3);stroke-width:2;fill:none}
+.ib-model .an-head{fill:var(--text3)}
+.ib-model .an-head,.ib-model .an-flow.bad + marker path{fill:var(--text3)}
+.ib-model .an-var{fill:color-mix(in srgb,var(--blue2,#2563a8) 20%,var(--surface));stroke:var(--blue2,#2563a8);stroke-width:2}
+.ib-model .an-box{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:1.8;rx:10}
+.ib-model .an-effector{fill:color-mix(in srgb,var(--green) 30%,var(--surface));stroke:var(--green);stroke-width:1.8}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-food{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-body{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-timer{stroke:var(--c0);stroke-width:3;fill:none}
+.ib-model .an-lab-neg{fill:var(--green);font-weight:800}
+.ib-model .an-lab-pos{fill:var(--c0);font-weight:800}
+/* legend swatches */
+.ib-model .an-l-grey{background:var(--c2)}.ib-model .an-l-white{background:color-mix(in srgb,var(--text) 22%,var(--surface))}
+.ib-model .an-l-muscle{background:var(--c0)}.ib-model .an-l-organ{background:var(--gold)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 16%,var(--surface))}
+.ib-model .an-l-ia{background:var(--gold)}.ib-model .an-l-neg{background:var(--green)}
+.ib-model .an-l-pos{background:var(--c0)}.ib-model .an-l-hot{background:var(--green)}
+.ib-model .an-l-good{background:var(--green)}.ib-model .an-l-bad{background:var(--c0)}
+.ib-model .an-l-gland{background:var(--gold)}
+.ib-model .an-b-neg{background:var(--green)}.ib-model .an-b-pos{background:var(--c0)}
+.ib-model .an-b-in{background:var(--green)}.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-b-vol{background:var(--c2)}.ib-model .an-b-sv{background:var(--green)}.ib-model .an-b-hr{background:var(--c0)}
+.ib-model .kv-meters{display:grid;gap:.35rem;margin:.6rem 0 .2rem}
+@media (prefers-reduced-motion:reduce){.ib-model .an-ia{animation:none}}
+/* ══ shapes added for batch D2 (nutrition, energy, population) ═════════ */
+.ib-model .an-sugar{fill:color-mix(in srgb,var(--gold) 30%,var(--surface));stroke:var(--gold);stroke-width:2}
+.ib-model .an-o{fill:var(--c2);stroke:none}
+.ib-model .an-fat{fill:color-mix(in srgb,var(--c1) 45%,var(--surface));stroke:var(--c1);stroke-width:1.8}
+.ib-model .an-chain{stroke:var(--c1);stroke-width:4;stroke-linecap:round}
+.ib-model .an-p{fill:var(--c1)}
+.ib-model .an-aa{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-bond{stroke:var(--c2);stroke-width:3;stroke-linecap:round}
+.ib-model .an-gutwall{fill:none;stroke:var(--c0);stroke-width:7;stroke-linecap:round;opacity:.5}
+.ib-model .an-bact{fill:var(--green)}
+.ib-model .an-adenine,.ib-model .an-ribose{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-phos{fill:color-mix(in srgb,var(--c0) 32%,var(--surface));stroke:var(--c0);stroke-width:1.7}
+.ib-model .an-phos.hot{fill:color-mix(in srgb,var(--c0) 62%,var(--surface));stroke-width:2.4}
+.ib-model .an-plaque{fill:color-mix(in srgb,var(--c1) 70%,var(--surface));stroke:var(--c1);stroke-width:1.2}
+.ib-model .an-dial{fill:color-mix(in srgb,var(--c2) 22%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-box2{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-beam{stroke:var(--text3);stroke-width:5;stroke-linecap:round}
+.ib-model .an-pan{fill:color-mix(in srgb,var(--c2) 24%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-fulcrum{fill:color-mix(in srgb,var(--text) 26%,var(--surface))}
+.ib-model .an-day{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-day.on{fill:color-mix(in srgb,var(--c0) 42%,var(--surface));stroke:var(--c0)}
+.ib-model .an-prog{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round}
+.ib-model .an-dot2{fill:var(--green);stroke:var(--surface);stroke-width:1.5}
+.ib-model .an-bar{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-b0{fill:var(--c0)}.ib-model .an-b1{fill:var(--c1)}.ib-model .an-b2{fill:var(--c2)}
+.ib-model .an-cursor2{stroke:var(--text);stroke-width:2;stroke-dasharray:4 3}
+.ib-model .an-gauge{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gauge-f{fill:var(--green)}
+.ib-model .an-thresh{stroke:var(--c0);stroke-width:2.4;stroke-dasharray:4 3}
+.ib-model .an-mn{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.6}
+.ib-model .an-mn.on{fill:color-mix(in srgb,var(--gold) 40%,var(--surface));stroke:var(--gold);stroke-width:2.6}
+.ib-model .an-mn-t{fill:var(--text);font-weight:800}
+.ib-model .an-plate{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-sl-car{fill:var(--c2)}.ib-model .an-sl-fat{fill:var(--c1)}
+.ib-model .an-hyp{fill:none;stroke:var(--c2);stroke-width:2.4;stroke-linejoin:round}
+.ib-model .an-timeline{stroke:var(--text3);stroke-width:2.4}
+.ib-model .an-tick{fill:var(--c2)}
+.ib-model .an-clock{fill:color-mix(in srgb,var(--text) 6%,var(--surface));stroke:var(--text3);stroke-width:2}
+.ib-model .an-hand{stroke:var(--text);stroke-width:2.4;stroke-linecap:round;fill:none}
+.ib-model .an-fibrebox{fill:color-mix(in srgb,var(--c0) 16%,var(--surface));stroke:var(--c0);stroke-width:1.6}
+.ib-model .an-gly{fill:color-mix(in srgb,var(--text) 12%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-gly.on{fill:var(--c1);stroke:var(--c1)}
+.ib-model .an-lead2{stroke:var(--text3);stroke-width:1}
+.ib-model .an-rbc2{fill:var(--c0)}
+/* legend + bar swatches for D2 */
+.ib-model .an-l-car{background:var(--c2)}.ib-model .an-l-fat{background:var(--c1)}.ib-model .an-l-prot{background:var(--c0)}
+.ib-model .an-l-on{background:var(--c0)}.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 14%,var(--surface))}
+.ib-model .an-l-bact{background:var(--green)}.ib-model .an-l-prog{background:var(--green)}
+.ib-model .an-b-car{background:var(--c2)}.ib-model .an-b-fat{background:var(--c1)}.ib-model .an-b-prot{background:var(--c0)}
+.ib-model .an-b-q{background:var(--c2)}.ib-model .an-b-fit{background:var(--green)}
+.ib-model .an-b-bmr{background:var(--c2)}.ib-model .an-b-need{background:var(--c0)}
+.ib-model .an-b-gly{background:var(--green)}.ib-model .an-b-hrv{background:var(--green)}.ib-model .an-b-perf{background:var(--c2)}
+.ib-model .an-b-fe{background:var(--c0)}.ib-model .an-b-ca{background:var(--c2)}
+.ib-model .an-b-na{background:var(--c1)}.ib-model .an-b-k{background:var(--green)}
+.ib-model .an-mn-fe{fill:color-mix(in srgb,var(--c0) 40%,var(--surface));stroke:var(--c0)}
+.ib-model .an-mn-ca{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2)}
+.ib-model .an-mn-na{fill:color-mix(in srgb,var(--c1) 50%,var(--surface));stroke:var(--c1)}
+.ib-model .an-mn-k{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green)}
+/* ══ shapes added for batch D3 (skeleton, joints, muscle, levers) ═════ */
+.ib-model .an-bone{fill:color-mix(in srgb,var(--gold) 34%,var(--surface));stroke:var(--gold);stroke-width:1.6}
+.ib-model .an-marrow{fill:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-capsule{fill:none;stroke:var(--c2);stroke-width:3;stroke-dasharray:6 4}
+.ib-model .an-cart{fill:color-mix(in srgb,var(--c2) 46%,var(--surface));stroke:var(--c2);stroke-width:1.4}
+.ib-model .an-cavity{fill:color-mix(in srgb,var(--green) 26%,var(--surface));stroke:var(--green);stroke-width:1.2}
+.ib-model .an-lig{stroke:var(--c0);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-bursa{fill:color-mix(in srgb,var(--green) 40%,var(--surface));stroke:var(--green);stroke-width:1.4}
+.ib-model .an-jc{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-jcball{fill:color-mix(in srgb,var(--c2) 46%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-osteo{fill:color-mix(in srgb,var(--gold) 26%,var(--surface));stroke:var(--gold);stroke-width:2}
+.ib-model .an-lam{fill:none;stroke:var(--gold);stroke-width:1.6;opacity:.75}
+.ib-model .an-cartbox{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:1.6}
+.ib-model .an-chondro{fill:color-mix(in srgb,var(--c2) 50%,var(--surface));stroke:var(--c2);stroke-width:1.4}
+.ib-model .an-tendbox{fill:color-mix(in srgb,var(--c0) 18%,var(--surface));stroke:var(--c0);stroke-width:1.6}
+.ib-model .an-colla{stroke:var(--c0);stroke-width:3;stroke-linecap:round}
+.ib-model .an-fib-i{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:1.7}
+.ib-model .an-fib-ii{fill:color-mix(in srgb,var(--c1) 40%,var(--surface));stroke:var(--c1);stroke-width:1.7}
+.ib-model .an-fib-ix{fill:color-mix(in srgb,var(--c2) 38%,var(--surface));stroke:var(--c2);stroke-width:1.7}
+.ib-model .an-fib-off{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--text3);stroke-width:1.4;stroke-dasharray:4 3}
+.ib-model .an-mito{fill:var(--green);opacity:.9}
+.ib-model .an-mito.off{fill:color-mix(in srgb,var(--text) 22%,var(--surface));opacity:.6}
+.ib-model .an-actin{stroke:var(--c2);stroke-width:2;stroke-linecap:round}
+.ib-model .an-myosin{fill:color-mix(in srgb,var(--c0) 50%,var(--surface));stroke:var(--c0);stroke-width:1.4}
+.ib-model .an-zline{stroke:var(--text);stroke-width:2.6;stroke-linecap:round}
+.ib-model .an-arm{stroke:var(--text);stroke-width:5;stroke-linecap:round}
+.ib-model .an-eff{stroke:var(--c2);stroke-width:3;stroke-linecap:round;fill:none}
+.ib-model .an-load{fill:color-mix(in srgb,var(--c0) 40%,var(--surface));stroke:var(--c0);stroke-width:1.4}
+.ib-model .an-effdot{fill:var(--c2)}
+.ib-model .an-fulcrum2{fill:color-mix(in srgb,var(--text) 26%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-comdot{fill:var(--c0);stroke:var(--surface);stroke-width:2}
+.ib-model .an-base{fill:color-mix(in srgb,var(--text) 24%,var(--surface))}
+.ib-model .an-block{fill:color-mix(in srgb,var(--c2) 34%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-arrow2{stroke:var(--text);stroke-width:2.6;fill:none;stroke-linecap:round}
+.ib-model .an-arc{fill:none;stroke:var(--text3);stroke-width:8;stroke-linecap:round;opacity:.45}
+.ib-model .an-arcused{fill:none;stroke:var(--c0);stroke-width:8;stroke-linecap:round}
+.ib-model .an-meas{stroke:var(--c2);stroke-width:1.8;stroke-dasharray:4 3}
+.ib-model .an-meas2{stroke:var(--text3);stroke-width:1.4;fill:none}
+.ib-model .an-bench{fill:color-mix(in srgb,var(--text) 22%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-l-off{background:color-mix(in srgb,var(--text) 14%,var(--surface))}
+.ib-model .an-b-risk{background:var(--c0)}
+
+
+/* ══ shapes added for batch D4: movement — every connection carries a signal ══ */
+/* ══ movement: connectors carry a visible signal ═══════════════════════ */
+.ib-model .an-conn{fill:none;stroke:var(--text3);stroke-width:2.4;stroke-linecap:round;
+  stroke-dasharray:7 6;animation:an-march 1.1s linear infinite}
+.ib-model .an-conn.hot{stroke:var(--c0);stroke-width:3.2}
+.ib-model .an-conn.off{stroke:var(--text3);opacity:.3}
+.ib-model .an-sig{fill:var(--gold);stroke:var(--surface);stroke-width:1.4}
+.ib-model .an-sig.hot{fill:var(--c0)}
+.ib-model .an-sig.calm{fill:var(--green)}
+@keyframes an-march{to{stroke-dashoffset:-26}}
+/* a heart actually beats */
+.ib-model .an-heart,.ib-model .an-chamber{transform-box:fill-box;transform-origin:50% 55%;
+  animation:an-pulsebeat 1.05s ease-in-out infinite}
+.ib-model .an-heart.hot{animation-duration:.62s}
+@keyframes an-pulsebeat{0%,100%{transform:scale(1)}12%{transform:scale(1.07)}26%{transform:scale(1)}}
+/* an organ that is working shows it */
+.ib-model .an-liver.hot,.ib-model .an-kidney.hot{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-work 2.2s ease-in-out infinite}
+@keyframes an-work{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+/* a firing synapse */
+.ib-model .an-ves{transform-box:fill-box;transform-origin:50% 50%}
+@media (prefers-reduced-motion:reduce){
+  .ib-model .an-conn,.ib-model .an-heart,.ib-model .an-chamber,
+  .ib-model .an-liver.hot,.ib-model .an-kidney.hot,.ib-model .an-sig{animation:none!important}
+}
+.ib-model .an-pulm{fill:none;stroke:var(--c2);stroke-width:4.4;stroke-linecap:round}
+.ib-model .an-pulvein{fill:none;stroke:var(--c2);stroke-width:3.4;stroke-linecap:round;opacity:.7}
+.ib-model .an-chamber.l{fill:color-mix(in srgb,var(--c0) 72%,var(--surface))}
+.ib-model .an-septum{stroke:var(--surface);stroke-width:1.8;opacity:.8}
+/* the one fixed point every connection leaves from */
+.ib-model .an-hub{fill:var(--c0);stroke:var(--surface);stroke-width:2.2}
+
+/* the arrowhead that ends the return leg, so its direction is unmistakable */
+.ib-model .an-arrowhead{fill:var(--green);stroke:none}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+
+/* ══ D4 part B/C classes ══ */
+/* ══ D4 part B/C classes ══════════════════════════════════════════════ */
+.ib-model .an-rung{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-rung.on{fill:color-mix(in srgb,var(--c0) 34%,var(--surface));stroke:var(--c0)}
+.ib-model .an-l-rung{background:color-mix(in srgb,var(--text) 8%,var(--surface))}
+.ib-model .an-l-rungon{background:var(--c0)}
+.ib-model .an-barrier{fill:color-mix(in srgb,var(--c0) 12%,var(--surface));stroke:var(--c0);stroke-width:1.2;stroke-dasharray:4 3}
+.ib-model .an-risk{opacity:.3}
+.ib-model .an-risk.i{fill:var(--c2)}
+.ib-model .an-risk.e{fill:var(--gold,#b8860b)}
+.ib-model .an-overlap{fill:var(--c0);opacity:.62;transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-over 2.1s ease-in-out infinite}
+@keyframes an-over{0%,100%{opacity:.5}50%{opacity:.78}}
+.ib-model .an-l-ri{background:var(--c2)}
+.ib-model .an-l-re{background:var(--gold,#b8860b)}
+.ib-model .an-l-risky{background:var(--c0)}
+.ib-model .an-b-risk{background:var(--c0)}
+.ib-model .an-loadbar{fill:var(--c2)}
+.ib-model .an-loadbar.over{fill:var(--c0)}
+.ib-model .an-beat.over{fill:none;stroke:var(--c0);stroke-width:2;
+  animation:an-ring 1.5s ease-out infinite}
+@keyframes an-ring{0%{opacity:.9}100%{opacity:0}}
+.ib-model .an-grid{stroke:var(--border);stroke-width:.8}
+.ib-model .an-l-safe{background:var(--green)}
+.ib-model .an-l-unsafe{background:var(--c0)}
+.ib-model .an-b-over{background:var(--c0)}
+.ib-model .an-tend{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-lig{fill:color-mix(in srgb,var(--c2) 40%,var(--surface));stroke:var(--c2);stroke-width:2.2}
+.ib-model .an-recbar{fill:color-mix(in srgb,var(--text) 12%,var(--surface))}
+.ib-model .an-recbar.on{fill:var(--c0)}
+.ib-model .an-b-tol{background:var(--c0)}
+.ib-model .an-b-rec{background:var(--c2)}
+.ib-model .an-layer{fill:color-mix(in srgb,var(--text) 9%,var(--surface));stroke:var(--text3);stroke-width:1.2}
+.ib-model .an-layer.on{fill:var(--c0);stroke:var(--c0)}
+.ib-model .an-riskbar{fill:var(--border)}
+.ib-model .an-riskfill{fill:var(--c0);transition:y .3s ease,height .3s ease}
+.ib-model .an-b-left{background:var(--c0)}
+.ib-model .an-letter{fill:color-mix(in srgb,var(--text) 9%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-letter.on{fill:var(--c0);stroke:var(--c0)}
+.ib-model .an-phase{opacity:.55}
+.ib-model .an-curve{fill:none;stroke:var(--c2);stroke-width:2.6;stroke-linecap:round}
+.ib-model .an-b-str{background:var(--c2)}
+.ib-model .an-step{fill:color-mix(in srgb,var(--text) 8%,var(--surface));stroke:var(--text3);stroke-width:1.4}
+.ib-model .an-step.on{fill:color-mix(in srgb,var(--c0) 34%,var(--surface));stroke:var(--c0)}
+.ib-model .an-gate{stroke:var(--c0);stroke-width:3.4;stroke-linecap:round}
+.ib-model .an-gate.open{stroke:var(--green)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-overlap,.ib-model .an-beat.over{animation:none}}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-foodbar{fill:#d7a829;stroke:#a97f14;stroke-width:1.4}
+.ib-model .an-b-in{background:var(--green)}
+.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-foodbar{fill:#d7a829;stroke:#a97f14;stroke-width:1.4}
+.ib-model .an-b-in{background:var(--green)}
+.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+.ib-model .an-quad{stroke:none}
+.ib-model .an-quad.good{fill:color-mix(in srgb,var(--green) 12%,transparent)}
+.ib-model .an-quad.warn{fill:color-mix(in srgb,var(--gold,#b8860b) 10%,transparent)}
+.ib-model .an-quad.bad{fill:color-mix(in srgb,var(--c0) 11%,transparent)}
+.ib-model .an-lab-ok{fill:#2e9e5b}
+.ib-model .an-lab-bad{fill:#c0392b}
+
+/* ══ D4: the last eleven models, plus arrowheads and the circulation ══ */
+.ib-model .an-arrowhead{fill:#2e9e5b;stroke:none}
+.ib-model .an-circ{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:1.8;stroke-dasharray:5 4}
+.ib-model .an-conn.ret-neg{stroke:#2e9e5b;stroke-width:2.6}
+.ib-model .an-head{fill:var(--c0);stroke:none}
+.ib-model .an-head.up{fill:#2e9e5b}
+.ib-model .an-head.down{fill:#c0392b}
+.ib-model .an-head.hold{fill:var(--gold,#b8860b)}
+.ib-model .an-head.off{fill:var(--text3);opacity:.5}
+.ib-model .an-conn.up{stroke:#2e9e5b}
+.ib-model .an-conn.down{stroke:#c0392b}
+.ib-model .an-conn.hold{stroke:var(--gold,#b8860b)}
+.ib-model .an-water{fill:color-mix(in srgb,var(--c2) 13%,var(--surface));stroke:none}
+.ib-model .an-air{fill:color-mix(in srgb,var(--c1) 7%,var(--surface));stroke:none}
+.ib-model .an-body{fill:color-mix(in srgb,var(--c0) 26%,var(--surface));stroke:var(--c0);stroke-width:2.2}
+.ib-model .an-ball{fill:color-mix(in srgb,var(--c0) 30%,var(--surface));stroke:var(--c0);stroke-width:2}
+.ib-model .an-seam{stroke:var(--c0);stroke-width:2;stroke-dasharray:4 3;fill:none}
+.ib-model .an-wedge{fill:color-mix(in srgb,var(--gold,#b8860b) 34%,transparent);stroke:var(--gold,#b8860b);stroke-width:1.4}
+.ib-model .an-node{fill:var(--surface);stroke:var(--text3);stroke-width:2.2;transform-box:fill-box;transform-origin:50% 50%}
+.ib-model .an-node.on{fill:var(--c0);stroke:var(--c0);animation:an-node-pulse 1.4s ease-in-out infinite}
+@keyframes an-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.ib-model .an-tier{fill:color-mix(in srgb,var(--text) 10%,var(--surface));stroke:var(--surface);stroke-width:1.6}
+.ib-model .an-tier.on{fill:var(--c0)}
+.ib-model .an-l-up{background:#2e9e5b}
+.ib-model .an-l-down{background:#c0392b}
+.ib-model .an-l-hold{background:var(--gold,#b8860b)}
+.ib-model .an-l-node{background:var(--surface);border:2px solid var(--text3)}
+.ib-model .an-l-nodeon{background:var(--c0);border-color:var(--c0)}
+.ib-model .an-l-tier{background:color-mix(in srgb,var(--text) 10%,var(--surface));border:1px solid var(--surface)}
+.ib-model .an-l-tieron{background:var(--c0)}
+.ib-model .an-l-ball{background:color-mix(in srgb,var(--c0) 30%,var(--surface))}
+.ib-model .an-b-fb{background:#2e9e5b}
+.ib-model .an-b-w{background:var(--c0)}
+.ib-model .an-b-drag{background:var(--gold,#b8860b)}
+.ib-model .an-b-str{background:var(--green)}
+.ib-model .an-b-bias{background:var(--c0)}
+@media (prefers-reduced-motion:reduce){.ib-model .an-node.on{animation:none}}
+/* every model label gets a surface-coloured halo, so even a tight label stays
+   readable where it passes a shape edge instead of dissolving into it */
+.ib-model svg text{ paint-order:stroke; stroke:var(--surface); stroke-width:2.6px; stroke-linejoin:round }
+/* the generic sweep: every plain connector line marches so its direction reads */
+.ib-model .an-walk{fill:none;stroke-dasharray:6 6;animation:an-march 1.25s linear infinite}
+.ib-model .kv-cursor{animation:an-cursor-blink 1.8s ease-in-out infinite}
+@keyframes an-cursor-blink{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-walk,.ib-model .kv-cursor{animation:none}}
+.ib-model .an-meas2.capline{stroke:var(--c0);stroke-width:2.2;stroke-dasharray:8 5}
+/* a short leader line, so a label standing off from its shape is not floating */
+.ib-model .an-lead{fill:none;stroke:var(--text3);stroke-width:1.2;stroke-dasharray:2 2;opacity:.75}
+.ib-model .an-l-gold{background:var(--gold,#b8860b)}
+.ib-model .an-l-red{background:var(--c0)}
+/* the main shape in a drawing breathes, so a still figure still reads as alive */
+.ib-model .an-livepulse{transform-box:fill-box;transform-origin:50% 50%;
+  animation:an-breathe 3.4s ease-in-out infinite}
+@keyframes an-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.ib-model .an-livepulse{animation:none}}
+.ib-model .an-glass{fill:color-mix(in srgb,var(--c2) 30%,var(--surface));stroke:var(--c2);stroke-width:1.8}
+.ib-model .an-foodbar{fill:#d7a829;stroke:#a97f14;stroke-width:1.4}
+.ib-model .an-b-in{background:var(--green)}
+.ib-model .an-b-out{background:var(--c0)}
+.ib-model .an-horm.off{fill:var(--text3);opacity:.4}
+.ib-model .an-quad{stroke:none}
+.ib-model .an-quad.good{fill:color-mix(in srgb,var(--green) 12%,transparent)}
+.ib-model .an-quad.warn{fill:color-mix(in srgb,var(--gold,#b8860b) 10%,transparent)}
+.ib-model .an-quad.bad{fill:color-mix(in srgb,var(--c0) 11%,transparent)}
+.ib-model .an-lab-ok{fill:#2e9e5b}
+.ib-model .an-lab-bad{fill:#c0392b}
+.ib-model .an-sl-prot{fill:var(--c0);stroke:var(--surface);stroke-width:1.4}
+.ib-model .an-sl-car,.ib-model .an-sl-fat{stroke:var(--surface);stroke-width:1.4}
+
+
+/* the pane keeps a stable height so switching between the topic tree and a
+   topic page does not jump the scroll position */
+.ib-pane-min-height { min-height: 46vh; }

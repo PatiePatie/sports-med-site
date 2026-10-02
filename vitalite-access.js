@@ -30,6 +30,21 @@
         ['Mistake review across every mock', '所有模拟考试的错题复盘']
       ]
     },
+    /* Administrator — the top of the ladder, above Classroom.
+       Deliberately NOT rendered on the public pricing page: an unbuyable
+       tier is confusing to a visitor. It is granted automatically to the
+       site administrators' own accounts, and is shown as a badge on their
+       dashboard instead. See isAdmin() for who qualifies. */
+    admin: {
+      id: 'admin', name: ['Administrator', '管理员'], price: ['—', '—'],
+      blurb: ['Site team. Everything unlocked, including Classroom.', '站点团队。全部功能解锁，包含课堂。'],
+      includes: [
+        ['Everything in Classroom, plus:', '包含教师版全部功能，另加：'],
+        ['The developer console', '开发者控制台'],
+        ['Site designer and content editor', '站点设计器与内容编辑器'],
+        ['Moderation and member tools', '内容审核与会员工具']
+      ]
+    },
     teacher: {
       id: 'teacher', name: ['Classroom', '教师版'], price: ['¥68/mo', '¥68/月'],
       blurb: ['For a teacher with one class or a school.', '适合带一个班或一所学校的教师。'],
@@ -83,20 +98,46 @@
     var u = user();
     var e = override() || fromStore();
     var plan = e ? e.plan : 'free';
+    /* An administrator's account resolves to the admin tier whatever the
+       stored entitlement says, so the tier is granted automatically instead of
+       being something an admin has to remember to set. isAdmin() is declared
+       below and hoisted, so calling it from here is safe. */
+    var admin = isAdmin();
+    if (admin) plan = 'admin';
     return {
       signedIn: !!u,
       email: u ? (u.email || '') : '',
       plan: plan,
       isPaid: plan !== 'free',
-      isTeacher: plan === 'teacher',
+      isTeacher: plan === 'teacher' || plan === 'admin',
+      isAdmin: admin,
       until: e ? e.until : 0,
-      src: e ? e.src : 'free'
+      src: admin ? 'admin' : (e ? e.src : 'free')
     };
   }
 
   /* ── feature table ─────────────────────────────────────────────────
      `login` = free but needs an account. `paid` = needs a paid plan.
      A feature with neither is always open and must never be gated. */
+  /* ── Administrators ────────────────────────────────────────────────
+     These are the addresses already hard-coded in admin.html's DEV_EMAILS.
+     Matching them here means the admin tier is granted automatically to the
+     right accounts and to nobody else.
+
+     HONEST LIMITATION, and it matters: this check runs in the browser, so it
+     is a feature gate and not a security boundary. Anyone can edit
+     localStorage and claim any plan. Real enforcement has to happen in the
+     worker / Supabase RLS, which is the same work needed for billing. */
+  var ADMIN_EMAILS = ['goldensword.gt@gmail.com', 'p54992163@gmail.com', 'patrick.xie@student.isb.bj.edu.cn'];
+  function isAdmin() {
+    try {
+      var u = JSON.parse(localStorage.getItem('sm_user') || 'null');
+      if (!u || !u.email) return false;
+      var e = String(u.email).trim().toLowerCase();
+      return ADMIN_EMAILS.indexOf(e) >= 0;
+    } catch (e) { return false; }
+  }
+
   var FEATURES = {
     reading:      { need: null },
     flashcards:   { need: null },
@@ -106,7 +147,8 @@
     progress_sync:{ need: 'paid', plan: 'plus' },
     ai_quota:     { need: 'paid', plan: 'plus' },
     study_pack:   { need: 'paid', plan: 'plus' },
-    classroom:    { need: 'paid', plan: 'teacher' }
+    classroom:    { need: 'paid', plan: 'teacher' },
+    admin_console:{ need: 'admin' }
   };
 
   function allowed(feature) {
@@ -114,7 +156,11 @@
     if (!f || !f.need) return true;
     var s = state();
     if (!f.need) return true;
+    /* an administrator is above Classroom, so Classroom-only surfaces such as
+       the developer console open for them too */
+    if (s.isAdmin) return true;
     if (f.need === 'login') return s.signedIn;
+    if (f.need === 'admin') return false;
     if (f.need === 'paid') {
       if (!s.isPaid) return false;
       /* a paid plan that does not include this feature is refused rather than
@@ -195,6 +241,8 @@
   window.VitaliteAccess = {
     PLANS: PLANS,
     FEATURES: FEATURES,
+    isAdmin: isAdmin,
+    ADMIN_EMAILS: ADMIN_EMAILS,
     state: state,
     allowed: allowed,
     gate: gate,

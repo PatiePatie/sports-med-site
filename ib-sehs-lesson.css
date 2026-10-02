@@ -1,0 +1,628 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   IB SEHS · Focus lesson — a full-screen, sentence-at-a-time reader.
+
+   This page deliberately loads none of the site chrome: no sidebar, no top bar,
+   no FABs, no modals. It loads the theme stylesheet only for the colour
+   variables and the light/dark pair, so the lesson matches the rest of the site
+   without inheriting any of its layout.
+
+   Layout: a fixed rail (progress + controls) on top, a two-column body on
+   desktop (rail column + reading column), and a single reading column under
+   900px where the left column becomes a slide-in drawer.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --rail-h: 58px;
+  --rail-w: 296px;
+  --lesson-w: 46rem;          /* comfortable measure for long-form reading */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+}
+
+/* ── base ────────────────────────────────────────────────────────────────── */
+
+body.ib-lesson {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font, system-ui, sans-serif);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-text-size-adjust: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Reading is the point, so no accidental sideways scroll on a phone. */
+body.ib-lesson { overflow-x: hidden; }
+
+/* Deliberately NOT `color: inherit` here: it is (0,1,2) and it beat the
+   drill blank's `color: transparent`, so the hidden key terms stayed
+   readable. The two buttons that used to lean on it declare their own. */
+body.ib-lesson button { font: inherit; }
+
+.ib-lesson-shell {
+  /* The rail column only exists on desktop. On a phone the reading column is
+     centred with no left offset, which is why this is a plain grid here. */
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  padding: 0 1.15rem 0;
+}
+
+@media (min-width: 1040px) {
+  .ib-lesson-shell {
+    grid-template-columns: var(--rail-w) minmax(0, var(--lesson-w));
+    gap: 3rem;
+    justify-content: stretch;
+    padding: 0 2.5rem 0;
+  }
+  /* the rail column holds the drawer contents as a static column */
+  .ib-rail {
+    position: sticky;
+    top: calc(var(--rail-h) + 1.6rem);
+    align-self: start;
+    max-height: calc(100vh - var(--rail-h) - 3rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .ib-rail__scrim,
+  .ib-rail__close { display: none; }
+}
+
+/* ── top rail: Exit, progress, toggles ───────────────────────────────────── */
+
+.ib-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--rail-h);
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 0 clamp(.9rem, 3vw, 1.6rem);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.ib-top__exit {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 40px;
+  padding: 0 .7rem 0 .55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: .82rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text2);
+  cursor: pointer;
+  flex: none;
+}
+.ib-top__exit:hover { color: var(--text); border-color: var(--text3); }
+.ib-top__exit svg { width: 15px; height: 15px; display: block; }
+
+/* Progress is a hairline that fills. Not a number: the eye reads position. */
+.ib-top__bar {
+  flex: 1 1 auto;
+  height: 6px;
+  min-width: 40px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+  overflow: hidden;
+}
+.ib-top__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4f8ff0, #6d5cf0);
+  transition: width .32s cubic-bezier(.4, 0, .2, 1);
+}
+.ib-top__count {
+  flex: none;
+  font-size: .76rem;
+  font-weight: 800;
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+  min-width: 4.4em;
+  text-align: right;
+}
+
+.ib-top__btn {
+  flex: none;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: .78rem;
+  font-weight: 800;
+  color: var(--text2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ib-top__btn:hover { color: var(--text); }
+.ib-top__btn[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--blue) 12%, var(--surface));
+  border-color: var(--blue2);
+  color: var(--blue2);
+}
+/* the drawer trigger only exists where the rail is a drawer */
+.ib-top__btn--rail { display: inline-flex; }
+@media (min-width: 1040px) { .ib-top__btn--rail { display: none; } }
+
+.ib-top__slot { display: none; }
+@media (min-width: 1040px) { .ib-top__slot { display: block; flex: 1 1 0; } }
+
+/* ── reading column ──────────────────────────────────────────────────────── */
+
+.ib-read {
+  min-width: 0;
+  padding: clamp(1.6rem, 4vw, 3rem) 0 8rem;
+  padding-left: 0;
+}
+@media (min-width: 1040px) { .ib-read { padding-top: 2.4rem; } }
+
+/* Chapter cover */
+.ib-cover { opacity: .62; transition: opacity .3s ease; }
+.ib-cover__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--blue2) 11%, var(--surface));
+  color: var(--blue2);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ib-cover__title {
+  font-family: var(--serif, Georgia, serif);
+  font-size: clamp(1.9rem, 5.5vw, 2.7rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin: .9rem 0 .5rem;
+}
+.ib-cover__meta { color: var(--text2); font-size: .92rem; }
+
+/* section opener */
+.ib-sec {
+  margin: 3.2rem 0 1.4rem;
+  padding-top: 1.4rem;
+  border-top: 2px solid var(--line);
+  scroll-margin-top: calc(var(--rail-h) + 1rem);
+}
+.ib-sec:first-child { border-top: 0; margin-top: 1rem; }
+.ib-sec__label {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold));
+}
+.ib-sec__label svg { width: 17px; height: 17px; flex: none; }
+.ib-sec__title {
+  font-family: var(--serif, Georgia, serif);
+  font-size: clamp(1.3rem, 3.6vw, 1.72rem);
+  line-height: 1.22;
+  margin: .5rem 0 0;
+  letter-spacing: -.012em;
+}
+.ib-sec__code {
+  display: inline-block;
+  margin-left: .5rem;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: .74em;
+  color: var(--text3);
+  font-weight: 700;
+  vertical-align: .1em;
+}
+
+/* A revealed sentence. Fades and dims as later blocks land below it, so the
+   newest line is always the brightest thing on screen. */
+.ib-sum {
+  font-size: clamp(1.02rem, 2.5vw, 1.16rem);
+  line-height: 1.72;
+  margin: 0 0 1.15rem;
+  opacity: .62;
+  transition: opacity .3s ease;
+}
+.ib-now { opacity: 1; }
+.ib-sum b, .ib-card b, .ib-sec__title b { font-weight: 800; color: var(--text); }
+.ib-card b, .ib-sum b { background: color-mix(in srgb, var(--gold) 15%, transparent); border-radius: 3px; padding: 0 .12em; }
+
+/* ── cards ────────────────────────────────────────────────────────────────── */
+/* Key Idea / Definition / Note / Example / Analogy all share one quadrilateral
+   shell so they read as a family; only the tint and the label change. */
+
+.ib-card {
+  position: relative;
+  margin: 1.35rem 0;
+  padding: 1rem 1.15rem 1.05rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--ib-c-bd);
+  border-left: 5px solid var(--ib-c-ac);
+  background: var(--ib-c-bg);
+  transition: opacity .3s ease;
+  opacity: .62;
+}
+
+
+.ib-card__label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .03em;
+  color: var(--ib-c-ac);
+  margin-bottom: .4rem;
+}
+.ib-card__label svg { width: 16px; height: 16px; flex: none; }
+.ib-card__title { font-weight: 800; font-size: 1.04rem; margin: 0 0 .3rem; }
+.ib-card__body { font-size: .99rem; line-height: 1.66; margin: 0; }
+.ib-card__body ul { margin: .5rem 0 0; padding-left: 1.15rem; }
+.ib-card__body li { margin: .3rem 0; }
+.ib-card__body li::marker { color: var(--ib-c-ac); font-weight: 800; }
+.ib-card__note {
+  margin: .55rem 0 0;
+  font-size: .86rem;
+  color: var(--text2);
+  font-style: italic;
+}
+
+/* the five tints */
+.ib-card--idea    { --ib-c-ac: #7c4dff; --ib-c-bg: color-mix(in srgb, #7c4dff 7%, var(--surface));  --ib-c-bd: color-mix(in srgb, #7c4dff 26%, transparent); }
+.ib-card--def     { --ib-c-ac: #d63d84; --ib-c-bg: color-mix(in srgb, #d63d84 7%, var(--surface));  --ib-c-bd: color-mix(in srgb, #d63d84 26%, transparent); }
+.ib-card--note    { --ib-c-ac: #17936b; --ib-c-bg: color-mix(in srgb, #17936b 8%, var(--surface));  --ib-c-bd: color-mix(in srgb, #17936b 26%, transparent); }
+/* Analogy and Example are the two the brief calls out by name. */
+.ib-card--analogy { --ib-c-ac: #d93b3b; --ib-c-bg: color-mix(in srgb, #d93b3b 8%, var(--surface));  --ib-c-bd: color-mix(in srgb, #d93b3b 30%, transparent); }
+.ib-card--example { --ib-c-ac: #2b6fe0; --ib-c-bg: color-mix(in srgb, #2b6fe0 8%, var(--surface));  --ib-c-bd: color-mix(in srgb, #2b6fe0 30%, transparent); }
+
+/* Definition card gets a term + its definition, which is what feeds both the
+   glossary and the flashcard deck. */
+.ib-def__term { font-weight: 800; font-size: 1.06rem; margin: 0 0 .25rem; }
+
+/* ── figures and tables ─────────────────────────────────────────────────── */
+
+.ib-fig { margin: 1.6rem 0; opacity: .62; transition: opacity .3s ease; }
+
+.ib-fig__title {
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0 0 .5rem;
+}
+.ib-fig__frame {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: .85rem;
+}
+.ib-fig__frame svg { width: 100%; height: auto; display: block; }
+.ib-fig__legend { margin: .7rem 0 0; padding: 0; list-style: none; font-size: .9rem; color: var(--text2); }
+.ib-fig__legend li { position: relative; padding-left: 1rem; margin: .28rem 0; }
+.ib-fig__legend li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--blue2);
+}
+.ib-fig__cap { margin: .6rem 0 0; font-size: .88rem; color: var(--text2); }
+
+.ib-tbl { margin: 1.6rem 0; opacity: .62; transition: opacity .3s ease; }
+
+.ib-tbl__wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ib-tbl table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 26rem; }
+.ib-tbl th, .ib-tbl td { padding: .6rem .75rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ib-tbl th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text3); font-weight: 900; background: color-mix(in srgb, var(--text) 3%, transparent); }
+.ib-tbl tr:last-child td { border-bottom: 0; }
+.ib-tbl__title { font-size: .78rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; color: var(--text3); margin: 0 0 .5rem; }
+.ib-tbl__note { margin: .55rem 0 0; font-size: .87rem; color: var(--text2); }
+
+/* ── flashcard slide ────────────────────────────────────────────────────── */
+
+.ib-flash { margin: 1.6rem 0; text-align: center; opacity: .62; transition: opacity .3s ease; }
+
+.ib-flash__label {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .76rem; font-weight: 900; letter-spacing: .04em; color: #7c4dff;
+}
+.ib-flash__label svg { width: 16px; height: 16px; }
+.ib-flash__card {
+  margin: .6rem auto 0;
+  max-width: 30rem;
+  min-height: 13rem;
+  padding: 2.4rem 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(16, 33, 58, .05);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.ib-flash__q { font-size: 1.12rem; font-weight: 800; }
+.ib-flash__hint { margin: .8rem 0 0; font-size: .82rem; color: var(--text3); }
+.ib-flash.is-flipped .ib-flash__q { color: var(--text2); font-weight: 700; }
+
+/* ── MCQ slide ──────────────────────────────────────────────────────────── */
+
+.ib-mcq { margin: 1.7rem 0; opacity: .62; transition: opacity .3s ease; }
+
+.ib-mcq__label {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .76rem; font-weight: 900; letter-spacing: .04em; color: #2b6fe0;
+}
+.ib-mcq__label svg { width: 16px; height: 16px; }
+.ib-mcq__q { font-size: 1.06rem; font-weight: 800; margin: .7rem 0 1rem; }
+.ib-mcq__opt {
+  color: var(--text);
+  display: flex; align-items: flex-start; gap: .7rem;
+  width: 100%; text-align: left;
+  padding: .78rem .95rem; margin: .5rem 0;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--surface); cursor: pointer;
+  font-size: .97rem; line-height: 1.5;
+}
+.ib-mcq__opt:hover:not(:disabled) { border-color: var(--blue2); }
+.ib-mcq__opt:disabled { cursor: default; }
+.ib-mcq__key {
+  flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  border: 1px solid var(--line); display: grid; place-items: center;
+  font-size: .78rem; font-weight: 900; color: var(--text3);
+}
+.ib-mcq__opt.is-right { border-color: #17936b; background: color-mix(in srgb, #17936b 10%, var(--surface)); }
+.ib-mcq__opt.is-right .ib-mcq__key { border-color: #17936b; color: #17936b; }
+.ib-mcq__opt.is-wrong { border-color: #d93b3b; background: color-mix(in srgb, #d93b3b 9%, var(--surface)); }
+.ib-mcq__opt.is-wrong .ib-mcq__key { border-color: #d93b3b; color: #d93b3b; }
+.ib-mcq__why { margin: .8rem 0 0; font-size: .9rem; color: var(--text2); }
+.ib-mcq__hintbtn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .4rem .85rem; min-height: 38px;
+  border: 1px solid color-mix(in srgb, #7c4dff 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, #7c4dff 12%, var(--surface));
+  color: #7c4dff; font-size: .82rem; font-weight: 800; cursor: pointer;
+}
+.ib-mcq__hintbtn:hover { background: color-mix(in srgb, #7c4dff 20%, var(--surface)); }
+
+/* ── term-blanking drill ────────────────────────────────────────────────── */
+/* With the drill on, every bolded key term renders as a tap-to-reveal blank.
+   That is the "learn it yourself" half: the page stops reading for you. */
+.ib-blank {
+  display: inline-block;
+  min-width: 7.5em;
+  margin: 0 .1em;
+  padding: 0 .5em;
+  border-bottom: 2px dashed var(--blue2);
+  background: color-mix(in srgb, var(--blue2) 9%, transparent);
+  border-radius: 5px 5px 0 0;
+  color: transparent;
+  text-shadow: none;
+  cursor: pointer;
+  vertical-align: baseline;
+  transition: background .18s ease, color .18s ease;
+}
+.ib-blank::before {
+  content: attr(data-hint);
+  color: color-mix(in srgb, var(--text3) 70%, transparent);
+  font-size: .88em;
+  font-style: italic;
+}
+.ib-blank.is-open {
+  color: var(--text);
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border-bottom-color: transparent;
+  border-bottom-style: solid;
+}
+.ib-blank.is-open::before { content: none; }
+.ib-blank:focus-visible { outline: 2px solid var(--blue2); outline-offset: 2px; }
+
+/* ── rail: chapter map + live glossary ──────────────────────────────────── */
+
+.ib-rail__scrim {
+  position: fixed; inset: 0; z-index: 48;
+  background: rgba(8, 14, 24, .5);
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+/* NB: the scrim is the sibling BEFORE .ib-rail in the markup, so an adjacent
+   sibling combinator could not reach it. It is toggled by class from JS. */
+.ib-rail__scrim.is-open { opacity: 1; pointer-events: auto; }
+
+.ib-rail {
+  padding: 1.4rem 0 0;
+}
+@media (max-width: 1039px) {
+  .ib-rail {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 50;
+    width: min(88vw, 22rem);
+    padding: calc(var(--rail-h) + .8rem) 0 2rem;
+    background: var(--bg);
+    border-right: 1px solid var(--line);
+    box-shadow: 0 0 40px rgba(8, 14, 24, .2);
+    transform: translateX(-102%);
+    transition: transform .28s cubic-bezier(.4, 0, .2, 1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .ib-rail.is-open { transform: none; }
+}
+.ib-rail__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  position: absolute; top: .55rem; right: .7rem;
+  width: 40px; height: 40px;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--surface); font-size: 1.1rem; cursor: pointer;
+}
+
+.ib-rail__head {
+  font-size: .72rem; font-weight: 900; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text3);
+  margin: 0 0 .55rem;
+}
+.ib-map { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.ib-map__topic {
+  font-size: .74rem; font-weight: 900; color: var(--blue2);
+  margin: .85rem 0 .3rem; letter-spacing: .04em;
+}
+.ib-map__sec {
+  display: flex; align-items: flex-start; gap: .5rem;
+  width: 100%; text-align: left;
+  padding: .42rem .5rem; min-height: 38px;
+  border: 0; border-radius: var(--r-sm);
+  background: transparent; cursor: pointer;
+  font-size: .86rem; line-height: 1.4;
+  color: var(--text2);
+}
+.ib-map__sec:hover { background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text); }
+.ib-map__sec.is-now { background: color-mix(in srgb, var(--blue2) 12%, transparent); color: var(--blue2); font-weight: 800; }
+.ib-map__tick {
+  flex: none; width: 1.05rem; height: 1.05rem; margin-top: .18rem;
+  border: 1.5px solid var(--line); border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: .6rem; color: transparent;
+}
+.ib-map__sec.is-done .ib-map__tick { background: #17936b; border-color: #17936b; color: #fff; }
+
+.ib-gloss__search {
+  width: 100%; padding: .5rem .65rem; min-height: 44px;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--text); font-size: .87rem;
+  margin-bottom: .5rem;
+}
+.ib-gloss__list { list-style: none; margin: 0; padding: 0; }
+.ib-gloss__list li { padding: .45rem 0; border-bottom: 1px dotted var(--line); font-size: .85rem; line-height: 1.45; }
+.ib-gloss__list b { display: block; color: var(--blue2); font-size: .86em; }
+.ib-gloss__empty { font-size: .84rem; color: var(--text3); padding: .5rem 0; }
+
+/* ── footer controls ────────────────────────────────────────────────────── */
+
+.ib-foot {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: .8rem;
+  padding: .7rem clamp(.9rem, 3vw, 2.5rem) calc(.7rem + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 1040px) {
+  /* keep the footer's right edge on the reading column, not the window */
+  .ib-foot { padding-left: calc(var(--rail-w) + 2.5rem); }
+}
+.ib-foot__btn {
+  color: var(--text);
+  min-height: 46px;
+  padding: .6rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: .92rem; font-weight: 800;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: .45rem;
+}
+.ib-foot__btn:disabled { opacity: .4; cursor: default; }
+.ib-foot__btn--next {
+  background: linear-gradient(180deg, #4a90e8, #3d7fd6);
+  border-color: #3d7fd6;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(61, 127, 214, .3);
+}
+.ib-foot__btn--next:hover:not(:disabled) { background: linear-gradient(180deg, #3f86dc, #3575c8); }
+.ib-foot__btn--next svg { width: 15px; height: 15px; }
+.ib-foot__spacer { flex: 1 1 auto; }
+
+/* ── end card ───────────────────────────────────────────────────────────── */
+
+.ib-done { text-align: center; padding: 2rem 0 1rem; }
+.ib-done__big {
+  font-family: var(--serif, Georgia, serif);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin: 0 0 .5rem;
+}
+.ib-done__stats { color: var(--text2); font-size: .95rem; margin: 0 0 1.3rem; }
+.ib-done__acts { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+
+/* ── dark ───────────────────────────────────────────────────────────────── */
+/* The theme stylesheet owns the dark variable block; this only keeps our own
+   tints legible against a dark surface. */
+body.ib-lesson.dark .ib-top__fill { background: linear-gradient(90deg, #6ea8ff, #9b8bff); }
+body.ib-lesson.dark .ib-mcq__hintbtn { color: #b79cff; }
+body.ib-lesson.dark .ib-flash__label { color: #b79cff; }
+body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
+
+/* ── motion / print ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .ib-sum, .ib-card, .ib-fig, .ib-tbl, .ib-flash, .ib-mcq, .ib-cover { transition: none; }
+  .ib-rail, .ib-rail__scrim, .ib-top__fill { transition: none; }
+}
+
+@media print {
+  .ib-top, .ib-foot, .ib-rail, .ib-rail__scrim { display: none !important; }
+  .ib-sum, .ib-card, .ib-fig, .ib-tbl, .ib-flash, .ib-mcq, .ib-cover { opacity: 1 !important; }
+}
+
+/* ── generated figures ──────────────────────────────────────────────────────
+   IB_VISUALS draws with CSS classes, not presentation attributes: .plate is the
+   background card, .ln/.th are strokes, .lbl* are the labels. Without these rules
+   the <rect class="plate"> falls back to the SVG default fill of BLACK and the
+   whole figure renders as a black box — which is exactly what happens if you
+   forget them, so they are copied here verbatim rather than trusted. The
+   min-width keeps a 560-unit canvas legible on a phone, which is what the course
+   page does with its scroll wrapper; here the frame scrolls instead. */
+.vis-svg-scroll{margin:0 auto;max-width:100%}
+.vis-svg{width:100%;height:auto;display:block;overflow:visible}
+.vis-svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain}
+.vis-svg{min-width:440px}
+.vis-svg .ln{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.vis-svg .th{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.vis-svg .dash{fill:none;stroke:currentColor;stroke-width:1.5;stroke-dasharray:4 4;opacity:.75}
+.vis-svg .plate{fill:var(--surface2);opacity:.6}
+.vis-svg .panel{fill:none;stroke:var(--border);stroke-width:1}
+.vis-svg .panelHead{fill:color-mix(in srgb,var(--accent,#7c3aed) 9%,transparent)}
+.vis-svg .rule{stroke:var(--border);stroke-width:1;fill:none}
+.vis-svg .grid{stroke:var(--border);stroke-width:1;opacity:.5;fill:none}
+.vis-svg .ax{stroke:currentColor;stroke-width:2;fill:none}
+.vis-svg .lblL{fill:currentColor;font:700 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.vis-svg .solid{fill:currentColor;stroke:none}
+.vis-svg .accFill{fill:var(--accent,#7c3aed);opacity:.18}
+.vis-svg .warnFill{fill:#dc2626;opacity:.15}
+.vis-svg .goodFill{fill:#059669;opacity:.15}
+.vis-svg .fillA{fill:currentColor;opacity:.10}
+.vis-svg .fillB{fill:currentColor;opacity:.20}
+.vis-svg .fillC{fill:currentColor;opacity:.32}
+.vis-svg .lbl{fill:currentColor;font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.vis-svg .lblS{fill:currentColor;font:500 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.8}
+.vis-svg .lblXS{fill:currentColor;font:500 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.85}
+.vis-svg .acc{fill:var(--accent,#7c3aed);stroke:none}
+.vis-svg .warn{fill:#dc2626;stroke:none}
+.vis-svg .good{fill:#059669;stroke:none}
+.ib-fig__frame .vis-svg { min-width: 0; }

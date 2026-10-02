@@ -29,7 +29,7 @@
 <script src="button-glow.js?v=1" defer></script>
 
 <link rel="stylesheet" href="knowledge.css?v=6">
-<link rel="stylesheet" href="ib-sehs-lesson.css?v=6">
+<link rel="stylesheet" href="ib-sehs-lesson.css?v=7">
 
 <!-- Course data, the same files the normal page loads. Read-only here. -->
 <script src="ib-sehs-data.js?v=4"></script>
@@ -41,10 +41,16 @@
      need that class purely so the model layer can find them. -->
 <script src="ib-sehs-models.js?v=16" defer></script>
 
+<!-- The course page's own content renderer. The study guide reuses it so the
+     29 sections' real text, figures and interactive models are reachable from
+     here; it is stylesheet-and-data only on this page and mounts no chrome.
+     Deferred because it touches document.body at load. -->
+<script src="ib-sehs-course.js?v=19" defer></script>
+
 <!-- the authored layer: one summary + one analogy + one example per section -->
 <script src="ib-sehs-lesson-data.js?v=1"></script>
 
-<script src="ib-sehs-lesson.js?v=6" defer></script>
+<script src="ib-sehs-lesson.js?v=7" defer></script>
 </head>
 
 <body class="ib-lesson">
@@ -69,7 +75,7 @@
 <div class="ib-rail__scrim" id="ibScrim"></div>
 
 <!-- ── hub ─────────────────────────────────────────────────────────────── -->
-<div class="ib-hub" id="ibHub"></div>
+<div class="ib-hub" id="ibHub"><div class="ib-pane-min-height"></div></div>
 
 <!-- ── reader ──────────────────────────────────────────────────────────── -->
 <div class="ib-lesson-shell" id="ibReader">

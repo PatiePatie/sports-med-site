@@ -175,7 +175,7 @@ on('#langToggle','click',function(){showCN=!showCN;try{localStorage.setItem('sm_
 on('#darkToggle','click',function(){var dark=!document.body.classList.contains('dark');document.body.classList.toggle('dark',dark);try{localStorage.setItem('dark',dark?'true':'false')}catch(e){}$('#darkToggle').textContent=dark?'☀':'◐'});
 on('#sidebarToggle','click',function(){$('#sidebar').classList.toggle('open')});
 $$('.part-toggle').forEach(function(button){button.addEventListener('click',function(){button.closest('.sidebar-group').classList.toggle('open')})});
-on('#backTop','click',function(){window.scrollTo({top:0,behavior:'smooth'})});window.addEventListener('scroll',function(){$('#backTop').classList.toggle('show',window.scrollY>400)},{passive:true});
+on('#backTop','click',function(){window.scrollTo({top:0,behavior:'smooth'})});window.addEventListener('scroll',function(){var b=$('#backTop');if(b)b.classList.toggle('show',window.scrollY>400)},{passive:true});
 $$('.sidebar-link.gc[data-ch]').forEach(function(link){link.addEventListener('click',function(event){event.preventDefault();showChapter(Number(link.dataset.ch),true,false)})});
 $$('.guide-tab').forEach(function(tab){tab.addEventListener('click',function(){showChapter(Number(tab.dataset.ch),true,false)})});
 var chPrev=$('#chPrev'),chNext=$('#chNext');if(chPrev)chPrev.addEventListener('click',function(){showChapter(currentChapter-1,true,false)});if(chNext)chNext.addEventListener('click',function(){showChapter(currentChapter+1,true,false)});

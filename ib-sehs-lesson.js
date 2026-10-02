@@ -777,7 +777,67 @@
     }
   }
 
-  /* ── HUB ─────────────────────────────────────────────────────────────── */
+  /* ── SUBJECT ──────────────────────────────────────────────────────────── */
+  /* Group names are authored, keyed by the group's own code, and derived from
+     the real topic titles. The key is code.split('.').slice(0,2) — NOT
+     split('.')[0], which collapses A.1/B.2/C.5 all to a single letter and
+     printed "A.A" as a heading. Every group that actually occurs in the data
+     must have an entry; groupsOf() throws at build time if one is missing so
+     a new topic cannot silently lose its heading. */
+  var GROUPS = {
+    'A.1': { en: 'Communication', zh: '通讯' },
+    'A.2': { en: 'Hydration & nutrition', zh: '水合与营养' },
+    'A.3': { en: 'Response to training', zh: '训练反应' },
+    'B.1': { en: 'Generating movement in the body', zh: '身体如何产生运动' },
+    'B.2': { en: 'Forces and movement', zh: '力与运动' },
+    'B.3': { en: 'Injury and intervention', zh: '损伤与干预' },
+    'C.1': { en: 'Individual differences', zh: '个体差异' },
+    'C.2': { en: 'Learning and attention', zh: '学习与注意' },
+    'C.3': { en: 'Motivation and climate', zh: '动机与氛围' },
+    'C.4': { en: 'Arousal and coping', zh: '唤醒与应对' },
+    'C.5': { en: 'Goals and imagery', zh: '目标与意象' }
+  };
+  function groupOf(code) { return String(code || '').split('.').slice(0, 2).join('.'); }
+  function groupName(g) { return GROUPS[g] || null; }
+  function allTopics() {
+    var out = [];
+    CHAPTERS.forEach(function (ch) { topicList(ch).forEach(function (r) { out.push(r); }); });
+    return out;
+  }
+  function chapterOfCode(code) {
+    for (var i = 0; i < CHAPTERS.length; i++) {
+      var ch = CHAPTERS[i], list = topicList(ch);
+      for (var j = 0; j < list.length; j++) if (list[j].code === code) return { ch: ch, i: j, n: list.length };
+    }
+    return null;
+  }
+  function topicByCode(code) {
+    var list = allTopics();
+    for (var i = 0; i < list.length; i++) if (list[i].code === code) return list[i];
+    return list[0] || null;
+  }
+  function topicTitle(r) { return (r.t && (r.t.en || r.t.title)) || ''; }
+  function topicZhTitle(r) { return (r.t && r.t.zh) || ''; }
+  function go(hash) { location.hash = hash; }
+
+  var hubView = 'resources';
+  var hubTopic = (function () {
+    var t = allTopics()[0];
+    return t ? t.code : 'A.1.1';
+  })();
+
+  /* A single recommendation: the unfinished topic with the most progress,
+     otherwise the first topic. Used by the subject page's start card. */
+  function recommended() {
+    var list = allTopics(), pick = list[0], best = -1;
+    list.forEach(function (r) {
+      var c = countsOf(r.code), done = slotFor(r.code).done || {};
+      var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
+      if (seen >= c.sections) return;
+      if (seen > best) { best = seen; pick = r; }
+    });
+    return { r: pick, seen: Math.max(0, best) };
+  }
 
   function openHub() {
     document.body.classList.remove('ib-reading');
@@ -790,254 +850,315 @@
     $('#ibRailToggle').hidden = true;
     if (fillEl) fillEl.style.width = '0%';
     if (countEl) countEl.textContent = '—';
+
     var host = $('#ibHub');
     host.hidden = false;
     host.innerHTML = '';
-    var ch = CHAPTERS[0];
 
+    /* subject header */
     var hero = el('header', 'ib-hero');
-    hero.appendChild(el('span', 'ib-hero__kicker',
-      T('IB SEHS · Chapter 1', 'IB SEHS · 第一章')));
-    var h1 = el('h1', 'ib-hero__title', ch.en);
-    plain(h1, ch.en, ch.zh);
-    hero.appendChild(h1);
+    hero.appendChild(el('span', 'ib-hero__kicker', T('IB SEHS', 'IB SEHS')));
+    hero.appendChild(plain(el('h1', 'ib-hero__title'), 'IB SEHS', 'IB SEHS'));
     hero.appendChild(el('p', 'ib-hero__sub',
-      T(ch.secs ? '' : 'Exercise physiology, nutrition, and how training changes the body.',
-        '运动生理、营养，以及训练如何改变身体。')));
+      T('First-to-last course. Three chapters, 29 topics, 83 sections.',
+        '从第一章到最后一章。三个主题、29 个小节主题、83 个章节。')));
+    var overall = el('div', 'ib-hero__stat');
+    var tsec = 0, tseen = 0;
+    allTopics().forEach(function (r) {
+      var c = countsOf(r.code), d = slotFor(r.code).done || {};
+      tsec += c.sections;
+      tseen += r.secs.filter(function (_, i) { return d[i]; }).length;
+    });
+    overall.appendChild(el('b', null, tsec ? Math.round(tseen / tsec * 100) + '%' : '0%'));
+    overall.appendChild(el('span', null, T('overall', '总进度')));
+    hero.appendChild(overall);
     host.appendChild(hero);
 
-    /* progress legend */
-    var leg = el('div', 'ib-legend');
-    LEVELS.forEach(function (L) {
-      var it = el('div', 'ib-legend__item');
-      var sq = el('span', 'ib-lev ib-lev--' + L.k);
-      it.appendChild(sq);
-      it.appendChild(el('span', null, T(L.en, L.zh)));
-      leg.appendChild(it);
-    });
-    host.appendChild(leg);
-
     var tabs = el('div', 'ib-tabs');
-    [['topics', T('Topics & progress', '主题与进度')],
-     ['detail', T('Topic detail', '主题详情')],
-     ['defs', T('Key definitions', '关键定义')]].forEach(function (pair) {
-      var k = pair[0];
-      var b = el('button', 'ib-tab', pair[1]);
-      b.dataset.view = k;
-      b.addEventListener('click', function () { hubTab = k; paintHub(); });
+    [['resources', T('Resources', '资源')], ['progress', T('Topics & progress', '主题与进度')]].forEach(function (p) {
+      var b = el('button', 'ib-tab', p[1]);
+      b.dataset.view = p[0];
+      b.addEventListener('click', function () { go('#' + p[0]); });
       tabs.appendChild(b);
     });
     host.appendChild(tabs);
-
     host.appendChild(el('div', 'ib-pane', ''));
     paintHub();
   }
-  var hubTab = 'topics';
+
+  /* ── the pane router ─────────────────────────────────────────────────── */
 
   function paintHub() {
     var host = $('#ibHub');
     var pane = $('.ib-pane', host);
     $$('.ib-tab', host).forEach(function (b) {
-      b.classList.toggle('is-on', b.dataset.view === hubTab);
+      b.classList.toggle('is-on', b.dataset.view === hubView);
     });
     pane.innerHTML = '';
-    var ch = CHAPTERS[0];
-    var rows = topicList(ch);
+    if (hubView === 'progress') return paintProgress(pane);
+    if (hubView === 'topic') return paintTopic(pane);
+    if (hubView === 'lessons') return paintLessons(pane);
+    if (hubView === 'guide') return paintGuide(pane);
+    if (hubView === 'defs') return paintDefs(pane);
+    paintResources(pane);
+  }
 
-    if (hubTab === 'defs') { paintDefs(pane, rows); return; }
-
-    if (hubTab === 'topics') {
-      /* Which topic should the reader be handed first? The one with the most
-         progress that is not finished, otherwise the first topic. Without this
-         the page opened on a list and left the visitor to guess. */
-      var pick = rows[0], bestSeen = -1;
-      rows.forEach(function (r) {
-        var cc = countsOf(r.code), dd = slotFor(r.code).done || {};
-        var sn = r.secs.filter(function (_, i) { return dd[i]; }).length;
-        if (sn >= cc.sections) return;
-        if (sn > bestSeen) { bestSeen = sn; pick = r; }
-      });
-      if (pick) {
-        var pc = countsOf(pick.code);
-        var pdone = slotFor(pick.code).done || {};
-        var pseen = pick.secs.filter(function (_, i) { return pdone[i]; }).length;
-        var box = el('div', 'ib-cta');
-        var ct = el('span', 'ib-cta__txt');
-        ct.appendChild(el('span', 'ib-cta__eyebrow',
-          pseen ? T('Pick up where you left off', '继续上次的学习') : T('Start here', '从这里开始')));
-        ct.appendChild(el('span', 'ib-cta__title',
-          pick.code + ' ' + T(pick.t.en || pick.t.title || '', pick.t.zh || '')));
-        ct.appendChild(el('span', 'ib-cta__sub',
-          pseen ? pseen + '/' + pc.sections + ' ' + T('sections read', '节已读') +
-                 ' · ' + T('pick up at the next block', '从下一句继续')
-               : pc.sections + ' ' + T('sections', '节') + ' · ' +
-                 T('about ', '约 ') + Math.round(pc.sections * 2.5) + ' ' + T('minutes', '分钟')));
-        box.appendChild(ct);
-        var go2 = el('button', 'ib-cta__go');
-        go2.type = 'button';
-        go2.appendChild(el('span', null,
-          pseen ? T('Continue lesson', '继续学习') : T('Start lesson', '开始学习')));
-        go2.appendChild(iconEl(null, 'play'));
-        go2.addEventListener('click', function () { location.hash = '#lesson/' + pick.code; });
-        box.appendChild(go2);
-        pane.appendChild(box);
+  function crumb(pane, trail) {
+    var nav = el('nav', 'ib-crumb');
+    trail.forEach(function (t, i) {
+      if (i) nav.appendChild(el('span', 'ib-crumb__sep', '/'));
+      if (t.hash) {
+        var a = el('button', 'ib-crumb__link', t.label);
+        a.type = 'button';
+        a.addEventListener('click', function () { go(t.hash); });
+        nav.appendChild(a);
+      } else {
+        nav.appendChild(el(i === trail.length - 1 ? 'b' : 'span', null, t.label));
       }
+    });
+    pane.appendChild(nav);
+  }
 
-      var groups = {};
-      rows.forEach(function (r) {
-        var gk = r.code.split('.').slice(0, 2).join('.');   /* "A.1", not "A" */
-        (groups[gk] = groups[gk] || []).push(r);
-      });
-      var GRPNAME = {
-        '1': T('Communication', '通讯'),
-        '2': T('Hydration & nutrition', '水合与营养'),
-        '3': T('Response to training', '训练反应')
-      };
-      Object.keys(groups).sort().forEach(function (gk) {
-        pane.appendChild(el('h3', 'ib-grp__title', gk + ' ' + (GRPNAME[gk.split('.')[1]] || '')));
-        var list = el('ul', 'ib-tlist');
-        pane.appendChild(list);
-        groups[gk].forEach(function (r) {
-          var c = countsOf(r.code), lv = levelOf(r.code);
-          var done = (slotFor(r.code).done || {});
-          var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
-          var li = el('li', 'ib-trowwrap');
-          var b = el('button', 'ib-trow');
-          b.type = 'button';
-          b.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
-          var txt = el('span', 'ib-trow__txt');
-          txt.appendChild(el('strong', null, r.code + ' ' + T(r.t.en || r.t.title || '', r.t.zh || '')));
-          txt.appendChild(el('span', 'ib-trow__meta',
-            seen + '/' + c.sections + ' ' + T('sections', '节') + ' · ' +
-            lv.en + ''));
-          b.appendChild(txt);          /* was missing: the row rendered as a bare
-                                         status square with no label at all */
-          b.addEventListener('click', function () {
-            hubTopic = r.code;
-            hubTab = 'detail';
-            paintHub();
-          });
-          li.appendChild(b);
+  /* ── 1 · subject / resources ──────────────────────────────────────────── */
 
-          /* One click into lesson mode. Before this the only way in was row →
-             detail → "Focus lesson", and the row carried no affordance at all,
-             so the list read as a static table of contents. */
-          var started = seen > 0, complete = seen >= c.sections;
-          var go = el('button', 'ib-trowgo' + (complete ? ' ib-trowgo--done' : ''));
-          go.type = 'button';
-          go.appendChild(iconEl(null, complete ? 'check' : 'play'));
-          go.appendChild(el('span', null,
-            complete ? T('Review', '复习')
-                     : started ? T('Continue', '继续')
-                               : T('Start lesson', '开始学习')));
-          go.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
-          li.appendChild(go);
-          list.appendChild(li);
-        });
-      });
-      return;
+  function tile(icon, en, zh, sub, subZh, count, countZh, onClick) {
+    var b = el('button', 'ib-rtile');
+    b.type = 'button';
+    b.appendChild(iconEl('ib-rtile__ico', icon));
+    var t = el('span', 'ib-rtile__txt');
+    t.appendChild(plain(el('strong', null), en, zh));
+    t.appendChild(plain(el('span', null), sub, subZh));
+    if (count != null) t.appendChild(plain(el('em', null), count, countZh));
+    b.appendChild(t);
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function paintResources(pane) {
+    var rec = recommended();
+    var rc = countsOf(rec.r.code);
+
+    /* start card */
+    var box = el('div', 'ib-cta');
+    var ct = el('span', 'ib-cta__txt');
+    ct.appendChild(el('span', 'ib-cta__eyebrow',
+      rec.seen ? T('Pick up where you left off', '继续上次的学习') : T('Start here', '从这里开始')));
+    ct.appendChild(plain(el('span', 'ib-cta__title'), topicTitle(rec.r), topicZhTitle(rec.r)));
+    ct.appendChild(plain(el('span', 'ib-cta__sub'),
+      rec.seen ? rec.seen + '/' + rc.sections + ' ' + T('sections read', '节已读')
+               : rc.sections + ' ' + T('sections', '节'),
+      rec.seen ? rec.seen + '/' + rc.sections + ' ' + T('sections read', '节已读')
+               : rc.sections + ' ' + T('sections', '节')));
+    box.appendChild(ct);
+    var go2 = el('button', 'ib-cta__go');
+    go2.type = 'button';
+    go2.appendChild(el('span', null, T('Start lesson', '开始学习')));
+    go2.appendChild(iconEl(null, 'play'));
+    go2.addEventListener('click', function () { go('#lesson/' + rec.r.code); });
+    box.appendChild(go2);
+    pane.appendChild(box);
+
+    function section(titleEn, titleZh, build) {
+      pane.appendChild(el('h2', 'ib-rsec', T(titleEn, titleZh)));
+      var g = el('div', 'ib-rgrid');
+      build(g);
+      pane.appendChild(g);
     }
 
-    /* detail view for one topic */
-    var r = rows.filter(function (x) { return x.code === hubTopic; })[0] || rows[0];
+    var first = allTopics()[0];
+    section('Learn', '学习', function (g) {
+      g.appendChild(tile('book', T('Lessons', '引导课'), T('Step-by-step lessons and quizzes', '一次一句读完本主题'),
+        T('One lesson per topic', '每个主题一课'),
+        T('One lesson per topic', '每个主题一课'),
+        '29 ' + T('topics', '个主题'), '29 ' + T('topics', '个主题'),
+        function () { go('#progress'); }));
+      g.appendChild(tile('note', T('Study guide', '教材正文'), T('The full course text, figures and models', '完整正文、图与交互模型'),
+        T('Bite-sized topic summaries', '分主题的精要总结'),
+        T('Bite-sized topic summaries', '分主题的精要总结'),
+        rc.sections + ' ' + T('sections', '节'), rc.sections + ' ' + T('sections', '节'),
+        function () { go('#guide/' + first.code); }));
+      g.appendChild(tile('grid', T('Key definitions', '关键定义'), T('Every key term with its definition', '全部术语与定义'),
+        T('Essential terms and concepts explained', '核心术语与概念'),
+        T('Essential terms and concepts explained', '核心术语与概念'),
+        countsOf(first.code).terms + ' ' + T('definitions', '个定义'),
+        countsOf(first.code).terms + ' ' + T('definitions', '个定义'),
+        function () { go('#defs/' + first.code); }));
+    });
+
+    section('Practice', '练习', function (g) {
+      g.appendChild(tile('mcq', T('Practice all topics', '全主题练习'), T('Quiz yourself across the whole course', '全课程自测'),
+        T('Opens the course page', '在课程页打开'),
+        T('Opens the course page', '在课程页打开'),
+        '29 ' + T('topics', '个主题'), '29 ' + T('topics', '个主题'),
+        function () { location.href = 'ib-sehs-learn.html#ib-ch1'; }));
+      g.appendChild(tile('flash', T('Flashcards', '闪卡'), T('Active recall on the key terms', '用主动回忆记住术语'),
+        T('Opens the course page', '在课程页打开'),
+        T('Opens the course page', '在课程页打开'),
+        T('All decks', '全部卡组'), T('All decks', '全部卡组'),
+        function () { location.href = 'ib-sehs-learn.html#ib-ch1'; }));
+    });
+  }
+
+  /* ── 2 · topics & progress ────────────────────────────────────────────── */
+
+  function paintProgress(pane) {
+    var box = el('div', 'ib-legendbox');
+    box.appendChild(el('p', 'ib-legendbox__t', T('Topic progress system', '主题进度体系')));
+    var leg = el('div', 'ib-legend');
+    LEVELS.forEach(function (L) {
+      var it = el('div', 'ib-legend__item');
+      it.appendChild(el('span', 'ib-lev ib-lev--' + L.k));
+      it.appendChild(el('span', null, T(L.en, L.zh)));
+      leg.appendChild(it);
+    });
+    box.appendChild(leg);
+    pane.appendChild(box);
+
+    var list = allTopics(), seenGroups = {};
+    CHAPTERS.forEach(function (ch) {
+      var mine = list.filter(function (r) { return chapterOfCode(r.code).ch === ch; });
+      if (!mine.length) return;
+      var head = el('h2', 'ib-chhead');
+      head.appendChild(el('span', 'ib-chhead__n', T('Chapter ' + ch.n, '第 ' + ch.n + ' 章')));
+      head.appendChild(plain(el('span', 'ib-chhead__t'), ch.en, ch.zh));
+      pane.appendChild(head);
+
+      mine.forEach(function (r) {
+        var g = groupOf(r.code);
+        if (!seenGroups[g]) {
+          seenGroups[g] = 1;
+          var gn = groupName(g);
+          if (!gn) console.warn('no group name for', g);
+          var gh = el('button', 'ib-ghead');
+          gh.type = 'button';
+          gh.appendChild(plain(el('span', 'ib-ghead__t'), gn ? gn.en : g, gn ? gn.zh : g));
+          gh.appendChild(iconEl('ib-ghead__caret', 'chev'));
+          var ul = el('ul', 'ib-grouplist');
+          gh.addEventListener('click', function () {
+            var open = ul.hasAttribute('hidden');
+            if (open) ul.removeAttribute('hidden'); else ul.setAttribute('hidden', '');
+            gh.classList.toggle('is-open', open);
+          });
+          pane.appendChild(gh);
+          pane.appendChild(ul);
+          ul.__group = g;
+        }
+        var host = null;
+        $$('.ib-grouplist', pane).forEach(function (u) { if (u.__group === g) host = u; });
+        host.appendChild(topicRow(r));
+      });
+    });
+  }
+
+  function topicRow(r) {
     var c = countsOf(r.code), lv = levelOf(r.code);
     var done = slotFor(r.code).done || {};
     var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
+    var li = el('li', 'ib-trowwrap');
+    var b = el('button', 'ib-trow');
+    b.type = 'button';
+    b.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
+    var txt = el('span', 'ib-trow__txt');
+    txt.appendChild(plain(el('strong', null), r.code + ' ' + topicTitle(r), r.code + ' ' + topicZhTitle(r)));
+    txt.appendChild(el('span', 'ib-trow__meta',
+      seen + '/' + c.sections + ' ' + T('sections', '节')));
+    b.appendChild(txt);
+    b.addEventListener('click', function () { go('#topic/' + r.code); });
+    li.appendChild(b);
+    var started = seen > 0, complete = seen >= c.sections;
+    var go3 = el('button', 'ib-trowgo' + (complete ? ' ib-trowgo--done' : ''));
+    go3.type = 'button';
+    go3.appendChild(iconEl(null, complete ? 'check' : 'play'));
+    go3.appendChild(el('span', null, complete ? T('Review', '复习')
+      : started ? T('Continue', '继续') : T('Start lesson', '开始学习')));
+    go3.addEventListener('click', function () { go('#lesson/' + r.code); });
+    li.appendChild(go3);
+    return li;
+  }
 
-    var crumb = el('nav', 'ib-crumb');
-    crumb.appendChild(el('span', null, 'IB SEHS'));
-    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
-    crumb.appendChild(el('span', null, 'Chapter 1'));
-    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
-    crumb.appendChild(el('b', null, r.code));
-    pane.appendChild(crumb);
-    pane.appendChild(plain(el('h2', 'ib-dt__title'), r.t.en || '', r.t.zh || ''));
+  /* ── 3 · one topic ────────────────────────────────────────────────────── */
+
+  function paintTopic(pane) {
+    var r = topicByCode(hubTopic);
+    var ch = chapterOfCode(r.code).ch;
+    crumb(pane, [
+      { label: 'IB SEHS', hash: '#' },
+      { label: plainLabel(ch) , hash: '#progress' },
+      { label: r.code + ' ' + topicTitle(r) }
+    ]);
+    pane.appendChild(plain(el('h1', 'ib-dt__title'), r.code + ' ' + topicTitle(r), r.code + ' ' + topicZhTitle(r)));
+
+    var c = countsOf(r.code), lv = levelOf(r.code);
+    var done = slotFor(r.code).done || {};
+    var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
 
     var strip = el('div', 'ib-strip');
     var sl = el('div', 'ib-strip__lev');
     sl.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
     sl.appendChild(el('strong', null, T(lv.en, lv.zh)));
-    var nx = lv.next;
-    if (nx) {
-      var nL = LEVELS.filter(function (x) { return x.k === nx; })[0];
-      sl.appendChild(el('span', 'ib-strip__next',
-        T('Next: ', '下一级：') + T(nL.en, nL.zh)));
+    if (lv.next) {
+      var nL = LEVELS.filter(function (x) { return x.k === lv.next; })[0];
+      sl.appendChild(el('span', 'ib-strip__next', T('Next: ', '下一级：') + T(nL.en, nL.zh)));
     }
     strip.appendChild(sl);
     var stat = el('div', 'ib-strip__stats');
-    [['Questions', '题目', c.questions, 'questions'],
-     ['Notes', '笔记', c.notes, 'notes'],
-     ['Sections', '小节', seen + '/' + c.sections, null],
-     ['Flashcards', '闪卡', c.terms, 'flashcards']].forEach(function (pair) {
+    [[T('Questions', '题目'), c.questions, c.questions],
+     [T('Notes', '笔记'), c.notes, c.notes],
+     [T('Sections', '小节'), seen + '/' + c.sections, seen + '/' + c.sections],
+     [T('Flashcards', '闪卡'), c.terms, c.terms]].forEach(function (p) {
       var b = el('div', 'ib-stat');
-      b.appendChild(el('b', null, String(pair[2])));
-      b.appendChild(el('span', null, T(pair[0], pair[1])));
+      b.appendChild(el('b', null, String(p[1])));
+      b.appendChild(plain(el('span', null), p[0], p[0]));
       stat.appendChild(b);
     });
     strip.appendChild(stat);
     pane.appendChild(strip);
 
-    var grp = el('div', 'ib-dt__group');
-    grp.appendChild(el('p', 'ib-dt__grouphead', T('Learn', '学习')));
-    var tiles = el('div', 'ib-tiles');
-    var t1 = el('button', 'ib-tile ib-tile--go');
-    t1.appendChild(iconEl('ib-tile__ico', 'book'));
-    var tb = el('span', 'ib-tile__txt');
-    tb.appendChild(el('strong', null, T('Focus lesson', '引导课')));
-    tb.appendChild(el('span', null,
-      T('Step through this topic one block at a time.', '一次一句读完本主题。')));
-    tb.appendChild(el('em', null, T(r.secs.length + ' sections', r.secs.length + ' 节')));
-    t1.appendChild(tb);
-    t1.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
-    tiles.appendChild(t1);
-
-    var t2 = el('button', 'ib-tile ib-tile--go');
-    t2.appendChild(iconEl('ib-tile__ico', 'grid'));
-    var tb2 = el('span', 'ib-tile__txt');
-    tb2.appendChild(el('strong', null, T('Key definitions', '关键定义')));
-    tb2.appendChild(el('span', null,
-      T('Every key term in this topic, with its definition.', '本主题的全部术语与定义。')));
-    tb2.appendChild(el('em', null, c.terms + ' ' + T('terms', '个术语')));
-    t2.appendChild(tb2);
-    t2.addEventListener('click', function () { hubTab = 'defs'; paintHub(); });
-    tiles.appendChild(t2);
-    grp.appendChild(tiles);
-    pane.appendChild(grp);
-
-    /* the information from the course page's per-topic panel: the big question,
-       then every section's exam focus, key terms with definitions, and the
-       key-knowledge chips — the same content, laid out as this page's own. */
-    var rec = null;
-    for (var ri = 0; ri < NATIVE.length; ri++) if (NATIVE[ri].code === r.code) { rec = NATIVE[ri]; break; }
-    if (rec && (rec.guidingQuestion || rec.intro)) {
-      var q = el('div', 'ib-bigq');
-      if (rec.guidingQuestion) {
-        q.appendChild(el('p', 'ib-bigq__tag', T('The big question', '核心问题')));
-        q.appendChild(plain(el('p', 'ib-bigq__text'), term(rec.guidingQuestion), term(rec.guidingQuestion)));
-      }
-      pane.appendChild(q);
+    function sec(titleEn, titleZh, build) {
+      pane.appendChild(el('h2', 'ib-rsec', T(titleEn, titleZh)));
+      var g = el('div', 'ib-rgrid');
+      build(g);
+      pane.appendChild(g);
     }
 
-    pane.appendChild(el('p', 'ib-dt__grouphead', T('Sections in this topic', '本主题的小节')));
-    var ul = el('ul', 'ib-seclist');
-    r.secs.forEach(function (s, i) {
-      var li = el('li');
-      var b = el('button', 'ib-secrow');
-      b.type = 'button';
-      b.appendChild(el('span', 'ib-lev ib-lev--' + (done[i] ? 'familiar' : 'unseen')));
-      b.appendChild(el('span', null, T(s.key, s.zh || s.key)));
-      var terms = (s.sec.terms || []).filter(function (tm) { return tm && tm.term && tm.definition; });
-      b.appendChild(el('span', 'ib-secrow__n', String(terms.length)));
-      b.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
-      li.appendChild(b);
-      ul.appendChild(li);
+    sec('Learn', '学习', function (g) {
+      g.appendChild(tile('note', T('Study guide', '教材正文'), T('The full course text, figures and models', '完整正文、图与交互模型'),
+        T('Bite-sized topic summaries', '分主题的精要总结'), T('Bite-sized topic summaries', '分主题的精要总结'),
+        c.sections + ' ' + T('sections', '节'), c.sections + ' ' + T('sections', '节'),
+        function () { go('#guide/' + r.code); }));
+      g.appendChild(tile('book', T('Lessons', '引导课'), T('Step-by-step lessons and quizzes', '一次一句读完本主题'),
+        T('One block at a time', '一次一句'), T('One block at a time', '一次一句'),
+        seen + '/' + c.sections, seen + '/' + c.sections,
+        function () { go('#lessons/' + r.code); }));
+      g.appendChild(tile('flash', T('Flashcards', '闪卡'), T('Remember concepts with active recall', '用主动回忆记住概念'),
+        T('Opens the course page', '在课程页打开'), T('Opens the course page', '在课程页打开'),
+        c.terms + ' ' + T('cards', '张'), c.terms + ' ' + T('cards', '张'),
+        function () { location.href = 'ib-sehs-learn.html#ib-ch1'; }));
+    });
 
-      var kk = keyKnowledge(s.key);
-      var focus = firstOf(s.sec.examFocus);
-      var quick = s.sec.quickCheck || [];
-      if (!terms.length && !kk.length && !focus) return;
+    sec('Reference', '参考', function (g) {
+      g.appendChild(tile('grid', T('Key definitions', '关键定义'), T('Essential terms and concepts explained', '核心术语与概念'),
+        T('Every key term, with its definition', '全部术语与定义'),
+        T('Every key term, with its definition', '全部术语与定义'),
+        c.terms + ' ' + T('definitions', '个定义'), c.terms + ' ' + T('definitions', '个定义'),
+        function () { go('#defs/' + r.code); }));
+    });
+
+    /* the topic's own information, as the course page shows it */
+    var rec = null;
+    for (var i = 0; i < NATIVE.length; i++) if (NATIVE[i].code === r.code) { rec = NATIVE[i]; break; }
+    if (rec && (rec.guidingQuestion || rec.intro)) {
+      var q = el('div', 'ib-bigq');
+      q.appendChild(el('p', 'ib-bigq__tag', T('The big question', '核心问题')));
+      q.appendChild(plain(el('p', 'ib-bigq__text'), term(rec.guidingQuestion), term(rec.guidingQuestion)));
+      pane.appendChild(q);
+    }
+    pane.appendChild(el('p', 'ib-dt__grouphead', T('Sections in this topic', '本主题的小节')));
+    r.secs.forEach(function (s, si) {
       var det = el('div', 'ib-secinfo');
+      var focus = firstOf(s.sec.examFocus);
       if (focus) det.appendChild(plain(el('p', 'ib-secinfo__focus'), term(focus), term(focus)));
+      var terms = (s.sec.terms || []).filter(function (tm) { return tm && tm.term && tm.definition; });
       if (terms.length) {
         det.appendChild(el('p', 'ib-secinfo__head', T('Key terms', '关键术语')));
         var dl = el('dl', 'ib-termlist');
@@ -1047,64 +1168,169 @@
         });
         det.appendChild(dl);
       }
+      var kk = keyKnowledge(s.key);
       if (kk.length) {
         det.appendChild(el('p', 'ib-secinfo__head', T('Key knowledge', '关键知识')));
         var cw = el('div', 'ib-chips');
         kk.forEach(function (k) { cw.appendChild(plain(el('span', 'ib-chip'), k.en, k.zh)); });
         det.appendChild(cw);
       }
+      var quick = s.sec.quickCheck || [];
       if (quick.length) {
         det.appendChild(el('p', 'ib-secinfo__head', T('Quick check', '快速检查')));
         var qo = el('ol', 'ib-quicklist');
         quick.forEach(function (qk) { qo.appendChild(plain(el('li'), term(qk), term(qk))); });
         det.appendChild(qo);
       }
-      li.appendChild(det);
+      var sb = el('button', 'ib-secgo');
+      sb.type = 'button';
+      sb.appendChild(el('span', 'ib-lev ib-lev--' + (done[si] ? 'familiar' : 'unseen')));
+      sb.appendChild(el('span', null, T(s.key, s.zh || s.key)));
+      sb.appendChild(iconEl(null, 'chev'));
+      sb.addEventListener('click', function () { go('#guide/' + r.code); });
+      pane.appendChild(sb);
+      pane.appendChild(det);
+    });
+  }
+
+  function plainLabel(ch) { return T('Chapter ' + ch.n, '第 ' + ch.n + ' 章'); }
+
+  /* ── 4 · the lesson list ──────────────────────────────────────────────── */
+
+  function paintLessons(pane) {
+    var r = topicByCode(hubTopic);
+    var ch = chapterOfCode(r.code).ch;
+    var back = el('button', 'ib-backpill');
+    back.type = 'button';
+    back.appendChild(iconEl(null, 'back'));
+    back.appendChild(el('span', null, T('Topics', '主题')));
+    back.addEventListener('click', function () { go('#progress'); });
+    pane.appendChild(back);
+
+    crumb(pane, [
+      { label: 'IB SEHS', hash: '#' },
+      { label: plainLabel(ch), hash: '#topic/' + r.code },
+      { label: r.code }
+    ]);
+    pane.appendChild(plain(el('h1', 'ib-dt__title'),
+      r.code + ' ' + topicTitle(r) + ' ' + T('Lessons', '引导课'),
+      r.code + ' ' + topicZhTitle(r) + ' ' + T('引导课', '引导课')));
+
+    var row = el('div', 'ib-leshead');
+    row.appendChild(el('b', null, T('Written for this topic', '为本主题编写')));
+    row.appendChild(el('span', null, T('One lesson per section', '每节一课')));
+    pane.appendChild(row);
+
+    var ul = el('ul', 'ib-lesslist');
+    r.secs.forEach(function (s, i) {
+      var li = el('li');
+      var b = el('button', 'ib-lessrow');
+      b.type = 'button';
+      b.appendChild(el('span', 'ib-lessrow__circ'));
+      b.appendChild(el('span', 'ib-lessrow__t', s.key + ' ' + s.zh));
+      b.addEventListener('click', function () { go('#lesson/' + r.code); });
+      li.appendChild(b);
+      ul.appendChild(li);
     });
     pane.appendChild(ul);
+
+    var start = el('button', 'ib-cta__go ib-lesstart');
+    start.type = 'button';
+    start.appendChild(el('span', null, T('Start the lesson', '开始学习')));
+    start.appendChild(iconEl(null, 'play'));
+    start.addEventListener('click', function () { go('#lesson/' + r.code); });
+    pane.appendChild(start);
   }
-  function paintDefs(pane, rows) {
-    var r = rows.filter(function (x) { return x.code === hubTopic; })[0] || rows[0];
-    var all = allTerms(r.code);
-    var crumb = el('nav', 'ib-crumb');
-    crumb.appendChild(el('span', null, 'IB SEHS'));
-    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
-    crumb.appendChild(el('span', null, r.code));
-    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
-    crumb.appendChild(el('b', null, T('Key definitions', '关键定义')));
-    pane.appendChild(crumb);
-    pane.appendChild(plain(el('h2', 'ib-dt__title'), 'Key definitions', '关键定义'));
-    pane.appendChild(el('p', 'ib-dt__lede',
+
+  /* ── 5 · the study guide (real course content + the new models) ───────── */
+
+  function paintGuide(pane) {
+    var r = topicByCode(hubTopic);
+    var ch = chapterOfCode(r.code).ch;
+    crumb(pane, [
+      { label: 'IB SEHS', hash: '#' },
+      { label: plainLabel(ch), hash: '#topic/' + r.code },
+      { label: T('Study guide', '教材正文') }
+    ]);
+    pane.appendChild(plain(el('h1', 'ib-dt__title'),
+      r.code + ' ' + T('Study guide', '教材正文'),
+      r.code + ' ' + T('教材正文', '教材正文')));
+
+    var host = el('div', 'ib-guide');
+    pane.appendChild(host);
+    try {
+      var C = window.IBSEHSCourse;
+      var node = C.renderNativeLesson(r.t, (r.t && r.t.page) || 1);
+      if (node) {
+        host.appendChild(node);
+        /* The renderer emits .native-section > h3[data-en] plus
+           .vis-figure > .vis-svg-scroll, which is exactly what the model layer
+           looks for — so the static figures become the interactive models we
+           designed. It has to happen after the node is in the document and
+           visible, because the models measure geometry. */
+        if (window.IBSEHSModels) window.IBSEHSModels.build(host);
+      } else {
+        host.appendChild(el('p', 'ib-empty', T('No course text for this topic yet.', '本主题暂无教材正文。')));
+      }
+    } catch (e) {
+      host.appendChild(el('p', 'ib-empty', T('Could not build the study guide.', '教材正文构建失败。')));
+      if (window.console) console.warn(e);
+    }
+  }
+
+  /* ── 6 · key definitions ──────────────────────────────────────────────── */
+
+  function paintDefs(pane) {
+    var r = topicByCode(hubTopic);
+    var ch = chapterOfCode(r.code).ch;
+    var back = el('button', 'ib-backpill');
+    back.type = 'button';
+    back.appendChild(iconEl(null, 'back'));
+    back.appendChild(el('span', null, T('Topics', '主题')));
+    back.addEventListener('click', function () { go('#progress'); });
+    pane.appendChild(back);
+
+    crumb(pane, [
+      { label: 'IB SEHS', hash: '#' },
+      { label: plainLabel(ch), hash: '#topic/' + r.code },
+      { label: T('Key definitions', '关键定义') }
+    ]);
+    pane.appendChild(plain(el('h1', 'ib-dt__title'),
+      T('Key definitions', '关键定义'), T('关键定义', '关键定义')));
+    pane.appendChild(el('p', 'ib-dt__grouphead',
       T('Every key term in ' + r.code + ' with its definition.',
         r.code + ' 的全部术语与定义。')));
-    var hide = el('button', 'ib-tile ib-tile--toggle', T('Hide definitions', '隐藏定义'));
-    var revealed = true;
-    hide.addEventListener('click', function () {
-      revealed = !revealed;
-      var ds = pane.querySelectorAll('.ib-defcard__d');
-      Array.prototype.forEach.call(ds, function (n) { n.hidden = !revealed; });
-      hide.textContent = T(revealed ? 'Hide definitions' : 'Show definitions',
-                            revealed ? '隐藏定义' : '显示定义');
-    });
-    pane.appendChild(hide);
-    r.secs.forEach(function (sec) {
-      pane.appendChild(el('h4', 'ib-defgrp',
-        sec.key + (showCN && sec.zh ? ' · ' + sec.zh : '')));
-      (sec.sec.terms || []).forEach(function (tm) {
-        if (!tm || !tm.term || !tm.definition) return;
+
+    var rows = r.secs, revealed = true;
+    var toggle = el('button', 'ib-tile ib-tile--toggle', T('Hide definitions', '隐藏定义'));
+    toggle.type = 'button';
+    pane.appendChild(toggle);
+
+    var all = allTerms(r.code);
+    if (!all.length) {
+      pane.appendChild(el('p', 'ib-empty', T('No key terms in this topic yet.', '本主题暂无术语。')));
+      return;
+    }
+    rows.forEach(function (s) {
+      var own = (s.sec.terms || []).filter(function (tm) { return tm && tm.term && tm.definition; });
+      if (!own.length) return;
+      pane.appendChild(el('p', 'ib-defcard__g', s.key + ' ' + s.zh));
+      own.forEach(function (tm) {
         var card = el('div', 'ib-defcard');
         card.appendChild(plain(el('div', 'ib-defcard__t'), pair(tm.term)[0], pair(tm.term)[1]));
         var dd = plain(el('div', 'ib-defcard__d'), pair(tm.definition)[0], pair(tm.definition)[1]);
+        dd.hidden = true;
         card.appendChild(dd);
         pane.appendChild(card);
       });
     });
+    toggle.addEventListener('click', function () {
+      revealed = !revealed;
+      $$('.ib-defcard__d', pane).forEach(function (n) { n.hidden = !revealed; });
+      plain(toggle, revealed ? T('Hide definitions', '隐藏定义') : T('Show definitions', '显示定义'),
+                   revealed ? T('隐藏定义', '隐藏定义') : T('显示定义', '显示定义'));
+    });
   }
-
-  var hubTopic = (function () {
-    var t = topicList(CHAPTERS[0])[0];
-    return t ? t.code : 'A.1.1';
-  })();
 
   /* ── chrome: language, dark, route ──────────────────────────────────── */
 
@@ -1116,11 +1342,18 @@
     location.href = back;
   }
 
+  /* Routes: # and '' are the subject page, #progress the topic tree,
+     #topic|lessons|guide|defs/<code> the four per-topic views, and
+     #lesson/<code> the reader. */
   function route() {
     var h = (location.hash || '').replace(/^#/, '');
-    var m = h.match(/^lesson\/(.+)$/);
-    if (m) openReader(m[1]);
-    else openHub();
+    var m;
+    if ((m = h.match(/^lesson\/(.+)$/))) { openReader(m[1]); return; }
+    if ((m = h.match(/^(topic|lessons|guide|defs)\/(.+)$/))) {
+      hubView = m[1]; hubTopic = m[2]; openHub(); return;
+    }
+    hubView = h === 'progress' ? 'progress' : 'resources';
+    openHub();
   }
 
   function boot() {
@@ -1154,7 +1387,7 @@
     $('#ibRailClose').addEventListener('click', closeRail);
     $('#ibScrim').addEventListener('click', closeRail);
     $('#ibHome').addEventListener('click', function () { location.hash = '#'; });
-    $('#ibRailHub').addEventListener('click', function () { location.hash = '#'; closeRail(); });
+    $('#ibRailHub').addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {
       if (e.target && /input|textarea/i.test(e.target.tagName)) return;

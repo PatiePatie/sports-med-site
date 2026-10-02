@@ -33,25 +33,12 @@
     {icon:'🫳', t:['The page is cloth','页面是一块布'],
      b:['Everything here sits on soft fabric. Your pointer rests a small dent in it; press and hold to sink in deeper, and drag while holding to pull the cloth around.','整个页面铺在一块柔软的布上。指针会压出一个小凹陷；按住会陷得更深，按住拖动还能拉动布料。'],
      sel:null, fine:true, task:{kind:'hold', t:['Try it: press and hold anywhere, then drag','试一试：在任意处按住，然后拖动'], ok:['Felt that? Let go and it springs back.','感受到了吗？松开它会弹回来。']}},
-    {icon:'🃏', t:['Flashcards','闪卡'],
-     b:['Open «Study Tools» in the top bar → «Flashcards». Flip each card to learn a key term, shuffle the deck, and mark the cards you already know so they leave your rotation.','打开顶栏「备考工具」→「闪卡」。翻面记忆关键术语、打乱牌组，并把自己已掌握的知识点标记熟练，让它退出轮换。'],
-     sel:'#studyToolsBtn', menu:true},
-    {icon:'✅', t:['Quizzes & adaptive practice','测验与自适应练习'],
-     b:['Open «Study Tools» → «Quizzes». Every chapter ends with a quiz. The adaptive engine adjusts questions to your level, and the Mastery Dashboard tracks your progress chapter by chapter.','打开「备考工具」→「测验」。每章都配有测验，自适应引擎会根据您的水平调整出题，掌握度看板逐章记录学习进度。'],
-     sel:'#studyToolsBtn', menu:true},
-    {icon:'🎓', t:['Exam prep & certification','备考冲刺与结业证书'],
-     b:['Open «Study Tools» → «Exam prep» for NPTE practice exams and the 运动康复师 qualification exam. Score ≥70% to earn a downloadable Certificate of Completion.','打开「备考工具」→「备考冲刺」：提供 NPTE 模拟考试与运动康复师资格证考试。成绩≥70%即可获得可下载的结业证书。'],
-     sel:'#studyToolsBtn', menu:true},
     {icon:'🤖', t:['The AI assistant · Vitaline','AI 助手 · Vitaline'],
      b:['Need a quick explanation? Open «Study Tools» → «Vitaline AI» to ask our AI, or use the Q&A bubble (bottom-left) to ask in English or 中文.','需要快速讲解？打开「备考工具」→「Vitaline AI」向AI提问，或用左下角的问答气泡用中英文提问。'],
-     sel:'#stAI, #aiFab', menu:true},
+     sel:'#studyToolsBtn, #aiFab', menu:true},
     {icon:'👤', t:['Your account','您的账户'],
      b:['Tap your name in the top bar to open My Account — edit your name, country, age and bio, and watch your level grow as you study.','点击顶栏中的姓名进入「我的账户」——编辑姓名、国家、年龄与简介，并看着您的等级随学习不断提升。'],
      sel:'#loginBtn, .btn-login'},
-    {icon:'🧠', t:['Quick check','小测验'],
-     b:['One question before you go.','出发前来一道题。'],
-     sel:null, quiz:{q:['Which button turns the whole site into 中文?','哪个按钮能把整个网站切换成中文？'],
-       o:[['The 中 / EN button','「中 / EN」按钮'],['The 🌙 theme button','🌙 主题按钮'],['The search bar','搜索框']], a:0}},
     {icon:'🎉', t:['You are ready!','一切就绪！'],
      b:['That is it — you now know how to use Vitalité. This tour will not show again. Happy studying — 祝您学习愉快！','就是这样——您已掌握 Vitalité 的全部用法，本导览将不再出现。祝你学习愉快——Happy studying!'],
      sel:null}
@@ -240,10 +227,10 @@
         try{ target=document.querySelector(s.sel); }catch(e){}
       }
       if(target && !s.menu){ var z=target.getBoundingClientRect(); if(!z.width && !z.height) target=null; }  /* hidden on this page */
-      /* Study-step targets live inside the top-bar Study Tools dropdown —
-         open it FIRST so the flagged item (#stFlash/#stQuiz/#stExam/#stAI)
-         has a real rect for the spotlight; close it again off those steps
-         so a stale open menu never lingers behind the dim. Pages without
+      /* The top-bar control is now the AI icon itself (#studyToolsBtn), which is
+         always visible, so there is no dropdown to open first and nothing to
+         close again afterwards. The flashcard / quiz / exam-prep steps that
+         used to live here were removed at the user's request.ngers behind the dim. Pages without
          the menu (login/social) simply fall back to no ring / #aiFab. */
       var stud=window.VitaliteStudyTools;
       if(stud && stud.isOpen && stud.isOpen() && !s.menu){ try{ stud.close(); }catch(e){} }

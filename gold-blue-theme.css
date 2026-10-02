@@ -10,14 +10,33 @@
   --shadow:0 4px 14px rgba(10,24,40,.08),0 1px 3px rgba(10,24,40,.04);
   --shadow-lg:0 16px 40px rgba(10,24,40,.13),0 4px 10px rgba(10,24,40,.05);
   --radius:16px;--radius-sm:10px;--radius-lg:22px;
-  --font:"EB Garamond","Songti SC","SimSun","宋体",serif;
-  --font-heading:"Bodoni Moda SC","Playfair Display","Songti SC","SimSun","宋体",serif;
-  --font-script:"Pinyon Script","Snell Roundhand",cursive;
-  --font-caps:"Cinzel","Songti SC","SimSun","宋体",serif;
-  --font-subhead:"Playfair Display","Bodoni Moda SC","Songti SC","SimSun","宋体",serif;
+  /* ── Typefaces ──
+     These stacks used to lead with EB Garamond, Playfair Display, Cinzel and
+     Pinyon Script. No @font-face is shipped anywhere and Google Fonts is
+     blocked by the skin-coherence check, so every one of those names was
+     UNRESOLVABLE on every device. Chrome confirms it: body text on cn-cert
+     was being painted by "Songti SC" -- a Chinese typeface -- and pricing.html
+     by the browser default "Times". That is what made the phone build look
+     broken: Songti has no true bold, so every heading was faux-bold, and
+     Android has no Songti at all, so the same page rendered in a different
+     face on each platform.
+
+     Every family below is a font that actually ships with iOS, macOS,
+     Windows or Android, so Latin text resolves to a real Latin serif with a
+     real bold on all four. The Chinese fallbacks are kept last so CJK still
+     renders correctly. */
+  --font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Songti SC","PingFang SC","Microsoft YaHei",serif;
+  --font-heading:"Bodoni Moda SC",Didot,"Playfair Display",Georgia,"Songti SC","PingFang SC",serif;
+  --font-script:"Snell Roundhand","Apple Chancery","Brush Script MT","Segoe Script",cursive;
+  --font-caps:Optima,Candara,"Gill Sans","Trebuchet MS",Georgia,"Songti SC","PingFang SC",serif;
+  --font-subhead:Georgia,"Songti SC","PingFang SC","Microsoft YaHei",serif;
+  /* a real sans for interface chrome: the old Avenir Next stack is absent on
+     Android and Windows, so chrome silently fell back to a serif there. */
+  --font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
   --max-w:820px;
 }
 html{scroll-behavior:smooth;font-size:16px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
 body.lang-en .cn{display:none!important}
 body.lang-zh .en-text{display:none!important}

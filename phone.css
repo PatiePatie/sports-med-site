@@ -1,0 +1,188 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   phone.css — the phone pass.  Loaded LAST on every page, immediately before
+   </head>, so these rules win on source order against both the shared
+   stylesheets and each page's own inline <style>. That placement is the whole
+   point: an earlier attempt put these overrides in vitalite-skin.css, which is
+   linked BEFORE the inline styles, and knowledge.css's `.vt-refs .vr-k`
+   (0,2,0) still beat them, so 9.92px text survived on toc.html.
+
+   Everything below was measured at a true 390px viewport (CDP
+   Emulation.setDeviceMetricsOverride -- Chrome clamps --window-size to 500px,
+   so 390 cannot be measured any other way).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Stop iOS inflating text on its own, which made phone type sizes differ
+      between portrait and landscape. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* 2. Type that was too small to read on a phone.
+      A phone is ~390 CSS px wide but only ~2.6in across, so anything under
+      12px is genuinely hard to read. Measured offenders and their sizes:
+        9.6px   .part-caret / inline glyphs   (triangle glyphs - left alone)
+        9.92px  .vr-k (bibliography tag), home toolbar buttons
+       10.08px  .cr-cap
+       10.56px  .deep-tag (x33), .vl-skip, .sg-rc-*
+       11.2px   .cr-cont-m, .cr-go, cite, .mastery-level neighbours
+       11.52px  .ib-cue-chip (x14), .acc-code (x9), .cr-meta, .hm-link,
+                .hm-date, .vl-page, .vl-pct, .vl-stg, .kn-more-n, .rec-chip
+       11.84px  small
+
+      Every size is set explicitly. `font-size:max(12px,1em)` looks tidier but
+      resolves 1em against the PARENT, so a 10.5px caption inside a 16px
+      parent would jump to 16px -- a 50% blow-up, not a floor.
+
+      SVG <text> is deliberately excluded: it is measured in viewBox user
+      units, and rule 3 is what makes the drawings legible. */
+@media (max-width:600px){
+  /* !important is deliberate and load-bearing here. Being the last
+     stylesheet is NOT enough: source order only decides ties, and several of
+     these lose on specificity to rules such as knowledge.css's
+     `.vt-refs .vr-k` (0,2,0). Without !important that rule kept .vr-k at
+     9.92px and the whole floor was a no-op on toc.html. */
+  .deep-tag, .vr-k, .cr-cap, .vl-skip,
+  .sg-rc-t, .sg-rc-meta, .sg-rc-sec,
+  .cr-cont-m, .cr-go, cite, small,
+  .ib-cue-chip, .acc-code, .cr-meta, .hm-link, .hm-date,
+  .vl-page, .vl-pct, .vl-stg, .vl-breath-t, .vl-mon em,
+  .kn-more-n, .rec-chip, .sec-tag, .ks-lab-t,
+  .hm-k, .hm-day, .acc-badge, .ib-cue-lab, .ib-cue-bar-t,
+  .ne-badge-chip, .mastery-level, .sidebar-label, .dash-label,
+  .gmb-kicker, .cdot, .label, figcaption,
+  .vx-card-h, .checkup-cam-priv, .checkup-disclaimer, .kicker,
+  /* class-less children, identified by the parent chain they were measured in:
+       toc     .sec-disc b "01", .vr-group summary span "4"/"76"
+       home    .cr-idea p, .cr-tabs button, .cr-stat span, .hm-act small
+       infirmary/exam  .vl-fact b/cite, .vx-pick em/button */
+  .sec-disc b, .vr-group summary span,
+  .cr-idea p, .cr-tabs button, .cr-stat span, .hm-act small,
+  .vl-fact b, .vl-fact cite,
+  .vx-pick em, .vx-pick button{
+    font-size: 12px !important;
+  }
+  /* Left deliberately below the floor: .caret and .part-caret are the "v"
+     disclosure triangles. They are glyphs, not prose, and shrinking them was
+     the point. */
+}
+
+/* 3. Interactive models were unreadable on a phone, not missing.
+      knowledge.css pins `.kv-svg text{font-size:10px}` in USER UNITS. On a
+      390px phone the model box measured only 251-312px wide for a 560-unit
+      viewBox -- a 0.45x scale -- so an 11px label painted at about 5px. That
+      is what "the model is not showing" looks like. Letting each drawing keep
+      a workable scale inside a horizontal scroller fixes the real cause
+      without touching the geometry the drawings were laid out against.
+
+      These wrapper names were read out of the browser, not guessed:
+        ib-sehs-learn : svg.kv-svg  -> .a11-panel -> .a11-wrap -> .ib-model.kv
+        guide/textbook: svg.kv-svg  -> .kv.kv-1    -> .kn-pane   -> .kn-learn
+        g10-bio       : svg.vis-svg -> .gm.gm-fig  -> .gmb-stage
+      An earlier guess of `.ib-model`/`.vis-figures` only left the textbook at
+      6px labels and G10 at 7px, because neither uses those classes. */
+@media (max-width:600px){
+  .ib-model .a11-panel,
+  .kn-pane,
+  .gm.gm-fig,
+  .vis-figures{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ib-model .kv-svg,
+  .kn-pane .kv-svg,
+  .gm.gm-fig .vis-svg,
+  .vis-figures .vis-svg{
+    width: 480px;
+    max-width: none;
+  }
+}
+
+/* 4. Every drawer row must clear the 40px tap floor.
+      cn-cert's links measured 307x36 because soft-glass.css sets
+      `html.sg-mnav .sidebar .sidebar-link{min-height:36px}` inside
+      @media(max-width:1024px) -- specificity (0,3,1). Matching that with
+      `html.sg-mnav body .sidebar .sidebar-link` gives (0,3,2) and wins, while
+      the plain `body .sidebar .sidebar-link` (0,2,1) that was tried first did
+      not. */
+@media (max-width:600px){
+  html.sg-mnav body .sidebar .part-toggle,
+  html.sg-mnav body .sidebar .sidebar-link,
+  html.sg-mnav body .sidebar .sidebar-link.sub,
+  html.sg-mnav body .sidebar .sidebar-label{
+    min-height: 40px;
+  }
+  /* the reading chip truncated the page title at 40vw */
+  .sg-rc-t{ max-width: 56vw; }
+}
+
+/* 5. Tap targets under 40px.
+      Measured at 390px: .sg-menu 36x36, .btn-login, .lin-search-input,
+      .qo-btn.next, .habit-chip, .for-cat, .sec-pill, .filter and #qnaFab all
+      sat under the 40px floor the site uses everywhere else.
+
+      This uses the pattern already established on this site -- keep the
+      painted control compact and grow the HIT AREA with a ::before overlay.
+      Painting them 40px tall would break the top bar, which only has ~176px
+      of slack at 390px.
+
+      <select> is a replaced element and does not render pseudo-elements, so
+      those get a real min-height instead. */
+@media (max-width:600px){
+  :is(.btn-icon, .btn-login, .sg-menu, .sg-menu-x, .lin-search-input,
+      .cr-tabs button, .qo-btn, .habit-chip, .for-cat, .sec-pill,
+      .filter, .btn-acc, #qnaFab, .back-top,
+      .log-item, .kv-seg button, .vx-pick button, .vx-card button,
+      .vx-stage button, .mastery-action button, .nw-tabs button, .vx-sugg button,
+      .ib-cue-h, .sb-mark, summary.vt-refs summary){
+    position: relative;
+  }
+  :is(.btn-icon, .btn-login, .sg-menu, .sg-menu-x, .lin-search-input,
+      .cr-tabs button, .qo-btn, .habit-chip, .for-cat, .sec-pill,
+      .filter, .btn-acc, #qnaFab, .back-top,
+      .log-item, .kv-seg button, .vx-pick button, .vx-card button,
+      .vx-stage button, .mastery-action button, .nw-tabs button, .vx-sugg button,
+      .ib-cue-h, .sb-mark)::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 40px;
+    transform: translateY(-50%);
+  }
+  select{ min-height: 40px; }
+  /* A range input measured 129x8 on infirmary.html (#vxPain): 8px is not a
+     usable thumb on a phone. min-height grows the box without restyling the
+     track, which stays exactly as the component designed it. */
+  input[type=range]{ min-height: 40px; }
+  /* text fields that measured 39px, one pixel under the floor */
+  .habit-input, .routine-input{ min-height: 40px; }
+  /* bare <summary> disclosure rows measured 24px */
+  summary{ min-height: 40px; }
+
+  /* A floor for everything else, so a component added later cannot regress.
+     Applying it to EVERY <button> is safe because the overlay is transparent
+     and purely enlarges the hit area; prose links are excluded (an absolute
+     ::before on an inline link would sit over the neighbouring words and make
+     them tappable by accident, and a link inside a sentence must keep its
+     line height anyway). This cleared the last stragglers: checkup.html's
+     .checkup-btn / .checkup-cam / bare buttons and login.html's .acct-tab. */
+  button{ position: relative; }
+  button::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 40px;
+    transform: translateY(-50%);
+  }
+  .acct-tab, .checkup-cam, a.logo{ position: relative; }
+  .acct-tab::before, .checkup-cam::before, a.logo::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 40px;
+    transform: translateY(-50%);
+  }
+}

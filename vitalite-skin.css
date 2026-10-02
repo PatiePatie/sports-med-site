@@ -20,6 +20,17 @@
    ══════════════════════════════════════════════════════════════════════════════ */
 
 :root{
+  /* Same corrected stacks as gold-blue-theme.css, repeated here on purpose:
+     pricing.html loads this stylesheet but NOT gold-blue-theme.css, so
+     without them its body inherited the browser default (Times). Identical
+     values mean it no longer matters which of the two wins the cascade. */
+  --font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Songti SC","PingFang SC","Microsoft YaHei",serif;
+  --font-heading:"Bodoni Moda SC",Didot,"Playfair Display",Georgia,"Songti SC","PingFang SC",serif;
+  --font-script:"Snell Roundhand","Apple Chancery","Brush Script MT","Segoe Script",cursive;
+  --font-caps:Optima,Candara,"Gill Sans","Trebuchet MS",Georgia,"Songti SC","PingFang SC",serif;
+  --font-subhead:Georgia,"Songti SC","PingFang SC","Microsoft YaHei",serif;
+  --font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+
   --lin-rail-w:240px;      /* expanded rail — same as the base .sidebar width */
   --lin-rail-min:36px;     /* collapsed icon rail — Zen compact */
   --lin-t:.14s;
@@ -542,6 +553,15 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label{
    is needed here. Touch layouts and medium windows keep the base 224px
    sidebar untouched. */
 
+
+/* vitalite-skin.css declares --font, but something has to USE it.
+   gold-blue-theme.css does this on 32 pages; pricing.html loads only this
+   stylesheet, so without the rule below its body stayed on the browser
+   default Times even after the stacks were corrected. */
+body{font-family:var(--font)}
+h1,h2,h3,h4,h5,h6,.logo{font-family:var(--font-heading)}
+
+
 /* ═══ PHONE ADAPTATION (≤600px) ══════════════════════════════════════════
    Three defects found by measuring every page in a real 390px viewport:
 
@@ -614,3 +634,10 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label{
   .guide-tabs{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
   img.inline-img,.native-figure img,.vis-figures img{max-width:100%;height:auto}
 }
+
+/* The phone overrides moved to phone.css, which every page loads LAST.
+   They could not live here: this stylesheet is linked BEFORE each page's
+   inline <style> and before knowledge.css, so page rules and
+   `.vt-refs .vr-k` in knowledge.css kept winning on source order and
+   specificity, leaving the smallest text at 9.92px no matter what was
+   added here. See phone.css for the whole phone pass. */

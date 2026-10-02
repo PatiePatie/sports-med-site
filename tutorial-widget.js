@@ -19,7 +19,7 @@
      b:['Right beside it is the theme switch. Click 🌙 to turn on dark mode for comfortable night reading; click ☀️ to return to light. Your choice is saved and applied everywhere.','旁边的按钮是主题开关。点击🌙进入深色夜间模式，夜间阅读更舒适；点击☀️返回浅色。您的选择会被保存并在全站生效。'],
      sel:'#darkToggle', task:{kind:'click', sel:'#darkToggle', t:['Try it: flip the theme','试一试：切换一下主题'], ok:['Lights changed. Flip it back any time.','灯光已切换，随时可以换回来。']}},
     {icon:'🧭', t:['Sidebar — your map','侧边栏 —— 您的地图'],
-     b:['The left sidebar holds everything: «Chapters» lists all 14 chapters, «On this page» jumps within the current chapter, «Study Tools» opens flashcards, quizzes and exam prep. On small screens tap ☰ to open it.','左侧边栏集中了全部功能：「章节」列出14个章节，「本页目录」在当前章内快速跳转，「备考工具」打开闪卡、测验与考试冲刺。小屏幕上点☰展开。'],
+     b:['The left sidebar holds everything: «Chapters» lists all 14 chapters, «On this page» jumps within the current chapter. On small screens tap ☰ to open it.','左侧边栏集中了全部功能：「章节」列出14个章节，「本页目录」在当前章内快速跳转。小屏幕上点☰展开。'],
      sel:'#sidebar'},
     {icon:'🔍', t:['Search — find anything','搜索 —— 速查任意内容'],
      b:['The search bar in the top bar (⌘K / Ctrl K) finds any topic across all chapters instantly. Start typing and matches appear below.','顶部搜索框（⌘K / Ctrl K）可瞬间检索全部章节中的任意主题。输入关键词，下方立即显示结果。'],
@@ -34,8 +34,13 @@
      b:['Everything here sits on soft fabric. Your pointer rests a small dent in it; press and hold to sink in deeper, and drag while holding to pull the cloth around.','整个页面铺在一块柔软的布上。指针会压出一个小凹陷；按住会陷得更深，按住拖动还能拉动布料。'],
      sel:null, fine:true, task:{kind:'hold', t:['Try it: press and hold anywhere, then drag','试一试：在任意处按住，然后拖动'], ok:['Felt that? Let go and it springs back.','感受到了吗？松开它会弹回来。']}},
     {icon:'🤖', t:['The AI assistant · Vitaline','AI 助手 · Vitaline'],
-     b:['Need a quick explanation? Open «Study Tools» → «Vitaline AI» to ask our AI, or use the Q&A bubble (bottom-left) to ask in English or 中文.','需要快速讲解？打开「备考工具」→「Vitaline AI」向AI提问，或用左下角的问答气泡用中英文提问。'],
-     sel:'#studyToolsBtn, #aiFab', menu:true},
+     b:['Need a quick explanation? Tap the AI icon in the top bar to ask our AI, or use the Q&A bubble (bottom-left) to ask in English or 中文.','需要快速讲解？点击顶栏的AI图标向AI提问，或用左下角的问答气泡用中英文提问。'],
+     sel:'#studyToolsBtn, #aiFab', menu:false},
+     /* This flag used to make the tour call VitaliteStudyTools.open() first, to give
+        the flagged item a real rect. The control is now a single always-visible icon,
+        so there is nothing to open -- and open() now means "open the AI", which made
+        the tour LAUNCH the AI merely by arriving here. Clearing the flag leaves a
+        plain highlight: the ring lands on the icon and nothing else happens. */
     {icon:'👤', t:['Your account','您的账户'],
      b:['Tap your name in the top bar to open My Account — edit your name, country, age and bio, and watch your level grow as you study.','点击顶栏中的姓名进入「我的账户」——编辑姓名、国家、年龄与简介，并看着您的等级随学习不断提升。'],
      sel:'#loginBtn, .btn-login'},

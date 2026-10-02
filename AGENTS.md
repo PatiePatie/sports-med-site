@@ -263,3 +263,73 @@ everything goes through a PR, rebase rather than merge, small branches.
 `.coordination/coordinate` is a file-backed message bus. The required CI check
 is `skin-coherence` (every page must link `linear-theme.css`, zero active
 webfont links).
+
+---
+
+## 8 · `ib-sehs-lesson.html` — the focused lesson hub
+
+A standalone page that turns one IB SEHS topic into a guided pass, one block per
+click. **One lesson = one topic**, so Chapter 1 is 9 lessons, not 24 — routed
+`#lesson/A.1.1`, with the hub as the default route.
+
+It loads the site's real stylesheets — `gold-blue-theme.css`, `vitalite-skin.css`,
+`phone.css`, `shapes-skin.css`, `soft-glass.css` — so fonts, colours, dark mode
+and the carpet match the course page. It loads **no chrome scripts**:
+`linear-layout.js`, `sections.js`, `auth-widget`, `qna`, `notif-bell` and
+`tutorial-widget` stay out, or a sidebar and two top bars appear. It is in
+`tools/theme_switch.py`'s `EXCLUDE` set.
+
+**Every count on screen is derived from the data that actually renders** — the
+sections, key terms, one question per section, and the numbers/mistakes/why
+cards — so a count cannot disagree with the content.
+
+### Traps that each cost a real bug
+
+- **The reader must hide, never append.** An append-only renderer cannot support
+  Back: every press added a node, so 17 blocks became 22 while the counter went
+  the right way and it looked like Next. Build each node ONCE into a `rendered[]`
+  array; Back hides the ones past the target. Assert the DOM node count across a
+  Back, not just the counter.
+- **Receding text needs opacity AND saturation.** `.ib-recede{opacity:.42;
+  filter:saturate(.28)}`. A tinted card at `.62` measured identical to the text
+  and still read bright — numeric equality is not perceptual equality.
+- **The drill must be idempotent.** `applyBlanks` used to open with
+  `if (!node.querySelectorAll('b.kt').length) return` — but once the drill is ON
+  those `<b>` elements have already been *replaced by blanks*, so the
+  turn-it-off pass skipped every node: the button un-pressed while every
+  sentence stayed blanked. The guard tested for the thing the function had
+  removed. Restore from `node._rich`, then re-wrap only if the drill is on.
+- **`pair(o)`, not `term(o)`, for a bilingual value read from an object.** The
+  key-terms list built with `term(tm.term)` produced `<dt data-en="">` with zero
+  height — heading rendered, list empty, nothing logged. `pair(o) → [en, zh]` is
+  the canonical form used at ~15 call sites; use it for **every** one.
+- **A CSS rule declared outside its media query beats the in-query rule when it
+  comes later at equal specificity.** `.ib-rail__close{display:inline-flex}`
+  sat after the desktop `@media{min-width:1040px}` block's `display:none`, so the
+  mobile drawer's close `×` floated over the desktop hub. Source order decides.
+- **Gate reader-only chrome on `.ib-reading`** (added on open, removed on exit).
+  The progress bar, its counter and `Test me` describe a lesson *in progress*;
+  on the hub they were a wide empty bar, a bare em dash and a dead button.
+- **The EN and ZH bold lists in `DEEP[key].walk` are genuinely not aligned** —
+  46 of 171 paragraphs disagree. Do not pair them positionally; pair only when
+  the counts match and skip otherwise. A shorter chip row that is entirely
+  bilingual beats a full one that is half English. (`Neural pathways and
+  coordination` has `walk[]` pairs that desynchronise from item 2 onward; the
+  lesson does not use `walk[]` for anything else.)
+- **Models build only for the slide on screen**, because `getBBox` returns 0
+  inside a hidden subtree — `build()` on reveal, `stop()` on hide. A figure
+  slide must emit `.native-section > h3[data-en] + .vis-figure >
+  .vis-svg-scroll`. **Do not load `knowledge-fx.js`**: it mounts a practice tray
+  onto every `.native-section`, and the figure slides need that class purely so
+  the model layer can find them.
+
+Progress lives in `sm_ibsehs_lesson`, keyed by topic code. Re-entry asks
+resume-or-restart unless every Chapter 1 section is complete, in which case it
+restarts automatically. The authored layer (`ib-sehs-lesson-data.js`) is built by
+`tools/ibsehs-lesson/build.py`, which **asserts every authored key against the
+real `ns()` headings** — a typo there fails silently, because the lesson still
+builds and just quietly loses its analogy.
+
+Not built: Chapters 2 and 3 (the engine is chapter-agnostic — only the
+`CHAPTERS` range and a new authored data file are needed), and the hub's
+Question Bank / Study Guide / Cheatsheet tiles, which are placeholders.

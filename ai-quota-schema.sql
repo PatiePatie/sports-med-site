@@ -35,7 +35,6 @@ create table if not exists public.ai_daily (
 alter table public.ai_daily enable row level security;
 
 -- 3. the increment + limit check -------------------------------------------
-$aiq$
 create or replace function public.ai_touch(p_uid text, p_limit integer default 5)
 returns jsonb
 language plpgsql

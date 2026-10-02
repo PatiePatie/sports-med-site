@@ -189,10 +189,23 @@ anything that scans the DOM must load blocking, or wait for `DOMContentLoaded`.
 - `classroom.html` — create/join by code, roster, per-student detail, release
   schedule, questions, live quiz. Uploads reading progress to the teacher.
 
+- `classroom.html` **Questions tab** — import from the site's own banks, write
+  one by hand, or generate AI drafts. 551 seed questions ship in
+  `classroom-seed-questions.js` (G10 Biology 232, Chinese cert 159, NPTE 160),
+  read from the same banks the practice trays use, so none of it was authored
+  for the classroom. AI drafts always land as `source='ai', approved=false`.
+  Two traps worth not re-learning: the site AI is a **tutor**, so asking it for
+  JSON returns a conversational reply, and when it does oblige the reply is
+  **truncated mid-array** — the prompt asks for the plain
+  `Question:`/`A)`/`B)`/`C)`/`D)`/`Answer:`/`Why:` layout instead, and the parser
+  drops a half-written trailing question rather than failing the batch. Parsing
+  is `indexOf`-based because a `split` on a `(?=Question)` lookahead matched under
+  `RegExp.test` but returned one element. And **`alert()` blocks the page** — it
+  hung the first import test headless forever, so every alert is now a
+  `role="status"` line (`clRosterMsg`, `clQMsg`, `clLiveMsg`).
+
 **Not finished**
 
-- The classroom **Questions tab is stubbed** — the import and AI-generate
-  buttons do nothing, so a live quiz has nothing to draw from.
 - **Live Kahoot** — tables and the realtime publication are in the schema, the
   game loop is not written.
 - The **forum is broken on live**: the grants in `forum-schema.sql` were never
@@ -233,6 +246,13 @@ they query, aborted on line 41 with `42P01`, and left nothing usable.
 
 Ordering inside the file is load-bearing: **tables → functions → RLS → realtime
 → view.** Postgres validates a SQL function body when it creates it.
+
+**Never re-run `classroom-schema.sql` once real data exists.** It drops and
+rebuilds every table. Changes go in `classroom-v2.sql`, which is additive and
+re-runnable — it added `prompt_zh` / `choices_zh` / `explanation_zh` to
+`questions` for the bilingual question bank, plus two indexes. If the Chinese
+question columns have not been added, the classroom still works in English but
+PostgREST rejects any write that includes them.
 
 ---
 

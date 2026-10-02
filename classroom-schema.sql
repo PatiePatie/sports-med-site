@@ -218,6 +218,21 @@ as $$
   );
 $$;
 
+-- ── table privileges ────────────────────────────────────────────────────
+-- Without these every read and write fails with "permission denied for table
+-- classrooms", because the policies below are never reached: the request is
+-- refused before RLS is consulted. classroom-grants.sql carries the same
+-- statements for projects where this schema has already been applied.
+grant select, insert, update, delete on table
+  public.classrooms, public.classroom_members, public.class_messages,
+  public.assignments, public.questions, public.attempts,
+  public.progress_events, public.live_sessions, public.live_answers
+to authenticated;
+
+-- progress_events and live_answers use `generated always as identity`
+grant usage, select on sequence public.progress_events_id_seq to authenticated;
+grant usage, select on sequence public.live_answers_id_seq to authenticated;
+
 grant execute on function public.is_teacher(uuid) to authenticated;
 grant execute on function public.in_classroom(uuid) to authenticated;
 

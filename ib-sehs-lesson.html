@@ -4,17 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="icon" type="image/png" href="icons/vitalite-32.png">
-<title>Chapter 1 · Focus lesson — IB SEHS</title>
+<title>IB SEHS · Chapter 1 focus lesson</title>
 
-<!-- Auth only. The lesson deliberately loads NO site chrome: no sidebar, no top
-     bar, no FABs, no modals, no layout script. auth-gate.js is kept so a
-     signed-out visitor still has to sign in, exactly as everywhere else. -->
+<!-- Auth only. This page loads NO site chrome: no sidebar, top bar, FAB, modal or
+     layout script. auth-gate.js is kept so a signed-out visitor still signs in. -->
 <script src="auth-gate.js?v=2"></script>
 
 <style>
 /* The site's own palette, inlined so this page needs no theme stylesheet.
-   Values copied verbatim from ib-sehs-learn.html so the lesson cannot drift
-   away from the course it belongs to. */
+   Values copied verbatim from ib-sehs-learn.html so the lesson cannot drift away
+   from the course it belongs to. */
 :root {
   --bg:#edf3f8; --surface:#fff; --surface2:#f5f8fb;
   --text:#10213a; --text2:#465b73; --text3:#6b8098;
@@ -24,7 +23,7 @@
   --font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Songti SC","PingFang SC","Microsoft YaHei",serif;
   --serif:Georgia,"Songti SC",serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  /* aliases: IB_VISUALS figures were drawn against these two names */
+  /* aliases: the generated figures were drawn against these two names */
   --border:var(--line); --accent:var(--gold);
 }
 body.dark {
@@ -37,31 +36,35 @@ body.dark {
 }
 html, body { margin:0; padding:0; background:var(--bg); }
 </style>
-<link rel="stylesheet" href="ib-sehs-lesson.css?v=1">
 
-<!-- Course data, the same five files the normal page loads. Read-only here. -->
+<link rel="stylesheet" href="knowledge.css?v=6">
+<link rel="stylesheet" href="ib-sehs-lesson.css?v=3">
+
+<!-- Course data, the same files the normal page loads. Read-only here. -->
 <script src="ib-sehs-data.js?v=4"></script>
 <script src="ib-sehs-native.js?v=3"></script>
 <script src="ib-sehs-deep.js?v=12"></script>
 <script src="ib-sehs-visuals.js?v=5"></script>
+<!-- The designed interactive models. knowledge-fx.js is deliberately NOT loaded:
+     it mounts a practice tray onto every .native-section, and the figure slides
+     need that class purely so the model layer can find them. -->
+<script src="ib-sehs-models.js?v=16" defer></script>
 
 <!-- the authored layer: one summary + one analogy + one example per section -->
 <script src="ib-sehs-lesson-data.js?v=1"></script>
 
-<script src="ib-sehs-lesson.js?v=2" defer></script>
+<script src="ib-sehs-lesson.js?v=3" defer></script>
 </head>
 
 <body class="ib-lesson">
 
-<!-- top rail: Exit, progress, and the only two controls this page has -->
 <header class="ib-top">
-  <button class="ib-top__exit" id="ibExit" type="button" data-en="Exit lesson" data-zh="退出课程">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    <span class="ib-exit__label">Exit</span>
-  </button>
-
+  <button class="ib-top__exit" id="ibExit" type="button"
+          aria-label="Exit lesson" data-en="Exit" data-zh="退出">Exit</button>
   <button class="ib-top__btn ib-top__btn--rail" id="ibRailToggle" type="button"
-          aria-label="Chapters and terms" data-en="Chapters &amp; terms" data-zh="章节与术语">☰</button>
+          aria-label="Sections and glossary" data-en="Sections &amp; terms" data-zh="小节与术语">☰</button>
+  <button class="ib-top__btn ib-top__btn--home" id="ibHome" type="button"
+          aria-label="Back to topics" data-en="Topics" data-zh="目录">◱</button>
 
   <div class="ib-top__bar" role="progressbar" aria-label="Lesson progress"><div class="ib-top__fill" id="ibFill"></div></div>
   <span class="ib-top__count" id="ibCount">—</span>
@@ -74,30 +77,29 @@ html, body { margin:0; padding:0; background:var(--bg); }
 
 <div class="ib-rail__scrim" id="ibScrim"></div>
 
-<div class="ib-lesson-shell">
+<!-- ── hub ─────────────────────────────────────────────────────────────── -->
+<div class="ib-hub" id="ibHub"></div>
 
-  <!-- left column: where you are, plus the glossary you are building -->
-  <aside class="ib-rail" id="ibRail" aria-label="Chapter map and glossary">
+<!-- ── reader ──────────────────────────────────────────────────────────── -->
+<div class="ib-lesson-shell" id="ibReader">
+  <aside class="ib-rail" id="ibRail" aria-label="Sections and glossary">
     <button class="ib-rail__close" id="ibRailClose" type="button" aria-label="Close">×</button>
-
-    <p class="ib-rail__head" data-en="In this chapter" data-zh="本章目录">In this chapter</p>
+    <button class="ib-rail__hub" id="ibRailHub" type="button">
+      <span data-en="← All topics" data-zh="← 全部主题">← All topics</span>
+    </button>
+    <p class="ib-rail__head" data-en="Sections" data-zh="小节">Sections</p>
     <ul class="ib-map" id="ibMap"></ul>
-
     <p class="ib-rail__head" data-en="Your glossary" data-zh="我的术语表">Your glossary</p>
-    <input class="ib-gloss__search" id="ibGlossSearch" type="search" autocomplete="off"
-           placeholder="Search terms / 搜索术语" aria-label="Search glossary">
     <ul class="ib-gloss__list" id="ibGloss"></ul>
   </aside>
-
-  <!-- the lesson itself -->
   <main class="ib-read" id="ibRead"></main>
-
 </div>
 
-<footer class="ib-foot">
+<footer class="ib-foot" id="ibFoot" hidden>
   <button class="ib-foot__btn" id="ibBack" type="button" data-en="Back" data-zh="返回">Back</button>
   <span class="ib-foot__spacer"></span>
   <button class="ib-foot__btn ib-foot__btn--next" id="ibNext" type="button" data-en="Next" data-zh="下一句">Next</button>
 </footer>
+
 </body>
 </html>

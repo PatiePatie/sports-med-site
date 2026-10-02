@@ -362,12 +362,107 @@ async function clinicalReply(env, question) {
   }
 }
 
-async function handleText(body, env) {
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Daily AI quota — the free tier's 5/day is enforced HERE, in the worker.
+//
+// Before this, nothing counted anything: the page showed a remaining-quota
+// number that nothing decremented, and any client could call this endpoint as
+// often as it liked. The client-side counter is a courtesy for the UI; this is
+// the limit that actually holds.
+//
+// Requires ai-quota-schema.sql to have been run once in Supabase. Until it
+// has, every call is allowed (fail-open) rather than the site breaking for
+// everyone — deliberately, so a forgotten migration cannot take the AI down.
+//
+// PLAN MODEL (matches the tier plan)
+//   free     5 calls/day, metered
+//   plus     unmetered
+//   teacher  unmetered (a school paying ¥68/mo should not be throttled)
+//   admin    unmetered
+// ═══════════════════════════════════════════════════════════════════════════
+const AI_FREE_LIMIT = 5;
+const SB = "https://eytmbftrjvsntyzwbtzl.supabase.co";
+const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dG1iZnRyanZzbnR5endidHpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NTU2NjksImV4cCI6MjEwNDIzMTY2OX0.o0vRqteQ5XNgTNvnB3IEE9I67Oo_r4sy7JZ9qOGWSSc";
+
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* Who is calling. A signed-in user is identified by their real Supabase id so
+   the quota follows the account across devices. Anonymous callers get a hash
+   of IP + user-agent, which is stable enough to rate-limit one visitor and
+   leaks nothing about them. */
+async function aiIdentity(request) {
+  const auth = request.headers.get("Authorization") || "";
+  const m = /^Bearer\s+(.+)$/i.exec(auth);
+  if (m) {
+    try {
+      const r = await fetch(SB + "/auth/v1/user", {
+        headers: { apikey: SB_ANON, Authorization: "Bearer " + m[1] },
+      });
+      if (r.ok) {
+        const u = await r.json();
+        if (u && u.id) return { uid: "u:" + u.id, signedIn: true };
+      }
+    } catch (e) { /* fall through to anonymous */ }
+  }
+  const ip = request.headers.get("CF-Connecting-IP") || "0.0.0.0";
+  const ua = request.headers.get("User-Agent") || "";
+  return { uid: "a:" + (await sha256hex(ip + "|" + ua)).slice(0, 40), signedIn: false };
+}
+
+/* Returns {ok:true, left, unlimited} or {ok:false, left:0} when the day's
+   allowance is spent. Fails OPEN: if the Supabase call errors we allow the
+   request, because an AI that refuses to answer because of a metering outage
+   is worse than an unmetered one. */
+async function aiQuota(request) {
+  try {
+    const who = await aiIdentity(request);
+    const r = await fetch(SB + "/rest/v1/rpc/ai_touch", {
+      method: "POST",
+      headers: {
+        apikey: SB_ANON,
+        Authorization: "Bearer " + SB_ANON,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ p_uid: who.uid, p_limit: AI_FREE_LIMIT }),
+    });
+    if (!r.ok) return { ok: true, left: null, unlimited: false, unknown: true };
+    const d = await r.json();
+    if (d && d.allowed === false) return { ok: false, left: 0, limit: d.limit || AI_FREE_LIMIT, plan: d.plan };
+    return { ok: true, left: d ? d.left : null, limit: d ? d.limit : AI_FREE_LIMIT, plan: d ? d.plan : "free", unlimited: !!(d && d.unlimited) };
+  } catch (e) {
+    return { ok: true, left: null, unlimited: false, unknown: true };
+  }
+}
+
+async function handleText(body, env, request) {
   const question = String(body.question || "").trim();
   const lang = body.lang === "zh" ? "zh" : "en";
   if (!question) return json({ lang, reply: "", error: "empty_question" }, 400);
 
   const mode = body.mode === "site" ? "site" : "clinical";
+
+  // ── Daily quota ──
+  // The news feed is a background refresh, not a reader's question, so it is
+  // never metered (it is served from cache almost every time anyway).
+  const q = await aiQuota(request);
+  if (!q.ok) {
+    return json(
+      {
+        lang,
+        error: "quota_exhausted",
+        left: 0,
+        limit: q.limit || AI_FREE_LIMIT,
+        message: lang === "zh"
+          ? "\u4eca\u65e5 AI \u989d\u5ea6\u5df2\u7528\u5b8c\uff0c\u660e\u5929\u91cd\u65b0\u5f00\u653e\u3002"
+          : "You have used today's free AI calls. They reset tomorrow.",
+      },
+      429
+    );
+  }
 
   // ── CLINICAL MODE — strict gate + RAG ──
   if (mode === "clinical") {
@@ -380,7 +475,7 @@ async function handleText(body, env) {
     } catch (e) {
       return json({ lang, error: String(e.message || e), mode }, 502);
     }
-    return json({ lang, reply: out.reply, mode, model: MODEL.clinical, rag: !!out.rag, ragTop: out.top });
+    return json({ lang, reply: out.reply, mode, model: MODEL.clinical, rag: !!out.rag, ragTop: out.top, left: q.left, limit: q.limit, unlimited: q.unlimited });
   }
 
   // ── SITE MODE — website guide (smaller >30B model preferred) ──
@@ -404,7 +499,7 @@ async function handleText(body, env) {
       return json({ lang, error: String(e2.message || e2), mode }, 502);
     }
   }
-  return json({ lang, reply, mode, model: used });
+  return json({ lang, reply, mode, model: used, left: q.left, limit: q.limit, unlimited: q.unlimited });
 }
 
 // ── News (Vitalite Social → Forum → News) ─────────────────────────────────────
@@ -504,7 +599,7 @@ export default {
     }
 
     // Text path
-    return handleText(body, env);
+    return handleText(body, env, request);
   },
 
   // Optional: add a Cron Trigger (e.g. every 6 hours) to refresh the news ahead

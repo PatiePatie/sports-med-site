@@ -641,3 +641,17 @@ h1,h2,h3,h4,h5,h6,.logo{font-family:var(--font-heading)}
    `.vt-refs .vr-k` in knowledge.css kept winning on source order and
    specificity, leaving the smallest text at 9.92px no matter what was
    added here. See phone.css for the whole phone pass. */
+
+/* Top-right control is the AI, icon only. A one-item menu was a click that
+   went nowhere, so the dropdown is gone and the icon opens the AI directly. */
+body.lin-v2 .lin-study-btn-ai{
+  width:34px;height:34px;min-width:34px;min-height:34px;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;gap:0}
+body.lin-v2 .lin-study-btn-ai .lin-ico{width:19px;height:19px}
+body.lin-v2 .lin-study-btn-ai.is-on{color:var(--accent);border-color:var(--accent)}
+body.lin-v2 .lin-study-wrap{gap:0}
+@media(max-width:600px){
+  body.lin-v2 .lin-study-btn-ai{width:30px;height:30px;min-width:30px;min-height:30px}
+  body.lin-v2 .lin-study-btn-ai .lin-ico{width:17px;height:17px}
+}

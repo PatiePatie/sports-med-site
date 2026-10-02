@@ -72,7 +72,11 @@ CHECKUP_PAGES = {"checkup.html"}
 # these; `status` leaves them out of the report. social.html used to be excluded
 # too, which gave the forum a different top bar from every other page; it is on
 # the skin now like admin.html.
-EXCLUDE = {"login.html"}
+# Pages that own their chrome and therefore link no site skin.
+# ib-sehs-lesson.html is a deliberate full-bleed reader: the brief is that it
+# carries NO sidebar, top bar, FAB or modal, so loading the rail skin would
+# work against it. It inlines the palette from ib-sehs-learn.html instead.
+EXCLUDE = {"login.html", "ib-sehs-lesson.html"}
 
 # Pages that run the section-interfaces script (PR #67). The lane added the
 # <script> inside the DRAFT-THEME block by hand; it belongs in the template so

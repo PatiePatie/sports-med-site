@@ -871,7 +871,7 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- THEME: Gold/Blue palette -->
 <link rel="stylesheet" href="gold-blue-theme.css?v=15">
   <script src="vt-sources.js?v=1"></script>
-  <script src="loader.js?v=9"></script>
+  <script src="loader.js?v=10"></script>
 <link rel="stylesheet" href="sections.css?v=10">
 <!-- DRAFT-THEME:BEGIN — remove with: python3 tools/theme_switch.py off -->
 <link rel="stylesheet" href="vitalite-skin.css?v=21">
@@ -909,6 +909,8 @@ body.lin-v2 .sidebar .sidebar-group.part > .part-body .sidebar-label.gc-label{
 <!-- SHAPES-THEME:END -->
 <!-- PHONE-PASS -->
 <link rel="stylesheet" href="phone.css?v=1">
+<!-- AI-FALLBACK -->
+<script src="vt-ai-fallback.js?v=1" defer></script>
 </head>
 <body>
 <!-- SHAPES-EARLY --><script>try{if(localStorage.getItem('dark')!=='false')document.body.classList.add('dark')}catch(e){}</script>
@@ -5542,59 +5544,138 @@ function renderResourcesHub(){
 // ════════════════════════════════════════
 var MEDAI_URL = 'https://api.vitaliteplan.com';
 function medaiLang(){ try{ return localStorage.getItem('sm_lang')==='zh'?'zh':'en'; }catch(e){ return 'en'; } }
-function medaiAppend(boxId, raw){
-  var box=document.getElementById(boxId); if(!box) return;
-  var div=document.createElement('div');
-  div.className='chat-msg bot';
-  var lbl=document.createElement('span');
-  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
-  var sp=document.createElement('span');
-  sp.className='chat-msg-text';
-  sp.innerHTML=medaiRender(raw);
-  div.appendChild(lbl); div.appendChild(sp);
-  box.appendChild(div); box.scrollTop=box.scrollHeight;
+/* ── Reliability ──────────────────────────────────────────────────────────
+   The old medaiAsk() had no timeout and no AbortController, so a stalled or
+   slow POST never settled: the "Thinking…" bubble stayed on screen forever
+   and the only way out was reloading. That is the "speaking for 30 seconds
+   with nothing" report, and it hit EVERY assistant on the site because all of
+   them shared this exact function.
+
+   Three things fix it:
+     1. an AbortController + a hard timeout, so a hang becomes an error;
+     2. distinct error codes, so the message can say what actually went wrong
+        (timeout / network / quota / upstream) instead of one vague line;
+     3. a local answer when the call fails, so the reader is never left with
+        nothing and never sees an infinite spinner.                  */
+var MEDAI_TIMEOUT   = 25000;   /* ms before we give up and fall back   */
+var MEDAI_DAILY_FREE = 5;       /* signed-in free tier, per the tier plan */
+var MEDAI_QUOTA_KEY = 'vt_ai_quota';
+function medaiToday(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function medaiSignedIn(){ try{ var u=JSON.parse(localStorage.getItem('sm_user')||'null'); return !!(u&&u.email); }catch(e){ return false; } }
+/* Plus (and admin) are unmetered client-side; the worker is the real gate. */
+function medaiUnlimited(){
+  try{
+    var e=JSON.parse(localStorage.getItem('sm_entitlement')||'null');
+    if(e && (e.plan==='plus'||e.plan==='admin'||e.plan==='teacher')) return true;
+    if(window.VitaliteAccess && window.VitaliteAccess.state){
+      var st=window.VitaliteAccess.state();
+      if(st && (st.plan==='plus'||st.plan==='admin'||st.plan==='teacher')) return true;
+    }
+  }catch(e){}
+  return false;
+}
+function medaiQuota(){
+  var lim = medaiSignedIn() && !medaiUnlimited() ? MEDAI_DAILY_FREE : Infinity;
+  if(lim === Infinity) return { left:Infinity, used:0, limit:Infinity, signedIn:medaiSignedIn(), unlimited:true };
+  var rec={ d:'', n:0 };
+  try{ rec=JSON.parse(localStorage.getItem(MEDAI_QUOTA_KEY)||'null')||{d:'',n:0}; }catch(e){}
+  if(rec.d!==medaiToday()) rec={ d:medaiToday(), n:0 };
+  return { left:Math.max(0,lim-rec.n), used:rec.n, limit:lim, signedIn:true, unlimited:false };
+}
+function medaiQuotaBump(){
+  if(medaiUnlimited()) return;
+  var q=medaiQuota(); if(q.unlimited) return;
+  q.used=q.used+1;
+  try{ localStorage.setItem(MEDAI_QUOTA_KEY, JSON.stringify({ d:medaiToday(), n:q.used })); }catch(e){}
+  try{ document.dispatchEvent(new CustomEvent('medai:quota')); }catch(e){}
+}
+function medaiQuotaText(){
+  var q=medaiQuota();
+  if(q.unlimited) return medaiLang()==='zh' ? 'AI 额度：不限' : 'AI quota: unlimited';
+  return medaiLang()==='zh'
+    ? ('今日 AI 额度剩余 ' + q.left + ' / ' + q.limit + ' 次')
+    : ('AI calls left today: ' + q.left + ' of ' + q.limit);
 }
 function medaiRender(raw){
   var s=String(raw).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
   s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
   s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
   s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');
   s=s.replace(/\n/g,'<br/>');
   return s;
+}
+function medaiAppend(boxId, raw){
+  var box=document.getElementById(boxId); if(!box) return;
+  var div=document.createElement('div');
+  div.className='chat-msg bot';
+  var lbl=document.createElement('span');
+  lbl.className='msg-label'; lbl.textContent='VITAXAMINE';
+  var sp=document.createElement('span');
+  sp.className='chat-msg-text';
+  sp.innerHTML=medaiRender(raw);
+  div.appendChild(lbl); div.appendChild(sp);
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
 }
 function medaiThinking(boxId){
   var box=document.getElementById(boxId); if(!box) return;
   var div=document.createElement('div');
   div.className='chat-msg bot';
   var lbl=document.createElement('span');
-  lbl.className='msg-label'; lbl.textContent='ASSISTANT';
+  lbl.className='msg-label'; lbl.textContent='VITAXAMINE';
   var sp=document.createElement('span');
   sp.className='chat-msg-text';
   sp.textContent='Thinking… 思考中…';
   div.appendChild(lbl); div.appendChild(sp);
   box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
   return div;
 }
 function medaiAsk(question, mode){
+  try{ window.medaiLastQ=question; }catch(e){}
   return new Promise(function(resolve){
     if(!MEDAI_URL){ resolve({ ok:false, error:'not_configured' }); return; }
-    fetch(MEDAI_URL, {
-      method:'POST',
-      headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ question:question, lang:medaiLang(), mode:mode||'clinical' })
-    }).then(function(r){ return r.json(); }).then(function(d){
-      if(d && d.reply){ resolve({ ok:true, reply:d.reply }); }
-      else { resolve({ ok:false, error:(d&&d.error)||'unknown' }); }
-    }).catch(function(){ resolve({ ok:false, error:'network' }); });
+    var q=medaiQuota();
+    if(!q.unlimited && q.left<=0){ resolve({ ok:false, error:'quota', quota:q }); return; }
+    var settled=false, ctl=null, timer=null;
+    function done(r){ if(settled) return; settled=true; if(timer) clearTimeout(timer); resolve(r); }
+    var opts={ method:'POST', headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ question:question, lang:medaiLang(), mode:mode||'clinical' }) };
+    try{
+      if(window.AbortController){
+        ctl=new AbortController(); opts.signal=ctl.signal;
+        timer=setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, MEDAI_TIMEOUT);
+      }
+    }catch(e){}
+    fetch(MEDAI_URL, opts).then(function(r){
+      if(r.status===429){ done({ ok:false, error:'quota', quota:medaiQuota() }); return; }
+      if(r.status===402||r.status===403){ done({ ok:false, error:'quota' }); return; }
+      return r.json().then(function(d){
+        if(d && d.reply){ medaiQuotaBump();
+          /* the worker is the authority on what is left; prefer its number */
+          if(d.left!=null){ try{ localStorage.setItem(MEDAI_QUOTA_KEY, JSON.stringify({ d:medaiToday(), n:Math.max(0,(d.limit||MEDAI_DAILY_FREE)-d.left) })); }catch(e){} }
+          done({ ok:true, reply:d.reply, left:d.left, limit:d.limit, unlimited:d.unlimited }); }
+        else { done({ ok:false, error:(d&&d.error)||'upstream' }); }
+      }, function(){ done({ ok:false, error:'upstream' }); });
+    }).catch(function(e){
+      if(e && (e.name==='AbortError'||String(e.message||'').indexOf('abort')>=0)) done({ ok:false, error:'timeout' });
+      else done({ ok:false, error:'network' });
+    });
   });
 }
-function medaiConfError(res){
-  var rn='Sorry — the AI is not configured yet. (Education only, not medical advice.)';
-  var rz='抱歉，AI 助手尚未配置完成。（仅供学习参考，不能替代专业医疗建议。）';
-  if(res.error==='network'){ rn='Network error. Please try again.'; rz='网络错误，请稍后重试。'; }
-  if(res.error===undefined || res.error==='upstream_error'){ rn='The AI is temporarily unavailable. Please try again later. (Education only, not medical advice.)'; rz='AI 暂时不可用，请稍后再试。（仅供学习参考，不能替代专业医疗建议。）'; }
-  return medaiLang()==='zh'?rz:rn;
+/* Always produce something for the reader. A failure never leaves a spinner. */
+function medaiFailText(res, question){
+  var zh=medaiLang()==='zh', err=(res&&res.error)||'unknown', head='';
+  if(err==='timeout')        head = zh?'**AI 响应超时**（超过 25 秒）。':'**The AI took too long** (over 25 seconds).';
+  else if(err==='network')   head = zh?'**网络错误** —— 没有连上 AI 服务。':'**Network problem** — could not reach the AI service.';
+  else if(err==='quota')     head = zh?'**今日 AI 额度已用完**。':'**You have used today\'s free AI calls.**';
+  else if(err==='not_configured') head = zh?'**AI 助手尚未配置完成**。':'**The AI assistant is not configured yet.**';
+  else                       head = zh?'**AI 暂时不可用**。':'**The AI is temporarily unavailable.**';
+  var local='';
+  try{ if(window.VT_LOCAL_ANSWER) local=window.VT_LOCAL_ANSWER(question, medaiLang()); }catch(e){}
+  return head+'\n\n'+local;
 }
+function medaiConfError(res){ return medaiFailText(res, (typeof medaiLastQ!=='undefined'?medaiLastQ:'')); }
 function addChatMessage(text, isUser, textZh){
   const box=document.getElementById('chatMessages');
   if(!box) return;

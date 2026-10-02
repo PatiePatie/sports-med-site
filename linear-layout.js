@@ -320,9 +320,9 @@
     btn.id = 'studyToolsBtn';
     btn.setAttribute('aria-haspopup', 'true');
     btn.setAttribute('aria-expanded', 'false');
-    btn.appendChild(icon('panel'));
+    btn.appendChild(icon('message'));
     var blbl = el('span', 'lin-study-label');
-    bi(blbl, 'Study Tools', '备考工具');
+    bi(blbl, 'Vitaline AI', 'AI 助手');
     btn.appendChild(blbl);
     var caret = icon('chevron');
     caret.className = 'lin-ico lin-study-caret';
@@ -331,9 +331,6 @@
     var menu = el('div', 'lin-study-menu');
     menu.setAttribute('role', 'menu');
     var ITEMS = [
-      { id: 'stFlash', ico: 'panel',   en: 'Flashcards',         zh: '闪卡',       act: function () { launch('openFlashcards', 'guide.html'); } },
-      { id: 'stQuiz',   ico: 'edit',   en: 'Quizzes & practice', zh: '测验与练习', act: function () { launch('openQuizMode', 'guide.html'); } },
-      { id: 'stExam',   ico: 'award',  en: 'Exam prep',         zh: '备考冲刺',   act: function () { location.href = 'exam.html'; } },
       { id: 'stAI',     ico: 'message',en: 'Vitaline AI',       zh: 'AI 助手',    act: function () { launch('openAiModal', 'guide.html'); } }
     ];
     ITEMS.forEach(function (it) {

@@ -757,13 +757,22 @@
       var row = el('div', 'ib-resume__row');
       var cont = el('button', 'ib-foot__btn ib-foot__btn--next',
         T('Continue where I left off', '从上次继续'));
-      cont.addEventListener('click', function () { box.remove(); begin(at); });
+      cont.addEventListener('click', function () {
+        box.remove(); document.body.classList.remove('ib-resuming'); begin(at);
+      });
       var restart = el('button', 'ib-foot__btn', T('Start from the beginning', '从头开始'));
-      restart.addEventListener('click', function () { box.remove(); begin(0); });
+      restart.addEventListener('click', function () {
+        box.remove(); document.body.classList.remove('ib-resuming'); begin(0);
+      });
       row.appendChild(cont);
       row.appendChild(restart);
       box.appendChild(row);
       readEl.appendChild(box);
+      /* No slide exists yet, so the progress counter has nothing to say (it
+         showed a bare em dash), the drill has nothing to blank and the footer
+         buttons have nothing to advance through. Mark the reader as not-yet-
+         started so the chrome stands down until a choice is made. */
+      document.body.classList.add('ib-resuming');
       box.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
@@ -772,6 +781,7 @@
 
   function openHub() {
     document.body.classList.remove('ib-reading');
+    document.body.classList.remove('ib-resuming');
     /* the whole reader shell goes away on the hub. Hiding only the reading
        column left the rail sitting there as an empty white drawer. */
     $('#ibReader').hidden = true;

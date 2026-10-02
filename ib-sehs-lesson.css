@@ -92,6 +92,14 @@ body.ib-lesson:not(.ib-reading) #ibDrill,
 body.ib-lesson:not(.ib-reading) .ib-top__bar,
 body.ib-lesson:not(.ib-reading) .ib-top__count { display: none; }
 
+/* Same reasoning for the moment before the first slide exists: the resume
+   prompt is the only thing on screen, so the counter would be a bare em dash,
+   the drill would have nothing to blank and the footer nothing to advance. */
+body.ib-resuming #ibDrill,
+body.ib-resuming .ib-top__bar,
+body.ib-resuming .ib-top__count,
+body.ib-resuming .ib-foot { display: none; }
+
 .ib-top {
   position: sticky;
   top: 0;

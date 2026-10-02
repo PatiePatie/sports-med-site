@@ -1,28 +1,29 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   IB SEHS · Focus lesson engine
+   IB SEHS · focus lesson + hub
 
-   Reads the existing syllabus data and turns it into a single-pass, full-screen
-   lesson you advance one slide at a time. Nothing here re-authors the course;
-   every fact, term, figure, table, number and mistake comes from the files the
-   normal page already loads:
+   Two screens, one page, hash-routed:
 
-     window.IBSEHS_TOPICS    topic list (ib-sehs-data.js)
-     window.IBSEHS_NATIVE    sections, key terms, bullets, tables (ib-sehs-native.js)
-     window.IB_SECTION_ZH    Chinese for each English section heading
-     window.IB_DEEP          metaphor / walk / numbers / mistakes / why (ib-sehs-deep.js)
-     window.IB_VISUALS       figures, tables, worked examples (ib-sehs-visuals.js)
-     window.IBSEHS_LESSON    the authored summary sentences + one analogy and
-                              one example per section (ib-sehs-lesson-data.js)
+     #                 →  HUB.  Subject header, a topics-and-progress view
+                           grouped A.1 / A.2 / A.3, a per-topic detail panel
+                           with derived counts and resource tiles, and the list
+                           of lessons with a tick each.
+     #lesson/A.1.1     →  READER. One topic, one block per click, no site chrome.
 
-   The authored layer only ever ADDS: if a section has no entry in
-   IBSEHS_LESSON the lesson still builds, it just falls back to the syllabus
-   prose for its sentences and skips the analogy/example pair.
+   Nothing is re-authored. The engine reads the files the course page already
+   loads — IBSEHS_TOPICS, IBSEHS_NATIVE, IB_SECTION_ZH, IB_DEEP, IB_VISUALS —
+   and derives the definitions, key idea, figures, tables, numbers, mistakes,
+   flashcards and questions from them. IBSEHS_LESSON adds the summary sentences
+   plus one analogy and one example per section.
 
-   Conventions copied from ib-sehs-course.js so the two pages agree:
-     - showCN = localStorage.sm_lang === 'zh'; body.lang-zh / body.lang-en
-     - dark   = localStorage.dark === 'true';  body.dark
-     - **term** becomes <b class="kt">, via the same richText() escape-first rule
-     - bilingual nodes carry data-en / data-zh and are re-read on language change
+   The interactive models come from ib-sehs-models.js, which is given exactly the
+   DOM shape it expects (a .native-section wrapping a .vis-figure whose
+   .vis-svg-scroll it swaps for its own slot) so the reader shows the designed
+   models rather than the flat static figure.
+
+   Conventions copied from ib-sehs-course.js so the pages agree:
+     showCN = localStorage.sm_lang === 'zh';  body.lang-zh / body.lang-en
+     dark   = localStorage.dark  === 'true';   body.dark
+     **term** becomes <b class="kt">, escape-first
    ═══════════════════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -34,54 +35,45 @@
   var DEEP = window.IB_DEEP || {};
   var VIS = window.IB_VISUALS || {};
   var AUTHORED = window.IBSEHS_LESSON || {};
+  var MODELS_API = window.IBSEHSModels || null;
 
-  /* Chapter 1 is topics[0..8]. CHAPTERS is not exported by ib-sehs-course.js
-     (it is inside that file's IIFE), so the range is declared here and checked
-     against the topic codes below — if the course ever reorders, the assert
-     fires loudly in the console instead of silently teaching the wrong set. */
-  var CH = { n: 1, id: 'ib-ch1', start: 0, end: 9,
-             en: 'Exercise Physiology & Nutrition',
-             zh: '运动生理与营养' };
-  var EXPECT = ['A.1.1','A.1.2','A.1.3','A.2.1','A.2.2','A.2.3','A.3.1','A.3.2','A.3.3'];
+  var CHAPTERS = [
+    { n: 1, id: 'ib-ch1', start: 0, end: 9, en: 'Exercise Physiology & Nutrition', zh: '运动生理与营养',
+      group: { en: 'A.1 Communication', zh: 'A.1 通讯' } },
+    { n: 2, id: 'ib-ch2', start: 9, end: 18, en: 'Biomechanics', zh: '生物力学',
+      group: { en: 'A.2 Movement', zh: 'A.2 运动' } },
+    { n: 3, id: 'ib-ch3', start: 18, end: 29, en: 'Psychology & Motor Learning', zh: '心理与动作学习',
+      group: { en: 'A.3 Response', zh: 'A.3 反应' } }
+  ];
 
-  var POSKEY = 'ib_lesson_ch1';
+  var PKEY = 'sm_ibsehs_lesson';
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
   var showCN = false, dark = false;
-  var slides = [], idx = 0, built = 0;
-  var state = { done: {}, gloss: [], blanks: {} };
+  var ST = { i: 0, done: {}, blanks: {} };
 
-  /* ── small helpers ─────────────────────────────────────────────────────── */
+  /* ── helpers ─────────────────────────────────────────────────────────── */
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
     });
   }
-  /* identical to the course engine's richText: escape first, then **term** */
-  function rich(src) {
-    return esc(src).replace(/\*\*(.+?)\*\*/g, '<b class="kt">$1</b>');
-  }
+  function rich(src) { return esc(src).replace(/\*\*(.+?)\*\*/g, '<b class="kt">$1</b>'); }
   function T(en, zh) { return showCN ? (zh == null ? en : zh) : en; }
-  /* A node whose text is PLAIN (no **bold**): give it data-en/data-zh and let
-     refreshPlain() re-read it. Anything that needs markup goes through
-     richNode() instead, which keeps its own _rich copy. */
-  function plain(node, en, zh) {
-    node.setAttribute('data-en', en == null ? '' : en);
-    node.setAttribute('data-zh', zh == null ? '' : zh);
-    node.textContent = T(en, zh);
-    return node;
-  }
-  function refreshPlain(root) {
-    $$('[data-en][data-zh]', root).forEach(function (n) {
-      if (n._rich) return;              /* rich nodes are handled by refreshRich */
-      n.textContent = T(n.getAttribute('data-en'), n.getAttribute('data-zh'));
-    });
-  }
-  function term(en, zh) {
-    if (en && typeof en === 'object') return T(en.en, en.zh);
-    return T(en, zh);
+  function term(o, zh) { return (o && typeof o === 'object') ? T(o.en, o.zh) : T(o, zh); }
+  /* dedupe key for a raw term pair; using the object itself coerced to
+     "[object Object]" and collided across every term */
+  function keyOf(x) { return String(x && x.t && x.t.en ? x.t.en : x); }
+  /* Split a raw bilingual value into [en, zh]. The recurring mistake was
+     `richNode(n, pair(o)[0], pair(o)[1])` — which resolves the pair ONCE and hands
+     the same already-translated string to both languages, so there is nothing
+     left to switch and the node stays frozen in the language that was active
+     when the lesson was built. */
+  function pair(o) {
+    if (o && typeof o === 'object') return [o.en, o.zh];
+    return [o, undefined];
   }
   function el(tag, cls, txt) {
     var n = document.createElement(tag);
@@ -89,27 +81,39 @@
     if (txt != null) n.textContent = txt;
     return n;
   }
-  /* one place that emits a bilingual rich block, so language switching is a
-     single re-render instead of a pile of per-type handlers */
-  function richNode(tag, cls, pair, holder) {
-    var n = el(tag, cls);
-    n._rich = { en: rich(pair.en), zh: rich(pair.zh) };
-    n.setAttribute('data-rich', '1');
-    holder = holder || n;
-    n._holder = holder;
-    n.innerHTML = showCN ? n._rich.zh : n._rich.en;
-    return n;
+  /* plain bilingual node: re-read in place on a language change */
+  function plain(node, en, zh) {
+    node.setAttribute('data-en', en == null ? '' : en);
+    node.setAttribute('data-zh', zh == null ? '' : zh);
+    node.textContent = T(en, zh);
+    return node;
   }
-  function refreshRich(root) {
+  function richNode(node, en, zh) {
+    node.setAttribute('data-rich', '1');
+    node._rich = { en: rich(en), zh: rich(zh) };
+    node.innerHTML = showCN ? node._rich.zh : node._rich.en;
+    return node;
+  }
+  function refreshAll(root) {
+    root = root || document;
+    $$('[data-en][data-zh]', root).forEach(function (n) {
+      if (n._rich) return;
+      n.textContent = T(n.getAttribute('data-en'), n.getAttribute('data-zh'));
+    });
     $$('[data-rich]', root).forEach(function (n) {
       if (!n._rich) return;
       n.innerHTML = showCN ? n._rich.zh : n._rich.en;
-      if (n._holder && n._holder !== n) n._holder.innerHTML = n.innerHTML;
       if (n.classList.contains('ib-sum')) applyBlanks(n);
     });
   }
 
-  /* ── icons ─────────────────────────────────────────────────────────────── */
+  /* icons are SVG STRINGS, so they need innerHTML. el() sets textContent, which
+     escaped the markup and printed "<svg viewBox=…" as literal text. */
+  function iconEl(cls, name) {
+    var n = el('span', cls);
+    n.innerHTML = ICON[name] || '';
+    return n;
+  }
 
   var ICON = {
     note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/></svg>',
@@ -121,157 +125,191 @@
     mcq: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>',
     close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
-    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>'
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>',
+    grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>'
   };
 
-  /* ── collect the chapter's sections ────────────────────────────────────── */
+  /* ── the chapter, its topics, and each topic's sections ──────────────── */
 
-  var SECTIONS = [];
-  (function collect() {
-    var got = [];
-    for (var i = CH.start; i < CH.end && i < TOPICS.length; i++) {
-      var t = TOPICS[i]; if (!t) continue;
-      var rec = NATIVE.filter(function (r) { return r.code === t.code; })[0];
-      if (!rec) continue;
-      (rec.sections || []).forEach(function (sec) {
-        got.push({ topic: t, rec: rec, sec: sec, key: sec.title, zh: SECZH[sec.title] || '' });
-      });
-    }
-    SECTIONS = got;
-    if (TOPICS.slice(CH.start, CH.end).map(function (t) { return t.code; }).join() !== EXPECT.join()) {
-      console.warn('[ib-lesson] chapter 1 topic codes changed:',
-        TOPICS.slice(CH.start, CH.end).map(function (t) { return t.code; }));
-    }
-  })();
+  function chapters() { return CHAPTERS; }
 
-  /* Every key term in the chapter. Used for MCQ distractors, which is why the
-     pool is built once up front rather than per question. */
-  var TERMPOOL = [];
-  SECTIONS.forEach(function (s) {
-    (s.sec.terms || []).forEach(function (tm) {
-      if (tm && tm.term && tm.definition) {
-        TERMPOOL.push({ t: term(tm.term), d: term(tm.definition), key: s.key });
+  function topicOf(code) {
+    for (var i = 0; i < TOPICS.length; i++) if (TOPICS[i] && TOPICS[i].code === code) return TOPICS[i];
+    return null;
+  }
+  function chapterOf(code) {
+    for (var i = 0; i < CHAPTERS.length; i++) {
+      var c = CHAPTERS[i];
+      for (var j = c.start; j < c.end && j < TOPICS.length; j++) {
+        if (TOPICS[j] && TOPICS[j].code === code) return c;
       }
+    }
+    return CHAPTERS[0];
+  }
+  function sectionsOf(code) {
+    var t = topicOf(code); if (!t) return [];
+    var rec = null;
+    for (var i = 0; i < NATIVE.length; i++) if (NATIVE[i].code === code) { rec = NATIVE[i]; break; }
+    if (!rec) return [];
+    return (rec.sections || []).map(function (sec) {
+      return { topic: t, rec: rec, sec: sec, key: sec.title, zh: SECZH[sec.title] || '', code: code };
     });
-  });
-
-  /* ── build the slide list ──────────────────────────────────────────────── */
-
-  function cardSlides(kind, labelKey, body, opts) {
-    return { t: 'card', kind: kind, label: labelKey, body: body, opts: opts || {} };
+  }
+  function topicList(ch) {
+    var out = [];
+    for (var i = ch.start; i < ch.end && i < TOPICS.length; i++) {
+      if (TOPICS[i]) out.push({ code: TOPICS[i].code, t: TOPICS[i], secs: sectionsOf(TOPICS[i].code) });
+    }
+    return out;
   }
 
-  function mcqFor(sec, used) {
-    var pool = TERMPOOL.filter(function (x) { return !used[x.t]; });
-    if (pool.length < 4) return null;
-    var pick = pool[Math.floor(Math.random() * pool.length)];
-    used[pick.t] = 1;
-    var wrongs = pool.filter(function (x) { return x.t !== pick.t; });
-    var opts = [pick.d];
-    /* shuffle, then take three distinct wrong definitions */
-    for (var i = wrongs.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = wrongs[i]; wrongs[i] = wrongs[j]; wrongs[j] = tmp;
-    }
-    opts = opts.concat(wrongs.slice(0, 3).map(function (x) { return x.d; }));
-    for (var k = opts.length - 1; k > 0; k--) {
-      var m = Math.floor(Math.random() * (k + 1));
-      var t2 = opts[k]; opts[k] = opts[m]; opts[m] = t2;
-    }
-    return {
-      t: 'mcq',
-      q: { en: 'What does the term “' + pick.t + '” mean?', zh: '术语「' + pick.t + '」是什么意思？' },
-      opts: opts,
-      a: opts.indexOf(pick.d),
-      hint: { en: 'It begins: “' + pick.d.slice(0, 26) + '…”',
-              zh: '开头是：「' + pick.d.slice(0, 26) + '…」' },
-      why: { en: '“' + pick.t + '” is defined as: ' + pick.d,
-             zh: '「' + pick.t + '」的定义是：' + pick.d }
-    };
+  /* Derived counts for a topic. Every number is counted from the data that
+     actually renders, so a count can never disagree with the content. */
+  function countsOf(code) {
+    var secs = sectionsOf(code), terms = 0, q = 0, notes = 0, figs = 0;
+    secs.forEach(function (s) {
+      terms += (s.sec.terms || []).filter(function (t) { return t && t.term && t.definition; }).length;
+      var D = DEEP[s.key] || {}, V = VIS[s.key] || {};
+      q += 1;                                    /* one question per section   */
+      if (D.numbers) notes += 1;
+      if (D.mistakes && D.mistakes.length) notes += 1;
+      if (D.why) notes += 1;
+      figs += (V.figures || []).length;
+    });
+    return { sections: secs.length, terms: terms, questions: q, notes: notes, figures: figs };
   }
 
-  function buildSlides() {
-    slides = [];
-    var usedTerms = {};
+  /* ── progress store ──────────────────────────────────────────────────── */
 
-    slides.push({ t: 'cover', n: CH.n, code: SECTIONS.length ? SECTIONS[0].topic.code : 'A.1.1' });
+  function loadAll() {
+    try { return JSON.parse(localStorage.getItem(PKEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+  function saveAll(all) {
+    try { localStorage.setItem(PKEY, JSON.stringify(all)); } catch (e) {}
+  }
+  function slotFor(code) {
+    var all = loadAll();
+    return all[code] || { i: 0, done: {}, blanks: {}, ts: 0 };
+  }
+  function writeSlot(code, patch) {
+    var all = loadAll();
+    all[code] = Object.assign({ i: 0, done: {}, blanks: {}, ts: 0 }, all[code] || {}, patch);
+    saveAll(all);
+    ST = all[code];
+  }
+  /* Six levels, ordered. Thresholds are on the fraction of a topic's sections
+     actually read. */
+  var LEVELS = [
+    { k: 'mastered', en: 'Mastered', zh: '掌握', next: null },
+    { k: 'proficient', en: 'Proficient', zh: '熟练', next: 'mastered' },
+    { k: 'familiar', en: 'Familiar', zh: '熟悉', next: 'proficient' },
+    { k: 'learning', en: 'Learning', zh: '学习中', next: 'familiar' },
+    { k: 'unfamiliar', en: 'Unfamiliar', zh: '不熟悉', next: 'learning' },
+    { k: 'unseen', en: 'Unseen', zh: '未开始', next: 'unfamiliar' }
+  ];
+  function levelOf(code) {
+    var secs = sectionsOf(code);
+    if (!secs.length) return LEVELS[5];
+    var done = slotFor(code).done || {};
+    var n = secs.filter(function (_, i) { return done[i]; }).length;
+    var p = n / secs.length;
+    if (p >= 1) return LEVELS[0];
+    if (p >= 0.75) return LEVELS[1];
+    if (p >= 0.5) return LEVELS[2];
+    if (p > 0) return LEVELS[3];
+    return LEVELS[5];
+  }
+  function chapterComplete(ch) {
+    return topicList(ch).every(function (row) {
+      var secs = row.secs, done = (slotFor(row.code).done || {});
+      return secs.length && secs.every(function (_, i) { return done[i]; });
+    });
+  }
 
-    SECTIONS.forEach(function (s, si) {
-      var A = AUTHORED[s.key] || {};
-      var D = DEEP[s.key] || {};
-      var V = VIS[s.key] || {};
+  /* ── slide construction ──────────────────────────────────────────────── */
 
-      slides.push({ t: 'sec', si: si, s: s });
+  var ICON_FOR = {};
 
-      /* the summary sentences. Authored if present, otherwise fall back to the
-         syllabus paragraphs so the lesson is never empty. */
-      var sum = A.sum && A.sum.length ? A.sum : (s.sec.paragraphs || []);
-      sum.forEach(function (p) { slides.push({ t: 'sum', p: p }); });
-
-      if (A.analogy) slides.push(cardSlides('analogy', 'Analogy', A.analogy));
-
-      /* Key Idea: the syllabus bullets are already the distilled list. */
-      if ((s.sec.bullets || []).length) {
-        slides.push(cardSlides('idea', 'Key Idea',
-          { en: 'The short version of this section:', zh: '本节的要点：' },
-          { list: s.sec.bullets }));
-      }
-
-      /* one Definition card per key term. These are what populate the glossary. */
+  function buildSlides(code) {
+    var secs = sectionsOf(code);
+    var slides = [{ t: 'cover', code: code, secs: secs }];
+    /* RAW pairs, never pre-resolved. Resolving here froze the language at build
+       time, so an analogy card or a question option stayed English when the
+       reader was switched to 中文. */
+    var pool = [];
+    secs.forEach(function (s) {
       (s.sec.terms || []).forEach(function (tm) {
-        if (!tm || !tm.term || !tm.definition) return;
-        slides.push({ t: 'def', term: term(tm.term), def: tm.definition, key: s.key });
+        if (tm && tm.term && tm.definition) pool.push({ t: tm.term, d: tm.definition });
       });
+    });
+    var used = {};
 
-      if (A.example) slides.push(cardSlides('example', 'Example', A.example));
-
-      /* figures, tables, worked examples — verbatim from IB_VISUALS */
-      (V.figures || []).forEach(function (f) { slides.push({ t: 'fig', f: f }); });
+    secs.forEach(function (s, si) {
+      var A = AUTHORED[s.key] || {}, D = DEEP[s.key] || {}, V = VIS[s.key] || {};
+      slides.push({ t: 'sec', si: si, s: s });
+      (A.sum && A.sum.length ? A.sum : (s.sec.paragraphs || [])).forEach(function (p) {
+        slides.push({ t: 'sum', p: p });
+      });
+      if (A.analogy) slides.push({ t: 'card', kind: 'analogy', label: { en: 'Analogy', zh: '类比' }, body: A.analogy });
+      if ((s.sec.bullets || []).length) {
+        slides.push({ t: 'card', kind: 'idea', label: { en: 'Key idea', zh: '要点' },
+                      body: { en: 'The short version:', zh: '本节的要点：' }, list: s.sec.bullets });
+      }
+      (s.sec.terms || []).forEach(function (tm) {
+        if (tm && tm.term && tm.definition) {
+          slides.push({ t: 'def', term: tm.term, def: tm.definition, key: s.key });
+        }
+      });
+      if (A.example) slides.push({ t: 'card', kind: 'example', label: { en: 'Example', zh: '举例' }, body: A.example });
+      (V.figures || []).forEach(function (f) { slides.push({ t: 'fig', f: f, key: s.key }); });
       (V.tables || []).forEach(function (tb) { slides.push({ t: 'tbl', tb: tb }); });
       if (V.example) {
-        slides.push(cardSlides('example', 'Worked example', V.example.given || V.example.title || { en: '', zh: '' },
-          { list: V.example.steps, note: V.example.answer }));
+        slides.push({ t: 'card', kind: 'example', label: { en: 'Worked example', zh: '例题' },
+                      body: V.example.given || V.example.title || { en: '', zh: '' },
+                      list: V.example.steps, note: V.example.answer });
       }
-
-      /* the numbers, then the mistake examiners reward */
-      if (D.numbers) slides.push(cardSlides('note', 'Numbers worth keeping', D.numbers));
+      if (D.numbers) slides.push({ t: 'card', kind: 'note', label: { en: 'Numbers worth keeping', zh: '必记数字' }, body: D.numbers });
       if ((D.mistakes || []).length) {
-        slides.push(cardSlides('note', 'Careful — this loses marks', D.mistakes[0]));
+        slides.push({ t: 'card', kind: 'note', label: { en: 'Careful — this loses marks', zh: '易丢分' }, body: D.mistakes[0] });
       }
-
-      /* flashcard then a question, both built from this section's own terms */
       var own = (s.sec.terms || []).filter(function (tm) { return tm && tm.term && tm.definition; });
       if (own.length) {
         var f0 = own[Math.floor(Math.random() * own.length)];
-        slides.push({ t: 'flash', q: term(f0.term), a: term(f0.definition) });
+        slides.push({ t: 'flash', q: f0.term, a: f0.definition });   /* raw pairs */
       }
-      var m = mcqFor(s, usedTerms);
-      if (m) { m.si = si; slides.push(m); }
+      var cand = pool.filter(function (x) { return !used[keyOf(x)]; });
+      if (cand.length >= 4) {
+        var pick = cand[Math.floor(Math.random() * cand.length)];
+        used[keyOf(pick)] = 1;
+        var opts = [pick.d].concat(cand.filter(function (x) { return x !== pick; })
+          .sort(function () { return Math.random() - 0.5; }).slice(0, 3).map(function (x) { return x.d; }));
+        opts.sort(function () { return Math.random() - 0.5; });
+        /* the term and the definition are RAW pairs here, so both languages of
+           the hint and the explanation have to be written out — resolving one
+           of them at build time froze it in whatever language was active. */
+        var tEn = pick.t.en, tZh = pick.t.zh, dEn = pick.d.en, dZh = pick.d.zh;
+        slides.push({
+          t: 'mcq',
+          q: { en: 'What does the term “' + tEn + '” mean?', zh: '术语「' + tZh + '」是什么意思？' },
+          opts: opts, a: opts.indexOf(pick.d),
+          hint: { en: 'It begins: “' + String(dEn).slice(0, 26) + '…”',
+                  zh: '开头是：「' + String(dZh).slice(0, 26) + '…」' },
+          why: { en: '“' + tEn + '” is defined as: ' + dEn,
+                 zh: '「' + tZh + '」的定义是：' + dZh }
+        });
+      }
     });
-
-    slides.push({ t: 'done' });
+    slides.push({ t: 'done', code: code });
+    return slides;
   }
 
-  /* ── persistence ───────────────────────────────────────────────────────── */
+  /* ── READER ──────────────────────────────────────────────────────────── */
 
-  function load() {
-    try { state = JSON.parse(localStorage.getItem(POSKEY) || 'null') || state; } catch (e) {}
-    if (!state.done) state.done = {};
-    if (!state.blanks) state.blanks = {};
-  }
-  function save() {
-    try {
-      localStorage.setItem(POSKEY, JSON.stringify({
-        i: idx, done: state.done, gloss: state.gloss, blanks: state.blanks
-      }));
-    } catch (e) {}
-  }
+  var slides = [], rendered = [], idx = 0, code = null;
+  var readEl, footBack, footNext, fillEl, countEl, railEl, mapEl, glossEl;
 
-  /* ── rendering ─────────────────────────────────────────────────────────── */
-
-  var readEl, footBack, footNext, fillEl, countEl;
-
-  function svgWrap(svg, viewBox) {
+  function svgNode(svg, viewBox) {
     var f = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     f.setAttribute('viewBox', viewBox || '0 0 560 340');
     f.setAttribute('class', 'vis-svg');
@@ -279,501 +317,687 @@
     return f;
   }
 
-  /* the label depends on the slide TYPE, so it is recomputed rather than stored */
-  function nextLabel() {
-    var s = slides[idx] || { t: 'cover' };
-    var cont = (s.t === 'mcq' || s.t === 'flash');
-    return {
-      en: s.t === 'done' ? 'Close' : (cont ? 'Continue' : 'Next'),
-      zh: s.t === 'done' ? '关闭' : (cont ? '继续' : '下一句'),
-      end: s.t === 'done'
-    };
-  }
-  function labelNext() {
-    var L = nextLabel();
-    footNext.setAttribute('data-en', L.en);
-    footNext.setAttribute('data-zh', L.zh);
-    footNext.innerHTML = '';
-    footNext.appendChild(document.createTextNode(T(L.en, L.zh)));
-    footNext.insertAdjacentHTML('beforeend', ' ' + ICON.chev);
-  }
-
-  function paint() {
-    var s = slides[idx];
-    if (!s) return;
-
-    /* everything already on screen is "past" */
-    $$('.ib-now', readEl).forEach(function (n) { n.classList.remove('ib-now'); });
-
-    var node = build(s);
-    readEl.appendChild(node);
-    built++;
-    if (s.t === 'sec') state.done[s.si] = 1;
-
-    if (s.t === 'sec') paintMap(s.si);
-
-    /* keep the newest block in view without yanking the page on the first paint */
-    var y = node.getBoundingClientRect().top + window.scrollY - (78 + 12);
-    window.scrollTo({ top: Math.max(0, y), behavior: built === 1 ? 'auto' : 'smooth' });
-
-    footBack.disabled = idx === 0;
-    var last = idx >= slides.length - 1;
-    footNext.disabled = last && s.t === 'done';
-    labelNext();
-
-    var pct = slides.length > 1 ? Math.round(idx / (slides.length - 1) * 100) : 0;
-    fillEl.style.width = pct + '%';
-    countEl.textContent = T((idx + 1) + ' / ' + slides.length, (idx + 1) + ' / ' + slides.length);
-
-    save();
-  }
-
-  function build(s) {
+  function buildSlide(s, si) {
     switch (s.t) {
       case 'cover': {
-        var w = el('header', 'ib-cover ib-now');
+        var ch = chapterOf(s.code), t = topicOf(s.code);
+        var w = el('header', 'ib-block ib-cover');
         var k = el('div', 'ib-cover__kicker');
-        k.appendChild(document.createTextNode(T('Chapter ' + s.n, '第' + s.n + '章')));
+        k.appendChild(document.createTextNode(T('Chapter ' + ch.n + ' · ' + (t && t.code ? t.code : ''),
+          '第' + ch.n + '章 · ' + (t && t.code ? t.code : ''))));
         w.appendChild(k);
-        var h = plain(el('h1', 'ib-cover__title'), CH.en, CH.zh);
+        var h = plain(el('h1', 'ib-cover__title'), (t && (t.en || t.title)) || '', (t && (t.zh || t.title)) || '');
         w.appendChild(h);
         var m = plain(el('p', 'ib-cover__meta'),
-          'A guided read through ' + SECTIONS.length + ' sections · press Next to begin',
-          '共 ' + SECTIONS.length + ' 节的引导式阅读 · 按下一句开始');
+          s.secs.length + ' sections · press Next to begin',
+          '共 ' + s.secs.length + ' 节 · 按下一句开始');
         w.appendChild(m);
         return w;
       }
       case 'sec': {
-        var q = el('section', 'ib-sec');
+        var q = el('section', 'ib-block ib-sec');
         q.id = 'ib-sec-' + s.si;
         var lab = el('div', 'ib-sec__label');
         lab.innerHTML = ICON.note;
         lab.appendChild(document.createTextNode(s.s.topic.code));
         q.appendChild(lab);
-        var t = plain(el('h2', 'ib-sec__title'), s.s.key, s.s.zh || s.s.key);
-        q.appendChild(t);
+        q.appendChild(plain(el('h2', 'ib-sec__title'), s.s.key, s.s.zh || s.s.key));
         return q;
       }
       case 'sum': {
-        var n = el('p', 'ib-sum ib-now');
-        n._rich = { en: rich(s.p.en), zh: rich(s.p.zh) };
-        n.setAttribute('data-rich', '1');
-        n.innerHTML = showCN ? n._rich.zh : n._rich.en;
+        var n = el('p', 'ib-block ib-sum');
+        richNode(n, s.p.en, s.p.zh);
+        n.id = 'ib-sum-' + si;
         applyBlanks(n);
         return n;
       }
       case 'card': return buildCard(s);
       case 'def': {
-        var c = el('div', 'ib-card ib-card--def ib-now');
+        var c = el('div', 'ib-block ib-card ib-card--def');
         var l = el('div', 'ib-card__label'); l.innerHTML = ICON.def;
         l.appendChild(document.createTextNode(T('Definition', '定义')));
         c.appendChild(l);
-        var tm = el('div', 'ib-def__term');
-        tm._rich = { en: rich(s.term.en || s.term), zh: rich(s.term.zh || s.term) };
-        tm.setAttribute('data-rich', '1');
-        tm.innerHTML = showCN ? tm._rich.zh : tm._rich.en;
-        c.appendChild(tm);
-        var b = el('p', 'ib-card__body');
-        b._rich = { en: rich(s.def.en), zh: rich(s.def.zh) };
-        b.setAttribute('data-rich', '1');
-        b.innerHTML = showCN ? b._rich.zh : b._rich.en;
-        c.appendChild(b);
-        addGlossary(term(s.term), term(s.def));
+        c.appendChild(richNode(el('div', 'ib-def__term'), pair(s.term)[0], pair(s.term)[1]));
+        c.appendChild(richNode(el('p', 'ib-card__body'), pair(s.def)[0], pair(s.def)[1]));
+        addGlossary(s.term, s.def);
         return c;
       }
       case 'fig': {
-        var f = el('div', 'ib-fig ib-now');
-        var ft = el('p', 'ib-fig__title'); ft.textContent = term(s.f.title);
-        f.appendChild(ft);
-        var fr = el('div', 'ib-fig__frame');
-        fr.appendChild(svgWrap(s.f.svg, s.f.viewBox));
-        f.appendChild(fr);
+        var f = el('div', 'ib-block ib-fig');
+        f.appendChild(plain(el('p', 'ib-fig__title'), pair(s.f.title)[0], pair(s.f.title)[1]));
+        /* The exact shape ib-sehs-models.js looks for: it finds the section's
+           h3[data-en] for the title, then swaps .vis-svg-scroll for its own slot
+           and keeps the static SVG as the failure fallback. */
+        var sec = el('div', 'native-section');
+        var h3 = el('h3', 'ib-sr');
+        h3.setAttribute('data-en', s.key);
+        h3.textContent = s.key;
+        sec.appendChild(h3);
+        var fig = el('figure', 'vis-figure');
+        var scroll = el('div', 'vis-svg-scroll');
+        scroll.appendChild(svgNode(s.f.svg, s.f.viewBox));
+        fig.appendChild(scroll);
+        sec.appendChild(fig);
+        f.appendChild(sec);
+        f._modelPending = !!MODELS_API && !!window.IBSEHSModels;
         if ((s.f.legend || []).length) {
           var lg = el('ul', 'ib-fig__legend');
-          s.f.legend.forEach(function (x) {
-            var li = el('li'); li.textContent = term(x); lg.appendChild(li);
-          });
+          s.f.legend.forEach(function (x) { lg.appendChild(plain(el('li'), pair(x)[0], pair(x)[1])); });
           f.appendChild(lg);
         }
-        if (s.f.caption) { var cp = el('p', 'ib-fig__cap'); cp.textContent = term(s.f.caption); f.appendChild(cp); }
+        if (s.f.caption) f.appendChild(plain(el('p', 'ib-fig__cap'), pair(s.f.caption)[0], pair(s.f.caption)[1]));
         return f;
       }
       case 'tbl': {
-        var w2 = el('div', 'ib-tbl ib-now');
-        var tt = el('p', 'ib-tbl__title'); tt.textContent = term(s.tb.title);
-        w2.appendChild(tt);
+        var w2 = el('div', 'ib-block ib-tbl');
+        w2.appendChild(plain(el('p', 'ib-tbl__title'), pair(s.tb.title)[0], pair(s.tb.title)[1]));
         var wrap = el('div', 'ib-tbl__wrap');
         var tb = el('table');
         var th = el('tr');
-        (s.tb.cols || []).forEach(function (c2) {
-          var x = el('th'); x.textContent = term(c2); th.appendChild(x);
-        });
+        (s.tb.cols || []).forEach(function (cc) { th.appendChild(plain(el('th'), pair(cc)[0], pair(cc)[1])); });
         tb.appendChild(th);
         (s.tb.rows || []).forEach(function (row) {
           var tr = el('tr');
-          row.forEach(function (cell) {
-            var td = el('td');
-            td.innerHTML = rich(term(cell));
-            tr.appendChild(td);
-          });
+          row.forEach(function (cell) { tr.appendChild(richNode(el('td'), pair(cell)[0], pair(cell)[1])); });
           tb.appendChild(tr);
         });
         wrap.appendChild(tb);
         w2.appendChild(wrap);
-        if (s.tb.note) { var nt = el('p', 'ib-tbl__note'); nt.textContent = term(s.tb.note); w2.appendChild(nt); }
+        if (s.tb.note) w2.appendChild(plain(el('p', 'ib-tbl__note'), pair(s.tb.note)[0], pair(s.tb.note)[1]));
         return w2;
       }
       case 'flash': {
-        var fx = el('div', 'ib-flash ib-now');
+        var fx = el('div', 'ib-block ib-flash');
         var fl = el('div', 'ib-flash__label'); fl.innerHTML = ICON.flash;
-        fl.appendChild(document.createTextNode(T('Flashcard', '闪卡')));
+        fl.appendChild(plain(el('span'), T('Flashcard', '闪卡'), T('Flashcard', '闪卡')));
         fx.appendChild(fl);
         var cd = el('div', 'ib-flash__card');
         cd.setAttribute('role', 'button');
         cd.setAttribute('tabindex', '0');
-        var qq = el('div', 'ib-flash__q');
-        qq.textContent = T('What is “' + s.q + '”?', '什么是「' + s.q + '」？');
+        var qq = plain(el('div', 'ib-flash__q'),
+          T('What is “' + term(s.q) + '”?', '什么是「' + term(s.q) + '」？'),
+          T('What is “' + term(s.q) + '”?', '什么是「' + term(s.q) + '」？'));
         cd.appendChild(qq);
-        cd.addEventListener('click', function () {
+        function flip() {
           fx.classList.toggle('is-flipped');
-          qq.textContent = fx.classList.contains('is-flipped') ? s.a : T('What is “' + s.q + '”?', '什么是「' + s.q + '」？');
-        });
+          if (fx.classList.contains('is-flipped')) {
+            qq.removeAttribute('data-en'); qq.removeAttribute('data-zh');
+            qq.textContent = term(s.a);
+          } else {
+            plain(qq, T('What is “' + term(s.q) + '”?', '什么是「' + term(s.q) + '」？'),
+                     T('What is “' + term(s.q) + '”?', '什么是「' + term(s.q) + '」？'));
+          }
+        }
+        cd.addEventListener('click', flip);
+        cd.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
         fx.appendChild(cd);
-        var hint = el('p', 'ib-flash__hint');
-        hint.textContent = T('Tap the card to flip · 轻点卡片翻面', '轻点卡片翻面');
-        fx.appendChild(hint);
+        fx.appendChild(plain(el('p', 'ib-flash__hint'), T('Tap the card to flip', '轻点卡片翻面'), T('Tap the card to flip', '轻点卡片翻面')));
         return fx;
       }
       case 'mcq': return buildMcq(s);
       case 'done': {
-        var d = el('div', 'ib-done');
-        var big = el('h2', 'ib-done__big');
-        big.textContent = T('Chapter 1 complete', '第一章完成');
-        d.appendChild(big);
-        var st = el('p', 'ib-done__stats');
-        st.textContent = T(
-          Object.keys(state.done).length + ' of ' + SECTIONS.length + ' sections read · ' +
-          state.gloss.length + ' key terms in your glossary',
-          '已阅读 ' + Object.keys(state.done).length + ' / ' + SECTIONS.length + ' 节 · 术语表已收录 ' +
-          state.gloss.length + ' 个术语');
-        d.appendChild(st);
+        var d = el('div', 'ib-block ib-done');
+        d.appendChild(el('h2', 'ib-done__big', T('Topic complete', '本节完成')));
+        var c2 = countsOf(s.code), done = (slotFor(s.code).done || {});
+        var seen = sectionsOf(s.code).filter(function (_, i) { return done[i]; }).length;
+        d.appendChild(el('p', 'ib-done__stats',
+          T(seen + ' of ' + c2.sections + ' sections read · ' + c2.terms + ' key terms · ' +
+            c2.questions + ' questions · ' + c2.notes + ' notes',
+            '已阅读 ' + seen + ' / ' + c2.sections + ' 节 · ' + c2.terms + ' 个术语 · ' +
+            c2.questions + ' 道题 · ' + c2.notes + ' 条笔记')));
         var acts = el('div', 'ib-done__acts');
-        var again = el('button', 'ib-foot__btn', T('Read again', '再读一遍'));
-        again.addEventListener('click', function () {
-          readEl.innerHTML = ''; built = 0; idx = 0;
-          state.done = {}; state.gloss = []; save();
-          buildSlides(); renderRail(); paint();
-        });
+        var hub = el('button', 'ib-foot__btn', T('Back to topics', '返回目录'));
+        hub.addEventListener('click', function () { location.hash = '#'; });
+        acts.appendChild(hub);
+        var again = el('button', 'ib-foot__btn ib-foot__btn--next', T('Read again', '再读一遍'));
+        again.addEventListener('click', function () { openReader(code, true); });
         acts.appendChild(again);
-        var back = el('button', 'ib-foot__btn', T('Back to course', '返回课程'));
-        back.addEventListener('click', exit);
-        acts.appendChild(back);
         d.appendChild(acts);
         return d;
       }
     }
-    return el('div');
+    return el('div', 'ib-block');
   }
 
   function buildCard(s) {
-    var c = el('div', 'ib-card ib-card--' + s.kind + ' ib-now');
+    var c = el('div', 'ib-block ib-card ib-card--' + s.kind);
     var l = el('div', 'ib-card__label'); l.innerHTML = ICON[s.kind] || ICON.note;
-    l.appendChild(document.createTextNode(term(s.label)));
+    l.appendChild(plain(el('span'), pair(s.label)[0], pair(s.label)[1]));
     c.appendChild(l);
-
-    var b = el('p', 'ib-card__body');
-    b._rich = { en: rich(s.body.en), zh: rich(s.body.zh) };
-    b.setAttribute('data-rich', '1');
-    b.innerHTML = showCN ? b._rich.zh : b._rich.en;
-    c.appendChild(b);
-
-    if (s.opts && s.opts.list && s.opts.list.length) {
+    c.appendChild(richNode(el('p', 'ib-card__body'), pair(s.body)[0], pair(s.body)[1]));
+    if (s.list && s.list.length) {
       var ul = el('ul');
-      s.opts.list.forEach(function (x) {
-        var li = el('li');
-        li.innerHTML = rich(term(x));
-        ul.appendChild(li);
-      });
+      s.list.forEach(function (x) { ul.appendChild(richNode(el('li'), pair(x)[0], pair(x)[1])); });
       c.appendChild(ul);
     }
-    if (s.opts && s.opts.note) {
-      var nt = el('p', 'ib-card__note');
-      nt.textContent = term(s.opts.note);
-      c.appendChild(nt);
-    }
+    if (s.note) c.appendChild(plain(el('p', 'ib-card__note'), pair(s.note)[0], pair(s.note)[1]));
     return c;
   }
 
   function buildMcq(s) {
-    var w = el('div', 'ib-mcq ib-now');
+    var w = el('div', 'ib-block ib-mcq');
     var l = el('div', 'ib-mcq__label'); l.innerHTML = ICON.mcq;
-    l.appendChild(document.createTextNode(T('Check yourself', '自我检测')));
+    l.appendChild(plain(el('span'), T('Check yourself', '自我检测'), T('Check yourself', '自我检测')));
     w.appendChild(l);
-    var q = el('p', 'ib-mcq__q'); q.textContent = term(s.q);
-    w.appendChild(q);
-
-    var hintBox = el('p', 'ib-mcq__why');
-    hintBox.hidden = true;
-    var hintBtn = el('button', 'ib-mcq__hintbtn', T('Hint', '提示'));
-    hintBtn.addEventListener('click', function () {
-      hintBox.hidden = false;
-      hintBox.textContent = term(s.hint);
-    });
-    w.appendChild(hintBtn);
-
+    w.appendChild(plain(el('p', 'ib-mcq__q'), pair(s.q)[0], pair(s.q)[1]));
+    var box = el('p', 'ib-mcq__why');
+    box.hidden = true;
+    var hb = el('button', 'ib-mcq__hintbtn', T('Hint', '提示'));
+    hb.addEventListener('click', function () { box.hidden = false; plain(box, pair(s.hint)[0], pair(s.hint)[1]); });
+    w.appendChild(hb);
     var answered = false;
-    var opts = el('div');
     s.opts.forEach(function (o, i) {
       var b = el('button', 'ib-mcq__opt');
-      var k = el('span', 'ib-mcq__key'); k.textContent = 'ABCD'[i];
-      b.appendChild(k);
-      var tx = el('span'); tx.innerHTML = rich(o);
-      b.appendChild(tx);
+      b.appendChild(el('span', 'ib-mcq__key', 'ABCD'[i]));
+      b.appendChild(richNode(el('span'), pair(o)[0], pair(o)[1]));
       b.addEventListener('click', function () {
         if (answered) return;
         answered = true;
         $$('.ib-mcq__opt', w).forEach(function (x) { x.disabled = true; });
         b.classList.add(i === s.a ? 'is-right' : 'is-wrong');
-        if (i !== s.a) {
-          var right = $$('.ib-mcq__opt', w)[s.a];
-          if (right) right.classList.add('is-right');
-        }
-        hintBox.hidden = false;
-        hintBox.textContent = term(s.why);
+        if (i !== s.a) { var r = $$('.ib-mcq__opt', w)[s.a]; if (r) r.classList.add('is-right'); }
+        box.hidden = false;
+        plain(box, pair(s.why)[0], pair(s.why)[1]);
       });
-      opts.appendChild(b);
+      w.appendChild(b);
     });
-    w.appendChild(opts);
-    w.appendChild(hintBox);
+    w.appendChild(box);
     return w;
   }
 
-  /* ── term-blanking drill ───────────────────────────────────────────────── */
-  /* With the drill on, the <b class="kt"> key terms inside summary sentences
-     become blanks you have to tap open. That is the whole "learn it yourself"
-     idea: the page stops handing you the answer mid-sentence. Definitions,
-     tables and figures keep the term visible, because hiding a term in a table
-     would make the table unreadable rather than active. */
-  function applyBlanks(node) {
-    if (!node) return;
-    var bs = node.querySelectorAll('b.kt');
-    if (!bs.length) return;
-    var on = $('#ibDrill').getAttribute('aria-pressed') === 'true';
-    var keep = node._blanks || (node._blanks = []);
-    if (!on) {
-      keep.forEach(function (w) { w.replaceWith(document.createTextNode(w.__text)); });
-      keep.length = 0;
-      node.innerHTML = showCN ? node._rich.zh : node._rich.en;
-      return;
+  /* Build every node up to i, once. Back then only REVEALS, never appends. */
+  function ensure(i) {
+    while (rendered.length <= i && rendered.length < slides.length) {
+      var k = rendered.length;
+      var node = buildSlide(slides[k], k);
+      node.hidden = k > i;
+      node.classList.add('ib-block');
+      rendered.push(node);
+      readEl.appendChild(node);
+      if (slides[k].t === 'sec') markSection(slides[k].si);
     }
-    var html = showCN ? node._rich.zh : node._rich.en;
-    node.innerHTML = html;
-    Array.prototype.slice.call(node.querySelectorAll('b.kt')).forEach(function (b, i) {
-      var txt = b.textContent;
-      var w = el('button', 'ib-blank');
-      w.type = 'button';
-      w.textContent = txt;
-      w.setAttribute('data-hint', T('tap to reveal', '点击揭晓'));
-      w._blank = 1;
-      w.__text = txt;
-      if (state.blanks[w.dataset.k = node.id + '#' + i]) w.classList.add('is-open');
-      w.addEventListener('click', function () {
-        w.classList.add('is-open');
-        state.blanks[w.dataset.k] = 1;
-        save();
-      });
-      b.replaceWith(w);
+  }
+
+  function markSection(si) {
+    var all = loadAll();
+    var c = all[code] || { i: 0, done: {}, blanks: {} };
+    c.done = Object.assign({}, c.done);
+    if (!c.done[si]) { c.done[si] = 1; c.ts = Date.now(); saveAll(all); ST = c; }
+  }
+
+  function show(i, animate) {
+    i = Math.max(0, Math.min(i, slides.length - 1));
+    ensure(i);
+    idx = i;
+    rendered.forEach(function (n, k) {
+      n.hidden = k > i;
+      n.classList.toggle('ib-now', k === i);
+      n.classList.toggle('ib-recede', k < i);
+      /* models measure geometry, so only the visible one is live */
+      if (window.IBSEHSModels && n.classList.contains('native-section') === false && n.querySelector('.native-section')) {
+        if (k === i) { try { window.IBSEHSModels.build(n); } catch (e) {} }
+        else { try { window.IBSEHSModels.stop(n); } catch (e) {} }
+      }
+    });
+    var node = rendered[i];
+    if (node) {
+      var y = node.getBoundingClientRect().top + window.scrollY - 92;
+      window.scrollTo({ top: Math.max(0, y), behavior: animate === false ? 'auto' : 'smooth' });
+    }
+    var last = i >= slides.length - 1;
+    footBack.disabled = i === 0;
+    footNext.disabled = last && slides[i] && slides[i].t === 'done';
+    labelNext();
+    fillEl.style.width = slides.length > 1 ? Math.round(i / (slides.length - 1) * 100) + '%' : '0%';
+    countEl.textContent = (i + 1) + ' / ' + slides.length;
+    writeSlot(code, { i: i });
+    paintRail();
+  }
+
+  function labelNext() {
+    var s = slides[idx] || { t: 'cover' };
+    var cont = (s.t === 'mcq' || s.t === 'flash');
+    var en = s.t === 'done' ? 'Close' : (cont ? 'Continue' : 'Next');
+    var zh = s.t === 'done' ? '关闭' : (cont ? '继续' : '下一句');
+    footNext.setAttribute('data-en', en);
+    footNext.setAttribute('data-zh', zh);
+    footNext.innerHTML = '';
+    footNext.appendChild(document.createTextNode(T(en, zh)));
+    footNext.insertAdjacentHTML('beforeend', ' ' + ICON.chev);
+  }
+
+  /* ── rail: chapter map + live glossary ──────────────────────────────── */
+
+  function paintRail() {
+    if (!mapEl) return;
+    var secs = sectionsOf(code), done = (ST.done || {});
+    $$('.ib-map__sec', mapEl).forEach(function (b) {
+      var i = Number(b.dataset.si);
+      b.classList.toggle('is-now', i === idx);
+      b.classList.toggle('is-done', !!done[i]);
     });
   }
-  function applyDrill() {
-    $$('.ib-sum[data-rich]', readEl).forEach(applyBlanks);
-  }
-
-  /* ── rail: chapter map + live glossary ─────────────────────────────────── */
-
-  var mapEl, glossEl, railEl, scrimEl;
-
-  function renderRail() {
-    /* map */
+  function buildRail() {
+    if (!mapEl) return;
     mapEl.innerHTML = '';
-    var lastCode = null;
-    SECTIONS.forEach(function (s, i) {
-      if (s.topic.code !== lastCode) {
-        lastCode = s.topic.code;
-        var h = el('li', 'ib-map__topic');
-        h.textContent = s.topic.code + ' · ' + T(s.topic.en || '', s.topic.zh || '');
-        mapEl.appendChild(h);
-      }
+    sectionsOf(code).forEach(function (s, i) {
       var li = el('li');
       var b = el('button', 'ib-map__sec');
       b.type = 'button';
       b.dataset.si = i;
-      var tick = el('span', 'ib-map__tick'); tick.textContent = '✓';
-      b.appendChild(tick);
-      var lb = el('span'); lb.textContent = T(s.key, s.zh || s.key);
-      b.appendChild(lb);
-      if (state.done[i]) b.classList.add('is-done');
-      b.addEventListener('click', function () { jumpTo(i); closeRail(); });
+      b.appendChild(el('span', 'ib-map__tick', '✓'));
+      b.appendChild(el('span', null, T(s.key, s.zh || s.key)));
+      b.addEventListener('click', function () {
+        /* jump to that section's opening block */
+        var target = slides.findIndex(function (sl) { return sl.t === 'sec' && sl.si === i; });
+        if (target >= 0) show(target);
+        closeRail();
+      });
       li.appendChild(b);
       mapEl.appendChild(li);
     });
-
-    /* glossary */
-    var q = (glossQuery || '').toLowerCase();
-    var list = state.gloss.filter(function (g) {
-      return !q || g[0].toLowerCase().indexOf(q) >= 0 || g[1].toLowerCase().indexOf(q) >= 0;
-    });
-    if (!list.length) {
-      var em = el('p', 'ib-gloss__empty');
-      em.textContent = state.gloss.length
-        ? T('No term matches “' + glossQuery + '”.', '没有匹配「' + glossQuery + '」的术语。')
-        : T('Definitions you pass will collect here, so you leave with the whole chapter glossary built.',
-             '你读过的定义会自动收集到这里，最后就是一整章的术语表。');
-      glossEl.innerHTML = '';
-      glossEl.appendChild(em);
+    glossEl.innerHTML = '';
+    var all = loadAll();
+    var g = (all.__gloss || []);
+    if (!g.length) {
+      glossEl.appendChild(el('li', 'ib-gloss__empty',
+        T('Definitions you pass collect here.', '读过的定义会自动收集到这里。')));
     } else {
-      glossEl.innerHTML = '';
-      list.forEach(function (g) {
+      g.forEach(function (row) {
         var li = el('li');
-        var b = el('b'); b.textContent = g[0];
-        li.appendChild(b);
-        li.appendChild(document.createTextNode(g[1]));
+        /* Stored entries are RAW pairs so the glossary follows the language
+           toggle. A row of two plain strings is an entry saved by the earlier
+           build, so fall back to showing it as written. */
+        var raw = row.raw || null;
+        li.appendChild(plain(el('b'), raw ? pair(raw.t)[0] : row[0], raw ? pair(raw.t)[1] : row[0]));
+        li.appendChild(plain(el('span'), raw ? pair(raw.d)[0] : row[1], raw ? pair(raw.d)[1] : row[1]));
         glossEl.appendChild(li);
       });
     }
   }
-  var glossQuery = '';
-
-  function addGlossary(t, d) {
-    if (!t || !d) return;
-    if (state.gloss.some(function (g) { return g[0] === t; })) return;
-    state.gloss.push([t, d]);
-    renderRail();
-  }
-  function paintMap(now) {
-    $$('.ib-map__sec').forEach(function (b) {
-      var i = Number(b.dataset.si);
-      b.classList.toggle('is-now', i === now);
-      if (state.done[i]) b.classList.add('is-done');
+  function addGlossary(tRaw, dRaw) {
+    var te = pair(tRaw)[0], de = pair(dRaw)[0];
+    if (!te || !de) return;
+    var all = loadAll();
+    var g = all.__gloss || [];
+    var already = g.some(function (x) {
+      return (x.raw ? pair(x.raw.t)[0] : x[0]) === te;
     });
-  }
-  function jumpTo(si) {
-    /* walk forward from where we are until the next section opener is rendered */
-    var target = -1;
-    for (var i = idx + 1; i < slides.length; i++) {
-      if (slides[i].t === 'sec' && slides[i].si === si) { target = i; break; }
-    }
-    if (target < 0) return;
-    while (idx < target) { idx++; paint(); }
+    if (already) return;
+    g.push({ raw: { t: tRaw, d: dRaw } });
+    all.__gloss = g;
+    saveAll(all);
+    if (glossEl) buildRail();
   }
   function closeRail() {
     if (railEl) railEl.classList.remove('is-open');
-    if (scrimEl) scrimEl.classList.remove('is-open');
+    var sc = $('#ibScrim'); if (sc) sc.classList.remove('is-open');
   }
   function openRail() {
     if (railEl) railEl.classList.add('is-open');
-    if (scrimEl) scrimEl.classList.add('is-open');
+    var sc = $('#ibScrim'); if (sc) sc.classList.add('is-open');
   }
 
-  /* ── language + dark ───────────────────────────────────────────────────── */
-
-  function applyLang() {
-    document.body.classList.toggle('lang-zh', showCN);
-    document.body.classList.toggle('lang-en', !showCN);
-    $('#ibLang').textContent = showCN ? '中' : 'EN';
-    $('#ibLang').setAttribute('aria-label', showCN ? 'Switch to English' : '切换到中文');
-    /* re-read in place. Calling paint() here used to APPEND a whole extra
-       slide every time the language was switched, which silently grew the
-       lesson each toggle. */
-    refreshPlain(document);
-    refreshRich(document);
-    labelNext();
-    renderRail();
-    applyDrills();
+  /* ── term-blanking drill ─────────────────────────────────────────────── */
+  /* Idempotent: restores from the node's own _rich, then re-wraps only if the
+     drill is on. An earlier version bailed out when a node had no <b class=kt>
+     — but once the drill is on those are already replaced by blanks, so the
+     turn-it-off pass skipped every node and nothing could be closed again. */
+  function drillOn() {
+    var b = $('#ibDrill');
+    return !!(b && b.getAttribute('aria-pressed') === 'true');
   }
-  function applyDark() {
-    document.body.classList.toggle('dark', dark);
-    $('#ibDark').textContent = dark ? '☀' : '☾';
+  function applyBlanks(node) {
+    if (!node || !node._rich) return;
+    var html = showCN ? node._rich.zh : node._rich.en;
+    var blanked = !!node.querySelector('.ib-blank');
+    if (!drillOn()) { if (blanked) node.innerHTML = html; return; }
+    node.innerHTML = html;
+    Array.prototype.slice.call(node.querySelectorAll('b.kt')).forEach(function (b, i) {
+      var w = el('button', 'ib-blank');
+      w.type = 'button';
+      w.textContent = b.textContent;
+      w.setAttribute('data-hint', T('tap to reveal', '点击揭晓'));
+      w.setAttribute('aria-label', T('Reveal the term', '揭晓术语'));
+      var key = (node.id || 'sum') + '#' + i;
+      if ((ST.blanks || {})[key]) w.classList.add('is-open');
+      w.addEventListener('click', function () {
+        w.classList.add('is-open');
+        var all = loadAll();
+        var c = all[code] || {};
+        c.blanks = c.blanks || {};
+        c.blanks[key] = 1;
+        saveAll(all);
+      });
+      b.replaceWith(w);
+    });
+  }
+  function applyDrill() { $$('.ib-sum[data-rich]', readEl).forEach(applyBlanks); }
+
+  /* ── reader entry ────────────────────────────────────────────────────── */
+
+  function openReader(c, forceStart) {
+    code = c;
+    slides = buildSlides(c);
+    ST = slotFor(c);
+    rendered = [];
+    idx = 0;
+    document.body.classList.add('ib-reading');
+    $('#ibHub').hidden = true;
+    $('#ibReader').hidden = false;
+    $('#ibRailToggle').hidden = false;
+    readEl.hidden = false;
+    $('#ibFoot').hidden = false;
+    readEl.innerHTML = '';
+    glossEl && buildRail();
+
+    var saved = ST.i || 0;
+    var ch = chapterOf(c);
+    /* If the whole chapter is finished there is nothing to resume, so start
+       over without asking. Otherwise ask, because a half-read topic is exactly
+       the case where the reader does not know what you want. */
+    if (!forceStart && saved > 2 && !chapterComplete(ch)) {
+      askResume(saved);
+    } else {
+      saved = 0;
+      begin(saved);
+    }
+    function begin(at) { show(at, false); }
+    function askResume(at) {
+      var box = el('div', 'ib-resume');
+      box.appendChild(el('h2', 'ib-resume__title',
+        T('Welcome back', '欢迎回来')));
+      box.appendChild(el('p', 'ib-resume__meta',
+        T('You stopped at block ' + (at + 1) + ' of ' + slides.length + '.',
+          '你上次读到第 ' + (at + 1) + ' / ' + slides.length + ' 块。')));
+      var row = el('div', 'ib-resume__row');
+      var cont = el('button', 'ib-foot__btn ib-foot__btn--next',
+        T('Continue where I left off', '从上次继续'));
+      cont.addEventListener('click', function () { box.remove(); begin(at); });
+      var restart = el('button', 'ib-foot__btn', T('Start from the beginning', '从头开始'));
+      restart.addEventListener('click', function () { box.remove(); begin(0); });
+      row.appendChild(cont);
+      row.appendChild(restart);
+      box.appendChild(row);
+      readEl.appendChild(box);
+      box.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
   }
 
-  /* ── boot ──────────────────────────────────────────────────────────────── */
+  /* ── HUB ─────────────────────────────────────────────────────────────── */
+
+  function openHub() {
+    document.body.classList.remove('ib-reading');
+    /* the whole reader shell goes away on the hub. Hiding only the reading
+       column left the rail sitting there as an empty white drawer. */
+    $('#ibReader').hidden = true;
+    readEl.hidden = true;
+    $('#ibFoot').hidden = true;
+    $('#ibRailToggle').hidden = true;
+    if (fillEl) fillEl.style.width = '0%';
+    if (countEl) countEl.textContent = '—';
+    var host = $('#ibHub');
+    host.hidden = false;
+    host.innerHTML = '';
+    var ch = CHAPTERS[0];
+
+    var hero = el('header', 'ib-hero');
+    hero.appendChild(el('span', 'ib-hero__kicker',
+      T('IB SEHS · Chapter 1', 'IB SEHS · 第一章')));
+    var h1 = el('h1', 'ib-hero__title', ch.en);
+    plain(h1, ch.en, ch.zh);
+    hero.appendChild(h1);
+    hero.appendChild(el('p', 'ib-hero__sub',
+      T(ch.secs ? '' : 'Exercise physiology, nutrition, and how training changes the body.',
+        '运动生理、营养，以及训练如何改变身体。')));
+    host.appendChild(hero);
+
+    /* progress legend */
+    var leg = el('div', 'ib-legend');
+    LEVELS.forEach(function (L) {
+      var it = el('div', 'ib-legend__item');
+      var sq = el('span', 'ib-lev ib-lev--' + L.k);
+      it.appendChild(sq);
+      it.appendChild(el('span', null, T(L.en, L.zh)));
+      leg.appendChild(it);
+    });
+    host.appendChild(leg);
+
+    var tabs = el('div', 'ib-tabs');
+    ['topics', 'detail'].forEach(function (k) {
+      var b = el('button', 'ib-tab', k === 'topics'
+        ? T('Topics & progress', '主题与进度')
+        : T('Topic detail', '主题详情'));
+      b.dataset.view = k;
+      b.addEventListener('click', function () { hubTab = k; paintHub(); });
+      tabs.appendChild(b);
+    });
+    host.appendChild(tabs);
+
+    host.appendChild(el('div', 'ib-pane', ''));
+    paintHub();
+  }
+  var hubTab = 'topics';
+
+  function paintHub() {
+    var host = $('#ibHub');
+    var pane = $('.ib-pane', host);
+    $$('.ib-tab', host).forEach(function (b) {
+      b.classList.toggle('is-on', b.dataset.view === hubTab);
+    });
+    pane.innerHTML = '';
+    var ch = CHAPTERS[0];
+    var rows = topicList(ch);
+
+    if (hubTab === 'topics') {
+      var groups = {};
+      rows.forEach(function (r) {
+        var gk = r.code.split('.').slice(0, 2).join('.');   /* "A.1", not "A" */
+        (groups[gk] = groups[gk] || []).push(r);
+      });
+      var GRPNAME = {
+        '1': T('Communication', '通讯'),
+        '2': T('Hydration & nutrition', '水合与营养'),
+        '3': T('Response to training', '训练反应')
+      };
+      Object.keys(groups).sort().forEach(function (gk) {
+        pane.appendChild(el('h3', 'ib-grp__title', gk + ' ' + (GRPNAME[gk.split('.')[1]] || '')));
+        var list = el('ul', 'ib-tlist');
+        pane.appendChild(list);
+        groups[gk].forEach(function (r) {
+          var c = countsOf(r.code), lv = levelOf(r.code);
+          var done = (slotFor(r.code).done || {});
+          var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
+          var li = el('li');
+          var b = el('button', 'ib-trow');
+          b.type = 'button';
+          b.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
+          var txt = el('span', 'ib-trow__txt');
+          txt.appendChild(el('strong', null, r.code + ' ' + T(r.t.en || r.t.title || '', r.t.zh || '')));
+          txt.appendChild(el('span', 'ib-trow__meta',
+            seen + '/' + c.sections + ' ' + T('sections', '节') + ' · ' +
+            lv.en + ''));
+          b.appendChild(txt);          /* was missing: the row rendered as a bare
+                                         status square with no label at all */
+          b.addEventListener('click', function () {
+            hubTopic = r.code;
+            hubTab = 'detail';
+            paintHub();
+          });
+          li.appendChild(b);
+          list.appendChild(li);
+        });
+      });
+      return;
+    }
+
+    /* detail view for one topic */
+    var r = rows.filter(function (x) { return x.code === hubTopic; })[0] || rows[0];
+    var c = countsOf(r.code), lv = levelOf(r.code);
+    var done = slotFor(r.code).done || {};
+    var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
+
+    var crumb = el('nav', 'ib-crumb');
+    crumb.appendChild(el('span', null, 'IB SEHS'));
+    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
+    crumb.appendChild(el('span', null, 'Chapter 1'));
+    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
+    crumb.appendChild(el('b', null, r.code));
+    pane.appendChild(crumb);
+    pane.appendChild(plain(el('h2', 'ib-dt__title'), r.t.en || '', r.t.zh || ''));
+
+    var strip = el('div', 'ib-strip');
+    var sl = el('div', 'ib-strip__lev');
+    sl.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
+    sl.appendChild(el('strong', null, T(lv.en, lv.zh)));
+    var nx = lv.next;
+    if (nx) {
+      var nL = LEVELS.filter(function (x) { return x.k === nx; })[0];
+      sl.appendChild(el('span', 'ib-strip__next',
+        T('Next: ', '下一级：') + T(nL.en, nL.zh)));
+    }
+    strip.appendChild(sl);
+    var stat = el('div', 'ib-strip__stats');
+    [['Questions', '题目', c.questions, 'questions'],
+     ['Notes', '笔记', c.notes, 'notes'],
+     ['Sections', '小节', seen + '/' + c.sections, null],
+     ['Flashcards', '闪卡', c.terms, 'flashcards']].forEach(function (pair) {
+      var b = el('div', 'ib-stat');
+      b.appendChild(el('b', null, String(pair[2])));
+      b.appendChild(el('span', null, T(pair[0], pair[1])));
+      stat.appendChild(b);
+    });
+    strip.appendChild(stat);
+    pane.appendChild(strip);
+
+    var grp = el('div', 'ib-dt__group');
+    grp.appendChild(el('p', 'ib-dt__grouphead', T('Learn', '学习')));
+    var tiles = el('div', 'ib-tiles');
+    var t1 = el('button', 'ib-tile ib-tile--go');
+    t1.appendChild(iconEl('ib-tile__ico', 'book'));
+    var tb = el('span', 'ib-tile__txt');
+    tb.appendChild(el('strong', null, T('Focus lesson', '引导课')));
+    tb.appendChild(el('span', null,
+      T('Step through this topic one block at a time.', '一次一句读完本主题。')));
+    tb.appendChild(el('em', null, T(r.secs.length + ' sections', r.secs.length + ' 节')));
+    t1.appendChild(tb);
+    t1.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
+    tiles.appendChild(t1);
+
+    var t2 = el('div', 'ib-tile');
+    t2.appendChild(iconEl('ib-tile__ico', 'grid'));
+    var tb2 = el('span', 'ib-tile__txt');
+    tb2.appendChild(el('strong', null, T('Key definitions', '关键定义')));
+    tb2.appendChild(el('span', null,
+      T('Every key term in this topic, with its definition.', '本主题的全部术语与定义。')));
+    tb2.appendChild(el('em', null, c.terms + ' ' + T('terms', '个术语')));
+    t2.appendChild(tb2);
+    tiles.appendChild(t2);
+    grp.appendChild(tiles);
+    pane.appendChild(grp);
+
+    pane.appendChild(el('p', 'ib-dt__grouphead', T('Sections in this topic', '本主题的小节')));
+    var ul = el('ul', 'ib-seclist');
+    r.secs.forEach(function (s, i) {
+      var li = el('li');
+      var b = el('button', 'ib-secrow');
+      b.type = 'button';
+      b.appendChild(el('span', 'ib-lev ib-lev--' + (done[i] ? 'familiar' : 'unseen')));
+      b.appendChild(el('span', null, T(s.key, s.zh || s.key)));
+      b.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    pane.appendChild(ul);
+  }
+  var hubTopic = (function () {
+    var t = topicList(CHAPTERS[0])[0];
+    return t ? t.code : 'A.1.1';
+  })();
+
+  /* ── chrome: language, dark, route ──────────────────────────────────── */
 
   function exit() {
-    /* return to the course, on this chapter if the browser sent us back to
-       somewhere specific */
-    var back = 'ib-sehs-learn.html#' + CH.id;
+    var back = 'ib-sehs-learn.html#ib-ch1';
     if (document.referrer && /vitaliteplan\.com|localhost|127\.0\.0\.1/.test(document.referrer)) {
       try { if (history.length > 1) { history.back(); return; } } catch (e) {}
     }
     location.href = back;
   }
 
+  function route() {
+    var h = (location.hash || '').replace(/^#/, '');
+    var m = h.match(/^lesson\/(.+)$/);
+    if (m) openReader(m[1]);
+    else openHub();
+  }
+
   function boot() {
     try { showCN = localStorage.getItem('sm_lang') === 'zh'; } catch (e) {}
     try { dark = localStorage.getItem('dark') === 'true'; } catch (e) {}
-    load();
-    buildSlides();
-
-    readEl = $('#ibRead');
-    footBack = $('#ibBack'); footNext = $('#ibNext');
+    readEl = $('#ibRead'); footBack = $('#ibBack'); footNext = $('#ibNext');
     fillEl = $('#ibFill'); countEl = $('#ibCount');
-    mapEl = $('#ibMap'); glossEl = $('#ibGloss'); railEl = $('#ibRail');
-    scrimEl = $('#ibScrim');
-
-    /* paint up to the saved position, without the smooth-scroll on each one */
-    var start = Math.min(Number(state.i) || 0, slides.length - 1);
-    while (idx < start) { idx++; paint(); }
-    paint();
+    railEl = $('#ibRail'); mapEl = $('#ibMap'); glossEl = $('#ibGloss');
 
     $('#ibExit').addEventListener('click', exit);
-    footNext.addEventListener('click', function () { if (idx < slides.length - 1) { idx++; paint(); } });
-    footBack.addEventListener('click', function () { if (idx > 0) { idx--; paint(); } });
+    footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
+    footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
 
     $('#ibLang').addEventListener('click', function () {
       showCN = !showCN;
       try { localStorage.setItem('sm_lang', showCN ? 'zh' : 'en'); } catch (e) {}
-      applyLang();
+      applyChrome();
     });
     $('#ibDark').addEventListener('click', function () {
       dark = !dark;
       try { localStorage.setItem('dark', dark ? 'true' : 'false'); } catch (e) {}
-      applyDark();
+      document.body.classList.toggle('dark', dark);
+      $('#ibDark').textContent = dark ? '☀' : '☾';
+      if (window.IBSEHSModels) { try { window.IBSEHSModels.refresh(); } catch (e) {} }
     });
     $('#ibDrill').addEventListener('click', function () {
-      var on = this.getAttribute('aria-pressed') === 'true';
-      this.setAttribute('aria-pressed', on ? 'false' : 'true');
+      this.setAttribute('aria-pressed', drillOn() ? 'false' : 'true');
       applyDrill();
     });
     $('#ibRailToggle').addEventListener('click', openRail);
     $('#ibRailClose').addEventListener('click', closeRail);
     $('#ibScrim').addEventListener('click', closeRail);
-    $('#ibGlossSearch').addEventListener('input', function () {
-      glossQuery = this.value; renderRail();
-    });
+    $('#ibHome').addEventListener('click', function () { location.hash = '#'; });
+    $('#ibRailHub').addEventListener('click', function () { location.hash = '#'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {
       if (e.target && /input|textarea/i.test(e.target.tagName)) return;
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        if (idx < slides.length - 1) { e.preventDefault(); idx++; paint(); }
-      } else if (e.key === 'ArrowLeft') {
-        if (idx > 0) { e.preventDefault(); idx--; paint(); }
-      } else if (e.key === 'Escape') { closeRail(); }
+      if (!readEl || readEl.hidden) return;
+      if (e.key === 'ArrowRight') { if (idx < slides.length - 1) { e.preventDefault(); show(idx + 1); } }
+      else if (e.key === 'ArrowLeft') { if (idx > 0) { e.preventDefault(); show(idx - 1); } }
+      else if (e.key === 'Escape') { closeRail(); }
     });
+    window.addEventListener('hashchange', route);
 
-    applyDark();
-    /* The body language class was only ever set inside applyLang(), which runs
-       on a toggle click — so a first load in 中文 rendered Chinese content with
-       <body class="ib-lesson"> and no lang-zh. Set it here too. */
     document.body.classList.toggle('lang-zh', showCN);
     document.body.classList.toggle('lang-en', !showCN);
-    $('#ibLang').textContent = showCN ? '中' : 'EN';
-    renderRail();
-    window.IBSEHSLesson = { slides: slides, sections: SECTIONS, jump: jumpTo,
-                             state: state, drill: applyDrills };
-    function applyDrills() { applyDrill(); }
+    document.body.classList.toggle('dark', dark);
+    $('#ibDark').textContent = dark ? '☀' : '☾';
+    route();
+    window.IBSEHSLesson = {
+      slides: function () { return slides; },
+      show: show, open: openReader, hub: openHub,
+      counts: countsOf, level: levelOf, chapters: chapters
+    };
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else { boot(); }
+  function applyChrome() {
+    document.body.classList.toggle('lang-zh', showCN);
+    document.body.classList.toggle('lang-en', !showCN);
+    refreshAll(document);
+    if (!readEl || readEl.hidden) { paintHub(); return; }
+    /* rich nodes were re-rendered, so the drill has to be re-applied */
+    applyDrill();
+    if (window.IBSEHSModels) { try { window.IBSEHSModels.refresh(); } catch (e) {} }
+    labelNext();
+    buildRail();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();

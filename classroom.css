@@ -203,3 +203,9 @@ body.dark .cl-dm-key{color:#F0C36A}
   .cl-dm-rel{grid-template-columns:1fr auto}
   .cl-dm-rel-d,.cl-dm-rel-p{display:none}
 }
+
+.cl-dm-open{display:inline-flex;align-items:center;justify-content:center;
+  min-height:40px;margin:0 0 .9rem;padding:.45rem 1rem;font:inherit;font-size:.8rem;
+  font-weight:600;color:var(--text2);background:var(--surface);border:1px dashed var(--border);
+  border-radius:999px;cursor:pointer}
+.cl-dm-open:hover{color:var(--accent);border-color:var(--accent)}

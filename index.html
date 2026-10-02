@@ -746,11 +746,18 @@ body.dark h1,body.dark h2,body.dark h3{
 .sidebar-group.part.open .part-body{max-height:700px}
 .part-body .sidebar-link{padding-left:1.7rem}
 .part-body .sidebar-link.sub{padding-left:2.2rem}
+
+/* The two exam rooms are secondary entry points now that IB SEHS leads, so
+   they are quiet text links rather than a third and fourth big button. */
+.hero-sub-link{font-size:.86rem;font-weight:600;color:var(--text2,#5B6B7F);text-decoration:none;
+  border-bottom:1px solid var(--border,#D8E0E8);padding-bottom:1px;white-space:nowrap}
+.hero-sub-link:hover{color:var(--accent,#B8860B);border-bottom-color:var(--accent,#B8860B)}
+@media(max-width:560px){.hero-sub-link{font-size:.84rem}}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
 <link rel="stylesheet" href="tutorial-widget.css?v=8">
-<script src="tutorial-widget.js?v=7"></script>
+<script src="tutorial-widget.js?v=5"></script>
 <link rel="stylesheet" href="gold-blue-theme.css?v=15">
 <!-- ═══ LANDING-ONLY OVERRIDES — this page is a marketing site, not the app ═══ -->
 <style>
@@ -862,7 +869,7 @@ body:not(.dark) #v-splash{
 <link rel="stylesheet" href="vitalite-skin.css?v=21">
 <script src="sections.js?v=10" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=16" defer></script>
+<script src="linear-layout.js?v=17" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=3" defer></script>
@@ -1109,12 +1116,14 @@ body:not(.dark) #v-splash{
 <!-- Hero -->
 <section id="hero" class="hero">
 <div class="container">
-  <div class="hero-badge"><span class="dot"></span><span data-en="The Vitalité Plan — a lifelong program" data-zh="活力计划 — 终身方案">The Vitalité Plan — a lifelong program</span></div>
-  <h1 data-en="Sports Medicine, Recovery & Nutrition" data-zh="运动医学、恢复与营养">Sports Medicine, Recovery &amp; Nutrition</h1>
-  <p data-en="Not a crash course. A long-term plan — know your body, train it smart, heal it right. 14 bilingual chapters, flashcards &amp; adaptive quizzes." data-zh="不是速成课，而是一份长期计划 — 了解身体、科学训练、正确康复。十四大双语章节、闪卡与自适应刷题。">Not a crash course. A long-term plan — know your body, train it smart, heal it right. 14 bilingual chapters, flashcards &amp; adaptive quizzes.</p>
+  <div class="hero-badge"><span class="dot"></span><span data-en="IB SEHS 2026 · First assessment, fully prepared" data-zh="IB SEHS 2026 · 第一场考试的备考完整">IB SEHS 2026 · First assessment, fully prepared</span></div>
+  <h1 data-en="IB SEHS 2026, and the sports medicine behind it" data-zh="IB SEHS 2026，以及背后的运动医学">IB SEHS 2026, and the sports medicine behind it</h1>
+  <p data-en="Every one of the 29 topics, in English and 中文, with the exam map, the IA marking criteria, the command terms and the full workbook. Then the sports medicine itself — 14 bilingual chapters, flashcards, quizzes and timed mock exams." data-zh="29 个主题全部收录，中英双语，附考试地图、IA 评分标准、命令术语与完整工作册。再加上运动医学本身 —— 十四大双语章节、闪卡、测验与限时模拟考试。">Every one of the 29 topics, in English and 中文, with the exam map, the IA marking criteria, the command terms and the full workbook. Then the sports medicine itself — 14 bilingual chapters, flashcards, quizzes and timed mock exams.</p>
   <div class="hero-actions">
-    <a class="qo-btn next" href="login.html?next=guide.html" data-en="🧭 Enter Vitalite Knowledge" data-zh="🧭 进入知识库">🧭 Enter Vitalite Knowledge</a>
-    <a class="qo-btn next" href="login.html?next=infirmary.html" style="background:var(--green)" data-en="🩺 Enter Vitalite Infirmary" data-zh="🩺 进入诊所">🩺 Enter Vitalite Infirmary</a>
+    <a class="qo-btn next" href="ib-sehs-learn.html" data-en="🎓 Start IB SEHS 2026" data-zh="🎓 开始 IB SEHS 2026">🎓 Start IB SEHS 2026</a>
+    <a class="qo-btn next" href="guide.html" data-en="🩺 Learn sports medicine" data-zh="🩺 学运动医学">🩺 Learn sports medicine</a>
+    <a class="hero-sub-link" href="exam.html" data-en="🇺🇸 NPTE exam prep (US)" data-zh="🇺🇸 NPTE 考试冲刺（美国）">🇺🇸 NPTE exam prep (US)</a>
+    <a class="hero-sub-link" href="cn-cert.html" data-en="🇨🇳 运动康复师资格证（中国）" data-zh="🇨🇳 运动康复师资格证（中国）">🇨🇳 运动康复师资格证（中国）</a>
   </div>
 </div>
 </section>
@@ -1152,20 +1161,20 @@ body:not(.dark) #v-splash{
 <div class="container">
   <div class="stats">
     <div class="stat-card">
-      <div class="stat-num">13</div>
-      <div class="stat-label" data-en="In-depth chapters" data-zh="深度章节">In-depth chapters</div>
+      <div class="stat-num">29</div>
+      <div class="stat-label" data-en="IB SEHS topics, all of them" data-zh="IB SEHS 主题，全部收录">IB SEHS topics, all of them</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">600+</div>
-      <div class="stat-label" data-en="Flashcards &amp; quiz questions" data-zh="闪卡与题库">Flashcards &amp; quiz questions</div>
+      <div class="stat-num">83</div>
+      <div class="stat-label" data-en="Sections with interactive models" data-zh="含互动模型的小节">Sections with interactive models</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">207</div>
+      <div class="stat-label" data-en="Bilingual study-pack pages" data-zh="双语学习包页数">Bilingual study-pack pages</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">2</div>
       <div class="stat-label" data-en="Languages · English &amp; 中文" data-zh="双语 · English &amp; 中文">Languages · English &amp; 中文</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">100%</div>
-      <div class="stat-label" data-en="Free to join" data-zh="免费加入">Free to join</div>
     </div>
   </div>
 </div>

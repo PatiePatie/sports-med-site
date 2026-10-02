@@ -761,6 +761,12 @@
     });
 
     applyDark();
+    /* The body language class was only ever set inside applyLang(), which runs
+       on a toggle click — so a first load in 中文 rendered Chinese content with
+       <body class="ib-lesson"> and no lang-zh. Set it here too. */
+    document.body.classList.toggle('lang-zh', showCN);
+    document.body.classList.toggle('lang-en', !showCN);
+    $('#ibLang').textContent = showCN ? '中' : 'EN';
     renderRail();
     window.IBSEHSLesson = { slides: slides, sections: SECTIONS, jump: jumpTo,
                              state: state, drill: applyDrills };

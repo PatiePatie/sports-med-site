@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="vitalite-skin.css?v=21">
 <script src="sections.js?v=10" defer></script>
 <script src="draft.js?v=1" defer></script>
-<script src="linear-layout.js?v=16" defer></script>
+<script src="linear-layout.js?v=17" defer></script>
 <script src="button-glow.js?v=1" defer></script>
 <link rel="stylesheet" href="vi-icons.css">
 <script src="vi-icons.js?v=3" defer></script>
@@ -29,7 +29,7 @@
 
 <!-- PLANS:BEGIN -->
 <link rel="stylesheet" href="vitalite-access.css?v=2">
-<script src="vitalite-access.js?v=1"></script>
+<script src="vitalite-access.js?v=3"></script>
 <!-- PLANS:END -->
 
 <link rel="icon" href="icons/vitalite-32.png">
@@ -224,16 +224,45 @@ function applyI18n() {
     n.textContent = t(n.getAttribute('data-en'), n.getAttribute('data-zh'));
   });
 }
-applyI18n();
+
+/* This page has to OWN the language toggle, not just read it.
+   The old handler only did `showCN = localStorage.getItem('sm_lang')==='zh'`
+   and assumed some other script had already written the new value. On every
+   other page that assumption holds because the page's own wiring does the
+   write — but pricing.html never had any, so clicking 中/EN here read back the
+   value it had not changed, did nothing visible, and stored nothing. Verified
+   across all 15 pages: this was the only one where the choice did not survive
+   a reload.
+
+   vtSetLang writes the preference, sets the lang-en / lang-zh classes that
+   every other page on the site carries, and re-renders. */
+function vtIsZh() { return document.body.classList.contains('lang-zh'); }
+function vtSetLang(zh, persist) {
+  showCN = !!zh;
+  if (persist) { try { localStorage.setItem('sm_lang', zh ? 'zh' : 'en'); } catch (e) {} }
+  try {
+    document.body.classList.toggle('lang-zh', !!zh);
+    document.body.classList.toggle('lang-en', !zh);
+    document.documentElement.classList.toggle('lang-zh', !!zh);
+    document.documentElement.classList.toggle('lang-en', !zh);
+    document.documentElement.lang = zh ? 'zh' : 'en';
+  } catch (e) {}
+  var b = document.getElementById('langToggle');
+  if (b) b.textContent = zh ? 'EN' : '\u4e2d';
+  applyI18n();
+  renderPlansWhenReady();
+}
+
+/* paint the saved language on arrival, without rewriting it */
+vtSetLang(localStorage.getItem('sm_lang') === 'zh', false);
 
 document.addEventListener('click', function (e) {
-  if (e.target && e.target.id === 'langToggle') {
-    setTimeout(function () {
-      showCN = localStorage.getItem('sm_lang') === 'zh';
-      applyI18n();
-      renderPlansWhenReady();
-    }, 240);
-  }
+  if (!e.target || e.target.id !== 'langToggle') return;
+  /* Another widget may also be listening for this button, and on some pages it
+     stops the click before it reaches us. Wait briefly, then read the language
+     that is actually on screen and flip THAT, rather than trusting a local
+     flag -- otherwise a double handler toggles twice and nothing changes. */
+  setTimeout(function () { vtSetLang(!vtIsZh(), true); }, 240);
 });
 </script>
 </body>

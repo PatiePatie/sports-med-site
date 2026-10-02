@@ -94,9 +94,37 @@
     }
     return null;
   }
+  /* Real content is saved ONCE, before the demo first overwrites it, so Exit
+     can put it back untouched. Without this the demo would destroy a real
+     class's numbers -- and that is exactly why it must never be able to. */
+  function snapshot() {
+    if (window.__clDemoBackup) return;
+    var b = {};
+    ['clStats','clRoster','clDetail','clAssignList','clHeat'].forEach(function (id) {
+      var n = document.getElementById(id); if (n) b[id] = n.innerHTML;
+    });
+    ['clRosterCount','clTitle','clCodeLabel','clCourseLabel'].forEach(function (id) {
+      var n = document.getElementById(id); if (n) b[id] = n.textContent;
+    });
+    window.__clDemoBackup = b;
+  }
+  function restore() {
+    var b = window.__clDemoBackup;
+    if (!b) return false;
+    ['clStats','clRoster','clDetail','clAssignList','clHeat'].forEach(function (id) {
+      var n = document.getElementById(id); if (n && b[id] != null) n.innerHTML = b[id];
+    });
+    ['clRosterCount','clTitle','clCodeLabel','clCourseLabel'].forEach(function (id) {
+      var n = document.getElementById(id); if (n && b[id] != null) n.textContent = b[id];
+    });
+    window.__clDemoBackup = null;
+    return true;
+  }
+
   function on() {
     var host = visibleHost();
     if (!host) return;
+    snapshot();
     if (!document.getElementById('clDemoBanner')) {
       var b = banner();
       host.parentNode.insertBefore(b, host);
@@ -106,10 +134,11 @@
     stats(); roster(); detail(); schedule(); tabs();
   }
   function off() {
-    ['clStats','clRoster','clDetail','clAssignList','clHeat'].forEach(function (id) {
+    var real = restore();
+    if (!real) ['clStats','clRoster','clDetail','clAssignList','clHeat'].forEach(function (id) {
       var n = document.getElementById(id); if (n) n.innerHTML = '';
     });
-    ['clRosterCount','clTitle','clCodeLabel','clCourseLabel'].forEach(function (id) {
+    if (!real) ['clRosterCount','clTitle','clCodeLabel','clCourseLabel'].forEach(function (id) {
       var n = document.getElementById(id); if (n) n.textContent = '';
     });
     var b = document.getElementById('clDemoBanner'); if (b && b.parentNode) b.parentNode.removeChild(b);
@@ -252,4 +281,30 @@
   });
   /* Escape leaves the demo, so a teacher is never trapped in it */
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && window.__clDemoOn) off(); });
+
+  /* On-demand preview. Auto-activation deliberately happens only when there is
+     no class at all -- so a teacher who HAS a class would otherwise never see
+     what the demo looks like, which is the whole point of having one. This
+     mounts a small button for them. It only paints sample data on top of the
+     live views and Exit restores the real numbers. */
+  function mountPreview() {
+    if (window.__clDemoOn) return;
+    if (document.getElementById('clDemoOpen')) return;
+    var host = visibleHost();
+    if (!host || !host.parentNode) return;
+    var b = el('button', 'cl-dm-open');
+    b.type = 'button';
+    b.id = 'clDemoOpen';
+    b.textContent = T('Preview a demo class', '预览演示班级');
+    b.addEventListener('click', function () { window.__clDemoOn = true; on(); paint(); });
+    host.parentNode.insertBefore(b, host);
+  }
+
+  window.ClassroomDemo = {
+    show: function () { window.__clDemoOn = true; on(); paint(); },
+    hide: function () { off(); },
+    isOn: function () { return !!window.__clDemoOn; }
+  };
+
+  setTimeout(function () { if (!window.__clDemoOn) mountPreview(); }, 1800);
 })();

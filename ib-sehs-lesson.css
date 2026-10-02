@@ -22,6 +22,10 @@
 
 /* ── base ────────────────────────────────────────────────────────────────── */
 
+/* The figures were drawn against --border / --accent, which the theme does not
+   define under those names. */
+:root { --border: var(--line); --accent: var(--gold); }
+
 body.ib-lesson {
   margin: 0;
   background: var(--bg);
@@ -71,6 +75,14 @@ body.ib-lesson button { font: inherit; }
 }
 
 /* ── top rail: Exit, progress, toggles ───────────────────────────────────── */
+
+/* The progress bar, its counter and the term-blanking drill describe a lesson
+   IN PROGRESS, so they only mean anything inside the reader. On the hub they
+   rendered as a wide empty bar, a bare em dash and a "Test me" button that
+   had nothing to test. .ib-reading is added on open and removed on exit. */
+body.ib-lesson:not(.ib-reading) #ibDrill,
+body.ib-lesson:not(.ib-reading) .ib-top__bar,
+body.ib-lesson:not(.ib-reading) .ib-top__count { display: none; }
 
 .ib-top {
   position: sticky;
@@ -186,7 +198,7 @@ body.ib-lesson button { font: inherit; }
   text-transform: uppercase;
 }
 .ib-cover__title {
-  font-family: var(--serif, Georgia, serif);
+  font-family: var(--font-heading, Georgia, serif);
   font-size: clamp(1.9rem, 5.5vw, 2.7rem);
   line-height: 1.1;
   letter-spacing: -.02em;
@@ -214,7 +226,7 @@ body.ib-lesson button { font: inherit; }
 }
 .ib-sec__label svg { width: 17px; height: 17px; flex: none; }
 .ib-sec__title {
-  font-family: var(--serif, Georgia, serif);
+  font-family: var(--font-heading, Georgia, serif);
   font-size: clamp(1.3rem, 3.6vw, 1.72rem);
   line-height: 1.22;
   margin: .5rem 0 0;
@@ -467,9 +479,17 @@ body.ib-lesson button { font: inherit; }
     overscroll-behavior: contain;
   }
   .ib-rail.is-open { transform: none; }
+  .ib-rail__close { display: inline-flex; }
 }
 .ib-rail__close {
-  display: inline-flex; align-items: center; justify-content: center;
+  /* NB: hidden by default. This rule used to declare display:inline-flex
+     unconditionally, and because it sits AFTER the desktop media query's
+     .ib-rail__close{display:none} at equal specificity, source order let it
+     win — so the drawer's close "x" floated over the desktop hub as a stray
+     button next to "All topics". The drawer only exists below 1040px, so the
+     button is enabled there and nowhere else. */
+  display: none;
+  align-items: center; justify-content: center;
   position: absolute; top: .55rem; right: .7rem;
   width: 40px; height: 40px;
   border: 1px solid var(--line); border-radius: 50%;
@@ -560,7 +580,7 @@ body.ib-lesson button { font: inherit; }
 
 .ib-done { text-align: center; padding: 2rem 0 1rem; }
 .ib-done__big {
-  font-family: var(--serif, Georgia, serif);
+  font-family: var(--font-heading, Georgia, serif);
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin: 0 0 .5rem;
 }
@@ -658,7 +678,7 @@ body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
   background: var(--surface);
   text-align: center;
 }
-.ib-resume__title { font-family: var(--serif); font-size: 1.4rem; margin: 0 0 .35rem; }
+.ib-resume__title { font-family: var(--font-heading); font-size: 1.4rem; margin: 0 0 .35rem; }
 .ib-resume__meta { color: var(--text2); font-size: .93rem; margin: 0 0 1.2rem; }
 .ib-resume__row { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
 
@@ -680,7 +700,7 @@ body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
   letter-spacing: .08em; text-transform: uppercase;
 }
 .ib-hero__title {
-  font-family: var(--serif);
+  font-family: var(--font-heading);
   font-size: clamp(1.9rem, 5.5vw, 2.6rem);
   line-height: 1.1; letter-spacing: -.02em;
   margin: .8rem 0 .4rem;
@@ -724,7 +744,7 @@ body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
 .ib-tab.is-on { color: var(--blue2); border-bottom-color: var(--blue2); }
 
 .ib-grp__title {
-  font-family: var(--serif);
+  font-family: var(--font-heading);
   font-size: 1.05rem; margin: 1.6rem 0 .6rem;
   padding-bottom: .35rem; border-bottom: 1px solid var(--line);
 }
@@ -745,7 +765,7 @@ body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
 .ib-crumb { display: flex; gap: .45rem; font-size: .82rem; color: var(--text3); margin-bottom: .5rem; }
 .ib-crumb__sep { opacity: .5; }
 .ib-dt__title {
-  font-family: var(--serif); font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-family: var(--font-heading); font-size: clamp(1.4rem, 4vw, 1.9rem);
   margin: 0 0 1rem; letter-spacing: -.015em;
 }
 .ib-strip {
@@ -812,3 +832,64 @@ button.ib-tile:hover { border-color: var(--blue2); }
 
 .ib-gloss__list b { display: block; color: var(--blue2); font-size: .86em; }
 .ib-gloss__list span { display: block; color: var(--text2); }
+
+/* ── the course page's per-topic content, on this page ──────────────────── */
+
+.ib-dt__lede { color: var(--text2); margin: -.4rem 0 1rem; max-width: 44rem; }
+
+.ib-bigq {
+  margin: 0 0 1.4rem; padding: .95rem 1.1rem;
+  border: 1px solid var(--line); border-left: 4px solid var(--blue2);
+  border-radius: var(--r-md); background: color-mix(in srgb, var(--blue2) 5%, var(--surface));
+}
+.ib-bigq__tag {
+  margin: 0 0 .3rem; font-size: .7rem; font-weight: 900;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--blue2);
+}
+.ib-bigq__text { margin: 0; font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.45; }
+
+.ib-seclist > li { border-bottom: 1px solid var(--line); }
+.ib-secrow__n {
+  margin-left: auto; font-size: .72rem; font-weight: 800;
+  color: var(--text3); font-variant-numeric: tabular-nums;
+}
+.ib-secinfo { padding: .1rem 0 1.1rem 1.75rem; }
+.ib-secinfo__focus {
+  margin: 0 0 .7rem; font-size: .92rem; color: var(--text2);
+}
+.ib-secinfo__head {
+  margin: .8rem 0 .35rem; font-size: .7rem; font-weight: 900;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--text3);
+}
+.ib-termlist { margin: 0; }
+.ib-termlist dt { font-weight: 800; font-size: .95rem; margin-top: .5rem; }
+.ib-termlist dt:first-child { margin-top: 0; }
+.ib-termlist dd { margin: .1rem 0 0; font-size: .88rem; color: var(--text2); }
+
+.ib-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.ib-chip {
+  display: inline-block; padding: .18rem .55rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface2);
+  font-size: .78rem; color: var(--text2); white-space: nowrap;
+}
+.ib-quicklist { margin: 0; padding-left: 1.1rem; font-size: .88rem; color: var(--text2); }
+.ib-quicklist li { margin: .22rem 0; }
+
+/* definitions view */
+.ib-defcard {
+  margin: 0 0 .6rem; padding: .7rem .9rem;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--surface);
+}
+.ib-defcard__t { font-weight: 800; font-size: .98rem; margin-bottom: .15rem; }
+.ib-defcard__d { font-size: .89rem; color: var(--text2); }
+.ib-defgrp {
+  font-family: var(--font-heading); font-size: 1.02rem;
+  margin: 1.4rem 0 .5rem; padding-bottom: .3rem;
+  border-bottom: 1px solid var(--line);
+}
+button.ib-tile--toggle {
+  margin: 0 0 1.2rem; width: auto; padding: .45rem .9rem;
+  min-height: 38px; font-size: .84rem; font-weight: 800; color: var(--blue2);
+}

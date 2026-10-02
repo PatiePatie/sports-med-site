@@ -180,6 +180,48 @@
     return { sections: secs.length, terms: terms, questions: q, notes: notes, figures: figs };
   }
 
+  /* The key-knowledge chips the course page shows under KEY TERMS are the
+     **bold** spans inside the deep layer's walk[] bullets. Pull them straight
+     out rather than inventing a second list that could drift. */
+  function keyKnowledge(key) {
+    var D = DEEP[key] || {}, out = [], seen = {};
+    (D.walk || []).forEach(function (w) {
+      var en = [], m, re = /\*\*(.+?)\*\*/g;
+      while ((m = re.exec(w.en || ''))) en.push(m[1]);
+      if (!en.length) return;
+      var zh = [], m2, re2 = /\*\*(.+?)\*\*/g;
+      while ((m2 = re2.exec(w.zh || ''))) zh.push(m2[1]);
+      /* Only emit a chip when THIS paragraph carries the same number of bold
+         spans in both languages. The two bold lists are genuinely not aligned
+         in the source (measured: 46 of 171 paragraphs disagree), so guessing a
+         pairing would put the wrong Chinese next to the right English. A
+         shorter chip row that is entirely bilingual beats a full one that is
+         half English — and the definitions tab carries every term regardless. */
+      if (zh.length !== en.length) return;
+      en.forEach(function (t, i) {
+        if (seen[t] || seen[zh[i]]) return;
+        seen[t] = 1; seen[zh[i]] = 1;
+        out.push({ en: t, zh: zh[i] });
+      });
+    });
+    return out;
+  }
+
+  function allTerms(code) {
+    var out = [];
+    sectionsOf(code).forEach(function (s) {
+      (s.sec.terms || []).forEach(function (tm) {
+        if (tm && tm.term && tm.definition) out.push({ tm: tm, sec: s });
+      });
+    });
+    return out;
+  }
+  function firstOf(v) {
+    if (!v) return null;
+    if (Array.isArray(v)) return v[0] || null;
+    return v;
+  }
+
   /* ── progress store ──────────────────────────────────────────────────── */
 
   function loadAll() {
@@ -764,10 +806,11 @@
     host.appendChild(leg);
 
     var tabs = el('div', 'ib-tabs');
-    ['topics', 'detail'].forEach(function (k) {
-      var b = el('button', 'ib-tab', k === 'topics'
-        ? T('Topics & progress', '主题与进度')
-        : T('Topic detail', '主题详情'));
+    [['topics', T('Topics & progress', '主题与进度')],
+     ['detail', T('Topic detail', '主题详情')],
+     ['defs', T('Key definitions', '关键定义')]].forEach(function (pair) {
+      var k = pair[0];
+      var b = el('button', 'ib-tab', pair[1]);
       b.dataset.view = k;
       b.addEventListener('click', function () { hubTab = k; paintHub(); });
       tabs.appendChild(b);
@@ -788,6 +831,8 @@
     pane.innerHTML = '';
     var ch = CHAPTERS[0];
     var rows = topicList(ch);
+
+    if (hubTab === 'defs') { paintDefs(pane, rows); return; }
 
     if (hubTab === 'topics') {
       var groups = {};
@@ -884,7 +929,7 @@
     t1.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
     tiles.appendChild(t1);
 
-    var t2 = el('div', 'ib-tile');
+    var t2 = el('button', 'ib-tile ib-tile--go');
     t2.appendChild(iconEl('ib-tile__ico', 'grid'));
     var tb2 = el('span', 'ib-tile__txt');
     tb2.appendChild(el('strong', null, T('Key definitions', '关键定义')));
@@ -892,9 +937,24 @@
       T('Every key term in this topic, with its definition.', '本主题的全部术语与定义。')));
     tb2.appendChild(el('em', null, c.terms + ' ' + T('terms', '个术语')));
     t2.appendChild(tb2);
+    t2.addEventListener('click', function () { hubTab = 'defs'; paintHub(); });
     tiles.appendChild(t2);
     grp.appendChild(tiles);
     pane.appendChild(grp);
+
+    /* the information from the course page's per-topic panel: the big question,
+       then every section's exam focus, key terms with definitions, and the
+       key-knowledge chips — the same content, laid out as this page's own. */
+    var rec = null;
+    for (var ri = 0; ri < NATIVE.length; ri++) if (NATIVE[ri].code === r.code) { rec = NATIVE[ri]; break; }
+    if (rec && (rec.guidingQuestion || rec.intro)) {
+      var q = el('div', 'ib-bigq');
+      if (rec.guidingQuestion) {
+        q.appendChild(el('p', 'ib-bigq__tag', T('The big question', '核心问题')));
+        q.appendChild(plain(el('p', 'ib-bigq__text'), term(rec.guidingQuestion), term(rec.guidingQuestion)));
+      }
+      pane.appendChild(q);
+    }
 
     pane.appendChild(el('p', 'ib-dt__grouphead', T('Sections in this topic', '本主题的小节')));
     var ul = el('ul', 'ib-seclist');
@@ -904,12 +964,81 @@
       b.type = 'button';
       b.appendChild(el('span', 'ib-lev ib-lev--' + (done[i] ? 'familiar' : 'unseen')));
       b.appendChild(el('span', null, T(s.key, s.zh || s.key)));
+      var terms = (s.sec.terms || []).filter(function (tm) { return tm && tm.term && tm.definition; });
+      b.appendChild(el('span', 'ib-secrow__n', String(terms.length)));
       b.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
       li.appendChild(b);
       ul.appendChild(li);
+
+      var kk = keyKnowledge(s.key);
+      var focus = firstOf(s.sec.examFocus);
+      var quick = s.sec.quickCheck || [];
+      if (!terms.length && !kk.length && !focus) return;
+      var det = el('div', 'ib-secinfo');
+      if (focus) det.appendChild(plain(el('p', 'ib-secinfo__focus'), term(focus), term(focus)));
+      if (terms.length) {
+        det.appendChild(el('p', 'ib-secinfo__head', T('Key terms', '关键术语')));
+        var dl = el('dl', 'ib-termlist');
+        terms.forEach(function (tm) {
+          dl.appendChild(plain(el('dt'), pair(tm.term)[0], pair(tm.term)[1]));
+          dl.appendChild(plain(el('dd'), pair(tm.definition)[0], pair(tm.definition)[1]));
+        });
+        det.appendChild(dl);
+      }
+      if (kk.length) {
+        det.appendChild(el('p', 'ib-secinfo__head', T('Key knowledge', '关键知识')));
+        var cw = el('div', 'ib-chips');
+        kk.forEach(function (k) { cw.appendChild(plain(el('span', 'ib-chip'), k.en, k.zh)); });
+        det.appendChild(cw);
+      }
+      if (quick.length) {
+        det.appendChild(el('p', 'ib-secinfo__head', T('Quick check', '快速检查')));
+        var qo = el('ol', 'ib-quicklist');
+        quick.forEach(function (qk) { qo.appendChild(plain(el('li'), term(qk), term(qk))); });
+        det.appendChild(qo);
+      }
+      li.appendChild(det);
     });
     pane.appendChild(ul);
   }
+  function paintDefs(pane, rows) {
+    var r = rows.filter(function (x) { return x.code === hubTopic; })[0] || rows[0];
+    var all = allTerms(r.code);
+    var crumb = el('nav', 'ib-crumb');
+    crumb.appendChild(el('span', null, 'IB SEHS'));
+    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
+    crumb.appendChild(el('span', null, r.code));
+    crumb.appendChild(el('span', 'ib-crumb__sep', '/'));
+    crumb.appendChild(el('b', null, T('Key definitions', '关键定义')));
+    pane.appendChild(crumb);
+    pane.appendChild(plain(el('h2', 'ib-dt__title'), 'Key definitions', '关键定义'));
+    pane.appendChild(el('p', 'ib-dt__lede',
+      T('Every key term in ' + r.code + ' with its definition.',
+        r.code + ' 的全部术语与定义。')));
+    var hide = el('button', 'ib-tile ib-tile--toggle', T('Hide definitions', '隐藏定义'));
+    var revealed = true;
+    hide.addEventListener('click', function () {
+      revealed = !revealed;
+      var ds = pane.querySelectorAll('.ib-defcard__d');
+      Array.prototype.forEach.call(ds, function (n) { n.hidden = !revealed; });
+      hide.textContent = T(revealed ? 'Hide definitions' : 'Show definitions',
+                            revealed ? '隐藏定义' : '显示定义');
+    });
+    pane.appendChild(hide);
+    r.secs.forEach(function (sec) {
+      pane.appendChild(el('h4', 'ib-defgrp',
+        sec.key + (showCN && sec.zh ? ' · ' + sec.zh : '')));
+      (sec.sec.terms || []).forEach(function (tm) {
+        if (!tm || !tm.term || !tm.definition) return;
+        var card = el('div', 'ib-defcard');
+        card.appendChild(plain(el('div', 'ib-defcard__t'), pair(tm.term)[0], pair(tm.term)[1]));
+        var dd = plain(el('div', 'ib-defcard__d'), pair(tm.definition)[0], pair(tm.definition)[1]);
+        card.appendChild(dd);
+        pane.appendChild(card);
+      });
+    });
+  }
+
   var hubTopic = (function () {
     var t = topicList(CHAPTERS[0])[0];
     return t ? t.code : 'A.1.1';

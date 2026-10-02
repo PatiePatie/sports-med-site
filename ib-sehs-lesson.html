@@ -10,35 +10,26 @@
      layout script. auth-gate.js is kept so a signed-out visitor still signs in. -->
 <script src="auth-gate.js?v=2"></script>
 
-<style>
-/* The site's own palette, inlined so this page needs no theme stylesheet.
-   Values copied verbatim from ib-sehs-learn.html so the lesson cannot drift away
-   from the course it belongs to. */
-:root {
-  --bg:#edf3f8; --surface:#fff; --surface2:#f5f8fb;
-  --text:#10213a; --text2:#465b73; --text3:#6b8098;
-  --line:#d5e0e9; --blue:#173f80; --blue2:#2563a8;
-  --red:#b4232f; --gold:#d7a829; --green:#24745a;
-  --shadow:0 12px 34px rgba(16,33,58,.09);
-  --font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Songti SC","PingFang SC","Microsoft YaHei",serif;
-  --serif:Georgia,"Songti SC",serif;
-  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  /* aliases: the generated figures were drawn against these two names */
-  --border:var(--line); --accent:var(--gold);
-}
-body.dark {
-  --bg:#0b1626; --surface:#11243a; --surface2:#172f49;
-  --text:#f6f0dd; --text2:#c7cfda; --text3:#93a5b8;
-  --line:#29435d; --blue:#bcd3f5; --blue2:#8fb7e8;
-  --red:#ff9da5; --gold:#efd17c; --green:#80d2b1;
-  --shadow:0 12px 34px rgba(0,0,0,.35);
-  color-scheme:dark;
-}
-html, body { margin:0; padding:0; background:var(--bg); }
-</style>
+
+<!-- The site's own theme, so fonts, colours and dark mode are IDENTICAL to the
+     course page instead of a hand-copied approximation. These are stylesheets
+     only: nothing here mounts a sidebar or a top bar. linear-layout.js,
+     sections.js, auth-widget, qna, notif-bell and tutorial-widget stay OUT. -->
+<link rel="stylesheet" href="gold-blue-theme.css?v=15">
+<link rel="stylesheet" href="vitalite-skin.css?v=21">
+<link rel="stylesheet" href="phone.css?v=1">
+
+<!-- The carpet texture and the cursor feel. soft-fx.js has the cursor tracking
+     switched off site-wide (you asked for the texture without it), so these
+     give the same fabric background the course page has. -->
+<link rel="stylesheet" href="shapes-skin.css?v=3">
+<link rel="stylesheet" href="soft-glass.css?v=12">
+<script src="shapes-fx.js?v=6" defer></script>
+<script src="soft-fx.js?v=11" defer></script>
+<script src="button-glow.js?v=1" defer></script>
 
 <link rel="stylesheet" href="knowledge.css?v=6">
-<link rel="stylesheet" href="ib-sehs-lesson.css?v=3">
+<link rel="stylesheet" href="ib-sehs-lesson.css?v=4">
 
 <!-- Course data, the same files the normal page loads. Read-only here. -->
 <script src="ib-sehs-data.js?v=4"></script>
@@ -53,7 +44,7 @@ html, body { margin:0; padding:0; background:var(--bg); }
 <!-- the authored layer: one summary + one analogy + one example per section -->
 <script src="ib-sehs-lesson-data.js?v=1"></script>
 
-<script src="ib-sehs-lesson.js?v=3" defer></script>
+<script src="ib-sehs-lesson.js?v=4" defer></script>
 </head>
 
 <body class="ib-lesson">

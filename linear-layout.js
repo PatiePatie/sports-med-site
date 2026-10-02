@@ -314,64 +314,35 @@
       if (href) location.href = href;
     }
 
+    /* Icon only, no dropdown. On purpose: only one thing lives here now, and a
+       control that opens a one-item menu is a click that goes nowhere. Clicking
+       the icon opens the AI directly.
+
+       window.VitaliteStudyTools is deliberately kept -- the onboarding tour
+       calls open()/close()/isOpen() on its study steps, and without this
+       object the tour throws. Here open() simply means "open the AI". */
     var wrap = el('div', 'lin-study-wrap');
-    var btn = el('button', 'lin-study-btn');
+    var btn = el('button', 'lin-study-btn lin-study-btn-ai');
     btn.type = 'button';
     btn.id = 'studyToolsBtn';
-    btn.setAttribute('aria-haspopup', 'true');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.appendChild(icon('message'));
-    var blbl = el('span', 'lin-study-label');
-    bi(blbl, 'Vitaline AI', 'AI 助手');
-    btn.appendChild(blbl);
-    var caret = icon('chevron');
-    caret.className = 'lin-ico lin-study-caret';
-    btn.appendChild(caret);
-
-    var menu = el('div', 'lin-study-menu');
-    menu.setAttribute('role', 'menu');
-    var ITEMS = [
-      { id: 'stAI',     ico: 'message',en: 'Vitaline AI',       zh: 'AI 助手',    act: function () { launch('openAiModal', 'guide.html'); } }
-    ];
-    ITEMS.forEach(function (it) {
-      var a = el('button', 'lin-study-item');
-      a.type = 'button';
-      a.id = it.id;
-      a.setAttribute('role', 'menuitem');
-      a.appendChild(icon(it.ico));
-      var lbl = el('span', 'lin-study-item-label');
-      bi(lbl, it.en, it.zh);
-      a.appendChild(lbl);
-      a.addEventListener('click', function (e) {
-        e.stopPropagation();
-        closeMenu();
-        it.act();
-      });
-      menu.appendChild(a);
-    });
-
+    btn.setAttribute('aria-label', 'Vitaline AI');
+    btn.title = 'Vitaline AI / AI 助手';
+    var aiIcon = icon('message');
+    aiIcon.className = 'lin-ico';
+    btn.appendChild(aiIcon);
     wrap.appendChild(btn);
-    wrap.appendChild(menu);
     actions.appendChild(wrap);
 
-    function openMenu() { wrap.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
-    function closeMenu() { wrap.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
-    function isOpen() { return wrap.classList.contains('open'); }
+    function openAI() {
+      btn.classList.add('is-on');
+      setTimeout(function () { btn.classList.remove('is-on'); }, 400);
+      launch('openAiModal', 'guide.html');
+    }
+    function closeMenu() {}
+    function isOpen() { return false; }
 
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      if (isOpen()) closeMenu(); else openMenu();
-    });
-    document.addEventListener('mousedown', function (e) {
-      if (isOpen() && wrap && !wrap.contains(e.target)) closeMenu();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeMenu();
-    });
-
-    /* The onboarding tour opens this menu on its study steps so the flagged
-       element really is on screen (a closed dropdown has no rect). */
-    window.VitaliteStudyTools = { open: openMenu, close: closeMenu, isOpen: isOpen, toggle: function () { isOpen() ? closeMenu() : openMenu(); } };
+    btn.addEventListener('click', function (e) { e.stopPropagation(); openAI(); });
+    window.VitaliteStudyTools = { open: openAI, close: closeMenu, isOpen: isOpen, toggle: openAI };
   });
 
   /* ─── 5 · The view header — tabs, then a context row ─────────────────── */

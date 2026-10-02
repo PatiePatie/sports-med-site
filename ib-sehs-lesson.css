@@ -74,6 +74,14 @@ body.ib-lesson button { font: inherit; }
   .ib-rail__close { display: none; }
 }
 
+/* `[hidden]` is only `display:none` in the UA stylesheet, so ANY author rule
+   that sets `display` silently defeats it. `.ib-foot{display:flex}` and
+   `.ib-reader{display:grid}` therefore left the reader's Back/Next footer and
+   a 147px slice of the reader rendering on the hub, even with the attribute
+   correctly set to true. This is the canonical remedy and it fixes every
+   `el.hidden = true` in the script at once. */
+[hidden] { display: none !important; }
+
 /* ── top rail: Exit, progress, toggles ───────────────────────────────────── */
 
 /* The progress bar, its counter and the term-blanking drill describe a lesson
@@ -761,6 +769,52 @@ body.ib-lesson.dark .ib-mcq__label { color: #7db0ff; }
 .ib-trow__txt strong { font-size: .96rem; font-weight: 700; }
 .ib-trow__meta { font-size: .78rem; color: var(--text3); }
 .ib-trow.is-on { background: color-mix(in srgb, var(--blue2) 10%, transparent); }
+
+/* The row title opens the topic detail; this pill enters the lesson directly,
+   so lesson mode is one click from the list instead of two. They are separate
+   buttons on purpose — a button inside a button is invalid HTML. */
+.ib-trowwrap { display: flex; align-items: center; gap: .5rem; }
+.ib-trowwrap .ib-trow { flex: 1 1 auto; min-width: 0; }
+.ib-trowgo {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: .34rem;
+  min-height: 40px; padding: .34rem .8rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: color-mix(in srgb, var(--text) 5%, var(--surface)); color: var(--text2);
+  font-size: .78rem; font-weight: 700; letter-spacing: .01em;
+  cursor: pointer; white-space: nowrap;
+}
+.ib-trowgo:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+.ib-trowgo svg { width: 13px; height: 13px; }
+.ib-trowgo--done { border-color: var(--green); color: var(--green); }
+.ib-trowgo--done:hover { background: var(--green); color: #fff; }
+.ib-trowwrap:hover .ib-trow { background: color-mix(in srgb, var(--text) 5%, transparent); }
+
+/* the "where do I start" call to action at the top of the hub */
+.ib-cta {
+  display: flex; align-items: center; gap: .9rem;
+  margin: 0 0 1.1rem; padding: 1rem 1.15rem;
+  border: 1px solid var(--line); border-left: 3px solid var(--blue);
+  border-radius: var(--r-sm);
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--blue) 7%, var(--surface)), var(--surface) 62%);
+}
+.ib-cta__txt { display: flex; flex-direction: column; gap: .16rem; min-width: 0; flex: 1 1 auto; }
+.ib-cta__eyebrow {
+  font-size: .68rem; font-weight: 800; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--text3);
+}
+.ib-cta__title { font-size: 1.02rem; font-weight: 700; }
+.ib-cta__sub { font-size: .8rem; color: var(--text2); }
+.ib-cta__go {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: .4rem;
+  min-height: 40px; padding: .5rem 1.05rem;
+  border: 0; border-radius: 999px;
+  background: linear-gradient(180deg, #3f86dc, #3575c8); color: #fff;
+  font-size: .85rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+}
+.ib-cta__go:hover { filter: brightness(1.07); }
+.ib-cta__go svg { width: 14px; height: 14px; }
 
 .ib-crumb { display: flex; gap: .45rem; font-size: .82rem; color: var(--text3); margin-bottom: .5rem; }
 .ib-crumb__sep { opacity: .5; }

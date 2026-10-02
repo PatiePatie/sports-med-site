@@ -127,7 +127,9 @@
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
     back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
     book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>',
-    grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>'
+    grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5v15l12-7.5z"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>'
   };
 
   /* ── the chapter, its topics, and each topic's sections ──────────────── */
@@ -835,6 +837,42 @@
     if (hubTab === 'defs') { paintDefs(pane, rows); return; }
 
     if (hubTab === 'topics') {
+      /* Which topic should the reader be handed first? The one with the most
+         progress that is not finished, otherwise the first topic. Without this
+         the page opened on a list and left the visitor to guess. */
+      var pick = rows[0], bestSeen = -1;
+      rows.forEach(function (r) {
+        var cc = countsOf(r.code), dd = slotFor(r.code).done || {};
+        var sn = r.secs.filter(function (_, i) { return dd[i]; }).length;
+        if (sn >= cc.sections) return;
+        if (sn > bestSeen) { bestSeen = sn; pick = r; }
+      });
+      if (pick) {
+        var pc = countsOf(pick.code);
+        var pdone = slotFor(pick.code).done || {};
+        var pseen = pick.secs.filter(function (_, i) { return pdone[i]; }).length;
+        var box = el('div', 'ib-cta');
+        var ct = el('span', 'ib-cta__txt');
+        ct.appendChild(el('span', 'ib-cta__eyebrow',
+          pseen ? T('Pick up where you left off', '继续上次的学习') : T('Start here', '从这里开始')));
+        ct.appendChild(el('span', 'ib-cta__title',
+          pick.code + ' ' + T(pick.t.en || pick.t.title || '', pick.t.zh || '')));
+        ct.appendChild(el('span', 'ib-cta__sub',
+          pseen ? pseen + '/' + pc.sections + ' ' + T('sections read', '节已读') +
+                 ' · ' + T('pick up at the next block', '从下一句继续')
+               : pc.sections + ' ' + T('sections', '节') + ' · ' +
+                 T('about ', '约 ') + Math.round(pc.sections * 2.5) + ' ' + T('minutes', '分钟')));
+        box.appendChild(ct);
+        var go2 = el('button', 'ib-cta__go');
+        go2.type = 'button';
+        go2.appendChild(el('span', null,
+          pseen ? T('Continue lesson', '继续学习') : T('Start lesson', '开始学习')));
+        go2.appendChild(iconEl(null, 'play'));
+        go2.addEventListener('click', function () { location.hash = '#lesson/' + pick.code; });
+        box.appendChild(go2);
+        pane.appendChild(box);
+      }
+
       var groups = {};
       rows.forEach(function (r) {
         var gk = r.code.split('.').slice(0, 2).join('.');   /* "A.1", not "A" */
@@ -853,7 +891,7 @@
           var c = countsOf(r.code), lv = levelOf(r.code);
           var done = (slotFor(r.code).done || {});
           var seen = r.secs.filter(function (_, i) { return done[i]; }).length;
-          var li = el('li');
+          var li = el('li', 'ib-trowwrap');
           var b = el('button', 'ib-trow');
           b.type = 'button';
           b.appendChild(el('span', 'ib-lev ib-lev--' + lv.k));
@@ -870,6 +908,20 @@
             paintHub();
           });
           li.appendChild(b);
+
+          /* One click into lesson mode. Before this the only way in was row →
+             detail → "Focus lesson", and the row carried no affordance at all,
+             so the list read as a static table of contents. */
+          var started = seen > 0, complete = seen >= c.sections;
+          var go = el('button', 'ib-trowgo' + (complete ? ' ib-trowgo--done' : ''));
+          go.type = 'button';
+          go.appendChild(iconEl(null, complete ? 'check' : 'play'));
+          go.appendChild(el('span', null,
+            complete ? T('Review', '复习')
+                     : started ? T('Continue', '继续')
+                               : T('Start lesson', '开始学习')));
+          go.addEventListener('click', function () { location.hash = '#lesson/' + r.code; });
+          li.appendChild(go);
           list.appendChild(li);
         });
       });

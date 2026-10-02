@@ -799,6 +799,36 @@ body.dark h1,body.dark h2,body.dark h3{
   .cr-map{grid-template-columns:repeat(7,1fr)}
 }
 
+
+/* ── Everything else on the site (see #hmExplore) ──────────────────────────
+   Sits after the inline <style> above so it wins on source order without
+   needing !important. Card visuals deliberately reuse the existing .cr
+   surface/border/radius tokens so it reads as part of the same dashboard. */
+.hmx{margin-top:2.4rem}
+.hmx-lead{margin:.2rem 0 1.1rem;color:var(--text2,#64748b);max-width:74ch;line-height:1.65;font-size:.92rem}
+.hmx-gh{margin:1.3rem 0 .6rem;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text3,#94a3b8)}
+.hmx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:.75rem}
+.hmx-card{
+  display:flex;flex-direction:column;gap:.28rem;
+  padding:.85rem .95rem .95rem;
+  background:var(--surface,var(--card,#fff));
+  border:1px solid var(--border);border-left:3px solid var(--accent,#B8860B);
+  border-radius:var(--radius,14px);
+  color:inherit;text-decoration:none;
+  transition:transform .16s,box-shadow .16s,border-color .16s;
+}
+.hmx-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.12)}
+.hmx-ico{font-size:1.25rem;line-height:1}
+.hmx-name{font-weight:700;font-size:.95rem;line-height:1.3}
+.hmx-desc{font-size:.8rem;line-height:1.5;color:var(--text2,#64748b)}
+.hmx-card:focus-visible{outline:2px solid var(--accent2,#A9741E);outline-offset:2px}
+
+@media(max-width:1080px){.hmx-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}}
+@media(max-width:520px){
+  .hmx-grid{grid-template-columns:1fr}
+  .hmx-card{padding:.9rem 1rem 1rem}
+  .hmx-desc{font-size:.82rem}
+}
 </style>
 <link rel="stylesheet" href="auth-widget.css?v=4">
 <script src="auth-widget.js?v=13"></script>
@@ -1043,6 +1073,91 @@ a.hm-card:hover{transform:translateY(-2px);border-color:var(--accent);text-decor
   </section>
 
   <section class="hm-courses" id="hmCourses"></section>
+
+
+  <!-- ══ Everything on the site ══
+       The three course boxes above cover the courses. Every other part of the
+       site used to be reachable ONLY from the sidebar, which is a collapsed
+       icon rail on desktop and a hidden drawer on a phone -- so on the main
+       page none of these were introduced anywhere. The Classroom function was
+       the one reported missing. Descriptions are taken from each page's own
+       <h1> and opening paragraph so a card cannot drift from its destination.
+       Deliberately NOT listed: admin.html (developer console, "developer
+       accounts only"), which should not be advertised to members. ══ -->
+  <section class="hm-sec hmx" id="hmExplore">
+    <h2 data-en="Everything else on the site" data-zh="站内其他全部功能">Everything else on the site</h2>
+    <p class="hmx-lead" data-en="The three boxes above are the courses. These are the rest — the exam rooms, the health tools, the people and the reference pages." data-zh="上面三个方框是课程。以下是其余全部 —— 考场、健康工具、成员社区与资料页面。">The three boxes above are the courses. These are the rest — the exam rooms, the health tools, the people and the reference pages.</p>
+    <h3 class="hmx-gh" data-en="Exams and certifications" data-zh="考试与证书">Exams and certifications</h3>
+    <div class="hmx-grid">
+      <a class="hmx-card" href="exam.html">
+        <span class="hmx-ico" aria-hidden="true">🎯</span>
+        <span class="hmx-name" data-en="NPTE exam prep" data-zh="NPTE 考试冲刺">NPTE exam prep</span>
+        <span class="hmx-desc" data-en="The US NPTE-PT blueprint, a timed practice simulator and a certificate of completion." data-zh="美国 NPTE-PT 考纲、带计时的模拟考试与结业证书。">The US NPTE-PT blueprint, a timed practice simulator and a certificate of completion.</span>
+      </a>
+      <a class="hmx-card" href="cn-cert.html">
+        <span class="hmx-ico" aria-hidden="true">🥋</span>
+        <span class="hmx-name" data-en="运动康复师资格证" data-zh="运动康复师资格证">运动康复师资格证</span>
+        <span class="hmx-desc" data-en="Bilingual, exam-mapped review of the 人社部 vocational certification — theory, practicals and high-yield facts." data-zh="中英双语、按考纲整理的人社部职业资格证备考 —— 理论、实操与高频考点。">Bilingual, exam-mapped review of the 人社部 vocational certification — theory, practicals and high-yield facts.</span>
+      </a>
+      <a class="hmx-card" href="usabo.html">
+        <span class="hmx-ico" aria-hidden="true">🔬</span>
+        <span class="hmx-name" data-en="USABO Biology Olympiad" data-zh="USABO 生物竞赛">USABO Biology Olympiad</span>
+        <span class="hmx-desc" data-en="Exam structure, content areas, practice questions and study strategies for the USA Biology Olympiad." data-zh="美国生物奥赛（USABO）的考纲、考点、练习题与备考策略。">Exam structure, content areas, practice questions and study strategies for the USA Biology Olympiad.</span>
+      </a>
+    </div>
+    <h3 class="hmx-gh" data-en="Your health" data-zh="你的健康">Your health</h3>
+    <div class="hmx-grid">
+      <a class="hmx-card" href="infirmary.html">
+        <span class="hmx-ico" aria-hidden="true">⚕️</span>
+        <span class="hmx-name" data-en="Vitaxamine" data-zh="Vitaxamine 康复助手">Vitaxamine</span>
+        <span class="hmx-desc" data-en="Describe an injury, ache or recovery question and get practical clinical guidance in seconds." data-zh="描述伤病或康复疑问，几秒钟内得到实用的临床建议。">Describe an injury, ache or recovery question and get practical clinical guidance in seconds.</span>
+      </a>
+      <a class="hmx-card" href="checkup.html">
+        <span class="hmx-ico" aria-hidden="true">🩺</span>
+        <span class="hmx-name" data-en="AI Body Checkup" data-zh="AI 身体检查">AI Body Checkup</span>
+        <span class="hmx-desc" data-en="Tap where it hurts and tick what matches — Checkup works out practical guidance on the spot." data-zh="点按疼痛位置并勾选症状，即刻给出实用的处理建议。">Tap where it hurts and tick what matches — Checkup works out practical guidance on the spot.</span>
+      </a>
+      <a class="hmx-card" href="plan.html">
+        <span class="hmx-ico" aria-hidden="true">📋</span>
+        <span class="hmx-name" data-en="Plan Builder" data-zh="健康计划制定">Plan Builder</span>
+        <span class="hmx-desc" data-en="Tell us your goal, what you already do and a normal week — get a step-by-step plan that fits." data-zh="告诉我们目标、现状与一周安排，生成适合你的分步计划。">Tell us your goal, what you already do and a normal week — get a step-by-step plan that fits.</span>
+      </a>
+    </div>
+    <h3 class="hmx-gh" data-en="Study together" data-zh="一起学习">Study together</h3>
+    <div class="hmx-grid">
+      <a class="hmx-card" href="social.html">
+        <span class="hmx-ico" aria-hidden="true">💬</span>
+        <span class="hmx-name" data-en="Community Forum" data-zh="社区论坛">Community Forum</span>
+        <span class="hmx-desc" data-en="Ask questions, share study tips and discuss sports medicine, recovery and nutrition with other members." data-zh="提问、分享学习技巧，与其他成员讨论运动医学、康复与营养。">Ask questions, share study tips and discuss sports medicine, recovery and nutrition with other members.</span>
+      </a>
+      <a class="hmx-card" href="classroom.html">
+        <span class="hmx-ico" aria-hidden="true">🎓</span>
+        <span class="hmx-name" data-en="Classroom" data-zh="课堂">Classroom</span>
+        <span class="hmx-desc" data-en="Create a class, share the code, and see what every student actually reads — measured by scroll depth and time on the page." data-zh="创建课堂并分享课堂码，查看每位学生实际阅读的内容 —— 以滚动深度与停留时间衡量。">Create a class, share the code, and see what every student actually reads — measured by scroll depth and time on the page.</span>
+      </a>
+    </div>
+    <h3 class="hmx-gh" data-en="Reference" data-zh="资料与索引">Reference</h3>
+    <div class="hmx-grid">
+      <a class="hmx-card" href="toc.html">
+        <span class="hmx-ico" aria-hidden="true">🧭</span>
+        <span class="hmx-name" data-en="Knowledge Hub" data-zh="知识中心">Knowledge Hub</span>
+        <span class="hmx-desc" data-en="One page holding every course, every exam track, the videos and the bibliography." data-zh="一个页面汇总全部课程、全部备考方向、视频与参考文献。">One page holding every course, every exam track, the videos and the bibliography.</span>
+      </a>
+    </div>
+    <h3 class="hmx-gh" data-en="Membership" data-zh="会员">Membership</h3>
+    <div class="hmx-grid">
+      <a class="hmx-card" href="pricing.html">
+        <span class="hmx-ico" aria-hidden="true">💳</span>
+        <span class="hmx-name" data-en="Plans &amp; pricing" data-zh="会员方案">Plans &amp; pricing</span>
+        <span class="hmx-desc" data-en="What stays free, always — and what Plus adds. Everything that teaches is free." data-zh="哪些内容永久免费，Plus 增加什么。所有教学内容均免费。">What stays free, always — and what Plus adds. Everything that teaches is free.</span>
+      </a>
+      <a class="hmx-card" href="account.html">
+        <span class="hmx-ico" aria-hidden="true">👤</span>
+        <span class="hmx-name" data-en="My account" data-zh="我的账户">My account</span>
+        <span class="hmx-desc" data-en="Your profile, level and progress, kept with your account rather than one browser." data-zh="你的资料、等级与进度，绑定在账号上而非某个浏览器。">Your profile, level and progress, kept with your account rather than one browser.</span>
+      </a>
+    </div>
+  </section>
 
 <section class="hm-an" id="hmAnalytics"></section>
   <section class="hm-sec">

@@ -61,6 +61,10 @@ $aiq$;
 revoke all on function public.ai_touch(text, integer) from public;
 grant execute on function public.ai_touch(text, integer) to anon, authenticated;
 
+-- 5. remove my verification row. Harmless if it is not there: this just
+--    affects 0 rows. It is the account I used to prove the meter works.
+delete from public.ai_daily where uid = 'probe-v1';
+
 
 -- ============================================================================
 -- VERIFY -- run this afterwards, in a NEW query tab.

@@ -908,7 +908,10 @@ body.dark .gm-fig svg .lblXS{ fill:#9AA7B6 }
 <link rel="stylesheet" href="soft-glass.css?v=12">
 <script src="soft-fx.js?v=11" defer></script>
 <link rel="stylesheet" href="knowledge.css?v=6">
+<link rel="stylesheet" href="course-hub.css?v=1">
 <script src="knowledge-fx.js?v=7" defer></script>
+<script src="course-hub.js?v=1" defer></script>
+<script src="g10-course.js?v=1" defer></script>
 <script src="ai-usage.js?v=1" defer></script>
 <script src="vitaline.js?v=1" defer></script>
 <!-- SHAPES-THEME:END -->
@@ -1005,6 +1008,10 @@ body.dark .gm-fig svg .lblXS{ fill:#9AA7B6 }
     </div>
   </header>
 
+  <div id="chCourseHead"></div>
+  <div class="ch-hub" id="chHub"><div class="ch-pane-min-height"></div></div>
+
+  <div id="chPageBody" class="ch-pagebody">
   <section id="hero" class="hero">
     <div class="container">
       <div class="hero-badge"><span class="dot"></span><span data-en="G10 Biology · Chemistry of Life" data-zh="十年级生物 · 生命的化学">G10 Biology · Chemistry of Life</span></div>
@@ -1392,6 +1399,7 @@ body.dark .gm-fig svg .lblXS{ fill:#9AA7B6 }
     </div>
   </section>
   <div id="fcChips" style="display:none"></div>
+  </div><!-- /chPageBody -->
 
 <footer>
 <div class="container">
@@ -4022,6 +4030,9 @@ document.addEventListener('DOMContentLoaded', function(){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
+  /* exposed for g10-course.js so the hub's question and card counts are
+     read off this data instead of being typed in. */
+  window.G10BANK=BANK;window.G10CARDS=CARDS;
   window.G10Q={open:function(){ Q.unit=0; renderQuizSetup(); openModal(quizModal()); }};
     /* ── progress store, so the home page's G10 box shows real numbers ──── */
   var PK='sm_g10_';

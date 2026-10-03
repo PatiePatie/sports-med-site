@@ -87,7 +87,7 @@
      cloth (3c), which now tracks the arrow tightly (a 14 ms ease, no trailing)
      so it reads as a surface under the cursor, not a lagging cursor; only a
      pressed finger drags the cloth behind it. With it off, the dimple parks. */
-  var FOLLOWS = true;
+  var FOLLOWS = false;
   var FAB = false;
 
   /* ─── 3c · Cloth: the same idea, simulated and lit ──────────────────── */

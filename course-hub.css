@@ -1283,7 +1283,10 @@ body.ch-reading { overflow: hidden; }
 }
 .ch-course__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.7rem, 4.4vw, 2.4rem);
+  /* 2rem, measured off ib-sehs-learn.html's .learn-course-bar h1 — the same
+     38.4px this rule used to produce was a third larger than the reference it
+     is supposed to match. */
+  font-size: clamp(1.5rem, 3.6vw, 2rem);
   line-height: 1.12; letter-spacing: -.02em;
   margin: .7rem 0 0;
 }

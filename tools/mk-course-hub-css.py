@@ -156,7 +156,10 @@ body.ch-reading { overflow: hidden; }
 }
 .ch-course__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.7rem, 4.4vw, 2.4rem);
+  /* 2rem, measured off ib-sehs-learn.html's .learn-course-bar h1 — the same
+     38.4px this rule used to produce was a third larger than the reference it
+     is supposed to match. */
+  font-size: clamp(1.5rem, 3.6vw, 2rem);
   line-height: 1.12; letter-spacing: -.02em;
   margin: .7rem 0 0;
 }
@@ -384,8 +387,13 @@ def main():
 
     # post-conditions: no `ib-` may survive, and the two halves must be there.
     txt = open(out_path, encoding='utf-8').read()
-    leftover = [l for l in txt.split('\n')
-                if 'ib-' in l and 'ib-sehs-lesson.css' not in l]
+    # Comments legitimately name the file they came from, so comments are
+    # stripped before the gate runs — otherwise a comment mentioning
+    # ib-sehs-learn.html trips a check that is about RULES.
+    _nocomment = re.sub(r'/\*.*?\*/', '', txt, flags=re.S)
+    def rule_lines(t):
+        return [l for l in _nocomment.split('\n') if l.strip()]
+    leftover = [l for l in rule_lines(txt) if 'ib-' in l]
     assert not leftover, leftover[:6]
     # The whole reason the two dead blocks are dropped: defining --border or
     # --accent here would switch on every `var(--border)` in the site at once.
@@ -393,7 +401,7 @@ def main():
     # site at once — 76 dormant uses in g10-bio.html alone, 61 in the theme.
     # A *reference* is fine (rewritten above); a *definition* is not.
     for banned in ['--border:', '--accent:', '.vis-svg']:
-        hits = [l for l in txt.split('\n') if banned in l]
+        hits = [l for l in rule_lines(txt) if banned in l]
         assert not hits, (banned, hits[:4])
     for must in ['--rail-h: 58px', '--r-md: 14px', '--line: var(--border2',
                  '--blue2: #2f6fb5', 'body.dark {', '--ch-green:',

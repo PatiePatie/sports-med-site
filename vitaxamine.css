@@ -1,5 +1,5 @@
-/* vitaxamine.css — the Vitaxamine page (vitaxamine.js mounts #vx-app, the face
-   comes from vx-face.js). Soft Glass tokens throughout (surface, text and accent
+/* vitaxamine.css — the Vitaxamine page (vitaxamine.js mounts #vx-app).
+   Soft Glass tokens throughout (surface, text and accent
    colours, the raise and press shadows), so it follows light and dark. */
 #vx-app{--vx-r:22px;--vx-red:#C23A43;--vx-blue:#2A63AB;--vx-green:#1F8A5B;--vx-amber:#C9771E;
   position:relative;left:50%;width:min(1180px,calc(100vw - 48px));margin:1.4rem 0 0;transform:translateX(-50%);text-align:left;color:var(--text)}
@@ -7,17 +7,7 @@ body.dark #vx-app{--vx-red:#E0626A;--vx-blue:#8DB6E2;--vx-green:#4CC38A;--vx-amb
 #infirmary-hero .chat-window,#infirmary-hero .chat-disclaimer{display:none}
 .vx-grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:1.4rem;align-items:start}
 .vx-card,.vx-compose,.vx-bubble{background:var(--surface);border-radius:var(--vx-r);box-shadow:var(--sg-raise-sm,0 6px 18px rgba(0,0,0,.08)),var(--sg-rim,none)}
-/* the face */
 .vx-stage{position:sticky;top:84px;display:grid;gap:.9rem}
-.vx-face{position:relative;aspect-ratio:320/400;border-radius:28px;overflow:hidden;cursor:pointer;background:#02060e;
-  box-shadow:0 22px 50px rgba(4,12,28,.45),inset 0 0 0 1px rgba(127,230,255,.18)}
-.vx-face::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 30%,transparent 70%,rgba(0,0,0,.35));box-shadow:inset 0 0 40px rgba(0,0,0,.45)}
-.vf-svg{display:block;width:100%;height:100%}
-.vf-flow{animation:vf-flow var(--vf-flow,4s) linear infinite}
-@keyframes vf-flow{to{stroke-dashoffset:-120}}
-.vx-face[data-state=thinking]{box-shadow:0 22px 50px rgba(4,12,28,.45),inset 0 0 0 1px rgba(127,230,255,.45),0 0 32px rgba(95,216,255,.25)}
-.vx-face[data-mood=concerned]{box-shadow:0 22px 50px rgba(4,12,28,.45),inset 0 0 0 1px rgba(255,120,140,.4)}
 .vx-caption{display:flex;align-items:center;gap:.5rem;font-size:.86rem;padding:0 .3rem}
 .vx-caption b{font-family:var(--font-heading,inherit)}
 .vx-caption #vxStatus{margin-left:auto;font-size:.76rem;color:var(--text3,var(--text2));font-style:italic}
@@ -133,15 +123,10 @@ details.vx-card[open] > summary::after{content:"－"}
 .vx-refpop a{color:var(--accent);font-weight:700;white-space:nowrap}
 @media (max-width:900px){
   .vx-grid{grid-template-columns:1fr}
-  .vx-stage{position:static;grid-template-columns:150px 1fr;align-items:start}
-  .vx-face{grid-row:span 2;border-radius:22px}
-  .vx-caption{grid-column:2}
-  .vx-ctx{grid-column:2}
-  .vx-kb{grid-column:1 / -1}
+  .vx-stage{position:static}
 }
 @media (max-width:600px){
   #vx-app{margin-top:1rem;width:calc(100vw - 32px)}
-  .vx-stage{grid-template-columns:118px 1fr;gap:.6rem}
   .vx-bubble{max-width:100%}
   .vx-send span{display:none}
   .vx-send{padding:0 1rem}

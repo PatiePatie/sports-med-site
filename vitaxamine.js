@@ -1,9 +1,7 @@
-/* vitaxamine.js — the Vitaxamine page (infirmary.html), as a conversation
-   with a face. Mounts into #vx-app.
-   · The face (vx-face.js) listens while you type, thinks while the answer is
-     on its way, and speaks it: the reply is written out word by word and the
-     mouth moves with each sound. It ends concerned if the answer carries red
-     flags, reassured otherwise, and reacts to 👍/👎.
+/* vitaxamine.js — the Vitaxamine page (infirmary.html). Mounts into #vx-app.
+   · The status line under the header reports what it's doing: listening while
+     you type, thinking while the answer is on its way, then speaking as the
+     reply is written out word by word.
    · It's a real conversation: follow-ups carry the last exchanges, so "and
      how long until I can run?" means the injury you were just talking about.
      Every answer ends with suggested follow-ups you can tap.
@@ -78,7 +76,6 @@
   mount.innerHTML =
     '<div class="vx-grid">' +
       '<aside class="vx-stage">' +
-        '<div class="vx-face" id="vxFace" title=""></div>' +
         '<div class="vx-caption"><span class="vx-dot"></span><b>Vitaxamine</b><span id="vxStatus"></span></div>' +
         '<div class="vx-card vx-ctx"><div class="vx-card-h" id="vxCtxH"></div>' +
           '<label class="vx-pain"><span id="vxPainL"></span><input type="range" id="vxPain" min="0" max="10" step="1" value="0"><b id="vxPainV">—</b></label>' +
@@ -98,7 +95,6 @@
     '<div class="vx-refpop" id="vxRefPop" role="tooltip"></div>';
 
   var input = document.getElementById('vxInput'), readEl = document.getElementById('vxRead'), thread = document.getElementById('vxThread');
-  var face = window.VxFace ? window.VxFace.mount(document.getElementById('vxFace')) : { state: function () {}, mood: function () {}, say: function () {}, nod: function () {} };
   var ctx = { pain: 0, when: '', side: '' }, history = [], busy = false, typingT = 0;
   var WHEN = [['today', 'Today', '今天'], ['week', 'This week', '这周'], ['month', '2–4 weeks', '2–4 周'], ['long', 'Longer', '更久']];
   var SIDE = [['left', 'Left', '左侧'], ['right', 'Right', '右侧'], ['both', 'Both', '两侧']];
@@ -142,9 +138,9 @@
   input.addEventListener('input', function () {
     renderRead();
     if (busy) return;
-    face.state('listening'); status(T('listening…', '正在听…'));
+    status(T('listening…', '正在听…'));
     clearTimeout(typingT);
-    typingT = setTimeout(function () { if (!busy) { face.state('idle'); status(T('ready to listen', '在听')); } }, 1800);
+    typingT = setTimeout(function () { if (!busy) status(T('ready to listen', '在听')); }, 1800);
   });
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
   document.getElementById('vxSend').addEventListener('click', function () { ask(); });
@@ -152,12 +148,11 @@
   document.getElementById('vxPain').addEventListener('input', function (e) {
     ctx.pain = +e.target.value; document.getElementById('vxPainV').textContent = ctx.pain ? ctx.pain + '/10' : '—';
     e.target.style.setProperty('--v', (ctx.pain * 10) + '%');
-    if (ctx.pain >= 8) face.mood('concerned', 1500); else if (ctx.pain && ctx.pain <= 2) face.mood('happy', 900);
   });
   mount.querySelector('.vx-ctx').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-k]'); if (!b) return;
     var k = b.getAttribute('data-k'), v = b.getAttribute('data-v');
-    ctx[k] = ctx[k] === v ? '' : v; labels(); face.nod();
+    ctx[k] = ctx[k] === v ? '' : v; labels();
   });
   function ctxText() {
     var bits = [];
@@ -188,12 +183,10 @@
     addMsg('me', '<div class="vx-bubble">' + esc(shown) + '</div>' + (ctxText() ? '<div class="vx-ctxline">' + esc(ctxText().replace(/^ \(|\)$/g, '')) + '</div>' : '') +
       (chipsHtml(read(q)) ? '<div class="vx-q-chips">' + chipsHtml(read(q)) + '</div>' : ''));
     if (read(q).flags.length) {
-      face.mood('concerned', 4000);
       addMsg('bot', '<div class="vx-flagbox">⚠ ' + T('You mentioned ', '你提到了') + read(q).flags.map(function (f) { return '<b>' + esc(zh() ? f[1] : f[0]) + '</b>'; }).join(T(', ', '、')) +
         T('. If this is severe, sudden or getting worse, get medical care now; don’t wait for an answer here.', '。如果情况严重、突然出现或在加重，请立即就医，不要等待这里的回答。') + '</div>', 'vx-flagmsg');
     }
     var wait = addMsg('bot', '<div class="vx-bubble vx-typing"><i></i><i></i><i></i></div>');
-    face.state('thinking');
     var steps = [T('checking it’s a clinical question…', '确认是否为临床问题…'), T('searching the knowledge base…', '检索知识库…'), T('writing the answer…', '正在组织回答…')], si = 0;
     status(steps[0]);
     var stepT = setInterval(function () { si = Math.min(steps.length - 1, si + 1); status(steps[si]); }, 1400);
@@ -207,17 +200,17 @@
         var d = res[1].d || {};
         if (!d.reply) {
           wait.innerHTML = '<div class="vx-bubble vx-err">' + (res[1].st === 0 ? T('Network error: check your connection and try again.', '网络错误：请检查网络后重试。') : T('I can’t answer right now. Please try again in a moment.', '暂时无法回答，请稍后再试。')) + '</div>';
-          face.mood('concerned', 1500); face.state('idle'); status(T('ready to listen', '在听')); busy = false; return;
+          status(T('ready to listen', '在听')); busy = false; return;
         }
         var top = (d.ragTop || []).filter(function (id) { return KBI[id]; });
         speak(wait, d.reply, top, o, !!d.rejected, q);
       });
   }
 
-  /* ─── speaking: the reply is written out and the face says it ─────── */
+  /* ─── speaking: the reply is written out into the bubble ──────────── */
   function inline(s) { return esc(s).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/`([^`]+)`/g, '<code>$1</code>'); }
   function speak(el, reply, top, o, rejected, q) {
-    face.state('speaking'); status(T('speaking', '正在说'));
+    status(T('speaking', '正在说'));
     var plain = String(reply).replace(/\r/g, '').replace(/^#{1,4}\s+/gm, '').replace(/\*\*/g, '');
     el.innerHTML = '<div class="vx-bubble vx-live"><span class="vx-live-t"></span><i class="vx-caret"></i></div>';
     var sp = el.querySelector('.vx-live-t'), bub = el.querySelector('.vx-live');
@@ -232,10 +225,6 @@
       if (done) return;
       var k = Math.min(total, Math.round(total * Math.min(1, (now - t0) / dur)));
       if (k > shown) {
-        var chunk = plain.slice(shown, k);
-        for (var i = 0; i < chunk.length; i += Math.max(1, Math.floor(chunk.length / 3))) face.say(chunk.charAt(i));
-        face.say(chunk.charAt(chunk.length - 1));
-        if (isRed(chunk)) face.mood('concerned', 1800);
         shown = k; sp.textContent = plain.slice(0, k);
         if (k % 40 < 3) bub.scrollIntoView({ block: 'nearest' });
       }
@@ -268,20 +257,16 @@
       '<div class="vx-a-foot"><span>' + T('Education only, not a diagnosis.', '仅供学习，不构成诊断。') + '</span><span class="vx-rate"><button type="button" data-r="up" aria-label="Helpful">👍</button><button type="button" data-r="down" aria-label="Not helpful">👎</button></span></div></div>';
     history.push({ q: q, a: String(reply) });
     busy = false;
-    var red = isRed(reply) || o.flags.length;
-    face.state('idle'); face.mood(red ? 'concerned' : 'happy', 2600); face.nod();
     status(T('ready for a follow-up', '可以继续追问'));
     if (!rejected) followUps(o, reply);
     el.querySelector('.vx-rate').addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
       $$('button', this).forEach(function (x) { x.classList.toggle('on', x === b); });
-      if (b.getAttribute('data-r') === 'up') face.mood('happy', 1800); else { face.mood('concerned', 1800); followUps(o, reply, true); }
+      if (b.getAttribute('data-r') !== 'up') followUps(o, reply, true);
     });
     el.addEventListener('change', function (e) {
       if (!e.target.matches('.vx-check input')) return;
-      var all = $$('.vx-check input', el), done = all.filter(function (x) { return x.checked; }).length;
       e.target.closest('li').classList.toggle('done', e.target.checked);
-      if (done === all.length && all.length) { face.mood('happy', 2200); face.nod(); }
     });
   }
   function followUps(o, reply, simpler) {

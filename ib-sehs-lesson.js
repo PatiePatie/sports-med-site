@@ -28,6 +28,19 @@
 
 (function () {
   'use strict';
+  /* Inline-safe DOM writes: on the course page this script's own reader
+     chrome (top bar, rail, footer) does not exist, and every unguarded
+     $('.classList') / $('.textContent') here threw and aborted the boot
+     before the hub ever painted. */
+  function __e$(sel){ return document.querySelector(sel); }
+  function __n(){ return { classList:{toggle:function(){},add:function(){},remove:function(){}},
+      style:{}, dataset:{}, setAttribute:function(){}, appendChild:function(){},
+      querySelector:function(){ return null; }, focus:function(){}, blur:function(){},
+      addEventListener:function(){}, removeEventListener:function(){},
+      getBoundingClientRect:function(){ return {top:0,left:0,width:0,height:0,bottom:0,right:0}; },
+      textContent:'', innerHTML:'', hidden:true, scrollIntoView:function(){} }; }
+  function __w(sel){ return __e$(sel) || __n(); }
+
 
   var NATIVE = window.IBSEHS_NATIVE || [];
   var TOPICS = window.IBSEHS_TOPICS || [];
@@ -675,11 +688,11 @@
   }
   function closeRail() {
     if (railEl) railEl.classList.remove('is-open');
-    var sc = $('#ibScrim'); if (sc) sc.classList.remove('is-open');
+    var sc = $('#ibScrim') || __n(); if (sc) sc.classList.remove('is-open');
   }
   function openRail() {
     if (railEl) railEl.classList.add('is-open');
-    var sc = $('#ibScrim'); if (sc) sc.classList.add('is-open');
+    var sc = $('#ibScrim') || __n(); if (sc) sc.classList.add('is-open');
   }
 
   /* ── term-blanking drill ─────────────────────────────────────────────── */
@@ -688,7 +701,7 @@
      — but once the drill is on those are already replaced by blanks, so the
      turn-it-off pass skipped every node and nothing could be closed again. */
   function drillOn() {
-    var b = $('#ibDrill');
+    var b = $('#ibDrill') || __n();
     return !!(b && b.getAttribute('aria-pressed') === 'true');
   }
   function applyBlanks(node) {
@@ -727,11 +740,11 @@
     rendered = [];
     idx = 0;
     document.body.classList.add('ib-reading');
-    $('#ibHub').hidden = true;
-    $('#ibReader').hidden = false;
-    $('#ibRailToggle').hidden = false;
+    __w('#ibHub').hidden = true;
+    __w('#ibReader').hidden = false;
+    __w('#ibRailToggle').hidden = false;
     readEl.hidden = false;
-    $('#ibFoot').hidden = false;
+    __w('#ibFoot').hidden = false;
     readEl.innerHTML = '';
     glossEl && buildRail();
 
@@ -844,14 +857,14 @@
     document.body.classList.remove('ib-resuming');
     /* the whole reader shell goes away on the hub. Hiding only the reading
        column left the rail sitting there as an empty white drawer. */
-    $('#ibReader').hidden = true;
+    __w('#ibReader').hidden = true;
     readEl.hidden = true;
-    $('#ibFoot').hidden = true;
-    $('#ibRailToggle').hidden = true;
+    __w('#ibFoot').hidden = true;
+    __w('#ibRailToggle').hidden = true;
     if (fillEl) fillEl.style.width = '0%';
     if (countEl) countEl.textContent = '—';
 
-    var host = $('#ibHub');
+    var host = $('#ibHub') || __n();
     host.hidden = false;
     host.innerHTML = '';
 
@@ -889,7 +902,7 @@
   /* ── the pane router ─────────────────────────────────────────────────── */
 
   function paintHub() {
-    var host = $('#ibHub');
+    var host = $('#ibHub') || __n();
     var pane = $('.ib-pane', host);
     $$('.ib-tab', host).forEach(function (b) {
       b.classList.toggle('is-on', b.dataset.view === hubView);
@@ -1359,35 +1372,35 @@
   function boot() {
     try { showCN = localStorage.getItem('sm_lang') === 'zh'; } catch (e) {}
     try { dark = localStorage.getItem('dark') === 'true'; } catch (e) {}
-    readEl = $('#ibRead'); footBack = $('#ibBack'); footNext = $('#ibNext');
-    fillEl = $('#ibFill'); countEl = $('#ibCount');
-    railEl = $('#ibRail'); mapEl = $('#ibMap'); glossEl = $('#ibGloss');
+    readEl = $('#ibRead') || __n(); footBack = $('#ibBack') || __n(); footNext = $('#ibNext') || __n();
+    fillEl = $('#ibFill') || __n(); countEl = $('#ibCount') || __n();
+    railEl = $('#ibRail') || __n(); mapEl = $('#ibMap') || __n(); glossEl = $('#ibGloss') || __n();
 
-    $('#ibExit').addEventListener('click', exit);
-    footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
-    footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
+    var ex = $('#ibExit') || __n(); if (ex) ex.addEventListener('click', exit);
+    if (footNext) footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
+    if (footBack) footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
 
-    $('#ibLang').addEventListener('click', function () {
+    var lz = $('#ibLang') || __n(); if (lz) lz.addEventListener('click', function () {
       showCN = !showCN;
       try { localStorage.setItem('sm_lang', showCN ? 'zh' : 'en'); } catch (e) {}
       applyChrome();
     });
-    $('#ibDark').addEventListener('click', function () {
+    var dk = $('#ibDark') || __n(); if (dk) dk.addEventListener('click', function () {
       dark = !dark;
       try { localStorage.setItem('dark', dark ? 'true' : 'false'); } catch (e) {}
       document.body.classList.toggle('dark', dark);
-      $('#ibDark').textContent = dark ? '☀' : '☾';
+      __w('#ibDark').textContent = dark ? '☀' : '☾';
       if (window.IBSEHSModels) { try { window.IBSEHSModels.refresh(); } catch (e) {} }
     });
-    $('#ibDrill').addEventListener('click', function () {
+    var dr = $('#ibDrill') || __n(); if (dr) dr.addEventListener('click', function () {
       this.setAttribute('aria-pressed', drillOn() ? 'false' : 'true');
       applyDrill();
     });
-    $('#ibRailToggle').addEventListener('click', openRail);
-    $('#ibRailClose').addEventListener('click', closeRail);
-    $('#ibScrim').addEventListener('click', closeRail);
-    var homeBtn = $('#ibHome'); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
-    $('#ibRailHub').addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
+    var rt = $('#ibRailToggle') || __n(); if (rt) rt.addEventListener('click', openRail);
+    var rc = $('#ibRailClose') || __n(); if (rc) rc.addEventListener('click', closeRail);
+    var sc = $('#ibScrim') || __n(); if (sc) sc.addEventListener('click', closeRail);
+    var homeBtn = $('#ibHome') || __n(); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
+    var rh = $('#ibRailHub') || __n(); if (rh) rh.addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {
       if (e.target && /input|textarea/i.test(e.target.tagName)) return;
@@ -1401,7 +1414,7 @@
     document.body.classList.toggle('lang-zh', showCN);
     document.body.classList.toggle('lang-en', !showCN);
     document.body.classList.toggle('dark', dark);
-    $('#ibDark').textContent = dark ? '☀' : '☾';
+    __w('#ibDark').textContent = dark ? '☀' : '☾';
     route();
     window.IBSEHSLesson = {
       slides: function () { return slides; },

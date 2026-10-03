@@ -95,12 +95,13 @@ return wrap;
 }
 function deepLayer(block,extra){
 if(!extra)return;
-if(extra.metaphor&&(extra.metaphor.en||extra.metaphor.zh)){var m=make('div','deep-metaphor');m.appendChild(bi(make('span','deep-tag',text('Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3')),'Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3'));m.appendChild(bi(make('p','',text(extra.metaphor.en,extra.metaphor.zh)),extra.metaphor.en,extra.metaphor.zh));block.insertBefore(m,block.firstChild)}
+
 /* The four blocks below are the long tail of a section. Nothing is deleted -
    they collapse behind one toggle so the default read stays short and a
    student who wants the detail can open it. The picture stays visible: it
    is the hook that makes the section worth reading at all. */
 var box=make('div','native-deep__inner');
+if(extra.metaphor&&(extra.metaphor.en||extra.metaphor.zh)){var m=make('div','deep-metaphor');m.appendChild(bi(make('span','deep-tag',text('Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3')),'Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3'));m.appendChild(bi(make('p','',text(extra.metaphor.en,extra.metaphor.zh)),extra.metaphor.en,extra.metaphor.zh));m.style.marginTop='0';box.appendChild(m)}
 if(extra.walk&&extra.walk.length){var w=make('div','deep-walk');w.appendChild(bi(make('h4','','In detail','\u8be6\u7ec6\u8bb2\u89e3'),'In detail','\u8be6\u7ec6\u8bb2\u89e3'));var bullets=extra.walk,paras=[];if(bullets.length){var ul=make('ul','deep-bullets');bullets.forEach(function(p){var li=make('li');li.setAttribute('data-rich','1');li._rich={en:richText(p.en),zh:richText(p.zh)};renderRich(li);ul.appendChild(li)});w.appendChild(ul)}paras.forEach(function(p){w.appendChild(bi(make('p','',text(p.en,p.zh)),p.en,p.zh))});box.appendChild(w)}
 deepPair(box,'deep-numbers',(extra.numbers||{}).en,(extra.numbers||{}).zh);
 if(extra.mistakes&&extra.mistakes.length){var k=make('div','deep-mistakes');k.appendChild(bi(make('h4','','Common mistakes','\u5bb9\u6613\u641e\u9519\u7684\u5730\u65b9'),'Common mistakes','\u5bb9\u6613\u641e\u9519\u7684\u5730\u65b9'));var ul2=make('ul');extra.mistakes.forEach(function(v){ul2.appendChild(bi(make('li','',text(v.en,v.zh)),v.en,v.zh))});k.appendChild(ul2);box.appendChild(k)}

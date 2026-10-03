@@ -1419,8 +1419,12 @@
     var m;
     if ((m = h.match(/^lesson\/(.+)$/))) {
       if (!knownCode(m[1])) { openMissing(m[1]); return; }
-      /* the course page mounts the hub only; it has no reader to open */
-      if (!$('#ibReader')) { openHub(); return; }
+      /* The course page mounts the hub only. Send the reader to the page that
+         actually has the reader, instead of silently repainting the hub. */
+      if (!$('#ibReader')) {
+        location.href = 'ib-sehs-lesson.html#lesson/' + m[1];
+        return;
+      }
       openReader(m[1]); return;
     }
     if ((m = h.match(/^(topic|lessons|guide|defs)\/(.+)$/))) {

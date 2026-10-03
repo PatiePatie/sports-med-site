@@ -1386,7 +1386,7 @@
     $('#ibRailToggle').addEventListener('click', openRail);
     $('#ibRailClose').addEventListener('click', closeRail);
     $('#ibScrim').addEventListener('click', closeRail);
-    $('#ibHome').addEventListener('click', function () { location.hash = '#'; });
+    var homeBtn = $('#ibHome'); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
     $('#ibRailHub').addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {

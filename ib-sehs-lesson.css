@@ -2451,3 +2451,36 @@ body.dark .native-section .deep-walk b.kt{color:var(--gold)}
 /* the pane keeps a stable height so switching between the topic tree and a
    topic page does not jump the scroll position */
 .ib-pane-min-height { min-height: 46vh; }
+
+/* ═══ reader as a focused player (compact ✕, one Next) ═══════════════════ */
+
+/* The exit control is icon-only at every width: font-size 0 hides the label
+   that applyLanguage rewrites from data-en/data-zh, and ::before supplies the
+   glyph. Qualified with body.ib-lesson because body.ib-lesson button{font:inherit}
+   is (0,1,2) and beats a bare class selector. */
+body.ib-lesson .ib-top__exit--x {
+  font-size: 0; width: 40px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+body.ib-lesson .ib-top__exit--x::before {
+  content: '✕'; font-size: 1.05rem; line-height: 1;
+}
+
+/* The progress bar is the spine of the bar now that there is no word beside it */
+body.ib-lesson .ib-top .ib-top__bar { min-width: 60px; }
+
+/* Back becomes a quiet arrow; Next carries the weight, as in the reference */
+.ib-foot__btn--back {
+  width: 44px; padding: 0; justify-content: center;
+  font-size: 1.15rem; color: var(--text2);
+  background: transparent;
+}
+.ib-foot__btn--back:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text);
+}
+.ib-foot__btn--back > span { pointer-events: none; }
+
+.ib-foot__btn--next { gap: .45rem; padding-left: 1.15rem; padding-right: 1.05rem; }
+.ib-foot__btn--next > span { pointer-events: none; }
+.ib-foot__arrow { font-size: 1rem; line-height: 1; }
+@media (hover: none) { .ib-foot__btn--next .ib-foot__arrow { font-size: 1.1rem; } }

@@ -11,7 +11,7 @@ var CHAPTERS=[
 {n:2,id:'ib-ch2',start:9,end:18,en:'Theme B · Biomechanics',zh:'主题B · 生物力学'},
 {n:3,id:'ib-ch3',start:18,end:29,en:'Theme C · Psychology & Motor Learning',zh:'主题C · 心理与动作学习'}
 ];
-var showCN=false,currentChapter=1,filter='all',quizState=null,flashState=null,previousOverflow='';
+var showCN=(function(){try{return localStorage.getItem('sm_lang')==='zh';}catch(e){return false;}})(),currentChapter=1,filter='all',quizState=null,flashState=null,previousOverflow='';
 var $=function(selector,context){return (context||document).querySelector(selector)};
 var $$=function(selector,context){return Array.prototype.slice.call((context||document).querySelectorAll(selector))};
 function make(tag,cls,value){var node=document.createElement(tag);if(cls)node.className=cls;if(value!==undefined)node.textContent=value;return node}
@@ -77,13 +77,36 @@ if(visuals.figures&&visuals.figures.length){var fw=make('div','vis-figures');fw.
 (visuals.tables||[]).forEach(function(t){visualTable(block,t)});
 if(visuals.example)visualExample(block,visuals.example)}
 
+function deepToggle(host,box){
+var id='ndeep'+(deepToggle.n=(deepToggle.n||0)+1);
+var wrap=make('div','native-deep');
+var btn=make('button','native-deep__btn');btn.type='button';btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls',id);
+var lo=bi(make('span','native-deep__lbl-closed'),'Go deeper','\u6df1\u5165\u8bb2\u89e3');
+var lo2=bi(make('span','native-deep__lbl-open'),'Show less','\u6536\u8d77');
+btn.appendChild(lo);btn.appendChild(lo2);
+var body=make('div','native-deep__body');body.id=id;
+while(box.firstChild)body.appendChild(box.firstChild);
+btn.addEventListener('click',function(){
+var open=wrap.classList.toggle('is-open');
+btn.setAttribute('aria-expanded',open?'true':'false');
+});
+wrap.appendChild(btn);wrap.appendChild(body);host.appendChild(wrap);
+return wrap;
+}
 function deepLayer(block,extra){
 if(!extra)return;
-if(extra.metaphor&&(extra.metaphor.en||extra.metaphor.zh)){var m=make('div','deep-metaphor');m.appendChild(bi(make('span','deep-tag',text('Start with a picture','先用一个画面理解')),'Start with a picture','先用一个画面理解'));m.appendChild(bi(make('p','',text(extra.metaphor.en,extra.metaphor.zh)),extra.metaphor.en,extra.metaphor.zh));block.insertBefore(m,block.firstChild)}
-if(extra.walk&&extra.walk.length){var w=make('div','deep-walk');w.appendChild(bi(make('h4','','In detail','详细讲解'),'In detail','详细讲解'));var bullets=extra.walk,paras=[];if(bullets.length){var ul=make('ul','deep-bullets');bullets.forEach(function(p){var li=make('li');li.setAttribute('data-rich','1');li._rich={en:richText(p.en),zh:richText(p.zh)};renderRich(li);ul.appendChild(li)});w.appendChild(ul)}paras.forEach(function(p){w.appendChild(bi(make('p','',text(p.en,p.zh)),p.en,p.zh))});block.appendChild(w)}
-deepPair(block,'deep-numbers',(extra.numbers||{}).en,(extra.numbers||{}).zh);
-if(extra.mistakes&&extra.mistakes.length){var k=make('div','deep-mistakes');k.appendChild(bi(make('h4','','Common mistakes','容易搞错的地方'),'Common mistakes','容易搞错的地方'));var ul=make('ul');extra.mistakes.forEach(function(v){ul.appendChild(bi(make('li','',text(v.en,v.zh)),v.en,v.zh))});k.appendChild(ul);block.appendChild(k)}
-deepPair(block,'deep-why',(extra.why||{}).en,(extra.why||{}).zh)}
+if(extra.metaphor&&(extra.metaphor.en||extra.metaphor.zh)){var m=make('div','deep-metaphor');m.appendChild(bi(make('span','deep-tag',text('Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3')),'Start with a picture','\u5148\u7528\u4e00\u4e2a\u753b\u9762\u7406\u89e3'));m.appendChild(bi(make('p','',text(extra.metaphor.en,extra.metaphor.zh)),extra.metaphor.en,extra.metaphor.zh));block.insertBefore(m,block.firstChild)}
+/* The four blocks below are the long tail of a section. Nothing is deleted -
+   they collapse behind one toggle so the default read stays short and a
+   student who wants the detail can open it. The picture stays visible: it
+   is the hook that makes the section worth reading at all. */
+var box=make('div','native-deep__inner');
+if(extra.walk&&extra.walk.length){var w=make('div','deep-walk');w.appendChild(bi(make('h4','','In detail','\u8be6\u7ec6\u8bb2\u89e3'),'In detail','\u8be6\u7ec6\u8bb2\u89e3'));var bullets=extra.walk,paras=[];if(bullets.length){var ul=make('ul','deep-bullets');bullets.forEach(function(p){var li=make('li');li.setAttribute('data-rich','1');li._rich={en:richText(p.en),zh:richText(p.zh)};renderRich(li);ul.appendChild(li)});w.appendChild(ul)}paras.forEach(function(p){w.appendChild(bi(make('p','',text(p.en,p.zh)),p.en,p.zh))});box.appendChild(w)}
+deepPair(box,'deep-numbers',(extra.numbers||{}).en,(extra.numbers||{}).zh);
+if(extra.mistakes&&extra.mistakes.length){var k=make('div','deep-mistakes');k.appendChild(bi(make('h4','','Common mistakes','\u5bb9\u6613\u641e\u9519\u7684\u5730\u65b9'),'Common mistakes','\u5bb9\u6613\u641e\u9519\u7684\u5730\u65b9'));var ul2=make('ul');extra.mistakes.forEach(function(v){ul2.appendChild(bi(make('li','',text(v.en,v.zh)),v.en,v.zh))});k.appendChild(ul2);box.appendChild(k)}
+deepPair(box,'deep-why',(extra.why||{}).en,(extra.why||{}).zh);
+if(box.firstChild)deepToggle(block,box);
+}
 function renderNativeLesson(topic,page){var record=nativeByCode[topic.code];if(!record)return null;var lesson=make('div','native-lesson'),intro=make('div','native-lead');if(record.intro)intro.appendChild(bi(make('p','',text(record.intro.en,record.intro.zh)),record.intro.en,record.intro.zh));if(record.guidingQuestion&&(record.guidingQuestion.en||record.guidingQuestion.zh)){var gq=make('div','deep-question');gq.appendChild(bi(make('span','deep-tag',text('The big question','核心问题')),'The big question','核心问题'));gq.appendChild(bi(make('p','',text(record.guidingQuestion.en,record.guidingQuestion.zh)),record.guidingQuestion.en,record.guidingQuestion.zh));intro.appendChild(gq)}lesson.appendChild(intro);(record.sections||[]).forEach(function(section){var block=make('section','native-section');if(section.title){var sTitle=(section.title&&section.title.en)||section.title;var sZh=(window.IB_SECTION_ZH&&window.IB_SECTION_ZH[sTitle])||(section.title&&section.title.zh)||sTitle;block.appendChild(bi(make('h3','',text(sTitle,sZh)),sTitle,sZh))}var extra=(window.IB_DEEP&&window.IB_DEEP[sTitle])||null;(section.paragraphs||[]).forEach(function(value){block.appendChild(bi(make('p','',text(value.en,value.zh)),value.en,value.zh))});nativeList(block,section.bullets,false,'native-bullets');if(section.terms&&section.terms.length){var terms=make('div','native-terms');terms.appendChild(bi(make('h4','','Key terms','关键术语'),'Key terms','关键术语'));var list=make('dl','native-term-list');section.terms.forEach(function(value){var parts=nativeTerm(value),row=make('div','native-term'),term=bi(make('dt','',text(parts.term.en,parts.term.zh)),parts.term.en,parts.term.zh);row.appendChild(term);if(parts.definition&&parts.definition.en)row.appendChild(bi(make('dd','',text(parts.definition.en,parts.definition.zh)),parts.definition.en,parts.definition.zh));list.appendChild(row)});terms.appendChild(list);block.appendChild(terms)}if(section.comparison)nativeTable(block,section.comparison);if(section.formulas&&section.formulas.length){var formulas=make('div','native-formulas');formulas.appendChild(bi(make('h4','','Formulas and relationships','公式与关系'),'Formulas and relationships','公式与关系'));section.formulas.forEach(function(formula){nativeFormula(formulas,formula)});block.appendChild(formulas)}if(section.examples&&section.examples.length){var examples=make('div','native-examples');examples.appendChild(bi(make('h4','','Applied example','应用例子'),'Applied example','应用例子'));nativeList(examples,section.examples,false,'native-bullets');block.appendChild(examples)}examFocusBox(block,section.examFocus);deepLayer(block,extra);visualLayer(block,(window.IB_VISUALS&&window.IB_VISUALS[sTitle])||null);var quick=(section.quickCheck&&section.quickCheck.length)?section.quickCheck:((extra&&extra.quick)||null);if(quick&&quick.length){var check=make('div','native-quick-check');check.appendChild(bi(make('h4','','Quick check','快速检查'),'Quick check','快速检查'));nativeList(check,quick,true);block.appendChild(check)}lesson.appendChild(block)});var boundary=make('div','native-boundary');boundary.appendChild(bi(make('h4','','Do not overlearn','无需过度学习'),'Do not overlearn','无需过度学习'));boundary.appendChild(bi(make('p','',text(topic.skip[0],topic.skip[1])),topic.skip[0],topic.skip[1]));lesson.appendChild(boundary);if(record.quickCheck&&record.quickCheck.length){var tq=make('div','native-quick-check');tq.appendChild(bi(make('h4','','Quick check','快速检查'),'Quick check','快速检查'));nativeList(tq,record.quickCheck,true);lesson.appendChild(tq)}if(record.figures&&record.figures.length){var figures=make('div','native-figures');figures.appendChild(bi(make('h4','','Selected visual reference','精选视觉参考'),'Selected visual reference','精选视觉参考'));record.figures.forEach(function(figure){nativeFigure(figures,figure)});lesson.appendChild(figures)}if(record.keyLinks&&record.keyLinks.length){var links=make('div','native-links');links.appendChild(bi(make('h4','','Related links','相关链接'),'Related links','相关链接'));nativeList(links,record.keyLinks,false,'native-bullets');lesson.appendChild(links)}nativeReference(lesson,record,page,topic);return lesson}
 function buildAccordions(){
 CHAPTERS.forEach(function(chapter){
@@ -192,5 +215,5 @@ window.addEventListener('resize',function(){$$('.acc-item.open').forEach(functio
 window.addEventListener('hashchange',function(){var match=location.hash.match(/^#(?:ib-)?ch([1-3])$/);if(match)showChapter(Number(match[1]),false,false);var topicMatch=location.hash.match(/^#ib-topic-(\d+)$/);if(topicMatch)openTopic(Number(topicMatch[1]))})}
 function initialChapter(){if(!document.querySelector('.guide-tab')&&!document.getElementById('ib-accordion-1'))return;var hash=location.hash,match=hash.match(/^#(?:ib-)?ch([1-3])$/),topicMatch=hash.match(/^#ib-topic-(\d+)$/);if(match)showChapter(Number(match[1]),false,false);else if(topicMatch){var topic=topicByIndex(Number(topicMatch[1])-1);if(topic)showChapter(chapterForTopic(topic),false,false);setTimeout(function(){var item=document.getElementById('ib-topic-'+topicMatch[1]);if(item)toggleAcc($('.acc-header',item))},50)}else showChapter(1,false,false)}
 initialLanguage();buildAccordions();buildAssistantOptions();initialChapter();applyLanguage();if(document.body.classList.contains('ib-learn-page')){var firstHeader=$('#ib-topic-1 .acc-header');if(firstHeader)toggleAcc(firstHeader)}var dark=document.body.classList.contains('dark');var darkBtn=$('#darkToggle');if(darkBtn)darkBtn.textContent=dark?'☀':'◐';
-bindEvents();window.IBSEHSCourse={renderNativeLesson:renderNativeLesson,nativeByCode:nativeByCode,showChapter:showChapter,openTopic:openTopic,renderProgress:renderProgress,openQuiz:openQuizMode,openFlashcards:openFlashcards,openAssistant:openAiModal,topics:topics,questions:questions};
+bindEvents();window.IBSEHSCourse={setLang:function(v){showCN=!!v;},renderNativeLesson:renderNativeLesson,nativeByCode:nativeByCode,showChapter:showChapter,openTopic:openTopic,renderProgress:renderProgress,openQuiz:openQuizMode,openFlashcards:openFlashcards,openAssistant:openAiModal,topics:topics,questions:questions};
 })();

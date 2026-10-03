@@ -947,6 +947,42 @@ button.ib-tile:hover { border-color: var(--blue2); }
 .ib-defcard__t { font-weight: 800; font-size: .98rem; margin-bottom: .15rem; }
 .ib-defcard__d { font-size: .89rem; color: var(--text2); }
 
+/* ═══ collapsible section detail ═══
+   The long tail of a section (In detail / numbers / mistakes / why) is
+   collapsed by default. Nothing is deleted — the default read is shorter so a
+   student is not confronted by a wall of prose, and the full detail is one
+   click away. The label swaps between "Go deeper" and "Show less" through two
+   spans, because a single data-en/data-zh pair cannot express both states and
+   a language toggle would otherwise reset an open button to its closed label. */
+.native-deep { margin: 1.1rem 0 .2rem; }
+.native-deep__btn {
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 40px;
+  padding: .45rem .95rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+}
+.native-deep__btn::before { content: '\25BE'; font-size: .8em; opacity: .8; }
+.native-deep__btn:hover { color: var(--text); border-color: var(--accent); }
+.native-deep__lbl-open { display: none; }
+.native-deep.is-open .native-deep__lbl-open { display: inline; }
+.native-deep.is-open .native-deep__lbl-closed { display: none; }
+.native-deep.is-open .native-deep__btn::before { content: '\25B4'; }
+.native-deep__body { display: none; }
+.native-deep.is-open .native-deep__body { display: block; }
+.native-deep.is-open .native-deep__btn { margin-bottom: .6rem; }
+@media (max-width: 620px) {
+  .native-deep__btn { width: 100%; justify-content: center; }
+}
+
 /* ═══ unknown topic code ═══
    An unrecognised code used to render the first topic's lesson as a two-block
    stub that looked like a broken reader. It now says what happened and keeps the

@@ -82,6 +82,17 @@
     return n;
   }
   /* plain bilingual node: re-read in place on a language change */
+  /* The hub is ALSO mounted inline on ib-sehs-learn.html, which carries #ibHub
+     but not the reader shell. Every reader-only element is null there, so all
+     reader wiring has to tolerate absence instead of throwing on its first
+     line and leaving the hub permanently unpainted. */
+  function on(node, ev, fn) {
+    var n = typeof node === 'string' ? $(node) : node;
+    if (n) n.addEventListener(ev, fn);
+    return n;
+  }
+  function hide(node, hidden) { if (node) node.hidden = hidden; }
+
   function plain(node, en, zh) {
     node.setAttribute('data-en', en == null ? '' : en);
     node.setAttribute('data-zh', zh == null ? '' : zh);
@@ -835,10 +846,10 @@
     document.body.classList.remove('ib-resuming');
     slides = []; rendered = []; idx = 0; code = '';
     ST = { i: 0, done: {}, blanks: {} };
-    $('#ibReader').hidden = true;
-    readEl.hidden = true;
-    $('#ibFoot').hidden = true;
-    $('#ibRailToggle').hidden = true;
+    hide($('#ibReader'), true);
+    hide(readEl, true);
+    hide($('#ibFoot'), true);
+    hide($('#ibRailToggle'), true);
     if (fillEl) fillEl.style.width = '0%';
     if (countEl) countEl.textContent = '\u2014';
 
@@ -899,10 +910,10 @@
     document.body.classList.remove('ib-resuming');
     /* the whole reader shell goes away on the hub. Hiding only the reading
        column left the rail sitting there as an empty white drawer. */
-    $('#ibReader').hidden = true;
-    readEl.hidden = true;
-    $('#ibFoot').hidden = true;
-    $('#ibRailToggle').hidden = true;
+    hide($('#ibReader'), true);
+    hide(readEl, true);
+    hide($('#ibFoot'), true);
+    hide($('#ibRailToggle'), true);
     if (fillEl) fillEl.style.width = '0%';
     if (countEl) countEl.textContent = '—';
 
@@ -945,7 +956,10 @@
 
   function paintHub() {
     var host = $('#ibHub');
+    if (!host) return;
+    /* the inline mount on ib-sehs-learn.html ships a placeholder, not a pane */
     var pane = $('.ib-pane', host);
+    if (!pane) { pane = el('div', 'ib-pane'); host.appendChild(pane); }
     $$('.ib-tab', host).forEach(function (b) {
       b.classList.toggle('is-on', b.dataset.view === hubView);
     });
@@ -1405,6 +1419,8 @@
     var m;
     if ((m = h.match(/^lesson\/(.+)$/))) {
       if (!knownCode(m[1])) { openMissing(m[1]); return; }
+      /* the course page mounts the hub only; it has no reader to open */
+      if (!$('#ibReader')) { openHub(); return; }
       openReader(m[1]); return;
     }
     if ((m = h.match(/^(topic|lessons|guide|defs)\/(.+)$/))) {
@@ -1422,31 +1438,31 @@
     fillEl = $('#ibFill'); countEl = $('#ibCount');
     railEl = $('#ibRail'); mapEl = $('#ibMap'); glossEl = $('#ibGloss');
 
-    $('#ibExit').addEventListener('click', exit);
-    footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
-    footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
+    on('#ibExit', 'click', exit);
+    on(footNext, 'click', function () { if (idx < slides.length - 1) show(idx + 1); });
+    on(footBack, 'click', function () { if (idx > 0) show(idx - 1); });
 
-    $('#ibLang').addEventListener('click', function () {
+    on('#ibLang', 'click', function () {
       showCN = !showCN;
       try { localStorage.setItem('sm_lang', showCN ? 'zh' : 'en'); } catch (e) {}
       applyChrome();
     });
-    $('#ibDark').addEventListener('click', function () {
+    on('#ibDark', 'click', function () {
       dark = !dark;
       try { localStorage.setItem('dark', dark ? 'true' : 'false'); } catch (e) {}
       document.body.classList.toggle('dark', dark);
       $('#ibDark').textContent = dark ? '☀' : '☾';
       if (window.IBSEHSModels) { try { window.IBSEHSModels.refresh(); } catch (e) {} }
     });
-    $('#ibDrill').addEventListener('click', function () {
+    on('#ibDrill', 'click', function () {
       this.setAttribute('aria-pressed', drillOn() ? 'false' : 'true');
       applyDrill();
     });
-    $('#ibRailToggle').addEventListener('click', openRail);
-    $('#ibRailClose').addEventListener('click', closeRail);
-    $('#ibScrim').addEventListener('click', closeRail);
+    on('#ibRailToggle', 'click', openRail);
+    on('#ibRailClose', 'click', closeRail);
+    on('#ibScrim', 'click', closeRail);
     var homeBtn = $('#ibHome'); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
-    $('#ibRailHub').addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
+    on('#ibRailHub', 'click', function () { location.hash = '#progress'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {
       if (e.target && /input|textarea/i.test(e.target.tagName)) return;
@@ -1460,7 +1476,7 @@
     document.body.classList.toggle('lang-zh', showCN);
     document.body.classList.toggle('lang-en', !showCN);
     document.body.classList.toggle('dark', dark);
-    $('#ibDark').textContent = dark ? '☀' : '☾';
+    var darkBtn = $('#ibDark'); if (darkBtn) darkBtn.textContent = dark ? '☀' : '☾';
     route();
     window.IBSEHSLesson = {
       slides: function () { return slides; },

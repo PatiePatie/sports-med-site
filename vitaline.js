@@ -8,6 +8,58 @@
 (function () {
   'use strict';
   var API = 'https://api.vitaliteplan.com';
+  /* A hung POST never rejects, so the "Thinking…" bubble used to sit there
+     forever with no way out but reloading. This mirrors the fix already applied
+     on the other course pages: a real AbortController plus a hard timeout, so a
+     stall becomes an error instead of an indefinite wait. */
+  var TIMEOUT_MS = 25000;
+  function __ask(url, opts) {
+    var ctl = ('AbortController' in window) ? new AbortController() : null;
+    var opts2 = opts || {};
+    if (ctl) opts2.signal = ctl.signal;
+    var timer = setTimeout(function () { if (ctl) { try { ctl.abort(); } catch (e) {} } }, TIMEOUT_MS);
+    return fetch(url, opts2).then(function (r) {
+      clearTimeout(timer); return r;
+    }, function (e) {
+      clearTimeout(timer); throw e;
+    });
+  }
+  function __errText(e) {
+    var timedOut = e && (e.name === 'AbortError' || /abort/i.test(String(e.message || '')));
+    return timedOut
+      ? T('That took too long, so I stopped waiting. Please try again.', '等待超时，已停止等待，请重试。')
+      : T('Network error: please try again.', '网络错误，请重试。');
+  }
+  /* Same free-tier cap as the other pages, so this entry point cannot be used
+     to get around the 5/day limit. */
+  var QUOTA_KEY = 'vt_ai_quota';
+  var FREE = 5;
+  function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function quotaLeft() {
+    try {
+      var u = JSON.parse(localStorage.getItem('sm_user') || 'null');
+      if (!u || !u.email) return Infinity;             /* signed out: worker decides */
+      var ent = null;
+      try { ent = JSON.parse(localStorage.getItem('sm_entitlement') || 'null'); } catch (e) {}
+      if (ent && /plus|teacher|admin/.test(ent.plan || '')) return Infinity;
+      if (window.VitaliteAccess && window.VitaliteAccess.state) {
+        var st = window.VitaliteAccess.state();
+        if (st && /plus|teacher|admin/.test(st.plan || '')) return Infinity;
+      }
+      var rec = JSON.parse(localStorage.getItem(QUOTA_KEY) || 'null') || { d: today(), n: 0 };
+      if (rec.d !== today()) rec = { d: today(), n: 0 };
+      return Math.max(0, FREE - rec.n);
+    } catch (e) { return Infinity; }
+  }
+  function quotaBump() {
+    if (quotaLeft() === Infinity) return;
+    try {
+      var rec = JSON.parse(localStorage.getItem(QUOTA_KEY) || 'null') || { d: today(), n: 0 };
+      if (rec.d !== today()) rec = { d: today(), n: 0 };
+      rec.n = rec.n + 1;
+      localStorage.setItem(QUOTA_KEY, JSON.stringify(rec));
+    } catch (e) {}
+  }
   var body = document.body, el = null, log = [], busy = false;
   function zh() { return body.classList.contains('lang-zh') || (function () { try { return localStorage.getItem('sm_lang') === 'zh'; } catch (e) { return false; } })(); }
   function T(en, z) { return zh() ? z : en; }
@@ -87,13 +139,19 @@
     el.classList.add('thinking');
     var ctx = log.slice(-4).map(function (x) { return (x.me ? 'User: ' : 'Vitaline: ') + x.t.slice(0, 500); }).join('\n');
     var question = ctx ? (T('Conversation so far:\n', '之前的对话：\n') + ctx + T('\n\nFollow-up: ', '\n\n追问：') + q) : q;
+    if (quotaLeft() <= 0) {
+      wait.innerHTML = md(T('You have used your free questions for today. Please try again tomorrow.',
+                            '今日免费提问次数已用完，请明天再试。'));
+      return;
+    }
+    quotaBump();
     log.push({ me: 1, t: q });
-    fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: question, lang: zh() ? 'zh' : 'en', mode: 'site' }) })
+    __ask(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: question, lang: zh() ? 'zh' : 'en', mode: 'site' }) })
       .then(function (r) { return r.json(); })
       .then(function (d) {
         var t = d && d.reply ? d.reply : T('Sorry, I could not answer just now. Please try again.', '抱歉，暂时无法回答，请稍后再试。');
         wait.innerHTML = md(t); log.push({ me: 0, t: t });
-      }, function () { wait.innerHTML = md(T('Network error: please try again.', '网络错误，请重试。')); })
+      }, function (e) { wait.innerHTML = md(__errText(e)); })
       .then(function () { busy = false; el.classList.remove('thinking'); var b = el.querySelector('.vl-body'); b.scrollTop = b.scrollHeight; });
   }
   function open() {

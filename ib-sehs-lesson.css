@@ -946,6 +946,61 @@ button.ib-tile:hover { border-color: var(--blue2); }
 }
 .ib-defcard__t { font-weight: 800; font-size: .98rem; margin-bottom: .15rem; }
 .ib-defcard__d { font-size: .89rem; color: var(--text2); }
+
+/* ═══ unknown topic code ═══
+   An unrecognised code used to render the first topic's lesson as a two-block
+   stub that looked like a broken reader. It now says what happened and keeps the
+   full topic list underneath so the reader can carry on. */
+.ib-missing {
+  margin: 0 0 1.6rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--red, #d93b3b);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.ib-missing__title {
+  font-family: var(--font-heading);
+  font-size: 1.32rem;
+  font-weight: 700;
+  margin: 0 0 .5rem;
+}
+.ib-missing__code { font-size: .92rem; color: var(--text2); margin: 0 0 .4rem; }
+.ib-missing__code code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .86em;
+  padding: .1em .42em;
+  border-radius: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.ib-missing__hint { font-size: .92rem; color: var(--text2); margin: 0 0 1rem; }
+.ib-missing__row { display: flex; flex-wrap: wrap; gap: .55rem; }
+.ib-missing__btn {
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 600;
+  min-height: 40px;
+  padding: .5rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--blue);
+  color: #fff;
+  cursor: pointer;
+}
+.ib-missing__btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.ib-missing__btn:hover { filter: brightness(1.08); }
+body.ib-lesson button.ib-missing__btn { font: inherit; color: #fff; }
+body.ib-lesson button.ib-missing__btn--ghost { color: var(--text); }
+@media (max-width: 620px) {
+  .ib-missing { padding: .9rem .95rem 1rem; }
+  .ib-missing__row { flex-direction: column; align-items: stretch; }
+  .ib-missing__btn { width: 100%; }
+}
 .ib-defgrp {
   font-family: var(--font-heading); font-size: 1.02rem;
   margin: 1.4rem 0 .5rem; padding-bottom: .3rem;

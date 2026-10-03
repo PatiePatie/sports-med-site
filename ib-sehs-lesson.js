@@ -28,19 +28,6 @@
 
 (function () {
   'use strict';
-  /* Inline-safe DOM writes: on the course page this script's own reader
-     chrome (top bar, rail, footer) does not exist, and every unguarded
-     $('.classList') / $('.textContent') here threw and aborted the boot
-     before the hub ever painted. */
-  function __e$(sel){ return document.querySelector(sel); }
-  function __n(){ return { classList:{toggle:function(){},add:function(){},remove:function(){}},
-      style:{}, dataset:{}, setAttribute:function(){}, appendChild:function(){},
-      querySelector:function(){ return null; }, focus:function(){}, blur:function(){},
-      addEventListener:function(){}, removeEventListener:function(){},
-      getBoundingClientRect:function(){ return {top:0,left:0,width:0,height:0,bottom:0,right:0}; },
-      textContent:'', innerHTML:'', hidden:true, scrollIntoView:function(){} }; }
-  function __w(sel){ return __e$(sel) || __n(); }
-
 
   var NATIVE = window.IBSEHS_NATIVE || [];
   var TOPICS = window.IBSEHS_TOPICS || [];
@@ -688,11 +675,11 @@
   }
   function closeRail() {
     if (railEl) railEl.classList.remove('is-open');
-    var sc = $('#ibScrim') || __n(); if (sc) sc.classList.remove('is-open');
+    var sc = $('#ibScrim'); if (sc) sc.classList.remove('is-open');
   }
   function openRail() {
     if (railEl) railEl.classList.add('is-open');
-    var sc = $('#ibScrim') || __n(); if (sc) sc.classList.add('is-open');
+    var sc = $('#ibScrim'); if (sc) sc.classList.add('is-open');
   }
 
   /* ── term-blanking drill ─────────────────────────────────────────────── */
@@ -701,7 +688,7 @@
      — but once the drill is on those are already replaced by blanks, so the
      turn-it-off pass skipped every node and nothing could be closed again. */
   function drillOn() {
-    var b = $('#ibDrill') || __n();
+    var b = $('#ibDrill');
     return !!(b && b.getAttribute('aria-pressed') === 'true');
   }
   function applyBlanks(node) {
@@ -734,17 +721,20 @@
   /* ── reader entry ────────────────────────────────────────────────────── */
 
   function openReader(c, forceStart) {
+    if (!knownCode(c)) { openMissing(c); return; }
+    /* a notice from an earlier bad link must not sit hidden in the hub */
+    var stale = $('.ib-missing'); if (stale) stale.remove();
     code = c;
     slides = buildSlides(c);
     ST = slotFor(c);
     rendered = [];
     idx = 0;
     document.body.classList.add('ib-reading');
-    __w('#ibHub').hidden = true;
-    __w('#ibReader').hidden = false;
-    __w('#ibRailToggle').hidden = false;
+    $('#ibHub').hidden = true;
+    $('#ibReader').hidden = false;
+    $('#ibRailToggle').hidden = false;
     readEl.hidden = false;
-    __w('#ibFoot').hidden = false;
+    $('#ibFoot').hidden = false;
     readEl.innerHTML = '';
     glossEl && buildRail();
 
@@ -829,6 +819,58 @@
     for (var i = 0; i < list.length; i++) if (list[i].code === code) return list[i];
     return list[0] || null;
   }
+  /* Exact lookup. topicByCode() falls back to the first topic, which is fine
+     for "pick me something to show" but fatal for routing: a stale bookmark or
+     a mistyped code used to render a DIFFERENT topic's lesson with no warning. */
+  function knownCode(code) {
+    var list = allTopics();
+    for (var i = 0; i < list.length; i++) if (list[i].code === code) return true;
+    return false;
+  }
+
+  /* An unknown topic code gets an honest answer instead of a two-block stub
+     that looks like a broken lesson. */
+  function openMissing(bad) {
+    document.body.classList.remove('ib-reading');
+    document.body.classList.remove('ib-resuming');
+    slides = []; rendered = []; idx = 0; code = '';
+    ST = { i: 0, done: {}, blanks: {} };
+    $('#ibReader').hidden = true;
+    readEl.hidden = true;
+    $('#ibFoot').hidden = true;
+    $('#ibRailToggle').hidden = true;
+    if (fillEl) fillEl.style.width = '0%';
+    if (countEl) countEl.textContent = '\u2014';
+
+    /* Paint the normal subject page first, then prepend the notice, so the
+       reader can see the whole topic list and pick another one. openHub() also
+       owns putting the reader shell away, which is what we want here. */
+    openHub();
+    var host = $('#ibHub');
+
+    var box = el('div', 'ib-missing');
+    box.appendChild(plain(el('h1', 'ib-missing__title'),
+      'We could not find that topic', '\u6211\u4eec\u627e\u4e0d\u5230\u90a3\u4e2a\u5c0f\u8282'));
+    var bad2 = el('p', 'ib-missing__code');
+    bad2.appendChild(plain(el('span'), 'Nothing is saved under ',
+      '\u8fd9\u4e2a\u7f16\u53f7\u4e0b\u6ca1\u6709\u4efb\u4f55\u5185\u5bb9\uff1a'));
+    bad2.appendChild(el('code', null, bad));
+    box.appendChild(bad2);
+    box.appendChild(plain(el('p', 'ib-missing__hint'),
+      'The link may be out of date. Every topic is listed below \u2014 pick one to carry on.',
+      '\u94fe\u63a5\u53ef\u80fd\u5df2\u7ecf\u8fc7\u65f6\u3002\u4e0b\u9762\u5217\u51fa\u4e86\u6240\u6709\u5c0f\u8282\uff0c\u6311\u4e00\u4e2a\u7ee7\u7eed\u3002'));
+    var row = el('div', 'ib-missing__row');
+    var b1 = plain(el('button', 'ib-missing__btn'), 'See all topics', '\u67e5\u770b\u6240\u6709\u5c0f\u8282');
+    b1.type = 'button';
+    b1.addEventListener('click', function () { go('#progress'); });
+    var b2 = plain(el('button', 'ib-missing__btn ib-missing__btn--ghost'), 'Course home', '\u8fd4\u56de\u9996\u9875');
+    b2.type = 'button';
+    b2.addEventListener('click', function () { go('#'); });
+    row.appendChild(b1); row.appendChild(b2);
+    box.appendChild(row);
+    host.insertBefore(box, host.firstChild);
+  }
+
   function topicTitle(r) { return (r.t && (r.t.en || r.t.title)) || ''; }
   function topicZhTitle(r) { return (r.t && r.t.zh) || ''; }
   function go(hash) { location.hash = hash; }
@@ -857,14 +899,14 @@
     document.body.classList.remove('ib-resuming');
     /* the whole reader shell goes away on the hub. Hiding only the reading
        column left the rail sitting there as an empty white drawer. */
-    __w('#ibReader').hidden = true;
+    $('#ibReader').hidden = true;
     readEl.hidden = true;
-    __w('#ibFoot').hidden = true;
-    __w('#ibRailToggle').hidden = true;
+    $('#ibFoot').hidden = true;
+    $('#ibRailToggle').hidden = true;
     if (fillEl) fillEl.style.width = '0%';
     if (countEl) countEl.textContent = '—';
 
-    var host = $('#ibHub') || __n();
+    var host = $('#ibHub');
     host.hidden = false;
     host.innerHTML = '';
 
@@ -902,7 +944,7 @@
   /* ── the pane router ─────────────────────────────────────────────────── */
 
   function paintHub() {
-    var host = $('#ibHub') || __n();
+    var host = $('#ibHub');
     var pane = $('.ib-pane', host);
     $$('.ib-tab', host).forEach(function (b) {
       b.classList.toggle('is-on', b.dataset.view === hubView);
@@ -1361,8 +1403,12 @@
   function route() {
     var h = (location.hash || '').replace(/^#/, '');
     var m;
-    if ((m = h.match(/^lesson\/(.+)$/))) { openReader(m[1]); return; }
+    if ((m = h.match(/^lesson\/(.+)$/))) {
+      if (!knownCode(m[1])) { openMissing(m[1]); return; }
+      openReader(m[1]); return;
+    }
     if ((m = h.match(/^(topic|lessons|guide|defs)\/(.+)$/))) {
+      if (!knownCode(m[2])) { openMissing(m[2]); return; }
       hubView = m[1]; hubTopic = m[2]; openHub(); return;
     }
     hubView = h === 'progress' ? 'progress' : 'resources';
@@ -1372,35 +1418,35 @@
   function boot() {
     try { showCN = localStorage.getItem('sm_lang') === 'zh'; } catch (e) {}
     try { dark = localStorage.getItem('dark') === 'true'; } catch (e) {}
-    readEl = $('#ibRead') || __n(); footBack = $('#ibBack') || __n(); footNext = $('#ibNext') || __n();
-    fillEl = $('#ibFill') || __n(); countEl = $('#ibCount') || __n();
-    railEl = $('#ibRail') || __n(); mapEl = $('#ibMap') || __n(); glossEl = $('#ibGloss') || __n();
+    readEl = $('#ibRead'); footBack = $('#ibBack'); footNext = $('#ibNext');
+    fillEl = $('#ibFill'); countEl = $('#ibCount');
+    railEl = $('#ibRail'); mapEl = $('#ibMap'); glossEl = $('#ibGloss');
 
-    var ex = $('#ibExit') || __n(); if (ex) ex.addEventListener('click', exit);
-    if (footNext) footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
-    if (footBack) footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
+    $('#ibExit').addEventListener('click', exit);
+    footNext.addEventListener('click', function () { if (idx < slides.length - 1) show(idx + 1); });
+    footBack.addEventListener('click', function () { if (idx > 0) show(idx - 1); });
 
-    var lz = $('#ibLang') || __n(); if (lz) lz.addEventListener('click', function () {
+    $('#ibLang').addEventListener('click', function () {
       showCN = !showCN;
       try { localStorage.setItem('sm_lang', showCN ? 'zh' : 'en'); } catch (e) {}
       applyChrome();
     });
-    var dk = $('#ibDark') || __n(); if (dk) dk.addEventListener('click', function () {
+    $('#ibDark').addEventListener('click', function () {
       dark = !dark;
       try { localStorage.setItem('dark', dark ? 'true' : 'false'); } catch (e) {}
       document.body.classList.toggle('dark', dark);
-      __w('#ibDark').textContent = dark ? '☀' : '☾';
+      $('#ibDark').textContent = dark ? '☀' : '☾';
       if (window.IBSEHSModels) { try { window.IBSEHSModels.refresh(); } catch (e) {} }
     });
-    var dr = $('#ibDrill') || __n(); if (dr) dr.addEventListener('click', function () {
+    $('#ibDrill').addEventListener('click', function () {
       this.setAttribute('aria-pressed', drillOn() ? 'false' : 'true');
       applyDrill();
     });
-    var rt = $('#ibRailToggle') || __n(); if (rt) rt.addEventListener('click', openRail);
-    var rc = $('#ibRailClose') || __n(); if (rc) rc.addEventListener('click', closeRail);
-    var sc = $('#ibScrim') || __n(); if (sc) sc.addEventListener('click', closeRail);
-    var homeBtn = $('#ibHome') || __n(); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
-    var rh = $('#ibRailHub') || __n(); if (rh) rh.addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
+    $('#ibRailToggle').addEventListener('click', openRail);
+    $('#ibRailClose').addEventListener('click', closeRail);
+    $('#ibScrim').addEventListener('click', closeRail);
+    var homeBtn = $('#ibHome'); if (homeBtn) homeBtn.addEventListener('click', function () { location.hash = '#'; });
+    $('#ibRailHub').addEventListener('click', function () { location.hash = '#progress'; closeRail(); });
 
     document.addEventListener('keydown', function (e) {
       if (e.target && /input|textarea/i.test(e.target.tagName)) return;
@@ -1414,7 +1460,7 @@
     document.body.classList.toggle('lang-zh', showCN);
     document.body.classList.toggle('lang-en', !showCN);
     document.body.classList.toggle('dark', dark);
-    __w('#ibDark').textContent = dark ? '☀' : '☾';
+    $('#ibDark').textContent = dark ? '☀' : '☾';
     route();
     window.IBSEHSLesson = {
       slides: function () { return slides; },

@@ -1329,6 +1329,10 @@
     pane.appendChild(host);
     try {
       var C = window.IBSEHSCourse;
+      /* course.js keeps its own showCN and binds the SITE toggle (#langToggle),
+         which does not exist on the lesson page. Without this the study guide
+         stayed English even in 中文 mode. */
+      if (C && C.setLang) C.setLang(showCN);
       var node = C.renderNativeLesson(r.t, (r.t && r.t.page) || 1);
       if (node) {
         host.appendChild(node);

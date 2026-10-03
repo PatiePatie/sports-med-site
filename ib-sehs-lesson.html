@@ -29,7 +29,7 @@
 <script src="button-glow.js?v=1" defer></script>
 
 <link rel="stylesheet" href="knowledge.css?v=6">
-<link rel="stylesheet" href="ib-sehs-lesson.css?v=7">
+<link rel="stylesheet" href="ib-sehs-lesson.css?v=8">
 
 <!-- Course data, the same files the normal page loads. Read-only here. -->
 <script src="ib-sehs-data.js?v=4"></script>
@@ -50,18 +50,19 @@
 <!-- the authored layer: one summary + one analogy + one example per section -->
 <script src="ib-sehs-lesson-data.js?v=1"></script>
 
-<script src="ib-sehs-lesson.js?v=7" defer></script>
+<script src="ib-sehs-lesson.js?v=8" defer></script>
 </head>
 
 <body class="ib-lesson">
 
 <header class="ib-top">
-  <button class="ib-top__exit" id="ibExit" type="button"
-          aria-label="Exit lesson" data-en="Exit" data-zh="退出">Exit</button>
+  <!-- A focused player: one ✕ to leave, one progress bar, and the tools. The
+       reference reader has no "back to topics" here either — the rail's
+       "← All topics" already does that job. -->
+  <button class="ib-top__exit ib-top__exit--x" id="ibExit" type="button"
+          aria-label="Exit lesson" data-en="Exit" data-zh="退出">✕</button>
   <button class="ib-top__btn ib-top__btn--rail" id="ibRailToggle" type="button"
           aria-label="Sections and glossary" data-en="Sections &amp; terms" data-zh="小节与术语">☰</button>
-  <button class="ib-top__btn ib-top__btn--home" id="ibHome" type="button"
-          aria-label="Back to topics" data-en="Topics" data-zh="目录">◱</button>
 
   <div class="ib-top__bar" role="progressbar" aria-label="Lesson progress"><div class="ib-top__fill" id="ibFill"></div></div>
   <span class="ib-top__count" id="ibCount">—</span>
@@ -93,9 +94,13 @@
 </div>
 
 <footer class="ib-foot" id="ibFoot" hidden>
-  <button class="ib-foot__btn" id="ibBack" type="button" data-en="Back" data-zh="返回">Back</button>
+  <button class="ib-foot__btn ib-foot__btn--back" id="ibBack" type="button"
+          aria-label="Previous block"><span aria-hidden="true">←</span></button>
   <span class="ib-foot__spacer"></span>
-  <button class="ib-foot__btn ib-foot__btn--next" id="ibNext" type="button" data-en="Next" data-zh="下一句">Next</button>
+  <button class="ib-foot__btn ib-foot__btn--next" id="ibNext" type="button">
+    <span data-en="Next" data-zh="下一句">Next</span>
+    <span class="ib-foot__arrow" aria-hidden="true">→</span>
+  </button>
 </footer>
 
 </body>

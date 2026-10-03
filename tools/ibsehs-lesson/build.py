@@ -7,12 +7,13 @@ differently from the section title in ib-sehs-native.js, the lesson still builds
 So the section titles are read out of the live file and compared.
 """
 import io, json, re, sys
-import authored1, authored2, authored3
+import authored1, authored2, authored3, authored4
 
 A = {}
 A.update(authored1.A)
 A.update(authored2.A)
 A.update(authored3.A)
+A.update(authored4.A)
 
 # ── the real chapter-1 section titles, read from the shipped data file ──
 nat = io.open('live-ib-sehs-native.js', encoding='utf-8').read()
